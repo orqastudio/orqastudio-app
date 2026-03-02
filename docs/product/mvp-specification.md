@@ -98,6 +98,9 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 - [ ] The conversation auto-scrolls during streaming (scroll-to-bottom behavior)
 - [ ] User can scroll up during streaming without being snapped back to bottom
 - [ ] Error responses (sidecar errors, provider errors) display as error blocks in the conversation
+- [ ] Model selector includes "Auto (recommended)" as the default option when the provider supports auto model selection
+- [ ] Auto delegates model choice to the provider; the sidecar resolves to the best available model based on rate limits and availability
+- [ ] If the provider does not support auto, the Auto option is hidden and a specific model must be selected
 
 **Architecture References:** AD-009 (streaming pipeline), AD-013 (frontend libraries), AD-007 (sidecar)
 
@@ -128,7 +131,7 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 
 **Acceptance Criteria:**
 - [ ] Sessions are created automatically when the first message is sent
-- [ ] Session metadata (title, created_at, updated_at, message_count, model) is stored in SQLite
+- [ ] Session metadata (title, created_at, updated_at, message_count, model) is stored in SQLite. The `model` field stores `"auto"` as a string value when auto model selection is active (not null).
 - [ ] Messages and content blocks are stored in SQLite (one row per content block)
 - [ ] Sessions are auto-titled from the first user message (first 50 characters)
 - [ ] Session list appears in the sidebar Sessions tab, ordered by most recent
@@ -231,7 +234,8 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 **Acceptance Criteria:**
 - [ ] Status bar spans full window width
 - [ ] Shows sidecar connection status: icon + text (Not started / Starting / Connected / Error)
-- [ ] Shows active model name (e.g., "Claude Opus 4.6")
+- [ ] Shows active model name (e.g., "Opus 4.6") when a specific model is pinned
+- [ ] When Auto model selection is active, shows the resolved model: "Auto → Sonnet 4.6" (updated when streaming begins and the sidecar reports the resolved model)
 - [ ] Shows token usage for current session (input tokens / output tokens) — updated per message
 - [ ] Status indicators use color coding: green (healthy), yellow (degraded), red (error)
 

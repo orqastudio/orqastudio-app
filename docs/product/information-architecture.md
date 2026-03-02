@@ -205,7 +205,7 @@ The Chat Panel is always visible and always shows the active conversation. It is
 | Tool call cards | Collapsible. Summary shows: tool name, input summary, result summary, duration. Expanded shows: full input, full output, diff view (for edits). Badge indicates status: pending, approved, denied, completed. |
 | Streaming indicator | When the AI is responding: typing indicator + streaming tokens appear character by character in the current message. |
 | Input area | Bottom of panel. Multi-line text input with markdown support. `Enter` to send, `Shift+Enter` for newline. Attachment button for files (Phase 2+). |
-| Session header | Top of panel: session title (editable), model indicator, token usage. |
+| Session header | Top of panel: session title (editable), model selector dropdown (Auto / Opus / Sonnet / Haiku), token usage. "Auto (recommended)" is the default when the provider supports it — separated from specific models by a visual divider. |
 
 ---
 
@@ -323,7 +323,7 @@ The MVP includes only the views and elements needed for the core journeys:
 - Explorer Panel (artifact browser, artifact viewer, settings)
 - Sessions Panel (session list, project info)
 - Chat Panel (conversation, streaming, tool calls read-only, input)
-- Status bar (connection status, sidecar state)
+- Status bar (connection status, sidecar state, model display — shows "Auto → Sonnet 4.6" when auto is active, or just "Opus 4.6" when a specific model is pinned)
 - Empty states for all included views
 - Keyboard shortcuts for core actions
 

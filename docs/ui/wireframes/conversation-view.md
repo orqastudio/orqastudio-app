@@ -13,7 +13,7 @@ A conversation in progress with user messages, assistant responses, and tool cal
 ```plantuml
 @startsalt
 {+
-  { <b>Fix auth bug</b> | . | . | ^claude-4-opus^ | 1.2k / 3.8k tokens }
+  { <b>Fix auth bug</b> | . | . | ^Auto (recommended)^ | 1.2k / 3.8k tokens }
   ---
   {SI
     {
@@ -100,7 +100,7 @@ A conversation in progress with user messages, assistant responses, and tool cal
 | Element | Behavior |
 |---------|----------|
 | **Session title** | Editable inline. Click to select, type to rename. Auto-generated from first user message (first 50 chars) if not manually set. `Escape` cancels editing. `Enter` confirms. |
-| **Model selector** | Dropdown showing available models: claude-4-opus, claude-4-sonnet, claude-4-haiku. Changing model takes effect on the next message sent. Does not affect previous messages. |
+| **Model selector** | Dropdown showing available models: `Auto (recommended)` (visually separated with a divider), `claude-opus-4-6`, `claude-sonnet-4-6`, `claude-haiku-4-5`. "Auto" is the default when the provider supports it — it delegates model choice to the provider based on current rate limits and availability. If the provider does not support auto, the option is hidden and a specific model is required. Changing model takes effect on the next message sent. Does not affect previous messages. |
 | **Token usage** | Format: `{input tokens} / {output tokens} tokens`. Updated after each complete message exchange. Sourced from sidecar usage reporting. |
 
 #### Message Stream
@@ -240,7 +240,7 @@ What the conversation looks like while Claude is actively generating a response.
 ```plantuml
 @startsalt
 {+
-  { <b>Fix auth bug</b> | . | . | . | . | ^claude-4-opus^ | 1.2k / 2.1k tokens }
+  { <b>Fix auth bug</b> | . | . | . | . | ^Auto (recommended)^ | 1.2k / 2.1k tokens }
   ---
   {SI
     {
@@ -299,7 +299,7 @@ The conversation view when no session is active or when a new empty session has 
 ```plantuml
 @startsalt
 {+
-  { <b>New Session</b> | . | . | . | . | ^claude-4-opus^ | 0 tokens }
+  { <b>New Session</b> | . | . | . | . | ^Auto (recommended)^ | 0 tokens }
   ---
   {SI
     .
@@ -346,7 +346,7 @@ The conversation view when no session is active or when a new empty session has 
 | **Welcome subtitle** | Brief guidance text: "Start a conversation to begin working with Claude on your project." |
 | **Suggestion prompts** | 3-4 clickable suggestions relevant to common workflows. Each is a `comment-square` icon + quoted text. Clicking a suggestion inserts it into the input area and focuses the input (does not auto-send). Suggestions are context-aware: if project metadata is available (detected languages, frameworks), suggestions reference the actual project. |
 | **Input placeholder** | "Ask Claude anything about your project..." -- slightly different from the active session placeholder to reinforce the starting context. |
-| **Model selector** | Defaults to the user's last-used model. Changeable before sending the first message. |
+| **Model selector** | Defaults to "Auto (recommended)" when the provider supports it, otherwise the user's last-used model. Changeable before sending the first message. When Auto is active, the status bar shows the resolved model once streaming begins (e.g., "Auto → Sonnet 4.6"). |
 
 ---
 
@@ -357,7 +357,7 @@ How errors appear within the conversation stream.
 ```plantuml
 @startsalt
 {+
-  { <b>Fix auth bug</b> | . | . | . | . | ^claude-4-opus^ | 1.2k / 0 tokens }
+  { <b>Fix auth bug</b> | . | . | . | . | ^Auto (recommended)^ | 1.2k / 0 tokens }
   ---
   {SI
     {

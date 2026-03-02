@@ -176,7 +176,7 @@ Create a new conversation session for the active project. If there is a previous
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `project_id` | `i64` | Yes | Project ID |
-| `model` | `Option<String>` | No | Model override (default from settings) |
+| `model` | `Option<String>` | No | Model selection. `None` or `"auto"` both mean auto-select (provider chooses the best available model based on rate limits and availability). An explicit model string (e.g., `"claude-opus-4-6"`) pins the session to that model. Default from settings applies when omitted. |
 | `system_prompt` | `Option<String>` | No | Custom system prompt override |
 
 **Returns:** `Result<Session, ForgeError>`
@@ -669,8 +669,10 @@ These are **not** commands. They are the event payloads sent over `Channel<Strea
 #[serde(tag = "type", content = "data")]
 pub enum StreamEvent {
     /// Streaming has started. Sent once at the beginning.
+    /// When model is "auto", resolved_model contains the actual model chosen by the provider.
     StreamStart {
         message_id: i64,
+        resolved_model: Option<String>,
     },
 
     /// A chunk of assistant text content.
@@ -730,7 +732,7 @@ pub enum StreamEvent {
 ### Event Sequence (Normal Flow)
 
 ```
-StreamStart { message_id }
+StreamStart { message_id, resolved_model }  # resolved_model is non-null when session model is "auto"
   TextDelta { content }        # repeated, 0+ times
   ThinkingDelta { content }    # repeated, 0+ times (if extended thinking is on)
   BlockComplete { ... }        # after each content block finishes
@@ -969,6 +971,7 @@ export interface ThemeToken {
 // Common setting keys for Phase 1:
 //   "theme_mode"        -> "light" | "dark" | "system"
 //   "font_size"         -> number
+//   "default_model"     -> "auto" | "claude-opus-4-6" | "claude-sonnet-4-6" | "claude-haiku-4-5"
 //   "last_project_id"   -> number
 //   "last_session_id"   -> number
 //   "sidebar_tab"       -> "sessions" | "project"
@@ -993,7 +996,7 @@ export type SidecarState = "not_started" | "starting" | "connected" | "error" | 
 // ---------------------------------------------------------------------------
 
 export type StreamEvent =
-  | { type: "stream_start"; data: { message_id: number } }
+  | { type: "stream_start"; data: { message_id: number; resolved_model: string | null } }
   | { type: "text_delta"; data: { content: string } }
   | { type: "thinking_delta"; data: { content: string } }
   | { type: "tool_use_start"; data: { tool_call_id: string; tool_name: string } }

@@ -120,12 +120,22 @@ An error from the sidecar, Claude API, or Agent SDK. The `code` field enables pr
 
 Error codes: `rate_limit`, `auth_error`, `network_error`, `invalid_request`, `server_error`, `sidecar_error`.
 
-#### done
+#### model_resolved
 
-The response is complete. Contains final token usage for the turn.
+Sent once at the start of streaming when the session model is `"auto"`. Reports which model the provider actually selected for this response. The Rust backend forwards this to the frontend so the status bar can display "Auto → Sonnet 4.6".
 
 ```json
-{"type":"done","message_id":"msg_01XFDUDYJgAACzvnptvVoYEL","input_tokens":1523,"output_tokens":487,"stop_reason":"end_turn"}
+{"type":"model_resolved","resolved_model":"claude-sonnet-4-6","message_id":"msg_01XFDUDYJgAACzvnptvVoYEL"}
+```
+
+When the sidecar receives `"auto"` as the model, it delegates model selection to the provider SDK (e.g., the Agent SDK handles rate-limit-aware routing for Max subscriptions). The sidecar emits a `model_resolved` event as soon as the provider reports which model was chosen — typically before or alongside the first `text_delta`.
+
+#### done
+
+The response is complete. Contains final token usage for the turn. When auto model selection is active, `resolved_model` contains the model that was actually used for this turn.
+
+```json
+{"type":"done","message_id":"msg_01XFDUDYJgAACzvnptvVoYEL","input_tokens":1523,"output_tokens":487,"stop_reason":"end_turn","resolved_model":"claude-sonnet-4-6"}
 ```
 
 ### Protocol Rules
@@ -135,6 +145,7 @@ The response is complete. Contains final token usage for the turn.
 - Unknown `type` values must be ignored (forward compatibility).
 - The sidecar must not write anything other than valid NDJSON to stdout. Diagnostic output goes to stderr.
 - `message_id`, `turn_index`, and `block_index` are present on all content events for correlation with the `messages` table.
+- When the session model is `"auto"`, the sidecar emits a `model_resolved` event early in the stream (before or alongside the first `text_delta`). Rust forwards this to the frontend via the `StreamStart` event's `resolved_model` field so the status bar can display the actual model.
 
 ---
 
@@ -192,11 +203,16 @@ pub enum ProviderEvent {
         retryable: bool,
         retry_after_ms: Option<u64>,
     },
+    ModelResolved {
+        resolved_model: String,
+        message_id: String,
+    },
     Done {
         message_id: String,
         input_tokens: u32,
         output_tokens: u32,
         stop_reason: String,
+        resolved_model: Option<String>,
     },
 }
 ```
@@ -350,12 +366,20 @@ pub enum StreamEvent {
         block_index: u32,
     },
 
+    /// The provider resolved which model to use (sent when session model is "auto").
+    /// Emitted early in the stream so the frontend can update the status bar.
+    ModelResolved {
+        resolved_model: String,
+        message_id: String,
+    },
+
     /// The full response is complete.
     MessageComplete {
         message_id: String,
         input_tokens: u32,
         output_tokens: u32,
         stop_reason: String,
+        resolved_model: Option<String>,
     },
 
     /// An error occurred during streaming.
@@ -392,8 +416,11 @@ impl From<ProviderEvent> for StreamEvent {
             ProviderEvent::Error { code, message, retryable, retry_after_ms } => {
                 StreamEvent::Error { code, message, retryable, retry_after_ms }
             }
-            ProviderEvent::Done { message_id, input_tokens, output_tokens, stop_reason } => {
-                StreamEvent::MessageComplete { message_id, input_tokens, output_tokens, stop_reason }
+            ProviderEvent::ModelResolved { resolved_model, message_id } => {
+                StreamEvent::ModelResolved { resolved_model, message_id }
+            }
+            ProviderEvent::Done { message_id, input_tokens, output_tokens, stop_reason, resolved_model } => {
+                StreamEvent::MessageComplete { message_id, input_tokens, output_tokens, stop_reason, resolved_model }
             }
         }
     }

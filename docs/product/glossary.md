@@ -160,6 +160,14 @@ A quantitative measurement of process health. Metrics include review failure rat
 
 A standalone process that handles communication with an AI provider. The sidecar is a Bun-compiled TypeScript binary that Forge spawns via `tauri-plugin-shell`. It communicates with the Rust backend over stdin/stdout using NDJSON. The sidecar is provider-specific; the Rust core is provider-agnostic.
 
+### Model
+
+A specific AI model used for a conversation session (e.g., claude-opus-4-6, claude-sonnet-4-6, claude-haiku-4-5). Users select a model per-session via a dropdown in the session header. The special value `"auto"` delegates model selection to the provider, which chooses the best available model based on current rate limits and availability — inspired by Claude Code's default behavior. When auto is active, the status bar displays the resolved model (e.g., "Auto → Sonnet 4.6") so the user always knows which model is actually responding.
+
+### Auto Model Selection
+
+Provider-managed model routing. When a session's model is set to `"auto"`, the sidecar delegates model selection to the provider SDK rather than specifying a model explicitly. The provider chooses based on current rate limits, availability, and subscription tier. Auto is the default when the provider supports it. Not all providers support auto — the provider interface exposes a `supports_auto_model` capability flag. If the provider does not support auto, the user must select a specific model.
+
 ### Provider
 
 An AI service that powers conversations. Claude (via Agent SDK + Max subscription) is the primary provider. The architecture supports additional providers (API key, Bedrock, Vertex, alternative models) through the composable sidecar interface, without changing the Rust core or Svelte UI.

@@ -240,7 +240,7 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
             │       │   └── ConversationView
             │       │       ├── SessionHeader
             │       │       │   ├── ui:Input (editable title)
-            │       │       │   ├── ui:Select (model selector)
+            │       │       │   ├── ui:Select (model selector: Auto | Opus | Sonnet | Haiku)
             │       │       │   └── ui:Badge (token usage)
             │       │       ├── ui:ScrollArea (message stream)
             │       │       │   ├── UserMessage (repeated)
@@ -367,6 +367,12 @@ class ConversationStore {
   isStreaming = $state(false);
   streamingContent = $state("");
   streamingThinking = $state("");
+  /** The model actually being used for the current stream.
+   *  Distinct from the session's `model` field (which may be "auto").
+   *  Updated when streaming begins and the sidecar reports the resolved model
+   *  via the StreamStart event's resolved_model field or a ModelResolved event.
+   *  When model is pinned (not auto), this equals the pinned model name. */
+  resolvedModel = $state<string | null>(null);
 
   messageCount = $derived(this.messages.length);
 
@@ -392,11 +398,17 @@ class ConversationStore {
     this.messages.push(message);
   }
 
+  // Set the resolved model (called when sidecar reports model_resolved or stream_start with resolved_model)
+  setResolvedModel(model: string) {
+    this.resolvedModel = model;
+  }
+
   // Replace entire message list (session switch)
   loadMessages(messages: Message[]) {
     this.messages = messages;
     this.isStreaming = false;
     this.streamingContent = "";
+    this.resolvedModel = null;
   }
 }
 
@@ -665,6 +677,16 @@ async function handleSendMessage(content: string) {
 
   channel.onmessage = (event: ProviderEvent) => {
     switch (event.type) {
+      case "stream_start":
+        // When auto model selection is active, resolved_model reports the actual model chosen
+        if (event.resolvedModel) {
+          conversationStore.setResolvedModel(event.resolvedModel);
+        }
+        break;
+      case "model_resolved":
+        // Explicit model resolution event (auto model selection)
+        conversationStore.setResolvedModel(event.resolvedModel);
+        break;
       case "text_delta":
         conversationStore.appendStreamDelta(event.delta);
         break;
