@@ -170,7 +170,7 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
             │       ├── ActivityBarItem (Agents)
             │       ├── ActivityBarItem (Rules)
             │       ├── ActivityBarItem (Skills)
-            │       ├── ActivityBarItem (Hooks)
+            │       ├── ActivityBarItem (Hooks — lifecycle hooks + hookify enforcement rules)
             │       ├── ui:Separator
             │       ├── ActivityBarItem (Scanners — Phase 3+)
             │       ├── ActivityBarItem (Metrics — Phase 5)
@@ -409,6 +409,8 @@ export const conversationStore = new ConversationStore();
 // Selected artifact and category-indexed artifact list
 class ArtifactStore {
   selectedPath = $state<string | null>(null);
+  // hooks category includes both lifecycle hooks (.claude/hooks/) and hookify
+  // enforcement rules (.claude/hookify.*.local.md), distinguished by hook_kind
   artifacts = $state<Record<ArtifactCategory, ArtifactMeta[]>>({
     agents: [], rules: [], skills: [], hooks: [], docs: []
   });
@@ -850,7 +852,7 @@ $effect(() => {
 | Data fetching | `+page.svelte` and `+layout.svelte` are the only files that call `invoke()`. | AD-006 |
 | Callback props | Display components emit user intent via callback props (`onSend`, `onSelect`, etc.). | AD-006 |
 | shadcn-svelte imports | `import { Button } from "$lib/components/ui/button"` | AD-013 |
-| Activity Bar | 48px fixed icon rail controls Explorer Panel content. Active icon has left border indicator. | AD-018 |
+| Activity Bar | 48px fixed icon rail controls Explorer Panel content. Active icon has left border indicator. Hooks icon covers both lifecycle hooks and hookify enforcement rules. | AD-018 |
 | Custom components | Organized by domain: `conversation/`, `tool/`, `content/`, `artifact/`, `navigation/`, `settings/`, `layout/` (includes `ActivityBar.svelte`, `ActivityBarItem.svelte`, `SessionsPanel.svelte`) | — |
 | Store files | `.svelte.ts` extension, class-based with `$state` fields, exported singleton | AD-004 |
 | Type safety | All `invoke()` calls use typed wrappers from `$lib/commands/` | AD-002 |

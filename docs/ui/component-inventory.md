@@ -108,8 +108,8 @@ Components specific to Forge that are not provided by shadcn-svelte.
 
 | Component | Description | Builds On | Phase |
 |-----------|-------------|-----------|-------|
-| `ArtifactBrowser` | Category-tabbed list of governance artifacts. Search filter. New button. | Tabs, ScrollArea, Input, Button | 1 |
-| `ArtifactListItem` | Single artifact in the browser list. Icon, name, description snippet, click to open. | — | 1 |
+| `ArtifactBrowser` | Category-tabbed list of governance artifacts. Search filter. New button. Hooks category renders both lifecycle hooks and hookify rules with a subtype filter (All / Lifecycle / Hookify). | Tabs, ScrollArea, Input, Button | 1 |
+| `ArtifactListItem` | Single artifact in the browser list. Icon, name, description snippet, click to open. For hookify rules, shows event type (file/bash), action (block/warn), and pattern summary instead of frontmatter description. | Badge | 1 |
 | `ArtifactViewer` | Rendered view of a single artifact. Breadcrumb, frontmatter display, markdown body, edit toggle. | MarkdownRenderer, FrontmatterDisplay | 1 |
 | `ArtifactEditor` | Source editing view. CodeMirror 6 with markdown+YAML support. Save/cancel actions. | MarkdownEditor | 1 |
 | `Breadcrumb` | Navigation breadcrumb: Project > Category > Artifact name. | — | 1 |

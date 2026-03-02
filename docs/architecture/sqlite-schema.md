@@ -106,6 +106,8 @@ CREATE INDEX idx_messages_stream ON messages(stream_status) WHERE stream_status 
 
 Governance artifact metadata. Content lives on disk as markdown.
 
+Hookify rules (`.claude/hookify.*.local.md`) share `artifact_type = 'hook'` with lifecycle hooks (`.claude/hooks/`). The `hook_kind` column distinguishes them. This mirrors the UI where both subtypes appear under the single "Hooks" Activity Bar icon.
+
 ```sql
 CREATE TABLE artifacts (
     id              INTEGER PRIMARY KEY,
@@ -114,6 +116,9 @@ CREATE TABLE artifacts (
     rel_path        TEXT NOT NULL,          -- e.g. ".claude/agents/backend-engineer.md"
     name            TEXT NOT NULL,
     description     TEXT,
+    hook_kind       TEXT CHECK (hook_kind IN ('lifecycle', 'hookify')),
+                                            -- NULL for non-hook artifacts; distinguishes
+                                            -- .claude/hooks/ scripts from .claude/hookify.*.local.md rules
     file_hash       TEXT,                   -- SHA-256 for change detection
     file_size       INTEGER,
     file_modified_at TEXT,
@@ -129,6 +134,8 @@ CREATE TABLE artifacts (
 
 CREATE UNIQUE INDEX idx_artifacts_path ON artifacts(project_id, rel_path);
 CREATE INDEX idx_artifacts_type ON artifacts(project_id, artifact_type);
+CREATE INDEX idx_artifacts_hook_kind ON artifacts(project_id, hook_kind)
+    WHERE hook_kind IS NOT NULL;
 ```
 
 ### scanner_results

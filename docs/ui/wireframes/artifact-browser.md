@@ -56,10 +56,11 @@ The default view when the Docs icon is active in the Activity Bar. Docs is the d
 
 | Element | Description |
 |---------|-------------|
-| **Icon** | Category-specific: `<&person>` agents, `<&shield>` rules, `<&bolt>` skills, `<&loop-circular>` hooks, `<&document>` docs |
+| **Icon** | Category-specific: `<&person>` agents, `<&shield>` rules, `<&bolt>` skills, `<&loop-circular>` hooks (lifecycle) / `<&warning>` hooks (hookify), `<&document>` docs |
 | **Name** | Artifact filename without extension (e.g., `backend-engineer`) |
 | **Description** | First line of the `description` frontmatter field, truncated to 2 lines |
 | **Status indicator** | Colored dot from frontmatter `status`: green = `active`, yellow = `draft`, gray = `archived` |
+| **Type badge** | Hooks category only: "Lifecycle" or "Hookify" badge distinguishing the two hook kinds. Derived from the `hook_kind` field. |
 
 ### Interactions
 
@@ -337,7 +338,7 @@ Shown when a category has no artifacts yet. Provides guidance and a clear call t
 | **Agents** | No agents yet | Agents define AI personas with specialized knowledge and behavior. Create your first agent to customize how Claude works on your project. |
 | **Rules** | No rules yet | Rules enforce coding standards and project conventions. They are automatically applied based on file path globs. |
 | **Skills** | No skills yet | Skills define reusable capabilities that agents can invoke during sessions. Create your first skill to get started. |
-| **Hooks** | No hooks yet | Hooks run automated actions before or after AI operations, such as linting or testing. |
+| **Hooks** | No hooks yet | Hooks include lifecycle hooks that run automated actions before or after AI operations, and hookify enforcement rules that block or warn on specific patterns in file edits or bash commands. |
 | **Docs** | No docs yet | Docs are reference documents that provide context to agents during sessions. Add documentation to improve AI responses. |
 
 ---
@@ -368,4 +369,4 @@ Shown when a category has no artifacts yet. Provides guidance and a clear call t
 
 ## File Watching
 
-Artifacts are stored as files on disk (`.forge/agents/*.md`, `.forge/rules/*.md`, etc.). The Explorer Panel list uses Tauri's `fs.watch` API to live-reload when files change externally (e.g., via git pull or direct editing). A brief fade animation indicates a refresh.
+Artifacts are stored as files on disk (`.forge/agents/*.md`, `.forge/rules/*.md`, etc.). Hooks watch two source paths: `.claude/hooks/` for lifecycle hooks and `.claude/hookify.*.local.md` for hookify enforcement rules. The Explorer Panel list uses Tauri's `fs.watch` API to live-reload when files change externally (e.g., via git pull or direct editing). A brief fade animation indicates a refresh.

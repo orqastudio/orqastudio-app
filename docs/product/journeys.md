@@ -66,7 +66,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 4. **Create a new artifact** — User clicks "New Agent" (or Rule, Skill, etc.). Forge creates a template file in the appropriate `.claude/` subdirectory with standard frontmatter. The editor opens immediately.
 
-5. **Conversational governance (Phase 4)** — User describes what they want in conversation: "I need a rule that prevents agents from using unwrap in Rust code." Claude generates the rule file, the user reviews and approves it, and Forge writes it to `.claude/rules/`.
+5. **Conversational governance (Phase 4)** — User describes what they want in conversation: "I need a rule that prevents agents from using unwrap in Rust code." Claude generates the rule file, the user reviews and approves it, and Forge writes it to `.claude/rules/`. For pattern-matchable violations (e.g., specific strings or regex patterns in file edits or bash commands), the user can also create hookify rules — Forge generates a `.claude/hookify.*.local.md` file with the appropriate `event`, `action`, and `conditions` fields.
 
 6. **File watcher sync** — Any changes made to `.claude/` files outside Forge (e.g., in a text editor or via git pull) are detected by the file watcher and reflected in the artifact browser within 500ms.
 
@@ -176,7 +176,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 4. **Promotion trigger** — When recurrence >= 2 (configurable), Forge suggests promotion: "This lesson has recurred. Would you like to promote it to a rule?" The user reviews and approves.
 
-5. **Governance artifact created** — Forge generates a rule file from the lesson and adds it to `.claude/rules/`. Future sessions enforce the rule automatically. The IMPL entry is marked as "Promoted to rule-xyz."
+5. **Governance artifact created** — Forge generates a rule file from the lesson and adds it to `.claude/rules/`. Future sessions enforce the rule automatically. The IMPL entry is marked as "Promoted to rule-xyz." If the violation is pattern-matchable (a specific string or regex in file edits or bash commands), Forge also offers to create a hookify enforcement rule (`.claude/hookify.*.local.md`) that blocks or warns on the pattern at the action boundary — providing immediate, automated enforcement alongside the instructional rule.
 
 6. **Cross-project promotion** — When a lesson or promoted rule is broadly applicable (not project-specific), the user can promote it to global scope. Forge asks: "This rule seems generally useful. Should it apply to all your projects?" If approved, the lesson/rule is stored in the global knowledge base. New projects automatically inherit relevant global rules during onboarding (Journey 7).
 

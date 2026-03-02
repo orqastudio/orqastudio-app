@@ -109,6 +109,10 @@ Tool call received → Card appears with "Pending" badge (amber)
 | **Cancel** | Discards changes. Returns to view mode. If unsaved, confirmation dialog. |
 | **External change** | File watcher detects change. Banner: "This file was modified externally. Reload?" |
 
+### Hookify Rule Editing
+
+Hookify rules (`.claude/hookify.*.local.md`) use YAML frontmatter with structured fields: `event` (FileEdit or Bash), `action` (block or warn), and `conditions` (including `pattern` for regex matching). Editing hookify files follows the same view/edit/save flow as other artifacts, but the editor should validate YAML frontmatter structure on save — malformed `event`, `action`, or `conditions` fields produce a warning toast before writing.
+
 ### Session Title Editing
 
 - Click session title in header → inline text input
@@ -275,7 +279,8 @@ Every empty container has a meaningful message and a single clear call to action
 |------|---------|--------|
 | No sessions | "No conversations yet" | "Start a conversation" → focus input |
 | Welcome (no project) | Forge anvil + "Welcome to Forge" + feature summary | "Open Project" / "New Project" buttons |
-| Empty artifact category | "No {agents/rules/skills/hooks} defined" | "Create new {type}" button |
+| Empty artifact category | "No {agents/rules/skills} defined" | "Create new {type}" button |
+| Empty hooks view | "No hooks configured. Add lifecycle hooks to .claude/hooks/ or hookify rules to .claude/hookify.*.local.md" | "Create lifecycle hook" / "Create hookify rule" buttons |
 | Empty search results | "No results for '{query}'" | Suggest broader search terms |
 | No scanner results | "No scanner results yet" | "Scanners run during implementation" |
 | No metrics | "Not enough data for metrics" | "Metrics populate as you use Forge" |

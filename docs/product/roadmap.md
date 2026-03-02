@@ -129,7 +129,7 @@ Build the minimum viable application that can run a conversation with Claude.
 Once Phase 1 delivers a working chat UI with Claude integration, Forge begins managing its own development. This is the transition point from the temporary Alvarez-derived CLI process to Forge-as-primary-tool. ← spec: [Dogfooding Validation Checklist](/product/mvp-specification)
 
 **Minimum viable dogfood:**
-- [ ] Can browse and edit process artifacts (agents, rules, skills) in the UI ← spec: [F-007, F-008](/product/mvp-specification)
+- [ ] Can browse and edit process artifacts (agents, rules, skills, hooks including hookify) in the UI ← spec: [F-007, F-008](/product/mvp-specification)
 - [ ] Can run a conversation with Claude and see streaming responses ← spec: [F-003](/product/mvp-specification)
 - [ ] Can view session history ← spec: [F-005](/product/mvp-specification)
 - [ ] Can capture notes/lessons through the interface

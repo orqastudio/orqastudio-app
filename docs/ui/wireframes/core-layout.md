@@ -363,7 +363,7 @@ Note: The settings gear is removed from the toolbar. Settings is now accessible 
 
 | Element | Behavior |
 |---------|----------|
-| **Artifact category icons** | Docs (default), Agents, Rules, Skills, Hooks. Click switches the Explorer Panel to that category's artifact list. Active icon has a 2px left border indicator + highlighted background. |
+| **Artifact category icons** | Docs (default), Agents, Rules, Skills, Hooks. Click switches the Explorer Panel to that category's artifact list. Active icon has a 2px left border indicator + highlighted background. The Hooks icon surfaces both lifecycle hooks (`.claude/hooks/`) and hookify enforcement rules (`.claude/hookify.*.local.md`). |
 | **Dashboard icons** | Scanners, Metrics, Learning (Phase 3-5). Click switches the Explorer Panel to the corresponding dashboard. |
 | **Settings icon** | Bottom-aligned. Click switches the Explorer Panel to the settings view. `Ctrl+,`. |
 | **Tooltips** | Each icon shows a tooltip on hover with the zone name and keyboard shortcut. |

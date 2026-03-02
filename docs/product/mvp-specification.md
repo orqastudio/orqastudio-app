@@ -148,7 +148,7 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 
 **Acceptance Criteria:**
 - [ ] Activity Bar is a fixed 48px vertical icon rail on the far left, outside PaneForge
-- [ ] Activity Bar has icons for: Docs (default active), Agents, Rules, Skills, Hooks; separator; Settings (bottom-aligned)
+- [ ] Activity Bar has icons for: Docs (default active), Agents, Rules, Skills, Hooks (lifecycle + hookify); separator; Settings (bottom-aligned)
 - [ ] Active Activity Bar icon has 2px left border indicator + highlighted background
 - [ ] `Ctrl+1` through `Ctrl+5` switch artifact categories; `Ctrl+,` opens settings
 - [ ] Explorer Panel fills remaining space, shows content based on Activity Bar selection
@@ -176,10 +176,13 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 - [ ] Activity Bar icons select the artifact category — no tab bar within the Explorer Panel
 - [ ] Each tab lists artifacts found in the corresponding `.claude/` subdirectory (or `docs/` for documentation)
 - [ ] Each list entry shows: filename, brief description (from YAML frontmatter `description` or first paragraph)
+- [ ] The Hooks category displays both lifecycle hooks (from `.claude/hooks/`) and hookify rules (from `.claude/hookify.*.local.md`), distinguishable by a subtype indicator
+- [ ] Hookify rules display their event type (file edit / bash command), action (block / warn), and pattern summary
+- [ ] Users can filter the Hooks list by subtype: All, Lifecycle, Hookify
 - [ ] Clicking an artifact opens it in the Explorer Panel artifact viewer (conversation stays visible in Chat Panel)
 - [ ] Artifact viewer renders markdown content with proper formatting
 - [ ] YAML frontmatter is displayed as structured metadata above the rendered body
-- [ ] File watcher detects changes to `.claude/` files and updates the browser within 500ms
+- [ ] File watcher detects changes to `.claude/` files (including `hookify.*.local.md`) and updates the browser within 500ms
 - [ ] Empty categories show a meaningful empty state
 
 **Architecture References:** AD-015 (governance artifact format), AD-013 (frontend libraries)

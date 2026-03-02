@@ -93,7 +93,7 @@ Review failures generate entries in [Implementation Lessons](/development/lesson
 
 ## Content Ownership
 
-Each layer of the governance system owns a specific type of content. For the full framework, see [Content Governance](/process/content-governance).
+Each layer of the governance system owns a specific type of content. For the full framework, see [Content Governance](/process/content-governance). The `agent-maintainer` owns hookify rule files alongside lifecycle hooks.
 
 | Layer | Owns |
 |-------|------|
@@ -101,7 +101,8 @@ Each layer of the governance system owns a specific type of content. For the ful
 | `.claude/agents/` | Process: how agents work, what to read, when to delegate |
 | `.claude/skills/` | Technology patterns -- portable, no Forge-specific rules |
 | `.claude/rules/` | Behavioral enforcement -- applies to all agents automatically |
-| `.claude/hooks/` | Automated rule implementation -- shell scripts triggered by lifecycle events |
+| `.claude/hooks/` | Lifecycle hooks -- shell scripts triggered by lifecycle events (session start, stop, pre-commit) |
+| `.claude/hookify.*.local.md` | Hookify rules -- action-boundary enforcement that blocks or warns on specific patterns in file edits or bash commands |
 
 ---
 
@@ -109,7 +110,7 @@ Each layer of the governance system owns a specific type of content. For the ful
 
 - [Orchestration](/process/orchestration) -- Orchestrator responsibilities and context discipline
 - [Workflow](/process/workflow) -- Task lifecycle from start to complete
-- [Content Governance](/process/content-governance) -- The five-layer ownership model
+- [Content Governance](/process/content-governance) -- The six-layer ownership model
 - [Skills Log](/process/skills-log) -- Full skill inventory with provenance and dates
 - [Definition of Ready](/process/definition-of-ready) -- What must be true before implementation starts
 - [Definition of Done](/process/definition-of-done) -- What must be true before a task is marked complete
