@@ -33,3 +33,27 @@ export interface ScanResult {
 	design_tokens_found: boolean;
 	scan_duration_ms: number;
 }
+
+export interface ProjectSettings {
+	name: string;
+	description: string | null;
+	default_model: string;
+	excluded_paths: string[];
+	stack: DetectedStack | null;
+	governance: GovernanceCounts | null;
+}
+
+export interface GovernanceCounts {
+	docs: number;
+	agents: number;
+	rules: number;
+	skills: number;
+	hooks: number;
+	has_claude_config: boolean;
+}
+
+export interface ProjectScanResult {
+	stack: DetectedStack;
+	governance: GovernanceCounts;
+	scan_duration_ms: number;
+}

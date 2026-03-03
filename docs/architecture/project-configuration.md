@@ -1,0 +1,149 @@
+# Project Configuration (`.forge/project.json`)
+
+**Date:** 2026-03-03 | **Status:** Active | **Decision:** AD-019 — File-based project settings
+
+---
+
+## Overview
+
+Forge uses a file-based configuration model for project settings. Each managed project stores its configuration in `.forge/project.json` at the project root. This file is the **source of truth** for project-specific settings.
+
+The SQLite `projects` table remains as the app-wide registry of known projects (recent list, IDs, timestamps). It does NOT own project configuration — `.forge/project.json` does.
+
+---
+
+## `.forge/` Directory Convention
+
+Forge creates a `.forge/` directory in each managed project for Forge-specific configuration. This is separate from `.claude/` (which belongs to Claude Code itself).
+
+| Path | Purpose |
+|------|---------|
+| `.forge/project.json` | Project configuration file (this document) |
+
+The `.forge/` directory is created automatically when the user saves project settings for the first time.
+
+---
+
+## File Format
+
+```json
+{
+    "name": "forge",
+    "description": "Desktop app for managed agentic development",
+    "default_model": "auto",
+    "excluded_paths": ["node_modules", ".git", "target", "dist", "build"],
+    "stack": {
+        "languages": ["rust", "typescript", "svelte"],
+        "frameworks": ["tauri", "svelte", "tailwindcss"],
+        "package_manager": "npm",
+        "has_claude_config": true,
+        "has_design_tokens": false
+    },
+    "governance": {
+        "docs": 26,
+        "agents": 15,
+        "rules": 20,
+        "skills": 9,
+        "hooks": 3,
+        "has_claude_config": true
+    }
+}
+```
+
+### Field Reference
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `name` | `string` | Yes | Display name for the project |
+| `description` | `string \| null` | No | Brief project description |
+| `default_model` | `string` | Yes | Default Claude model: `"auto"`, `"claude-opus-4-6"`, `"claude-sonnet-4-6"`, `"claude-haiku-4-5"` |
+| `excluded_paths` | `string[]` | Yes | Directory names to skip during scanning |
+| `stack` | `DetectedStack \| null` | No | Detected technology stack (populated by scanner) |
+| `governance` | `GovernanceCounts \| null` | No | Governance artifact counts (populated by scanner) |
+
+### `DetectedStack` Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `languages` | `string[]` | Detected programming languages (lowercase) |
+| `frameworks` | `string[]` | Detected frameworks and tools |
+| `package_manager` | `string \| null` | Primary package manager (`"npm"`, `"cargo"`, `"yarn"`, `"pnpm"`, `"bun"`) |
+| `has_claude_config` | `boolean` | Whether `.claude/CLAUDE.md` exists |
+| `has_design_tokens` | `boolean` | Whether design token files are present |
+
+### `GovernanceCounts` Object
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `docs` | `number` | Count of `.md` files in `docs/` |
+| `agents` | `number` | Count of `.md` files in `.claude/agents/` |
+| `rules` | `number` | Count of `.md` files in `.claude/rules/` |
+| `skills` | `number` | Count of directories in `.claude/skills/` |
+| `hooks` | `number` | Count of files in `.claude/hooks/` |
+| `has_claude_config` | `boolean` | Whether `.claude/CLAUDE.md` exists |
+
+---
+
+## Discovery Rules
+
+1. When a project is opened (`project_open`), Forge checks for `.forge/project.json` at the project root
+2. **File exists** — load it as the source of truth for project settings
+3. **File missing** — not an error; the UI shows a setup wizard that scans the project and creates the file
+4. The `project_open` command syncs the file-based name to SQLite so the recent projects list stays current
+
+---
+
+## Relationship to SQLite
+
+| Concern | Owner | Why |
+|---------|-------|-----|
+| Project registry (ID, path, timestamps) | SQLite `projects` table | App needs a cross-project list for recent projects, session associations |
+| Project configuration (name, model, stack, governance) | `.forge/project.json` | User-visible, version-controllable, portable |
+
+When `project_settings_write` is called, the `name` field is synced back to the SQLite `projects` table to keep the recent projects list display current.
+
+---
+
+## Schema Versioning
+
+Reserved for future use. When a `version` field is needed for migrations, it will be added to the JSON root. For now, all fields are additive — missing fields use sensible defaults during deserialization (`#[serde(default)]`).
+
+---
+
+## Error Handling
+
+| Scenario | Error | Behavior |
+|----------|-------|----------|
+| Malformed JSON in `.forge/project.json` | `ForgeError::Serialization` | UI shows error, offers to re-scan and overwrite |
+| Permission denied reading/writing | `ForgeError::FileSystem` (from `io::Error`) | UI shows error message |
+| `.forge/project.json` does not exist | Not an error | `project_settings_read` returns `None`, UI shows setup wizard |
+| `.forge/` directory does not exist | Not an error | Created automatically on first write |
+
+---
+
+## IPC Commands
+
+Three commands manage project settings:
+
+- `project_settings_read(path)` — reads `.forge/project.json`, returns `Option<ProjectSettings>`
+- `project_settings_write(path, settings)` — writes `.forge/project.json`, creates `.forge/` dir if needed
+- `project_scan(path, excluded_paths?)` — scans filesystem for stack detection and governance counts
+
+See [IPC Command Catalog](./ipc-commands.md) for full parameter tables.
+
+---
+
+## Pillar Alignment
+
+| Pillar | Alignment |
+|--------|-----------|
+| Self-Learning Loop | Project settings store detected governance artifact counts, giving the system awareness of its own governance maturity per project. |
+| Process Governance | The `.forge/project.json` file makes project configuration visible, versionable, and portable — governance artifacts are counted and surfaced in the UI. |
+
+---
+
+## Related Documents
+
+- [IPC Command Catalog](./ipc-commands.md) — command specifications
+- [Settings & Onboarding Wireframe](../wireframes/settings-onboarding.md) — UI design
+- [SQLite Schema](./sqlite-schema.md) — projects table definition

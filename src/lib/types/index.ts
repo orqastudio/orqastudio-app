@@ -3,6 +3,9 @@ export type {
 	ProjectSummary,
 	DetectedStack,
 	ScanResult,
+	ProjectSettings,
+	GovernanceCounts,
+	ProjectScanResult,
 } from "./project";
 
 export type {

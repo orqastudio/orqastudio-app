@@ -11,6 +11,9 @@
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { settingsStore, type ThemeMode, type DefaultModel } from "$lib/stores/settings.svelte";
+	import ProjectSetupWizard from "./ProjectSetupWizard.svelte";
+	import ProjectSettingsForm from "./ProjectSettingsForm.svelte";
+	import type { ProjectSettings } from "$lib/types";
 
 	const project = $derived(projectStore.activeProject);
 
@@ -169,45 +172,36 @@
 
 		<!-- Project section -->
 		{#if settingsStore.activeSection === "project"}
-			<Card.Root>
-				<Card.Header>
-					<Card.Title>Project</Card.Title>
-					<Card.Description>Active project information and scan settings</Card.Description>
-				</Card.Header>
-				<Card.Content class="space-y-4">
-					{#if project}
-						<div>
-							<label class="text-sm font-medium" for="project-root">Project Root</label>
-							<div class="mt-1 flex gap-2">
-								<input
-									id="project-root"
-									class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
-									value={project.path}
-									disabled
-								/>
-							</div>
-						</div>
-
-						{#if project.detected_stack}
-							<Separator />
-							<div class="space-y-1 text-sm">
-								<h4 class="font-medium">Detected Stack</h4>
-								<p class="text-muted-foreground">
-									Languages: {project.detected_stack.languages.join(", ") || "None"}
-								</p>
-								<p class="text-muted-foreground">
-									Frameworks: {project.detected_stack.frameworks.join(", ") || "None"}
-								</p>
-							</div>
-						{/if}
-					{:else}
+			{#if !project}
+				<Card.Root>
+					<Card.Content class="py-8">
 						<div class="flex items-center gap-2 text-sm text-muted-foreground">
 							<CircleXIcon class="h-4 w-4" />
 							No project loaded
 						</div>
-					{/if}
-				</Card.Content>
-			</Card.Root>
+					</Card.Content>
+				</Card.Root>
+			{:else if !projectStore.settingsLoaded}
+				<Card.Root>
+					<Card.Content class="flex items-center gap-2 py-8">
+						<LoaderCircleIcon class="h-4 w-4 animate-spin" />
+						<span class="text-sm text-muted-foreground">Loading project settings...</span>
+					</Card.Content>
+				</Card.Root>
+			{:else if projectStore.hasSettings && projectStore.projectSettings}
+				<ProjectSettingsForm
+					settings={projectStore.projectSettings}
+					projectPath={project.path}
+					onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
+					onRescan={() => projectStore.scanProject(project.path, projectStore.projectSettings?.excluded_paths)}
+					rescanning={projectStore.scanning}
+				/>
+			{:else}
+				<ProjectSetupWizard
+					projectPath={project.path}
+					onComplete={(s) => { projectStore.projectSettings = s; }}
+				/>
+			{/if}
 		{/if}
 
 		<!-- Appearance section -->

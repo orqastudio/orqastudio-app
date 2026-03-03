@@ -85,7 +85,7 @@ Settings appears in the Explorer Panel when the user clicks the Settings icon in
 | Section | Notes |
 |---------|-------|
 | **Provider** | CLI path can be typed, browsed via native file dialog, or auto-detected. Auto-detect searches PATH and common install locations. Sidecar status updates in real time. |
-| **Project** | Project root is read-only in normal use; "Change..." opens the project switcher. Rescan re-indexes all files and updates the stack detection. |
+| **Project** | Project settings are stored in `.forge/project.json` (file-based, source of truth). When no settings file exists, shows a setup wizard with scan + save flow. When settings file exists, shows an editable form (name, description, model, excluded paths, detected stack, governance counts). Rescan re-detects stack and governance artifacts. Changes save on blur — no manual save button. |
 | **Appearance** | Theme dropdown offers Light, Dark, System. Font size dropdown ranges 12px--20px. Panel widths accept numeric input with min/max validation. |
 | **Keyboard Shortcuts** | Read-only reference card. All shortcuts are global (not remappable in MVP). |
 
@@ -693,7 +693,7 @@ endif
 | Section | Persisted To | Scope |
 |---------|-------------|-------|
 | **Provider** | App-level config (SQLite) | Global |
-| **Project** | Per-project config (`.claude/settings.json`) | Project |
+| **Project** | `.forge/project.json` (file-based, per-project) | Project |
 | **Appearance** | App-level config; per-project override if toggle enabled | Global / Project |
 | **Keyboard Shortcuts** | Read-only in MVP | Global |
 

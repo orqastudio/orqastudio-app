@@ -150,20 +150,85 @@ Get the currently active project (last-opened). Returns `None` if no project has
 
 ### `project_scan`
 
-Re-run codebase scan on an existing project. Updates `detected_stack`, re-indexes `.claude/` artifacts, re-extracts design tokens.
+Scan a project directory to detect languages, frameworks, package manager, and governance artifact counts. Pure filesystem operation — does not require a database record or project ID.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `project_id` | `i64` | Yes | Project ID |
+| `path` | `String` | Yes | Absolute path to the project directory |
+| `excluded_paths` | `Option<Vec<String>>` | No | Directory names to skip (defaults to `["node_modules", ".git", "target", "dist", "build"]`) |
 
-**Returns:** `Result<ScanResult, ForgeError>`
+**Returns:** `Result<ProjectScanResult, ForgeError>`
+
+```rust
+pub struct ProjectScanResult {
+    pub stack: DetectedStack,
+    pub governance: GovernanceCounts,
+    pub scan_duration_ms: u64,
+}
+```
 
 **Error cases:**
-- `NotFound` — no project with this ID
-- `Scan` — scan failure (partial results may still be returned)
-- `Database` — failed to update records
+- `FileSystem` — path does not exist or cannot be read
+- `Scan` — scan failure during directory walk
 
-**TS mirror:** `Promise<ScanResult>`
+**TS mirror:** `Promise<ProjectScanResult>`
+
+---
+
+### `project_settings_read`
+
+Read project settings from `.forge/project.json` at the given project path. Returns `None` if the file does not exist (not an error — triggers setup wizard in the UI).
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `path` | `String` | Yes | Absolute path to the project directory |
+
+**Returns:** `Result<Option<ProjectSettings>, ForgeError>`
+
+```rust
+pub struct ProjectSettings {
+    pub name: String,
+    pub description: Option<String>,
+    pub default_model: String,
+    pub excluded_paths: Vec<String>,
+    pub stack: Option<DetectedStack>,
+    pub governance: Option<GovernanceCounts>,
+}
+
+pub struct GovernanceCounts {
+    pub docs: u32,
+    pub agents: u32,
+    pub rules: u32,
+    pub skills: u32,
+    pub hooks: u32,
+    pub has_claude_config: bool,
+}
+```
+
+**Error cases:**
+- `Serialization` — file exists but contains malformed JSON
+- `FileSystem` — permission denied or I/O error reading file
+
+**TS mirror:** `Promise<ProjectSettings | null>`
+
+---
+
+### `project_settings_write`
+
+Write project settings to `.forge/project.json`. Creates the `.forge/` directory if it does not exist. Returns the written settings as confirmation.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `path` | `String` | Yes | Absolute path to the project directory |
+| `settings` | `ProjectSettings` | Yes | The settings object to write |
+
+**Returns:** `Result<ProjectSettings, ForgeError>`
+
+**Error cases:**
+- `FileSystem` — cannot create `.forge/` directory or write file
+- `Serialization` — settings cannot be serialized (should not happen with valid types)
+
+**TS mirror:** `Promise<ProjectSettings>`
 
 ---
 

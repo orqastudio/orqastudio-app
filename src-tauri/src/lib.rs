@@ -71,6 +71,10 @@ pub fn run() {
             commands::artifact_commands::artifact_delete,
             commands::artifact_commands::doc_read,
             commands::artifact_commands::doc_tree_scan,
+            // Project settings commands (file-based)
+            commands::project_settings_commands::project_settings_read,
+            commands::project_settings_commands::project_settings_write,
+            commands::project_settings_commands::project_scan,
             // Settings commands
             commands::settings_commands::settings_get,
             commands::settings_commands::settings_set,
