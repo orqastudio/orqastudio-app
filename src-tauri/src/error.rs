@@ -53,6 +53,12 @@ impl From<serde_json::Error> for ForgeError {
     }
 }
 
+impl From<rusqlite::Error> for ForgeError {
+    fn from(err: rusqlite::Error) -> Self {
+        Self::Database(err.to_string())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

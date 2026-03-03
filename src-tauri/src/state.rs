@@ -1,8 +1,11 @@
+use std::sync::Mutex;
+
+use rusqlite::Connection;
+
 /// Application state managed by Tauri.
 ///
-/// Database connection will be added in Sub-Phase 3
-/// when the SQLite approach is finalized. Currently
-/// `tauri-plugin-sql` handles persistence at the plugin level.
+/// The `Mutex<Connection>` is safe for single-writer SQLite with WAL mode.
+/// Tauri manages this as shared state across all commands.
 pub struct AppState {
-    // Placeholder — fields will be added as backend services are implemented.
+    pub db: Mutex<Connection>,
 }
