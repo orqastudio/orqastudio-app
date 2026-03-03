@@ -9,7 +9,9 @@
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 
-	const projectName = $derived(projectStore.activeProject?.name ?? "");
+	const projectName = $derived(
+		projectStore.projectSettings?.name ?? projectStore.activeProject?.name ?? "",
+	);
 	const hasProject = $derived(projectStore.hasProject);
 	const isConfiguring = $derived(navigationStore.activeActivity === "configure");
 
@@ -41,10 +43,7 @@
 
 <div class="flex h-10 items-center gap-2 border-b border-border bg-background px-4">
 	<img src={fMark} alt="Forge" class="h-5 w-5" />
-	<span class="text-sm font-semibold">Forge</span>
-	{#if projectName}
-		<span class="text-xs text-muted-foreground">— {projectName}</span>
-	{/if}
+	<span class="text-sm font-semibold">{projectName || "Forge"}</span>
 	<div class="flex-1"></div>
 	{#if hasProject}
 		<button

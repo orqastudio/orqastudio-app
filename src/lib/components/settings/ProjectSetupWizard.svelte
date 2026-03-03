@@ -20,7 +20,8 @@
 
 	const defaultName = $derived(() => {
 		const segments = props.projectPath.replace(/\\/g, "/").split("/").filter(Boolean);
-		return segments[segments.length - 1] ?? "project";
+		const name = segments[segments.length - 1] ?? "project";
+		return name.charAt(0).toUpperCase() + name.slice(1);
 	});
 	let projectName = $state("");
 	let scanResult = $state<ProjectScanResult | null>(null);
@@ -53,6 +54,7 @@
 			governance: scanResult.governance,
 		};
 		await projectStore.saveProjectSettings(props.projectPath, settings);
+		await projectStore.loadProjectSettings(props.projectPath);
 		props.onComplete(settings);
 	}
 </script>

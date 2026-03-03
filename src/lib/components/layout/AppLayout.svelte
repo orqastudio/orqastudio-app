@@ -10,6 +10,8 @@
 	import ArtifactViewer from "$lib/components/artifact/ArtifactViewer.svelte";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
+	import ProjectSetupWizard from "$lib/components/settings/ProjectSetupWizard.svelte";
+	import setupBackground from "$lib/assets/setup-background.png";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
@@ -17,6 +19,7 @@
 
 	const hasProject = $derived(projectStore.hasProject);
 	const isConfiguring = $derived(navigationStore.activeActivity === "configure");
+	const needsSetup = $derived(projectStore.settingsLoaded && !projectStore.hasSettings);
 
 	onMount(() => {
 		settingsStore.initialize();
@@ -29,7 +32,7 @@
 
 	// When a project becomes active, switch to the project dashboard
 	$effect(() => {
-		if (hasProject && navigationStore.activeActivity === "chat") {
+		if (hasProject && !needsSetup && navigationStore.activeActivity === "chat") {
 			navigationStore.setActivity("project");
 		}
 	});
@@ -38,6 +41,7 @@
 	$effect(() => {
 		if (
 			hasProject &&
+			!needsSetup &&
 			navigationStore.activeActivity === "docs" &&
 			artifactStore.docTree.length === 0
 		) {
@@ -68,6 +72,20 @@
 			<div class="flex flex-1 overflow-hidden">
 				<div class="flex-1 overflow-hidden">
 					<SettingsView />
+				</div>
+			</div>
+		{:else if hasProject && needsSetup}
+			<!-- Project needs setup — show wizard only, no chat/nav/activity bar -->
+			<div
+				class="relative flex flex-1 items-center justify-center overflow-hidden"
+				style="background-image: url({setupBackground}); background-size: cover; background-position: center;"
+			>
+				<div class="absolute inset-0 bg-background/70"></div>
+				<div class="relative z-10 w-full max-w-lg px-4">
+					<ProjectSetupWizard
+						projectPath={projectStore.projectPath ?? ""}
+						onComplete={() => {}}
+					/>
 				</div>
 			</div>
 		{:else if hasProject}
