@@ -6,6 +6,14 @@ Cargo.lock
 node_modules/
 dist/
 
+# SvelteKit
+.svelte-kit/
+
+# SQLite database (local data, not committed)
+forge.db
+forge.db-wal
+forge.db-shm
+
 # Tauri
 /src-tauri/target/
 /src-tauri/WixTools/

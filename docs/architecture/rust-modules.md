@@ -42,13 +42,13 @@ src-tauri/src/
 │
 ├── commands/                        # Tauri command handlers (#[tauri::command])
 │   ├── mod.rs                       # Re-exports all command functions for registration
-│   ├── project_commands.rs          # open_project, create_project, get_project, scan_project
-│   ├── session_commands.rs          # create_session, list_sessions, get_session, end_session
-│   ├── message_commands.rs          # send_message, get_messages, search_messages
-│   ├── artifact_commands.rs         # list_artifacts, get_artifact, save_artifact, create_artifact
-│   ├── sidecar_commands.rs          # start_sidecar, stop_sidecar, sidecar_status
-│   ├── settings_commands.rs         # get_setting, set_setting, get_all_settings
-│   └── theme_commands.rs            # get_project_theme, set_theme_override
+│   ├── project_commands.rs          # project_open, project_create, project_get, project_scan
+│   ├── session_commands.rs          # session_create, session_list, session_get, session_end
+│   ├── message_commands.rs          # stream_send_message, message_list, message_search
+│   ├── artifact_commands.rs         # artifact_list, artifact_get, artifact_update, artifact_create
+│   ├── sidecar_commands.rs          # sidecar_restart, sidecar_status
+│   ├── settings_commands.rs         # settings_get, settings_set, settings_get_all
+│   └── theme_commands.rs            # theme_get_project, theme_set_override
 │
 ├── sidecar/                         # Sidecar process management (AD-007, AD-009)
 │   ├── mod.rs                       # Re-exports
@@ -456,59 +456,58 @@ Every command is registered in `main.rs` / `lib.rs` via `tauri::Builder::invoke_
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `open_project` | `(path: String) -> Result<Project>` | Open directory, run Tier 1 scan, upsert into DB |
-| `create_project` | `(name: String, parent: String) -> Result<Project>` | Create directory, scaffold `.claude/`, register |
-| `get_project` | `(id: i64) -> Result<Project>` | Fetch project by ID |
-| `scan_project` | `(id: i64, tier: u8) -> Result<DetectedStack>` | Run Tier 1 or Tier 2 scan, update project |
+| `project_open` | `(path: String) -> Result<Project>` | Open directory, run Tier 1 scan, upsert into DB |
+| `project_create` | `(name: String, parent: String) -> Result<Project>` | Create directory, scaffold `.claude/`, register |
+| `project_get` | `(id: i64) -> Result<Project>` | Fetch project by ID |
+| `project_scan` | `(id: i64, tier: u8) -> Result<DetectedStack>` | Run Tier 1 or Tier 2 scan, update project |
 
 ### `commands/session_commands.rs`
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `create_session` | `(project_id: i64, model: Option<String>) -> Result<Session>` | Create session, inject handoff notes from last session |
-| `list_sessions` | `(project_id: i64) -> Result<Vec<Session>>` | List sessions ordered by updated_at DESC |
-| `get_session` | `(id: i64) -> Result<Session>` | Fetch session with metadata |
-| `end_session` | `(id: i64) -> Result<()>` | Set status, trigger async summary generation |
+| `session_create` | `(project_id: i64, model: Option<String>) -> Result<Session>` | Create session, inject handoff notes from last session |
+| `session_list` | `(project_id: i64) -> Result<Vec<Session>>` | List sessions ordered by updated_at DESC |
+| `session_get` | `(id: i64) -> Result<Session>` | Fetch session with metadata |
+| `session_end` | `(id: i64) -> Result<()>` | Set status, trigger async summary generation |
 
 ### `commands/message_commands.rs`
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `send_message` | `(session_id: i64, content: String, channel: Channel<ProviderEvent>) -> Result<()>` | Write user message to DB, send to sidecar, stream response via Channel |
-| `get_messages` | `(session_id: i64) -> Result<Vec<Message>>` | Fetch all messages for a session, ordered |
-| `search_messages` | `(project_id: i64, query: String) -> Result<Vec<SearchResult>>` | FTS5 cross-session search |
+| `stream_send_message` | `(session_id: i64, content: String, channel: Channel<ProviderEvent>) -> Result<()>` | Write user message to DB, send to sidecar, stream response via Channel |
+| `message_list` | `(session_id: i64) -> Result<Vec<Message>>` | Fetch all messages for a session, ordered |
+| `message_search` | `(project_id: i64, query: String) -> Result<Vec<SearchResult>>` | FTS5 cross-session search |
 
 ### `commands/artifact_commands.rs`
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `list_artifacts` | `(project_id: i64, artifact_type: Option<ArtifactType>) -> Result<Vec<Artifact>>` | List artifacts, optionally filtered by type |
-| `get_artifact` | `(id: i64) -> Result<ArtifactDetail>` | Fetch metadata + read file content from disk |
-| `save_artifact` | `(id: i64, content: String) -> Result<Artifact>` | Write content to disk, update hash in DB |
-| `create_artifact` | `(project_id: i64, artifact_type: ArtifactType, name: String) -> Result<Artifact>` | Create template file on disk, index in DB |
+| `artifact_list` | `(project_id: i64, artifact_type: Option<ArtifactType>) -> Result<Vec<Artifact>>` | List artifacts, optionally filtered by type |
+| `artifact_get` | `(id: i64) -> Result<ArtifactDetail>` | Fetch metadata + read file content from disk |
+| `artifact_update` | `(id: i64, content: String) -> Result<Artifact>` | Write content to disk, update hash in DB |
+| `artifact_create` | `(project_id: i64, artifact_type: ArtifactType, name: String) -> Result<Artifact>` | Create template file on disk, index in DB |
 
 ### `commands/sidecar_commands.rs`
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `start_sidecar` | `(project_id: i64) -> Result<()>` | Spawn sidecar process for the active project |
-| `stop_sidecar` | `() -> Result<()>` | Terminate sidecar process cleanly |
+| `sidecar_restart` | `() -> Result<SidecarStatus>` | Kill current sidecar (if any) and spawn a new one |
 | `sidecar_status` | `() -> Result<SidecarStatus>` | Return current sidecar state |
 
 ### `commands/settings_commands.rs`
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `get_setting` | `(key: String, scope: SettingScope) -> Result<Option<Setting>>` | Fetch a setting by key and scope |
-| `set_setting` | `(key: String, value: String, scope: SettingScope) -> Result<()>` | Upsert a setting |
-| `get_all_settings` | `(scope: SettingScope) -> Result<Vec<Setting>>` | Fetch all settings for a scope |
+| `settings_get` | `(key: String, scope: SettingScope) -> Result<Option<Setting>>` | Fetch a setting by key and scope |
+| `settings_set` | `(key: String, value: String, scope: SettingScope) -> Result<()>` | Upsert a setting |
+| `settings_get_all` | `(scope: SettingScope) -> Result<Vec<Setting>>` | Fetch all settings for a scope |
 
 ### `commands/theme_commands.rs`
 
 | Command | Signature | Description |
 |---------|-----------|-------------|
-| `get_project_theme` | `(project_id: i64) -> Result<ResolvedTheme>` | Merge extracted tokens + overrides into final theme |
-| `set_theme_override` | `(project_id: i64, token: String, light: String, dark: Option<String>) -> Result<()>` | Create or update a manual theme override |
+| `theme_get_project` | `(project_id: i64) -> Result<ResolvedTheme>` | Merge extracted tokens + overrides into final theme |
+| `theme_set_override` | `(project_id: i64, token: String, light: String, dark: Option<String>) -> Result<()>` | Create or update a manual theme override |
 
 ---
 
@@ -594,7 +593,7 @@ pub struct ProjectUpdate {
                                   ┌──────────────────────┐
                                   │   SidecarManager     │
                                   │                      │
-   start_sidecar() ──────────────>│  spawn()             │
+   sidecar_restart() ────────────>│  spawn()             │
                                   │    │                  │
                                   │    ├─ tauri-plugin-   │
                                   │    │  shell::spawn()  │
@@ -603,7 +602,7 @@ pub struct ProjectUpdate {
                                   │    │                  │
                                   │    └─ stdout handle ──┼──> StreamHandler
                                   │                      │
-   stop_sidecar() ───────────────>│  kill()              │
+   sidecar_restart() ────────────>│  kill() + spawn()    │
                                   │                      │
    sidecar_status() ─────────────>│  status()            │
                                   │  (NotStarted |       │
@@ -1085,35 +1084,34 @@ pub fn run() {
         .manage(app_state)
         .invoke_handler(tauri::generate_handler![
             // Project
-            commands::open_project,
-            commands::create_project,
-            commands::get_project,
-            commands::scan_project,
+            commands::project_open,
+            commands::project_create,
+            commands::project_get,
+            commands::project_scan,
             // Session
-            commands::create_session,
-            commands::list_sessions,
-            commands::get_session,
-            commands::end_session,
+            commands::session_create,
+            commands::session_list,
+            commands::session_get,
+            commands::session_end,
             // Message
-            commands::send_message,
-            commands::get_messages,
-            commands::search_messages,
+            commands::stream_send_message,
+            commands::message_list,
+            commands::message_search,
             // Artifact
-            commands::list_artifacts,
-            commands::get_artifact,
-            commands::save_artifact,
-            commands::create_artifact,
+            commands::artifact_list,
+            commands::artifact_get,
+            commands::artifact_update,
+            commands::artifact_create,
             // Sidecar
-            commands::start_sidecar,
-            commands::stop_sidecar,
             commands::sidecar_status,
+            commands::sidecar_restart,
             // Settings
-            commands::get_setting,
-            commands::set_setting,
-            commands::get_all_settings,
+            commands::settings_get,
+            commands::settings_set,
+            commands::settings_get_all,
             // Theme
-            commands::get_project_theme,
-            commands::set_theme_override,
+            commands::theme_get_project,
+            commands::theme_set_override,
         ])
         .run(tauri::generate_context!())
         .expect("error running Forge");
@@ -1126,7 +1124,7 @@ Every command handler follows the same pattern:
 
 ```rust
 #[tauri::command]
-pub fn get_session(
+pub fn session_get(
     state: tauri::State<'_, AppState>,
     id: i64,
 ) -> Result<Session, ForgeError> {

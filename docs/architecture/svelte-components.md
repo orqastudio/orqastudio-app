@@ -91,7 +91,7 @@ src/
 │   │       └── ShortcutsReference.svelte
 │   ├── stores/                       # Svelte 5 $state stores
 │   │   ├── session.svelte.ts         # Active session, session list
-│   │   ├── navigation.svelte.ts      # Primary/detail view, sidebar state
+│   │   ├── navigation.svelte.ts      # Activity bar selection, nav sub-panel state
 │   │   ├── conversation.svelte.ts    # Messages, streaming accumulation
 │   │   ├── artifact.svelte.ts        # Selected artifact, artifact index
 │   │   ├── project.svelte.ts         # Project metadata, governance counts
@@ -142,7 +142,7 @@ routes/
     - This is the PRIMARY data-fetching boundary (AD-006)
 ```
 
-**Why a single route:** SvelteKit is used as the build toolchain (Vite, HMR, adapter-static), not for its routing capabilities. Forge's navigation model (sidebar tabs + panel switching) does not map to URL paths. A single `+page.svelte` acts as the application container and data-fetching boundary.
+**Why a single route:** SvelteKit is used as the build toolchain (Vite, HMR, adapter-static), not for its routing capabilities. Forge's navigation model (Activity Bar + panel switching) does not map to URL paths. A single `+page.svelte` acts as the application container and data-fetching boundary.
 
 ---
 

@@ -39,6 +39,7 @@
 
 - **Development**
   - [Getting Started](/development/getting-started)
+  - [Phase 1 Guide](/development/phase-1-guide)
   - [Coding Standards](/development/coding-standards)
   - [Lessons Learned](/development/lessons)
 

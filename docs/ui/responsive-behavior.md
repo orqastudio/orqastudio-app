@@ -70,10 +70,10 @@ When the window grows, panels restore in reverse order.
 
 ## Overlay Mode (Narrow Windows)
 
-When the window is too narrow for side panels (< 720px), sidebar and detail content become Sheet overlays:
+When the window is too narrow for side panels (< 720px), Nav Sub-Panel and Explorer content become Sheet overlays:
 
-- **Sidebar content** slides in from the left as a Sheet
-- **Detail content** slides in from the right as a Sheet
+- **Nav Sub-Panel content** slides in from the left as a Sheet
+- **Explorer content** slides in from the right as a Sheet
 - Sheets overlay the Explorer Panel with a backdrop
 - Click outside or press `Escape` to dismiss
 

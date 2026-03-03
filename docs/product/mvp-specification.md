@@ -19,7 +19,7 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 - [ ] Tier 1 scan (manifest heuristics) completes in < 100ms and detects: languages, frameworks, package manager, project name
 - [ ] Tier 1 scan also detects design system tokens: `tailwind.config.*` theme colors/fonts, CSS custom properties in `:root`, component library conventions
 - [ ] Tier 2 scan (hyperpolyglot) completes in < 5s for projects up to 10,000 files
-- [ ] Detected metadata (including design tokens) is stored in SQLite and displayed in sidebar Project tab
+- [ ] Detected metadata (including design tokens) is stored in SQLite and displayed in the Project Dashboard (Activity Bar)
 - [ ] If design tokens are found, Forge's UI theme adapts to match the project's color palette (per-project theming). Missing tokens fall back to Forge defaults.
 - [ ] If `.claude/` directory exists, governance artifacts are indexed and counts displayed
 - [ ] Last-opened project is remembered across app restarts (tauri-plugin-store)
@@ -41,7 +41,7 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 - [ ] Forge creates the project directory (if needed) with: `.claude/CLAUDE.md`, `.claude/agents/`, `.claude/rules/`, `.claude/skills/`, `.claude/hooks/`, `docs/`, `.gitignore` (with `forge.db`)
 - [ ] If the directory is not a git repo, Forge offers to run `git init`
 - [ ] Project is registered in SQLite and set as active
-- [ ] Sidebar shows the new project with "New project, no code detected" status
+- [ ] Nav Sub-Panel shows the new project with "New project, no code detected" status
 - [ ] The scaffolded `.claude/` structure is fully compatible with Claude Code CLI
 - [ ] Empty artifact browser categories show actionable empty states ("Create your first agent")
 

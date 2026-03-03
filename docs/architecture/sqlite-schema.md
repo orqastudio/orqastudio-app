@@ -402,7 +402,7 @@ WHERE stream_status = 'pending';
 
 ## Query Patterns
 
-### Session List (sidebar)
+### Session List (Chat Panel dropdown)
 
 ```sql
 SELECT id, title, status, created_at,
