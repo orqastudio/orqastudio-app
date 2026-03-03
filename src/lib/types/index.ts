@@ -26,6 +26,7 @@ export type {
 	ArtifactType,
 	ComplianceStatus,
 	ArtifactRelationship,
+	DocNode,
 } from "./artifact";
 
 export type {

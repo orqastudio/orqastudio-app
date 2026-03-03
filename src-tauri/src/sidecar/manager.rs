@@ -58,6 +58,12 @@ impl SidecarManager {
         }
     }
 
+    /// Check if the sidecar is currently connected (process running with I/O).
+    pub fn is_connected(&self) -> bool {
+        let state = self.state.lock().expect("state lock poisoned");
+        *state == SidecarState::Connected
+    }
+
     /// Spawn a new sidecar process with the given command and arguments.
     ///
     /// If a process is already running, it is killed first.

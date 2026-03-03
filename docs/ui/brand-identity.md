@@ -113,6 +113,26 @@ Full font stack declarations (from [design-tokens research](/research/design-tok
 | Docs, governance pages, enterprise decks | Frame-F (flat) | Frame-F with subtle heated spark |
 | Agents module / orchestration surfaces | Agent-Strike (flat) | Agent-Strike with heated strike + spark impact |
 
+### Asset Files
+
+| Asset | Path | Usage |
+|-------|------|-------|
+| Anvil Mark (SVG) | `src/lib/assets/anvil-mark.svg` | App logo — toolbar (no project), welcome screen, window/taskbar icon |
+| F-Mark (SVG) | `src/lib/assets/f-mark.svg` | Forge project logo — toolbar (when Forge project is open) |
+| Window icons | `src-tauri/icons/` | OS-level window/taskbar icons (always anvil, all sizes + .ico/.icns) |
+
+### Toolbar Logo Behavior
+
+The toolbar logo is **context-sensitive**: it shows the active project's logo when a project is open, and falls back to the app logo (Anvil) when no project is loaded.
+
+| State | Toolbar Logo | Source |
+|-------|-------------|--------|
+| No project open | Anvil Mark | App default (`anvil-mark.svg`) |
+| Project open (with custom logo) | Project's logo | From project theme configuration |
+| Project open (no custom logo) | Anvil Mark | App default fallback |
+
+The window/taskbar icon is **always** the Anvil Mark regardless of the active project. Only the in-app toolbar swaps.
+
 ---
 
 ## 4. Dynamic Branding (Product Mode Only)

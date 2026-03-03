@@ -6,7 +6,8 @@ export type ActivityView =
 	| "rules"
 	| "skills"
 	| "hooks"
-	| "settings";
+	| "settings"
+	| "configure";
 
 export type ExplorerView =
 	| "artifact-list"
@@ -22,6 +23,7 @@ const ACTIVITIES_WITH_NAV_PANEL: ActivityView[] = [
 	"skills",
 	"hooks",
 	"settings",
+	"configure",
 	"chat",
 ];
 
@@ -52,8 +54,16 @@ class NavigationStore {
 		if (view === "project") {
 			this.explorerView = "project-dashboard";
 			this.navPanelCollapsed = true;
-		} else if (view === "settings") {
+		} else if (view === "settings" || view === "configure") {
 			this.explorerView = "settings";
+			if (this.navPanelCollapsed) {
+				this.navPanelCollapsed = false;
+			}
+		} else if (view === "docs") {
+			// Auto-open the docs homepage (no breadcrumb — home icon suffices)
+			this.explorerView = "artifact-viewer";
+			this.selectedArtifactPath = "README";
+			this.breadcrumbs = [];
 			if (this.navPanelCollapsed) {
 				this.navPanelCollapsed = false;
 			}

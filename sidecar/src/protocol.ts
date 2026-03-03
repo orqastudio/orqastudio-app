@@ -36,11 +36,35 @@ export interface MessageSummary {
     content: string;
 }
 
+/**
+ * Rust sends a tool execution result back to the sidecar.
+ * This is the response to a ToolExecuteResponse the sidecar sent earlier.
+ */
+export interface ToolResultRequest {
+    type: 'tool_result';
+    tool_call_id: string;
+    output: string;
+    is_error: boolean;
+}
+
+/**
+ * Rust sends a tool approval decision back to the sidecar.
+ * This is the response to a ToolApprovalRequestResponse the sidecar sent earlier.
+ */
+export interface ToolApprovalRequest {
+    type: 'tool_approval';
+    tool_call_id: string;
+    approved: boolean;
+    reason: string | null;
+}
+
 export type SidecarRequest =
     | SendMessageRequest
     | CancelStreamRequest
     | HealthCheckRequest
-    | GenerateSummaryRequest;
+    | GenerateSummaryRequest
+    | ToolResultRequest
+    | ToolApprovalRequest;
 
 // ── Response Types ──
 
@@ -114,6 +138,30 @@ export interface SummaryResultResponse {
     summary: string;
 }
 
+/**
+ * Sidecar asks Rust to execute a tool on its behalf.
+ * The Agent SDK MCP server routes tool calls through this mechanism
+ * so that Rust (and the Tauri frontend) control tool execution.
+ */
+export interface ToolExecuteResponse {
+    type: 'tool_execute';
+    tool_call_id: string;
+    tool_name: string;
+    input: string;
+}
+
+/**
+ * Sidecar asks Rust/UI whether a tool invocation should be approved.
+ * The Agent SDK canUseTool callback routes through this mechanism
+ * so that the user can approve or deny tool calls from the UI.
+ */
+export interface ToolApprovalRequestResponse {
+    type: 'tool_approval_request';
+    tool_call_id: string;
+    tool_name: string;
+    input: string;
+}
+
 export type SidecarResponse =
     | StreamStartResponse
     | TextDeltaResponse
@@ -126,7 +174,9 @@ export type SidecarResponse =
     | StreamErrorResponse
     | StreamCancelledResponse
     | HealthOkResponse
-    | SummaryResultResponse;
+    | SummaryResultResponse
+    | ToolExecuteResponse
+    | ToolApprovalRequestResponse;
 
 // ── Protocol Helpers ──
 
@@ -141,7 +191,10 @@ export function parseRequest(line: string): SidecarRequest {
         throw new Error('Invalid request: missing "type" field');
     }
 
-    const validTypes = ['send_message', 'cancel_stream', 'health_check', 'generate_summary'];
+    const validTypes = [
+        'send_message', 'cancel_stream', 'health_check', 'generate_summary',
+        'tool_result', 'tool_approval',
+    ];
     if (!validTypes.includes(parsed.type)) {
         throw new Error(`Unknown request type: ${parsed.type}`);
     }

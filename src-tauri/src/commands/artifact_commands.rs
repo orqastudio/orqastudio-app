@@ -1,8 +1,8 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use tauri::State;
 
-use crate::domain::artifact::{Artifact, ArtifactSummary, ArtifactType};
+use crate::domain::artifact::{Artifact, ArtifactSummary, ArtifactType, DocNode};
 use crate::error::ForgeError;
 use crate::repo::{artifact_repo, project_repo};
 use crate::state::AppState;
@@ -205,6 +205,183 @@ pub fn artifact_delete(artifact_id: i64, state: State<'_, AppState>) -> Result<(
 
     // Delete from database (handles FTS cleanup)
     artifact_repo::delete(&conn, artifact_id)
+}
+
+/// Look up the active project's filesystem path from the database.
+fn active_project_path(state: &State<'_, AppState>) -> Result<String, ForgeError> {
+    let conn = state
+        .db
+        .lock()
+        .map_err(|e| ForgeError::Database(format!("lock poisoned: {e}")))?;
+
+    let project = project_repo::get_active(&conn)?.ok_or_else(|| {
+        ForgeError::NotFound("no active project — open a project first".to_string())
+    })?;
+
+    Ok(project.path)
+}
+
+/// Read a documentation file directly from the active project's docs/ directory on disk.
+#[tauri::command]
+pub fn doc_read(rel_path: String, state: State<'_, AppState>) -> Result<Artifact, ForgeError> {
+    use crate::domain::artifact::ComplianceStatus;
+
+    // Security: prevent path traversal
+    if rel_path.contains("..") {
+        return Err(ForgeError::Validation(
+            "path traversal not allowed".to_string(),
+        ));
+    }
+
+    let project_path = active_project_path(&state)?;
+    let docs_path = Path::new(&project_path)
+        .join("docs")
+        .join(format!("{}.md", rel_path));
+
+    if !docs_path.exists() {
+        return Err(ForgeError::NotFound(format!(
+            "doc not found: {}",
+            rel_path
+        )));
+    }
+
+    let content = std::fs::read_to_string(&docs_path)?;
+
+    // Extract a display name from the path (last segment, title-cased)
+    let name = rel_path
+        .split('/')
+        .next_back()
+        .unwrap_or(&rel_path)
+        .replace('-', " ");
+
+    let metadata = std::fs::metadata(&docs_path).ok();
+    let file_size = metadata.as_ref().map(|m| m.len() as i64);
+
+    Ok(Artifact {
+        id: 0,
+        project_id: 0,
+        artifact_type: ArtifactType::Doc,
+        rel_path: format!("docs/{}.md", rel_path),
+        name,
+        description: None,
+        content,
+        file_hash: None,
+        file_size,
+        file_modified_at: None,
+        compliance_status: ComplianceStatus::Unknown,
+        relationships: None,
+        metadata: None,
+        created_at: String::new(),
+        updated_at: String::new(),
+    })
+}
+
+/// Scan the active project's `docs/` directory tree and return a hierarchical structure.
+///
+/// Returns an empty vec if `docs/` does not exist (no error).
+#[tauri::command]
+pub fn doc_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, ForgeError> {
+    let project_path = active_project_path(&state)?;
+    let docs_dir = Path::new(&project_path).join("docs");
+    if !docs_dir.is_dir() {
+        return Ok(Vec::new());
+    }
+
+    scan_directory(&docs_dir, &docs_dir)
+}
+
+/// Recursively scan a directory and build a sorted list of `DocNode` entries.
+///
+/// Hidden entries (starting with `.` or `_`) are skipped.
+/// Directories come first (alphabetically), then `.md` files (alphabetically).
+fn scan_directory(dir: &Path, docs_root: &Path) -> Result<Vec<DocNode>, ForgeError> {
+    let mut dirs: Vec<(String, PathBuf)> = Vec::new();
+    let mut files: Vec<(String, PathBuf)> = Vec::new();
+
+    for entry in std::fs::read_dir(dir)? {
+        let entry = entry?;
+        let file_name = entry.file_name();
+        let name = file_name.to_string_lossy();
+
+        if name.starts_with('.') || name.starts_with('_') {
+            continue;
+        }
+
+        let path = entry.path();
+        if path.is_dir() {
+            dirs.push((name.into_owned(), path));
+        } else if name.ends_with(".md") {
+            files.push((name.into_owned(), path));
+        }
+    }
+
+    dirs.sort_by(|a, b| a.0.cmp(&b.0));
+    files.sort_by(|a, b| a.0.cmp(&b.0));
+
+    let mut nodes = Vec::with_capacity(dirs.len() + files.len());
+
+    for (name, path) in dirs {
+        let children = scan_directory(&path, docs_root)?;
+        nodes.push(DocNode {
+            label: humanize_name(&name),
+            path: None,
+            children: Some(children),
+        });
+    }
+
+    for (name, path) in files {
+        let rel = relative_doc_path(&path, docs_root);
+        nodes.push(DocNode {
+            label: humanize_name(&name),
+            path: Some(rel),
+            children: None,
+        });
+    }
+
+    Ok(nodes)
+}
+
+/// Build the relative path from `docs_root` without the `.md` extension.
+///
+/// Example: `docs/product/vision.md` -> `"product/vision"`.
+fn relative_doc_path(file: &Path, docs_root: &Path) -> String {
+    let rel = file
+        .strip_prefix(docs_root)
+        .unwrap_or(file)
+        .with_extension("");
+    // Normalise to forward slashes (important on Windows)
+    rel.to_string_lossy().replace('\\', "/")
+}
+
+/// Convert a filename to a human-readable label.
+///
+/// Strips `.md`, replaces hyphens with spaces, and title-cases each word.
+/// Preserves fully uppercase names (e.g. README, CHANGELOG).
+fn humanize_name(filename: &str) -> String {
+    let stem = filename.strip_suffix(".md").unwrap_or(filename);
+    // Preserve all-caps names like README, CHANGELOG, TODO
+    if stem.chars().all(|c| c.is_ascii_uppercase() || c == '-' || c == '_') && stem.chars().any(|c| c.is_ascii_uppercase()) {
+        return stem.to_string();
+    }
+    stem.split('-')
+        .map(title_case_word)
+        .collect::<Vec<_>>()
+        .join(" ")
+}
+
+/// Title-case a single word (first char uppercase, rest lowercase).
+fn title_case_word(word: &str) -> String {
+    let mut chars = word.chars();
+    match chars.next() {
+        None => String::new(),
+        Some(first) => {
+            let mut s = first.to_uppercase().to_string();
+            for ch in chars {
+                s.extend(ch.to_lowercase());
+            }
+            s
+        }
+    }
 }
 
 /// Parse a string into an `ArtifactType`, returning a validation error for unknown types.

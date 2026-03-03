@@ -5,8 +5,10 @@
 
 	let { items }: { items: string[] } = $props();
 
-	function handleClick(index: number) {
-		if (index === 0) {
+	function handleHome() {
+		if (navigationStore.activeActivity === "docs") {
+			navigationStore.openArtifact("README", []);
+		} else {
 			navigationStore.closeArtifact();
 		}
 	}
@@ -15,7 +17,7 @@
 <nav class="flex items-center gap-1 text-sm">
 	<button
 		class="flex items-center text-muted-foreground hover:text-foreground"
-		onclick={() => handleClick(0)}
+		onclick={handleHome}
 	>
 		<HomeIcon class="h-3.5 w-3.5" />
 	</button>
@@ -27,7 +29,7 @@
 		{:else}
 			<button
 				class="text-muted-foreground hover:text-foreground"
-				onclick={() => handleClick(index)}
+				onclick={handleHome}
 			>
 				{item}
 			</button>

@@ -1,8 +1,11 @@
-import type { Artifact, ArtifactSummary, ArtifactType } from "$lib/types";
+import { forgeInvoke } from "$lib/ipc/invoke";
+import type { Artifact, ArtifactSummary, ArtifactType, DocNode } from "$lib/types";
 
 class ArtifactStore {
 	artifacts = $state<ArtifactSummary[]>([]);
 	activeArtifact = $state<Artifact | null>(null);
+	docTree = $state<DocNode[]>([]);
+	docTreeLoading = $state(false);
 	loading = $state(false);
 	error = $state<string | null>(null);
 	filterText = $state("");
@@ -43,9 +46,37 @@ class ArtifactStore {
 		this.loading = false;
 	}
 
+	async loadDocTree() {
+		this.docTreeLoading = true;
+		try {
+			this.docTree = await forgeInvoke<DocNode[]>("doc_tree_scan");
+		} catch {
+			this.docTree = [];
+		} finally {
+			this.docTreeLoading = false;
+		}
+	}
+
+	async loadDoc(relPath: string) {
+		this.loading = true;
+		this.error = null;
+		try {
+			const artifact = await forgeInvoke<Artifact>("doc_read", { relPath });
+			this.activeArtifact = artifact;
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load document: ${message}`;
+			this.activeArtifact = null;
+		} finally {
+			this.loading = false;
+		}
+	}
+
 	clear() {
 		this.artifacts = [];
 		this.activeArtifact = null;
+		this.docTree = [];
+		this.docTreeLoading = false;
 		this.loading = false;
 		this.error = null;
 		this.filterText = "";

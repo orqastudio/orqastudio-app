@@ -17,8 +17,8 @@
 	{orientation}
 	class={cn(
 		"flex touch-none p-px transition-colors select-none",
-		orientation === "vertical" && "h-full w-2.5 border-s border-s-transparent",
-		orientation === "horizontal" && "h-2.5 flex-col border-t border-t-transparent",
+		orientation === "vertical" && "h-full w-1 border-s border-s-transparent",
+		orientation === "horizontal" && "h-1 flex-col border-t border-t-transparent",
 		className
 	)}
 	{...restProps}
@@ -26,6 +26,6 @@
 	{@render children?.()}
 	<ScrollAreaPrimitive.Thumb
 		data-slot="scroll-area-thumb"
-		class="bg-border relative flex-1 rounded-full"
+		class="bg-border hover:bg-muted-foreground relative flex-1 rounded-full transition-colors"
 	/>
 </ScrollAreaPrimitive.Scrollbar>

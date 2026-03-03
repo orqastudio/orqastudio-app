@@ -37,9 +37,8 @@ Rules are the last line of defense: they exist to catch violations that other me
 | 15 | `required-reading.md` | Every agent must read its Required Reading documentation before implementation. Missing documents halt work. |
 | 16 | `reusable-components.md` | Shared components (EmptyState, LoadingSpinner, ErrorDisplay, PageToolbar, StatusBadge, ProgressBar, Panel, CodeBlock, MarkdownRenderer, ConversationMessage, ToolCallCard) must be used. No inline equivalents. |
 | 17 | `root-cleanliness.md` | Project root stays lean. Temporary files to `tmp/`. Documentation to `docs/`. Tools to `tools/`. Only configuration files that require root placement. |
-| 18 | `sidebar-synchronization.md` | All sidebar files must be updated together whenever any page is added, moved, or removed. Canonical section order enforced. |
-| 19 | `skill-enforcement.md` | Every agent must have a `skills:` list. `chunkhound` is universal. Agent-maintainer audits skill lists against Required Reading domains. |
-| 20 | `testing-standards.md` | Test organization (Rust unit/integration, Vitest, Playwright E2E). 80%+ coverage. Mock only at adapter boundaries. Test isolation requirements. |
+| 18 | `skill-enforcement.md` | Every agent must have a `skills:` list. `chunkhound` is universal. Agent-maintainer audits skill lists against Required Reading domains. |
+| 19 | `testing-standards.md` | Test organization (Rust unit/integration, Vitest, Playwright E2E). 80%+ coverage. Mock only at adapter boundaries. Test isolation requirements. |
 
 ---
 

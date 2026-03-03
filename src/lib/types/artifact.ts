@@ -33,3 +33,13 @@ export interface ArtifactRelationship {
 	type: "references" | "extends" | "depends_on";
 	target: string;
 }
+
+/** A node in the documentation tree returned by doc_tree_scan. */
+export interface DocNode {
+	/** Display name: filename without .md, hyphens replaced with spaces, title-cased. */
+	label: string;
+	/** Relative path from docs/ without .md extension (e.g. "product/vision"). Null for directories. */
+	path: string | null;
+	/** Child nodes for directories. Null for leaf files. */
+	children: DocNode[] | null;
+}

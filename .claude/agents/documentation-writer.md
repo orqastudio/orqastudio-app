@@ -25,19 +25,8 @@ You are the technical writer for Forge. You create and maintain all project docu
 Before any documentation work, load and understand:
 
 - `docs/process/content-governance.md` — Content governance rules
-- `docs/process/sidebar-synchronization.md` — Sidebar sync rules (if using Docsify)
 - `docs/` — Full documentation tree for structural awareness
 - `.claude/rules/*.md` — Active rules that may constrain documentation
-
-## Sidebar Synchronization Rules
-
-If the project uses Docsify or a sidebar-driven documentation viewer:
-
-- Every new document must have a corresponding sidebar entry
-- Sidebar order reflects reading priority (fundamentals first, details later)
-- Nested documents must be reflected in sidebar indentation
-- Orphaned sidebar entries (pointing to non-existent files) are bugs
-- Run a sidebar audit whenever documents are added, moved, or deleted
 
 ## Documentation Types
 

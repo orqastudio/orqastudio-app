@@ -1,24 +1,31 @@
 /**
- * Anthropic SDK integration for the Forge sidecar.
+ * Claude Agent SDK integration for the Forge sidecar.
  *
- * Manages per-session message history and streams Claude API responses
+ * Uses @anthropic-ai/claude-agent-sdk which spawns the official Claude Code
+ * CLI binary. Authentication is handled via Claude Max subscription OAuth —
+ * no API key needed.
+ *
+ * Manages per-session conversation state and streams Agent SDK responses
  * back as SidecarResponse events over the NDJSON protocol.
  */
 
-import Anthropic from '@anthropic-ai/sdk';
-import type { MessageParam } from '@anthropic-ai/sdk/resources/messages';
-import type { SidecarResponse, MessageSummary } from './protocol.js';
+import { query, createSdkMcpServer, tool } from '@anthropic-ai/claude-agent-sdk';
+import { z } from 'zod';
+import type {
+    SidecarResponse,
+    MessageSummary,
+    ToolResultRequest,
+    ToolApprovalRequest,
+} from './protocol.js';
 
 // ── Constants ──
 
 const DEFAULT_MODEL = 'claude-sonnet-4-6';
-const DEFAULT_MAX_TOKENS = 8192;
-const SUMMARY_MAX_TOKENS = 1024;
+const SUMMARY_SYSTEM_PROMPT =
+    'Summarize the following conversation in 2-3 concise sentences. ' +
+    'Focus on the key topics discussed and any decisions or outcomes reached.';
 
 // ── Session State ──
-
-/** Per-session conversation history stored in memory. */
-const sessionHistories = new Map<number, MessageParam[]>();
 
 /** Per-session abort controllers for cancellation. */
 const activeStreams = new Map<number, AbortController>();
@@ -26,26 +33,59 @@ const activeStreams = new Map<number, AbortController>();
 /** Monotonically increasing message ID counter. */
 let nextMessageId = 1;
 
-// ── Client Initialization ──
+/**
+ * Monotonically increasing tool call ID counter.
+ * Used to correlate tool_execute/tool_result and
+ * tool_approval_request/tool_approval exchanges.
+ */
+let nextToolCallId = 1;
 
-let client: Anthropic | null = null;
+// ── Pending Request Infrastructure ──
 
 /**
- * Get or create the Anthropic client.
- * Returns null if ANTHROPIC_API_KEY is not set.
+ * Pending requests waiting for responses from Rust via stdin.
+ * Key is tool_call_id, value is the resolve function for the promise.
  */
-function getClient(): Anthropic | null {
-    if (client) {
-        return client;
-    }
+const pendingToolResults = new Map<
+    string,
+    (result: ToolResultRequest) => void
+>();
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
-        return null;
-    }
+const pendingToolApprovals = new Map<
+    string,
+    (result: ToolApprovalRequest) => void
+>();
 
-    client = new Anthropic({ apiKey });
-    return client;
+/**
+ * Resolve a pending tool result request.
+ * Called by the main index.ts handler when a tool_result arrives on stdin.
+ */
+export function resolveToolResult(result: ToolResultRequest): void {
+    const resolve = pendingToolResults.get(result.tool_call_id);
+    if (resolve) {
+        pendingToolResults.delete(result.tool_call_id);
+        resolve(result);
+    } else {
+        process.stderr.write(
+            `forge-sidecar: no pending tool_result for ${result.tool_call_id}\n`,
+        );
+    }
+}
+
+/**
+ * Resolve a pending tool approval request.
+ * Called by the main index.ts handler when a tool_approval arrives on stdin.
+ */
+export function resolveToolApproval(result: ToolApprovalRequest): void {
+    const resolve = pendingToolApprovals.get(result.tool_call_id);
+    if (resolve) {
+        pendingToolApprovals.delete(result.tool_call_id);
+        resolve(result);
+    } else {
+        process.stderr.write(
+            `forge-sidecar: no pending tool_approval for ${result.tool_call_id}\n`,
+        );
+    }
 }
 
 // ── Model Resolution ──
@@ -65,19 +105,168 @@ function resolveModel(model: string | null): string {
 type ResponseSender = (response: SidecarResponse) => void;
 
 /**
- * Track which tool_call_id belongs to each content block index,
- * so we can associate input_json_delta events with the right tool call.
+ * Wait for Rust to send a tool_result back through stdin.
+ * Returns a promise that resolves when resolveToolResult() is called
+ * with a matching tool_call_id.
  */
-interface BlockTracker {
-    toolCallIds: Map<number, string>;
-    toolNames: Map<number, string>;
+function waitForToolResult(
+    toolCallId: string,
+): Promise<ToolResultRequest> {
+    return new Promise<ToolResultRequest>((resolve) => {
+        pendingToolResults.set(toolCallId, resolve);
+    });
 }
 
 /**
- * Stream a message to the Anthropic API and emit SidecarResponse events.
+ * Wait for Rust to send a tool_approval back through stdin.
+ * Returns a promise that resolves when resolveToolApproval() is called
+ * with a matching tool_call_id.
+ */
+function waitForToolApproval(
+    toolCallId: string,
+): Promise<ToolApprovalRequest> {
+    return new Promise<ToolApprovalRequest>((resolve) => {
+        pendingToolApprovals.set(toolCallId, resolve);
+    });
+}
+
+/**
+ * Create the Forge MCP tool server that routes tool calls to Rust
+ * via the NDJSON protocol.
  *
- * Adds the user message to session history, calls the API with full history,
- * streams response events, then adds the assistant response to history.
+ * Each tool call sends a tool_execute event to stdout and waits for
+ * a tool_result response from stdin. This allows Rust (and the Tauri
+ * frontend) to control all tool execution.
+ */
+function createForgeToolServer(sendResponse: ResponseSender) {
+    return createSdkMcpServer({
+        name: 'forge-tools',
+        tools: [
+            tool(
+                'read_file',
+                'Read a file from the filesystem',
+                { path: z.string() },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'read_file', args, sendResponse,
+                    );
+                },
+            ),
+            tool(
+                'write_file',
+                'Write content to a file',
+                { path: z.string(), content: z.string() },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'write_file', args, sendResponse,
+                    );
+                },
+            ),
+            tool(
+                'edit_file',
+                'Edit a file with search and replace',
+                {
+                    path: z.string(),
+                    old_string: z.string(),
+                    new_string: z.string(),
+                },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'edit_file', args, sendResponse,
+                    );
+                },
+            ),
+            tool(
+                'bash',
+                'Execute a bash command',
+                { command: z.string() },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'bash', args, sendResponse,
+                    );
+                },
+            ),
+            tool(
+                'glob',
+                'Find files matching a glob pattern',
+                { pattern: z.string(), path: z.string().optional() },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'glob', args, sendResponse,
+                    );
+                },
+            ),
+            tool(
+                'grep',
+                'Search file contents with regex',
+                { pattern: z.string(), path: z.string().optional() },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'grep', args, sendResponse,
+                    );
+                },
+            ),
+        ],
+    });
+}
+
+/**
+ * Execute a tool by sending a tool_execute event to Rust and waiting
+ * for the tool_result response.
+ */
+async function executeToolViaRust(
+    toolName: string,
+    args: Record<string, unknown>,
+    sendResponse: ResponseSender,
+): Promise<{ content: Array<{ type: 'text'; text: string }> }> {
+    const toolCallId = `forge_tool_${nextToolCallId++}`;
+
+    // Send tool_execute to Rust via stdout
+    sendResponse({
+        type: 'tool_execute',
+        tool_call_id: toolCallId,
+        tool_name: toolName,
+        input: JSON.stringify(args),
+    });
+
+    // Also emit tool_use_start for the frontend to track
+    sendResponse({
+        type: 'tool_use_start',
+        tool_call_id: toolCallId,
+        tool_name: toolName,
+    });
+
+    // Wait for Rust to send back the result via stdin
+    const result = await waitForToolResult(toolCallId);
+
+    // Emit tool_result for the frontend
+    sendResponse({
+        type: 'tool_result',
+        tool_call_id: toolCallId,
+        tool_name: toolName,
+        result: result.output,
+        is_error: result.is_error,
+    });
+
+    // Return the result to the Agent SDK
+    if (result.is_error) {
+        return {
+            content: [{ type: 'text', text: `Error: ${result.output}` }],
+        };
+    }
+    return {
+        content: [{ type: 'text', text: result.output }],
+    };
+}
+
+/**
+ * Stream a message using the Claude Agent SDK query() function.
+ *
+ * The Agent SDK spawns the Claude Code CLI which handles authentication
+ * via Claude Max subscription OAuth. No API key is needed.
+ *
+ * Tool calls are routed through the NDJSON protocol to Rust for execution.
+ * Tool approval decisions are routed through the NDJSON protocol to the UI.
  */
 export async function streamMessage(
     sessionId: number,
@@ -86,32 +275,15 @@ export async function streamMessage(
     systemPrompt: string | null,
     sendResponse: ResponseSender,
 ): Promise<void> {
-    const anthropic = getClient();
-    if (!anthropic) {
-        sendResponse({
-            type: 'stream_error',
-            code: 'auth_error',
-            message: 'ANTHROPIC_API_KEY not set',
-            recoverable: false,
-        });
-        return;
-    }
-
     const resolvedModel = resolveModel(model);
     const messageId = nextMessageId++;
-
-    // Get or create session history
-    if (!sessionHistories.has(sessionId)) {
-        sessionHistories.set(sessionId, []);
-    }
-    const history = sessionHistories.get(sessionId)!;
-
-    // Add user message to history
-    history.push({ role: 'user', content });
 
     // Create abort controller for cancellation
     const abortController = new AbortController();
     activeStreams.set(sessionId, abortController);
+
+    // Create the MCP tool server for this conversation
+    const forgeToolServer = createForgeToolServer(sendResponse);
 
     try {
         // Emit stream_start
@@ -121,85 +293,81 @@ export async function streamMessage(
             resolved_model: resolvedModel,
         });
 
-        const stream = anthropic.messages.stream(
-            {
-                model: resolvedModel,
-                max_tokens: DEFAULT_MAX_TOKENS,
-                system: systemPrompt || undefined,
-                messages: history,
-            },
-            { signal: abortController.signal },
-        );
+        let blockIndex = 0;
+        let inputTokens = 0;
+        let outputTokens = 0;
 
-        let fullText = '';
-        const blocks: BlockTracker = {
-            toolCallIds: new Map(),
-            toolNames: new Map(),
-        };
+        // Use the Agent SDK query() function
+        const conversation = query({
+            prompt: content,
+            options: {
+                tools: [],  // Disable ALL built-in Claude Code tools
+                mcpServers: { forge: forgeToolServer },  // Route tools to Forge
+                canUseTool: async (
+                    name: string,
+                    input: Record<string, unknown>,
+                ) => {
+                    const toolCallId = `forge_approval_${nextToolCallId++}`;
 
-        // Text deltas — emitted in real time
-        stream.on('text', (text) => {
-            fullText += text;
-            sendResponse({ type: 'text_delta', content: text });
-        });
-
-        // Thinking deltas — emitted in real time
-        stream.on('thinking', (thinkingDelta) => {
-            sendResponse({ type: 'thinking_delta', content: thinkingDelta });
-        });
-
-        // Raw stream events — captures tool use starts, input deltas,
-        // and block completions that the higher-level events do not expose
-        stream.on('streamEvent', (event) => {
-            if (event.type === 'content_block_start') {
-                const block = event.content_block;
-                if (block.type === 'tool_use') {
-                    blocks.toolCallIds.set(event.index, block.id);
-                    blocks.toolNames.set(event.index, block.name);
+                    // Send approval request to Rust/UI via stdout
                     sendResponse({
-                        type: 'tool_use_start',
-                        tool_call_id: block.id,
-                        tool_name: block.name,
-                    });
-                }
-            } else if (event.type === 'content_block_delta') {
-                if (event.delta.type === 'input_json_delta') {
-                    const toolCallId = blocks.toolCallIds.get(event.index) ?? '';
-                    sendResponse({
-                        type: 'tool_input_delta',
+                        type: 'tool_approval_request',
                         tool_call_id: toolCallId,
-                        content: event.delta.partial_json,
+                        tool_name: name,
+                        input: JSON.stringify(input),
                     });
-                }
-            } else if (event.type === 'content_block_stop') {
-                // Determine the content type from what we tracked
-                let contentType = 'text';
-                if (blocks.toolCallIds.has(event.index)) {
-                    contentType = 'tool_use';
-                }
-                sendResponse({
-                    type: 'block_complete',
-                    block_index: event.index,
-                    content_type: contentType,
-                });
+
+                    // Wait for Rust/UI to send back the approval decision
+                    const approval = await waitForToolApproval(toolCallId);
+
+                    if (approval.approved) {
+                        return { behavior: 'allow' as const };
+                    }
+                    return {
+                        behavior: 'deny' as const,
+                        message: approval.reason ?? 'User denied tool use',
+                    };
+                },
+                includePartialMessages: true,  // Token-level streaming
+                systemPrompt: systemPrompt ?? undefined,
+                model: resolvedModel,
+                abortController,
+            },
+        });
+
+        // Iterate over the Agent SDK message stream
+        for await (const message of conversation) {
+            if (abortController.signal.aborted) {
+                break;
             }
-        });
 
-        // Wait for the stream to complete and get the final message
-        const finalMessage = await stream.finalMessage();
+            // The Agent SDK yields partial messages with content blocks.
+            // Translate each content block type to our SidecarResponse events.
+            if (message && typeof message === 'object') {
+                translateAgentMessage(
+                    message, sendResponse, blockIndex,
+                );
 
-        // Extract token usage from the final message
-        const inputTokens = finalMessage.usage.input_tokens;
-        const outputTokens = finalMessage.usage.output_tokens;
+                // Track token usage if available
+                if ('usage' in message && message.usage) {
+                    const usage = message.usage as {
+                        input_tokens?: number;
+                        output_tokens?: number;
+                    };
+                    if (usage.input_tokens !== undefined) {
+                        inputTokens = usage.input_tokens;
+                    }
+                    if (usage.output_tokens !== undefined) {
+                        outputTokens = usage.output_tokens;
+                    }
+                }
 
-        // Add assistant response to history
-        history.push({
-            role: 'assistant',
-            content: fullText || finalMessage.content
-                .filter((b): b is Anthropic.TextBlock => b.type === 'text')
-                .map((b) => b.text)
-                .join(''),
-        });
+                // Track block count for block_complete events
+                if ('content' in message && Array.isArray(message.content)) {
+                    blockIndex = message.content.length;
+                }
+            }
+        }
 
         // Emit turn_complete
         sendResponse({
@@ -226,6 +394,79 @@ export async function streamMessage(
     }
 }
 
+/**
+ * Translate an Agent SDK message into SidecarResponse events.
+ *
+ * The Agent SDK yields partial messages that contain content blocks.
+ * We translate text blocks to text_delta, thinking blocks to thinking_delta,
+ * and tool_use blocks to tool_use_start/tool_input_delta events.
+ */
+function translateAgentMessage(
+    message: unknown,
+    sendResponse: ResponseSender,
+    _previousBlockCount: number,
+): void {
+    if (!message || typeof message !== 'object') {
+        return;
+    }
+
+    const msg = message as Record<string, unknown>;
+
+    // Handle content array from partial messages
+    if ('content' in msg && Array.isArray(msg.content)) {
+        for (const block of msg.content) {
+            if (!block || typeof block !== 'object') {
+                continue;
+            }
+
+            const b = block as Record<string, unknown>;
+
+            if (b.type === 'text' && typeof b.text === 'string') {
+                sendResponse({
+                    type: 'text_delta',
+                    content: b.text,
+                });
+            } else if (
+                b.type === 'thinking' &&
+                typeof b.thinking === 'string'
+            ) {
+                sendResponse({
+                    type: 'thinking_delta',
+                    content: b.thinking,
+                });
+            } else if (b.type === 'tool_use') {
+                // Tool use blocks are handled by the MCP server callbacks,
+                // but we emit tracking events for the frontend
+                if (typeof b.id === 'string' && typeof b.name === 'string') {
+                    sendResponse({
+                        type: 'tool_use_start',
+                        tool_call_id: b.id,
+                        tool_name: b.name,
+                    });
+                }
+                if (typeof b.input === 'string') {
+                    sendResponse({
+                        type: 'tool_input_delta',
+                        tool_call_id:
+                            typeof b.id === 'string' ? b.id : '',
+                        content: b.input,
+                    });
+                } else if (
+                    b.input !== undefined &&
+                    b.input !== null
+                ) {
+                    sendResponse({
+                        type: 'tool_input_delta',
+                        tool_call_id:
+                            typeof b.id === 'string' ? b.id : '',
+                        content: JSON.stringify(b.input),
+                    });
+                }
+            }
+        }
+    }
+}
+
 // ── Cancellation ──
 
 /**
@@ -249,42 +490,53 @@ export function cancelStream(
 // ── Summary Generation ──
 
 /**
- * Generate a summary of the given messages using a single non-streaming call.
+ * Generate a summary of the given messages using the Agent SDK query().
+ * Uses a single-turn conversation with the summary system prompt.
  */
 export async function generateSummary(
     sessionId: number,
     messages: MessageSummary[],
     sendResponse: ResponseSender,
 ): Promise<void> {
-    const anthropic = getClient();
-    if (!anthropic) {
-        sendResponse({
-            type: 'stream_error',
-            code: 'auth_error',
-            message: 'ANTHROPIC_API_KEY not set',
-            recoverable: false,
-        });
-        return;
-    }
-
     try {
-        // Convert MessageSummary to API message format
-        const apiMessages: MessageParam[] = messages.map((m) => ({
-            role: m.role as 'user' | 'assistant',
-            content: m.content,
-        }));
+        // Format the conversation as a prompt for the summary request
+        const formattedMessages = messages
+            .map((m) => `${m.role}: ${m.content}`)
+            .join('\n\n');
 
-        const response = await anthropic.messages.create({
-            model: DEFAULT_MODEL,
-            max_tokens: SUMMARY_MAX_TOKENS,
-            system: 'Summarize the following conversation in 2-3 concise sentences. Focus on the key topics discussed and any decisions or outcomes reached.',
-            messages: apiMessages,
+        const conversation = query({
+            prompt: formattedMessages,
+            options: {
+                tools: [],  // No tools needed for summary
+                mcpServers: {},
+                systemPrompt: SUMMARY_SYSTEM_PROMPT,
+                model: DEFAULT_MODEL,
+                includePartialMessages: false,
+            },
         });
 
         let summary = '';
-        for (const block of response.content) {
-            if (block.type === 'text') {
-                summary += block.text;
+
+        for await (const message of conversation) {
+            if (
+                message &&
+                typeof message === 'object' &&
+                'content' in message &&
+                Array.isArray(
+                    (message as Record<string, unknown>).content,
+                )
+            ) {
+                const content = (
+                    message as { content: Array<Record<string, unknown>> }
+                ).content;
+                for (const block of content) {
+                    if (
+                        block.type === 'text' &&
+                        typeof block.text === 'string'
+                    ) {
+                        summary = block.text;
+                    }
+                }
             }
         }
 
@@ -326,54 +578,59 @@ interface ErrorInfo {
 
 /**
  * Classify an error into a code, message, and recoverable flag.
+ * With the Agent SDK, errors come from the CLI process rather than
+ * the HTTP API directly, so classification is simpler.
  */
 function classifyError(error: unknown): ErrorInfo {
-    if (error instanceof Anthropic.APIError) {
-        if (error.status === 401) {
-            return {
-                code: 'auth_error',
-                message: 'Invalid API key',
-                recoverable: false,
-            };
-        }
-        if (error.status === 429) {
-            return {
-                code: 'rate_limit',
-                message: error.message || 'Rate limit exceeded',
-                recoverable: true,
-            };
-        }
-        if (error.status === 529) {
-            return {
-                code: 'overloaded',
-                message: error.message || 'API overloaded',
-                recoverable: true,
-            };
-        }
-        if (error.status !== undefined && error.status >= 500) {
-            return {
-                code: 'server_error',
-                message: error.message || 'Server error',
-                recoverable: true,
-            };
-        }
-        return {
-            code: 'api_error',
-            message: error.message || 'API error',
-            recoverable: false,
-        };
-    }
-
     if (error instanceof Error) {
-        if (error.name === 'AbortError' || error.message.includes('aborted')) {
+        const msg = error.message.toLowerCase();
+
+        if (
+            error.name === 'AbortError' ||
+            msg.includes('aborted') ||
+            msg.includes('cancelled')
+        ) {
             return {
                 code: 'cancelled',
                 message: 'Request was cancelled',
                 recoverable: false,
             };
         }
+
+        if (msg.includes('auth') || msg.includes('login') || msg.includes('oauth')) {
+            return {
+                code: 'auth_error',
+                message: `Authentication error: ${error.message}. Ensure Claude Code CLI is logged in with a Max subscription.`,
+                recoverable: false,
+            };
+        }
+
+        if (msg.includes('rate limit') || msg.includes('429')) {
+            return {
+                code: 'rate_limit',
+                message: error.message,
+                recoverable: true,
+            };
+        }
+
+        if (msg.includes('overloaded') || msg.includes('529')) {
+            return {
+                code: 'overloaded',
+                message: error.message,
+                recoverable: true,
+            };
+        }
+
+        if (msg.includes('not found') || msg.includes('enoent')) {
+            return {
+                code: 'cli_not_found',
+                message: `Claude Code CLI not found: ${error.message}. Ensure the CLI is installed and in PATH.`,
+                recoverable: false,
+            };
+        }
+
         return {
-            code: 'unknown_error',
+            code: 'sdk_error',
             message: error.message,
             recoverable: false,
         };

@@ -74,6 +74,8 @@ fn translate_response(response: &SidecarResponse) -> Option<StreamEvent> {
         SidecarResponse::StreamCancelled => Some(StreamEvent::StreamCancelled),
         // Non-streaming responses — not forwarded to the frontend channel
         SidecarResponse::HealthOk { .. } | SidecarResponse::SummaryResult { .. } => None,
+        // Bidirectional tool protocol — handled in the read loop, not forwarded to frontend
+        SidecarResponse::ToolExecute { .. } | SidecarResponse::ToolApprovalRequest { .. } => None,
     }
 }
 
@@ -142,7 +144,9 @@ pub fn stream_send_message(
     };
     // DB lock released here
 
-    // 3. Send message to sidecar
+    // 3. Ensure sidecar is running (auto-spawn if needed), then send message
+    super::sidecar_commands::ensure_sidecar_running(&state)?;
+
     let request = SidecarRequest::SendMessage {
         session_id,
         content,
@@ -183,6 +187,54 @@ pub fn stream_send_message(
                 break;
             }
         };
+
+        // Handle bidirectional tool protocol — sidecar asking Rust to execute a tool
+        if let SidecarResponse::ToolExecute {
+            ref tool_call_id, ..
+        } = response
+        {
+            // Phase 1 stub: return "not yet implemented" for all tool executions
+            let tool_result = SidecarRequest::ToolResult {
+                tool_call_id: tool_call_id.clone(),
+                output: "Tool execution not yet implemented".to_string(),
+                is_error: true,
+            };
+            if let Err(e) = state.sidecar.send(&tool_result) {
+                let error_event = StreamEvent::StreamError {
+                    code: "tool_result_send_error".to_string(),
+                    message: format!("failed to send tool result to sidecar: {e}"),
+                    recoverable: false,
+                };
+                let _ = on_event.send(error_event);
+                had_error = true;
+                break;
+            }
+            continue;
+        }
+
+        // Handle bidirectional tool protocol — sidecar asking for tool approval
+        if let SidecarResponse::ToolApprovalRequest {
+            ref tool_call_id, ..
+        } = response
+        {
+            // Phase 1: auto-approve all tool calls
+            let approval = SidecarRequest::ToolApproval {
+                tool_call_id: tool_call_id.clone(),
+                approved: true,
+                reason: None,
+            };
+            if let Err(e) = state.sidecar.send(&approval) {
+                let error_event = StreamEvent::StreamError {
+                    code: "tool_approval_send_error".to_string(),
+                    message: format!("failed to send tool approval to sidecar: {e}"),
+                    recoverable: false,
+                };
+                let _ = on_event.send(error_event);
+                had_error = true;
+                break;
+            }
+            continue;
+        }
 
         // Accumulate text content
         if let SidecarResponse::TextDelta { ref content } = response {
@@ -527,6 +579,48 @@ mod tests {
     fn health_ok_is_not_terminal() {
         let resp = SidecarResponse::HealthOk {
             version: "1.0".to_string(),
+        };
+        assert!(!is_terminal(&resp));
+    }
+
+    // ── ToolExecute / ToolApprovalRequest tests ──
+
+    #[test]
+    fn translate_tool_execute_returns_none() {
+        let resp = SidecarResponse::ToolExecute {
+            tool_call_id: "call_010".to_string(),
+            tool_name: "read_file".to_string(),
+            input: r#"{"path":"/src/main.rs"}"#.to_string(),
+        };
+        assert!(translate_response(&resp).is_none());
+    }
+
+    #[test]
+    fn translate_tool_approval_request_returns_none() {
+        let resp = SidecarResponse::ToolApprovalRequest {
+            tool_call_id: "call_011".to_string(),
+            tool_name: "write_file".to_string(),
+            input: r#"{"path":"/tmp/out.txt"}"#.to_string(),
+        };
+        assert!(translate_response(&resp).is_none());
+    }
+
+    #[test]
+    fn tool_execute_is_not_terminal() {
+        let resp = SidecarResponse::ToolExecute {
+            tool_call_id: "call_010".to_string(),
+            tool_name: "read_file".to_string(),
+            input: "{}".to_string(),
+        };
+        assert!(!is_terminal(&resp));
+    }
+
+    #[test]
+    fn tool_approval_request_is_not_terminal() {
+        let resp = SidecarResponse::ToolApprovalRequest {
+            tool_call_id: "call_011".to_string(),
+            tool_name: "write_file".to_string(),
+            input: "{}".to_string(),
         };
         assert!(!is_terminal(&resp));
     }

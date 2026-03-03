@@ -19,8 +19,8 @@ class SessionStore {
 		this.isLoading = true;
 		this.error = null;
 		try {
-			this.sessions = await forgeInvoke<SessionSummary[]>("list_sessions", {
-				project_id: projectId,
+			this.sessions = await forgeInvoke<SessionSummary[]>("session_list", {
+				projectId,
 			});
 		} catch (err) {
 			this.error = err instanceof Error ? err.message : String(err);
@@ -32,8 +32,8 @@ class SessionStore {
 	async createSession(projectId: number, model?: string): Promise<Session> {
 		this.error = null;
 		try {
-			const session = await forgeInvoke<Session>("create_session", {
-				project_id: projectId,
+			const session = await forgeInvoke<Session>("session_create", {
+				projectId,
 				model: model ?? "auto",
 			});
 			this.activeSession = session;
@@ -50,8 +50,8 @@ class SessionStore {
 		this.isLoading = true;
 		this.error = null;
 		try {
-			this.activeSession = await forgeInvoke<Session>("get_session", {
-				session_id: sessionId,
+			this.activeSession = await forgeInvoke<Session>("session_get", {
+				sessionId,
 			});
 			await this.persistActiveSessionId(sessionId);
 		} catch (err) {
@@ -65,8 +65,8 @@ class SessionStore {
 		this.isLoading = true;
 		this.error = null;
 		try {
-			this.activeSession = await forgeInvoke<Session>("get_session", {
-				session_id: sessionId,
+			this.activeSession = await forgeInvoke<Session>("session_get", {
+				sessionId,
 			});
 			return true;
 		} catch {
@@ -81,8 +81,8 @@ class SessionStore {
 	async updateTitle(sessionId: number, title: string): Promise<void> {
 		this.error = null;
 		try {
-			await forgeInvoke("update_session_title", {
-				session_id: sessionId,
+			await forgeInvoke("session_update_title", {
+				sessionId,
 				title,
 			});
 			if (this.activeSession && this.activeSession.id === sessionId) {
@@ -100,7 +100,7 @@ class SessionStore {
 	async endSession(sessionId: number): Promise<void> {
 		this.error = null;
 		try {
-			await forgeInvoke("end_session", { session_id: sessionId });
+			await forgeInvoke("session_end", { sessionId });
 			if (this.activeSession && this.activeSession.id === sessionId) {
 				this.activeSession = { ...this.activeSession, status: "completed" };
 			}
@@ -116,7 +116,7 @@ class SessionStore {
 	async deleteSession(sessionId: number): Promise<void> {
 		this.error = null;
 		try {
-			await forgeInvoke("delete_session", { session_id: sessionId });
+			await forgeInvoke("session_delete", { sessionId });
 			this.sessions = this.sessions.filter((s) => s.id !== sessionId);
 			if (this.activeSession && this.activeSession.id === sessionId) {
 				this.activeSession = null;

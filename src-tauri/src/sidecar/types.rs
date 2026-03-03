@@ -22,6 +22,16 @@ pub enum SidecarRequest {
         messages: Vec<MessageSummary>,
     },
     HealthCheck,
+    ToolResult {
+        tool_call_id: String,
+        output: String,
+        is_error: bool,
+    },
+    ToolApproval {
+        tool_call_id: String,
+        approved: bool,
+        reason: Option<String>,
+    },
 }
 
 /// A condensed message used in summary generation requests.
@@ -84,6 +94,16 @@ pub enum SidecarResponse {
     SummaryResult {
         session_id: i64,
         summary: String,
+    },
+    ToolExecute {
+        tool_call_id: String,
+        tool_name: String,
+        input: String,
+    },
+    ToolApprovalRequest {
+        tool_call_id: String,
+        tool_name: String,
+        input: String,
     },
 }
 
@@ -153,6 +173,63 @@ mod tests {
     }
 
     #[test]
+    fn tool_result_request_serialization() {
+        let req = SidecarRequest::ToolResult {
+            tool_call_id: "call_001".to_string(),
+            output: "result data".to_string(),
+            is_error: false,
+        };
+
+        let json = serde_json::to_value(&req).expect("serialization should succeed");
+        assert_eq!(json["type"], "tool_result");
+        assert_eq!(json["tool_call_id"], "call_001");
+        assert_eq!(json["output"], "result data");
+        assert!(!json["is_error"].as_bool().expect("should be bool"));
+    }
+
+    #[test]
+    fn tool_result_request_error_serialization() {
+        let req = SidecarRequest::ToolResult {
+            tool_call_id: "call_002".to_string(),
+            output: "something went wrong".to_string(),
+            is_error: true,
+        };
+
+        let json = serde_json::to_value(&req).expect("serialization should succeed");
+        assert_eq!(json["type"], "tool_result");
+        assert!(json["is_error"].as_bool().expect("should be bool"));
+    }
+
+    #[test]
+    fn tool_approval_request_approved_serialization() {
+        let req = SidecarRequest::ToolApproval {
+            tool_call_id: "call_001".to_string(),
+            approved: true,
+            reason: None,
+        };
+
+        let json = serde_json::to_value(&req).expect("serialization should succeed");
+        assert_eq!(json["type"], "tool_approval");
+        assert_eq!(json["tool_call_id"], "call_001");
+        assert!(json["approved"].as_bool().expect("should be bool"));
+        assert!(json["reason"].is_null());
+    }
+
+    #[test]
+    fn tool_approval_request_denied_serialization() {
+        let req = SidecarRequest::ToolApproval {
+            tool_call_id: "call_001".to_string(),
+            approved: false,
+            reason: Some("dangerous operation".to_string()),
+        };
+
+        let json = serde_json::to_value(&req).expect("serialization should succeed");
+        assert_eq!(json["type"], "tool_approval");
+        assert!(!json["approved"].as_bool().expect("should be bool"));
+        assert_eq!(json["reason"], "dangerous operation");
+    }
+
+    #[test]
     fn request_roundtrip() {
         let requests = vec![
             SidecarRequest::SendMessage {
@@ -163,6 +240,21 @@ mod tests {
             },
             SidecarRequest::CancelStream { session_id: 2 },
             SidecarRequest::HealthCheck,
+            SidecarRequest::ToolResult {
+                tool_call_id: "call_001".to_string(),
+                output: "result data".to_string(),
+                is_error: false,
+            },
+            SidecarRequest::ToolApproval {
+                tool_call_id: "call_002".to_string(),
+                approved: true,
+                reason: None,
+            },
+            SidecarRequest::ToolApproval {
+                tool_call_id: "call_003".to_string(),
+                approved: false,
+                reason: Some("not allowed".to_string()),
+            },
         ];
 
         for req in &requests {
@@ -321,6 +413,35 @@ mod tests {
     }
 
     #[test]
+    fn tool_execute_response() {
+        let resp = SidecarResponse::ToolExecute {
+            tool_call_id: "call_010".to_string(),
+            tool_name: "read_file".to_string(),
+            input: r#"{"path":"/src/main.rs"}"#.to_string(),
+        };
+
+        let json = serde_json::to_value(&resp).expect("serialization should succeed");
+        assert_eq!(json["type"], "tool_execute");
+        assert_eq!(json["tool_call_id"], "call_010");
+        assert_eq!(json["tool_name"], "read_file");
+        assert_eq!(json["input"], r#"{"path":"/src/main.rs"}"#);
+    }
+
+    #[test]
+    fn tool_approval_request_response() {
+        let resp = SidecarResponse::ToolApprovalRequest {
+            tool_call_id: "call_011".to_string(),
+            tool_name: "write_file".to_string(),
+            input: r#"{"path":"/tmp/out.txt","content":"hello"}"#.to_string(),
+        };
+
+        let json = serde_json::to_value(&resp).expect("serialization should succeed");
+        assert_eq!(json["type"], "tool_approval_request");
+        assert_eq!(json["tool_call_id"], "call_011");
+        assert_eq!(json["tool_name"], "write_file");
+    }
+
+    #[test]
     fn response_roundtrip() {
         let responses = vec![
             SidecarResponse::StreamStart {
@@ -367,6 +488,16 @@ mod tests {
             SidecarResponse::SummaryResult {
                 session_id: 1,
                 summary: "test".to_string(),
+            },
+            SidecarResponse::ToolExecute {
+                tool_call_id: "c2".to_string(),
+                tool_name: "read_file".to_string(),
+                input: r#"{"path":"foo"}"#.to_string(),
+            },
+            SidecarResponse::ToolApprovalRequest {
+                tool_call_id: "c3".to_string(),
+                tool_name: "write_file".to_string(),
+                input: r#"{"path":"bar"}"#.to_string(),
             },
         ];
 

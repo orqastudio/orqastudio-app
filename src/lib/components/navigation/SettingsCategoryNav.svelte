@@ -15,7 +15,13 @@
 		description: string;
 	}
 
-	const categories: SettingsCategory[] = [
+	interface Props {
+		mode: "forge" | "project";
+	}
+
+	const { mode }: Props = $props();
+
+	const forgeCategories: SettingsCategory[] = [
 		{
 			id: "provider",
 			label: "Provider",
@@ -27,12 +33,6 @@
 			label: "Model",
 			icon: BrainIcon,
 			description: "Default Claude model",
-		},
-		{
-			id: "project",
-			label: "Project",
-			icon: FolderOpenIcon,
-			description: "Active project info",
 		},
 		{
 			id: "appearance",
@@ -47,6 +47,17 @@
 			description: "Shortcut reference",
 		},
 	];
+
+	const projectCategories: SettingsCategory[] = [
+		{
+			id: "project",
+			label: "Project",
+			icon: FolderOpenIcon,
+			description: "Active project info",
+		},
+	];
+
+	const categories = $derived(mode === "forge" ? forgeCategories : projectCategories);
 </script>
 
 <ScrollArea.Root class="h-full">

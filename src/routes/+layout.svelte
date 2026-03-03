@@ -1,5 +1,6 @@
 <script lang="ts">
 	import "../app.css";
+	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 
 	let { children } = $props();
@@ -18,4 +19,6 @@
 
 <svelte:window onkeydown={handleKeydown} />
 
-{@render children()}
+<Tooltip.Provider>
+	{@render children()}
+</Tooltip.Provider>

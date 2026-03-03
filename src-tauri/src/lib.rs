@@ -69,6 +69,8 @@ pub fn run() {
             commands::artifact_commands::artifact_create,
             commands::artifact_commands::artifact_update,
             commands::artifact_commands::artifact_delete,
+            commands::artifact_commands::doc_read,
+            commands::artifact_commands::doc_tree_scan,
             // Settings commands
             commands::settings_commands::settings_get,
             commands::settings_commands::settings_set,

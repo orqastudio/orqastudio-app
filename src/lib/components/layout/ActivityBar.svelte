@@ -8,6 +8,7 @@
 	import SettingsIcon from "@lucide/svelte/icons/settings";
 	import { Separator } from "$lib/components/ui/separator";
 	import { navigationStore, type ActivityView } from "$lib/stores/navigation.svelte";
+	import { settingsStore } from "$lib/stores/settings.svelte";
 	import ActivityBarItem from "./ActivityBarItem.svelte";
 	import type { Component } from "svelte";
 
@@ -57,11 +58,11 @@
 
 	<div class="flex-1"></div>
 
-	<!-- Settings at bottom -->
+	<!-- Project Settings -->
 	<ActivityBarItem
 		icon={SettingsIcon}
-		label="Settings"
+		label="Project Settings"
 		active={navigationStore.activeActivity === "settings"}
-		onclick={() => navigationStore.setActivity("settings")}
+		onclick={() => { settingsStore.setActiveSection("project"); navigationStore.setActivity("settings"); }}
 	/>
 </div>

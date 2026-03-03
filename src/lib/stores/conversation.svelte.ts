@@ -35,8 +35,8 @@ class ConversationStore {
 		this.isLoading = true;
 		this.error = null;
 		try {
-			this.messages = await forgeInvoke<Message[]>("list_messages", {
-				session_id: sessionId,
+			this.messages = await forgeInvoke<Message[]>("message_list", {
+				sessionId,
 			});
 		} catch (err) {
 			this.error = err instanceof Error ? err.message : String(err);
@@ -59,9 +59,9 @@ class ConversationStore {
 
 		try {
 			await forgeInvoke("stream_send_message", {
-				session_id: sessionId,
+				sessionId,
 				content,
-				on_event: channel,
+				onEvent: channel,
 			});
 		} catch (err) {
 			this.error = err instanceof Error ? err.message : String(err);
@@ -71,7 +71,7 @@ class ConversationStore {
 
 	async stopStreaming(sessionId: number): Promise<void> {
 		try {
-			await forgeInvoke("cancel_stream", { session_id: sessionId });
+			await forgeInvoke("stream_stop", { sessionId });
 		} catch (err) {
 			this.error = err instanceof Error ? err.message : String(err);
 		}

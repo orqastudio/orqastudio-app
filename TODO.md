@@ -113,19 +113,23 @@ Design the technical architecture. Documents in `docs/architecture/`.
 
 **Prerequisites:** Phases 0a–0e complete and approved.
 
-- [ ] Initialize Tauri v2 + Svelte 5 project with plugins
-- [ ] Rust: Claude API client with streaming
-- [ ] Rust: Channel<T> streaming to frontend
-- [ ] Rust: SQLite setup with schema + migrations
-- [ ] Rust: Session CRUD commands
-- [ ] Rust: API key storage via keyring
-- [ ] Frontend: Main layout (three-zone + nav sub-panel per AD-019)
-- [ ] Frontend: Conversation with streaming tokens
-- [ ] Frontend: Tool call rendering (collapsible cards)
-- [ ] Frontend: Session dropdown in Chat Panel header
-- [ ] Frontend: Settings (API key, model selection)
-- [ ] Integration: Send message → stream → render
-- [ ] First working demo: chat with Claude in the app
+- [x] Initialize Tauri v2 + Svelte 5 project with plugins
+- [x] Rust: Sidecar integration with Agent SDK streaming (NDJSON protocol)
+- [x] Rust: Channel<T> streaming to frontend
+- [x] Rust: SQLite setup with schema + migrations
+- [x] Rust: Session CRUD commands
+- [ ] Rust: API key storage via keyring (deferred — Max subscription uses OAuth, not API keys)
+- [x] Rust: `doc_tree_scan` + `doc_read` commands (AD-020 — project-scoped, filesystem-driven)
+- [x] Frontend: Main layout (three-zone + nav sub-panel per AD-019)
+- [x] Frontend: Filesystem-driven DocTreeNav (AD-020 — tree from `doc_tree_scan`, not hardcoded)
+- [x] Frontend: Conversation with streaming tokens
+- [x] Frontend: Tool call rendering (collapsible cards)
+- [x] Frontend: Session dropdown in Chat Panel header
+- [x] Frontend: Settings (theme, model selection, sidecar status)
+- [x] Frontend: Docs/artifacts disabled when no project loaded (AD-020)
+- [x] Cleanup: Remove Docsify artifacts (`_sidebar.md`, `index.html`) and `sidebar-synchronization.md` rule (AD-020)
+- [x] Integration: Send message → stream → render (IPC naming fixed, sidecar auto-spawn)
+- [ ] First working demo: chat with Claude in the app (test echo sidecar works; real Agent SDK sidecar needs build)
 
 ---
 

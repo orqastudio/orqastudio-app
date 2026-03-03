@@ -14,7 +14,14 @@
 import * as readline from 'node:readline';
 import { parseRequest, serializeResponse } from './protocol.js';
 import type { SidecarResponse } from './protocol.js';
-import { streamMessage, cancelStream, generateSummary, healthCheck } from './provider.js';
+import {
+    streamMessage,
+    cancelStream,
+    generateSummary,
+    healthCheck,
+    resolveToolResult,
+    resolveToolApproval,
+} from './provider.js';
 
 /**
  * Write a SidecarResponse to stdout as NDJSON.
@@ -66,6 +73,14 @@ async function handleRequest(line: string): Promise<void> {
                 request.messages,
                 sendResponse,
             );
+            break;
+
+        case 'tool_result':
+            resolveToolResult(request);
+            break;
+
+        case 'tool_approval':
+            resolveToolApproval(request);
             break;
     }
 }

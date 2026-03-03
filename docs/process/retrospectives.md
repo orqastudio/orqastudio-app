@@ -82,9 +82,9 @@ The following RETRO entries are imported from the Alvarez project. They represen
 
 - **Context:** In Alvarez, sidebar synchronization was a recurring source of broken navigation. The `sidebar-synchronization.md` rule was created after multiple incidents of pages added to one sidebar but not others, producing dead links.
 - **Root cause:** Sidebar files were created incrementally as sections were populated. By the time the synchronization rule was established, many sidebars were already out of sync.
-- **Action taken (Forge):** All sidebar files created at project setup. `.claude/rules/sidebar-synchronization.md` established from day one with the canonical section order.
-- **Outcome:** Pending -- all sidebars exist and are synchronized at project start.
-- **Status:** Active
+- **Action taken (Forge):** Initially adopted from Alvarez. Superseded by AD-020 — Docsify replaced by Forge's built-in doc viewer with filesystem-driven navigation. Rule and sidebar files removed.
+- **Outcome:** Resolved — sidebar synchronization no longer applicable. Doc navigation is generated dynamically from the project's `docs/` directory.
+- **Status:** Closed (AD-020)
 
 ---
 

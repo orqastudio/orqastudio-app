@@ -3,104 +3,49 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
+	import FolderIcon from "@lucide/svelte/icons/folder";
+	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { artifactStore } from "$lib/stores/artifact.svelte";
+	import type { DocNode } from "$lib/types";
 
-	interface DocNode {
-		label: string;
-		path?: string;
-		children?: DocNode[];
+	const tree = $derived(artifactStore.docTree);
+	const loading = $derived(artifactStore.docTreeLoading);
+
+	/** Filter out root-level README from the tree (accessible via home icon). */
+	const filteredTree = $derived(tree.filter((node) => node.path !== "README"));
+
+	function humanizeSegment(segment: string): string {
+		return segment
+			.split("-")
+			.map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+			.join(" ");
 	}
 
-	const docTree: DocNode[] = [
-		{
-			label: "Product",
-			children: [
-				{ label: "Vision", path: "product/vision" },
-				{ label: "Governance", path: "product/governance" },
-				{ label: "Personas", path: "product/personas" },
-				{ label: "Journeys", path: "product/journeys" },
-				{ label: "Information Architecture", path: "product/information-architecture" },
-				{ label: "MVP Specification", path: "product/mvp-specification" },
-				{ label: "Glossary", path: "product/glossary" },
-				{ label: "Roadmap", path: "product/roadmap" },
-			],
-		},
-		{
-			label: "Architecture",
-			children: [
-				{ label: "Decisions", path: "architecture/decisions" },
-				{ label: "IPC Commands", path: "architecture/ipc-commands" },
-				{ label: "Rust Modules", path: "architecture/rust-modules" },
-				{ label: "Svelte Components", path: "architecture/svelte-components" },
-				{ label: "Streaming Pipeline", path: "architecture/streaming-pipeline" },
-				{ label: "Tool Definitions", path: "architecture/tool-definitions" },
-				{ label: "MCP Host", path: "architecture/mcp-host" },
-				{ label: "Error Taxonomy", path: "architecture/error-taxonomy" },
-				{ label: "SQLite Schema", path: "architecture/sqlite-schema" },
-				{ label: "Wireframe Serving", path: "architecture/wireframe-serving" },
-			],
-		},
-		{
-			label: "UI",
-			children: [
-				{ label: "Design System", path: "ui/design-system" },
-				{ label: "Brand Identity", path: "ui/brand-identity" },
-				{ label: "Component Inventory", path: "ui/component-inventory" },
-				{ label: "Interaction Patterns", path: "ui/interaction-patterns" },
-				{ label: "Responsive Behavior", path: "ui/responsive-behavior" },
-				{
-					label: "Wireframes",
-					children: [
-						{ label: "Core Layout", path: "ui/wireframes/core-layout" },
-						{ label: "Conversation View", path: "ui/wireframes/conversation-view" },
-						{ label: "Artifact Browser", path: "ui/wireframes/artifact-browser" },
-						{ label: "Dashboard", path: "ui/wireframes/dashboard" },
-						{ label: "Settings & Onboarding", path: "ui/wireframes/settings-onboarding" },
-					],
-				},
-			],
-		},
-		{
-			label: "Development",
-			children: [
-				{ label: "Getting Started", path: "development/getting-started" },
-				{ label: "Coding Standards", path: "development/coding-standards" },
-				{ label: "Lessons", path: "development/lessons" },
-			],
-		},
-		{
-			label: "Process",
-			children: [
-				{ label: "Team", path: "process/team" },
-				{ label: "Orchestration", path: "process/orchestration" },
-				{ label: "Definition of Ready", path: "process/definition-of-ready" },
-				{ label: "Definition of Done", path: "process/definition-of-done" },
-				{ label: "Retrospectives", path: "process/retrospectives" },
-			],
-		},
-		{
-			label: "Research",
-			children: [
-				{ label: "Claude Integration", path: "research/claude-integration" },
-				{ label: "Tauri v2", path: "research/tauri-v2" },
-				{ label: "Frontend", path: "research/frontend" },
-				{ label: "Persistence", path: "research/persistence" },
-			],
-		},
-	];
-
-	function handleDocClick(path: string, label: string) {
-		navigationStore.openArtifact(path, ["Docs", label]);
+	function handleDocClick(path: string) {
+		const parts = path.split("/");
+		const breadcrumbs = parts.map(humanizeSegment);
+		navigationStore.openArtifact(path, breadcrumbs);
 	}
 </script>
 
-<ScrollArea.Root class="h-full">
-	<div class="space-y-0.5 p-2">
-		{#each docTree as section}
-			{@render treeSection(section, 0)}
-		{/each}
+{#if loading}
+	<div class="flex h-full items-center justify-center">
+		<LoadingSpinner />
 	</div>
-</ScrollArea.Root>
+{:else if tree.length === 0}
+	<div class="flex h-full items-center justify-center p-4 text-center text-xs text-muted-foreground">
+		No documentation found.
+	</div>
+{:else}
+	<ScrollArea.Root class="h-full">
+		<div class="space-y-0.5 p-2">
+			{#each filteredTree as node}
+				{@render treeSection(node, 0)}
+			{/each}
+		</div>
+	</ScrollArea.Root>
+{/if}
 
 {#snippet treeSection(node: DocNode, depth: number)}
 	{#if node.children}
@@ -124,7 +69,7 @@
 			class:bg-accent={navigationStore.selectedArtifactPath === node.path}
 			class:text-accent-foreground={navigationStore.selectedArtifactPath === node.path}
 			style="padding-left: {depth * 12 + 8}px"
-			onclick={() => handleDocClick(node.path!, node.label)}
+			onclick={() => handleDocClick(node.path!)}
 		>
 			<FileTextIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 			<span class="truncate">{node.label}</span>

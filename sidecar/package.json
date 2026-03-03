@@ -8,7 +8,8 @@
     "build": "bun build src/index.ts --outfile=dist/sidecar.js --target=node"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0"
+    "@anthropic-ai/claude-agent-sdk": "^0.1.0",
+    "zod": "^3.23.0"
   },
   "devDependencies": {
     "tsx": "^4.0.0",

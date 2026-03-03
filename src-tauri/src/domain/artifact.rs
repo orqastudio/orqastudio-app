@@ -56,6 +56,17 @@ pub struct ArtifactRelationship {
     pub target: String,
 }
 
+/// A node in the documentation tree. Directories have children; markdown files have a path.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DocNode {
+    /// Display name: filename without `.md`, hyphens replaced with spaces, title-cased.
+    pub label: String,
+    /// Relative path from `docs/` without `.md` extension (e.g. `"product/vision"`). `None` for directories.
+    pub path: Option<String>,
+    /// Child nodes for directories. `None` for leaf files.
+    pub children: Option<Vec<DocNode>>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
