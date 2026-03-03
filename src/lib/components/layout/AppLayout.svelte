@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount, onDestroy } from "svelte";
 	import ActivityBar from "./ActivityBar.svelte";
 	import NavSubPanel from "./NavSubPanel.svelte";
 	import Toolbar from "./Toolbar.svelte";
@@ -8,7 +9,17 @@
 	import ArtifactBrowser from "$lib/components/artifact/ArtifactBrowser.svelte";
 	import ArtifactViewer from "$lib/components/artifact/ArtifactViewer.svelte";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
+	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { settingsStore } from "$lib/stores/settings.svelte";
+
+	onMount(() => {
+		settingsStore.initialize();
+	});
+
+	onDestroy(() => {
+		settingsStore.destroy();
+	});
 </script>
 
 <div class="flex h-screen flex-col bg-background text-foreground">
@@ -48,9 +59,7 @@
 
 			<!-- Chat Panel -->
 			<div class="flex min-w-[360px] flex-1 flex-col border-l border-border">
-				<div class="flex flex-1 items-center justify-center text-muted-foreground">
-					<p>Chat panel — will be implemented in Sub-Phase 9</p>
-				</div>
+				<ConversationView />
 			</div>
 		</div>
 	</div>

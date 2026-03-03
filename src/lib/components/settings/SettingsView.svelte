@@ -2,33 +2,66 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import * as Card from "$lib/components/ui/card";
 	import { Badge } from "$lib/components/ui/badge";
+	import { Button } from "$lib/components/ui/button";
 	import { Separator } from "$lib/components/ui/separator";
 	import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
 	import CircleXIcon from "@lucide/svelte/icons/circle-x";
+	import CircleDotIcon from "@lucide/svelte/icons/circle-dot";
+	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
+	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import { projectStore } from "$lib/stores/project.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
+	import { settingsStore, type ThemeMode, type DefaultModel } from "$lib/stores/settings.svelte";
 
 	const project = $derived(projectStore.activeProject);
 
 	const shortcuts: { key: string; action: string }[] = [
-		{ key: "Ctrl+K", action: "Global search" },
-		{ key: "Ctrl+N", action: "New session" },
 		{ key: "Ctrl+B", action: "Toggle Nav Sub-Panel" },
+		{ key: "Ctrl+N", action: "New session" },
+		{ key: "Ctrl+1-5", action: "Switch activity view" },
 		{ key: "Ctrl+,", action: "Open settings" },
-		{ key: "Ctrl+0", action: "Project Dashboard" },
-		{ key: "Ctrl+1-5", action: "Switch artifact category" },
-		{ key: "Ctrl+E", action: "Toggle edit mode" },
-		{ key: "Ctrl+S", action: "Save (in edit mode)" },
-		{ key: "Escape", action: "Close overlay / cancel" },
 	];
 
-	const themeModeOptions: { value: "light" | "dark" | "system"; label: string }[] = [
+	const themeModeOptions: { value: ThemeMode; label: string }[] = [
 		{ value: "system", label: "System (default)" },
 		{ value: "light", label: "Light" },
 		{ value: "dark", label: "Dark" },
 	];
 
-	const fontSizeOptions = [12, 13, 14, 15, 16, 18, 20];
+	const modelOptions: { value: DefaultModel; label: string; description: string }[] = [
+		{ value: "auto", label: "Auto (recommended)", description: "Automatically selects the best model" },
+		{ value: "claude-opus-4-6", label: "Opus", description: "Most capable, slower" },
+		{ value: "claude-sonnet-4-6", label: "Sonnet", description: "Balanced performance" },
+		{ value: "claude-haiku-4-5", label: "Haiku", description: "Fastest responses" },
+	];
+
+	function sidecarStatusColor(state: string): string {
+		switch (state) {
+			case "connected":
+				return "text-green-500";
+			case "starting":
+				return "text-yellow-500";
+			case "error":
+				return "text-red-500";
+			case "stopped":
+			case "not_started":
+			default:
+				return "text-muted-foreground";
+		}
+	}
+
+	function handleThemeChange(e: Event): void {
+		const target = e.target as HTMLSelectElement;
+		settingsStore.setThemeMode(target.value as ThemeMode);
+	}
+
+	function handleModelChange(e: Event): void {
+		const target = e.target as HTMLSelectElement;
+		settingsStore.setDefaultModel(target.value as DefaultModel);
+	}
+
+	function handleRestart(): void {
+		settingsStore.restartSidecar();
+	}
 </script>
 
 <ScrollArea.Root class="h-full">
@@ -41,43 +74,95 @@
 					<Card.Description>Claude Code CLI connection and sidecar status</Card.Description>
 				</Card.Header>
 				<Card.Content class="space-y-4">
-					<div>
-						<label class="text-sm font-medium" for="cli-path">Claude Code CLI Path</label>
-						<div class="mt-1 flex gap-2">
-							<input
-								id="cli-path"
-								class="flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm"
-								value="Not configured"
-								disabled
-							/>
-							<button class="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent/50">
-								Browse
-							</button>
-							<button class="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent/50">
-								Auto-detect
-							</button>
+					<div class="space-y-3">
+						<div class="flex items-center gap-2 text-sm">
+							<span class="w-32 text-muted-foreground">Sidecar Status:</span>
+							<div class="flex items-center gap-1.5">
+								{#if settingsStore.sidecarStatus.state === "connected"}
+									<CircleCheckIcon class="h-4 w-4 text-green-500" />
+								{:else if settingsStore.sidecarStatus.state === "starting"}
+									<LoaderCircleIcon class="h-4 w-4 animate-spin text-yellow-500" />
+								{:else if settingsStore.sidecarStatus.state === "error"}
+									<CircleXIcon class="h-4 w-4 text-red-500" />
+								{:else}
+									<CircleDotIcon class="h-4 w-4 text-muted-foreground" />
+								{/if}
+								<span class={sidecarStatusColor(settingsStore.sidecarStatus.state)}>
+									{settingsStore.sidecarStateLabel}
+								</span>
+							</div>
 						</div>
+
+						{#if settingsStore.sidecarStatus.pid !== null}
+							<div class="flex items-center gap-2 text-sm">
+								<span class="w-32 text-muted-foreground">Process ID:</span>
+								<span>{settingsStore.sidecarStatus.pid}</span>
+							</div>
+						{/if}
+
+						{#if settingsStore.sidecarStatus.uptime_seconds !== null}
+							<div class="flex items-center gap-2 text-sm">
+								<span class="w-32 text-muted-foreground">Uptime:</span>
+								<span>{Math.floor(settingsStore.sidecarStatus.uptime_seconds)}s</span>
+							</div>
+						{/if}
+
+						<div class="flex items-center gap-2 text-sm">
+							<span class="w-32 text-muted-foreground">CLI Detected:</span>
+							{#if settingsStore.sidecarStatus.cli_detected}
+								<div class="flex items-center gap-1.5">
+									<CircleCheckIcon class="h-4 w-4 text-green-500" />
+									<span>{settingsStore.sidecarStatus.cli_version ?? "Unknown version"}</span>
+								</div>
+							{:else}
+								<div class="flex items-center gap-1.5">
+									<CircleXIcon class="h-4 w-4 text-muted-foreground" />
+									<span class="text-muted-foreground">Not found</span>
+								</div>
+							{/if}
+						</div>
+
+						{#if settingsStore.sidecarStatus.error_message}
+							<div class="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-300">
+								{settingsStore.sidecarStatus.error_message}
+							</div>
+						{/if}
 					</div>
 
 					<Separator />
 
-					<div class="space-y-2">
-						<div class="flex items-center gap-2 text-sm">
-							<span class="text-muted-foreground">Sidecar Status:</span>
-							<div class="flex items-center gap-1">
-								<CircleXIcon class="h-4 w-4 text-muted-foreground" />
-								<span class="text-muted-foreground">Not started</span>
-							</div>
-						</div>
-						<div class="flex items-center gap-2 text-sm">
-							<span class="text-muted-foreground">Connection Health:</span>
-							<span class="text-muted-foreground">Not connected</span>
-						</div>
-					</div>
-
-					<button class="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent/50">
+					<Button variant="outline" size="sm" onclick={handleRestart}>
+						<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
 						Restart Sidecar
-					</button>
+					</Button>
+				</Card.Content>
+			</Card.Root>
+		{/if}
+
+		<!-- Model section -->
+		{#if settingsStore.activeSection === "model"}
+			<Card.Root>
+				<Card.Header>
+					<Card.Title>Model</Card.Title>
+					<Card.Description>Select the default Claude model for new sessions</Card.Description>
+				</Card.Header>
+				<Card.Content class="space-y-4">
+					<div>
+						<label class="text-sm font-medium" for="model-select">Default Model</label>
+						<select
+							id="model-select"
+							class="mt-1 flex h-9 w-full max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm"
+							value={settingsStore.defaultModel}
+							onchange={handleModelChange}
+						>
+							{#each modelOptions as option}
+								<option value={option.value}>{option.label}</option>
+							{/each}
+						</select>
+						<p class="mt-1.5 text-xs text-muted-foreground">
+							{modelOptions.find((o) => o.value === settingsStore.defaultModel)?.description ?? ""}
+						</p>
+					</div>
 				</Card.Content>
 			</Card.Root>
 		{/if}
@@ -100,9 +185,6 @@
 									value={project.path}
 									disabled
 								/>
-								<button class="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent/50">
-									Change
-								</button>
 							</div>
 						</div>
 
@@ -118,10 +200,6 @@
 								</p>
 							</div>
 						{/if}
-
-						<button class="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent/50">
-							Rescan Project
-						</button>
 					{:else}
 						<div class="flex items-center gap-2 text-sm text-muted-foreground">
 							<CircleXIcon class="h-4 w-4" />
@@ -137,7 +215,7 @@
 			<Card.Root>
 				<Card.Header>
 					<Card.Title>Appearance</Card.Title>
-					<Card.Description>Theme, font size, and display preferences</Card.Description>
+					<Card.Description>Theme and display preferences</Card.Description>
 				</Card.Header>
 				<Card.Content class="space-y-4">
 					<div>
@@ -146,30 +224,10 @@
 							id="theme-select"
 							class="mt-1 flex h-9 w-full max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm"
 							value={settingsStore.themeMode}
-							onchange={(e: Event) => {
-								const target = e.target as HTMLSelectElement;
-								settingsStore.setThemeMode(target.value as "light" | "dark" | "system");
-							}}
+							onchange={handleThemeChange}
 						>
 							{#each themeModeOptions as option}
 								<option value={option.value}>{option.label}</option>
-							{/each}
-						</select>
-					</div>
-
-					<div>
-						<label class="text-sm font-medium" for="font-size-select">Font Size</label>
-						<select
-							id="font-size-select"
-							class="mt-1 flex h-9 w-full max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm"
-							value={settingsStore.fontSize}
-							onchange={(e: Event) => {
-								const target = e.target as HTMLSelectElement;
-								settingsStore.setFontSize(parseInt(target.value, 10));
-							}}
-						>
-							{#each fontSizeOptions as size}
-								<option value={size}>{size}px</option>
 							{/each}
 						</select>
 					</div>

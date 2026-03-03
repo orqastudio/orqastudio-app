@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import MonitorIcon from "@lucide/svelte/icons/monitor";
+	import BrainIcon from "@lucide/svelte/icons/brain";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import KeyboardIcon from "@lucide/svelte/icons/keyboard";
@@ -20,6 +21,12 @@
 			label: "Provider",
 			icon: MonitorIcon,
 			description: "Sidecar status, CLI path",
+		},
+		{
+			id: "model",
+			label: "Model",
+			icon: BrainIcon,
+			description: "Default Claude model",
 		},
 		{
 			id: "project",
