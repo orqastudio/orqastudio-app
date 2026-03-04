@@ -46,7 +46,7 @@ tmp/
 .claude/plugins/
 .claude/worktrees/
 
-# Skills CLI (source cache — .claude/skills/ is the primary)
+# Skills CLI cache (npx skills add --copy creates these; .claude/skills/ is authoritative)
 .agents/
 .continue/
 skills-lock.json
