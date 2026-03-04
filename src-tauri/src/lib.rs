@@ -101,6 +101,7 @@ pub fn run() {
             commands::search_commands::search_regex,
             commands::search_commands::search_semantic,
             commands::search_commands::get_index_status,
+            commands::search_commands::init_embedder,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

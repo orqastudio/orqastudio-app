@@ -1,5 +1,6 @@
 use tauri::State;
 
+use crate::search::embedder;
 use crate::search::types::{IndexStatus, SearchResult};
 use crate::search::SearchEngine;
 use crate::state::AppState;
@@ -106,4 +107,36 @@ pub async fn get_index_status(
             index_path: db_path.to_string_lossy().to_string(),
         })
     }
+}
+
+/// Initialize the embedding model, downloading from Hugging Face if needed.
+///
+/// This must be called before `search_semantic` can be used.
+/// Progress is logged to stderr during download.
+#[tauri::command]
+pub async fn init_embedder(
+    state: State<'_, AppState>,
+    model_dir: String,
+) -> Result<(), String> {
+    let model_path = std::path::PathBuf::from(&model_dir);
+
+    // Download happens outside the mutex lock since it's async and long-running
+    embedder::ensure_model_exists(&model_path, |file, downloaded, total| {
+        if let Some(total) = total {
+            let pct = (downloaded as f64 / total as f64 * 100.0) as u32;
+            eprintln!("forge: downloading {file}: {pct}% ({downloaded}/{total} bytes)");
+        } else {
+            eprintln!("forge: downloading {file}: {downloaded} bytes");
+        }
+    })
+    .await
+    .map_err(|e| e.to_string())?;
+
+    // Now load the model into the search engine
+    let mut search_guard = state.search.lock().map_err(|e| e.to_string())?;
+    if let Some(engine) = search_guard.as_mut() {
+        engine.init_embedder_sync(&model_path)?;
+    }
+
+    Ok(())
 }

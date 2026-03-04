@@ -50,10 +50,29 @@ impl SearchEngine {
 
     /// Initialize the embedder with a model from the given directory.
     ///
-    /// Expects `model_dir/model.onnx` and `model_dir/tokenizer.json`.
+    /// Downloads model files from Hugging Face if they don't exist locally.
     /// Once initialized, `embed_chunks` and `search_semantic` become available.
-    pub fn init_embedder(&mut self, model_dir: &Path) -> Result<(), String> {
-        embedder::ensure_model_exists(model_dir).map_err(|e| e.to_string())?;
+    pub async fn init_embedder<F>(
+        &mut self,
+        model_dir: &Path,
+        progress_cb: F,
+    ) -> Result<(), String>
+    where
+        F: Fn(&str, u64, Option<u64>),
+    {
+        embedder::ensure_model_exists(model_dir, progress_cb)
+            .await
+            .map_err(|e| e.to_string())?;
+        let emb = Embedder::new(model_dir).map_err(|e| e.to_string())?;
+        self.embedder = Some(emb);
+        Ok(())
+    }
+
+    /// Load the embedder from an already-downloaded model directory.
+    ///
+    /// Does NOT download — call `embedder::ensure_model_exists` first.
+    /// Use this when the download must happen outside the mutex lock.
+    pub fn init_embedder_sync(&mut self, model_dir: &Path) -> Result<(), String> {
         let emb = Embedder::new(model_dir).map_err(|e| e.to_string())?;
         self.embedder = Some(emb);
         Ok(())

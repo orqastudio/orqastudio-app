@@ -1,7 +1,9 @@
 use std::path::Path;
 
+use futures_util::StreamExt;
 use ndarray::Axis;
 use ort::value::TensorRef;
+use tokio::io::AsyncWriteExt;
 
 /// Error type for embedding operations.
 #[derive(Debug, thiserror::Error)]
@@ -14,6 +16,9 @@ pub enum EmbedError {
 
     #[error("model not found: {0}")]
     ModelNotFound(String),
+
+    #[error("download error: {0}")]
+    Download(String),
 }
 
 /// ONNX-based text embedder using bge-small-en-v1.5.
@@ -185,35 +190,108 @@ impl Embedder {
     }
 }
 
-/// Verify that the required model files exist in `model_dir`.
+const HF_BASE_URL: &str = "https://huggingface.co/BAAI/bge-small-en-v1.5/resolve/main";
+
+/// Files needed for the embedder, with their HF paths relative to the repo root.
+const MODEL_FILES: &[(&str, &str)] = &[
+    ("model.onnx", "onnx/model.onnx"),
+    ("tokenizer.json", "tokenizer.json"),
+];
+
+/// Ensure model files exist, downloading from Hugging Face if missing.
 ///
-/// Returns `Ok(())` if both `model.onnx` and `tokenizer.json` exist.
-/// Returns a descriptive error if either file is missing, telling the
-/// user where to download the model.
-pub fn ensure_model_exists(model_dir: &Path) -> Result<(), EmbedError> {
-    let model_path = model_dir.join("model.onnx");
-    let tokenizer_path = model_dir.join("tokenizer.json");
-
-    if model_path.exists() && tokenizer_path.exists() {
-        return Ok(());
-    }
-
+/// Downloads are streamed to a `.part` temp file, then renamed on completion
+/// to avoid partial files from interrupted downloads.
+///
+/// `progress_cb` is called with (file_name, bytes_downloaded, total_bytes)
+/// where total_bytes is `None` if the server didn't send Content-Length.
+pub async fn ensure_model_exists<F>(
+    model_dir: &Path,
+    progress_cb: F,
+) -> Result<(), EmbedError>
+where
+    F: Fn(&str, u64, Option<u64>),
+{
     std::fs::create_dir_all(model_dir)
-        .map_err(|e| EmbedError::Ort(format!("failed to create model dir: {e}")))?;
+        .map_err(|e| EmbedError::Download(format!("failed to create model dir: {e}")))?;
 
-    if !model_path.exists() {
-        return Err(EmbedError::ModelNotFound(format!(
-            "ONNX model not found. Download bge-small-en-v1.5 ONNX model to: {}",
-            model_dir.display()
+    for &(local_name, hf_path) in MODEL_FILES {
+        let local_path = model_dir.join(local_name);
+        if local_path.exists() {
+            continue;
+        }
+
+        let url = format!("{HF_BASE_URL}/{hf_path}");
+        download_file(&url, &local_path, local_name, &progress_cb).await?;
+    }
+
+    Ok(())
+}
+
+/// Download a single file from `url` to `dest`, streaming through a `.part` file.
+async fn download_file<F>(
+    url: &str,
+    dest: &Path,
+    display_name: &str,
+    progress_cb: &F,
+) -> Result<(), EmbedError>
+where
+    F: Fn(&str, u64, Option<u64>),
+{
+    let client = reqwest::Client::new();
+    let response = client
+        .get(url)
+        .send()
+        .await
+        .map_err(|e| EmbedError::Download(
+            format!("HTTP request failed for {display_name}: {e}"),
+        ))?;
+
+    if !response.status().is_success() {
+        return Err(EmbedError::Download(format!(
+            "HTTP {} downloading {display_name} from {url}",
+            response.status()
         )));
     }
 
-    if !tokenizer_path.exists() {
-        return Err(EmbedError::ModelNotFound(format!(
-            "Tokenizer not found. Download tokenizer.json to: {}",
-            model_dir.display()
-        )));
+    let total_size = response.content_length();
+    let part_path = dest.with_extension("part");
+
+    let mut file = tokio::fs::File::create(&part_path)
+        .await
+        .map_err(|e| EmbedError::Download(
+            format!("failed to create {}: {e}", part_path.display()),
+        ))?;
+
+    let mut downloaded: u64 = 0;
+    let mut stream = response.bytes_stream();
+
+    while let Some(chunk_result) = stream.next().await {
+        let chunk = chunk_result.map_err(|e| {
+            EmbedError::Download(
+                format!("download stream error for {display_name}: {e}"),
+            )
+        })?;
+        file.write_all(&chunk).await.map_err(|e| {
+            EmbedError::Download(format!("write error for {display_name}: {e}"))
+        })?;
+        downloaded += chunk.len() as u64;
+        progress_cb(display_name, downloaded, total_size);
     }
+
+    file.flush().await.map_err(|e| {
+        EmbedError::Download(format!("flush error for {display_name}: {e}"))
+    })?;
+    drop(file);
+
+    // Rename .part to final name (atomic on most filesystems)
+    tokio::fs::rename(&part_path, dest).await.map_err(|e| {
+        EmbedError::Download(format!(
+            "failed to rename {} to {}: {e}",
+            part_path.display(),
+            dest.display()
+        ))
+    })?;
 
     Ok(())
 }
