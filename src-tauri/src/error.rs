@@ -39,6 +39,10 @@ pub enum ForgeError {
     #[error("permission denied: {0}")]
     #[serde(rename = "permission_denied")]
     PermissionDenied(String),
+
+    #[error("search error: {0}")]
+    #[serde(rename = "search")]
+    Search(String),
 }
 
 impl From<std::io::Error> for ForgeError {
@@ -162,6 +166,7 @@ mod tests {
             ForgeError::Scan("f".into()),
             ForgeError::Serialization("g".into()),
             ForgeError::PermissionDenied("h".into()),
+            ForgeError::Search("i".into()),
         ];
 
         let expected_codes = [
@@ -173,6 +178,7 @@ mod tests {
             "scan",
             "serialization",
             "permission_denied",
+            "search",
         ];
 
         for (variant, expected_code) in variants.iter().zip(expected_codes.iter()) {

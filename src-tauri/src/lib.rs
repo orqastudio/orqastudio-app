@@ -3,6 +3,7 @@ pub mod db;
 pub mod domain;
 pub mod error;
 pub mod repo;
+pub mod search;
 pub mod sidecar;
 pub mod state;
 
@@ -29,6 +30,7 @@ pub fn run() {
             let app_state = state::AppState {
                 db: std::sync::Mutex::new(conn),
                 sidecar: sidecar::manager::SidecarManager::new(),
+                search: std::sync::Mutex::new(None),
             };
 
             // Auto-start the sidecar so the status bar shows "Connected" immediately
@@ -94,6 +96,10 @@ pub fn run() {
             commands::theme_commands::theme_get_project,
             commands::theme_commands::theme_set_override,
             commands::theme_commands::theme_clear_overrides,
+            // Search commands
+            commands::search_commands::index_codebase,
+            commands::search_commands::search_regex,
+            commands::search_commands::get_index_status,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
