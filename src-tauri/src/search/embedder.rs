@@ -110,8 +110,7 @@ impl Embedder {
             let type_ids = encoding.get_type_ids();
             let row_offset = i * max_len;
 
-            for (j, (&id, (&m, &t))) in
-                ids.iter().zip(mask.iter().zip(type_ids.iter())).enumerate()
+            for (j, (&id, (&m, &t))) in ids.iter().zip(mask.iter().zip(type_ids.iter())).enumerate()
             {
                 input_ids[row_offset + j] = id as i64;
                 attention_mask[row_offset + j] = m as i64;
@@ -205,10 +204,7 @@ const MODEL_FILES: &[(&str, &str)] = &[
 ///
 /// `progress_cb` is called with (file_name, bytes_downloaded, total_bytes)
 /// where total_bytes is `None` if the server didn't send Content-Length.
-pub async fn ensure_model_exists<F>(
-    model_dir: &Path,
-    progress_cb: F,
-) -> Result<(), EmbedError>
+pub async fn ensure_model_exists<F>(model_dir: &Path, progress_cb: F) -> Result<(), EmbedError>
 where
     F: Fn(&str, u64, Option<u64>),
 {
@@ -239,13 +235,9 @@ where
     F: Fn(&str, u64, Option<u64>),
 {
     let client = reqwest::Client::new();
-    let response = client
-        .get(url)
-        .send()
-        .await
-        .map_err(|e| EmbedError::Download(
-            format!("HTTP request failed for {display_name}: {e}"),
-        ))?;
+    let response = client.get(url).send().await.map_err(|e| {
+        EmbedError::Download(format!("HTTP request failed for {display_name}: {e}"))
+    })?;
 
     if !response.status().is_success() {
         return Err(EmbedError::Download(format!(
@@ -257,31 +249,27 @@ where
     let total_size = response.content_length();
     let part_path = dest.with_extension("part");
 
-    let mut file = tokio::fs::File::create(&part_path)
-        .await
-        .map_err(|e| EmbedError::Download(
-            format!("failed to create {}: {e}", part_path.display()),
-        ))?;
+    let mut file = tokio::fs::File::create(&part_path).await.map_err(|e| {
+        EmbedError::Download(format!("failed to create {}: {e}", part_path.display()))
+    })?;
 
     let mut downloaded: u64 = 0;
     let mut stream = response.bytes_stream();
 
     while let Some(chunk_result) = stream.next().await {
         let chunk = chunk_result.map_err(|e| {
-            EmbedError::Download(
-                format!("download stream error for {display_name}: {e}"),
-            )
+            EmbedError::Download(format!("download stream error for {display_name}: {e}"))
         })?;
-        file.write_all(&chunk).await.map_err(|e| {
-            EmbedError::Download(format!("write error for {display_name}: {e}"))
-        })?;
+        file.write_all(&chunk)
+            .await
+            .map_err(|e| EmbedError::Download(format!("write error for {display_name}: {e}")))?;
         downloaded += chunk.len() as u64;
         progress_cb(display_name, downloaded, total_size);
     }
 
-    file.flush().await.map_err(|e| {
-        EmbedError::Download(format!("flush error for {display_name}: {e}"))
-    })?;
+    file.flush()
+        .await
+        .map_err(|e| EmbedError::Download(format!("flush error for {display_name}: {e}")))?;
     drop(file);
 
     // Rename .part to final name (atomic on most filesystems)

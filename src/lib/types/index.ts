@@ -44,3 +44,10 @@ export type {
 export type { StreamEvent } from "./streaming";
 
 export type { ForgeError } from "./errors";
+
+export type {
+	SetupStatus,
+	SetupStepStatus,
+	StepStatus,
+	ClaudeCliInfo,
+} from "./setup";

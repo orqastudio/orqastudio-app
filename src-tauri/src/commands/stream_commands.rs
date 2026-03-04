@@ -198,8 +198,7 @@ pub fn stream_send_message(
         } = response
         {
             eprintln!("[stream] received ToolExecute: id={tool_call_id} tool={tool_name}");
-            let (output, is_error) =
-                execute_tool(tool_name, input, &state);
+            let (output, is_error) = execute_tool(tool_name, input, &state);
 
             let tool_result = SidecarRequest::ToolResult {
                 tool_call_id: tool_call_id.clone(),
@@ -338,10 +337,7 @@ pub fn stream_stop(session_id: i64, state: tauri::State<'_, AppState>) -> Result
 
 /// Resolve the active project's root path for use as working directory.
 fn project_root(state: &tauri::State<'_, AppState>) -> Result<PathBuf, String> {
-    let conn = state
-        .db
-        .lock()
-        .map_err(|e| format!("db lock: {e}"))?;
+    let conn = state.db.lock().map_err(|e| format!("db lock: {e}"))?;
     let project = project_repo::get_active(&conn)
         .map_err(|e| format!("db query: {e}"))?
         .ok_or_else(|| "no active project".to_string())?;
@@ -361,15 +357,10 @@ fn resolve_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
         .canonicalize()
         .unwrap_or_else(|_| candidate.clone());
 
-    let root_canon = root
-        .canonicalize()
-        .unwrap_or_else(|_| root.to_path_buf());
+    let root_canon = root.canonicalize().unwrap_or_else(|_| root.to_path_buf());
 
     if !resolved.starts_with(&root_canon) {
-        return Err(format!(
-            "path '{}' is outside the project root",
-            raw
-        ));
+        return Err(format!("path '{}' is outside the project root", raw));
     }
     Ok(resolved)
 }
@@ -383,9 +374,7 @@ fn resolve_write_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
         root.join(raw)
     };
 
-    let root_canon = root
-        .canonicalize()
-        .unwrap_or_else(|_| root.to_path_buf());
+    let root_canon = root.canonicalize().unwrap_or_else(|_| root.to_path_buf());
 
     // For new files, check that the parent directory is within project root
     if let Some(parent) = candidate.parent() {
@@ -393,10 +382,7 @@ fn resolve_write_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
             .canonicalize()
             .unwrap_or_else(|_| parent.to_path_buf());
         if !parent_resolved.starts_with(&root_canon) {
-            return Err(format!(
-                "path '{}' is outside the project root",
-                raw
-            ));
+            return Err(format!("path '{}' is outside the project root", raw));
         }
     }
     Ok(candidate)
@@ -449,10 +435,7 @@ fn execute_tool(
 }
 
 /// Read a file's contents.
-fn tool_read_file(
-    input: &serde_json::Value,
-    root: &Path,
-) -> (String, bool) {
+fn tool_read_file(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let raw_path = match input["path"].as_str() {
         Some(p) => p,
         None => return ("missing 'path' parameter".to_string(), true),
@@ -470,10 +453,7 @@ fn tool_read_file(
 }
 
 /// Write content to a file, creating parent directories as needed.
-fn tool_write_file(
-    input: &serde_json::Value,
-    root: &Path,
-) -> (String, bool) {
+fn tool_write_file(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let raw_path = match input["path"].as_str() {
         Some(p) => p,
         None => return ("missing 'path' parameter".to_string(), true),
@@ -495,16 +475,16 @@ fn tool_write_file(
     }
 
     match std::fs::write(&path, content) {
-        Ok(()) => (format!("wrote {} bytes to '{}'", content.len(), path.display()), false),
+        Ok(()) => (
+            format!("wrote {} bytes to '{}'", content.len(), path.display()),
+            false,
+        ),
         Err(e) => (format!("failed to write '{}': {e}", path.display()), true),
     }
 }
 
 /// Edit a file by replacing old_string with new_string.
-fn tool_edit_file(
-    input: &serde_json::Value,
-    root: &Path,
-) -> (String, bool) {
+fn tool_edit_file(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let raw_path = match input["path"].as_str() {
         Some(p) => p,
         None => return ("missing 'path' parameter".to_string(), true),
@@ -556,10 +536,7 @@ fn tool_edit_file(
 }
 
 /// Execute a bash command in the project root.
-fn tool_bash(
-    input: &serde_json::Value,
-    root: &Path,
-) -> (String, bool) {
+fn tool_bash(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let command = match input["command"].as_str() {
         Some(c) => c,
         None => return ("missing 'command' parameter".to_string(), true),
@@ -598,10 +575,7 @@ fn tool_bash(
 }
 
 /// Find files matching a glob pattern.
-fn tool_glob(
-    input: &serde_json::Value,
-    root: &Path,
-) -> (String, bool) {
+fn tool_glob(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let pattern = match input["pattern"].as_str() {
         Some(p) => p,
         None => return ("missing 'pattern' parameter".to_string(), true),
@@ -644,10 +618,7 @@ fn tool_glob(
 }
 
 /// Search file contents with a regex pattern.
-fn tool_grep(
-    input: &serde_json::Value,
-    root: &Path,
-) -> (String, bool) {
+fn tool_grep(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let pattern = match input["pattern"].as_str() {
         Some(p) => p,
         None => return ("missing 'pattern' parameter".to_string(), true),
@@ -687,7 +658,10 @@ fn tool_grep(
         if lines.len() > 200 {
             let truncated: String = lines[..200].join("\n");
             (
-                format!("{truncated}\n\n... ({} total matches, showing first 200)", lines.len()),
+                format!(
+                    "{truncated}\n\n... ({} total matches, showing first 200)",
+                    lines.len()
+                ),
                 false,
             )
         } else {

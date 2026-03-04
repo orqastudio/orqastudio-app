@@ -15,9 +15,9 @@ const MAX_FILE_SIZE: u64 = 1_048_576;
 
 /// File extensions to skip (binary and non-text files).
 const BINARY_EXTENSIONS: &[&str] = &[
-    "png", "jpg", "jpeg", "gif", "bmp", "ico", "svg", "woff", "woff2", "ttf", "eot", "otf",
-    "mp3", "mp4", "avi", "mov", "zip", "tar", "gz", "rar", "7z", "exe", "dll", "so", "dylib",
-    "wasm", "pdf", "lock",
+    "png", "jpg", "jpeg", "gif", "bmp", "ico", "svg", "woff", "woff2", "ttf", "eot", "otf", "mp3",
+    "mp4", "avi", "mov", "zip", "tar", "gz", "rar", "7z", "exe", "dll", "so", "dylib", "wasm",
+    "pdf", "lock",
 ];
 
 /// Error type for chunking operations.
@@ -34,7 +34,10 @@ pub enum ChunkError {
 /// every eligible text file into chunks of approximately `TARGET_CHUNK_LINES` lines.
 ///
 /// `excluded_paths` contains path prefixes (relative to root) that should be skipped.
-pub fn chunk_codebase(root: &Path, excluded_paths: &[String]) -> Result<Vec<ChunkInfo>, ChunkError> {
+pub fn chunk_codebase(
+    root: &Path,
+    excluded_paths: &[String],
+) -> Result<Vec<ChunkInfo>, ChunkError> {
     let mut chunks = Vec::new();
 
     let walker = WalkBuilder::new(root)
@@ -155,8 +158,8 @@ fn split_into_chunks(content: &str, file_path: &str, language: Option<&str>) -> 
 
         chunks.push(ChunkInfo {
             file_path: file_path.to_string(),
-            start_line: (start + 1) as u32,     // 1-indexed
-            end_line: end as u32,                 // inclusive of last line
+            start_line: (start + 1) as u32, // 1-indexed
+            end_line: end as u32,           // inclusive of last line
             content: chunk_content,
             language: language.map(String::from),
         });
@@ -215,11 +218,7 @@ mod tests {
         for (filename, expected) in cases {
             let path = Path::new(filename);
             let result = detect_language(path);
-            assert_eq!(
-                result.as_deref(),
-                expected,
-                "detect_language({filename})"
-            );
+            assert_eq!(result.as_deref(), expected, "detect_language({filename})");
         }
     }
 
@@ -247,7 +246,11 @@ mod tests {
         let lines: Vec<String> = (1..=120).map(|i| format!("line {i}")).collect();
         let content = lines.join("\n");
         let chunks = split_into_chunks(&content, "big.rs", Some("rust"));
-        assert!(chunks.len() >= 2, "expected at least 2 chunks, got {}", chunks.len());
+        assert!(
+            chunks.len() >= 2,
+            "expected at least 2 chunks, got {}",
+            chunks.len()
+        );
         // Verify no gaps — each chunk starts where the previous ended
         for pair in chunks.windows(2) {
             assert_eq!(pair[0].end_line + 1, pair[1].start_line);

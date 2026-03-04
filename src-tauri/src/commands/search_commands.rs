@@ -115,10 +115,7 @@ pub async fn get_index_status(
 /// This must be called before `search_semantic` can be used.
 /// Progress is logged to stderr during download.
 #[tauri::command]
-pub async fn init_embedder(
-    state: State<'_, AppState>,
-    model_dir: String,
-) -> Result<(), String> {
+pub async fn init_embedder(state: State<'_, AppState>, model_dir: String) -> Result<(), String> {
     let model_path = std::path::PathBuf::from(&model_dir);
 
     // Download happens outside the mutex lock since it's async and long-running
@@ -147,8 +144,6 @@ pub async fn init_embedder(
 /// Returns a snapshot of every registered startup task with its current
 /// status and optional detail string (e.g. download percentage).
 #[tauri::command]
-pub async fn get_startup_status(
-    state: State<'_, AppState>,
-) -> Result<StartupSnapshot, String> {
+pub async fn get_startup_status(state: State<'_, AppState>) -> Result<StartupSnapshot, String> {
     Ok(state.startup.snapshot())
 }

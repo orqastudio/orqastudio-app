@@ -45,7 +45,11 @@ pub fn run() {
             };
 
             // Auto-start the sidecar
-            tracker.update("sidecar", TaskStatus::InProgress, Some("Starting...".into()));
+            tracker.update(
+                "sidecar",
+                TaskStatus::InProgress,
+                Some("Starting...".into()),
+            );
             match commands::sidecar_commands::ensure_sidecar_running(&app_state) {
                 Ok(()) => tracker.update("sidecar", TaskStatus::Done, None),
                 Err(e) => {
@@ -158,6 +162,12 @@ pub fn run() {
             commands::search_commands::init_embedder,
             // Startup commands
             commands::search_commands::get_startup_status,
+            // Setup commands
+            commands::setup_commands::get_setup_status,
+            commands::setup_commands::check_claude_cli,
+            commands::setup_commands::check_claude_auth,
+            commands::setup_commands::check_embedding_model,
+            commands::setup_commands::complete_setup,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

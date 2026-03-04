@@ -11,11 +11,13 @@
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
 	import ProjectSetupWizard from "$lib/components/settings/ProjectSetupWizard.svelte";
+	import SetupWizard from "$lib/components/setup/SetupWizard.svelte";
 	import setupBackground from "$lib/assets/setup-background.png";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
+	import { setupStore } from "$lib/stores/setup.svelte";
 
 	const hasProject = $derived(projectStore.hasProject);
 	const isConfiguring = $derived(navigationStore.activeActivity === "configure");
@@ -23,10 +25,14 @@
 	const hideChatPanel = $derived(
 		navigationStore.activeActivity === "settings" || navigationStore.activeActivity === "project",
 	);
+	const setupNeeded = $derived(!setupStore.setupComplete);
 
-	onMount(() => {
+	onMount(async () => {
 		settingsStore.initialize();
-		projectStore.loadActiveProject();
+		await setupStore.checkSetupStatus();
+		if (setupStore.setupComplete) {
+			projectStore.loadActiveProject();
+		}
 	});
 
 	onDestroy(() => {
@@ -90,7 +96,14 @@
 
 	<!-- Main Content Area -->
 	<div class="flex flex-1 overflow-hidden">
-		{#if isConfiguring}
+		{#if setupNeeded}
+			<!-- First-run setup wizard — blocks all other content -->
+			<SetupWizard
+				onComplete={() => {
+					projectStore.loadActiveProject();
+				}}
+			/>
+		{:else if isConfiguring}
 			<!-- Forge Configuration — no activity bar, nav panel for config categories -->
 			{#if navigationStore.showNavPanel}
 				<NavSubPanel />

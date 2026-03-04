@@ -105,12 +105,7 @@ fn walk_for_languages(
         };
 
         if file_type.is_dir() {
-            walk_for_languages(
-                &entry.path(),
-                excluded,
-                depth + 1,
-                languages,
-            );
+            walk_for_languages(&entry.path(), excluded, depth + 1, languages);
         } else if file_type.is_file() {
             detect_language_from_name(&name, languages);
         }
@@ -236,10 +231,7 @@ fn count_md_recursive_inner(dir: &Path, depth: usize) -> u32 {
                 count = count.saturating_add(1);
             }
         } else if ft.is_dir() {
-            count = count.saturating_add(count_md_recursive_inner(
-                &entry.path(),
-                depth + 1,
-            ));
+            count = count.saturating_add(count_md_recursive_inner(&entry.path(), depth + 1));
         }
     }
     count
@@ -338,18 +330,14 @@ mod tests {
 
         // Create a .rs file in src/
         fs::create_dir_all(dir.join("src")).expect("mkdir");
-        fs::write(dir.join("src").join("main.rs"), "fn main() {}")
-            .expect("write");
+        fs::write(dir.join("src").join("main.rs"), "fn main() {}").expect("write");
 
         let dir_str = dir.to_str().expect("path");
         let result = scan_project(dir_str, &[]).expect("scan");
 
         assert!(result.stack.languages.contains(&"rust".to_string()));
         assert!(result.stack.frameworks.contains(&"cargo".to_string()));
-        assert_eq!(
-            result.stack.package_manager,
-            Some("cargo".to_string())
-        );
+        assert_eq!(result.stack.package_manager, Some("cargo".to_string()));
 
         cleanup(&dir);
     }
@@ -362,28 +350,18 @@ mod tests {
         let docs_dir = dir.join("docs");
         fs::create_dir_all(docs_dir.join("sub")).expect("mkdir");
         fs::write(docs_dir.join("readme.md"), "# Docs").expect("write");
-        fs::write(docs_dir.join("sub").join("page.md"), "# Page")
-            .expect("write");
+        fs::write(docs_dir.join("sub").join("page.md"), "# Page").expect("write");
 
         // Create .claude/ structure
         let claude_dir = dir.join(".claude");
         fs::create_dir_all(claude_dir.join("agents")).expect("mkdir");
         fs::create_dir_all(claude_dir.join("rules")).expect("mkdir");
-        fs::create_dir_all(claude_dir.join("skills").join("chunkhound"))
-            .expect("mkdir");
+        fs::create_dir_all(claude_dir.join("skills").join("chunkhound")).expect("mkdir");
         fs::create_dir_all(claude_dir.join("hooks")).expect("mkdir");
 
         fs::write(claude_dir.join("CLAUDE.md"), "# Config").expect("write");
-        fs::write(
-            claude_dir.join("agents").join("backend.md"),
-            "# Agent",
-        )
-        .expect("write");
-        fs::write(
-            claude_dir.join("rules").join("no-stubs.md"),
-            "# Rule",
-        )
-        .expect("write");
+        fs::write(claude_dir.join("agents").join("backend.md"), "# Agent").expect("write");
+        fs::write(claude_dir.join("rules").join("no-stubs.md"), "# Rule").expect("write");
         fs::write(
             claude_dir.join("hooks").join("pre-commit.sh"),
             "#!/bin/bash",

@@ -6,3 +6,4 @@ pub mod project_settings;
 pub mod provider_event;
 pub mod session;
 pub mod settings;
+pub mod setup;

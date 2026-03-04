@@ -33,14 +33,9 @@ impl SearchEngine {
     /// Index a codebase rooted at `root`, storing chunks in DuckDB.
     ///
     /// This clears any existing index before re-indexing.
-    pub fn index(
-        &mut self,
-        root: &Path,
-        excluded_paths: &[String],
-    ) -> Result<IndexStatus, String> {
+    pub fn index(&mut self, root: &Path, excluded_paths: &[String]) -> Result<IndexStatus, String> {
         self.project_root = Some(root.to_path_buf());
-        let chunks =
-            chunker::chunk_codebase(root, excluded_paths).map_err(|e| e.to_string())?;
+        let chunks = chunker::chunk_codebase(root, excluded_paths).map_err(|e| e.to_string())?;
         self.store.clear().map_err(|e| e.to_string())?;
         self.store
             .insert_chunks(&chunks)
@@ -52,11 +47,7 @@ impl SearchEngine {
     ///
     /// Downloads model files from Hugging Face if they don't exist locally.
     /// Once initialized, `embed_chunks` and `search_semantic` become available.
-    pub async fn init_embedder<F>(
-        &mut self,
-        model_dir: &Path,
-        progress_cb: F,
-    ) -> Result<(), String>
+    pub async fn init_embedder<F>(&mut self, model_dir: &Path, progress_cb: F) -> Result<(), String>
     where
         F: Fn(&str, u64, Option<u64>),
     {

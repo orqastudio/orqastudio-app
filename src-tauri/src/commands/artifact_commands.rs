@@ -239,10 +239,7 @@ pub fn doc_read(rel_path: String, state: State<'_, AppState>) -> Result<Artifact
         .join(format!("{}.md", rel_path));
 
     if !docs_path.exists() {
-        return Err(ForgeError::NotFound(format!(
-            "doc not found: {}",
-            rel_path
-        )));
+        return Err(ForgeError::NotFound(format!("doc not found: {}", rel_path)));
     }
 
     let content = std::fs::read_to_string(&docs_path)?;
@@ -527,7 +524,11 @@ fn humanize_name(filename: &str) -> String {
         .or_else(|| filename.strip_suffix(".sh"))
         .unwrap_or(filename);
     // Preserve all-caps names like README, CHANGELOG, TODO
-    if stem.chars().all(|c| c.is_ascii_uppercase() || c == '-' || c == '_') && stem.chars().any(|c| c.is_ascii_uppercase()) {
+    if stem
+        .chars()
+        .all(|c| c.is_ascii_uppercase() || c == '-' || c == '_')
+        && stem.chars().any(|c| c.is_ascii_uppercase())
+    {
         return stem.to_string();
     }
     stem.split('-')

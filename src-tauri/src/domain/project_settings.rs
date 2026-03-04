@@ -52,9 +52,7 @@ fn default_excluded_paths() -> Vec<String> {
 /// Returns `Ok(None)` if the file does not exist.
 /// Returns `Err(ForgeError::Serialization(...))` if JSON is malformed.
 pub fn read_settings(project_path: &str) -> Result<Option<ProjectSettings>, ForgeError> {
-    let settings_file = Path::new(project_path)
-        .join(".forge")
-        .join("project.json");
+    let settings_file = Path::new(project_path).join(".forge").join("project.json");
 
     if !settings_file.exists() {
         return Ok(None);
@@ -68,10 +66,7 @@ pub fn read_settings(project_path: &str) -> Result<Option<ProjectSettings>, Forg
 /// Write project settings to `{project_path}/.forge/project.json`.
 ///
 /// Creates the `.forge/` directory if it does not exist.
-pub fn write_settings(
-    project_path: &str,
-    settings: &ProjectSettings,
-) -> Result<(), ForgeError> {
+pub fn write_settings(project_path: &str, settings: &ProjectSettings) -> Result<(), ForgeError> {
     let forge_dir = Path::new(project_path).join(".forge");
     std::fs::create_dir_all(&forge_dir)?;
 
@@ -113,10 +108,9 @@ mod tests {
     #[test]
     fn roundtrip_serialization() {
         let settings = sample_settings();
-        let json = serde_json::to_string_pretty(&settings)
-            .expect("serialization should succeed");
-        let deserialized: ProjectSettings = serde_json::from_str(&json)
-            .expect("deserialization should succeed");
+        let json = serde_json::to_string_pretty(&settings).expect("serialization should succeed");
+        let deserialized: ProjectSettings =
+            serde_json::from_str(&json).expect("deserialization should succeed");
 
         assert_eq!(deserialized.name, settings.name);
         assert_eq!(deserialized.description, settings.description);
@@ -170,8 +164,7 @@ mod tests {
         std::fs::create_dir_all(&forge_dir).expect("create dirs");
 
         let settings_file = forge_dir.join("project.json");
-        std::fs::write(&settings_file, "{ invalid json }")
-            .expect("write bad json");
+        std::fs::write(&settings_file, "{ invalid json }").expect("write bad json");
 
         let tmp_str = tmp.to_str().expect("temp path as str");
         let result = read_settings(tmp_str);
@@ -186,8 +179,8 @@ mod tests {
     #[test]
     fn serde_defaults_applied_for_missing_fields() {
         let json = r#"{"name": "minimal"}"#;
-        let settings: ProjectSettings = serde_json::from_str(json)
-            .expect("deserialization should succeed");
+        let settings: ProjectSettings =
+            serde_json::from_str(json).expect("deserialization should succeed");
 
         assert_eq!(settings.name, "minimal");
         assert!(settings.description.is_none());

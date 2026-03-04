@@ -9,9 +9,7 @@ use crate::error::ForgeError;
 ///
 /// Returns `None` if the settings file does not exist yet.
 #[tauri::command]
-pub fn project_settings_read(
-    path: String,
-) -> Result<Option<ProjectSettings>, ForgeError> {
+pub fn project_settings_read(path: String) -> Result<Option<ProjectSettings>, ForgeError> {
     project_settings::read_settings(&path)
 }
 
@@ -87,9 +85,7 @@ pub fn project_icon_read(
     project_path: String,
     icon_filename: String,
 ) -> Result<String, ForgeError> {
-    let icon_path = Path::new(&project_path)
-        .join(".forge")
-        .join(&icon_filename);
+    let icon_path = Path::new(&project_path).join(".forge").join(&icon_filename);
 
     if !icon_path.exists() {
         return Err(ForgeError::NotFound(format!(

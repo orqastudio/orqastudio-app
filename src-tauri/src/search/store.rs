@@ -158,7 +158,11 @@ impl SearchStore {
         }
 
         // Sort by score descending
-        results.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap_or(std::cmp::Ordering::Equal));
+        results.sort_by(|a, b| {
+            b.score
+                .partial_cmp(&a.score)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
 
         Ok(results)
     }
@@ -214,9 +218,9 @@ impl SearchStore {
 
     /// Get chunks that do not have embeddings yet, returning their IDs and content.
     pub fn get_unembedded_chunks(&self) -> Result<Vec<(i32, String)>, StoreError> {
-        let mut stmt = self.conn.prepare(
-            "SELECT id, content FROM chunks WHERE embedding IS NULL ORDER BY id",
-        )?;
+        let mut stmt = self
+            .conn
+            .prepare("SELECT id, content FROM chunks WHERE embedding IS NULL ORDER BY id")?;
         let rows = stmt.query_map([], |row| {
             Ok((row.get::<_, i32>(0)?, row.get::<_, String>(1)?))
         })?;
@@ -250,22 +254,19 @@ impl SearchStore {
             let language: Option<String> = row.get(5)?;
             let embedding_bytes: Vec<u8> = row.get(6)?;
             let embedding = bytes_to_floats(&embedding_bytes);
-            Ok((id, file_path, start_line, end_line, content, language, embedding))
+            Ok((
+                id, file_path, start_line, end_line, content, language, embedding,
+            ))
         })?;
 
         let mut scored: Vec<(f64, SearchResult)> = Vec::new();
 
         for row_result in rows {
-            let (_id, file_path, start_line, end_line, content, language, embedding) =
-                row_result?;
+            let (_id, file_path, start_line, end_line, content, language, embedding) = row_result?;
 
             let score = cosine_similarity(query_embedding, &embedding);
 
-            let match_context = content
-                .lines()
-                .take(3)
-                .collect::<Vec<_>>()
-                .join("\n");
+            let match_context = content.lines().take(3).collect::<Vec<_>>().join("\n");
 
             scored.push((
                 score,
