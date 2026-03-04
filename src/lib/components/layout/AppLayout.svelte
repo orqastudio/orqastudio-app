@@ -6,7 +6,7 @@
 	import StatusBar from "./StatusBar.svelte";
 	import WelcomeScreen from "./WelcomeScreen.svelte";
 	import ProjectDashboard from "$lib/components/dashboard/ProjectDashboard.svelte";
-	import ArtifactBrowser from "$lib/components/artifact/ArtifactBrowser.svelte";
+	import ArtifactLanding from "$lib/components/artifact/ArtifactLanding.svelte";
 	import ArtifactViewer from "$lib/components/artifact/ArtifactViewer.svelte";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
@@ -20,6 +20,9 @@
 	const hasProject = $derived(projectStore.hasProject);
 	const isConfiguring = $derived(navigationStore.activeActivity === "configure");
 	const needsSetup = $derived(projectStore.settingsLoaded && !projectStore.hasSettings);
+	const hideChatPanel = $derived(
+		navigationStore.activeActivity === "settings" || navigationStore.activeActivity === "project",
+	);
 
 	onMount(() => {
 		settingsStore.initialize();
@@ -37,6 +40,7 @@
 		}
 	});
 
+
 	// Load doc tree when switching to docs activity (and project is loaded)
 	$effect(() => {
 		if (
@@ -49,11 +53,33 @@
 		}
 	});
 
-	// Auto-load doc content when the selected artifact path changes
+	// Activity-to-artifact-type mapping
+	const activityToArtifactType: Record<string, string> = {
+		agents: "agent",
+		rules: "rule",
+		skills: "skill",
+		hooks: "hook",
+	};
+
+	// Load governance artifacts when switching to agents/rules/skills/hooks activity
+	$effect(() => {
+		const activity = navigationStore.activeActivity;
+		const artifactType = activityToArtifactType[activity];
+		if (hasProject && !needsSetup && artifactType) {
+			artifactStore.loadGovernanceList(artifactType);
+		}
+	});
+
+	// Auto-load artifact content when the selected artifact path changes
 	$effect(() => {
 		const path = navigationStore.selectedArtifactPath;
-		if (path && navigationStore.activeActivity === "docs") {
+		const activity = navigationStore.activeActivity;
+		if (!path) return;
+
+		if (activity === "docs") {
 			artifactStore.loadDoc(path);
+		} else if (activityToArtifactType[activity]) {
+			artifactStore.loadGovernanceArtifact(path);
 		}
 	});
 </script>
@@ -100,7 +126,7 @@
 			<!-- Explorer + Chat panels -->
 			<div class="flex flex-1 overflow-hidden">
 				<!-- Explorer Panel -->
-				<div class="flex-1 overflow-hidden border-r border-border">
+				<div class="min-w-0 flex-[7] overflow-hidden" class:border-r={!hideChatPanel} class:border-border={!hideChatPanel}>
 					{#if navigationStore.activeActivity === "project"}
 						<ProjectDashboard />
 					{:else if navigationStore.activeActivity === "settings"}
@@ -111,17 +137,19 @@
 						{#if navigationStore.explorerView === "artifact-viewer"}
 							<ArtifactViewer />
 						{:else}
-							<ArtifactBrowser category={navigationStore.activeActivity} />
+							<ArtifactLanding category={navigationStore.activeActivity} />
 						{/if}
 					{:else}
 						<WelcomeScreen />
 					{/if}
 				</div>
 
-				<!-- Chat Panel -->
-				<div class="flex min-w-[360px] flex-1 flex-col border-l border-border">
-					<ConversationView />
-				</div>
+				<!-- Chat Panel (hidden on settings and dashboard) -->
+				{#if !hideChatPanel}
+					<div class="flex min-w-[320px] flex-[3] flex-col border-l border-border">
+						<ConversationView />
+					</div>
+				{/if}
 			</div>
 		{:else}
 			<!-- No project loaded — welcome screen, no sidebar -->

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { SessionSummary, SessionStatus } from "$lib/types";
-	import SearchIcon from "@lucide/svelte/icons/search";
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import Trash2Icon from "@lucide/svelte/icons/trash-2";
 	import MessageSquareIcon from "@lucide/svelte/icons/message-square";
@@ -10,10 +9,10 @@
 		PopoverTrigger,
 	} from "$lib/components/ui/popover";
 	import { Button } from "$lib/components/ui/button";
-	import { Input } from "$lib/components/ui/input";
 	import { Badge } from "$lib/components/ui/badge";
 	import { Separator } from "$lib/components/ui/separator";
 	import { ScrollArea } from "$lib/components/ui/scroll-area";
+	import SearchInput from "$lib/components/shared/SearchInput.svelte";
 
 	let {
 		sessions,
@@ -135,14 +134,7 @@
 
 		<!-- Search -->
 		<div class="px-3 pb-2">
-			<div class="relative">
-				<SearchIcon class="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-				<Input
-					bind:value={searchQuery}
-					placeholder="Search sessions..."
-					class="h-8 pl-8 text-xs"
-				/>
-			</div>
+			<SearchInput bind:value={searchQuery} placeholder="Search sessions..." size="sm" />
 		</div>
 
 		<Separator />

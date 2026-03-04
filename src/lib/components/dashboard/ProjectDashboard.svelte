@@ -3,7 +3,7 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import UsersIcon from "@lucide/svelte/icons/users";
+	import BotIcon from "@lucide/svelte/icons/bot";
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import ZapIcon from "@lucide/svelte/icons/zap";
 	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
@@ -14,6 +14,9 @@
 	import type { Component } from "svelte";
 
 	const project = $derived(projectStore.activeProject);
+	const projectName = $derived(
+		projectStore.projectSettings?.name ?? project?.name ?? "",
+	);
 
 	interface ArtifactCategory {
 		icon: Component;
@@ -23,7 +26,7 @@
 
 	const artifactCategories: ArtifactCategory[] = [
 		{ icon: FileTextIcon, label: "Docs", activity: "docs" },
-		{ icon: UsersIcon, label: "Agents", activity: "agents" },
+		{ icon: BotIcon, label: "Agents", activity: "agents" },
 		{ icon: ShieldIcon, label: "Rules", activity: "rules" },
 		{ icon: ZapIcon, label: "Skills", activity: "skills" },
 		{ icon: GitBranchIcon, label: "Hooks", activity: "hooks" },
@@ -47,10 +50,18 @@
 			<!-- Project header -->
 			<div class="mb-6">
 				<div class="flex items-center gap-3">
-					<FolderOpenIcon class="h-8 w-8 text-muted-foreground" />
+					{#if projectStore.iconDataUrl}
+						<img src={projectStore.iconDataUrl} alt={projectName} class="h-12 w-12 rounded object-contain" />
+					{:else}
+						<FolderOpenIcon class="h-12 w-12 text-muted-foreground" />
+					{/if}
 					<div>
-						<h1 class="text-2xl font-bold">{project.name}</h1>
-						<p class="text-sm text-muted-foreground">{project.path}</p>
+						<h1 class="text-2xl font-bold">{projectName}</h1>
+						{#if projectStore.projectSettings?.description}
+							<p class="text-sm text-muted-foreground">{projectStore.projectSettings.description}</p>
+						{:else}
+							<p class="text-sm text-muted-foreground">{project.path}</p>
+						{/if}
 					</div>
 				</div>
 			</div>
@@ -113,19 +124,6 @@
 				</Card.Content>
 			</Card.Root>
 
-			<!-- Quick actions -->
-			<Card.Root>
-				<Card.Header class="pb-3">
-					<Card.Title class="text-base">Quick Actions</Card.Title>
-				</Card.Header>
-				<Card.Content>
-					<div class="flex flex-wrap gap-2">
-						<button class="rounded-md border border-border px-3 py-1.5 text-sm hover:bg-accent/50">
-							Rescan Project
-						</button>
-					</div>
-				</Card.Content>
-			</Card.Root>
 		{/if}
 	</div>
 </ScrollArea.Root>

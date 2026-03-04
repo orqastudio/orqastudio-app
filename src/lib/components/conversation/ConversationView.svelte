@@ -70,6 +70,11 @@
 			}
 		}
 
+		// Auto-create a session if none was restored
+		if (!sessionStore.hasActiveSession) {
+			await sessionStore.createSession(project.id);
+		}
+
 		initialized = true;
 	}
 

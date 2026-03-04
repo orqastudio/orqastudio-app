@@ -1,6 +1,6 @@
 {
   "name": "Dogfood",
-  "description": null,
+  "description": "Development environment for Forge. Desktop app for managed agentic development. Claude Code's capabilities with a visual process layer.",
   "default_model": "auto",
   "excluded_paths": [
     "node_modules",
@@ -32,5 +32,6 @@
     "skills": 9,
     "hooks": 3,
     "has_claude_config": true
-  }
+  },
+  "icon": "icon.svg"
 }

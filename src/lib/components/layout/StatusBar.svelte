@@ -17,25 +17,25 @@
 		}
 	});
 
-	const projectName = $derived(projectStore.activeProject?.name ?? "No project");
+	const projectPath = $derived(projectStore.activeProject?.path ?? "No project");
 </script>
 
 <div
-	class="flex h-6 items-center border-t border-border bg-muted/30 px-4 text-xs text-muted-foreground"
+	class="flex h-8 items-center border-t border-border bg-muted/30 px-4 pb-1 text-xs text-muted-foreground"
 >
-	<!-- Left: Sidecar connection status -->
-	<div class="flex items-center gap-1.5">
-		<span class="inline-block h-2 w-2 rounded-full {statusColor}"></span>
-		<span>{settingsStore.sidecarStateLabel}</span>
-	</div>
-
-	<!-- Center: Active model -->
-	<div class="flex flex-1 items-center justify-center">
+	<!-- Left: Active model -->
+	<div class="flex items-center">
 		<span>Model: {settingsStore.modelDisplayName}</span>
 	</div>
 
-	<!-- Right: Active project name -->
-	<div class="flex items-center">
-		<span>{projectName}</span>
+	<!-- Center: Project path -->
+	<div class="flex min-w-0 flex-1 items-center justify-center">
+		<span class="truncate">{projectPath}</span>
+	</div>
+
+	<!-- Right: Sidecar connection status -->
+	<div class="flex items-center gap-1.5">
+		<span>{settingsStore.sidecarStateLabel}</span>
+		<span class="inline-block h-2 w-2 rounded-full {statusColor}"></span>
 	</div>
 </div>

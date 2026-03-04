@@ -1,19 +1,23 @@
 <script lang="ts">
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import { Input } from "$lib/components/ui/input";
-	import { Badge } from "$lib/components/ui/badge";
-	import UsersIcon from "@lucide/svelte/icons/users";
+	import BotIcon from "@lucide/svelte/icons/bot";
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import ZapIcon from "@lucide/svelte/icons/zap";
 	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
-	import SearchIcon from "@lucide/svelte/icons/search";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
+	import SearchInput from "$lib/components/shared/SearchInput.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { navigationStore, type ActivityView } from "$lib/stores/navigation.svelte";
-	import type { ArtifactType, ComplianceStatus } from "$lib/types";
+	import type { ArtifactType } from "$lib/types";
 	import type { Component } from "svelte";
 
 	let { category }: { category: ActivityView } = $props();
+
+	let localFilter = $state(artifactStore.filterText);
+
+	$effect(() => {
+		artifactStore.setFilter(localFilter);
+	});
 
 	const categoryConfig: Record<
 		string,
@@ -26,7 +30,7 @@
 		}
 	> = {
 		agents: {
-			icon: UsersIcon,
+			icon: BotIcon,
 			label: "Agents",
 			artifactType: "agent",
 			emptyTitle: "No agents yet",
@@ -62,37 +66,23 @@
 	const config = $derived(categoryConfig[category]);
 	const items = $derived(config ? artifactStore.artifactsByType(config.artifactType) : []);
 
-	const complianceVariant: Record<ComplianceStatus, "default" | "secondary" | "destructive" | "outline"> = {
-		compliant: "default",
-		non_compliant: "destructive",
-		unknown: "secondary",
-		error: "destructive",
-	};
-
 	function handleItemClick(name: string, path: string) {
 		if (!config) return;
-		navigationStore.openArtifact(path, [config.label, name]);
+		navigationStore.openArtifact(path, [name]);
 	}
 </script>
 
 {#if config}
 	<div class="flex h-full flex-col">
 		<div class="border-b border-border p-2">
-			<div class="relative">
-				<SearchIcon class="absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
-				<Input
-					class="h-7 pl-7 text-xs"
-					placeholder="Filter {config.label.toLowerCase()}..."
-					value={artifactStore.filterText}
-					oninput={(e: Event) => {
-						const target = e.target as HTMLInputElement;
-						artifactStore.setFilter(target.value);
-					}}
-				/>
-			</div>
+			<SearchInput
+				bind:value={localFilter}
+				placeholder="Filter {config.label.toLowerCase()}..."
+				size="xs"
+			/>
 		</div>
 
-		<ScrollArea.Root class="flex-1">
+		<ScrollArea.Root class="min-h-0 flex-1">
 			<div class="p-1">
 				{#if items.length === 0}
 					<div class="px-2 py-8">
@@ -109,12 +99,7 @@
 							class:bg-accent={navigationStore.selectedArtifactPath === item.rel_path}
 							onclick={() => handleItemClick(item.name, item.rel_path)}
 						>
-							<div class="flex items-center justify-between gap-2">
-								<span class="truncate text-sm font-medium">{item.name}</span>
-								<Badge variant={complianceVariant[item.compliance_status]} class="text-[10px] px-1 py-0">
-									{item.compliance_status}
-								</Badge>
-							</div>
+							<span class="truncate text-sm font-medium">{item.name}</span>
 							{#if item.description}
 								<p class="line-clamp-2 text-xs text-muted-foreground">
 									{item.description}

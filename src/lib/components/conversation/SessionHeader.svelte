@@ -3,16 +3,10 @@
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import PencilIcon from "@lucide/svelte/icons/pencil";
 	import CheckIcon from "@lucide/svelte/icons/check";
-	import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
 	import HistoryIcon from "@lucide/svelte/icons/history";
 	import { Button } from "$lib/components/ui/button";
-	import {
-		DropdownMenu,
-		DropdownMenuContent,
-		DropdownMenuItem,
-		DropdownMenuTrigger,
-	} from "$lib/components/ui/dropdown-menu";
 	import { Badge } from "$lib/components/ui/badge";
+	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
 	import SessionDropdown from "./SessionDropdown.svelte";
 
 	let {
@@ -42,6 +36,11 @@
 	const displayTitle = $derived(session.title ?? "New Session");
 	const modelLabel = $derived(getModelLabel(session.model));
 	const resolvedLabel = $derived(resolvedModel ? getModelLabel(resolvedModel) : null);
+	const modelTriggerLabel = $derived(
+		resolvedLabel && resolvedLabel !== modelLabel
+			? `${modelLabel} (${resolvedLabel})`
+			: modelLabel,
+	);
 
 	const models: { value: string; label: string }[] = [
 		{ value: "auto", label: "Auto" },
@@ -123,27 +122,12 @@
 	</div>
 
 	<!-- Model selector -->
-	<DropdownMenu>
-		<DropdownMenuTrigger>
-			<Button variant="outline" size="sm" class="gap-1 text-xs">
-				{modelLabel}
-				{#if resolvedLabel && resolvedLabel !== modelLabel}
-					<span class="text-muted-foreground">({resolvedLabel})</span>
-				{/if}
-				<ChevronDownIcon class="h-3 w-3" />
-			</Button>
-		</DropdownMenuTrigger>
-		<DropdownMenuContent align="end">
-			{#each models as model}
-				<DropdownMenuItem onclick={() => onSelectModel(model.value)}>
-					{model.label}
-					{#if model.value === session.model}
-						<CheckIcon class="ml-auto h-3.5 w-3.5" />
-					{/if}
-				</DropdownMenuItem>
-			{/each}
-		</DropdownMenuContent>
-	</DropdownMenu>
+	<SelectMenu
+		items={models}
+		selected={session.model}
+		onSelect={onSelectModel}
+		triggerLabel={modelTriggerLabel}
+	/>
 
 	<!-- Token usage -->
 	{#if session.total_input_tokens > 0 || session.total_output_tokens > 0}

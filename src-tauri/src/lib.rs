@@ -26,10 +26,17 @@ pub fn run() {
             let conn = db::init_db(db_path_str)
                 .map_err(|e| format!("failed to initialize database: {e}"))?;
 
-            app.manage(state::AppState {
+            let app_state = state::AppState {
                 db: std::sync::Mutex::new(conn),
                 sidecar: sidecar::manager::SidecarManager::new(),
-            });
+            };
+
+            // Auto-start the sidecar so the status bar shows "Connected" immediately
+            if let Err(e) = commands::sidecar_commands::ensure_sidecar_running(&app_state) {
+                eprintln!("Warning: failed to auto-start sidecar: {e}");
+            }
+
+            app.manage(app_state);
 
             Ok(())
         })
@@ -71,6 +78,8 @@ pub fn run() {
             commands::artifact_commands::artifact_delete,
             commands::artifact_commands::doc_read,
             commands::artifact_commands::doc_tree_scan,
+            commands::artifact_commands::governance_list,
+            commands::artifact_commands::governance_read,
             // Project settings commands (file-based)
             commands::project_settings_commands::project_settings_read,
             commands::project_settings_commands::project_settings_write,

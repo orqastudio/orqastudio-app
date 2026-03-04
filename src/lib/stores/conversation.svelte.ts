@@ -53,6 +53,29 @@ class ConversationStore {
 		this.streamingMessageId = null;
 		this.isStreaming = true;
 
+		// Optimistically add the user message to the UI immediately
+		const nextTurn = this.messages.length > 0
+			? Math.max(...this.messages.map((m) => m.turn_index)) + 1
+			: 0;
+		const optimisticMessage: Message = {
+			id: -Date.now(),
+			session_id: sessionId,
+			role: "user",
+			content_type: "text",
+			content,
+			tool_call_id: null,
+			tool_name: null,
+			tool_input: null,
+			tool_is_error: false,
+			turn_index: nextTurn,
+			block_index: 0,
+			stream_status: "complete",
+			input_tokens: null,
+			output_tokens: null,
+			created_at: new Date().toISOString(),
+		};
+		this.messages = [...this.messages, optimisticMessage];
+
 		const channel = createStreamChannel((event: StreamEvent) => {
 			this.handleStreamEvent(event);
 		});

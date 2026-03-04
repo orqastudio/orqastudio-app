@@ -9,12 +9,13 @@
 	import CircleDotIcon from "@lucide/svelte/icons/circle-dot";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
+	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { settingsStore, type ThemeMode, type DefaultModel } from "$lib/stores/settings.svelte";
 	import ProjectSetupWizard from "./ProjectSetupWizard.svelte";
-	import ProjectSettingsForm from "./ProjectSettingsForm.svelte";
-	import type { ProjectSettings } from "$lib/types";
-
+	import ProjectGeneralSettings from "./ProjectGeneralSettings.svelte";
+	import ProjectScanningSettings from "./ProjectScanningSettings.svelte";
+	import ProjectGovernanceSettings from "./ProjectGovernanceSettings.svelte";
 	const project = $derived(projectStore.activeProject);
 
 	const shortcuts: { key: string; action: string }[] = [
@@ -52,14 +53,12 @@
 		}
 	}
 
-	function handleThemeChange(e: Event): void {
-		const target = e.target as HTMLSelectElement;
-		settingsStore.setThemeMode(target.value as ThemeMode);
+	function handleThemeChange(value: string): void {
+		settingsStore.setThemeMode(value as ThemeMode);
 	}
 
-	function handleModelChange(e: Event): void {
-		const target = e.target as HTMLSelectElement;
-		settingsStore.setDefaultModel(target.value as DefaultModel);
+	function handleModelChange(value: string): void {
+		settingsStore.setDefaultModel(value as DefaultModel);
 	}
 
 	function handleRestart(): void {
@@ -151,17 +150,17 @@
 				</Card.Header>
 				<Card.Content class="space-y-4">
 					<div>
-						<label class="text-sm font-medium" for="model-select">Default Model</label>
-						<select
-							id="model-select"
-							class="mt-1 flex h-9 w-full max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm"
-							value={settingsStore.defaultModel}
-							onchange={handleModelChange}
-						>
-							{#each modelOptions as option}
-								<option value={option.value}>{option.label}</option>
-							{/each}
-						</select>
+						<span class="text-sm font-medium">Default Model</span>
+						<div class="mt-1">
+							<SelectMenu
+								items={modelOptions}
+								selected={settingsStore.defaultModel}
+								onSelect={handleModelChange}
+								triggerLabel={modelOptions.find((o) => o.value === settingsStore.defaultModel)?.label ?? "Auto"}
+								triggerSize="default"
+								align="start"
+							/>
+						</div>
 						<p class="mt-1.5 text-xs text-muted-foreground">
 							{modelOptions.find((o) => o.value === settingsStore.defaultModel)?.description ?? ""}
 						</p>
@@ -170,8 +169,8 @@
 			</Card.Root>
 		{/if}
 
-		<!-- Project section -->
-		{#if settingsStore.activeSection === "project"}
+		<!-- Project sections (General / Scanning / Governance) -->
+		{#if settingsStore.activeSection === "project-general" || settingsStore.activeSection === "project-scanning" || settingsStore.activeSection === "project-governance"}
 			{#if !project}
 				<Card.Root>
 					<Card.Content class="py-8">
@@ -189,16 +188,26 @@
 					</Card.Content>
 				</Card.Root>
 			{:else if projectStore.hasSettings && projectStore.projectSettings}
-				<ProjectSettingsForm
-					settings={projectStore.projectSettings}
-					projectPath={project.path}
-					onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
-					onRescan={() => projectStore.scanProject(project.path, projectStore.projectSettings?.excluded_paths)}
-					rescanning={projectStore.scanning}
-					iconDataUrl={projectStore.iconDataUrl}
-					onUploadIcon={(sourcePath) => projectStore.uploadIcon(sourcePath)}
-					onRemoveIcon={() => projectStore.removeIcon()}
-				/>
+				{#if settingsStore.activeSection === "project-general"}
+					<ProjectGeneralSettings
+						settings={projectStore.projectSettings}
+						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
+						iconDataUrl={projectStore.iconDataUrl}
+						onUploadIcon={(sourcePath) => projectStore.uploadIcon(sourcePath)}
+						onRemoveIcon={() => projectStore.removeIcon()}
+					/>
+				{:else if settingsStore.activeSection === "project-scanning"}
+					<ProjectScanningSettings
+						settings={projectStore.projectSettings}
+						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
+						onRescan={() => projectStore.scanProject(project.path, projectStore.projectSettings?.excluded_paths)}
+						rescanning={projectStore.scanning}
+					/>
+				{:else if settingsStore.activeSection === "project-governance"}
+					<ProjectGovernanceSettings
+						governance={projectStore.projectSettings.governance}
+					/>
+				{/if}
 			{:else}
 				<ProjectSetupWizard
 					projectPath={project.path}
@@ -216,17 +225,17 @@
 				</Card.Header>
 				<Card.Content class="space-y-4">
 					<div>
-						<label class="text-sm font-medium" for="theme-select">Theme</label>
-						<select
-							id="theme-select"
-							class="mt-1 flex h-9 w-full max-w-xs rounded-md border border-input bg-background px-3 py-1 text-sm"
-							value={settingsStore.themeMode}
-							onchange={handleThemeChange}
-						>
-							{#each themeModeOptions as option}
-								<option value={option.value}>{option.label}</option>
-							{/each}
-						</select>
+						<span class="text-sm font-medium">Theme</span>
+						<div class="mt-1">
+							<SelectMenu
+								items={themeModeOptions}
+								selected={settingsStore.themeMode}
+								onSelect={handleThemeChange}
+								triggerLabel={themeModeOptions.find((o) => o.value === settingsStore.themeMode)?.label ?? "System"}
+								triggerSize="default"
+								align="start"
+							/>
+						</div>
 					</div>
 				</Card.Content>
 			</Card.Root>

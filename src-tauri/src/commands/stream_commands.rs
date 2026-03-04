@@ -1,8 +1,10 @@
 use crate::domain::provider_event::StreamEvent;
 use crate::error::ForgeError;
-use crate::repo::{message_repo, session_repo};
+use crate::repo::{message_repo, project_repo, session_repo};
 use crate::sidecar::types::{SidecarRequest, SidecarResponse};
 use crate::state::AppState;
+
+use std::path::{Path, PathBuf};
 
 /// Translate a `SidecarResponse` into a `StreamEvent`, if applicable.
 ///
@@ -190,14 +192,19 @@ pub fn stream_send_message(
 
         // Handle bidirectional tool protocol — sidecar asking Rust to execute a tool
         if let SidecarResponse::ToolExecute {
-            ref tool_call_id, ..
+            ref tool_call_id,
+            ref tool_name,
+            ref input,
         } = response
         {
-            // Phase 1 stub: return "not yet implemented" for all tool executions
+            eprintln!("[stream] received ToolExecute: id={tool_call_id} tool={tool_name}");
+            let (output, is_error) =
+                execute_tool(tool_name, input, &state);
+
             let tool_result = SidecarRequest::ToolResult {
                 tool_call_id: tool_call_id.clone(),
-                output: "Tool execution not yet implemented".to_string(),
-                is_error: true,
+                output,
+                is_error,
             };
             if let Err(e) = state.sidecar.send(&tool_result) {
                 let error_event = StreamEvent::StreamError {
@@ -217,6 +224,7 @@ pub fn stream_send_message(
             ref tool_call_id, ..
         } = response
         {
+            eprintln!("[stream] received ToolApprovalRequest: id={tool_call_id}");
             // Phase 1: auto-approve all tool calls
             let approval = SidecarRequest::ToolApproval {
                 tool_call_id: tool_call_id.clone(),
@@ -324,6 +332,373 @@ pub fn stream_stop(session_id: i64, state: tauri::State<'_, AppState>) -> Result
     state
         .sidecar
         .send(&SidecarRequest::CancelStream { session_id })
+}
+
+// ── Tool Execution ──
+
+/// Resolve the active project's root path for use as working directory.
+fn project_root(state: &tauri::State<'_, AppState>) -> Result<PathBuf, String> {
+    let conn = state
+        .db
+        .lock()
+        .map_err(|e| format!("db lock: {e}"))?;
+    let project = project_repo::get_active(&conn)
+        .map_err(|e| format!("db query: {e}"))?
+        .ok_or_else(|| "no active project".to_string())?;
+    Ok(PathBuf::from(project.path))
+}
+
+/// Resolve a path from tool input relative to the project root.
+/// Returns an error string if the resolved path escapes the project root.
+fn resolve_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
+    let candidate = if Path::new(raw).is_absolute() {
+        PathBuf::from(raw)
+    } else {
+        root.join(raw)
+    };
+
+    let resolved = candidate
+        .canonicalize()
+        .unwrap_or_else(|_| candidate.clone());
+
+    let root_canon = root
+        .canonicalize()
+        .unwrap_or_else(|_| root.to_path_buf());
+
+    if !resolved.starts_with(&root_canon) {
+        return Err(format!(
+            "path '{}' is outside the project root",
+            raw
+        ));
+    }
+    Ok(resolved)
+}
+
+/// Resolve a path for writing — the file may not exist yet, so we
+/// canonicalize the parent directory instead.
+fn resolve_write_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
+    let candidate = if Path::new(raw).is_absolute() {
+        PathBuf::from(raw)
+    } else {
+        root.join(raw)
+    };
+
+    let root_canon = root
+        .canonicalize()
+        .unwrap_or_else(|_| root.to_path_buf());
+
+    // For new files, check that the parent directory is within project root
+    if let Some(parent) = candidate.parent() {
+        let parent_resolved = parent
+            .canonicalize()
+            .unwrap_or_else(|_| parent.to_path_buf());
+        if !parent_resolved.starts_with(&root_canon) {
+            return Err(format!(
+                "path '{}' is outside the project root",
+                raw
+            ));
+        }
+    }
+    Ok(candidate)
+}
+
+/// Dispatch a tool call to the appropriate handler.
+/// Returns `(output, is_error)`.
+fn execute_tool(
+    tool_name: &str,
+    input_json: &str,
+    state: &tauri::State<'_, AppState>,
+) -> (String, bool) {
+    eprintln!("[tool] execute_tool called: tool={tool_name} input={input_json}");
+
+    let input: serde_json::Value = match serde_json::from_str(input_json) {
+        Ok(v) => v,
+        Err(e) => {
+            eprintln!("[tool] JSON parse error: {e}");
+            return (format!("invalid tool input JSON: {e}"), true);
+        }
+    };
+
+    let root = match project_root(state) {
+        Ok(r) => {
+            eprintln!("[tool] project root: {}", r.display());
+            r
+        }
+        Err(e) => {
+            eprintln!("[tool] project root error: {e}");
+            return (format!("cannot resolve project: {e}"), true);
+        }
+    };
+
+    let (output, is_error) = match tool_name {
+        "read_file" => tool_read_file(&input, &root),
+        "write_file" => tool_write_file(&input, &root),
+        "edit_file" => tool_edit_file(&input, &root),
+        "bash" => tool_bash(&input, &root),
+        "glob" => tool_glob(&input, &root),
+        "grep" => tool_grep(&input, &root),
+        _ => (format!("unknown tool: {tool_name}"), true),
+    };
+
+    eprintln!(
+        "[tool] result: is_error={is_error} output_len={} first_100={}",
+        output.len(),
+        &output[..output.len().min(100)]
+    );
+    (output, is_error)
+}
+
+/// Read a file's contents.
+fn tool_read_file(
+    input: &serde_json::Value,
+    root: &Path,
+) -> (String, bool) {
+    let raw_path = match input["path"].as_str() {
+        Some(p) => p,
+        None => return ("missing 'path' parameter".to_string(), true),
+    };
+
+    let path = match resolve_path(raw_path, root) {
+        Ok(p) => p,
+        Err(e) => return (e, true),
+    };
+
+    match std::fs::read_to_string(&path) {
+        Ok(contents) => (contents, false),
+        Err(e) => (format!("failed to read '{}': {e}", path.display()), true),
+    }
+}
+
+/// Write content to a file, creating parent directories as needed.
+fn tool_write_file(
+    input: &serde_json::Value,
+    root: &Path,
+) -> (String, bool) {
+    let raw_path = match input["path"].as_str() {
+        Some(p) => p,
+        None => return ("missing 'path' parameter".to_string(), true),
+    };
+    let content = match input["content"].as_str() {
+        Some(c) => c,
+        None => return ("missing 'content' parameter".to_string(), true),
+    };
+
+    let path = match resolve_write_path(raw_path, root) {
+        Ok(p) => p,
+        Err(e) => return (e, true),
+    };
+
+    if let Some(parent) = path.parent() {
+        if let Err(e) = std::fs::create_dir_all(parent) {
+            return (format!("failed to create directories: {e}"), true);
+        }
+    }
+
+    match std::fs::write(&path, content) {
+        Ok(()) => (format!("wrote {} bytes to '{}'", content.len(), path.display()), false),
+        Err(e) => (format!("failed to write '{}': {e}", path.display()), true),
+    }
+}
+
+/// Edit a file by replacing old_string with new_string.
+fn tool_edit_file(
+    input: &serde_json::Value,
+    root: &Path,
+) -> (String, bool) {
+    let raw_path = match input["path"].as_str() {
+        Some(p) => p,
+        None => return ("missing 'path' parameter".to_string(), true),
+    };
+    let old_string = match input["old_string"].as_str() {
+        Some(s) => s,
+        None => return ("missing 'old_string' parameter".to_string(), true),
+    };
+    let new_string = match input["new_string"].as_str() {
+        Some(s) => s,
+        None => return ("missing 'new_string' parameter".to_string(), true),
+    };
+
+    let path = match resolve_path(raw_path, root) {
+        Ok(p) => p,
+        Err(e) => return (e, true),
+    };
+
+    let contents = match std::fs::read_to_string(&path) {
+        Ok(c) => c,
+        Err(e) => return (format!("failed to read '{}': {e}", path.display()), true),
+    };
+
+    let count = contents.matches(old_string).count();
+    if count == 0 {
+        return (
+            format!("old_string not found in '{}'", path.display()),
+            true,
+        );
+    }
+    if count > 1 {
+        return (
+            format!(
+                "old_string found {count} times in '{}' — must be unique",
+                path.display()
+            ),
+            true,
+        );
+    }
+
+    let updated = contents.replacen(old_string, new_string, 1);
+    match std::fs::write(&path, &updated) {
+        Ok(()) => (
+            format!("edited '{}' (1 replacement)", path.display()),
+            false,
+        ),
+        Err(e) => (format!("failed to write '{}': {e}", path.display()), true),
+    }
+}
+
+/// Execute a bash command in the project root.
+fn tool_bash(
+    input: &serde_json::Value,
+    root: &Path,
+) -> (String, bool) {
+    let command = match input["command"].as_str() {
+        Some(c) => c,
+        None => return ("missing 'command' parameter".to_string(), true),
+    };
+
+    let output = match std::process::Command::new("bash")
+        .arg("-c")
+        .arg(command)
+        .current_dir(root)
+        .output()
+    {
+        Ok(o) => o,
+        Err(e) => return (format!("failed to execute bash: {e}"), true),
+    };
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let stderr = String::from_utf8_lossy(&output.stderr);
+
+    let mut result = String::new();
+    if !stdout.is_empty() {
+        result.push_str(&stdout);
+    }
+    if !stderr.is_empty() {
+        if !result.is_empty() {
+            result.push('\n');
+        }
+        result.push_str("STDERR:\n");
+        result.push_str(&stderr);
+    }
+    if result.is_empty() {
+        result.push_str("(no output)");
+    }
+
+    let is_error = !output.status.success();
+    (result, is_error)
+}
+
+/// Find files matching a glob pattern.
+fn tool_glob(
+    input: &serde_json::Value,
+    root: &Path,
+) -> (String, bool) {
+    let pattern = match input["pattern"].as_str() {
+        Some(p) => p,
+        None => return ("missing 'pattern' parameter".to_string(), true),
+    };
+
+    let search_root = match input["path"].as_str() {
+        Some(p) => root.join(p),
+        None => root.to_path_buf(),
+    };
+
+    let full_pattern = search_root.join(pattern);
+    let pattern_str = full_pattern.to_string_lossy();
+
+    match glob::glob(&pattern_str) {
+        Ok(entries) => {
+            let mut paths: Vec<String> = Vec::new();
+            for entry in entries {
+                match entry {
+                    Ok(path) => {
+                        let display = path
+                            .strip_prefix(root)
+                            .unwrap_or(&path)
+                            .to_string_lossy()
+                            .to_string();
+                        paths.push(display);
+                    }
+                    Err(e) => {
+                        paths.push(format!("(error: {e})"));
+                    }
+                }
+            }
+            if paths.is_empty() {
+                ("no matches found".to_string(), false)
+            } else {
+                (paths.join("\n"), false)
+            }
+        }
+        Err(e) => (format!("invalid glob pattern: {e}"), true),
+    }
+}
+
+/// Search file contents with a regex pattern.
+fn tool_grep(
+    input: &serde_json::Value,
+    root: &Path,
+) -> (String, bool) {
+    let pattern = match input["pattern"].as_str() {
+        Some(p) => p,
+        None => return ("missing 'pattern' parameter".to_string(), true),
+    };
+
+    let search_path = match input["path"].as_str() {
+        Some(p) => root.join(p),
+        None => root.to_path_buf(),
+    };
+
+    // Use grep/ripgrep via bash for simplicity and correctness
+    let search_str = search_path.to_string_lossy();
+    let cmd = format!(
+        "rg --no-heading --line-number --color never -e {} {} 2>/dev/null || grep -rn {} {} 2>/dev/null",
+        shell_escape(pattern),
+        shell_escape(&search_str),
+        shell_escape(pattern),
+        shell_escape(&search_str),
+    );
+
+    let output = match std::process::Command::new("bash")
+        .arg("-c")
+        .arg(&cmd)
+        .current_dir(root)
+        .output()
+    {
+        Ok(o) => o,
+        Err(e) => return (format!("failed to execute grep: {e}"), true),
+    };
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    if stdout.trim().is_empty() {
+        ("no matches found".to_string(), false)
+    } else {
+        // Trim output to avoid overwhelming responses
+        let lines: Vec<&str> = stdout.lines().collect();
+        if lines.len() > 200 {
+            let truncated: String = lines[..200].join("\n");
+            (
+                format!("{truncated}\n\n... ({} total matches, showing first 200)", lines.len()),
+                false,
+            )
+        } else {
+            (stdout.to_string(), false)
+        }
+    }
+}
+
+/// Simple shell escaping — wraps in single quotes.
+fn shell_escape(s: &str) -> String {
+    format!("'{}'", s.replace('\'', "'\\''"))
 }
 
 #[cfg(test)]

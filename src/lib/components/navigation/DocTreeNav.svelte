@@ -3,17 +3,40 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import FolderIcon from "@lucide/svelte/icons/folder";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import SearchInput from "$lib/components/shared/SearchInput.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import type { DocNode } from "$lib/types";
+
+	let filterText = $state("");
 
 	const tree = $derived(artifactStore.docTree);
 	const loading = $derived(artifactStore.docTreeLoading);
 
 	/** Filter out root-level README from the tree (accessible via home icon). */
-	const filteredTree = $derived(tree.filter((node) => node.path !== "README"));
+	const baseTree = $derived(tree.filter((node) => node.path !== "README"));
+
+	function filterTree(nodes: DocNode[], query: string): DocNode[] {
+		if (!query) return nodes;
+		const q = query.toLowerCase();
+		const result: DocNode[] = [];
+		for (const node of nodes) {
+			if (node.children) {
+				const filteredChildren = filterTree(node.children, query);
+				if (filteredChildren.length > 0) {
+					result.push({ ...node, children: filteredChildren });
+				} else if (node.label.toLowerCase().includes(q)) {
+					result.push(node);
+				}
+			} else if (node.label.toLowerCase().includes(q)) {
+				result.push(node);
+			}
+		}
+		return result;
+	}
+
+	const filteredTree = $derived(filterTree(baseTree, filterText));
 
 	function humanizeSegment(segment: string): string {
 		return segment
@@ -38,13 +61,24 @@
 		No documentation found.
 	</div>
 {:else}
-	<ScrollArea.Root class="h-full">
-		<div class="space-y-0.5 p-2">
-			{#each filteredTree as node}
-				{@render treeSection(node, 0)}
-			{/each}
+	<div class="flex h-full flex-col">
+		<div class="border-b border-border p-2">
+			<SearchInput bind:value={filterText} placeholder="Filter docs..." size="xs" />
 		</div>
-	</ScrollArea.Root>
+		<ScrollArea.Root class="min-h-0 flex-1">
+			<div class="space-y-0.5 p-2">
+				{#if filteredTree.length === 0}
+					<div class="px-2 py-4 text-center text-xs text-muted-foreground">
+						No matching docs.
+					</div>
+				{:else}
+					{#each filteredTree as node}
+						{@render treeSection(node, 0)}
+					{/each}
+				{/if}
+			</div>
+		</ScrollArea.Root>
+	</div>
 {/if}
 
 {#snippet treeSection(node: DocNode, depth: number)}

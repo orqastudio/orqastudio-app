@@ -2,7 +2,9 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import MonitorIcon from "@lucide/svelte/icons/monitor";
 	import BrainIcon from "@lucide/svelte/icons/brain";
-	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
+	import SettingsIcon from "@lucide/svelte/icons/settings";
+	import ScanSearchIcon from "@lucide/svelte/icons/scan-search";
+	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import KeyboardIcon from "@lucide/svelte/icons/keyboard";
 	import { settingsStore } from "$lib/stores/settings.svelte";
@@ -50,10 +52,22 @@
 
 	const projectCategories: SettingsCategory[] = [
 		{
-			id: "project",
-			label: "Project",
-			icon: FolderOpenIcon,
-			description: "Active project info",
+			id: "project-general",
+			label: "General",
+			icon: SettingsIcon,
+			description: "Name, icon, description",
+		},
+		{
+			id: "project-scanning",
+			label: "Model & Scanning",
+			icon: ScanSearchIcon,
+			description: "Model, paths, stack detection",
+		},
+		{
+			id: "project-governance",
+			label: "Governance",
+			icon: ShieldIcon,
+			description: "Agents, rules, skills, hooks",
 		},
 	];
 

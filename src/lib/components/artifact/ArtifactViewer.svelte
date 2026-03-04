@@ -1,5 +1,8 @@
 <script lang="ts">
 	import Breadcrumb from "./Breadcrumb.svelte";
+	import AgentViewer from "./AgentViewer.svelte";
+	import SkillViewer from "./SkillViewer.svelte";
+	import HookViewer from "./HookViewer.svelte";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
@@ -8,6 +11,7 @@
 
 	const artifact = $derived(artifactStore.activeArtifact);
 	const breadcrumbs = $derived(navigationStore.breadcrumbs);
+	const activity = $derived(navigationStore.activeActivity);
 
 	function handleContentClick(event: MouseEvent) {
 		const anchor = (event.target as HTMLElement).closest("a");
@@ -36,10 +40,12 @@
 </script>
 
 <div class="flex h-full flex-col">
-	<!-- Breadcrumb bar -->
-	<div class="flex items-center justify-between border-b border-border px-4 py-2">
-		<Breadcrumb items={breadcrumbs} />
-	</div>
+	<!-- Breadcrumb bar (hidden on home/landing pages) -->
+	{#if breadcrumbs.length > 0}
+		<div class="flex h-10 items-center justify-between border-b border-border px-4">
+			<Breadcrumb items={breadcrumbs} />
+		</div>
+	{/if}
 
 	<!-- Content -->
 	{#if artifactStore.loading}
@@ -55,7 +61,15 @@
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div class="min-h-0 flex-1 overflow-y-auto" onclick={handleContentClick}>
 			<div class="p-6">
-				<MarkdownRenderer content={artifact.content} />
+				{#if activity === "agents"}
+					<AgentViewer content={artifact.content} />
+				{:else if activity === "skills"}
+					<SkillViewer content={artifact.content} />
+				{:else if activity === "hooks"}
+					<HookViewer content={artifact.content} />
+				{:else}
+					<MarkdownRenderer content={artifact.content} />
+				{/if}
 			</div>
 		</div>
 	{:else}

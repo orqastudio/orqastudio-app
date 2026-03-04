@@ -63,6 +63,6 @@
 		icon={SettingsIcon}
 		label="Project Settings"
 		active={navigationStore.activeActivity === "settings"}
-		onclick={() => { settingsStore.setActiveSection("project"); navigationStore.setActivity("settings"); }}
+		onclick={() => { settingsStore.setActiveSection("project-general"); navigationStore.setActivity("settings"); }}
 	/>
 </div>

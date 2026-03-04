@@ -46,6 +46,41 @@ class ArtifactStore {
 		this.loading = false;
 	}
 
+	async loadGovernanceList(artifactType: string) {
+		this.loading = true;
+		this.error = null;
+		try {
+			const results = await forgeInvoke<ArtifactSummary[]>("governance_list", {
+				artifactType,
+			});
+			// Merge into artifacts (replace entries of this type, keep others)
+			const other = this.artifacts.filter((a) => a.artifact_type !== artifactType);
+			this.artifacts = [...other, ...results];
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load artifacts: ${message}`;
+		} finally {
+			this.loading = false;
+		}
+	}
+
+	async loadGovernanceArtifact(relPath: string) {
+		this.loading = true;
+		this.error = null;
+		try {
+			const artifact = await forgeInvoke<Artifact>("governance_read", {
+				relPath,
+			});
+			this.activeArtifact = artifact;
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load artifact: ${message}`;
+			this.activeArtifact = null;
+		} finally {
+			this.loading = false;
+		}
+	}
+
 	async loadDocTree() {
 		this.docTreeLoading = true;
 		try {

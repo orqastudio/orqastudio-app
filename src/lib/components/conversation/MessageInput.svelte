@@ -51,7 +51,7 @@
 </script>
 
 <div class="border-t border-border bg-background p-3">
-	<div class="flex items-end gap-2">
+	<div class="flex items-center gap-2">
 		<textarea
 			bind:this={textareaRef}
 			bind:value={inputValue}

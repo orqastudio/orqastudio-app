@@ -6,8 +6,8 @@
 </script>
 
 <div class="flex w-[200px] flex-col overflow-hidden border-r border-border bg-muted/10">
-	<!-- Panel header — height matched to breadcrumb bar (text-xs + py-2.5 = text-sm + py-2) -->
-	<div class="flex items-center border-b border-border px-3 py-2.5">
+	<!-- Panel header — fixed height matched to breadcrumb bar -->
+	<div class="flex h-10 items-center border-b border-border px-3">
 		<h2 class="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
 			{#if navigationStore.activeActivity === "docs"}
 				Docs

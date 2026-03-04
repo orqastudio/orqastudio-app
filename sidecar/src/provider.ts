@@ -11,6 +11,8 @@
 
 import { query, createSdkMcpServer, tool } from '@anthropic-ai/claude-agent-sdk';
 import { z } from 'zod';
+import { createRequire } from 'node:module';
+import path from 'node:path';
 import type {
     SidecarResponse,
     MessageSummary,
@@ -21,6 +23,26 @@ import type {
 // ── Constants ──
 
 const DEFAULT_MODEL = 'claude-sonnet-4-6';
+
+/**
+ * Resolve the path to the Agent SDK's bundled cli.js.
+ *
+ * When the sidecar is compiled with `bun build`, import.meta resolution
+ * points to the dist directory instead of node_modules. We use
+ * createRequire to resolve the SDK package path reliably.
+ */
+function resolveSdkCliPath(): string {
+    try {
+        const require = createRequire(import.meta.url);
+        const sdkPath = require.resolve('@anthropic-ai/claude-agent-sdk');
+        return path.join(path.dirname(sdkPath), 'cli.js');
+    } catch {
+        // Fallback: assume node_modules is a sibling of the sidecar dir
+        return path.resolve(process.cwd(), 'sidecar', 'node_modules', '@anthropic-ai', 'claude-agent-sdk', 'cli.js');
+    }
+}
+
+const SDK_CLI_PATH = resolveSdkCliPath();
 const SUMMARY_SYSTEM_PROMPT =
     'Summarize the following conversation in 2-3 concise sentences. ' +
     'Focus on the key topics discussed and any decisions or outcomes reached.';
@@ -39,6 +61,15 @@ let nextMessageId = 1;
  * tool_approval_request/tool_approval exchanges.
  */
 let nextToolCallId = 1;
+
+/**
+ * Maps Forge session IDs to Agent SDK session IDs.
+ * The SDK uses its own UUID-based session IDs for conversation persistence.
+ * On the first message in a Forge session, we start a new SDK conversation and
+ * capture the SDK session ID. Subsequent messages use `resume` to continue
+ * the same SDK conversation, giving Claude access to the full history.
+ */
+const sdkSessionMap = new Map<number, string>();
 
 // ── Pending Request Infrastructure ──
 
@@ -77,6 +108,9 @@ export function resolveToolResult(result: ToolResultRequest): void {
  * Called by the main index.ts handler when a tool_approval arrives on stdin.
  */
 export function resolveToolApproval(result: ToolApprovalRequest): void {
+    process.stderr.write(
+        `forge-sidecar: resolveToolApproval: id=${result.tool_call_id} approved=${result.approved} pending_count=${pendingToolApprovals.size}\n`,
+    );
     const resolve = pendingToolApprovals.get(result.tool_call_id);
     if (resolve) {
         pendingToolApprovals.delete(result.tool_call_id);
@@ -220,6 +254,9 @@ async function executeToolViaRust(
     sendResponse: ResponseSender,
 ): Promise<{ content: Array<{ type: 'text'; text: string }> }> {
     const toolCallId = `forge_tool_${nextToolCallId++}`;
+    process.stderr.write(
+        `forge-sidecar: executeToolViaRust called: tool=${toolName} id=${toolCallId}\n`,
+    );
 
     // Send tool_execute to Rust via stdout
     sendResponse({
@@ -297,6 +334,9 @@ export async function streamMessage(
         let inputTokens = 0;
         let outputTokens = 0;
 
+        // Check if we have an existing SDK session to resume
+        const existingSdkSessionId = sdkSessionMap.get(sessionId);
+
         // Use the Agent SDK query() function
         const conversation = query({
             prompt: content,
@@ -308,6 +348,9 @@ export async function streamMessage(
                     input: Record<string, unknown>,
                 ) => {
                     const toolCallId = `forge_approval_${nextToolCallId++}`;
+                    process.stderr.write(
+                        `forge-sidecar: canUseTool called: name=${name} id=${toolCallId}\n`,
+                    );
 
                     // Send approval request to Rust/UI via stdout
                     sendResponse({
@@ -319,19 +362,25 @@ export async function streamMessage(
 
                     // Wait for Rust/UI to send back the approval decision
                     const approval = await waitForToolApproval(toolCallId);
+                    process.stderr.write(
+                        `forge-sidecar: canUseTool resolved: id=${toolCallId} approved=${approval.approved}\n`,
+                    );
 
                     if (approval.approved) {
-                        return { behavior: 'allow' as const };
+                        return { behavior: 'allow' as const, updatedInput: input };
                     }
                     return {
                         behavior: 'deny' as const,
                         message: approval.reason ?? 'User denied tool use',
                     };
                 },
+                pathToClaudeCodeExecutable: SDK_CLI_PATH,
                 includePartialMessages: true,  // Token-level streaming
                 systemPrompt: systemPrompt ?? undefined,
                 model: resolvedModel,
                 abortController,
+                // Resume the SDK session if we have a previous one for this Forge session
+                ...(existingSdkSessionId ? { resume: existingSdkSessionId } : {}),
             },
         });
 
@@ -344,13 +393,43 @@ export async function streamMessage(
             // The Agent SDK yields partial messages with content blocks.
             // Translate each content block type to our SidecarResponse events.
             if (message && typeof message === 'object') {
-                translateAgentMessage(
-                    message, sendResponse, blockIndex,
-                );
+                const msg = message as Record<string, unknown>;
 
-                // Track token usage if available
-                if ('usage' in message && message.usage) {
-                    const usage = message.usage as {
+                // Capture the SDK session ID from the init message
+                if (msg.type === 'system' && msg.subtype === 'init' && typeof msg.session_id === 'string') {
+                    sdkSessionMap.set(sessionId, msg.session_id);
+                    process.stderr.write(
+                        `forge-sidecar: mapped forge session ${sessionId} -> SDK session ${msg.session_id}\n`,
+                    );
+                }
+
+                // SDK yields: {type:"assistant", message:{content:[...], usage:{...}}}
+                // and:        {type:"result", subtype:"success", usage:{...}}
+                if (msg.type === 'assistant' && msg.message && typeof msg.message === 'object') {
+                    const inner = msg.message as Record<string, unknown>;
+                    translateAgentMessage(inner, sendResponse, blockIndex);
+
+                    // Track token usage from the inner message
+                    if (inner.usage && typeof inner.usage === 'object') {
+                        const usage = inner.usage as {
+                            input_tokens?: number;
+                            output_tokens?: number;
+                        };
+                        if (usage.input_tokens !== undefined) {
+                            inputTokens = usage.input_tokens;
+                        }
+                        if (usage.output_tokens !== undefined) {
+                            outputTokens = usage.output_tokens;
+                        }
+                    }
+
+                    // Track block count for block_complete events
+                    if (Array.isArray(inner.content)) {
+                        blockIndex = inner.content.length;
+                    }
+                } else if (msg.type === 'result' && msg.usage && typeof msg.usage === 'object') {
+                    // Final usage from the result message
+                    const usage = msg.usage as {
                         input_tokens?: number;
                         output_tokens?: number;
                     };
@@ -360,11 +439,6 @@ export async function streamMessage(
                     if (usage.output_tokens !== undefined) {
                         outputTokens = usage.output_tokens;
                     }
-                }
-
-                // Track block count for block_complete events
-                if ('content' in message && Array.isArray(message.content)) {
-                    blockIndex = message.content.length;
                 }
             }
         }
@@ -509,6 +583,7 @@ export async function generateSummary(
             options: {
                 tools: [],  // No tools needed for summary
                 mcpServers: {},
+                pathToClaudeCodeExecutable: SDK_CLI_PATH,
                 systemPrompt: SUMMARY_SYSTEM_PROMPT,
                 model: DEFAULT_MODEL,
                 includePartialMessages: false,
@@ -518,25 +593,28 @@ export async function generateSummary(
         let summary = '';
 
         for await (const message of conversation) {
-            if (
-                message &&
-                typeof message === 'object' &&
-                'content' in message &&
-                Array.isArray(
-                    (message as Record<string, unknown>).content,
-                )
-            ) {
-                const content = (
-                    message as { content: Array<Record<string, unknown>> }
-                ).content;
-                for (const block of content) {
-                    if (
-                        block.type === 'text' &&
-                        typeof block.text === 'string'
-                    ) {
-                        summary = block.text;
+            if (!message || typeof message !== 'object') continue;
+            const msg = message as Record<string, unknown>;
+
+            // SDK yields: {type:"assistant", message:{content:[...]}}
+            // and:        {type:"result", result:"..."}
+            if (msg.type === 'assistant' && msg.message && typeof msg.message === 'object') {
+                const inner = msg.message as Record<string, unknown>;
+                if (Array.isArray(inner.content)) {
+                    for (const block of inner.content) {
+                        if (
+                            block &&
+                            typeof block === 'object' &&
+                            (block as Record<string, unknown>).type === 'text' &&
+                            typeof (block as Record<string, unknown>).text === 'string'
+                        ) {
+                            summary = (block as Record<string, unknown>).text as string;
+                        }
                     }
                 }
+            } else if (msg.type === 'result' && typeof msg.result === 'string') {
+                // The result message contains the final text
+                summary = msg.result;
             }
         }
 

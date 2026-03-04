@@ -115,13 +115,14 @@ class SessionStore {
 
 	async deleteSession(sessionId: number): Promise<void> {
 		this.error = null;
+		// Optimistically remove from list for immediate UI update
+		this.sessions = this.sessions.filter((s) => s.id !== sessionId);
+		if (this.activeSession && this.activeSession.id === sessionId) {
+			this.activeSession = null;
+		}
 		try {
 			await forgeInvoke("session_delete", { sessionId });
-			this.sessions = this.sessions.filter((s) => s.id !== sessionId);
-			if (this.activeSession && this.activeSession.id === sessionId) {
-				this.activeSession = null;
-				await this.clearPersistedSessionId();
-			}
+			await this.clearPersistedSessionId();
 		} catch (err) {
 			this.error = err instanceof Error ? err.message : String(err);
 		}

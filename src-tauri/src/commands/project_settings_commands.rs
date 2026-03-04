@@ -33,7 +33,7 @@ pub fn project_settings_write(
 /// Validates the source file exists and has a supported extension (png, jpg, jpeg, svg, ico).
 /// Removes any existing `icon.*` files before copying.
 /// Returns the icon filename (e.g. `icon.png`).
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 pub fn project_icon_upload(
     project_path: String,
     source_path: String,
@@ -82,7 +82,7 @@ pub fn project_icon_upload(
 ///
 /// The `icon_filename` should be the filename returned by `project_icon_upload`
 /// (e.g. `icon.png`). Returns a `data:{mime};base64,...` string.
-#[tauri::command]
+#[tauri::command(rename_all = "snake_case")]
 pub fn project_icon_read(
     project_path: String,
     icon_filename: String,

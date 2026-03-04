@@ -290,6 +290,170 @@ pub fn doc_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, ForgeEr
     scan_directory(&docs_dir, &docs_dir)
 }
 
+/// List governance artifacts (agents, rules, skills, hooks) by scanning disk.
+///
+/// Returns file-based summaries — the database is not consulted.
+#[tauri::command]
+pub fn governance_list(
+    artifact_type: String,
+    state: State<'_, AppState>,
+) -> Result<Vec<ArtifactSummary>, ForgeError> {
+    let parsed = parse_artifact_type(&artifact_type)?;
+    if parsed == ArtifactType::Doc {
+        return Err(ForgeError::Validation(
+            "use doc_tree_scan for docs".to_string(),
+        ));
+    }
+
+    let project_path = active_project_path(&state)?;
+    let root = Path::new(&project_path);
+    list_governance_files(root, &parsed)
+}
+
+/// Read a single governance artifact from disk by its relative path.
+#[tauri::command]
+pub fn governance_read(
+    rel_path: String,
+    state: State<'_, AppState>,
+) -> Result<Artifact, ForgeError> {
+    use crate::domain::artifact::ComplianceStatus;
+
+    if rel_path.contains("..") {
+        return Err(ForgeError::Validation(
+            "path traversal not allowed".to_string(),
+        ));
+    }
+
+    let project_path = active_project_path(&state)?;
+    let full_path = Path::new(&project_path).join(&rel_path);
+
+    if !full_path.exists() {
+        return Err(ForgeError::NotFound(format!(
+            "artifact not found: {}",
+            rel_path
+        )));
+    }
+
+    let content = std::fs::read_to_string(&full_path)?;
+    let file_name = full_path
+        .file_name()
+        .map(|n| n.to_string_lossy().into_owned())
+        .unwrap_or_default();
+    let name = humanize_name(&file_name);
+    let metadata = std::fs::metadata(&full_path).ok();
+    let file_size = metadata.as_ref().map(|m| m.len() as i64);
+
+    // Infer type from path prefix
+    let artifact_type = if rel_path.starts_with(".claude/agents") {
+        ArtifactType::Agent
+    } else if rel_path.starts_with(".claude/rules") {
+        ArtifactType::Rule
+    } else if rel_path.starts_with(".claude/skills") {
+        ArtifactType::Skill
+    } else if rel_path.starts_with(".claude/hooks") {
+        ArtifactType::Hook
+    } else {
+        ArtifactType::Doc
+    };
+
+    Ok(Artifact {
+        id: 0,
+        project_id: 0,
+        artifact_type,
+        rel_path,
+        name,
+        description: None,
+        content,
+        file_hash: None,
+        file_size,
+        file_modified_at: None,
+        compliance_status: ComplianceStatus::Unknown,
+        relationships: None,
+        metadata: None,
+        created_at: String::new(),
+        updated_at: String::new(),
+    })
+}
+
+/// Scan a governance directory and return sorted artifact summaries.
+fn list_governance_files(
+    root: &Path,
+    artifact_type: &ArtifactType,
+) -> Result<Vec<ArtifactSummary>, ForgeError> {
+    use crate::domain::artifact::ComplianceStatus;
+
+    let dir = match artifact_type {
+        ArtifactType::Agent => root.join(".claude").join("agents"),
+        ArtifactType::Rule => root.join(".claude").join("rules"),
+        ArtifactType::Skill => root.join(".claude").join("skills"),
+        ArtifactType::Hook => root.join(".claude").join("hooks"),
+        ArtifactType::Doc => return Ok(Vec::new()),
+    };
+
+    if !dir.is_dir() {
+        return Ok(Vec::new());
+    }
+
+    let mut summaries = Vec::new();
+
+    for entry in std::fs::read_dir(&dir)? {
+        let entry = entry?;
+        let file_name = entry.file_name();
+        let name = file_name.to_string_lossy();
+
+        if name.starts_with('.') || name.starts_with('_') {
+            continue;
+        }
+
+        let ft = entry.file_type()?;
+
+        match artifact_type {
+            ArtifactType::Skill => {
+                if ft.is_dir() && entry.path().join("SKILL.md").exists() {
+                    summaries.push(ArtifactSummary {
+                        id: 0,
+                        artifact_type: artifact_type.clone(),
+                        rel_path: format!(".claude/skills/{}/SKILL.md", name),
+                        name: humanize_name(&name),
+                        description: None,
+                        compliance_status: ComplianceStatus::Unknown,
+                        file_modified_at: None,
+                    });
+                }
+            }
+            _ => {
+                if ft.is_file() {
+                    let valid = match artifact_type {
+                        ArtifactType::Agent | ArtifactType::Rule => name.ends_with(".md"),
+                        ArtifactType::Hook => true,
+                        _ => false,
+                    };
+                    if valid {
+                        let rel_path = match artifact_type {
+                            ArtifactType::Agent => format!(".claude/agents/{}", name),
+                            ArtifactType::Rule => format!(".claude/rules/{}", name),
+                            ArtifactType::Hook => format!(".claude/hooks/{}", name),
+                            _ => continue,
+                        };
+                        summaries.push(ArtifactSummary {
+                            id: 0,
+                            artifact_type: artifact_type.clone(),
+                            rel_path,
+                            name: humanize_name(&name),
+                            description: None,
+                            compliance_status: ComplianceStatus::Unknown,
+                            file_modified_at: None,
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    summaries.sort_by(|a, b| a.name.cmp(&b.name));
+    Ok(summaries)
+}
+
 /// Recursively scan a directory and build a sorted list of `DocNode` entries.
 ///
 /// Hidden entries (starting with `.` or `_`) are skipped.
@@ -355,10 +519,13 @@ fn relative_doc_path(file: &Path, docs_root: &Path) -> String {
 
 /// Convert a filename to a human-readable label.
 ///
-/// Strips `.md`, replaces hyphens with spaces, and title-cases each word.
+/// Strips `.md` / `.sh`, replaces hyphens with spaces, and title-cases each word.
 /// Preserves fully uppercase names (e.g. README, CHANGELOG).
 fn humanize_name(filename: &str) -> String {
-    let stem = filename.strip_suffix(".md").unwrap_or(filename);
+    let stem = filename
+        .strip_suffix(".md")
+        .or_else(|| filename.strip_suffix(".sh"))
+        .unwrap_or(filename);
     // Preserve all-caps names like README, CHANGELOG, TODO
     if stem.chars().all(|c| c.is_ascii_uppercase() || c == '-' || c == '_') && stem.chars().any(|c| c.is_ascii_uppercase()) {
         return stem.to_string();
