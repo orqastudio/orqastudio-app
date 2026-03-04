@@ -38,6 +38,9 @@ pub enum ForgeError {
 
     #[error("permission denied: {0}")]
     PermissionDenied(String),
+
+    #[error("search error: {0}")]
+    Search(String),
 }
 ```
 
@@ -45,7 +48,7 @@ TypeScript receives this as:
 
 ```typescript
 interface ForgeError {
-  code: "not_found" | "database" | "file_system" | "sidecar" | "validation" | "scan" | "serialization" | "permission_denied";
+  code: "not_found" | "database" | "file_system" | "sidecar" | "validation" | "scan" | "serialization" | "permission_denied" | "search";
   message: string;
 }
 ```
@@ -658,6 +661,287 @@ Kill the current sidecar process (if any) and spawn a new one.
 
 ---
 
+## Documentation Commands
+
+### `doc_read`
+
+Read a documentation file from the project's `docs/` directory. Returns an `Artifact` struct with the file content loaded from disk. Path traversal (`..`) is rejected.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `rel_path` | `String` | Yes | Relative path within `docs/` (e.g. `"product/vision.md"`) |
+
+**Returns:** `Result<Artifact, ForgeError>`
+
+**Error cases:**
+- `Validation` — path contains `..` (traversal attempt)
+- `NotFound` — no active project or file does not exist
+- `FileSystem` — file read failure
+
+**TS mirror:** `Promise<Artifact>`
+
+---
+
+### `doc_tree_scan`
+
+Scan the active project's `docs/` directory and return a tree structure of documentation files and directories.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| *(none)* | | | Uses the active project |
+
+**Returns:** `Result<Vec<DocNode>, ForgeError>`
+
+**Error cases:**
+- `NotFound` — no active project
+- `FileSystem` — directory scan failure
+
+**TS mirror:** `Promise<DocNode[]>`
+
+---
+
+### `governance_list`
+
+List governance artifacts (agents, rules, skills, hooks) by scanning the `.claude/` directory on disk. Does not use the database.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `artifact_type` | `String` | Yes | One of: `"agent"`, `"rule"`, `"skill"`, `"hook"`. Not `"doc"` (use `doc_tree_scan`). |
+
+**Returns:** `Result<Vec<ArtifactSummary>, ForgeError>`
+
+**Error cases:**
+- `Validation` — invalid type or `"doc"` passed
+- `NotFound` — no active project
+
+**TS mirror:** `Promise<ArtifactSummary[]>`
+
+---
+
+### `governance_read`
+
+Read a governance artifact file from the active project's `.claude/` directory. Returns an `Artifact` struct with content loaded from disk. Path traversal (`..`) is rejected.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `rel_path` | `String` | Yes | Relative path within project (e.g. `".claude/agents/backend-engineer.md"`) |
+
+**Returns:** `Result<Artifact, ForgeError>`
+
+**Error cases:**
+- `Validation` — path contains `..`
+- `NotFound` — no active project or file does not exist
+- `FileSystem` — file read failure
+
+**TS mirror:** `Promise<Artifact>`
+
+---
+
+## Project Settings Commands (File-Based)
+
+### `project_settings_read`
+
+Read project settings from the `.forge/project.json` file in the project directory. Returns `None` if the settings file does not exist yet.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `path` | `String` | Yes | Absolute path to the project directory |
+
+**Returns:** `Result<Option<ProjectSettings>, ForgeError>`
+
+**Error cases:**
+- `Serialization` — malformed JSON in settings file
+
+**TS mirror:** `Promise<ProjectSettings | null>`
+
+---
+
+### `project_settings_write`
+
+Write project settings to the `.forge/project.json` file. Creates the `.forge/` directory if it does not exist. Returns the written settings for confirmation.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `path` | `String` | Yes | Absolute path to the project directory |
+| `settings` | `ProjectSettings` | Yes | Settings to write |
+
+**Returns:** `Result<ProjectSettings, ForgeError>`
+
+**Error cases:**
+- `FileSystem` — cannot create directory or write file
+- `Serialization` — settings cannot be serialized
+
+**TS mirror:** `Promise<ProjectSettings>`
+
+---
+
+### `project_scan`
+
+Scan a project directory for language, framework, and governance info. Uses file extension heuristics and root-level config file detection.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `path` | `String` | Yes | Absolute path to the project directory |
+| `excluded_paths` | `Option<Vec<String>>` | No | Directory names to skip (defaults to node_modules, .git, target, dist, build) |
+
+**Returns:** `Result<ProjectScanResult, ForgeError>`
+
+**Error cases:**
+- `Validation` — path does not exist or is not a directory
+
+**TS mirror:** `Promise<ProjectScanResult>`
+
+---
+
+### `project_icon_upload`
+
+Upload a project icon by copying an image file to `.forge/icon.{ext}`. Validates file extension and removes any existing icon files before copying.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | `String` | Yes | Absolute path to the project directory |
+| `source_path` | `String` | Yes | Absolute path to the source image file |
+
+**Returns:** `Result<String, ForgeError>` — icon filename (e.g. `"icon.png"`)
+
+**Error cases:**
+- `NotFound` — source file does not exist
+- `Validation` — unsupported file extension (allowed: png, jpg, jpeg, svg, ico)
+- `FileSystem` — cannot copy file
+
+**TS mirror:** `Promise<string>`
+
+---
+
+### `project_icon_read`
+
+Read a project icon and return it as a base64-encoded data URI (`data:{mime};base64,...`).
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | `String` | Yes | Absolute path to the project directory |
+| `icon_filename` | `String` | Yes | Icon filename returned by `project_icon_upload` |
+
+**Returns:** `Result<String, ForgeError>` — data URI string
+
+**Error cases:**
+- `NotFound` — icon file does not exist
+- `FileSystem` — file read failure
+
+**TS mirror:** `Promise<string>`
+
+---
+
+## Search Commands
+
+### `index_codebase`
+
+Index a project's codebase for search. Creates or replaces a DuckDB index at `<project_path>/.forge/search.duckdb`. Chunks source files and stores them for regex and semantic search.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | `String` | Yes | Absolute path to the project directory |
+| `excluded_paths` | `Vec<String>` | Yes | Directory names to skip during indexing |
+
+**Returns:** `Result<IndexStatus, String>`
+
+**Error cases:**
+- Returns `Err(String)` on file system or indexing failures
+
+**TS mirror:** `Promise<IndexStatus>`
+
+---
+
+### `search_regex`
+
+Regex search across indexed code chunks. The codebase must be indexed first via `index_codebase`.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `pattern` | `String` | Yes | Regex pattern to search for |
+| `path` | `Option<String>` | No | Filter results to a specific file path |
+| `max_results` | `Option<u32>` | No | Maximum results to return (default 20) |
+
+**Returns:** `Result<Vec<SearchResult>, String>`
+
+**Error cases:**
+- Returns `Err(String)` if search index not initialized
+
+**TS mirror:** `Promise<SearchResult[]>`
+
+---
+
+### `search_semantic`
+
+Semantic similarity search across indexed code. Embeds the query and finds the most similar code chunks. Requires codebase to be indexed and ONNX embedding model to be initialized.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `query` | `String` | Yes | Natural language query |
+| `max_results` | `Option<u32>` | No | Maximum results to return (default 10) |
+
+**Returns:** `Result<Vec<SearchResult>, String>`
+
+**Error cases:**
+- Returns `Err(String)` if search index not initialized
+
+**TS mirror:** `Promise<SearchResult[]>`
+
+---
+
+### `get_index_status`
+
+Get the current status of the code search index for a project. If no engine is loaded but a database file exists on disk, it will be loaded automatically.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `project_path` | `String` | Yes | Absolute path to the project directory |
+
+**Returns:** `Result<IndexStatus, String>`
+
+**Error cases:**
+- Returns `Err(String)` on lock failures
+
+**TS mirror:** `Promise<IndexStatus>`
+
+---
+
+### `init_embedder`
+
+Initialize the ONNX embedding model, downloading from Hugging Face if needed. Must be called before `search_semantic` can be used.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `model_dir` | `String` | Yes | Path to store/load the embedding model |
+
+**Returns:** `Result<(), String>`
+
+**Error cases:**
+- Returns `Err(String)` on download or model loading failure
+
+**TS mirror:** `Promise<void>`
+
+---
+
+## Startup Commands
+
+### `get_startup_status`
+
+Get the current status of all startup initialization tasks (sidecar launch, embedding model download). Returns a snapshot with each task's status and optional detail string.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| *(none)* | | | |
+
+**Returns:** `Result<StartupSnapshot, String>`
+
+**Error cases:**
+- Returns `Err(String)` on lock failures
+
+**TS mirror:** `Promise<StartupSnapshot>`
+
+---
+
 ## Channel Event Types (Streaming)
 
 These are **not** commands. They are the event payloads sent over `Channel<StreamEvent>` during active streaming (AD-009). The frontend registers a callback when calling `stream_send_message` and receives these events in order.
@@ -786,7 +1070,8 @@ export interface ForgeError {
     | "validation"
     | "scan"
     | "serialization"
-    | "permission_denied";
+    | "permission_denied"
+    | "search";
   message: string;
 }
 
@@ -1018,13 +1303,18 @@ All commands are registered in the Tauri builder. This is the canonical list:
 // src-tauri/src/lib.rs
 tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![
+        // Sidecar
+        sidecar_status,
+        sidecar_restart,
+        // Streaming
+        stream_send_message,
+        stream_stop,
         // Project
         project_open,
         project_create,
-        project_list,
         project_get,
         project_get_active,
-        project_scan,
+        project_list,
         // Session
         session_create,
         session_list,
@@ -1035,9 +1325,6 @@ tauri::Builder::default()
         // Message
         message_list,
         message_search,
-        // Streaming
-        stream_send_message,
-        stream_stop,
         // Artifact
         artifact_list,
         artifact_get,
@@ -1045,21 +1332,37 @@ tauri::Builder::default()
         artifact_create,
         artifact_update,
         artifact_delete,
+        // Documentation (artifact_commands.rs)
+        doc_read,
+        doc_tree_scan,
+        governance_list,
+        governance_read,
+        // Project settings (file-based)
+        project_settings_read,
+        project_settings_write,
+        project_scan,
+        project_icon_upload,
+        project_icon_read,
+        // Settings (SQLite key-value)
+        settings_get,
+        settings_set,
+        settings_get_all,
         // Theme
         theme_get_project,
         theme_set_override,
         theme_clear_overrides,
-        // Settings
-        settings_get,
-        settings_set,
-        settings_get_all,
-        // Sidecar
-        sidecar_status,
-        sidecar_restart,
+        // Search
+        index_codebase,
+        search_regex,
+        search_semantic,
+        get_index_status,
+        init_embedder,
+        // Startup
+        get_startup_status,
     ])
 ```
 
-**Total: 26 commands + 10 streaming event types.**
+**Total: 39 commands + 10 streaming event types.**
 
 ---
 
@@ -1067,12 +1370,15 @@ tauri::Builder::default()
 
 | Domain | Command | Method | Description |
 |--------|---------|--------|-------------|
+| Sidecar | `sidecar_status` | invoke | Get sidecar process status |
+| Sidecar | `sidecar_restart` | invoke | Restart sidecar process |
+| Streaming | `stream_send_message` | invoke + Channel | Send message, stream AI response |
+| Streaming | `stream_stop` | invoke | Cancel active stream |
 | Project | `project_open` | invoke | Open directory as project, scan codebase |
 | Project | `project_create` | invoke | Create new project with scaffold |
-| Project | `project_list` | invoke | List all registered projects |
 | Project | `project_get` | invoke | Get full project details |
 | Project | `project_get_active` | invoke | Get currently active project |
-| Project | `project_scan` | invoke | Re-run codebase scan |
+| Project | `project_list` | invoke | List all registered projects |
 | Session | `session_create` | invoke | Create new conversation session |
 | Session | `session_list` | invoke | List sessions for a project |
 | Session | `session_get` | invoke | Get full session details |
@@ -1081,22 +1387,33 @@ tauri::Builder::default()
 | Session | `session_delete` | invoke | Delete session and all messages |
 | Message | `message_list` | invoke | List messages for a session |
 | Message | `message_search` | invoke | FTS5 search across project messages |
-| Streaming | `stream_send_message` | invoke + Channel | Send message, stream AI response |
-| Streaming | `stream_stop` | invoke | Cancel active stream |
 | Artifact | `artifact_list` | invoke | List artifacts by type |
 | Artifact | `artifact_get` | invoke | Get artifact with disk content |
 | Artifact | `artifact_get_by_path` | invoke | Get artifact by relative path |
 | Artifact | `artifact_create` | invoke | Create artifact file + index |
 | Artifact | `artifact_update` | invoke | Update artifact file + re-index |
 | Artifact | `artifact_delete` | invoke | Delete artifact file + record |
-| Theme | `theme_get_project` | invoke | Get resolved theme tokens |
-| Theme | `theme_set_override` | invoke | Set manual token override |
-| Theme | `theme_clear_overrides` | invoke | Clear all manual overrides |
+| Documentation | `doc_read` | invoke | Read a documentation page by slug path |
+| Documentation | `doc_tree_scan` | invoke | Scan docs/ directory and return tree structure |
+| Documentation | `governance_list` | invoke | List all governance artifacts by category |
+| Documentation | `governance_read` | invoke | Read a governance artifact by relative path |
+| Project Settings | `project_settings_read` | invoke | Read file-based project settings (.forge/project.json) |
+| Project Settings | `project_settings_write` | invoke | Write file-based project settings |
+| Project Settings | `project_scan` | invoke | Re-run project codebase scan |
+| Project Settings | `project_icon_upload` | invoke | Upload/copy a project icon image |
+| Project Settings | `project_icon_read` | invoke | Read project icon as base64 data |
 | Settings | `settings_get` | invoke | Get single setting value |
 | Settings | `settings_set` | invoke | Set single setting value |
 | Settings | `settings_get_all` | invoke | Get all settings for scope |
-| Sidecar | `sidecar_status` | invoke | Get sidecar process status |
-| Sidecar | `sidecar_restart` | invoke | Restart sidecar process |
+| Theme | `theme_get_project` | invoke | Get resolved theme tokens |
+| Theme | `theme_set_override` | invoke | Set manual token override |
+| Theme | `theme_clear_overrides` | invoke | Clear all manual overrides |
+| Search | `index_codebase` | invoke | Index project files into DuckDB for code search |
+| Search | `search_regex` | invoke | Regex search across indexed codebase |
+| Search | `search_semantic` | invoke | Semantic similarity search using ONNX embeddings |
+| Search | `get_index_status` | invoke | Get codebase index statistics |
+| Search | `init_embedder` | invoke | Initialize the ONNX embedding model |
+| Startup | `get_startup_status` | invoke | Get status of async startup tasks |
 
 ---
 

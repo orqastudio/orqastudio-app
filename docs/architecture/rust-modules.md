@@ -1,6 +1,6 @@
 # Rust Module Architecture
 
-**Date:** 2026-03-02 | **Status:** Phase 0e specification | **References:** [Claude Integration](/research/claude-integration), [Tauri v2](/research/tauri-v2), [Persistence](/research/persistence)
+**Date:** 2026-03-02 | **Updated:** 2026-03-04 | **Status:** Aligned with Phase 1 implementation | **References:** [Claude Integration](/research/claude-integration), [Tauri v2](/research/tauri-v2), [Persistence](/research/persistence)
 
 Module tree, domain types, command handlers, and dependency graph for `src-tauri/src/`. Rust owns the domain model (AD-001). All functions return `Result<T, E>` (AD-003). No `unwrap()`, `expect()`, or `panic!()` in production code.
 
@@ -10,74 +10,74 @@ Module tree, domain types, command handlers, and dependency graph for `src-tauri
 
 ```
 src-tauri/src/
-├── main.rs                          # Tauri entry point, app builder, plugin registration
-├── lib.rs                           # Re-exports, app builder function, migration setup
+├── main.rs                          # Tauri entry point (calls lib::run())
+├── lib.rs                           # App builder, plugin registration, command registration, startup
 ├── state.rs                         # AppState struct (Tauri managed state)
-├── error.rs                         # ForgeError enum (thiserror), Result type alias
+├── error.rs                         # ForgeError enum (thiserror + serde), Result type alias
+├── db.rs                            # Database initialization (rusqlite, PRAGMAs, migrations)
+├── startup.rs                       # StartupTracker: async task status for frontend polling
 │
 ├── domain/                          # Domain model types — no dependencies on Tauri or DB
 │   ├── mod.rs                       # Re-exports all domain types
-│   ├── project.rs                   # Project, DetectedStack
+│   ├── project.rs                   # Project, ProjectSummary, DetectedStack, ScanResult
 │   ├── session.rs                   # Session, SessionStatus
 │   ├── message.rs                   # Message, ContentType, StreamStatus, Role
-│   ├── artifact.rs                  # Artifact, ArtifactType, ComplianceStatus
-│   ├── task.rs                      # Task, TaskStatus
-│   ├── lesson.rs                    # Lesson, Severity
+│   ├── artifact.rs                  # Artifact, ArtifactType, ComplianceStatus, DocNode
 │   ├── settings.rs                  # Setting, SettingScope
-│   ├── theme.rs                     # ProjectTheme, ThemeOverride, DesignTokens
-│   └── provider_event.rs           # ProviderEvent enum (streaming protocol)
+│   ├── project_scanner.rs           # Filesystem walking for language/framework detection
+│   ├── project_settings.rs          # File-based ProjectSettings (.forge/project.json), GovernanceCounts
+│   └── provider_event.rs            # ProviderEvent enum (streaming protocol)
 │
 ├── repo/                            # Repository layer — database access (AD-014)
-│   ├── mod.rs                       # Re-exports, DbPool type alias
+│   ├── mod.rs                       # Re-exports
 │   ├── project_repo.rs              # ProjectRepo: CRUD for projects table
 │   ├── session_repo.rs              # SessionRepo: CRUD for sessions table
 │   ├── message_repo.rs              # MessageRepo: insert, update stream, FTS queries
 │   ├── artifact_repo.rs             # ArtifactRepo: CRUD + FTS for artifacts table
-│   ├── task_repo.rs                 # TaskRepo: CRUD for tasks table
-│   ├── lesson_repo.rs               # LessonRepo: CRUD + occurrence tracking
 │   ├── settings_repo.rs             # SettingsRepo: key-value with scope
-│   ├── scanner_repo.rs              # ScannerRepo: insert + query scanner_results
-│   ├── metrics_repo.rs              # MetricsRepo: insert + time-series queries
 │   └── theme_repo.rs                # ThemeRepo: project_themes + overrides
 │
 ├── commands/                        # Tauri command handlers (#[tauri::command])
 │   ├── mod.rs                       # Re-exports all command functions for registration
-│   ├── project_commands.rs          # open_project, create_project, get_project, scan_project
-│   ├── session_commands.rs          # create_session, list_sessions, get_session, end_session
-│   ├── message_commands.rs          # send_message, get_messages, search_messages
-│   ├── artifact_commands.rs         # list_artifacts, get_artifact, save_artifact, create_artifact
-│   ├── sidecar_commands.rs          # start_sidecar, stop_sidecar, sidecar_status
-│   ├── settings_commands.rs         # get_setting, set_setting, get_all_settings
-│   └── theme_commands.rs            # get_project_theme, set_theme_override
+│   ├── project_commands.rs          # project_open, project_create, project_get, project_get_active, project_list
+│   ├── session_commands.rs          # session_create, session_list, session_get, session_update_title, session_end, session_delete
+│   ├── message_commands.rs          # message_list, message_search
+│   ├── artifact_commands.rs         # artifact CRUD + doc_read, doc_tree_scan, governance_list, governance_read
+│   ├── stream_commands.rs           # stream_send_message, stream_stop (Channel<T> streaming)
+│   ├── sidecar_commands.rs          # sidecar_status, sidecar_restart
+│   ├── settings_commands.rs         # settings_get, settings_set, settings_get_all
+│   ├── project_settings_commands.rs # project_settings_read/write, project_scan, project_icon_upload/read
+│   ├── search_commands.rs           # index_codebase, search_regex, search_semantic, get_index_status, init_embedder, get_startup_status
+│   └── theme_commands.rs            # theme_get_project, theme_set_override, theme_clear_overrides
 │
 ├── sidecar/                         # Sidecar process management (AD-007, AD-009)
 │   ├── mod.rs                       # Re-exports
-│   ├── manager.rs                   # SidecarManager: spawn, kill, restart, health check
+│   ├── manager.rs                   # SidecarManager: spawn via std::process::Command, health check
 │   ├── protocol.rs                  # NDJSON serialization/deserialization, line framing
-│   ├── stream.rs                    # StreamHandler: stdout reader → ProviderEvent parser → Channel<T>
-│   └── types.rs                     # SidecarStatus, SidecarRequest, SidecarResponse
+│   └── types.rs                     # SidecarRequest (6 variants), SidecarResponse (14 variants)
 │
-├── tools/                           # MCP tool implementations (AD-010)
-│   ├── mod.rs                       # ToolRegistry, tool dispatch
-│   ├── mcp_server.rs                # MCP server protocol handler (JSON-RPC over stdio)
-│   ├── read.rs                      # Read tool: file content with line ranges
-│   ├── write.rs                     # Write tool: create/overwrite files
-│   ├── edit.rs                      # Edit tool: exact string replacement
-│   ├── bash.rs                      # Bash tool: scoped shell command execution
-│   ├── glob.rs                      # Glob tool: file pattern matching
-│   ├── grep.rs                      # Grep tool: regex content search
-│   └── security.rs                  # Path validation, scope enforcement, deny lists
-│
-├── scanner/                         # Codebase scanning (AD-016)
-│   ├── mod.rs                       # ScanOrchestrator, ScanTier enum
-│   ├── tier1.rs                     # Manifest heuristics: package.json, Cargo.toml, etc.
-│   ├── tier2.rs                     # hyperpolyglot language detection
-│   └── theme_extractor.rs           # Extract design tokens from tailwind.config, CSS vars
-│
-└── watcher/                         # File system watcher for .claude/ artifacts
-    ├── mod.rs                       # Re-exports
-    └── artifact_watcher.rs          # notify-debouncer-full, 500ms debounce, SHA-256 diffing
+└── search/                          # DuckDB code indexer + ONNX semantic search (Phase 2-3)
+    ├── mod.rs                       # SearchEngine: combined regex + semantic search interface
+    ├── chunker.rs                   # Source code chunking for embedding
+    ├── embedder.rs                  # ONNX Runtime embeddings (bge-small-en-v1.5, DirectML)
+    ├── store.rs                     # DuckDB-backed vector store + inverted index
+    └── types.rs                     # SearchResult, IndexStatus, ChunkInfo types
 ```
+
+> **Modules removed from Phase 0e spec** (not yet implemented):
+> - `tools/` — MCP tool implementations deferred to a later phase
+> - `scanner/` — Codebase scanning logic moved into `domain/project_scanner.rs`
+> - `watcher/` — Artifact file watcher deferred to a later phase
+>
+> **Modules added during Phase 1:**
+> - `db.rs` — Direct `rusqlite` database initialization (replaces spec'd `tauri-plugin-sql`)
+> - `startup.rs` — Async startup task tracker with status polling
+> - `search/` — DuckDB-based code indexer with ONNX embeddings for semantic search
+> - `commands/stream_commands.rs` — Streaming separated from message commands
+> - `commands/project_settings_commands.rs` — File-based project settings
+> - `commands/search_commands.rs` — Code search and indexing commands
+> - `domain/project_scanner.rs` — Project filesystem scanning
+> - `domain/project_settings.rs` — File-based settings model
 
 ---
 
@@ -85,43 +85,43 @@ src-tauri/src/
 
 ### `main.rs` / `lib.rs`
 
-Application entry point. Constructs the Tauri app builder, registers all plugins (AD-012), adds managed state, registers command handlers, and runs the app. `lib.rs` exposes a `run()` function that `main.rs` calls, following Tauri v2 convention. Migration setup for `tauri-plugin-sql` lives here.
+Application entry point. `main.rs` calls `lib::run()`. `lib.rs` constructs the Tauri app builder inside a `.setup()` closure: initializes the database via `db::init_db()`, creates the `StartupTracker`, spawns the sidecar, pre-downloads the embedding model, registers all 6 plugins and 39 command handlers, and runs the app. Following Tauri v2 convention.
 
 ### `state.rs`
 
-Defines `AppState`, the single struct passed as Tauri managed state. Holds the database connection pool, sidecar manager handle, file watcher handle, and any shared configuration. All command handlers receive `State<AppState>` as a parameter.
+Defines `AppState`, the single struct passed as Tauri managed state. Holds: `db` (Mutex\<Connection\>), `sidecar` (SidecarManager — uses interior mutability, NOT Mutex-wrapped), `search` (Mutex\<Option\<SearchEngine\>\>), and `startup` (Arc\<StartupTracker\>). All command handlers receive `State<AppState>` as a parameter.
 
 ### `error.rs`
 
-Defines `ForgeError` (via `thiserror`) and a `Result<T>` type alias. Every function in the codebase returns this Result. The error type implements `Into<InvokeError>` so Tauri can serialize errors to the frontend.
+Defines `ForgeError` with 9 variants (via `thiserror` + `serde::Serialize`): NotFound, Database, FileSystem, Sidecar, Validation, Scan, Serialization, PermissionDenied, Search. Serialized as `{"code": "<variant>", "message": "<detail>"}` using `#[serde(tag = "code", content = "message")]`. Tauri auto-converts via blanket `impl<T: Serialize> From<T> for InvokeError`.
+
+### `db.rs`
+
+Database initialization using `rusqlite` directly (not `tauri-plugin-sql`). `init_db()` opens a connection, sets WAL mode and PRAGMAs, and runs the single migration file (`001_initial_schema.sql`) via `include_str!`. Returns a `rusqlite::Connection`.
+
+### `startup.rs`
+
+Generic startup task tracker. Tasks are registered with an ID and label, then updated with status (Pending, InProgress, Done, Error) and optional detail. The frontend polls via `get_startup_status` to show progress of long-running initialization (sidecar launch, embedding model download).
 
 ### `domain/`
 
-Pure domain model types. No dependencies on Tauri, rusqlite, or serde_json beyond derive macros. This module is the source of truth for what Forge's data looks like (AD-001). Other modules depend on `domain/`; it depends on nothing else.
+Pure domain model types. No dependencies on Tauri, rusqlite, or serde_json beyond derive macros. This module is the source of truth for what Forge's data looks like (AD-001). Other modules depend on `domain/`; it depends on nothing else. Includes `project_scanner.rs` for filesystem walking and `project_settings.rs` for file-based project configuration.
 
 ### `repo/`
 
-One repository per entity (AD-014). Each repo struct takes a database connection reference and provides typed methods for CRUD operations, queries, and FTS search. Repos return domain types, never raw SQL rows. All SQL is isolated to this layer.
+One repository per entity (AD-014). Each repo struct takes a database connection reference and provides typed methods for CRUD operations, queries, and FTS search. Repos return domain types, never raw SQL rows. All SQL is isolated to this layer. Currently 6 repos: project, session, message, artifact, settings, theme. (Spec'd repos for tasks, lessons, scanner_results, and metrics are deferred to later phases.)
 
 ### `commands/`
 
-Thin command handlers. Each function is `#[tauri::command]`, receives `State<AppState>` and parameters, calls the appropriate repo or service, and returns `Result<T, ForgeError>`. No business logic lives here — commands are glue between the IPC boundary and the domain/repo layers.
+Thin command handlers. Each function is `#[tauri::command]`, receives `State<AppState>` and parameters, calls the appropriate repo or service, and returns `Result<T, ForgeError>`. No business logic lives here — commands are glue between the IPC boundary and the domain/repo layers. 11 command modules covering 39 total commands.
 
 ### `sidecar/`
 
-Process lifecycle management for the Agent SDK sidecar binary. `SidecarManager` spawns the Bun-compiled TypeScript binary via `tauri-plugin-shell`, monitors its health, and handles restart on crash. `StreamHandler` reads NDJSON lines from stdout, deserializes them into `ProviderEvent` variants, and forwards them through a Tauri `Channel<T>`.
+Process lifecycle management for the Agent SDK sidecar binary. `SidecarManager` spawns the binary via `std::process::Command` (not `tauri-plugin-shell`), monitors its health, and handles restart. Uses interior mutability with per-field Mutex locks. The NDJSON protocol in `protocol.rs` handles stdin/stdout framing. `types.rs` defines `SidecarRequest` (6 variants) and `SidecarResponse` (14 variants) covering streaming events, health checks, summaries, and tool execution/approval.
 
-### `tools/`
+### `search/`
 
-Native Rust implementations of the six core tools (Read, Write, Edit, Bash, Glob, Grep). Each tool is a struct implementing a common `Tool` trait. `mcp_server.rs` wraps these tools as an MCP server that the sidecar connects to. `security.rs` enforces path scope restrictions and deny lists (`.ssh`, `.gnupg`).
-
-### `scanner/`
-
-Codebase analysis at multiple tiers. Tier 1 reads manifest files (package.json, Cargo.toml, pyproject.toml) for fast heuristic detection. Tier 2 uses `hyperpolyglot` for language detection across all files. `theme_extractor.rs` parses Tailwind config and CSS custom properties to extract design tokens for per-project theming.
-
-### `watcher/`
-
-Watches the `.claude/` directory using `notify` crate with `notify-debouncer-full` (500ms debounce). When a governance artifact changes on disk, it recomputes the SHA-256 hash and updates the SQLite cache via `ArtifactRepo`. Emits Tauri events so the frontend can refresh.
+DuckDB-based code indexer with ONNX embeddings for semantic search. `SearchEngine` provides combined regex + semantic search. `chunker.rs` splits source files into chunks. `embedder.rs` loads the bge-small-en-v1.5 ONNX model (auto-downloaded from Hugging Face on first use, using DirectML for GPU acceleration on Windows). `store.rs` manages the DuckDB vector store and inverted index.
 
 ---
 
@@ -148,7 +148,8 @@ pub struct DetectedStack {
     pub languages: Vec<String>,
     pub frameworks: Vec<String>,
     pub package_manager: Option<String>,
-    pub build_tool: Option<String>,
+    pub has_claude_config: bool,
+    pub has_design_tokens: bool,
 }
 ```
 
@@ -159,7 +160,6 @@ pub struct DetectedStack {
 pub struct Session {
     pub id: i64,
     pub project_id: i64,
-    pub user_id: Option<String>,
     pub title: Option<String>,
     pub model: String,
     pub system_prompt: Option<String>,
@@ -243,16 +243,23 @@ pub struct Artifact {
     pub rel_path: String,
     pub name: String,
     pub description: Option<String>,
+    pub content: String,                          // full file content, read from disk
     pub file_hash: Option<String>,
     pub file_size: Option<i64>,
     pub file_modified_at: Option<String>,
-    pub last_scanned_at: Option<String>,
     pub compliance_status: ComplianceStatus,
-    pub relationships: Option<String>,   // JSON
-    pub metadata: Option<String>,        // JSON (extracted frontmatter)
-    pub last_edited_by: Option<String>,
+    pub relationships: Option<Vec<ArtifactRelationship>>,  // deserialized, not raw JSON
+    pub metadata: Option<serde_json::Value>,               // parsed YAML frontmatter
     pub created_at: String,
     pub updated_at: String,
+}
+
+/// A node in the documentation tree (used by doc_tree_scan).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct DocNode {
+    pub label: String,
+    pub path: Option<String>,
+    pub children: Option<Vec<DocNode>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -275,65 +282,6 @@ pub enum ComplianceStatus {
 }
 ```
 
-### `domain/task.rs`
-
-```rust
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Task {
-    pub id: i64,
-    pub project_id: i64,
-    pub session_id: Option<i64>,
-    pub title: String,
-    pub description: Option<String>,
-    pub status: TaskStatus,
-    pub priority: i32,
-    pub assigned_agent: Option<String>,
-    pub metadata: Option<String>,        // JSON
-    pub created_at: String,
-    pub updated_at: String,
-    pub completed_at: Option<String>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "snake_case")]
-pub enum TaskStatus {
-    Pending,
-    InProgress,
-    Blocked,
-    Completed,
-    Cancelled,
-}
-```
-
-### `domain/lesson.rs`
-
-```rust
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Lesson {
-    pub id: i64,
-    pub project_id: i64,
-    pub session_id: Option<i64>,
-    pub title: String,
-    pub pattern: String,
-    pub fix: String,
-    pub occurrence_count: i32,
-    pub last_occurred_at: String,
-    pub severity: Severity,
-    pub metadata: Option<String>,        // JSON
-    pub created_at: String,
-    pub updated_at: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "snake_case")]
-pub enum Severity {
-    Low,
-    Medium,
-    High,
-    Critical,
-}
-```
-
 ### `domain/settings.rs`
 
 ```rust
@@ -353,47 +301,30 @@ pub enum SettingScope {
 }
 ```
 
-### `domain/theme.rs`
+### `domain/project_settings.rs`
+
+File-based project settings stored at `.forge/project.json` within the project root. This is separate from the SQLite-backed `settings` table.
 
 ```rust
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ProjectTheme {
-    pub id: i64,
-    pub project_id: i64,
-    pub source_file: String,
-    pub source_hash: String,
-    pub extracted_at: String,
-    pub tokens_light: DesignTokens,
-    pub tokens_dark: Option<DesignTokens>,
-    pub unmapped: Option<String>,        // JSON
-    pub is_active: bool,
+pub struct ProjectSettings {
+    pub name: String,
+    pub description: Option<String>,
+    pub icon: Option<String>,            // filename in .forge/ directory
+    pub governance: GovernanceCounts,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ThemeOverride {
-    pub id: i64,
-    pub project_id: i64,
-    pub token_name: String,
-    pub value_light: String,             // OKLCH value
-    pub value_dark: Option<String>,
-    pub created_at: String,
-    pub updated_at: String,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DesignTokens {
-    pub primary: Option<String>,
-    pub secondary: Option<String>,
-    pub background: Option<String>,
-    pub foreground: Option<String>,
-    pub accent: Option<String>,
-    pub muted: Option<String>,
-    pub destructive: Option<String>,
-    // Extensible — additional tokens stored as key-value pairs
-    #[serde(flatten)]
-    pub extra: std::collections::HashMap<String, String>,
+pub struct GovernanceCounts {
+    pub agents: usize,
+    pub rules: usize,
+    pub skills: usize,
+    pub hooks: usize,
+    pub docs: usize,
 }
 ```
+
+> **Phase 0e domain types not yet implemented:** `task.rs`, `lesson.rs`, and `theme.rs` (as standalone modules) do not exist yet. Theme types are defined inline in `settings.rs`. Task and lesson domain types are deferred to later phases.
 
 ### `domain/provider_event.rs`
 
@@ -450,65 +381,101 @@ pub enum ProviderEvent {
 
 ## 4. Command Handlers
 
-Every command is registered in `main.rs` / `lib.rs` via `tauri::Builder::invoke_handler(tauri::generate_handler![...])`. All return `Result<T, ForgeError>`.
+Every command is registered in `lib.rs` via `tauri::Builder::invoke_handler(tauri::generate_handler![...])`. All return `Result<T, ForgeError>`. See [IPC Commands](/architecture/ipc-commands) for full parameter and return type documentation.
 
 ### `commands/project_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `open_project` | `(path: String) -> Result<Project>` | Open directory, run Tier 1 scan, upsert into DB |
-| `create_project` | `(name: String, parent: String) -> Result<Project>` | Create directory, scaffold `.claude/`, register |
-| `get_project` | `(id: i64) -> Result<Project>` | Fetch project by ID |
-| `scan_project` | `(id: i64, tier: u8) -> Result<DetectedStack>` | Run Tier 1 or Tier 2 scan, update project |
+| Command | Description |
+|---------|-------------|
+| `project_open` | Open directory, run scan, upsert into DB |
+| `project_create` | Create directory, scaffold `.claude/`, register |
+| `project_get` | Fetch project by ID |
+| `project_get_active` | Get currently active project |
+| `project_list` | List all registered projects |
 
 ### `commands/session_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `create_session` | `(project_id: i64, model: Option<String>) -> Result<Session>` | Create session, inject handoff notes from last session |
-| `list_sessions` | `(project_id: i64) -> Result<Vec<Session>>` | List sessions ordered by updated_at DESC |
-| `get_session` | `(id: i64) -> Result<Session>` | Fetch session with metadata |
-| `end_session` | `(id: i64) -> Result<()>` | Set status, trigger async summary generation |
+| Command | Description |
+|---------|-------------|
+| `session_create` | Create session, inject handoff notes from last session |
+| `session_list` | List sessions ordered by updated_at DESC |
+| `session_get` | Fetch session with metadata |
+| `session_update_title` | Update session display title |
+| `session_end` | Set status, trigger async summary generation |
+| `session_delete` | Delete session and all messages |
 
 ### `commands/message_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `send_message` | `(session_id: i64, content: String, channel: Channel<ProviderEvent>) -> Result<()>` | Write user message to DB, send to sidecar, stream response via Channel |
-| `get_messages` | `(session_id: i64) -> Result<Vec<Message>>` | Fetch all messages for a session, ordered |
-| `search_messages` | `(project_id: i64, query: String) -> Result<Vec<SearchResult>>` | FTS5 cross-session search |
+| Command | Description |
+|---------|-------------|
+| `message_list` | Fetch all messages for a session, ordered |
+| `message_search` | FTS5 cross-session search |
+
+### `commands/stream_commands.rs`
+
+| Command | Description |
+|---------|-------------|
+| `stream_send_message` | Write user message to DB, send to sidecar, stream response via Channel\<T\> |
+| `stream_stop` | Cancel active stream |
 
 ### `commands/artifact_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `list_artifacts` | `(project_id: i64, artifact_type: Option<ArtifactType>) -> Result<Vec<Artifact>>` | List artifacts, optionally filtered by type |
-| `get_artifact` | `(id: i64) -> Result<ArtifactDetail>` | Fetch metadata + read file content from disk |
-| `save_artifact` | `(id: i64, content: String) -> Result<Artifact>` | Write content to disk, update hash in DB |
-| `create_artifact` | `(project_id: i64, artifact_type: ArtifactType, name: String) -> Result<Artifact>` | Create template file on disk, index in DB |
+| Command | Description |
+|---------|-------------|
+| `artifact_list` | List artifacts, optionally filtered by type |
+| `artifact_get` | Fetch metadata + read file content from disk |
+| `artifact_get_by_path` | Get artifact by relative path |
+| `artifact_create` | Create template file on disk, index in DB |
+| `artifact_update` | Write content to disk, update hash in DB |
+| `artifact_delete` | Delete artifact file + DB record |
+| `doc_read` | Read a documentation page by slug path |
+| `doc_tree_scan` | Scan docs/ directory and return DocNode tree |
+| `governance_list` | List all governance artifacts by category |
+| `governance_read` | Read a governance artifact by relative path |
 
 ### `commands/sidecar_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `start_sidecar` | `(project_id: i64) -> Result<()>` | Spawn sidecar process for the active project |
-| `stop_sidecar` | `() -> Result<()>` | Terminate sidecar process cleanly |
-| `sidecar_status` | `() -> Result<SidecarStatus>` | Return current sidecar state |
+| Command | Description |
+|---------|-------------|
+| `sidecar_status` | Return current sidecar state |
+| `sidecar_restart` | Restart sidecar process |
 
 ### `commands/settings_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `get_setting` | `(key: String, scope: SettingScope) -> Result<Option<Setting>>` | Fetch a setting by key and scope |
-| `set_setting` | `(key: String, value: String, scope: SettingScope) -> Result<()>` | Upsert a setting |
-| `get_all_settings` | `(scope: SettingScope) -> Result<Vec<Setting>>` | Fetch all settings for a scope |
+| Command | Description |
+|---------|-------------|
+| `settings_get` | Fetch a setting by key and scope |
+| `settings_set` | Upsert a setting |
+| `settings_get_all` | Fetch all settings for a scope |
+
+### `commands/project_settings_commands.rs`
+
+| Command | Description |
+|---------|-------------|
+| `project_settings_read` | Read file-based project settings (.forge/project.json) |
+| `project_settings_write` | Write file-based project settings |
+| `project_scan` | Re-run project codebase scan |
+| `project_icon_upload` | Upload/copy a project icon image |
+| `project_icon_read` | Read project icon as base64 data URI |
 
 ### `commands/theme_commands.rs`
 
-| Command | Signature | Description |
-|---------|-----------|-------------|
-| `get_project_theme` | `(project_id: i64) -> Result<ResolvedTheme>` | Merge extracted tokens + overrides into final theme |
-| `set_theme_override` | `(project_id: i64, token: String, light: String, dark: Option<String>) -> Result<()>` | Create or update a manual theme override |
+| Command | Description |
+|---------|-------------|
+| `theme_get_project` | Merge extracted tokens + overrides into final theme |
+| `theme_set_override` | Create or update a manual theme override |
+| `theme_clear_overrides` | Clear all manual theme overrides |
+
+### `commands/search_commands.rs`
+
+| Command | Description |
+|---------|-------------|
+| `index_codebase` | Index project files into DuckDB for code search |
+| `search_regex` | Regex search across indexed codebase |
+| `search_semantic` | Semantic similarity search using ONNX embeddings |
+| `get_index_status` | Get codebase index statistics |
+| `init_embedder` | Initialize the ONNX embedding model |
+| `get_startup_status` | Get status of async startup tasks |
 
 ---
 
@@ -554,12 +521,10 @@ The `AppState` holds a `DbPool`. Command handlers lock the mutex, obtain a `&Con
 | `SessionRepo` | `sessions` | by_id, list_by_project, update_status, update_tokens |
 | `MessageRepo` | `messages` | insert, update_stream_content, by_session_ordered, fts_search |
 | `ArtifactRepo` | `artifacts` | by_id, by_project_and_type, upsert_by_path, fts_search |
-| `TaskRepo` | `tasks` | by_id, by_project_and_status, update_status |
-| `LessonRepo` | `lessons` | by_id, by_project, increment_occurrence |
 | `SettingsRepo` | `settings` | get_by_key_scope, upsert, all_by_scope |
-| `ScannerRepo` | `scanner_results` | insert, latest_by_scanner, by_project |
-| `MetricsRepo` | `metrics` | insert, time_series_query, by_project_and_name |
 | `ThemeRepo` | `project_themes`, `project_theme_overrides` | active_theme, upsert_theme, upsert_override |
+
+> **Phase 0e repos not yet implemented:** `TaskRepo`, `LessonRepo`, `ScannerRepo`, `MetricsRepo` are deferred until their corresponding domain types and tables are created.
 
 ### New / Update DTOs
 
@@ -588,22 +553,22 @@ pub struct ProjectUpdate {
 
 ### Sidecar Manager
 
-`sidecar/manager.rs` owns the lifecycle of the Bun-compiled TypeScript sidecar binary.
+`sidecar/manager.rs` owns the lifecycle of the sidecar binary. Uses `std::process::Command` (not `tauri-plugin-shell`) for process spawning. SidecarManager uses interior mutability with per-field Mutex locks, so it is NOT wrapped in a Mutex in AppState.
 
 ```
                                   ┌──────────────────────┐
                                   │   SidecarManager     │
                                   │                      │
-   start_sidecar() ──────────────>│  spawn()             │
+   ensure_sidecar_running() ─────>│  spawn()             │
                                   │    │                  │
-                                  │    ├─ tauri-plugin-   │
-                                  │    │  shell::spawn()  │
+                                  │    ├─ std::process::  │
+                                  │    │  Command::new()  │
                                   │    │                  │
                                   │    ├─ stdin handle ───┼──> write NDJSON requests
                                   │    │                  │
                                   │    └─ stdout handle ──┼──> StreamHandler
                                   │                      │
-   stop_sidecar() ───────────────>│  kill()              │
+   sidecar_restart() ────────────>│  kill() + spawn()    │
                                   │                      │
    sidecar_status() ─────────────>│  status()            │
                                   │  (NotStarted |       │
@@ -702,300 +667,167 @@ impl StreamHandler {
 ```rust
 // sidecar/types.rs
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "snake_case")]
-pub enum SidecarStatus {
-    NotStarted,
-    Starting,
-    Connected,
-    Error(String),
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum SidecarRequest {
-    /// Send a user message for a conversation turn
-    SendMessage {
-        session_id: i64,
-        content: String,
-        system_prompt: Option<String>,
-        history: Vec<Message>,
-    },
-    /// Request a session handoff summary
-    GenerateSummary {
-        session_id: i64,
-        messages: Vec<Message>,
-    },
-    /// Graceful shutdown
-    Shutdown,
+    SendMessage { session_id: i64, content: String, model: Option<String>, system_prompt: Option<String> },
+    CancelStream { session_id: i64 },
+    GenerateSummary { session_id: i64, messages: Vec<MessageSummary> },
+    HealthCheck,
+    ToolResult { tool_call_id: String, output: String, is_error: bool },
+    ToolApproval { tool_call_id: String, approved: bool, reason: Option<String> },
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum SidecarResponse {
-    /// Wraps a ProviderEvent from the Agent SDK
-    Event(ProviderEvent),
-    /// MCP tool call routed from the Agent SDK to Forge
-    ToolCall {
-        tool_call_id: String,
-        tool_name: String,
-        input: serde_json::Value,
-    },
+    // Streaming events (forwarded to frontend via Channel<T>)
+    StreamStart { message_id: i64, resolved_model: Option<String> },
+    TextDelta { content: String },
+    ThinkingDelta { content: String },
+    ToolUseStart { tool_call_id: String, tool_name: String },
+    ToolInputDelta { tool_call_id: String, content: String },
+    ToolResult { tool_call_id: String, tool_name: String, result: String, is_error: bool },
+    BlockComplete { block_index: i32, content_type: String },
+    TurnComplete { input_tokens: i64, output_tokens: i64 },
+    StreamError { code: String, message: String, recoverable: bool },
+    StreamCancelled,
+    // Non-streaming responses
+    HealthOk { version: String },
+    SummaryResult { session_id: i64, summary: String },
+    // Tool execution (sidecar -> Forge)
+    ToolExecute { tool_call_id: String, tool_name: String, input: String },
+    ToolApprovalRequest { tool_call_id: String, tool_name: String, input: String },
 }
 ```
+
+> **Implementation Notes:** The Phase 0e spec had `SidecarResponse` as a simple `Event(ProviderEvent)` wrapper. The actual implementation flattens all events into `SidecarResponse` variants directly, making the protocol more explicit. The `SidecarRequest` now includes `CancelStream`, `HealthCheck`, `ToolResult`, and `ToolApproval` variants that evolved during Phase 1 implementation.
 
 ---
 
-## 7. Tool Implementations (AD-010)
-
-### Tool Trait
-
-```rust
-// tools/mod.rs
-use async_trait::async_trait;
-
-#[async_trait]
-pub trait Tool: Send + Sync {
-    /// Tool name as registered in MCP (e.g., "Read", "Write")
-    fn name(&self) -> &'static str;
-
-    /// JSON Schema describing the tool's input parameters
-    fn input_schema(&self) -> serde_json::Value;
-
-    /// Execute the tool and return the result as a string
-    async fn execute(&self, input: serde_json::Value) -> Result<ToolOutput>;
-}
-
-pub struct ToolOutput {
-    pub content: String,
-    pub is_error: bool,
-}
-
-/// Registry that maps tool names to implementations
-pub struct ToolRegistry {
-    tools: HashMap<String, Box<dyn Tool>>,
-}
-
-impl ToolRegistry {
-    pub fn new(project_root: PathBuf) -> Self { ... }
-    pub fn get(&self, name: &str) -> Option<&dyn Tool> { ... }
-    pub fn list_definitions(&self) -> Vec<ToolDefinition> { ... }
-}
-```
-
-### Tool Implementations
-
-| Tool | Module | Input | Description |
-|------|--------|-------|-------------|
-| Read | `tools/read.rs` | `{ file_path, offset?, limit? }` | Read file contents with optional line range. Returns content with line numbers. |
-| Write | `tools/write.rs` | `{ file_path, content }` | Create or overwrite a file. Creates parent directories if needed. |
-| Edit | `tools/edit.rs` | `{ file_path, old_string, new_string, replace_all? }` | Exact string replacement. Fails if `old_string` is not found or not unique. |
-| Bash | `tools/bash.rs` | `{ command, timeout? }` | Execute a shell command. Timeout defaults to 120s. Returns stdout + stderr. |
-| Glob | `tools/glob.rs` | `{ pattern, path? }` | Find files matching a glob pattern. Returns sorted file paths. |
-| Grep | `tools/grep.rs` | `{ pattern, path?, glob?, type?, output_mode? }` | Regex search across files. Supports context lines, file type filtering. |
-
-### MCP Server
-
-`tools/mcp_server.rs` implements the MCP protocol (JSON-RPC 2.0 over stdio) so the sidecar can call Forge's tools:
-
-```
-Sidecar (Agent SDK)                         Forge (Rust)
-    │                                           │
-    │  ── MCP initialize ────────────────────>  │
-    │  <── capabilities + tool list ──────────  │
-    │                                           │
-    │  ── tools/call { name, input } ────────>  │
-    │       │                                   │
-    │       │              ToolRegistry.get(name)│
-    │       │              tool.execute(input)   │
-    │       │              security.validate()   │
-    │       │                                   │
-    │  <── result { content, is_error } ──────  │
-```
-
-The sidecar registers Forge's MCP server as `mcpServers: { "forge": { command: "..." } }` and disables built-in tools with `tools: []`.
-
-### Security (`tools/security.rs`)
-
-```rust
-pub struct SecurityScope {
-    allowed_roots: Vec<PathBuf>,         // Project root + $HOME
-    denied_paths: Vec<PathBuf>,          // .ssh, .gnupg, etc.
-}
-
-impl SecurityScope {
-    /// Returns Ok(canonical_path) if the path is within scope, Err otherwise.
-    pub fn validate_path(&self, path: &Path) -> Result<PathBuf> { ... }
-
-    /// Validate a shell command against the allowlist.
-    pub fn validate_command(&self, command: &str) -> Result<()> { ... }
-}
-```
-
----
-
-## 8. Error Types (AD-003)
+## 7. Error Types (AD-003)
 
 ### ForgeError
 
 ```rust
 // error.rs
-use thiserror::Error;
+use serde::Serialize;
 
-#[derive(Debug, Error)]
+#[derive(Debug, thiserror::Error, Serialize)]
+#[serde(tag = "code", content = "message")]
 pub enum ForgeError {
-    // --- Database ---
-    #[error("Database error: {0}")]
-    Database(#[from] rusqlite::Error),
+    #[error("not found: {0}")]
+    #[serde(rename = "not_found")]
+    NotFound(String),
 
-    #[error("Migration error: {0}")]
-    Migration(String),
+    #[error("database error: {0}")]
+    #[serde(rename = "database")]
+    Database(String),
 
-    // --- Sidecar ---
-    #[error("Sidecar not running")]
-    SidecarNotRunning,
+    #[error("file system error: {0}")]
+    #[serde(rename = "file_system")]
+    FileSystem(String),
 
-    #[error("Sidecar spawn failed: {0}")]
-    SidecarSpawnFailed(String),
+    #[error("sidecar error: {0}")]
+    #[serde(rename = "sidecar")]
+    Sidecar(String),
 
-    #[error("Sidecar communication error: {0}")]
-    SidecarProtocol(String),
+    #[error("validation error: {0}")]
+    #[serde(rename = "validation")]
+    Validation(String),
 
-    #[error("Claude Code CLI not found — install with: npm install -g @anthropic-ai/claude-code")]
-    ClaudeCliNotFound,
+    #[error("scan error: {0}")]
+    #[serde(rename = "scan")]
+    Scan(String),
 
-    // --- Tools ---
-    #[error("Tool not found: {0}")]
-    ToolNotFound(String),
+    #[error("serialization error: {0}")]
+    #[serde(rename = "serialization")]
+    Serialization(String),
 
-    #[error("Tool execution failed: {tool_name}: {message}")]
-    ToolExecution {
-        tool_name: String,
-        message: String,
-    },
+    #[error("permission denied: {0}")]
+    #[serde(rename = "permission_denied")]
+    PermissionDenied(String),
 
-    // --- File System ---
-    #[error("File not found: {0}")]
-    FileNotFound(String),
-
-    #[error("Path outside security scope: {0}")]
-    PathOutOfScope(String),
-
-    #[error("IO error: {0}")]
-    Io(#[from] std::io::Error),
-
-    // --- Serialization ---
-    #[error("JSON error: {0}")]
-    Json(#[from] serde_json::Error),
-
-    // --- Domain ---
-    #[error("Project not found: {0}")]
-    ProjectNotFound(i64),
-
-    #[error("Session not found: {0}")]
-    SessionNotFound(i64),
-
-    #[error("Artifact not found: {0}")]
-    ArtifactNotFound(i64),
-
-    #[error("Invalid input: {0}")]
-    InvalidInput(String),
-
-    // --- Provider ---
-    #[error("Provider error: {code}: {message}")]
-    Provider {
-        code: String,
-        message: String,
-    },
-
-    #[error("Rate limited — retry after {retry_after_secs}s")]
-    RateLimited {
-        retry_after_secs: u64,
-    },
+    #[error("search error: {0}")]
+    #[serde(rename = "search")]
+    Search(String),
 }
-
-/// Convenience type alias used throughout the codebase.
-pub type Result<T> = std::result::Result<T, ForgeError>;
 ```
 
 ### Tauri Serialization
 
-Tauri command handlers require errors to be serializable. `ForgeError` implements `Into<tauri::ipc::InvokeError>` so that error details reach the frontend as structured JSON:
+`ForgeError` derives `Serialize` with `#[serde(tag = "code", content = "message")]`, producing `{"code": "not_found", "message": "..."}`. Tauri auto-converts via its blanket `impl<T: Serialize> From<T> for InvokeError`. The Phase 0e spec used `From<ForgeError> for InvokeError` with `err.to_string()`, but the actual implementation uses serde for structured error JSON.
 
-```rust
-impl From<ForgeError> for tauri::ipc::InvokeError {
-    fn from(err: ForgeError) -> Self {
-        tauri::ipc::InvokeError::from(err.to_string())
-    }
-}
-```
+`From` impls exist for `std::io::Error` (-> FileSystem), `serde_json::Error` (-> Serialization), and `rusqlite::Error` (-> Database), all converting to string messages.
 
 ---
 
-## 9. Dependency Graph
+## 8. Dependency Graph
 
-Arrows point from the dependent module to the module it depends on. The `domain` module is at the bottom — it depends on nothing.
+Arrows point from the dependent module to the module it depends on. The `domain` module is at the bottom -- it depends on nothing.
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                          main.rs / lib.rs                          │
-│                   (app builder, plugin registration)               │
-└────┬──────────┬──────────┬──────────┬───────────┬──────────────────┘
-     │          │          │          │           │
-     ▼          ▼          ▼          ▼           ▼
-┌─────────┐ ┌─────────┐ ┌────────┐ ┌─────────┐ ┌─────────┐
-│commands/│ │sidecar/ │ │tools/  │ │scanner/ │ │watcher/ │
-│         │ │         │ │        │ │         │ │         │
-│ project │ │ manager │ │ read   │ │ tier1   │ │artifact │
-│ session │ │protocol │ │ write  │ │ tier2   │ │_watcher │
-│ message │ │ stream  │ │ edit   │ │ theme   │ │         │
-│artifact │ │ types   │ │ bash   │ │_extract │ │         │
-│ sidecar │ │         │ │ glob   │ │         │ │         │
-│settings │ │         │ │ grep   │ │         │ │         │
-│ theme   │ │         │ │mcp_srv │ │         │ │         │
-│         │ │         │ │security│ │         │ │         │
-└────┬────┘ └──┬──┬───┘ └───┬────┘ └────┬────┘ └────┬────┘
-     │         │  │         │           │           │
-     │         │  │         │           │           │
-     ▼         │  ▼         │           │           │
-┌─────────┐   │ ┌─────────┐│           │           │
-│  repo/  │   │ │ state.rs││           │           │
-│         │   │ │(AppState)│◄──────────┼───────────┘
-│ project │   │ └────┬─────┘           │
-│ session │   │      │                 │
-│ message │   │      │                 │
-│artifact │◄──┼──────┼─────────────────┘
-│  task   │   │      │
-│ lesson  │   │      │
-│settings │   │      │
-│ scanner │   │      │
-│ metrics │   │      │
-│  theme  │   │      │
-└────┬────┘   │      │
-     │        │      │
-     ▼        ▼      ▼
-┌─────────────────────────┐     ┌──────────┐
+┌─────────────────────────────────────────────────────────┐
+│                    main.rs / lib.rs                      │
+│            (app builder, plugin registration,            │
+│             startup tracker, command registration)       │
+└────┬──────────┬──────────┬──────────┬───────────────────┘
+     │          │          │          │
+     ▼          ▼          ▼          ▼
+┌──────────┐ ┌─────────┐ ┌────────┐ ┌───────────┐
+│commands/ │ │sidecar/ │ │search/ │ │ startup.rs│
+│          │ │         │ │        │ │           │
+│ project  │ │ manager │ │ mod    │ └───────────┘
+│ session  │ │protocol │ │chunker │
+│ message  │ │ types   │ │embedder│
+│ stream   │ │         │ │ store  │
+│artifact  │ │         │ │ types  │
+│ sidecar  │ │         │ │        │
+│settings  │ │         │ └───┬────┘
+│proj_sett │ │         │     │
+│ search   │ │         │     │
+│ theme    │ │         │     │
+└────┬─────┘ └──┬──────┘     │
+     │          │             │
+     ▼          │             │
+┌─────────┐    │  ┌──────────┐
+│  repo/  │    │  │ state.rs │
+│         │    │  │(AppState)│
+│ project │    │  └────┬─────┘
+│ session │    │       │
+│ message │    │       │
+│artifact │◄───┘       │
+│settings │            │
+│  theme  │            │
+└────┬────┘            │
+     │                 │
+     ▼        ┌────────┘
+┌─────────────┴───────────┐     ┌──────────┐
 │       domain/           │     │ error.rs │
 │                         │◄────│(ForgeErr)│
 │ project  session        │     └──────────┘
 │ message  artifact       │          ▲
-│ task     lesson         │          │
-│ settings theme          │     (all modules
-│ provider_event          │      depend on
-│                         │      error.rs)
+│ settings                │          │
+│ project_scanner         │     (all modules
+│ project_settings        │      depend on
+│ provider_event          │      error.rs)
 └─────────────────────────┘
+                          ┌──────────┐
+                          │  db.rs   │
+                          │(init_db) │
+                          └──────────┘
 ```
 
 ### Dependency Rules
 
 1. **`domain/`** depends on nothing (only std, serde, serde_json).
-2. **`error.rs`** depends on thiserror, rusqlite (for `From<rusqlite::Error>`), and std::io.
-3. **`repo/`** depends on `domain/`, `error.rs`, and rusqlite.
-4. **`commands/`** depends on `domain/`, `repo/`, `state.rs`, `error.rs`, `sidecar/`, and `scanner/`.
-5. **`sidecar/`** depends on `domain/` (for ProviderEvent, Message), `error.rs`, and tauri-plugin-shell.
-6. **`tools/`** depends on `domain/`, `error.rs`, and std::fs/std::process. No database dependency.
-7. **`scanner/`** depends on `domain/`, `repo/`, and `error.rs`.
-8. **`watcher/`** depends on `repo/`, `domain/`, `error.rs`, and the `notify` crate.
+2. **`error.rs`** depends on thiserror, serde, rusqlite (for `From<rusqlite::Error>`), serde_json, and std::io.
+3. **`db.rs`** depends on rusqlite and `error.rs`.
+4. **`repo/`** depends on `domain/`, `error.rs`, and rusqlite.
+5. **`commands/`** depends on `domain/`, `repo/`, `state.rs`, `error.rs`, `sidecar/`, `search/`, and `startup.rs`.
+6. **`sidecar/`** depends on `domain/` (for Message), `error.rs`, and std::process.
+7. **`search/`** depends on `domain/`, `error.rs`, duckdb, ort (ONNX Runtime), and tokenizers.
+8. **`startup.rs`** depends on nothing (only std).
 9. **`main.rs` / `lib.rs`** depends on everything (wires it all together).
 
 ### Circular Dependency Prevention
@@ -1005,120 +837,74 @@ No module may depend on a module that depends on it. The layering is strict:
 ```
 main/lib  →  commands  →  repo     →  domain
                        →  sidecar  →  domain
-                       →  tools    →  domain
-                       →  scanner  →  domain
-                       →  watcher  →  domain
+                       →  search   →  domain
 ```
 
 ---
 
-## 10. State Management
+## 9. State Management
 
 ### AppState
 
 ```rust
 // state.rs
-use std::sync::Mutex;
+use std::sync::{Arc, Mutex};
 use rusqlite::Connection;
+use crate::search::SearchEngine;
 use crate::sidecar::manager::SidecarManager;
-use crate::tools::ToolRegistry;
-use crate::watcher::artifact_watcher::ArtifactWatcher;
+use crate::startup::StartupTracker;
 
 pub struct AppState {
     /// SQLite connection (WAL mode, single writer, concurrent readers).
     /// Wrapped in Mutex because rusqlite::Connection is not Send.
     pub db: Mutex<Connection>,
 
-    /// Sidecar process manager. Wrapped in Mutex for interior mutability
-    /// (spawn/kill modify internal state).
-    pub sidecar: Mutex<SidecarManager>,
+    /// Sidecar process manager. Uses interior mutability via its own
+    /// per-field Mutex locks — NOT wrapped in an outer Mutex.
+    pub sidecar: SidecarManager,
 
-    /// Tool registry for MCP tool dispatch.
-    /// Initialized on project open with the project root path.
-    pub tools: Mutex<Option<ToolRegistry>>,
+    /// DuckDB-backed code search engine. Lazily initialized when a
+    /// project is first indexed via index_codebase.
+    pub search: Mutex<Option<SearchEngine>>,
 
-    /// File watcher for .claude/ artifacts.
-    /// Initialized on project open, stopped on project close.
-    pub watcher: Mutex<Option<ArtifactWatcher>>,
-
-    /// Currently active project ID. None if no project is open.
-    pub active_project_id: Mutex<Option<i64>>,
+    /// Tracks long-running startup tasks (sidecar launch, model download)
+    /// for frontend polling via get_startup_status.
+    pub startup: Arc<StartupTracker>,
 }
 ```
 
 ### Registration
 
+Database initialization and state construction happen inside `.setup()`. The PRAGMAs are set by `db::init_db()`, not inline.
+
 ```rust
-// lib.rs (inside the run() function)
+// lib.rs (inside the run() function, .setup() closure)
+let conn = db::init_db(db_path_str)?;
 
-pub fn run() {
-    let db = Connection::open(db_path).expect("failed to open database");
-    // PRAGMA initialization
-    db.execute_batch("
-        PRAGMA journal_mode = WAL;
-        PRAGMA foreign_keys = ON;
-        PRAGMA busy_timeout = 5000;
-        PRAGMA synchronous = NORMAL;
-        PRAGMA cache_size = -8000;
-        PRAGMA temp_store = MEMORY;
-    ").expect("failed to set pragmas");
+let tracker = startup::StartupTracker::new();
+tracker.register("sidecar", "Sidecar");
+tracker.register("embedding_model", "Embedding model");
 
-    let app_state = AppState {
-        db: Mutex::new(db),
-        sidecar: Mutex::new(SidecarManager::new()),
-        tools: Mutex::new(None),
-        watcher: Mutex::new(None),
-        active_project_id: Mutex::new(None),
-    };
-
-    tauri::Builder::default()
-        .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_fs::init())
-        .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_notification::init())
-        .plugin(tauri_plugin_window_state::Builder::new().build())
-        .plugin(tauri_plugin_persisted_scope::init())
-        .plugin(tauri_plugin_sql::Builder::new()
-            .add_migrations("sqlite:forge.db", migrations())
-            .build())
-        .manage(app_state)
-        .invoke_handler(tauri::generate_handler![
-            // Project
-            commands::open_project,
-            commands::create_project,
-            commands::get_project,
-            commands::scan_project,
-            // Session
-            commands::create_session,
-            commands::list_sessions,
-            commands::get_session,
-            commands::end_session,
-            // Message
-            commands::send_message,
-            commands::get_messages,
-            commands::search_messages,
-            // Artifact
-            commands::list_artifacts,
-            commands::get_artifact,
-            commands::save_artifact,
-            commands::create_artifact,
-            // Sidecar
-            commands::start_sidecar,
-            commands::stop_sidecar,
-            commands::sidecar_status,
-            // Settings
-            commands::get_setting,
-            commands::set_setting,
-            commands::get_all_settings,
-            // Theme
-            commands::get_project_theme,
-            commands::set_theme_override,
-        ])
-        .run(tauri::generate_context!())
-        .expect("error running Forge");
-}
+let app_state = state::AppState {
+    db: std::sync::Mutex::new(conn),
+    sidecar: sidecar::manager::SidecarManager::new(),
+    search: std::sync::Mutex::new(None),
+    startup: Arc::clone(&tracker),
+};
 ```
+
+### Plugins (6)
+
+```rust
+.plugin(tauri_plugin_fs::init())
+.plugin(tauri_plugin_shell::init())
+.plugin(tauri_plugin_store::Builder::default().build())
+.plugin(tauri_plugin_window_state::Builder::default().build())
+.plugin(tauri_plugin_dialog::init())
+.plugin(tauri_plugin_notification::init())
+```
+
+> **Note:** `tauri-plugin-sql` and `tauri-plugin-persisted-scope` from the Phase 0e spec are NOT used. Database access is via `rusqlite` directly through `db.rs`.
 
 ### Command Handler Pattern
 
@@ -1126,22 +912,19 @@ Every command handler follows the same pattern:
 
 ```rust
 #[tauri::command]
-pub fn get_session(
+pub fn session_get(
     state: tauri::State<'_, AppState>,
     id: i64,
 ) -> Result<Session, ForgeError> {
-    let conn = state.db.lock().map_err(|e| ForgeError::Database(
-        rusqlite::Error::SqliteFailure(
-            rusqlite::ffi::Error::new(1), Some(e.to_string())
-        )
-    ))?;
+    let conn = state.db.lock()
+        .map_err(|e| ForgeError::Database(e.to_string()))?;
     SessionRepo::get_by_id(&conn, id)?
-        .ok_or(ForgeError::SessionNotFound(id))
+        .ok_or_else(|| ForgeError::NotFound(format!("session {id}")))
 }
 ```
 
 1. Extract `State<AppState>` from Tauri.
-2. Lock the resource needed (db, sidecar, etc.).
+2. Lock the resource needed (db, sidecar, search, etc.).
 3. Call the repository or service method.
 4. Return `Result<T, ForgeError>`.
 
@@ -1151,6 +934,7 @@ No business logic in the handler. No `unwrap()`. No `panic!()`.
 
 ## Related Documents
 
-- [Architecture Decisions](/architecture/decisions) -- AD-001 through AD-017
+- [Architecture Decisions](/architecture/decisions) -- AD-001 through AD-018
+- [IPC Commands](/architecture/ipc-commands) -- Full parameter and return type documentation for all 39 commands
 - [SQLite Schema](/architecture/sqlite-schema) -- Full table definitions and migration strategy
 - [MVP Feature Specification](/product/mvp-specification) -- Phase 1 scope and acceptance criteria
