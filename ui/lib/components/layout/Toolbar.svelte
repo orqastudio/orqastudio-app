@@ -4,7 +4,7 @@
 	import ArrowLeftRightIcon from "@lucide/svelte/icons/arrow-left-right";
 	import XIcon from "@lucide/svelte/icons/x";
 	import SlidersHorizontalIcon from "@lucide/svelte/icons/sliders-horizontal";
-	import fMark from "$lib/assets/f-mark.svg";
+	import finMark from "$lib/assets/fin-mark.svg";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
@@ -45,7 +45,7 @@
 	{#if projectStore.iconDataUrl}
 		<img src={projectStore.iconDataUrl} alt={projectName || "Orqa Studio"} class="h-5 w-5 rounded object-contain" />
 	{:else}
-		<img src={fMark} alt="Orqa Studio" class="h-5 w-5" />
+		<img src={finMark} alt="Orqa Studio" class="h-5 w-5" />
 	{/if}
 	<span class="text-sm font-semibold">{projectName || "Orqa Studio"}</span>
 	<div class="flex-1"></div>

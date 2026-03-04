@@ -284,25 +284,7 @@ The design should always feel like **engineering infrastructure**, not consumer 
 
 ---
 
-## 13. File Structure
-
-Recommended repository structure:
-
-```text
-brand/
- ├─ logo/
- │   ├─ orqa-logo-primary.svg
- │   ├─ orqa-logo-light.svg
- │   └─ orqa-icon.svg
- │
- ├─ colors.md
- ├─ typography.md
- └─ brand-guidelines.md
-```
-
----
-
-## 14. Summary
+## 13. Summary
 
 The Orqa Studio brand expresses a simple idea:
 

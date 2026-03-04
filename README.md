@@ -1,3 +1,5 @@
+![Orqa Studio](ui/lib/assets/banner.png)
+
 # Orqa Studio
 
 A desktop app for managed agentic development. Claude Code's capabilities with a visual process layer.
