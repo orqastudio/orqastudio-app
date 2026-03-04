@@ -107,11 +107,13 @@ Architecture decisions for Forge. Each decision is numbered AD-NNN and is immuta
 
 **Date:** 2026-03-02 | **Status:** Active
 
-**Decision:** Forge integrates with Claude via a Bun-compiled TypeScript sidecar running the official Agent SDK (`@anthropic-ai/claude-agent-sdk`). The sidecar communicates with the Rust backend via stdin/stdout newline-delimited JSON (NDJSON). The Rust backend spawns the sidecar via `tauri-plugin-shell` `spawn()`.
+**Decision:** Forge integrates with Claude via a Bun-compiled TypeScript sidecar running the official Agent SDK (`@anthropic-ai/claude-agent-sdk`). The sidecar communicates with the Rust backend via stdin/stdout newline-delimited JSON (NDJSON). The Rust backend spawns the sidecar via `std::process::Command`.
 
 **Rationale:** The Agent SDK spawns the official Claude Code CLI binary, which is the only legal path to Max subscription usage. Bun compile produces ~18-25 MB standalone binaries per platform — far smaller than Electron (~150+ MB). stdin/stdout NDJSON is the same pattern used by LSP (Language Server Protocol) and adds negligible latency (~0.1-0.5ms per event vs Claude's 30-100ms/token generation). The Agent SDK provides `tools: []` to disable built-in tools, `canUseTool` for approval UI delegation, `includePartialMessages` for token-level streaming, and custom MCP servers for routing tool execution to Forge.
 
 **Consequences:** The build pipeline must cross-compile the sidecar for each target platform (`bun build --compile --target=<platform>`). Process lifecycle management (start, restart on crash, kill on exit) must be implemented in Rust. The Claude Code CLI must be installed on the user's machine for the Agent SDK path to function.
+
+**Implementation Notes (Phase 1):** The original spec called for `tauri-plugin-shell spawn()` for process spawning. During Phase 1 implementation, this was changed to `std::process::Command` for more direct control over stdin/stdout piping and process lifecycle. The `SidecarManager` in `sidecar/manager.rs` uses interior mutability (per-field `Mutex` locks) rather than being wrapped in a single `Mutex` at the `AppState` level. The sidecar protocol has grown beyond the original spec to include additional request/response variants: `ToolApproval` (approve/deny tool calls), `CancelStream` (abort active streaming), `HealthCheck` / `HealthOk` (process liveness), `ToolExecute` (sidecar-to-Forge tool dispatch), and `ToolApprovalRequest` (sidecar requesting UI approval).
 
 **Research:** [Claude Integration Research](/research/claude-integration)
 
@@ -126,6 +128,8 @@ Architecture decisions for Forge. Each decision is numbered AD-NNN and is immuta
 **Rationale:** Max subscription ($100-200/month flat) is cost-effective at 25+ conversations/day vs API billing (~$304/month at 75 conversations/day with Sonnet). Third-party OAuth token usage is banned and enforced with server-side fingerprinting since January 2026 — the Agent SDK is the only legal path. The provider-agnostic sidecar interface (AD-017) ensures future providers can be added without changing the Rust core or Svelte UI.
 
 **Consequences:** Users must have Claude Code CLI installed and authenticated (`claude login`). Forge must detect whether authentication is available and surface clear guidance if not. Rate limits from Max subscription (5-hour rolling windows, weekly caps) must be surfaced in the UI.
+
+**Implementation Status:** Not yet fully implemented. Phase 1 includes sidecar spawning and basic health checks but does not verify Claude CLI authentication. Phase 2a will add a first-run setup wizard with Claude CLI detection, authentication checking, and guided onboarding for users who have not yet run `claude login`.
 
 **Research:** [Claude Integration Research](/research/claude-integration)
 
@@ -246,7 +250,7 @@ Architecture decisions for Forge. Each decision is numbered AD-NNN and is immuta
 
 **Date:** 2026-03-02 | **Status:** Active
 
-**Decision:** Forge reads and writes governance artifacts in the exact `.claude/` format (markdown with YAML frontmatter for agents/skills, pure markdown for rules, JSON for settings). Forge-specific metadata (compliance status, usage counts, parsed timestamps) lives only in SQLite — files are never modified to add Forge metadata.
+**Decision:** Forge reads and writes governance artifacts as native Claude Code artifacts in the exact `.claude/` format (markdown with YAML frontmatter for agents/skills, pure markdown for rules, JSON for settings). All `.claude/` files created by Forge work identically in Claude Code CLI — there is no Forge-specific format or metadata embedded in the files. Forge-specific metadata (compliance status, usage counts, parsed timestamps) lives only in SQLite — files are never modified to add Forge metadata.
 
 **Rationale:** Full compatibility with Claude Code CLI. Users can switch between Forge and CLI seamlessly. Markdown is the natural format for AI instructions. Parsing via `yaml-front-matter` (frontmatter extraction) + `comrak` (markdown body parsing/rendering, used by crates.io and docs.rs).
 
@@ -260,11 +264,17 @@ Architecture decisions for Forge. Each decision is numbered AD-NNN and is immuta
 
 **Date:** 2026-03-02 | **Status:** Active
 
-**Decision:** Three-tier codebase scanning: Tier 1 (manifest-file heuristics, <100ms, automatic), Tier 2 (`hyperpolyglot` language detection, ~1-2s, automatic), Tier 3 (Claude analysis, on-demand). Conversation-first progressive disclosure: features appear as they become relevant, controlled by a `feature_gates` table in SQLite. No wizard. Value in under 1 minute.
+**Decision:** Three-tier codebase scanning: Tier 1 (manifest-file heuristics, <100ms, automatic), Tier 2 (`hyperpolyglot` language detection, ~1-2s, automatic), Tier 3 (Claude analysis, on-demand). Progressive disclosure: features appear as they become relevant.
 
 **Rationale:** The target user is a PM/Tech Lead, not a developer configuring an IDE. Manifest-file heuristics cover 90%+ of projects instantly. Progressive disclosure avoids cognitive overload — the conversation IS the primary interface, and governance features reveal themselves through natural interaction (Linear, Notion, Obsidian precedent).
 
-**Consequences:** Navigation grows organically (Conversation only → + Artifacts → + Sessions → full nav). Empty states must be actionable, not decorative. Feature gates stored in SQLite with `first_used_at` and `visible` flags. The first-run flow is: API key → open project → auto-scan → conversation.
+**Implementation Notes (Phase 1):** The original decision specified "no wizard" and a `feature_gates` table in SQLite for progressive disclosure. During Phase 1 implementation, this evolved:
+
+- **Project Setup Wizard added:** A `ProjectSetupWizard.svelte` component was implemented for project-level onboarding (selecting a project directory, running initial scan, configuring settings). This provides guided setup for the project-specific workflow.
+- **App-level first-run wizard (Phase 2a):** A separate app-level first-run setup wizard will be added in Phase 2a for Claude CLI detection and authentication checking.
+- **`feature_gates` table not implemented:** The SQLite-based progressive disclosure via `feature_gates` was not built. The current UI uses static navigation with all sections visible from the start. Progressive disclosure may be revisited in a later phase.
+
+**Consequences:** The first-run flow is: open project (via wizard or direct path) → auto-scan → conversation. Project settings are stored in file-based `.forge/project.json` (per AD-014's hybrid file/DB approach).
 
 **Research:** [Onboarding Research](/research/onboarding)
 

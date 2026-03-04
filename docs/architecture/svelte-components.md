@@ -1,6 +1,6 @@
 # Svelte Component Tree
 
-**Date:** 2026-03-02 | **Status:** Phase 0e specification | **References:** [Frontend Research](/research/frontend), [Design Tokens Research](/research/design-tokens), [Information Architecture](/product/information-architecture)
+**Date:** 2026-03-02 | **Updated:** 2026-03-04 | **Status:** Aligned with Phase 1 implementation | **References:** [Frontend Research](/research/frontend), [Design Tokens Research](/research/design-tokens), [Information Architecture](/product/information-architecture)
 
 Defines the complete Svelte component architecture for Forge: directory layout, route structure, component hierarchy, store design, command mapping, data flow, streaming integration, and theme integration.
 
@@ -59,44 +59,45 @@ src/
 │   │   │   ├── SystemMessage.svelte
 │   │   │   ├── MessageInput.svelte
 │   │   │   └── StreamingIndicator.svelte
+│   │   ├── shared/                   # Shared reusable components
+│   │   │   ├── EmptyState.svelte
+│   │   │   ├── ErrorDisplay.svelte
+│   │   │   ├── LoadingSpinner.svelte
+│   │   │   ├── MetadataRow.svelte
+│   │   │   ├── SearchInput.svelte
+│   │   │   ├── SelectMenu.svelte
+│   │   │   └── SmallBadge.svelte
 │   │   ├── tool/                     # Tool call domain
-│   │   │   ├── ToolCallCard.svelte
-│   │   │   ├── ToolCallInput.svelte
-│   │   │   ├── ToolCallOutput.svelte
-│   │   │   ├── DiffView.svelte
-│   │   │   └── ToolApprovalControls.svelte   # Phase 2
+│   │   │   └── ToolCallCard.svelte
 │   │   ├── content/                  # Content rendering domain
 │   │   │   ├── MarkdownRenderer.svelte
-│   │   │   ├── CodeBlock.svelte
-│   │   │   ├── MarkdownEditor.svelte
-│   │   │   └── FrontmatterDisplay.svelte
+│   │   │   └── CodeBlock.svelte
 │   │   ├── artifact/                 # Artifact domain
-│   │   │   ├── ArtifactBrowser.svelte
-│   │   │   ├── ArtifactListItem.svelte
+│   │   │   ├── ArtifactLanding.svelte     # Landing page for artifact categories
 │   │   │   ├── ArtifactViewer.svelte
-│   │   │   ├── ArtifactEditor.svelte
+│   │   │   ├── AgentViewer.svelte         # Specialized viewer for agent definitions
+│   │   │   ├── HookViewer.svelte          # Specialized viewer for hooks
+│   │   │   ├── SkillViewer.svelte         # Specialized viewer for skills
 │   │   │   └── Breadcrumb.svelte
 │   │   ├── navigation/               # Navigation domain
 │   │   │   ├── DocTreeNav.svelte
 │   │   │   ├── ArtifactListNav.svelte
-│   │   │   ├── SessionDropdown.svelte
-│   │   │   ├── ProjectDashboard.svelte
-│   │   │   └── ProjectSwitcher.svelte
+│   │   │   └── SettingsCategoryNav.svelte  # Settings category navigation
+│   │   ├── dashboard/                # Dashboard domain
+│   │   │   └── ProjectDashboard.svelte
 │   │   └── settings/                 # Settings domain
 │   │       ├── SettingsView.svelte
-│   │       ├── ProviderSettings.svelte
-│   │       ├── ProjectSettings.svelte
-│   │       ├── AppearanceSettings.svelte
-│   │       ├── ThemeToggle.svelte
-│   │       └── ShortcutsReference.svelte
+│   │       ├── ProjectSetupWizard.svelte       # First-run project configuration wizard
+│   │       ├── ProjectGeneralSettings.svelte   # Project name, description, icon
+│   │       ├── ProjectGovernanceSettings.svelte # Governance artifact management
+│   │       └── ProjectScanningSettings.svelte  # Codebase scan configuration
 │   ├── stores/                       # Svelte 5 $state stores
 │   │   ├── session.svelte.ts         # Active session, session list
 │   │   ├── navigation.svelte.ts      # Activity bar selection, nav sub-panel state
 │   │   ├── conversation.svelte.ts    # Messages, streaming accumulation
 │   │   ├── artifact.svelte.ts        # Selected artifact, artifact index
 │   │   ├── project.svelte.ts         # Project metadata, governance counts
-│   │   ├── sidecar.svelte.ts         # Sidecar status, connection health
-│   │   └── theme.svelte.ts           # Theme mode, project tokens
+│   │   └── settings.svelte.ts        # App and project settings
 │   ├── commands/                     # Tauri invoke() wrappers
 │   │   ├── session.ts                # Session CRUD commands
 │   │   ├── conversation.ts           # Send message, stream setup
@@ -159,9 +160,6 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
     └── +page.svelte [CONTAINER — fetches data, subscribes to streams]
         └── AppLayout
             ├── Toolbar
-            │   ├── ProjectSwitcher
-            │   │   ├── ui:Popover
-            │   │   └── ui:Command
             │   ├── ui:Command (global search, Ctrl+K)
             │   └── ui:Button (new session)
             │
@@ -185,35 +183,22 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
             │   ├── [Explorer Pane — always visible, artifact-centric]
             │   │   ├── [when activeActivity is artifact category]
             │   │   │   ├── [when explorerView === "artifact-list"]
-            │   │   │   │   └── ArtifactBrowser
-            │   │   │   │       ├── ui:Input (search filter)
-            │   │   │   │       ├── ui:ScrollArea
-            │   │   │   │       │   └── ArtifactListItem (repeated)
-            │   │   │   │       └── ui:Button (new artifact)
+            │   │   │   │   └── ArtifactLanding
+            │   │   │   │       ├── EmptyState (when no artifacts)
+            │   │   │   │       └── [artifact category landing content]
             │   │   │   │
-            │   │   │   ├── [when explorerView === "artifact-viewer"]
-            │   │   │   │   └── ArtifactViewer
-            │   │   │   │       ├── Breadcrumb
-            │   │   │   │       ├── FrontmatterDisplay
-            │   │   │   │       │   ├── ui:Badge (metadata fields)
-            │   │   │   │       │   └── ui:Card
-            │   │   │   │       ├── MarkdownRenderer (rendered view)
-            │   │   │   │       ├── ArtifactEditor (edit mode)
-            │   │   │   │       │   └── MarkdownEditor
-            │   │   │   │       │       └── svelte-codemirror-editor
-            │   │   │   │       └── ui:Button (edit toggle)
-            │   │   │   │
-            │   │   │   └── [when explorerView === "artifact-editor"]
-            │   │   │       └── ArtifactEditor
-            │   │   │           └── MarkdownEditor
+            │   │   │   └── [when explorerView === "artifact-viewer"]
+            │   │   │       └── ArtifactViewer / AgentViewer / HookViewer / SkillViewer
+            │   │   │           ├── Breadcrumb
+            │   │   │           ├── MarkdownRenderer (rendered view)
+            │   │   │           └── MetadataRow (metadata display)
             │   │   │
             │   │   ├── [when activeActivity === "settings"]
             │   │   │   └── SettingsView
-            │   │   │       ├── ui:Collapsible (sections)
-            │   │   │       ├── ProviderSettings
-            │   │   │       ├── ProjectSettings
-            │   │   │       ├── AppearanceSettings
-            │   │   │       └── ShortcutsReference
+            │   │   │       ├── ProjectSetupWizard (first-run)
+            │   │   │       ├── ProjectGeneralSettings
+            │   │   │       ├── ProjectGovernanceSettings
+            │   │   │       └── ProjectScanningSettings
             │   │   │
             │   │   ├── [when activeActivity === "scanners"]
             │   │   │   └── ScannerDashboard (Phase 3+)
@@ -236,11 +221,11 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
             │   │       │
             │   │       ├── [when activeActivity is artifact category (agents/rules/skills/hooks)]
             │   │       │   └── ArtifactListNav
-            │   │       │       ├── ui:Input (search filter)
+            │   │       │       ├── SearchInput (search filter)
             │   │       │       └── ui:ScrollArea
             │   │       │
             │   │       ├── [when activeActivity === "settings"]
-            │   │       │   └── ArtifactListNav (settings categories)
+            │   │       │   └── SettingsCategoryNav
             │   │       │
             │   │       └── [when activeActivity is dashboard — hidden]
             │   │
@@ -248,10 +233,6 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
             │       ├── [when activeSession exists]
             │       │   └── ConversationView
             │       │       ├── SessionHeader
-            │       │       │   ├── SessionDropdown
-            │       │       │   │   ├── ui:DropdownMenu
-            │       │       │   │   ├── ui:Input (session search)
-            │       │       │   │   └── ui:Button (new session)
             │       │       │   ├── ui:Input (editable title)
             │       │       │   ├── ui:Select (model selector: Auto | Opus | Sonnet | Haiku)
             │       │       │   └── ui:Badge (token usage)
@@ -260,7 +241,6 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
             │       │       │   │   └── MessageBubble
             │       │       │   │       ├── MarkdownRenderer
             │       │       │   │       │   ├── CodeBlock
-            │       │       │   │       │   │   ├── svelte-highlight
             │       │       │   │       │   │   └── ui:Button (copy)
             │       │       │   │       │   └── [custom renderers]
             │       │       │   │       └── ui:Tooltip (timestamp)
@@ -292,12 +272,12 @@ Indentation shows parent-child nesting. Components prefixed with `ui:` are shadc
 | `ActivityBar` | `ActivityBarItem` (repeated) | Icon rail with active state |
 | `NavSubPanel` | `DocTreeNav`, `ArtifactListNav` | Per-category navigation container |
 | `ConversationView` | `SessionHeader`, `ui:ScrollArea`, `MessageInput` | Vertical stack |
-| `SessionHeader` | `SessionDropdown`, `ui:Select`, `ui:Badge` | Session context + switching |
+| `SessionHeader` | `ui:Input`, `ui:Select`, `ui:Badge` | Session context + model selection |
 | `AssistantMessage` | `MessageBubble`, `ToolCallCard` | Message with inline tool calls |
-| `ToolCallCard` | `ToolCallInput`, `ToolCallOutput` | Expandable detail |
-| `ArtifactViewer` | `Breadcrumb`, `FrontmatterDisplay`, `MarkdownRenderer`, `ArtifactEditor` | View/edit toggle |
-| `ArtifactBrowser` | `ArtifactListItem` | List container (category from Activity Bar) |
-| `SettingsView` | `ProviderSettings`, `ProjectSettings`, `AppearanceSettings`, `ShortcutsReference` | Collapsible sections |
+| `ToolCallCard` | (self-contained) | Tool call display |
+| `ArtifactViewer` | `Breadcrumb`, `MarkdownRenderer` | View/edit toggle |
+| `ArtifactLanding` | (self-contained) | Landing page for artifact categories |
+| `SettingsView` | `ProjectSetupWizard`, `ProjectGeneralSettings`, `ProjectGovernanceSettings`, `ProjectScanningSettings` | Settings sections |
 
 ---
 
@@ -487,53 +467,19 @@ class ProjectStore {
 export const projectStore = new ProjectStore();
 ```
 
-### sidecar.svelte.ts
+### settings.svelte.ts
 
 ```typescript
-// Sidecar process status and connection health
-type SidecarStatus = "stopped" | "starting" | "running" | "error";
-
-class SidecarStore {
-  status = $state<SidecarStatus>("stopped");
-  claudeCodeVersion = $state<string | null>(null);
-  lastError = $state<string | null>(null);
-
-  isConnected = $derived(this.status === "running");
-
-  setStatus(status: SidecarStatus) { this.status = status; }
-  setVersion(version: string) { this.claudeCodeVersion = version; }
-  setError(error: string) {
-    this.status = "error";
-    this.lastError = error;
-  }
+// App and project settings
+class SettingsStore {
+  // Settings state managed here
+  // Replaces the spec'd sidecar.svelte.ts and theme.svelte.ts
 }
 
-export const sidecarStore = new SidecarStore();
+export const settingsStore = new SettingsStore();
 ```
 
-### theme.svelte.ts
-
-```typescript
-// Theme mode and project-specific design tokens
-type ThemeMode = "light" | "dark" | "system";
-
-class ThemeStore {
-  mode = $state<ThemeMode>("system");
-  useProjectTokens = $state(false);
-  projectTokens = $state<Record<string, string> | null>(null);
-
-  resolvedMode = $derived(
-    this.mode === "system" ? getSystemPreference() : this.mode
-  );
-
-  setMode(mode: ThemeMode) { this.mode = mode; }
-  loadProjectTokens(tokens: Record<string, string>) {
-    this.projectTokens = tokens;
-  }
-}
-
-export const themeStore = new ThemeStore();
-```
+> **Phase 0e stores not implemented:** `sidecar.svelte.ts` and `theme.svelte.ts` do not exist as separate files. Their concerns are handled by `settings.svelte.ts` and inline component state respectively.
 
 ---
 
@@ -553,9 +499,9 @@ Per AD-006, only containers and pages call `invoke()`. Display components receiv
 | Create session | `invoke("create_session", { projectId })` | `sessionStore` | Toolbar new session button |
 | Load project metadata | `invoke("get_project_metadata", { path })` | `projectStore` | App mount, project switch |
 | List artifacts | `invoke("list_artifacts", { projectId, category })` | `artifactStore.artifacts` | Artifact browser tab change |
-| Get artifact content | `invoke("get_artifact", { path })` | `artifactStore` | ArtifactListItem click |
-| Save artifact | `invoke("save_artifact", { path, content })` | `artifactStore` | ArtifactEditor save |
-| Start sidecar | `invoke("start_sidecar")` | `sidecarStore` | App mount |
+| Get artifact content | `invoke("get_artifact", { path })` | `artifactStore` | ArtifactListNav item click |
+| Save artifact | `invoke("save_artifact", { path, content })` | `artifactStore` | ArtifactViewer save |
+| Start sidecar | `invoke("start_sidecar")` | `settingsStore` | App mount |
 | Get settings | `invoke("get_settings")` | Settings props | Settings view open |
 | Save settings | `invoke("save_settings", { settings })` | — | Settings form save |
 | Update session title | `invoke("update_session_title", { sessionId, title })` | `sessionStore` | SessionHeader title edit |
@@ -568,25 +514,24 @@ Per AD-006, only containers and pages call `invoke()`. Display components receiv
 CONTAINERS (may call invoke):          DISPLAY COMPONENTS (props only):
 ─────────────────────────────          ─────────────────────────────────
 +page.svelte                           AppLayout
-+layout.svelte                         ActivityBar
-                                       ActivityBarItem
++layout.svelte                         ActivityBar / ActivityBarItem
                                        NavSubPanel
-                                       Toolbar
-                                       StatusBar
-                                       ConversationView
-                                       SessionHeader
+                                       Toolbar / StatusBar
+                                       ConversationView / SessionHeader
                                        MessageBubble / UserMessage / AssistantMessage / SystemMessage
                                        MessageInput (dispatches events up, does NOT invoke)
-                                       ToolCallCard / ToolCallInput / ToolCallOutput / DiffView
-                                       MarkdownRenderer / CodeBlock / MarkdownEditor
-                                       FrontmatterDisplay
-                                       ArtifactBrowser / ArtifactListItem
-                                       ArtifactViewer / ArtifactEditor
+                                       ToolCallCard
+                                       MarkdownRenderer / CodeBlock
+                                       ArtifactLanding / ArtifactViewer
+                                       AgentViewer / HookViewer / SkillViewer
                                        Breadcrumb
-                                       DocTreeNav / ArtifactListNav
-                                       SessionDropdown / ProjectDashboard / ProjectSwitcher
-                                       SettingsView / ProviderSettings / ProjectSettings
-                                       AppearanceSettings / ThemeToggle / ShortcutsReference
+                                       DocTreeNav / ArtifactListNav / SettingsCategoryNav
+                                       ProjectDashboard
+                                       SettingsView / ProjectSetupWizard
+                                       ProjectGeneralSettings / ProjectGovernanceSettings
+                                       ProjectScanningSettings
+                                       EmptyState / ErrorDisplay / LoadingSpinner
+                                       MetadataRow / SearchInput / SelectMenu / SmallBadge
                                        WelcomeScreen / StreamingIndicator
 ```
 
@@ -808,34 +753,16 @@ Theme management uses three layers:
 +layout.svelte
   │
   ├── ModeWatcher (from mode-watcher)
-  │   Reads: themeStore.mode
+  │   Reads: system/user mode preference
   │   Sets: document class ("light" | "dark")
   │   Writes: CSS variables on :root
   │
   └── $effect: apply project tokens
-      Reads: themeStore.useProjectTokens, themeStore.projectTokens
+      Reads: settingsStore (project token overrides)
       Sets: CSS custom properties on :root (overrides shadcn defaults)
 ```
 
-### ThemeToggle Component
-
-```svelte
-<!-- ThemeToggle.svelte — display component, receives props -->
-<script lang="ts">
-  import { toggleMode, mode } from "mode-watcher";
-  import Sun from "lucide-svelte/icons/sun";
-  import Moon from "lucide-svelte/icons/moon";
-  import { Button } from "$lib/components/ui/button";
-</script>
-
-<Button variant="ghost" size="icon" onclick={toggleMode}>
-  {#if $mode === "dark"}
-    <Sun class="h-4 w-4" />
-  {:else}
-    <Moon class="h-4 w-4" />
-  {/if}
-</Button>
-```
+> **Note:** There is no standalone `ThemeToggle` component or `themeStore` in Phase 1. Theme mode is managed by `mode-watcher` and project design tokens are handled through `settingsStore`.
 
 ### CSS Variable Strategy
 
@@ -865,14 +792,14 @@ Theme management uses three layers:
 
 ### Project Token Override
 
-When `themeStore.useProjectTokens` is enabled, project-specific design tokens are applied as CSS variable overrides on `:root`, taking precedence over the default shadcn-svelte palette. This allows projects to carry branded color schemes.
+When project design tokens are enabled via settings, project-specific design tokens are applied as CSS variable overrides on `:root`, taking precedence over the default shadcn-svelte palette. This allows projects to carry branded color schemes.
 
 ```typescript
-// In +layout.svelte
+// In +layout.svelte — conceptual pattern
 $effect(() => {
-  if (themeStore.useProjectTokens && themeStore.projectTokens) {
+  if (settingsStore.useProjectTokens && settingsStore.projectTokens) {
     const root = document.documentElement;
-    for (const [key, value] of Object.entries(themeStore.projectTokens)) {
+    for (const [key, value] of Object.entries(settingsStore.projectTokens)) {
       root.style.setProperty(`--${key}`, value);
     }
   }

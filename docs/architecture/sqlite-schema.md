@@ -1,6 +1,6 @@
 # SQLite Schema
 
-**Date:** 2026-03-02 | **Status:** Phase 0e specification
+**Date:** 2026-03-02 | **Updated:** 2026-03-04 | **Status:** Aligned with Phase 1 implementation
 **References:** [Persistence Research](/research/persistence) (AD-014), [Design Tokens Research](/research/design-tokens)
 
 Full table definitions, indexes, FTS5 configuration, and migration strategy for `forge.db`.
@@ -9,48 +9,51 @@ Full table definitions, indexes, FTS5 configuration, and migration strategy for 
 
 ## Database Configuration
 
-```sql
--- Connection initialization (run on every connection open)
-PRAGMA journal_mode = WAL;           -- Concurrent reads during streaming writes
-PRAGMA foreign_keys = ON;            -- Enforce referential integrity
-PRAGMA busy_timeout = 5000;          -- 5s retry on lock contention
-PRAGMA synchronous = NORMAL;         -- Safe with WAL, better write performance
-PRAGMA cache_size = -8000;           -- 8MB page cache
-PRAGMA temp_store = MEMORY;          -- Temp tables in memory
+PRAGMAs are set by `db::init_db()` in `src-tauri/src/db.rs` using `rusqlite` (NOT `tauri-plugin-sql`). The database is opened directly via `rusqlite::Connection::open()` and wrapped in `Mutex<Connection>` inside `AppState`.
+
+```rust
+// src-tauri/src/db.rs — init_db()
+conn.execute_batch("
+    PRAGMA journal_mode = WAL;
+    PRAGMA foreign_keys = ON;
+    PRAGMA busy_timeout = 5000;
+    PRAGMA synchronous = NORMAL;
+    PRAGMA cache_size = -8000;
+    PRAGMA temp_store = MEMORY;
+");
 ```
 
 **WAL mode** is essential for streaming — it allows the UI to read session data while new tokens are being written.
 
 ---
 
-## Core Tables (11)
+## Core Tables (7 implemented + 4 planned)
 
 ### projects
 
 ```sql
-CREATE TABLE projects (
+CREATE TABLE IF NOT EXISTS projects (
     id              INTEGER PRIMARY KEY,
     name            TEXT NOT NULL,
     path            TEXT NOT NULL UNIQUE,
     description     TEXT,
-    -- Tier 1 scan results (JSON)
-    detected_stack  TEXT,               -- {"languages":["Rust","TypeScript"],"frameworks":["Tauri","Svelte"],...}
+    detected_stack  TEXT,               -- JSON: {"languages":["Rust","TypeScript"],"frameworks":["Tauri","Svelte"],...}
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
     updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
-CREATE UNIQUE INDEX idx_projects_path ON projects(path);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_projects_path ON projects(path);
 ```
 
 ### sessions
 
 ```sql
-CREATE TABLE sessions (
+CREATE TABLE IF NOT EXISTS sessions (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     user_id         TEXT,                       -- nullable: future multi-user
     title           TEXT,
-    model           TEXT NOT NULL DEFAULT 'claude-sonnet-4-20250514',
+    model           TEXT NOT NULL DEFAULT 'auto',
     system_prompt   TEXT,
     status          TEXT NOT NULL DEFAULT 'active'
                     CHECK (status IN ('active', 'completed', 'abandoned', 'error')),
@@ -63,9 +66,9 @@ CREATE TABLE sessions (
     updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
-CREATE INDEX idx_sessions_project ON sessions(project_id);
-CREATE INDEX idx_sessions_created ON sessions(created_at);
-CREATE INDEX idx_sessions_status ON sessions(status);
+CREATE INDEX IF NOT EXISTS idx_sessions_project ON sessions(project_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_created ON sessions(created_at);
+CREATE INDEX IF NOT EXISTS idx_sessions_status ON sessions(status);
 ```
 
 ### messages
@@ -73,33 +76,29 @@ CREATE INDEX idx_sessions_status ON sessions(status);
 One row per content block (not per API message). A single assistant turn with text + tool_use produces multiple rows.
 
 ```sql
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id              INTEGER PRIMARY KEY,
     session_id      INTEGER NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
     role            TEXT NOT NULL CHECK (role IN ('user', 'assistant', 'system')),
     content_type    TEXT NOT NULL DEFAULT 'text'
                     CHECK (content_type IN ('text', 'tool_use', 'tool_result', 'thinking', 'image')),
-    content         TEXT,                   -- text/tool_result/thinking content
-    -- Tool-specific (null for non-tool messages)
-    tool_call_id    TEXT,                   -- Claude's tool_use id
-    tool_name       TEXT,                   -- "Read", "Edit", "Bash", etc.
-    tool_input      TEXT,                   -- JSON input object
-    tool_is_error   INTEGER DEFAULT 0,      -- 1 if tool_result is an error
-    -- Ordering
+    content         TEXT,
+    tool_call_id    TEXT,
+    tool_name       TEXT,
+    tool_input      TEXT,
+    tool_is_error   INTEGER DEFAULT 0,
     turn_index      INTEGER NOT NULL DEFAULT 0,
     block_index     INTEGER NOT NULL DEFAULT 0,
-    -- Streaming
     stream_status   TEXT NOT NULL DEFAULT 'complete'
                     CHECK (stream_status IN ('pending', 'complete', 'error')),
-    -- Token usage (assistant messages only)
     input_tokens    INTEGER,
     output_tokens   INTEGER,
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
-CREATE INDEX idx_messages_session ON messages(session_id, turn_index, block_index);
-CREATE INDEX idx_messages_tool ON messages(tool_name) WHERE tool_name IS NOT NULL;
-CREATE INDEX idx_messages_stream ON messages(stream_status) WHERE stream_status = 'pending';
+CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id, turn_index, block_index);
+CREATE INDEX IF NOT EXISTS idx_messages_tool ON messages(tool_name) WHERE tool_name IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_messages_stream ON messages(stream_status) WHERE stream_status = 'pending';
 ```
 
 ### artifacts
@@ -109,17 +108,15 @@ Governance artifact metadata. Content lives on disk as markdown.
 Hookify rules (`.claude/hookify.*.local.md`) share `artifact_type = 'hook'` with lifecycle hooks (`.claude/hooks/`). The `hook_kind` column distinguishes them. This mirrors the UI where both subtypes appear under the single "Hooks" Activity Bar icon.
 
 ```sql
-CREATE TABLE artifacts (
+CREATE TABLE IF NOT EXISTS artifacts (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     artifact_type   TEXT NOT NULL CHECK (artifact_type IN ('agent', 'rule', 'skill', 'hook', 'doc')),
-    rel_path        TEXT NOT NULL,          -- e.g. ".claude/agents/backend-engineer.md"
+    rel_path        TEXT NOT NULL,
     name            TEXT NOT NULL,
     description     TEXT,
     hook_kind       TEXT CHECK (hook_kind IN ('lifecycle', 'hookify')),
-                                            -- NULL for non-hook artifacts; distinguishes
-                                            -- .claude/hooks/ scripts from .claude/hookify.*.local.md rules
-    file_hash       TEXT,                   -- SHA-256 for change detection
+    file_hash       TEXT,
     file_size       INTEGER,
     file_modified_at TEXT,
     last_scanned_at TEXT,
@@ -127,20 +124,23 @@ CREATE TABLE artifacts (
                     CHECK (compliance_status IN ('compliant', 'non_compliant', 'unknown', 'error')),
     relationships   TEXT,                   -- JSON: [{"type":"references","target":"path"}]
     metadata        TEXT,                   -- JSON: extracted frontmatter
-    last_edited_by  TEXT,                   -- future multi-user
+    last_edited_by  TEXT,
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
     updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
-CREATE UNIQUE INDEX idx_artifacts_path ON artifacts(project_id, rel_path);
-CREATE INDEX idx_artifacts_type ON artifacts(project_id, artifact_type);
-CREATE INDEX idx_artifacts_hook_kind ON artifacts(project_id, hook_kind)
+CREATE UNIQUE INDEX IF NOT EXISTS idx_artifacts_path ON artifacts(project_id, rel_path);
+CREATE INDEX IF NOT EXISTS idx_artifacts_type ON artifacts(project_id, artifact_type);
+CREATE INDEX IF NOT EXISTS idx_artifacts_hook_kind ON artifacts(project_id, hook_kind)
     WHERE hook_kind IS NOT NULL;
 ```
 
-### scanner_results
+### scanner_results (NOT YET CREATED — Phase 3+)
+
+> This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when scanner features are implemented.
 
 ```sql
+-- PLANNED — not in current schema
 CREATE TABLE scanner_results (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
@@ -152,14 +152,14 @@ CREATE TABLE scanner_results (
     duration_ms     INTEGER,
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
-
-CREATE INDEX idx_scanner_project ON scanner_results(project_id, scanner_name);
-CREATE INDEX idx_scanner_created ON scanner_results(created_at);
 ```
 
-### metrics
+### metrics (NOT YET CREATED — Phase 5)
+
+> This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when metrics features are implemented.
 
 ```sql
+-- PLANNED — not in current schema
 CREATE TABLE metrics (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
@@ -169,14 +169,14 @@ CREATE TABLE metrics (
     dimensions      TEXT,                   -- JSON: {"agent":"backend-engineer"}
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
-
-CREATE INDEX idx_metrics_project ON metrics(project_id, metric_name);
-CREATE INDEX idx_metrics_created ON metrics(created_at);
 ```
 
-### tasks
+### tasks (NOT YET CREATED — Phase 1+)
+
+> This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when task tracking features are implemented.
 
 ```sql
+-- PLANNED — not in current schema
 CREATE TABLE tasks (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
@@ -192,14 +192,14 @@ CREATE TABLE tasks (
     updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
     completed_at    TEXT
 );
-
-CREATE INDEX idx_tasks_project ON tasks(project_id, status);
-CREATE INDEX idx_tasks_session ON tasks(session_id) WHERE session_id IS NOT NULL;
 ```
 
-### lessons
+### lessons (NOT YET CREATED — Phase 5)
+
+> This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when self-learning loop features are implemented.
 
 ```sql
+-- PLANNED — not in current schema
 CREATE TABLE lessons (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
@@ -215,15 +215,12 @@ CREATE TABLE lessons (
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
     updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
-
-CREATE INDEX idx_lessons_project ON lessons(project_id);
-CREATE INDEX idx_lessons_recurrence ON lessons(occurrence_count DESC);
 ```
 
 ### settings
 
 ```sql
-CREATE TABLE settings (
+CREATE TABLE IF NOT EXISTS settings (
     key             TEXT NOT NULL,
     value           TEXT NOT NULL,           -- JSON value
     scope           TEXT NOT NULL DEFAULT 'app',  -- 'app' or project_id
@@ -237,11 +234,11 @@ CREATE TABLE settings (
 Per-project design token storage. See [Design Tokens Research](/research/design-tokens) Q4.
 
 ```sql
-CREATE TABLE project_themes (
+CREATE TABLE IF NOT EXISTS project_themes (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-    source_file     TEXT NOT NULL,           -- e.g. "tailwind.config.ts", "src/app.css"
-    source_hash     TEXT NOT NULL,           -- SHA-256 for cache invalidation
+    source_file     TEXT NOT NULL,
+    source_hash     TEXT NOT NULL,
     extracted_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
     tokens_light    TEXT NOT NULL,           -- JSON: {"primary":"oklch(...)","background":"oklch(...)"}
     tokens_dark     TEXT,                    -- JSON: dark mode overrides (nullable)
@@ -249,8 +246,8 @@ CREATE TABLE project_themes (
     is_active       INTEGER NOT NULL DEFAULT 1
 );
 
-CREATE UNIQUE INDEX idx_themes_project_source ON project_themes(project_id, source_file);
-CREATE INDEX idx_themes_active ON project_themes(project_id, is_active);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_themes_project_source ON project_themes(project_id, source_file);
+CREATE INDEX IF NOT EXISTS idx_themes_active ON project_themes(project_id, is_active);
 ```
 
 ### project_theme_overrides
@@ -258,17 +255,17 @@ CREATE INDEX idx_themes_active ON project_themes(project_id, is_active);
 User manual overrides for auto-extracted tokens.
 
 ```sql
-CREATE TABLE project_theme_overrides (
+CREATE TABLE IF NOT EXISTS project_theme_overrides (
     id              INTEGER PRIMARY KEY,
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-    token_name      TEXT NOT NULL,           -- e.g. "primary", "background"
+    token_name      TEXT NOT NULL,
     value_light     TEXT NOT NULL,           -- OKLCH value
     value_dark      TEXT,                    -- OKLCH value (nullable)
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
     updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 
-CREATE UNIQUE INDEX idx_overrides_project_token ON project_theme_overrides(project_id, token_name);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_overrides_project_token ON project_theme_overrides(project_id, token_name);
 ```
 
 ---
@@ -280,7 +277,7 @@ CREATE UNIQUE INDEX idx_overrides_project_token ON project_theme_overrides(proje
 External content FTS5 — references `messages` table, no content duplication.
 
 ```sql
-CREATE VIRTUAL TABLE messages_fts USING fts5(
+CREATE VIRTUAL TABLE IF NOT EXISTS messages_fts USING fts5(
     content,
     tool_name,
     content='messages',
@@ -289,17 +286,17 @@ CREATE VIRTUAL TABLE messages_fts USING fts5(
 );
 
 -- Sync triggers
-CREATE TRIGGER messages_ai AFTER INSERT ON messages BEGIN
+CREATE TRIGGER IF NOT EXISTS messages_ai AFTER INSERT ON messages BEGIN
     INSERT INTO messages_fts(rowid, content, tool_name)
     VALUES (new.id, new.content, new.tool_name);
 END;
 
-CREATE TRIGGER messages_ad AFTER DELETE ON messages BEGIN
+CREATE TRIGGER IF NOT EXISTS messages_ad AFTER DELETE ON messages BEGIN
     INSERT INTO messages_fts(messages_fts, rowid, content, tool_name)
     VALUES ('delete', old.id, old.content, old.tool_name);
 END;
 
-CREATE TRIGGER messages_au AFTER UPDATE OF content ON messages BEGIN
+CREATE TRIGGER IF NOT EXISTS messages_au AFTER UPDATE OF content ON messages BEGIN
     INSERT INTO messages_fts(messages_fts, rowid, content, tool_name)
     VALUES ('delete', old.id, old.content, old.tool_name);
     INSERT INTO messages_fts(rowid, content, tool_name)
@@ -312,7 +309,7 @@ END;
 Contentless FTS5 — index only, no content stored. Content read from disk on demand.
 
 ```sql
-CREATE VIRTUAL TABLE artifacts_fts USING fts5(
+CREATE VIRTUAL TABLE IF NOT EXISTS artifacts_fts USING fts5(
     name,
     content,
     content='',
@@ -327,56 +324,48 @@ CREATE VIRTUAL TABLE artifacts_fts USING fts5(
 
 ### Approach
 
-Numbered SQL migration files executed sequentially by `tauri-plugin-sql`. Each migration is a `.sql` file in `src-tauri/migrations/`.
+Numbered SQL migration files in `src-tauri/migrations/`, executed by `db::init_db()` using `rusqlite` directly (NOT `tauri-plugin-sql`). Each migration uses `IF NOT EXISTS` to be idempotent and re-runnable.
 
 ```
 src-tauri/migrations/
-  001_initial_schema.sql
-  002_add_themes.sql
-  ...
+  001_initial_schema.sql       # All Phase 1 tables, indexes, triggers, FTS5, stream recovery
 ```
+
+> **Note:** There is no `002_add_themes.sql`. The `project_themes` and `project_theme_overrides` tables are included in `001_initial_schema.sql`.
 
 ### Migration Execution
 
-`tauri-plugin-sql` handles migrations automatically on database open:
+`db::init_db()` opens the database with `rusqlite::Connection::open()`, applies PRAGMAs, then executes the migration SQL via `include_str!()`:
 
 ```rust
-// src-tauri/src/lib.rs
-use tauri_plugin_sql::{Migration, MigrationKind};
-
-let migrations = vec![
-    Migration {
-        version: 1,
-        description: "initial schema",
-        sql: include_str!("../migrations/001_initial_schema.sql"),
-        kind: MigrationKind::Up,
-    },
-    Migration {
-        version: 2,
-        description: "add project themes",
-        sql: include_str!("../migrations/002_add_themes.sql"),
-        kind: MigrationKind::Up,
-    },
-];
-
-tauri::Builder::default()
-    .plugin(tauri_plugin_sql::Builder::new()
-        .add_migrations("sqlite:forge.db", migrations)
-        .build())
+// src-tauri/src/db.rs
+pub fn init_db(path: &str) -> Result<Connection, ForgeError> {
+    let conn = Connection::open(path)?;
+    conn.execute_batch("PRAGMA journal_mode = WAL; ...");
+    conn.execute_batch(include_str!("../migrations/001_initial_schema.sql"))?;
+    Ok(conn)
+}
 ```
+
+The database path is `forge.db` in the Tauri app data directory, resolved during `.setup()` in `lib.rs`.
+
+For tests, `db::init_memory_db()` creates an in-memory SQLite database with the same schema.
 
 ### Migration 001: Initial Schema
 
-Contains all 11 core tables, 2 FTS5 tables, all indexes, and all triggers defined above. This is the full Phase 1 schema.
+Contains all 7 implemented tables (`projects`, `sessions`, `messages`, `artifacts`, `settings`, `project_themes`, `project_theme_overrides`), 2 FTS5 virtual tables (`messages_fts`, `artifacts_fts`), all indexes, sync triggers, and the stream recovery statement. All statements use `IF NOT EXISTS` to be safely re-runnable on app restart.
 
-### Migration 002: Add Themes
+Ends with a stream recovery statement:
 
-Contains `project_themes` and `project_theme_overrides` tables. Separated from 001 because theme tables were decided later in the research process and may not be needed for the earliest prototype builds.
+```sql
+UPDATE messages SET stream_status = 'error'
+WHERE stream_status = 'pending';
+```
 
 ### Rules
 
 - Migrations are append-only. Never modify a deployed migration.
-- Each migration is idempotent where possible (`CREATE TABLE IF NOT EXISTS`).
+- Each migration is idempotent (`CREATE TABLE IF NOT EXISTS`, `CREATE INDEX IF NOT EXISTS`, `CREATE TRIGGER IF NOT EXISTS`).
 - Destructive changes (column removal, type changes) require a new migration that copies data.
 - Test migrations against an empty database and against the previous version.
 
@@ -468,18 +457,18 @@ Schema design for `global.db` will be specified when Phase 5 implementation begi
 
 ## Table Summary
 
-| Table | Rows (est. 1yr heavy use) | Phase |
-|-------|---------------------------|-------|
-| projects | 10-50 | 1 |
-| sessions | 1,000-5,000 | 1 |
-| messages | 100,000-500,000 | 1 |
-| artifacts | 50-500 per project | 1 |
-| scanner_results | 1,000-10,000 | 3 |
-| metrics | 10,000-100,000 | 5 |
-| tasks | 100-1,000 per project | 1 |
-| lessons | 50-500 per project | 5 |
-| settings | 20-50 | 1 |
-| project_themes | 1-5 per project | 1 |
-| project_theme_overrides | 0-30 per project | 1 |
-| messages_fts | (mirrors messages) | 1 |
-| artifacts_fts | (mirrors artifacts) | 1 |
+| Table | Rows (est. 1yr heavy use) | Phase | Status |
+|-------|---------------------------|-------|--------|
+| projects | 10-50 | 1 | Implemented |
+| sessions | 1,000-5,000 | 1 | Implemented |
+| messages | 100,000-500,000 | 1 | Implemented |
+| artifacts | 50-500 per project | 1 | Implemented |
+| settings | 20-50 | 1 | Implemented |
+| project_themes | 1-5 per project | 1 | Implemented |
+| project_theme_overrides | 0-30 per project | 1 | Implemented |
+| messages_fts | (mirrors messages) | 1 | Implemented |
+| artifacts_fts | (mirrors artifacts) | 1 | Implemented |
+| scanner_results | 1,000-10,000 | 3 | Not yet created |
+| tasks | 100-1,000 per project | 1+ | Not yet created |
+| metrics | 10,000-100,000 | 5 | Not yet created |
+| lessons | 50-500 per project | 5 | Not yet created |
