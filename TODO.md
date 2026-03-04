@@ -152,7 +152,7 @@ Version-gated setup wizard for first launch. Detects Claude CLI, auth, sidecar, 
 - [x] Frontend: SetupComplete — Completion confirmation
 - [x] Frontend: SetupStore — step state, detection results, actions
 - [x] Frontend: Mount wizard in AppLayout when setup incomplete
-- [ ] Settings: Provider section shows CLI version, auth status, re-auth button — **Deferred:** not blocking; settings view already shows sidecar status
+- [x] Settings: Provider section shows CLI version, auth status, re-check button
 - [x] Design doc: `docs/architecture/setup-wizard.md`
 
 **Summary:** Phase 2a delivered a 5-step setup wizard (CLI detection, auth verification, sidecar startup, embedding model check, completion) gated by `setup_version` in SQLite. 5 Tauri commands, 6 Svelte components, 13 backend tests. Wizard blocks main UI until all prerequisites pass, skips on subsequent launches.
