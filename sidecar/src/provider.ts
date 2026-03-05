@@ -56,10 +56,11 @@ const TOOL_SYSTEM_PROMPT = `You have access to these tools:
 - grep: Search file contents with regex
 - search_regex: Search indexed codebase with a regex pattern (must be indexed first)
 - search_semantic: Search codebase using natural language (semantic similarity, must be indexed with embeddings first)
+- load_skill: Load the full content of a project skill by name
 
 Use these tools by their short names. When referencing tools in your responses, use the short name (e.g. "read_file" not "mcp__orqa__read_file").
 
-For understanding code structure, use grep with relevant patterns. For precise text matching, use grep. For searching the indexed codebase, use search_regex. For natural language code search, use search_semantic.`;
+For understanding code structure, use grep with relevant patterns. For precise text matching, use grep. For searching the indexed codebase, use search_regex. For natural language code search, use search_semantic. Use load_skill to load skill documentation before applying its guidance.`;
 
 /**
  * Strip MCP server prefixes from tool names.
@@ -280,6 +281,16 @@ function createOrqaToolServer(sendResponse: ResponseSender) {
                 async (args) => {
                     return await executeToolViaRust(
                         'search_semantic', args, sendResponse,
+                    );
+                },
+            ),
+            tool(
+                'load_skill',
+                'Load the full content of a project skill by name. Skills contain domain knowledge, patterns, and guidelines. Use this to load a skill before applying its guidance.',
+                { name: z.string() },
+                async (args) => {
+                    return await executeToolViaRust(
+                        'load_skill', args, sendResponse,
                     );
                 },
             ),

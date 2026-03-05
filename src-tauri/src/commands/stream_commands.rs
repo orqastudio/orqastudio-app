@@ -282,15 +282,143 @@ fn persist_assistant_message(
     Ok(())
 }
 
+/// Read a governance file from the project directory, returning its contents.
+/// Returns `None` if the file does not exist, `Err` on read errors.
+fn read_governance_file(project_path: &Path, relative: &str) -> Result<Option<String>, OrqaError> {
+    let full_path = project_path.join(relative);
+    if !full_path.exists() {
+        return Ok(None);
+    }
+    let contents = std::fs::read_to_string(&full_path)?;
+    Ok(Some(contents))
+}
+
+/// List skill names with one-line descriptions from `.claude/skills/*/SKILL.md`.
+///
+/// Reads only the first non-empty line of each SKILL.md as the description.
+/// Full skill content is intentionally NOT loaded here — skills are loaded
+/// on demand via the `load_skill` tool.
+fn list_skill_catalog(project_path: &Path) -> Vec<(String, String)> {
+    let skills_dir = project_path.join(".claude").join("skills");
+    let mut catalog = Vec::new();
+
+    let read_dir = match std::fs::read_dir(&skills_dir) {
+        Ok(rd) => rd,
+        Err(_) => return catalog,
+    };
+
+    for entry in read_dir.flatten() {
+        let skill_md = entry.path().join("SKILL.md");
+        if !skill_md.exists() {
+            continue;
+        }
+
+        let skill_name = entry.file_name().to_string_lossy().to_string();
+        let description = std::fs::read_to_string(&skill_md)
+            .ok()
+            .and_then(|content| {
+                content
+                    .lines()
+                    .find(|l| !l.trim().is_empty())
+                    .map(|l| l.trim_start_matches('#').trim().to_string())
+            })
+            .unwrap_or_else(|| "No description".to_string());
+
+        catalog.push((skill_name, description));
+    }
+
+    catalog.sort_by(|a, b| a.0.cmp(&b.0));
+    catalog
+}
+
+/// Read all rule files from `.claude/rules/*.md`.
+fn read_rules(project_path: &Path) -> Vec<(String, String)> {
+    let rules_dir = project_path.join(".claude").join("rules");
+    let mut rules = Vec::new();
+
+    let read_dir = match std::fs::read_dir(&rules_dir) {
+        Ok(rd) => rd,
+        Err(_) => return rules,
+    };
+
+    for entry in read_dir.flatten() {
+        let path = entry.path();
+        if path.extension().and_then(|e| e.to_str()) != Some("md") {
+            continue;
+        }
+
+        let rule_name = path
+            .file_stem()
+            .and_then(|s| s.to_str())
+            .unwrap_or("unknown")
+            .to_string();
+
+        if let Ok(contents) = std::fs::read_to_string(&path) {
+            rules.push((rule_name, contents));
+        }
+    }
+
+    rules.sort_by(|a, b| a.0.cmp(&b.0));
+    rules
+}
+
+/// Build a structured system prompt from the project's governance artifacts.
+///
+/// Reads:
+/// - `.claude/rules/*.md` — rule files (full content)
+/// - `.claude/CLAUDE.md` — project instructions (full content)
+/// - `AGENTS.md` — agent definitions (full content)
+/// - `.claude/skills/*/SKILL.md` — skill catalog (name + one-line description only)
+///
+/// Returns `Ok(None)` when the project path cannot be resolved (no active project).
+fn build_system_prompt(project_path: &Path) -> Result<String, OrqaError> {
+    let mut parts: Vec<String> = Vec::new();
+    parts.push("# Project Governance".to_string());
+
+    let rules = read_rules(project_path);
+    if !rules.is_empty() {
+        parts.push("\n## Rules".to_string());
+        for (name, content) in &rules {
+            parts.push(format!("\n### {name}\n\n{content}"));
+        }
+    }
+
+    let catalog = list_skill_catalog(project_path);
+    if !catalog.is_empty() {
+        parts.push("\n## Available Skills".to_string());
+        parts.push(
+            "Use the `load_skill` tool to load the full content of any skill by name.".to_string(),
+        );
+        for (name, description) in &catalog {
+            parts.push(format!("- **{name}**: {description}"));
+        }
+    }
+
+    if let Some(claude_md) =
+        read_governance_file(project_path, ".claude/CLAUDE.md")?
+    {
+        parts.push("\n## Project Instructions".to_string());
+        parts.push(claude_md);
+    }
+
+    if let Some(agents_md) = read_governance_file(project_path, "AGENTS.md")? {
+        parts.push("\n## Agent Definitions".to_string());
+        parts.push(agents_md);
+    }
+
+    Ok(parts.join("\n"))
+}
+
 /// Send a message to the sidecar and stream responses back via `Channel<T>`.
 ///
 /// This command:
 /// 1. Validates the input content is not empty
 /// 2. Persists the user message to SQLite
-/// 3. Sends the message to the sidecar via NDJSON stdin
-/// 4. Reads sidecar responses in a blocking loop, forwarding each as a `StreamEvent`
-/// 5. Accumulates text content for the assistant message
-/// 6. On completion, persists the assistant message and updates session token usage
+/// 3. Builds a system prompt from the project's governance artifacts
+/// 4. Sends the message to the sidecar via NDJSON stdin
+/// 5. Reads sidecar responses in a blocking loop, forwarding each as a `StreamEvent`
+/// 6. Accumulates text content for the assistant message
+/// 7. On completion, persists the assistant message and updates session token usage
 ///
 /// The DB mutex is only held briefly for persistence operations, never during
 /// the sidecar read loop.
@@ -310,11 +438,30 @@ pub fn stream_send_message(
 
     super::sidecar_commands::ensure_sidecar_running(&state)?;
 
+    let system_prompt = match project_root(&state) {
+        Ok(root) => {
+            match build_system_prompt(&root) {
+                Ok(prompt) => {
+                    tracing::debug!("[stream] system prompt built ({} chars)", prompt.len());
+                    Some(prompt)
+                }
+                Err(e) => {
+                    tracing::warn!("[stream] failed to build system prompt: {e}");
+                    None
+                }
+            }
+        }
+        Err(e) => {
+            tracing::warn!("[stream] no active project for system prompt: {e}");
+            None
+        }
+    };
+
     let request = SidecarRequest::SendMessage {
         session_id,
         content,
         model: None,
-        system_prompt: None,
+        system_prompt,
     };
     state.sidecar.send(&request)?;
 
@@ -421,6 +568,9 @@ fn execute_tool(
         "bash" => tool_bash(&input, &root),
         "glob" => tool_glob(&input, &root),
         "grep" => tool_grep(&input, &root),
+        "search_regex" => tool_search_regex(&input, state),
+        "search_semantic" => tool_search_semantic(&input, state),
+        "load_skill" => tool_load_skill(&input, &root),
         _ => (format!("unknown tool: {tool_name}"), true),
     };
 
@@ -654,6 +804,97 @@ fn tool_grep(input: &serde_json::Value, root: &Path) -> (String, bool) {
 /// Simple shell escaping — wraps in single quotes.
 fn shell_escape(s: &str) -> String {
     format!("'{}'", s.replace('\'', "'\\''"))
+}
+
+/// Format search results as a readable text block.
+fn format_search_results(results: &[crate::search::types::SearchResult]) -> String {
+    if results.is_empty() {
+        return "no matches found".to_string();
+    }
+    let mut out = String::new();
+    for result in results {
+        out.push_str(&format!(
+            "{}:{}-{}\n{}\n---\n",
+            result.file_path, result.start_line, result.end_line, result.content,
+        ));
+    }
+    out
+}
+
+/// Search the indexed codebase with a regex pattern.
+fn tool_search_regex(
+    input: &serde_json::Value,
+    state: &tauri::State<'_, AppState>,
+) -> (String, bool) {
+    let pattern = match input["pattern"].as_str() {
+        Some(p) => p,
+        None => return ("missing 'pattern' parameter".to_string(), true),
+    };
+    let path_filter = input["path"].as_str();
+    let max_results = input["max_results"].as_u64().map(|n| n as u32).unwrap_or(20);
+
+    let search_guard = match state.search.lock() {
+        Ok(g) => g,
+        Err(e) => return (format!("search lock error: {e}"), true),
+    };
+    let engine = match search_guard.as_ref() {
+        Some(e) => e,
+        None => return ("search index not initialized — index the codebase first".to_string(), true),
+    };
+
+    match engine.search_regex(pattern, path_filter, max_results) {
+        Ok(results) => (format_search_results(&results), false),
+        Err(e) => (format!("search_regex failed: {e}"), true),
+    }
+}
+
+/// Search the indexed codebase using semantic similarity.
+fn tool_search_semantic(
+    input: &serde_json::Value,
+    state: &tauri::State<'_, AppState>,
+) -> (String, bool) {
+    let query = match input["query"].as_str() {
+        Some(q) => q,
+        None => return ("missing 'query' parameter".to_string(), true),
+    };
+    let max_results = input["max_results"].as_u64().map(|n| n as u32).unwrap_or(10);
+
+    let mut search_guard = match state.search.lock() {
+        Ok(g) => g,
+        Err(e) => return (format!("search lock error: {e}"), true),
+    };
+    let engine = match search_guard.as_mut() {
+        Some(e) => e,
+        None => return ("search index not initialized — index the codebase first".to_string(), true),
+    };
+
+    match engine.search_semantic(query, max_results) {
+        Ok(results) => (format_search_results(&results), false),
+        Err(e) => (format!("search_semantic failed: {e}"), true),
+    }
+}
+
+/// Load the full content of a skill from `.claude/skills/{name}/SKILL.md`.
+fn tool_load_skill(input: &serde_json::Value, root: &Path) -> (String, bool) {
+    let name = match input["name"].as_str() {
+        Some(n) => n,
+        None => return ("missing 'name' parameter".to_string(), true),
+    };
+
+    // Validate skill name: must be a simple directory name with no path separators
+    if name.contains('/') || name.contains('\\') || name.contains("..") {
+        return (format!("invalid skill name '{name}': must not contain path separators"), true);
+    }
+
+    let skill_path = root.join(".claude").join("skills").join(name).join("SKILL.md");
+
+    match std::fs::read_to_string(&skill_path) {
+        Ok(contents) => (contents, false),
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => {
+            (format!("skill '{name}' not found at '{}'", skill_path.display()), true)
+        }
+        Err(e) => (format!("failed to read skill '{name}': {e}"), true),
+    }
 }
 
 #[cfg(test)]

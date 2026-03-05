@@ -378,19 +378,90 @@ pub fn governance_read(
     artifact_from_file(&full_path, rel_path, artifact_type)
 }
 
+/// Map an `ArtifactType` to its `.claude/` subdirectory path.
+fn governance_dir(root: &Path, artifact_type: &ArtifactType) -> Option<PathBuf> {
+    match artifact_type {
+        ArtifactType::Agent => Some(root.join(".claude").join("agents")),
+        ArtifactType::Rule => Some(root.join(".claude").join("rules")),
+        ArtifactType::Skill => Some(root.join(".claude").join("skills")),
+        ArtifactType::Hook => Some(root.join(".claude").join("hooks")),
+        ArtifactType::Doc => None,
+    }
+}
+
+/// Try to build an `ArtifactSummary` from a single directory entry.
+///
+/// Returns `None` if the entry should be skipped (wrong type, hidden, invalid extension).
+fn summary_from_entry(
+    entry: &std::fs::DirEntry,
+    artifact_type: &ArtifactType,
+) -> Result<Option<ArtifactSummary>, OrqaError> {
+    use crate::domain::artifact::ComplianceStatus;
+
+    let file_name = entry.file_name();
+    let name = file_name.to_string_lossy();
+
+    if name.starts_with('.') || name.starts_with('_') {
+        return Ok(None);
+    }
+
+    let ft = entry.file_type()?;
+
+    let summary = match artifact_type {
+        ArtifactType::Skill => {
+            if ft.is_dir() && entry.path().join("SKILL.md").exists() {
+                Some(ArtifactSummary {
+                    id: 0,
+                    artifact_type: artifact_type.clone(),
+                    rel_path: format!(".claude/skills/{}/SKILL.md", name),
+                    name: humanize_name(&name),
+                    description: None,
+                    compliance_status: ComplianceStatus::Unknown,
+                    file_modified_at: None,
+                })
+            } else {
+                None
+            }
+        }
+        _ if ft.is_file() => {
+            let valid = match artifact_type {
+                ArtifactType::Agent | ArtifactType::Rule => name.ends_with(".md"),
+                ArtifactType::Hook => true,
+                _ => false,
+            };
+            if valid {
+                let rel_path = match artifact_type {
+                    ArtifactType::Agent => format!(".claude/agents/{}", name),
+                    ArtifactType::Rule => format!(".claude/rules/{}", name),
+                    ArtifactType::Hook => format!(".claude/hooks/{}", name),
+                    _ => return Ok(None),
+                };
+                Some(ArtifactSummary {
+                    id: 0,
+                    artifact_type: artifact_type.clone(),
+                    rel_path,
+                    name: humanize_name(&name),
+                    description: None,
+                    compliance_status: ComplianceStatus::Unknown,
+                    file_modified_at: None,
+                })
+            } else {
+                None
+            }
+        }
+        _ => None,
+    };
+
+    Ok(summary)
+}
+
 /// Scan a governance directory and return sorted artifact summaries.
 fn list_governance_files(
     root: &Path,
     artifact_type: &ArtifactType,
 ) -> Result<Vec<ArtifactSummary>, OrqaError> {
-    use crate::domain::artifact::ComplianceStatus;
-
-    let dir = match artifact_type {
-        ArtifactType::Agent => root.join(".claude").join("agents"),
-        ArtifactType::Rule => root.join(".claude").join("rules"),
-        ArtifactType::Skill => root.join(".claude").join("skills"),
-        ArtifactType::Hook => root.join(".claude").join("hooks"),
-        ArtifactType::Doc => return Ok(Vec::new()),
+    let Some(dir) = governance_dir(root, artifact_type) else {
+        return Ok(Vec::new());
     };
 
     if !dir.is_dir() {
@@ -398,58 +469,10 @@ fn list_governance_files(
     }
 
     let mut summaries = Vec::new();
-
     for entry in std::fs::read_dir(&dir)? {
         let entry = entry?;
-        let file_name = entry.file_name();
-        let name = file_name.to_string_lossy();
-
-        if name.starts_with('.') || name.starts_with('_') {
-            continue;
-        }
-
-        let ft = entry.file_type()?;
-
-        match artifact_type {
-            ArtifactType::Skill => {
-                if ft.is_dir() && entry.path().join("SKILL.md").exists() {
-                    summaries.push(ArtifactSummary {
-                        id: 0,
-                        artifact_type: artifact_type.clone(),
-                        rel_path: format!(".claude/skills/{}/SKILL.md", name),
-                        name: humanize_name(&name),
-                        description: None,
-                        compliance_status: ComplianceStatus::Unknown,
-                        file_modified_at: None,
-                    });
-                }
-            }
-            _ => {
-                if ft.is_file() {
-                    let valid = match artifact_type {
-                        ArtifactType::Agent | ArtifactType::Rule => name.ends_with(".md"),
-                        ArtifactType::Hook => true,
-                        _ => false,
-                    };
-                    if valid {
-                        let rel_path = match artifact_type {
-                            ArtifactType::Agent => format!(".claude/agents/{}", name),
-                            ArtifactType::Rule => format!(".claude/rules/{}", name),
-                            ArtifactType::Hook => format!(".claude/hooks/{}", name),
-                            _ => continue,
-                        };
-                        summaries.push(ArtifactSummary {
-                            id: 0,
-                            artifact_type: artifact_type.clone(),
-                            rel_path,
-                            name: humanize_name(&name),
-                            description: None,
-                            compliance_status: ComplianceStatus::Unknown,
-                            file_modified_at: None,
-                        });
-                    }
-                }
-            }
+        if let Some(summary) = summary_from_entry(&entry, artifact_type)? {
+            summaries.push(summary);
         }
     }
 

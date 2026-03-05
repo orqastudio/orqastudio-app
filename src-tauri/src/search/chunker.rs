@@ -30,6 +30,46 @@ pub enum ChunkError {
     Walk(String),
 }
 
+/// Compute the relative path string for a file entry under `root`.
+fn rel_path_str(abs_path: &Path, root: &Path) -> String {
+    abs_path
+        .strip_prefix(root)
+        .unwrap_or(abs_path)
+        .to_string_lossy()
+        .replace('\\', "/")
+}
+
+/// Read a single file's content, returning `None` if it should be skipped
+/// (non-UTF-8, empty, too large, binary extension, or excluded prefix).
+fn read_eligible_file(
+    abs_path: &Path,
+    rel_path: &str,
+    excluded_paths: &[String],
+) -> Result<Option<String>, ChunkError> {
+    if excluded_paths
+        .iter()
+        .any(|excluded| rel_path.starts_with(excluded.as_str()))
+    {
+        return Ok(None);
+    }
+
+    if is_binary_extension(abs_path) {
+        return Ok(None);
+    }
+
+    let metadata = std::fs::metadata(abs_path)?;
+    if metadata.len() > MAX_FILE_SIZE {
+        return Ok(None);
+    }
+
+    match std::fs::read_to_string(abs_path) {
+        Ok(c) if c.is_empty() => Ok(None),
+        Ok(c) => Ok(Some(c)),
+        Err(e) if e.kind() == std::io::ErrorKind::InvalidData => Ok(None),
+        Err(e) => Err(ChunkError::Io(e)),
+    }
+}
+
 /// Walk a codebase rooted at `root`, respecting `.gitignore`, and split
 /// every eligible text file into chunks of approximately `TARGET_CHUNK_LINES` lines.
 ///
@@ -41,7 +81,7 @@ pub fn chunk_codebase(
     let mut chunks = Vec::new();
 
     let walker = WalkBuilder::new(root)
-        .hidden(true) // respect hidden-file rules
+        .hidden(true)
         .git_ignore(true)
         .git_global(true)
         .git_exclude(true)
@@ -50,49 +90,16 @@ pub fn chunk_codebase(
     for entry_result in walker {
         let entry = entry_result.map_err(|e| ChunkError::Walk(e.to_string()))?;
 
-        // Skip directories
         if entry.file_type().is_none_or(|ft| !ft.is_file()) {
             continue;
         }
 
         let abs_path = entry.path();
+        let rel_path = rel_path_str(abs_path, root);
 
-        // Compute relative path for storage and filtering
-        let rel_path = abs_path
-            .strip_prefix(root)
-            .unwrap_or(abs_path)
-            .to_string_lossy()
-            .replace('\\', "/");
-
-        // Check excluded paths
-        if excluded_paths
-            .iter()
-            .any(|excluded| rel_path.starts_with(excluded.as_str()))
-        {
+        let Some(content) = read_eligible_file(abs_path, &rel_path, excluded_paths)? else {
             continue;
-        }
-
-        // Skip binary files by extension
-        if is_binary_extension(abs_path) {
-            continue;
-        }
-
-        // Skip files larger than MAX_FILE_SIZE
-        let metadata = std::fs::metadata(abs_path)?;
-        if metadata.len() > MAX_FILE_SIZE {
-            continue;
-        }
-
-        // Read file content; skip files that are not valid UTF-8
-        let content = match std::fs::read_to_string(abs_path) {
-            Ok(c) => c,
-            Err(e) if e.kind() == std::io::ErrorKind::InvalidData => continue,
-            Err(e) => return Err(ChunkError::Io(e)),
         };
-
-        if content.is_empty() {
-            continue;
-        }
 
         let language = detect_language(abs_path);
         let file_chunks = split_into_chunks(&content, &rel_path, language.as_deref());

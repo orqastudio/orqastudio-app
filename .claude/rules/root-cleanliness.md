@@ -30,6 +30,8 @@ The project root must stay lean. Every file in root must have a justification.
 | `.pre-commit-config.yaml` | Pre-commit hooks (must be root) |
 | `.mcp.json` | Claude Code MCP server config |
 | `.chunkhound.json` | ChunkHound code search config (must be root for auto-discovery) |
+| `components.json` | shadcn-svelte component registry config (must be root) |
+| `skills-lock.json` | Skills CLI lock file for reproducible skill versions (must be root) |
 | `src-tauri/` | Tauri/Rust backend source |
 | `ui/` | Svelte/TypeScript frontend source |
 | `tests/` | E2E tests |
