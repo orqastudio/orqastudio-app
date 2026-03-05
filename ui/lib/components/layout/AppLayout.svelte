@@ -14,6 +14,7 @@
 	import SetupWizard from "$lib/components/setup/SetupWizard.svelte";
 	import GovernanceBootstrapWizard from "$lib/components/governance/GovernanceBootstrapWizard.svelte";
 	import EnforcementPanel from "$lib/components/enforcement/EnforcementPanel.svelte";
+	import LessonsPanel from "$lib/components/lessons/LessonsPanel.svelte";
 	import setupBackground from "$lib/assets/setup-background.png";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
@@ -28,7 +29,8 @@
 	const hideChatPanel = $derived(
 		navigationStore.activeActivity === "settings" ||
 			navigationStore.activeActivity === "project" ||
-			navigationStore.activeActivity === "enforcement",
+			navigationStore.activeActivity === "enforcement" ||
+			navigationStore.activeActivity === "lessons",
 	);
 	const setupNeeded = $derived(!setupStore.setupComplete);
 
@@ -169,6 +171,8 @@
 						<SettingsView />
 					{:else if navigationStore.activeActivity === "enforcement"}
 						<EnforcementPanel />
+					{:else if navigationStore.activeActivity === "lessons"}
+						<LessonsPanel />
 					{:else if navigationStore.activeActivity === "chat"}
 						<WelcomeScreen />
 					{:else if navigationStore.isArtifactActivity}

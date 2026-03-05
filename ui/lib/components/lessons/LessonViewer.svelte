@@ -1,0 +1,122 @@
+<script lang="ts">
+	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
+	import ArrowUpCircleIcon from "@lucide/svelte/icons/arrow-up-circle";
+	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
+	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
+	import { Badge } from "$lib/components/ui/badge";
+	import { Button } from "$lib/components/ui/button";
+	import { ScrollArea } from "$lib/components/ui/scroll-area";
+	import { Separator } from "$lib/components/ui/separator";
+	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
+	import type { Lesson } from "$lib/types/lessons";
+
+	let {
+		lesson,
+		onIncrementRecurrence,
+	}: {
+		lesson: Lesson;
+		onIncrementRecurrence: (id: string) => void;
+	} = $props();
+
+	function categoryColor(category: string): string {
+		switch (category) {
+			case "process":
+				return "bg-blue-500/10 text-blue-600 dark:text-blue-400";
+			case "coding":
+				return "bg-violet-500/10 text-violet-600 dark:text-violet-400";
+			case "architecture":
+				return "bg-amber-500/10 text-amber-600 dark:text-amber-400";
+			default:
+				return "bg-muted text-muted-foreground";
+		}
+	}
+
+	function statusIcon(status: string) {
+		switch (status) {
+			case "promoted":
+				return ArrowUpCircleIcon;
+			case "resolved":
+				return CheckCircleIcon;
+			default:
+				return TrendingUpIcon;
+		}
+	}
+
+	const isPromotionCandidate = $derived(lesson.recurrence >= 2 && lesson.status === "active");
+</script>
+
+<div class="flex h-full flex-col">
+	<!-- Header -->
+	<div class="border-b border-border px-4 py-3">
+		<div class="flex items-start justify-between gap-3">
+			<div class="min-w-0 flex-1">
+				<div class="mb-1 flex items-center gap-2">
+					<span class="font-mono text-xs text-muted-foreground">{lesson.id}</span>
+					<span
+						class="rounded px-1.5 py-0.5 text-[11px] font-medium {categoryColor(lesson.category)}"
+					>
+						{lesson.category}
+					</span>
+					{#if lesson.status !== "active"}
+						<Badge variant="secondary" class="text-[11px] px-1.5 py-0">
+							{lesson.status}
+						</Badge>
+					{/if}
+				</div>
+				<h2 class="text-sm font-semibold leading-snug">{lesson.title}</h2>
+			</div>
+
+			<!-- Recurrence indicator and action -->
+			<div class="flex shrink-0 flex-col items-end gap-2">
+				<div class="flex items-center gap-1.5">
+					<TrendingUpIcon class="h-3.5 w-3.5 text-muted-foreground" />
+					<span class="text-xs font-medium">{lesson.recurrence}x</span>
+				</div>
+				{#if lesson.status === "active"}
+					<Button
+						variant="outline"
+						size="sm"
+						class="h-6 text-[11px]"
+						onclick={() => onIncrementRecurrence(lesson.id)}
+					>
+						+1 Recurrence
+					</Button>
+				{/if}
+			</div>
+		</div>
+
+		{#if isPromotionCandidate}
+			<div
+				class="mt-2 flex items-center gap-1.5 rounded-md bg-amber-500/10 px-2 py-1.5 text-xs text-amber-700 dark:text-amber-400"
+			>
+				<ArrowUpCircleIcon class="h-3.5 w-3.5 shrink-0" />
+				<span>Recurred {lesson.recurrence} times — ready for promotion to a rule</span>
+			</div>
+		{/if}
+
+		{#if lesson.promoted_to}
+			<div
+				class="mt-2 flex items-center gap-1.5 rounded-md bg-muted px-2 py-1.5 text-xs text-muted-foreground"
+			>
+				<ExternalLinkIcon class="h-3.5 w-3.5 shrink-0" />
+				<span>Promoted to: <code class="font-mono">{lesson.promoted_to}</code></span>
+			</div>
+		{/if}
+	</div>
+
+	<!-- Metadata row -->
+	<div class="flex items-center gap-3 border-b border-border px-4 py-1.5">
+		<span class="text-xs text-muted-foreground">Created: {lesson.created}</span>
+		<Separator orientation="vertical" class="h-3" />
+		<span class="text-xs text-muted-foreground">Updated: {lesson.updated}</span>
+		<Separator orientation="vertical" class="h-3" />
+		<span class="font-mono text-xs text-muted-foreground">{lesson.file_path}</span>
+	</div>
+
+	<!-- Body -->
+	<ScrollArea class="flex-1">
+		<div class="px-4 py-4">
+			<MarkdownRenderer content={lesson.body} />
+		</div>
+	</ScrollArea>
+</div>

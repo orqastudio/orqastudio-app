@@ -204,6 +204,12 @@ pub fn run() {
             commands::setup_commands::check_embedding_model,
             commands::setup_commands::complete_setup,
             commands::setup_commands::reauthenticate_claude,
+            // Lesson commands
+            commands::lesson_commands::lessons_list,
+            commands::lesson_commands::lessons_get,
+            commands::lesson_commands::lessons_create,
+            commands::lesson_commands::lesson_increment_recurrence,
+            commands::lesson_commands::lessons_scan_promotions,
             // Governance commands
             commands::governance_commands::governance_scan,
             commands::governance_commands::governance_analyze,

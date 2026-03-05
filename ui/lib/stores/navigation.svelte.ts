@@ -4,6 +4,7 @@ export type ActivityView =
 	| "docs"
 	| "agents"
 	| "rules"
+	| "lessons"
 	| "skills"
 	| "hooks"
 	| "settings"
@@ -68,6 +69,9 @@ class NavigationStore {
 			if (this.navPanelCollapsed) {
 				this.navPanelCollapsed = false;
 			}
+		} else if (view === "lessons" || view === "enforcement") {
+			// These views manage their own internal panels — collapse the nav sub-panel.
+			this.navPanelCollapsed = true;
 		} else if (ARTIFACT_ACTIVITIES.includes(view)) {
 			this.explorerView = "artifact-list";
 			if (this.navPanelCollapsed) {

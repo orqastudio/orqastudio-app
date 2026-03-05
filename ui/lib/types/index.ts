@@ -68,3 +68,5 @@ export type {
 	Condition,
 	EnforcementViolation,
 } from "./enforcement";
+
+export type { Lesson, NewLesson, LessonStatus, LessonCategory } from "./lessons";

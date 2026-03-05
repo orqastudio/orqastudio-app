@@ -4,6 +4,7 @@
 	import BotIcon from "@lucide/svelte/icons/bot";
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
+	import BookOpenIcon from "@lucide/svelte/icons/book-open";
 	import ZapIcon from "@lucide/svelte/icons/zap";
 	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
 	import SettingsIcon from "@lucide/svelte/icons/settings";
@@ -28,6 +29,7 @@
 	const artifactItems: ActivityItem[] = [
 		{ view: "docs", icon: FileTextIcon, label: "Docs" },
 		{ view: "agents", icon: BotIcon, label: "Agents" },
+		{ view: "lessons", icon: BookOpenIcon, label: "Lessons" },
 		{ view: "rules", icon: ShieldIcon, label: "Rules" },
 		{ view: "skills", icon: ZapIcon, label: "Skills" },
 		{ view: "hooks", icon: GitBranchIcon, label: "Hooks" },
