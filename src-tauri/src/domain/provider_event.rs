@@ -66,6 +66,14 @@ pub enum StreamEvent {
         /// Human-readable description of the violation.
         message: String,
     },
+    /// Emitted when the session title is auto-generated from conversation content.
+    ///
+    /// Only fired when the title was not manually set by the user. The frontend
+    /// should update the session title in its store without marking it as manual.
+    SessionTitleUpdated {
+        session_id: i64,
+        title: String,
+    },
 }
 
 #[cfg(test)]
@@ -215,6 +223,19 @@ mod tests {
             json["data"]["input"],
             r#"{"path":"/tmp/out.txt","content":"hello"}"#
         );
+    }
+
+    #[test]
+    fn session_title_updated_serialization() {
+        let event = StreamEvent::SessionTitleUpdated {
+            session_id: 42,
+            title: "Rust ownership deep dive".to_string(),
+        };
+
+        let json = serde_json::to_value(&event).expect("serialization should succeed");
+        assert_eq!(json["type"], "session_title_updated");
+        assert_eq!(json["data"]["session_id"], 42);
+        assert_eq!(json["data"]["title"], "Rust ownership deep dive");
     }
 
     #[test]

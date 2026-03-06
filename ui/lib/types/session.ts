@@ -10,6 +10,7 @@ export interface Session {
 	total_input_tokens: number;
 	total_output_tokens: number;
 	total_cost_usd: number;
+	title_manually_set?: boolean;
 	created_at: string;
 	updated_at: string;
 }

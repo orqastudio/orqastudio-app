@@ -8,6 +8,7 @@
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
+	import WindowControls from "./WindowControls.svelte";
 
 	const projectName = $derived(
 		projectStore.projectSettings?.name ?? projectStore.activeProject?.name ?? "",
@@ -41,7 +42,7 @@
 	}
 </script>
 
-<div class="flex h-10 items-center gap-2 border-b border-border bg-background px-4">
+<div data-tauri-drag-region class="flex h-10 items-center gap-2 border-b border-border bg-background px-4">
 	{#if projectStore.iconDataUrl}
 		<img src={projectStore.iconDataUrl} alt={projectName || "Orqa Studio"} class="h-5 w-5 rounded object-contain" />
 	{:else}
@@ -87,4 +88,5 @@
 		<SlidersHorizontalIcon class="h-3.5 w-3.5" />
 		<span>Configure</span>
 	</button>
+	<WindowControls />
 </div>

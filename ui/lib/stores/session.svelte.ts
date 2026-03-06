@@ -78,6 +78,17 @@ class SessionStore {
 		}
 	}
 
+	/** Handle an auto-generated title update from the backend. */
+	handleTitleUpdate(sessionId: number, title: string): void {
+		if (this.activeSession && this.activeSession.id === sessionId) {
+			this.activeSession = { ...this.activeSession, title };
+		}
+		const summary = this.sessions.find((s) => s.id === sessionId);
+		if (summary) {
+			summary.title = title;
+		}
+	}
+
 	async updateTitle(sessionId: number, title: string): Promise<void> {
 		this.error = null;
 		try {

@@ -6,12 +6,7 @@
 	import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
 	import type { PendingApproval } from "$lib/stores/conversation.svelte";
-
-	const TOOL_DISPLAY: Record<string, string> = {
-		write_file: "Write File",
-		edit_file: "Edit File",
-		bash: "Run Command",
-	};
+	import { getToolDisplay, stripToolName } from "$lib/utils/tool-display";
 
 	let {
 		approval,
@@ -23,7 +18,7 @@
 		onDeny: () => void;
 	} = $props();
 
-	const toolLabel = $derived(TOOL_DISPLAY[approval.toolName] ?? approval.toolName);
+	const toolLabel = $derived(getToolDisplay(approval.toolName).label);
 
 	/** Pretty-print JSON if possible, fall back to raw string. */
 	const formattedInput = $derived(() => {
@@ -44,7 +39,7 @@
 	</CardHeader>
 	<CardContent class="pb-2">
 		<p class="mb-2 text-xs text-muted-foreground">
-			Claude wants to run <span class="font-mono text-foreground">{approval.toolName}</span> with the
+			Claude wants to run <span class="font-mono text-foreground">{stripToolName(approval.toolName)}</span> with the
 			following parameters. Allow this action?
 		</p>
 		<CodeBlock code={formattedInput()} language="json" />

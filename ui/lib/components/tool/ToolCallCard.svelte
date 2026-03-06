@@ -1,18 +1,8 @@
 <script lang="ts">
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
 	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
 	import XCircleIcon from "@lucide/svelte/icons/x-circle";
 	import LoaderIcon from "@lucide/svelte/icons/loader";
-	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import FilePenIcon from "@lucide/svelte/icons/file-pen";
-	import PencilIcon from "@lucide/svelte/icons/pencil";
-	import TerminalIcon from "@lucide/svelte/icons/terminal";
-	import FolderSearchIcon from "@lucide/svelte/icons/folder-search";
-	import FileSearchIcon from "@lucide/svelte/icons/file-search";
-	import RegexIcon from "@lucide/svelte/icons/regex";
-	import BrainIcon from "@lucide/svelte/icons/brain";
-	import BookOpenIcon from "@lucide/svelte/icons/book-open";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
 	import {
 		Collapsible,
@@ -20,18 +10,7 @@
 		CollapsibleTrigger,
 	} from "$lib/components/ui/collapsible";
 	import ViolationBadge from "$lib/components/enforcement/ViolationBadge.svelte";
-
-	const TOOL_DISPLAY: Record<string, { label: string; icon: typeof WrenchIcon }> = {
-		read_file: { label: "Read File", icon: FileTextIcon },
-		write_file: { label: "Write File", icon: FilePenIcon },
-		edit_file: { label: "Edit File", icon: PencilIcon },
-		bash: { label: "Run Command", icon: TerminalIcon },
-		glob: { label: "Find Files", icon: FolderSearchIcon },
-		grep: { label: "Search Content", icon: FileSearchIcon },
-		search_regex: { label: "Regex Search", icon: RegexIcon },
-		search_semantic: { label: "Semantic Search", icon: BrainIcon },
-		code_research: { label: "Code Research", icon: BookOpenIcon },
-	};
+	import { getToolDisplay } from "$lib/utils/tool-display";
 
 	// Parses "Rule 'rule-name' blocked..." text to extract rule name
 	function parseEnforcementRuleName(text: string): string | null {
@@ -53,9 +32,13 @@
 		isComplete?: boolean;
 	} = $props();
 
-	let open = $state(false);
+	const MAX_DISPLAY_CHARS = 10_000;
 
-	const displayInfo = $derived(TOOL_DISPLAY[toolName] ?? { label: toolName, icon: WrenchIcon });
+	let open = $state(false);
+	let showFullInput = $state(false);
+	let showFullOutput = $state(false);
+
+	const displayInfo = $derived(getToolDisplay(toolName));
 
 	const statusColor = $derived(
 		isComplete ? (isError ? "text-destructive" : "text-green-500") : "text-muted-foreground"
@@ -66,6 +49,24 @@
 		isError && isComplete && toolOutput ? parseEnforcementRuleName(toolOutput) : null
 	);
 	const isEnforcementBlock = $derived(enforcementRuleName !== null);
+
+	const inputIsTruncated = $derived(toolInput !== null && toolInput.length > MAX_DISPLAY_CHARS);
+	const displayInput = $derived(
+		toolInput === null
+			? null
+			: showFullInput || !inputIsTruncated
+				? toolInput
+				: toolInput.slice(0, MAX_DISPLAY_CHARS)
+	);
+
+	const outputIsTruncated = $derived(toolOutput !== null && toolOutput.length > MAX_DISPLAY_CHARS);
+	const displayOutput = $derived(
+		toolOutput === null
+			? null
+			: showFullOutput || !outputIsTruncated
+				? toolOutput
+				: toolOutput.slice(0, MAX_DISPLAY_CHARS)
+	);
 </script>
 
 <Collapsible bind:open>
@@ -92,18 +93,42 @@
 	</CollapsibleTrigger>
 	<CollapsibleContent>
 		<div class="ml-3 mt-1 space-y-2 border-l-2 border-border pl-4">
-			{#if toolInput}
+			{#if displayInput}
 				<div>
 					<p class="mb-1 text-xs font-medium text-muted-foreground">Input</p>
-					<CodeBlock code={toolInput} language="json" />
+					<CodeBlock code={displayInput} language="json" />
+					{#if inputIsTruncated}
+						<button
+							class="mt-1 text-xs text-muted-foreground hover:text-foreground"
+							onclick={() => (showFullInput = !showFullInput)}
+						>
+							{#if showFullInput}
+								Show less
+							{:else}
+								Show full input ({Math.round(toolInput!.length / 1000)}K chars)
+							{/if}
+						</button>
+					{/if}
 				</div>
 			{/if}
-			{#if toolOutput}
+			{#if displayOutput}
 				<div>
 					<p class="mb-1 text-xs font-medium text-muted-foreground">
 						{isError ? "Error" : "Output"}
 					</p>
-					<CodeBlock code={toolOutput} language={isError ? "" : "json"} />
+					<CodeBlock code={displayOutput} language={isError ? "" : "json"} />
+					{#if outputIsTruncated}
+						<button
+							class="mt-1 text-xs text-muted-foreground hover:text-foreground"
+							onclick={() => (showFullOutput = !showFullOutput)}
+						>
+							{#if showFullOutput}
+								Show less
+							{:else}
+								Show full output ({Math.round(toolOutput!.length / 1000)}K chars)
+							{/if}
+						</button>
+					{/if}
 				</div>
 			{/if}
 			{#if !isComplete}

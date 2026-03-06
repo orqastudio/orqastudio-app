@@ -13,6 +13,7 @@
 	import { Separator } from "$lib/components/ui/separator";
 	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import SearchInput from "$lib/components/shared/SearchInput.svelte";
+	import ConfirmDeleteDialog from "$lib/components/shared/ConfirmDeleteDialog.svelte";
 
 	let {
 		sessions,
@@ -32,7 +33,9 @@
 
 	let open = $state(false);
 	let searchQuery = $state("");
-	let confirmDeleteId = $state<number | null>(null);
+	let deleteDialogOpen = $state(false);
+	let deleteTargetId = $state<number | null>(null);
+	let deleteTargetTitle = $state("");
 
 	const filteredSessions = $derived(
 		searchQuery.trim().length === 0
@@ -49,23 +52,26 @@
 		onSelect(sessionId);
 		open = false;
 		searchQuery = "";
-		confirmDeleteId = null;
 	}
 
 	function handleNewSession() {
 		onNewSession();
 		open = false;
 		searchQuery = "";
-		confirmDeleteId = null;
 	}
 
-	function handleDeleteClick(event: MouseEvent, sessionId: number) {
+	function handleDeleteClick(event: MouseEvent, sessionId: number, title: string) {
 		event.stopPropagation();
-		if (confirmDeleteId === sessionId) {
-			onDelete(sessionId);
-			confirmDeleteId = null;
-		} else {
-			confirmDeleteId = sessionId;
+		deleteTargetId = sessionId;
+		deleteTargetTitle = title;
+		deleteDialogOpen = true;
+	}
+
+	function handleDeleteConfirm() {
+		if (deleteTargetId !== null) {
+			onDelete(deleteTargetId);
+			deleteTargetId = null;
+			deleteTargetTitle = "";
 		}
 	}
 
@@ -184,10 +190,10 @@
 							</div>
 							<!-- Delete button -->
 							<button
-								class="mt-0.5 shrink-0 rounded p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100 {confirmDeleteId === session.id ? 'opacity-100 text-destructive' : ''}"
-								onclick={(e) => handleDeleteClick(e, session.id)}
-								aria-label={confirmDeleteId === session.id ? "Confirm delete" : "Delete session"}
-								title={confirmDeleteId === session.id ? "Click again to confirm" : "Delete session"}
+								class="mt-0.5 shrink-0 rounded p-1 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+								onclick={(e) => handleDeleteClick(e, session.id, session.title ?? "Untitled")}
+								aria-label="Delete session"
+								title="Delete session"
 							>
 								<Trash2Icon class="h-3.5 w-3.5" />
 							</button>
@@ -198,3 +204,10 @@
 		</ScrollArea>
 	</PopoverContent>
 </Popover>
+
+<ConfirmDeleteDialog
+	bind:open={deleteDialogOpen}
+	title="Delete session?"
+	description="This will permanently delete &quot;{deleteTargetTitle}&quot; and all its messages."
+	onConfirm={handleDeleteConfirm}
+/>

@@ -16,6 +16,8 @@ pub struct Session {
     pub sdk_session_id: Option<String>,
     pub created_at: String,
     pub updated_at: String,
+    /// Whether the user explicitly set this title, preventing auto-naming from overwriting it.
+    pub title_manually_set: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -94,6 +96,7 @@ mod tests {
             sdk_session_id: None,
             created_at: "2026-03-03T00:00:00Z".to_string(),
             updated_at: "2026-03-03T00:00:00Z".to_string(),
+            title_manually_set: false,
         };
 
         let json = serde_json::to_string(&session).expect("serialization should succeed");

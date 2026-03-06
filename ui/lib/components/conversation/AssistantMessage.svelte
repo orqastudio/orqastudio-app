@@ -7,6 +7,7 @@
 	let { message, streamingContent }: { message: Message; streamingContent?: string } = $props();
 
 	const isStreaming = $derived(message.stream_status === "pending");
+	const isActivelyStreaming = $derived(isStreaming && !!streamingContent);
 
 	const displayContent = $derived(
 		isStreaming && streamingContent ? streamingContent : (message.content ?? "")
@@ -23,7 +24,9 @@
 <div class="flex justify-start">
 	<div class="max-w-[85%] space-y-1">
 		<div class="rounded-2xl rounded-tl-sm border border-border bg-muted/50 px-4 py-2.5">
-			{#if displayContent}
+			{#if isActivelyStreaming}
+				<pre class="streaming-text whitespace-pre-wrap font-[inherit] text-sm">{displayContent}<span class="cursor-blink" aria-hidden="true"></span></pre>
+			{:else if displayContent}
 				<MarkdownRenderer content={displayContent} />
 			{:else if isStreaming}
 				<StreamingIndicator />
@@ -39,3 +42,30 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.streaming-text {
+		margin: 0;
+		line-height: 1.625;
+	}
+
+	.cursor-blink {
+		display: inline-block;
+		width: 2px;
+		height: 1em;
+		background-color: currentColor;
+		vertical-align: text-bottom;
+		margin-left: 1px;
+		animation: blink 1s step-start infinite;
+	}
+
+	@keyframes blink {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0;
+		}
+	}
+</style>

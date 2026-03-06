@@ -9,7 +9,9 @@
 	import MessageInput from "./MessageInput.svelte";
 	import StreamingIndicator from "./StreamingIndicator.svelte";
 	import ToolCallCard from "$lib/components/tool/ToolCallCard.svelte";
+	import ToolCallGroup from "$lib/components/tool/ToolCallGroup.svelte";
 	import ToolApprovalDialog from "$lib/components/tool/ToolApprovalDialog.svelte";
+	import { stripToolName } from "$lib/utils/tool-display";
 	import { conversationStore } from "$lib/stores/conversation.svelte";
 	import { sessionStore } from "$lib/stores/session.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
@@ -167,6 +169,61 @@
 
 	// Convert active tool calls map to array for display
 	const toolCallsArray = $derived(Array.from(activeToolCalls.values()));
+
+	interface ToolCallInfo {
+		toolCallId: string;
+		toolName: string;
+		input: string | null;
+		output: string | null;
+		isError: boolean;
+		isComplete: boolean;
+	}
+
+	type GroupedEntry =
+		| { kind: "single"; toolCall: ToolCallInfo }
+		| { kind: "group"; toolName: string; toolCalls: ToolCallInfo[]; key: string };
+
+	function groupConsecutiveToolCalls(calls: ToolCallInfo[]): GroupedEntry[] {
+		const result: GroupedEntry[] = [];
+		let i = 0;
+		while (i < calls.length) {
+			const current = calls[i];
+			const strippedName = stripToolName(current.toolName);
+
+			// Don't group incomplete/running calls
+			if (!current.isComplete) {
+				result.push({ kind: "single", toolCall: current });
+				i++;
+				continue;
+			}
+
+			// Collect consecutive completed calls of the same type
+			let j = i + 1;
+			while (
+				j < calls.length &&
+				calls[j].isComplete &&
+				stripToolName(calls[j].toolName) === strippedName
+			) {
+				j++;
+			}
+
+			const count = j - i;
+			if (count >= 2) {
+				result.push({
+					kind: "group",
+					toolName: current.toolName,
+					toolCalls: calls.slice(i, j),
+					key: current.toolCallId,
+				});
+			} else {
+				result.push({ kind: "single", toolCall: current });
+			}
+			i = j;
+		}
+		return result;
+	}
+
+	const groupedToolCalls = $derived(groupConsecutiveToolCalls(toolCallsArray));
 </script>
 
 <div class="flex h-full flex-col">
@@ -238,14 +295,21 @@
 						<!-- Active tool calls during streaming -->
 						{#if isStreaming && toolCallsArray.length > 0}
 							<div class="space-y-2 px-4">
-								{#each toolCallsArray as toolCall (toolCall.toolCallId)}
-									<ToolCallCard
-										toolName={toolCall.toolName}
-										toolInput={toolCall.input || null}
-										toolOutput={toolCall.output}
-										isError={toolCall.isError}
-										isComplete={toolCall.isComplete}
-									/>
+								{#each groupedToolCalls as entry (entry.kind === "group" ? entry.key : entry.toolCall.toolCallId)}
+									{#if entry.kind === "group"}
+										<ToolCallGroup
+											toolName={entry.toolName}
+											toolCalls={entry.toolCalls}
+										/>
+									{:else}
+										<ToolCallCard
+											toolName={entry.toolCall.toolName}
+											toolInput={entry.toolCall.input || null}
+											toolOutput={entry.toolCall.output}
+											isError={entry.toolCall.isError}
+											isComplete={entry.toolCall.isComplete}
+										/>
+									{/if}
 								{/each}
 							</div>
 						{/if}

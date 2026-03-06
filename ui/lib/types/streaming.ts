@@ -24,4 +24,5 @@ export type StreamEvent =
 			/** Emitted after a turn when a process compliance violation is detected. */
 			type: "process_violation";
 			data: { check: string; message: string };
-		};
+		}
+	| { type: "session_title_updated"; data: { session_id: number; title: string } };

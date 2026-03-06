@@ -21,6 +21,7 @@ Before creating ANY new UI element, check `$lib/components/shared/`:
 | `MarkdownRenderer` | Markdown content display | ANY markdown rendering |
 | `ConversationMessage` | Chat message bubble | ALL conversation displays |
 | `ToolCallCard` | Tool call display with approval | ALL tool call rendering |
+| `ConfirmDeleteDialog` | Destructive action confirmation | ANY delete/remove action |
 
 ## Rules
 

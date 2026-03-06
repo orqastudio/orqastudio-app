@@ -2,6 +2,7 @@ import { SvelteMap } from "svelte/reactivity";
 import type { Message } from "$lib/types";
 import type { StreamEvent } from "$lib/types/streaming";
 import { invoke, createStreamChannel } from "$lib/ipc/invoke";
+import { sessionStore } from "$lib/stores/session.svelte";
 import { DEFAULT_MODEL } from "$lib/components/conversation/model-options";
 
 export interface ToolCallState {
@@ -251,6 +252,10 @@ class ConversationStore {
 					...this.processViolations,
 					{ check: event.data.check, message: event.data.message },
 				];
+				break;
+
+			case "session_title_updated":
+				sessionStore.handleTitleUpdate(event.data.session_id, event.data.title);
 				break;
 		}
 	}

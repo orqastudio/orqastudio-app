@@ -24,7 +24,8 @@ pub fn get(conn: &Connection, id: i64) -> Result<Session, OrqaError> {
     conn.query_row(
         "SELECT id, project_id, title, model, system_prompt, status, summary, \
                 handoff_notes, total_input_tokens, total_output_tokens, total_cost_usd, \
-                sdk_session_id, created_at, updated_at \
+                sdk_session_id, created_at, updated_at, \
+                COALESCE(title_manually_set, 0) \
          FROM sessions WHERE id = ?1",
         params![id],
         |row| {
@@ -44,6 +45,7 @@ pub fn get(conn: &Connection, id: i64) -> Result<Session, OrqaError> {
                 sdk_session_id: row.get(11)?,
                 created_at: row.get(12)?,
                 updated_at: row.get(13)?,
+                title_manually_set: row.get::<_, i64>(14)? != 0,
             })
         },
     )
@@ -99,10 +101,13 @@ pub fn list(
     Ok(sessions)
 }
 
-/// Update the title of a session.
+/// Update the title of a session and mark it as manually set.
+///
+/// Once marked, auto-naming will not overwrite this title.
 pub fn update_title(conn: &Connection, id: i64, title: &str) -> Result<(), OrqaError> {
     let rows = conn.execute(
-        "UPDATE sessions SET title = ?1, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') \
+        "UPDATE sessions SET title = ?1, title_manually_set = 1, \
+         updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') \
          WHERE id = ?2",
         params![title, id],
     )?;
@@ -111,6 +116,19 @@ pub fn update_title(conn: &Connection, id: i64, title: &str) -> Result<(), OrqaE
         return Err(OrqaError::NotFound(format!("session {id}")));
     }
     Ok(())
+}
+
+/// Auto-update session title only if it was not manually set by the user.
+///
+/// Returns `Ok(true)` if the title was updated, `Ok(false)` if skipped because
+/// the session has `title_manually_set = 1`.
+pub fn auto_update_title(conn: &Connection, id: i64, title: &str) -> Result<bool, OrqaError> {
+    let rows = conn.execute(
+        "UPDATE sessions SET title = ?1, updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now') \
+         WHERE id = ?2 AND (title_manually_set = 0 OR title_manually_set IS NULL)",
+        params![title, id],
+    )?;
+    Ok(rows > 0)
 }
 
 /// Mark a session as completed.
@@ -277,11 +295,63 @@ mod tests {
         let conn = setup();
         let s = create(&conn, 1, "auto", None).expect("create");
         assert!(s.title.is_none());
+        assert!(!s.title_manually_set);
 
         update_title(&conn, s.id, "My Session").expect("update title");
 
         let fetched = get(&conn, s.id).expect("get");
         assert_eq!(fetched.title.as_deref(), Some("My Session"));
+        assert!(
+            fetched.title_manually_set,
+            "update_title should set title_manually_set = true"
+        );
+    }
+
+    #[test]
+    fn auto_update_title_skips_manually_set() {
+        let conn = setup();
+        let s = create(&conn, 1, "auto", None).expect("create");
+
+        // Manually set the title first
+        update_title(&conn, s.id, "User Title").expect("update title");
+
+        // Auto-title should not overwrite the manual one
+        let updated = auto_update_title(&conn, s.id, "Auto Title").expect("auto_update_title");
+        assert!(
+            !updated,
+            "auto_update_title should return false when title is manually set"
+        );
+
+        let fetched = get(&conn, s.id).expect("get");
+        assert_eq!(
+            fetched.title.as_deref(),
+            Some("User Title"),
+            "manual title should not be overwritten"
+        );
+    }
+
+    #[test]
+    fn auto_update_title_updates_when_not_manually_set() {
+        let conn = setup();
+        let s = create(&conn, 1, "auto", None).expect("create");
+        assert!(!s.title_manually_set);
+
+        let updated = auto_update_title(&conn, s.id, "Auto Title").expect("auto_update_title");
+        assert!(
+            updated,
+            "auto_update_title should return true when title is not manually set"
+        );
+
+        let fetched = get(&conn, s.id).expect("get");
+        assert_eq!(
+            fetched.title.as_deref(),
+            Some("Auto Title"),
+            "auto title should be applied"
+        );
+        assert!(
+            !fetched.title_manually_set,
+            "title_manually_set should remain false after auto-title"
+        );
     }
 
     #[test]
