@@ -3,7 +3,7 @@ title: "Roadmap"
 category: product
 tags: []
 created: 2026-03-02
-updated: 2026-03-05
+updated: 2026-03-06
 ---
 
 # Roadmap
@@ -465,6 +465,39 @@ DX improvements discovered while dogfooding Orqa Studio with itself.
 - [ ] Build splash window — Small branded Tauri window that appears during `make dev` compilation and disappears once the app opens. Shows concise build status by default with an expandable accordion for detailed build output (cargo compile progress, warnings, etc.). Helps the developer know the app is building rather than staring at a blank screen.
 - [ ] Custom system prompt templates — Pre-built prompt templates for common scenarios (dogfooding, greenfield, legacy codebase) that can be selected in project settings.
 - [ ] Project-local database — Move SQLite DB from `app_data_dir` to `.orqa/orqa.db` so session history and audit data travels with the project and can be committed to git. Requires `.gitignore` entries for WAL/SHM journal files (`*.db-wal`, `*.db-shm`). Consider whether all tables belong in the portable DB or if some (e.g. app preferences) should remain app-local.
+
+## Future: Composability as Platform Principle
+
+Composability is not just an internal coding standard — it is a platform principle that Orqa Studio promotes for every project it manages. In a world of ever-changing demands, composable software is dramatically easier to pivot, extend, and maintain. This future work makes composability a first-class, enforceable, teachable part of the Orqa Studio experience.
+
+**Portable Composability Skill:**
+- [ ] Extract a generic `composability` skill (not `orqa-` prefixed) that teaches the philosophy without codebase-specific examples — ships with the app for all projects
+- [ ] Adapt composability principles to different tech stacks (not just Rust/Svelte) — the skill should teach functional paradigm, pipeline composition, feature isolation, and pluggable integrations regardless of language
+- [ ] Include composability in the default skill set loaded for every new project (alongside `chunkhound`)
+
+**Project Initialization Templates:**
+- [ ] When Orqa Studio initializes a new project, scaffold composable architecture by default — domain layer, thin command/controller layer, typed boundaries, pluggable integrations
+- [ ] Language-specific templates (Rust, TypeScript, Python, Go) that demonstrate composable patterns in that ecosystem
+- [ ] Template selection during project setup wizard — "Composable Monolith", "Microservice", "CLI Tool", "Library", "Full-Stack App"
+- [ ] Each template includes a project-specific composability skill with real examples from the scaffolded code
+
+**Composability Governance Scanner:**
+- [ ] Scanning rules that detect anti-patterns: god components (>150 lines with 3+ store imports), thick command handlers (business logic in controller layer), circular module dependencies, tightly coupled features
+- [ ] Composability health score per project — ratio of pure functions to stateful ones, average function size, dependency graph depth, feature isolation index
+- [ ] Dashboard visualization — composability trends over time, hotspots that need decomposition
+- [ ] Integration with lesson promotion — when composability violations recur, automatically promote to enforcement rules
+
+**Pluggable Integration Architecture:**
+- [ ] Make the AI provider swappable per-project via the sidecar protocol (already proven with AD-017)
+- [ ] Make the search backend swappable — ChunkHound for code projects, different search for non-code projects
+- [ ] Make the scanner pluggable — projects can define custom scanning rules beyond the built-in governance scanner
+- [ ] Make the tool executor pluggable — projects can register custom tools (via MCP or native) that compose with built-in tools
+- [ ] Configuration-driven feature assembly — projects declare which capabilities they need in `.orqa/project.json`, and the app assembles the right agents, tools, and scanners
+
+**Self-Dogfooding:**
+- [ ] Orqa Studio's own codebase uses these same composability patterns — the app eats its own cooking
+- [ ] The composability scanner runs on Orqa Studio itself as part of `make check`
+- [ ] Composability violations in Orqa Studio's own code are treated as first-class bugs
 
 ## Future: Code Quality Audit
 
