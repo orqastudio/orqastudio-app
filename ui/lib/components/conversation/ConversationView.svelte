@@ -94,6 +94,16 @@ import { sessionStore } from "$lib/stores/session.svelte";
 		}
 	});
 
+	// Propagate auto-generated title updates from the conversation store to the session store.
+	// This keeps the stores decoupled: conversation store exposes the event data as reactive
+	// state, and this component (which already owns both stores) performs the coordination.
+	$effect(() => {
+		const update = conversationStore.lastTitleUpdate;
+		if (update) {
+			sessionStore.handleTitleUpdate(update.sessionId, update.title);
+		}
+	});
+
 	// Auto-scroll to bottom when new content arrives, unless user scrolled up
 	$effect(() => {
 		// Track dependencies: messages, streamingContent, and activeToolCalls

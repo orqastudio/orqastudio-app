@@ -2,7 +2,6 @@ import { SvelteMap } from "svelte/reactivity";
 import type { Message } from "$lib/types";
 import type { StreamEvent } from "$lib/types/streaming";
 import { invoke, createStreamChannel, extractErrorMessage } from "$lib/ipc/invoke";
-import { sessionStore } from "$lib/stores/session.svelte";
 import { DEFAULT_MODEL } from "$lib/components/conversation/model-options";
 
 export interface ToolCallState {
@@ -51,6 +50,9 @@ class ConversationStore {
 	processViolations = $state<Array<{ check: string; message: string }>>([]);
 	/** Context entries sent to the model at the start of the most recent turn. */
 	contextEntries = $state<ContextEntry[]>([]);
+	/** Last auto-generated title update received from the backend. Components observe this
+	 * to propagate the change to the session store without creating a cross-store dependency. */
+	lastTitleUpdate = $state<{ sessionId: number; title: string } | null>(null);
 
 	private resolvedModel = $state<string | null>(null);
 	private streamingMessageId = $state<number | null>(null);
@@ -148,6 +150,7 @@ class ConversationStore {
 		this.pendingApproval = null;
 		this.processViolations = [];
 		this.contextEntries = [];
+		this.lastTitleUpdate = null;
 	}
 
 	/** Approve or deny the currently pending tool call, then invoke the backend. */
@@ -276,7 +279,10 @@ class ConversationStore {
 				break;
 
 			case "session_title_updated":
-				sessionStore.handleTitleUpdate(event.data.session_id, event.data.title);
+				this.lastTitleUpdate = {
+					sessionId: event.data.session_id,
+					title: event.data.title,
+				};
 				break;
 
 			case "system_prompt_sent":
