@@ -186,6 +186,12 @@ class ProjectStore {
 		this.iconDataUrl = null;
 	}
 
+	/** Check whether a directory is an initialized Orqa project. */
+	async checkIsOrqaProject(path: string): Promise<boolean> {
+		const settings = await invoke<ProjectSettings | null>("project_settings_read", { path });
+		return settings !== null;
+	}
+
 	/** Close the current project, returning to the welcome screen. */
 	closeProject() {
 		this.activeProject = null;
