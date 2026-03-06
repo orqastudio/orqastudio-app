@@ -42,8 +42,8 @@
 		<ErrorDisplay message={setupStore.error} onRetry={check} />
 	{:else if setupStore.cliInfo?.installed}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-green-500" />
-			<p class="text-sm font-medium text-green-600 dark:text-green-400">Claude CLI found</p>
+			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<p class="text-sm font-medium text-success">Claude CLI found</p>
 			{#if setupStore.cliInfo.version}
 				<p class="text-xs text-muted-foreground">Version: {setupStore.cliInfo.version}</p>
 			{/if}
@@ -53,7 +53,7 @@
 		</div>
 	{:else}
 		<div class="space-y-3">
-			<p class="text-sm text-amber-600 dark:text-amber-400">Claude CLI not found</p>
+			<p class="text-sm text-warning">Claude CLI not found</p>
 			<p class="text-xs text-muted-foreground">
 				Install Claude Code to continue. Visit
 				<a

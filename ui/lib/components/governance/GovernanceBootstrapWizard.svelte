@@ -158,13 +158,13 @@
 
 							{#if governanceStore.analysis.strengths.length > 0}
 								<div>
-									<p class="mb-2 text-sm font-medium text-green-700 dark:text-green-400">
+									<p class="mb-2 text-sm font-medium text-success">
 										Strengths
 									</p>
 									<ul class="space-y-1">
 										{#each governanceStore.analysis.strengths as strength, i (i)}
 											<li class="flex items-start gap-2 text-sm">
-												<CheckCircleIcon class="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" />
+												<CheckCircleIcon class="mt-0.5 h-4 w-4 flex-shrink-0 text-success" />
 												<span>{strength}</span>
 											</li>
 										{/each}
@@ -201,9 +201,9 @@
 					<!-- Step 3: Done -->
 					<div class="flex flex-col items-center justify-center py-8 text-center">
 						<div
-							class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30"
+							class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-success/15"
 						>
-							<CheckCircleIcon class="h-8 w-8 text-green-600" />
+							<CheckCircleIcon class="h-8 w-8 text-success" />
 						</div>
 						<p class="text-lg font-semibold">Governance Bootstrapped</p>
 						<p class="mt-1 text-sm text-muted-foreground">

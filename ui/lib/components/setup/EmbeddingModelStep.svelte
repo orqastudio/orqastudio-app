@@ -82,13 +82,13 @@
 		<ErrorDisplay message={setupStore.error} onRetry={check} />
 	{:else if setupStore.embeddingStatus?.status === "complete"}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-green-500" />
-			<p class="text-sm font-medium text-green-600 dark:text-green-400">Model ready</p>
+			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<p class="text-sm font-medium text-success">Model ready</p>
 			<p class="text-xs text-muted-foreground">bge-small-en-v1.5</p>
 		</div>
 	{:else}
 		<div class="space-y-3">
-			<p class="text-sm text-amber-600 dark:text-amber-400">Model not available</p>
+			<p class="text-sm text-warning">Model not available</p>
 			<p class="text-xs text-muted-foreground">
 				The embedding model will be downloaded automatically when the app starts.
 			</p>

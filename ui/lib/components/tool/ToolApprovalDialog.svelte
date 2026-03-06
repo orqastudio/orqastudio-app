@@ -30,9 +30,9 @@
 	});
 </script>
 
-<Card class="border-amber-500/40 bg-amber-950/10">
+<Card class="border-warning/40 bg-warning/5">
 	<CardHeader class="pb-2">
-		<CardTitle class="flex items-center gap-2 text-sm font-semibold text-amber-400">
+		<CardTitle class="flex items-center gap-2 text-sm font-semibold text-warning">
 			<ShieldAlertIcon class="h-4 w-4 shrink-0" />
 			Approval Required — {toolLabel}
 		</CardTitle>

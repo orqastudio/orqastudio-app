@@ -68,7 +68,7 @@
 					<div class="flex items-start gap-3">
 						<div
 							class="mt-0.5 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md {area.covered
-								? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+								? 'bg-success/15 text-success'
 								: 'bg-muted text-muted-foreground'}"
 						>
 							<AreaIcon class="h-4 w-4" />
@@ -78,7 +78,7 @@
 							<div class="flex items-center gap-2">
 								<span class="text-sm font-medium">{getAreaLabel(area.name)}</span>
 								{#if area.covered}
-									<CheckIcon class="h-4 w-4 text-green-600" />
+									<CheckIcon class="h-4 w-4 text-success" />
 								{:else}
 									<XIcon class="h-4 w-4 text-muted-foreground" />
 								{/if}

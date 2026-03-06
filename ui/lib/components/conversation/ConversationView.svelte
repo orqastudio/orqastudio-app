@@ -307,7 +307,7 @@ import { sessionStore } from "$lib/stores/session.svelte";
 						{#if processViolations.length > 0}
 							<div class="space-y-1 px-4">
 								{#each processViolations as violation (violation.check)}
-									<div class="rounded-md border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-sm text-yellow-700 dark:text-yellow-400">
+									<div class="rounded-md border border-warning/30 bg-warning/10 px-3 py-2 text-sm text-warning">
 										<span class="font-medium">Process:</span> {violation.message}
 									</div>
 								{/each}

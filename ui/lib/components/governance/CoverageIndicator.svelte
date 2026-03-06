@@ -24,7 +24,7 @@
 		{#each areas as area (area.name)}
 			<div
 				class="h-2 flex-1 rounded-sm transition-colors {area.covered
-					? 'bg-green-500'
+					? 'bg-success'
 					: 'bg-muted'}"
 				title="{area.name}: {area.covered ? 'covered' : 'not covered'}"
 			></div>

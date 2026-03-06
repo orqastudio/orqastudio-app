@@ -38,7 +38,7 @@
 			case "coding":
 				return "bg-violet-500/10 text-violet-600 dark:text-violet-400";
 			case "architecture":
-				return "bg-amber-500/10 text-amber-600 dark:text-amber-400";
+				return "bg-warning/10 text-warning";
 			default:
 				return "bg-muted text-muted-foreground";
 		}

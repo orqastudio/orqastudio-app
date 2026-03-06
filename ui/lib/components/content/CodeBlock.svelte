@@ -34,7 +34,7 @@
 			onclick={copyToClipboard}
 		>
 			{#if copied}
-				<CheckIcon class="h-3.5 w-3.5 text-green-500" />
+				<CheckIcon class="h-3.5 w-3.5 text-success" />
 				<span>Copied</span>
 			{:else}
 				<CopyIcon class="h-3.5 w-3.5" />

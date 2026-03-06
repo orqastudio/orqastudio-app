@@ -42,8 +42,8 @@
 		<ErrorDisplay message={setupStore.error} onRetry={check} />
 	{:else if setupStore.cliInfo?.authenticated}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-green-500" />
-			<p class="text-sm font-medium text-green-600 dark:text-green-400">Authenticated</p>
+			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<p class="text-sm font-medium text-success">Authenticated</p>
 			{#if setupStore.cliInfo.subscription_type}
 				<p class="text-xs text-muted-foreground">
 					Plan: {setupStore.cliInfo.subscription_type}
@@ -52,7 +52,7 @@
 		</div>
 	{:else}
 		<div class="space-y-3">
-			<p class="text-sm text-amber-600 dark:text-amber-400">Not authenticated</p>
+			<p class="text-sm text-warning">Not authenticated</p>
 			<p class="text-xs text-muted-foreground">
 				Run <code class="rounded bg-muted px-1 py-0.5">claude</code> in your terminal and
 				follow the login prompts to authenticate.

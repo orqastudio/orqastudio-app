@@ -41,7 +41,7 @@
 	const displayInfo = $derived(getToolDisplay(toolName));
 
 	const statusColor = $derived(
-		isComplete ? (isError ? "text-destructive" : "text-green-500") : "text-muted-foreground"
+		isComplete ? (isError ? "text-destructive" : "text-success") : "text-muted-foreground"
 	);
 
 	// Detect if this is an enforcement block — error output starts with "Rule '"

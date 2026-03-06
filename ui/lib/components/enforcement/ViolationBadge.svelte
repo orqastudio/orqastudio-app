@@ -24,7 +24,7 @@
 			</span>
 		{:else}
 			<span
-				class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-medium bg-amber-500/15 text-amber-600 border border-amber-500/30 dark:text-amber-400"
+				class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-medium bg-warning/15 text-warning border border-warning/30"
 				aria-label="Warning from rule: {ruleName}"
 			>
 				<AlertTriangleIcon class="h-3 w-3 shrink-0" />

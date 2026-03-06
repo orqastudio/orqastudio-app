@@ -55,7 +55,7 @@
 
 <Card.Root
 	class="transition-opacity {isRejected ? 'opacity-50' : 'opacity-100'} {isApplied
-		? 'border-green-500/40'
+		? 'border-success/40'
 		: ''} {isApproved ? 'border-primary/40' : ''}"
 >
 	<Card.Content class="p-4">
@@ -78,7 +78,7 @@
 				<!-- Status indicator -->
 				<div class="flex-shrink-0">
 					{#if isApplied}
-						<div class="flex items-center gap-1 text-xs text-green-600">
+						<div class="flex items-center gap-1 text-xs text-success">
 							<CheckIcon class="h-4 w-4" />
 							<span>Applied</span>
 						</div>
@@ -103,7 +103,7 @@
 						<Button
 							size="sm"
 							variant="outline"
-							class="border-green-500 text-green-700 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/20"
+							class="border-success text-success hover:bg-success/10"
 							onclick={() => onApprove(recommendation.id)}
 						>
 							<CheckIcon class="mr-1 h-3 w-3" />

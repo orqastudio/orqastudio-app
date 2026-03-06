@@ -118,7 +118,7 @@
 							</Badge>
 						{/if}
 						{#if enforcementStore.warnCount > 0}
-							<Badge variant="outline" class="text-xs px-1.5 py-0.5 border-amber-500/50 text-amber-600 dark:text-amber-400">
+							<Badge variant="warning" class="text-xs px-1.5 py-0.5">
 								{enforcementStore.warnCount} warned
 							</Badge>
 						{/if}
@@ -168,7 +168,7 @@
 														</Badge>
 													{/if}
 													{#if counts.warns > 0}
-														<Badge variant="outline" class="h-4 border-amber-500/50 px-1 py-0 text-xs text-amber-600 dark:text-amber-400">
+														<Badge variant="warning" class="h-4 px-1 py-0 text-xs">
 															{counts.warns}
 														</Badge>
 													{/if}

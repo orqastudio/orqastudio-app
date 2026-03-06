@@ -44,9 +44,9 @@
 	function sidecarStatusColor(state: string): string {
 		switch (state) {
 			case "connected":
-				return "text-green-500";
+				return "text-success";
 			case "starting":
-				return "text-yellow-500";
+				return "text-warning";
 			case "error":
 				return "text-red-500";
 			case "stopped":
@@ -144,9 +144,9 @@
 							<span class="w-32 text-muted-foreground">Sidecar Status:</span>
 							<div class="flex items-center gap-1.5">
 								{#if settingsStore.sidecarStatus.state === "connected"}
-									<CircleCheckIcon class="h-4 w-4 text-green-500" />
+									<CircleCheckIcon class="h-4 w-4 text-success" />
 								{:else if settingsStore.sidecarStatus.state === "starting"}
-									<LoaderCircleIcon class="h-4 w-4 animate-spin text-yellow-500" />
+									<LoaderCircleIcon class="h-4 w-4 animate-spin text-warning" />
 								{:else if settingsStore.sidecarStatus.state === "error"}
 									<CircleXIcon class="h-4 w-4 text-red-500" />
 								{:else}
@@ -176,7 +176,7 @@
 							<span class="w-32 text-muted-foreground">CLI Detected:</span>
 							{#if settingsStore.sidecarStatus.cli_detected}
 								<div class="flex items-center gap-1.5">
-									<CircleCheckIcon class="h-4 w-4 text-green-500" />
+									<CircleCheckIcon class="h-4 w-4 text-success" />
 									<span>{settingsStore.sidecarStatus.cli_version ?? "Unknown version"}</span>
 								</div>
 							{:else}
@@ -220,7 +220,7 @@
 								<span class="w-32 text-muted-foreground">Installed:</span>
 								{#if setupStore.cliInfo.installed}
 									<div class="flex items-center gap-1.5">
-										<CircleCheckIcon class="h-4 w-4 text-green-500" />
+										<CircleCheckIcon class="h-4 w-4 text-success" />
 										<span>Yes</span>
 									</div>
 								{:else}
@@ -249,13 +249,13 @@
 								<span class="w-32 text-muted-foreground">Authenticated:</span>
 								{#if setupStore.cliInfo.authenticated}
 									<div class="flex items-center gap-1.5">
-										<ShieldCheckIcon class="h-4 w-4 text-green-500" />
+										<ShieldCheckIcon class="h-4 w-4 text-success" />
 										<span>Yes</span>
 									</div>
 								{:else}
 									<div class="flex items-center gap-1.5">
-										<CircleXIcon class="h-4 w-4 text-amber-500" />
-										<span class="text-amber-600 dark:text-amber-400">Not authenticated</span>
+										<CircleXIcon class="h-4 w-4 text-warning" />
+										<span class="text-warning">Not authenticated</span>
 									</div>
 								{/if}
 							</div>

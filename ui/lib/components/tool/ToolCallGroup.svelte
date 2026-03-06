@@ -53,7 +53,7 @@
 				{errorCount === 1 ? "error" : "errors"}
 			</span>
 		{:else}
-			<CheckCircleIcon class="h-3.5 w-3.5 shrink-0 text-green-500" />
+			<CheckCircleIcon class="h-3.5 w-3.5 shrink-0 text-success" />
 		{/if}
 	</CollapsibleTrigger>
 	<CollapsibleContent>

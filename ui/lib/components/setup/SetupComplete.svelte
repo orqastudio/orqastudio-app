@@ -29,19 +29,19 @@
 
 	<div class="mx-auto max-w-xs space-y-2 text-left">
 		<div class="flex items-center gap-2 text-sm">
-			<CheckCircleIcon class="h-4 w-4 text-green-500" />
+			<CheckCircleIcon class="h-4 w-4 text-success" />
 			<span>Claude CLI installed</span>
 		</div>
 		<div class="flex items-center gap-2 text-sm">
-			<CheckCircleIcon class="h-4 w-4 text-green-500" />
+			<CheckCircleIcon class="h-4 w-4 text-success" />
 			<span>Authentication verified</span>
 		</div>
 		<div class="flex items-center gap-2 text-sm">
-			<CheckCircleIcon class="h-4 w-4 text-green-500" />
+			<CheckCircleIcon class="h-4 w-4 text-success" />
 			<span>Sidecar connected</span>
 		</div>
 		<div class="flex items-center gap-2 text-sm">
-			<CheckCircleIcon class="h-4 w-4 text-green-500" />
+			<CheckCircleIcon class="h-4 w-4 text-success" />
 			<span>Embedding model ready</span>
 		</div>
 	</div>

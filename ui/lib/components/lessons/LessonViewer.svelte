@@ -24,7 +24,7 @@
 			case "coding":
 				return "bg-violet-500/10 text-violet-600 dark:text-violet-400";
 			case "architecture":
-				return "bg-amber-500/10 text-amber-600 dark:text-amber-400";
+				return "bg-warning/10 text-warning";
 			default:
 				return "bg-muted text-muted-foreground";
 		}
@@ -75,7 +75,7 @@
 
 		{#if isPromotionCandidate}
 			<div
-				class="mt-2 flex items-center gap-1.5 rounded-md bg-amber-500/10 px-2 py-1.5 text-xs text-amber-700 dark:text-amber-400"
+				class="mt-2 flex items-center gap-1.5 rounded-md bg-warning/10 px-2 py-1.5 text-xs text-warning"
 			>
 				<ArrowUpCircleIcon class="h-3.5 w-3.5 shrink-0" />
 				<span>Recurred {lesson.recurrence} times — ready for promotion to a rule</span>

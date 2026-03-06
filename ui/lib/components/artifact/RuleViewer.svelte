@@ -37,7 +37,7 @@
 	<!-- Enforcement status bar -->
 	<div class="flex flex-wrap items-center gap-2 rounded-md border border-border bg-muted/30 px-3 py-2">
 		{#if isLoaded}
-			<div class="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
+			<div class="flex items-center gap-1 text-xs text-success">
 				<CheckCircleIcon class="h-3.5 w-3.5" />
 				<span>Loaded</span>
 			</div>
@@ -71,7 +71,7 @@
 			</Badge>
 		{/if}
 		{#if ruleWarnCount > 0}
-			<Badge variant="outline" class="h-5 border-amber-500/50 px-1.5 text-xs text-amber-600 dark:text-amber-400">
+			<Badge variant="warning" class="h-5 px-1.5 text-xs">
 				{ruleWarnCount} warned
 			</Badge>
 		{/if}
@@ -98,7 +98,7 @@
 							{#if violation.action === "Block"}
 								<ShieldIcon class="mt-0.5 h-3 w-3 shrink-0 text-destructive" />
 							{:else}
-								<AlertTriangleIcon class="mt-0.5 h-3 w-3 shrink-0 text-amber-500" />
+								<AlertTriangleIcon class="mt-0.5 h-3 w-3 shrink-0 text-warning" />
 							{/if}
 							<div class="min-w-0 flex-1">
 								<span class="block truncate font-mono text-xs text-muted-foreground">{violation.tool_name}</span>

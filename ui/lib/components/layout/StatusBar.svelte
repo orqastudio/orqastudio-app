@@ -10,9 +10,9 @@
 	const statusColor = $derived.by(() => {
 		switch (settingsStore.sidecarStatus.state) {
 			case "connected":
-				return "bg-green-500";
+				return "bg-success";
 			case "starting":
-				return "bg-yellow-500";
+				return "bg-warning";
 			case "error":
 				return "bg-red-500";
 			case "stopped":

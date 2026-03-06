@@ -64,15 +64,15 @@
 		<ErrorDisplay message={setupStore.error} onRetry={start} />
 	{:else if setupStore.sidecarStarted}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-green-500" />
-			<p class="text-sm font-medium text-green-600 dark:text-green-400">Sidecar connected</p>
+			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<p class="text-sm font-medium text-success">Sidecar connected</p>
 			{#if settingsStore.sidecarStatus.pid}
 				<p class="text-xs text-muted-foreground">PID: {settingsStore.sidecarStatus.pid}</p>
 			{/if}
 		</div>
 	{:else}
 		<div class="space-y-3">
-			<p class="text-sm text-amber-600 dark:text-amber-400">Sidecar not running</p>
+			<p class="text-sm text-warning">Sidecar not running</p>
 			<Button variant="outline" onclick={start}>Retry</Button>
 		</div>
 	{/if}
