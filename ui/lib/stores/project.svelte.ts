@@ -46,8 +46,9 @@ class ProjectStore {
 				this.activeProject = project;
 				await this.loadProjectSettings(project.path);
 			}
-		} catch {
-			// No active project — not an error, user just needs to open one
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load active project: ${message}`;
 		} finally {
 			this.loading = false;
 		}
@@ -75,8 +76,9 @@ class ProjectStore {
 		try {
 			const projects = await invoke<ProjectSummary[]>("project_list");
 			this.projects = projects;
-		} catch {
-			// Non-critical
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load project list: ${message}`;
 		}
 	}
 
@@ -94,7 +96,9 @@ class ProjectStore {
 			} else {
 				this.iconDataUrl = null;
 			}
-		} catch {
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load project settings: ${message}`;
 			this.projectSettings = null;
 		} finally {
 			this.settingsLoaded = true;
@@ -167,7 +171,9 @@ class ProjectStore {
 				icon_filename: this.projectSettings.icon,
 			});
 			this.iconDataUrl = dataUrl;
-		} catch {
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load project icon: ${message}`;
 			this.iconDataUrl = null;
 		}
 	}

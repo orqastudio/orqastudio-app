@@ -13,7 +13,7 @@
 	import { conversationStore } from "$lib/stores/conversation.svelte";
 	import { sessionStore } from "$lib/stores/session.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
-	import { invoke } from "$lib/ipc/invoke";
+	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { onMount } from "svelte";
 
 	let scrollViewportRef = $state<HTMLElement | null>(null);
@@ -60,21 +60,16 @@
 
 		// Try to restore the last active session
 		if (!sessionStore.hasActiveSession) {
-			try {
-				const allSettings = await invoke<Record<string, unknown>>(
-					"settings_get_all",
-					{ scope: "app" }
-				);
-				const lastSessionId = allSettings["last_session_id"];
-				if (typeof lastSessionId === "number" && lastSessionId > 0) {
+			const lastSessionId = settingsStore.lastSessionId;
+			if (lastSessionId !== null) {
+				try {
 					await sessionStore.restoreSession(lastSessionId);
-					// Show resume banner if session was restored (has messages from before restart)
 					if (sessionStore.hasActiveSession) {
 						showResumeBanner = true;
 					}
+				} catch {
+					// Non-critical — proceed without restoring
 				}
-			} catch {
-				// Non-critical — proceed without restoring
 			}
 		}
 

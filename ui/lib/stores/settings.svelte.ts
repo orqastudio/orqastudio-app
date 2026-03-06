@@ -26,6 +26,7 @@ class SettingsStore {
 	themeMode = $state<ThemeMode>("system");
 	defaultModel = $state<DefaultModel>("auto");
 	fontSize = $state<number>(14);
+	lastSessionId = $state<number | null>(null);
 	activeSection = $state<string>("provider");
 
 	sidecarStatus = $state<SidecarStatus>({
@@ -116,6 +117,10 @@ class SettingsStore {
 			if (all["font_size"] && typeof all["font_size"] === "number") {
 				this.fontSize = Math.max(12, Math.min(20, all["font_size"]));
 			}
+
+			if (typeof all["last_session_id"] === "number" && all["last_session_id"] > 0) {
+				this.lastSessionId = all["last_session_id"];
+			}
 		} catch (err) {
 			this.error = err instanceof Error ? err.message : String(err);
 		} finally {
@@ -152,8 +157,18 @@ class SettingsStore {
 		}
 	}
 
-	setFontSize(size: number) {
+	async setFontSize(size: number): Promise<void> {
 		this.fontSize = Math.max(12, Math.min(20, size));
+
+		try {
+			await invoke("settings_set", {
+				key: "font_size",
+				value: this.fontSize,
+				scope: "app",
+			});
+		} catch (err) {
+			this.error = err instanceof Error ? err.message : String(err);
+		}
 	}
 
 	setActiveSection(section: string) {
@@ -174,8 +189,9 @@ class SettingsStore {
 			try {
 				const status = await invoke<StartupSnapshot>("get_startup_status");
 				this.startupStatus = status;
-			} catch {
-				// Startup status is best-effort; don't fail the poll
+			} catch (err: unknown) {
+				const message = err instanceof Error ? err.message : String(err);
+				this.error = `Failed to check startup status: ${message}`;
 			}
 		}
 

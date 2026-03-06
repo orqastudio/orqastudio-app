@@ -85,7 +85,9 @@ class ArtifactStore {
 		this.docTreeLoading = true;
 		try {
 			this.docTree = await invoke<DocNode[]>("doc_tree_scan");
-		} catch {
+		} catch (err: unknown) {
+			const message = err instanceof Error ? err.message : String(err);
+			this.error = `Failed to load documentation tree: ${message}`;
 			this.docTree = [];
 		} finally {
 			this.docTreeLoading = false;
