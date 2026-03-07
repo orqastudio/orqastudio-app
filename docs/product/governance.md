@@ -3,12 +3,12 @@ title: "Product Governance"
 category: product
 tags: []
 created: 2026-03-02
-updated: 2026-03-04
+updated: 2026-03-07
 ---
 
 # Product Governance
 
-**Date:** 2026-03-02
+**Date:** 2026-03-07
 
 ## Feature Governance Framework
 
@@ -16,43 +16,44 @@ Every feature, task, and implementation must pass the Two-Pillar Test before wor
 
 ### The Two-Pillar Test
 
-**Pillar 1: Self-Learning Loop** — Does this feature help the system improve over time?
+**Pillar 1: Clarity Through Structure** — Does this feature make thinking, standards, or decisions more visible and structured?
 
-- Does it capture lessons from agent sessions?
-- Does it track metrics or outcomes?
-- Does it feed retrospectives back into governance?
-- Does it accumulate knowledge across sessions?
+- Does it make governance artifacts visible and manageable?
+- Does it produce or organise structured knowledge (plans, decisions, rules)?
+- Does it enforce a workflow that ensures understanding precedes action?
+- Does it surface what would otherwise be hidden in files, terminal output, or people's heads?
 
-**Pillar 2: Process Governance** — Does this feature enforce or surface standards, rules, and workflows?
+**Pillar 2: Learning Through Reflection** — Does this feature help the system or its users improve over time?
 
-- Does it make governance more visible?
-- Does it make governance more enforceable?
-- Does it help the user manage their governance framework?
+- Does it capture lessons, discoveries, or patterns?
+- Does it track metrics or outcomes that show improvement (or regression)?
+- Does it feed retrospectives back into the governance framework?
+- Does it accumulate knowledge across sessions so each cycle starts from a better position?
 
 ### Rejection Criteria
 
 Reject any feature that:
 
 - Serves neither pillar
-- Adds complexity without improving learning or governance
-- Is a generic developer tool feature with no connection to managed agentic development
-- Cannot articulate how it makes the system smarter (Pillar 1) or governance more tangible (Pillar 2)
+- Adds complexity without improving clarity or learning
+- Is a generic tool feature with no connection to structured thinking or reflective improvement
+- Cannot articulate how it makes the work more visible and structured (Pillar 1) or how it makes the process smarter over time (Pillar 2)
 
 ### Pillar Conflict Resolution
 
-When Pillar 1 (Self-Learning Loop) and Pillar 2 (Process Governance) conflict, **Pillar 2 takes priority**. Governance must be solid before the learning loop can meaningfully operate on it.
+When Pillar 1 (Clarity Through Structure) and Pillar 2 (Learning Through Reflection) conflict, **Pillar 1 takes priority**. You cannot improve a process that isn't visible and structured. Governance must be solid before the learning loop can meaningfully operate on it.
 
 ## Foundational Principles
 
 The following are immutable without explicit user approval:
 
 1. **Two-Pillar framework** — Every feature serves at least one pillar
-2. **Primary audience** — Product Managers and Tech Leads, not just developers
-3. **Human approval gate** — Implementation plans must be approved by a human (Tech Lead / PM) before coding begins. Agents plan and implement, but humans authorize.
+2. **Primary audience** — Structured thinkers: product managers, tech leads, and anyone who needs to turn complex situations into structured understanding
+3. **Human approval gate** — Plans must be approved by a human before execution begins. AI assists and executes, but humans authorise.
 4. **Technology stack** — Tauri v2 + Svelte 5 + Rust + SQLite
 5. **IPC boundary** — Tauri commands are the only frontend-backend interface
 6. **Composability** — External integrations (AI providers, MCP servers) connect through provider-agnostic interfaces. The Rust core speaks a neutral protocol; provider-specific logic lives in swappable sidecar processes. Claude is the primary provider, but the architecture must not hard-couple to any single provider.
-7. **UX-first design** — User journeys drive backend requirements; the UI should be approachable for PMs, not just developers
+7. **UX-first design** — User journeys drive backend requirements; the UI should be approachable for leads and PMs, not just developers
 8. **Documentation-first workflow** — Document → Approve → Implement → Verify
 9. **Error propagation** — Result types everywhere, no unwrap in production
 
@@ -72,30 +73,30 @@ This means:
 The current process uses:
 
 - **Claude Code CLI** as the orchestrator (`.claude/CLAUDE.md`)
-- **15 specialized agents** defined as `.claude/agents/*.md` files
+- **15 specialised agents** defined as `.claude/agents/*.md` files
 - **20 rules** enforced via `.claude/rules/*.md`
 - **11 hookify files** in `.claude/` for real-time code/command enforcement
 - **3 hooks** in `.claude/hooks/` (session start, skill loading, pre-commit)
 - **Git worktree workflow** for task isolation
 
-This is the same framework used in the Alvarez project, adapted for OrqaStudio's Tauri/Svelte/Rust stack. The governance works, but it is invisible — artifacts live in dotfiles and terminal output. This is exactly the problem OrqaStudio exists to solve: making this governance visible through a UI while preserving the underlying `.claude/` file format.
+This is the same framework used in the Alvarez project, adapted for OrqaStudio's Tauri/Svelte/Rust stack. The governance works, but it is invisible — artifacts live in dotfiles and terminal output. This is exactly the problem OrqaStudio exists to solve: making this governance visible (Pillar 1) and improving it over time through structured reflection (Pillar 2).
 
 ### The Dogfooding Milestone
 
 Once the MVP delivers a working conversation UI with basic Claude integration (Phase 1 complete), **OrqaStudio's UI becomes the primary way to manage governance for its own development.** The CLI remains available for all development tasks. This means:
 
 1. **Process artifacts become visible** — Agents, rules, skills, and docs are browsed and edited in OrqaStudio's UI, supplementing the raw file access that the CLI provides
-2. **Learning loops are active** — IMPL lessons and RETRO entries are captured through OrqaStudio's interface, not manual markdown editing
+2. **Learning loops are active** — Lessons and retrospective entries are captured through OrqaStudio's interface, not manual markdown editing
 3. **Governance is visible through OrqaStudio** — Scanner results, verification gates, and compliance checks surface in the dashboard, supplementing terminal output
 
 ### Why Dogfooding Matters
 
 Using OrqaStudio to build OrqaStudio creates a natural feedback loop:
 
-- **Deficiencies surface immediately** — If a governance feature is missing or painful, the team experiences it daily
+- **Deficiencies surface immediately** — If a feature is missing or painful, the team experiences it daily
 - **Features are validated by real use** — Every new feature is tested in production (on this project) before being considered "done"
 - **Priority is self-evident** — The most painful gaps in the tool become the highest-priority features organically
-- **The learning loop bootstraps itself** — OrqaStudio's self-learning capabilities improve OrqaStudio's own governance, which improves OrqaStudio
+- **The learning loop bootstraps itself** — OrqaStudio's reflective learning capabilities improve OrqaStudio's own governance, which improves OrqaStudio
 
 ### Transition Criteria
 
@@ -104,7 +105,7 @@ OrqaStudio's UI becomes the primary governance management tool when it can:
 - [ ] Display and edit process artifacts (agents, rules, skills) through its UI
 - [ ] Run a conversation with Claude and display streaming responses
 - [ ] Show scanner/verification results in the UI
-- [ ] Capture IMPL lessons through the interface
+- [ ] Capture lessons through the interface
 - [ ] Persist session history in SQLite
 - [ ] Detect and display Claude Code CLI status and version
 

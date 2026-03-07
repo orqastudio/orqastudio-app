@@ -4,38 +4,38 @@ scope: project
 
 # Vision Alignment (MANDATORY)
 
-Every feature, command, and UI element must serve Orqa Studio's product vision. Read `docs/product/vision.md` and `docs/product/governance.md` before implementing any new capability.
+Every feature, command, and UI element must serve OrqaStudio's product vision. Read `docs/product/vision.md` and `docs/product/governance.md` before implementing any new capability.
 
 ## Two-Pillar Test
 
 Every feature MUST trace to at least one pillar:
 
-**Pillar 1: Self-Learning Loop**
-Covers: lesson capture from agent sessions, metric tracking (pass/fail rates, coverage trends, violation recurrence), retrospective generation, pattern promotion (lesson -> rule -> scanner -> enforcement), session continuity and handoff, codebase scanning and re-scanning, knowledge accumulation over time. The system gets smarter with every session — mistakes are documented, patterns are extracted, and governance artifacts are updated automatically.
+**Pillar 1: Clarity Through Structure**
+Covers: making governance artifacts visible and manageable, producing structured knowledge (plans, decisions, rules), surfacing what would otherwise be hidden in files or terminal output, enforcing documentation-first workflows, architecture decision tracking, rule enforcement and visualisation, agent definition management, scanner execution and dashboard, quality gate enforcement. Governance is not a document collecting dust — it is a living, enforceable, visible layer that OrqaStudio makes tangible and manageable.
 
-**Pillar 2: Process Governance**
-Covers: rule enforcement and visualization, agent definition management, scanner execution and dashboard, documentation browsing and editing, architecture decision tracking, skill management, quality gate enforcement, coding standard compliance. Governance is not a document collecting dust — it is a living, enforceable, visible layer of the development process that Orqa Studio makes tangible and manageable.
+**Pillar 2: Learning Through Reflection**
+Covers: lesson capture, metric tracking (pass/fail rates, coverage trends, violation recurrence), retrospective generation, pattern promotion (lesson -> rule -> scanner -> enforcement), session continuity and handoff, codebase scanning and re-scanning, knowledge accumulation over time. The system and its users get smarter with every cycle — mistakes are documented, patterns are extracted, and governance artifacts are updated automatically.
 
 ## Feature Rejection Criteria
 
 Reject any feature that:
 
 - Does not serve either pillar
-- Adds complexity without improving learning or governance
-- Cannot explain how it makes the system smarter over time (Pillar 1) or how it makes governance more visible/enforceable (Pillar 2)
-- Is a generic developer tool feature with no connection to managed agentic development
+- Adds complexity without improving clarity or learning
+- Cannot explain how it makes work more visible and structured (Pillar 1) or how it makes the process smarter over time (Pillar 2)
+- Is a generic tool feature with no connection to structured thinking or reflective improvement
 
 ## Questions Every Agent Should Ask
 
 Before implementing any feature:
 
-1. **Pillar 1 check:** "Does this help the system learn and improve? Does it capture knowledge, track outcomes, or feed information back into the governance loop?"
-2. **Pillar 2 check:** "Does this make governance more visible, enforceable, or manageable? Does it help the user see and control the rules, processes, and standards their agents follow?"
+1. **Pillar 1 check:** "Does this make thinking, standards, or decisions more visible and structured? Does it help the user see and manage their governance framework?"
+2. **Pillar 2 check:** "Does this help the system or its users improve over time? Does it capture knowledge, track outcomes, or feed information back into the governance loop?"
 3. **Neither?** If the answer to both is "no," the feature is out of scope. Flag it to the user and suggest an alternative that aligns.
 
 ## Pillar Conflict Resolution
 
-When Pillar 1 and Pillar 2 conflict, **Pillar 2 takes priority**. Governance must be solid before the learning loop can meaningfully operate on it. You cannot improve a process that isn't defined and enforced yet.
+When Pillar 1 and Pillar 2 conflict, **Pillar 1 takes priority**. You cannot improve a process that isn't visible and structured. Governance must be solid before the learning loop can meaningfully operate on it.
 
 ## UX-First Design
 
@@ -56,7 +56,7 @@ UX-first does NOT mean ignoring architectural constraints. It means the UI defin
 
 The following are **foundational principles** that can ONLY be changed with explicit user direction and approval:
 
-- The Two-Pillar framework (Pillar 1: Self-Learning Loop, Pillar 2: Process Governance)
+- The Two-Pillar framework (Pillar 1: Clarity Through Structure, Pillar 2: Learning Through Reflection)
 - The Tauri v2 + Svelte 5 + Rust + SQLite technology stack
 - The IPC boundary design (Tauri commands as the only frontend-backend interface)
 - The UX-first design principle
@@ -81,16 +81,16 @@ If the user gives an instruction that appears to conflict with a foundational pr
 **Examples of instructions that should be questioned:**
 
 - "Skip the SQLite layer and just use localStorage" -> Conflicts with the persistence architecture (SQLite for structured data)
-- "Add a web server so Orqa Studio can be used in the browser" -> Conflicts with the desktop-app scope (Tauri)
+- "Add a web server so OrqaStudio can be used in the browser" -> Conflicts with the desktop-app scope (Tauri)
 - "Let components call invoke() directly instead of going through stores" -> Conflicts with component purity principle
 - "Just use unwrap() here, it'll never panic" -> Conflicts with error propagation principle
-- "Add a feature that has nothing to do with learning or governance" -> Conflicts with pillar alignment
+- "Add a feature that has nothing to do with clarity or learning" -> Conflicts with pillar alignment
 
 **Examples of instructions that do NOT need questioning:**
 
-- "Add a metrics chart to the scanner dashboard" -> Serves Pillar 1 (learning) and Pillar 2 (governance visibility)
-- "Create a rule editor component" -> Serves Pillar 2 (governance management)
-- "Add session history search" -> Serves Pillar 1 (knowledge accumulation)
+- "Add a metrics chart to the scanner dashboard" -> Serves both pillars (visibility + learning trends)
+- "Create a rule editor component" -> Serves Pillar 1 (governance made visible and editable)
+- "Add session history search" -> Serves Pillar 2 (knowledge accumulation across sessions)
 
 ## Related Rules
 

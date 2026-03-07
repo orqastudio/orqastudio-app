@@ -20,15 +20,15 @@ The platform operationalises agile thinking through AI-assisted reasoning, enabl
 
 ## Core Principles
 
-**Clarity before execution** — Clear thinking leads to better action.
+**Clarity before execution** — Clear thinking leads to better action. The most expensive mistake is building the wrong thing clearly, but the most common mistake is building the right thing without understanding it first.
 
-**Human-led AI** — AI acts as a structured thinking partner rather than replacing human judgement.
+**Human-led AI** — AI acts as a structured thinking partner rather than replacing human judgement. The human decides what matters, sets the standards, and approves the direction. AI helps explore, structure, and execute.
 
-**Artifact-driven reasoning** — Markdown artifacts represent structured knowledge that can evolve over time.
+**Artifact-driven reasoning** — Markdown artifacts represent structured knowledge that can evolve over time. Plans, decisions, rules, retrospectives, and lessons are not ephemeral chat messages — they are living documents that accumulate into a knowledge base.
 
-**Reflective learning** — Retrospectives and iteration history enable continuous learning.
+**Reflective learning** — Retrospectives and iteration history enable continuous learning. Every cycle of work produces not just output but insight about the process itself.
 
-## Agile Learning Loop
+## The Agile Learning Loop
 
 The core cycle that OrqaStudio operationalises:
 
@@ -36,81 +36,109 @@ The core cycle that OrqaStudio operationalises:
 Chaos --> Structured Understanding --> Experiments / Backlog --> Execution --> Retrospective --> Improved Understanding
 ```
 
-Every feature in OrqaStudio serves this loop. The system helps users move from ambiguity to clarity, from clarity to action, and from action to reflection that feeds the next cycle.
+Every feature in OrqaStudio serves this loop:
+
+1. **Chaos → Structured Understanding** — AI-assisted conversations help users explore ambiguous problems, challenge assumptions, and build structured models of what they're dealing with
+2. **Structured Understanding → Experiments** — Understanding produces actionable plans: experiments to run, tasks to execute, hypotheses to test
+3. **Experiments → Execution** — Plans are executed with AI assistance, with governance ensuring quality and standards
+4. **Execution → Retrospective** — Outcomes are reviewed. What worked? What didn't? What was learned?
+5. **Retrospective → Improved Understanding** — Lessons feed back into the knowledge base. The next cycle starts from a better position than the last.
+
+The loop is domain-agnostic. Software development is OrqaStudio's first domain — where the loop manifests as code governance, implementation cycles, and learning from agent sessions. But the underlying pattern applies wherever complex work requires structured thinking: product strategy, research, operations, consulting, and beyond.
+
+---
+
+## Product Pillars
+
+### Pillar 1: Clarity Through Structure
+
+Making thinking visible, structured, and evolvable.
+
+When knowledge lives only in conversations and people's heads, it is fragile — lost between sessions, invisible to collaborators, impossible to build upon systematically. OrqaStudio makes the invisible tangible:
+
+- **Governance as visible structure** — Rules, standards, architecture decisions, and agent definitions are not hidden configuration. They are browsable, editable, first-class artifacts in the UI.
+- **Artifact-driven knowledge** — Conversations produce structured markdown artifacts (plans, decisions, retrospectives) that persist and evolve across sessions
+- **Process visibility** — Scanner dashboards, compliance status, and quality metrics surface what would otherwise be buried in terminal output and dotfiles
+- **Documentation-first workflow** — The system enforces document → approve → implement → verify, ensuring understanding precedes action
+
+Clarity Through Structure answers the question: *"Can I see and understand the current state of this work, its standards, and its decisions — without asking someone or reading raw files?"*
+
+### Pillar 2: Learning Through Reflection
+
+The system and its users improve over time through structured retrospection.
+
+Most tools accumulate conversation history. OrqaStudio accumulates *understanding*. Every cycle of work produces not just output but insight that feeds the next cycle:
+
+- **Lesson capture** — Mistakes and discoveries are documented with recurrence tracking, not just mentioned in chat
+- **Pattern promotion** — When a lesson recurs, it is promoted to a rule, coding standard, or skill update — the governance framework evolves automatically
+- **Retrospectives** — Process-level observations become entries that inform future governance evolution
+- **Metrics and trends** — Pass/fail rates, quality trends, and violation recurrence are visualised over time, making improvement (or regression) visible
+- **Session continuity** — Handoff notes and searchable session history prevent context loss between sessions, so each session builds on the last
+
+Learning Through Reflection answers the question: *"Is this work getting better over time, and can I see the evidence?"*
+
+### Pillar Relationship
+
+The two pillars are complementary and sequential:
+
+- **Clarity Through Structure** provides the foundation — you cannot improve a process that isn't visible and structured
+- **Learning Through Reflection** operates on that foundation — structured artifacts can be measured, compared, and evolved
+
+When they conflict, Clarity Through Structure takes priority. Governance must be solid before the learning loop can meaningfully operate on it.
 
 ---
 
 ## Problem
 
-Agentic coding tools like Claude Code are powerful, but they operate as developer-facing CLI tools with no product management layer. The governance framework that makes agentic development reliable — agents, skills, rules, learning loops, documentation-first workflow — lives in dotfiles, markdown documents, and terminal output. There is no tool that lets a Product Manager or Tech Lead define the process, delegate implementation to AI agents, and verify the results through a managed cycle.
+People use AI tools to help with complex work — software development, product planning, research, operations. But current AI tools operate as conversational interfaces with no structural layer. The thinking that happens in conversation is ephemeral: context is lost between sessions, standards are inconsistently applied, mistakes recur, and there is no mechanism for the process to improve over time.
 
-The result: AI-assisted development produces inconsistent quality, accumulates technical debt invisibly, and requires deep developer expertise to manage. Product managers are locked out of the implementation loop entirely, and solo technical PMs cannot leverage agentic tools without becoming full-time developers.
+For software development specifically, agentic coding tools like Claude Code are powerful but operate as developer-facing CLI tools with no product management layer. The governance framework that makes agentic development reliable — agents, skills, rules, learning loops, documentation-first workflow — lives in dotfiles, markdown documents, and terminal output. Product managers and tech leads are locked out of the implementation loop entirely.
+
+The result across all domains: AI-assisted work produces inconsistent quality, accumulates decisions invisibly, and fails to learn from its own history.
 
 ## Solution
 
-OrqaStudio is a desktop application that wraps the Claude Code CLI with a visual product management layer. Governance artifacts — agents, skills, rules, architecture decisions, learning loops — are native `.claude/` files on disk, the same format that Claude Code CLI reads and writes. OrqaStudio adds a UI where these artifacts live alongside the conversation as interactive, editable documents. The system learns from every session and feeds improvements back into the governance framework automatically.
+OrqaStudio is a desktop application that provides a structural layer for AI-assisted thinking and work.
 
-Users can switch between OrqaStudio and the Claude Code CLI interchangeably. Both tools operate on the same `.claude/` directory. OrqaStudio does not replace the CLI — it makes the CLI's file-based governance visible and manageable through a graphical interface.
+**For any domain:** Conversations with AI produce structured artifacts — plans, decisions, retrospectives, and knowledge — that persist across sessions and evolve over time. The agile learning loop (chaos → clarity → execution → reflection → improved clarity) is operationalised through the UI.
 
-OrqaStudio turns the invisible infrastructure of managed agentic development into a tangible, manageable product.
+**For software development (the first domain):** OrqaStudio integrates with Claude Code and other AI providers, making governance artifacts (agents, skills, rules, architecture decisions, learning loops) visible and manageable through a graphical interface. The same `.claude/` files that power the CLI are browsable and editable in OrqaStudio's UI. The system learns from every session and feeds improvements back into the governance framework automatically.
+
+OrqaStudio turns ephemeral AI conversations into accumulated, structured, improving knowledge.
 
 ## Primary Users
 
-### Product Managers & Tech Leads (Primary)
+### Structured Thinkers (Primary)
 
-Technical product managers and tech leads who use Claude Code agents and want to:
+Technical product managers, tech leads, and anyone who needs to turn complex situations into structured understanding and evolving plans. They think in terms of requirements, decisions, standards, and quality — not just code or output. They want to:
 
-- Define product requirements, architecture, and standards through a structured UI
-- Delegate implementation to AI agents with confidence that process governance is enforced
-- Review and approve implementation plans, tool calls, and code changes through a visual interface
-- Track quality metrics, scanner results, and learning loop outcomes over time
-- Manage the full product lifecycle — from research through implementation to verification — without needing dedicated developer resource for every task
+- Use AI as a thinking partner to explore problems and shape ideas before committing to action
+- Build up a structured knowledge base of decisions, plans, and lessons that persists across sessions
+- Define standards and governance that are visible, enforceable, and improving over time
+- Delegate execution to AI agents with confidence that process is followed
+- Track quality and learning outcomes to know whether the work is getting better
 
-A capable solo technical PM should be able to use OrqaStudio to build well-researched, well-considered products by defining the governance framework, delegating to agents, and reviewing results — while retaining architecture oversight and code review authority.
+A capable solo technical PM should be able to use OrqaStudio to build well-researched, well-considered products by defining the governance framework, delegating to agents, and reviewing results — while retaining architecture oversight and approval authority.
 
-### Developers (Secondary)
-
-Developers who already use Claude Code CLI and want structured, repeatable, improving processes for their AI-assisted work. OrqaStudio makes the CLI's governance layer visible and manageable rather than buried in dotfiles and terminal output. Developers can use OrqaStudio and the CLI interchangeably — the same `.claude/` artifacts power both.
+See [Personas](personas.md) for detailed profiles: Alex (the Lead), Sam (the Practitioner), and Jordan (the Independent).
 
 ### The Key Insight
 
-OrqaStudio is not a developer tool that happens to have process features. It is a **product management tool** that automates the implementation cycle. The difference matters: the UI, the workflow, and the default experience are designed for someone who thinks in terms of product requirements, architecture decisions, and quality standards — not someone who thinks in terms of code editors and terminal commands.
+OrqaStudio is not a developer tool that happens to have process features. It is not a chat interface that happens to save history. It is a **clarity engine** — a tool for improving the quality of thinking that leads to action.
 
-## Product Pillars
+The difference matters: the UI, the workflow, and the default experience are designed for someone who thinks in terms of understanding, decisions, and standards — not someone who thinks in terms of code editors and terminal commands. Software development is the first domain because the governance infrastructure already exists (Claude Code's `.claude/` format), but the underlying value — structured thinking that improves over time — applies far beyond code.
 
-### Pillar 1: Self-Learning Loop
-
-The system improves over time. Every session contributes to a growing body of knowledge:
-
-- **Lesson capture** — Implementation failures are documented as IMPL entries with recurrence tracking
-- **Pattern promotion** — When a lesson recurs, it is automatically promoted to a rule, coding standard, or skill update
-- **Retrospectives** — Process-level failures become RETRO entries that inform future governance evolution
-- **Metrics tracking** — Pass/fail rates, coverage trends, violation recurrence are visualized over time
-- **Session continuity** — Handoff notes and searchable session history prevent context loss between sessions
-
-The learning loop is the core differentiator. A team using OrqaStudio for a month will have a fundamentally better governance framework than when they started — without manually writing any of it.
-
-### Pillar 2: Process Governance
-
-Standards, rules, and workflows are visible, enforceable, and manageable:
-
-- **Rule enforcement** — Rules are not just documents; they are active constraints that agents follow and the UI surfaces
-- **Agent management** — Agent definitions, skills, and tool assignments are browsable and editable
-- **Scanner dashboards** — Quality scanners run automatically and their results are visualized as pass/fail trends
-- **Architecture decisions** — AD records are tracked, cross-referenced, and compliance is verified in plans
-- **Documentation-first workflow** — The system enforces document -> approve -> implement -> verify
-
-Governance is not a document collecting dust. It is a living, enforceable, visible layer of the development process.
+---
 
 ## Dogfooding Principle
 
-OrqaStudio is built using OrqaStudio alongside the Claude Code CLI. Once the MVP delivers a working conversation UI with Claude integration, the project transitions from terminal-only governance (reading raw `.claude/` files and CLI output) to using OrqaStudio's UI as the primary governance management layer — while the CLI remains available for all development tasks.
+OrqaStudio is built using OrqaStudio alongside the Claude Code CLI. Once the MVP delivers a working conversation UI with Claude integration, the project transitions from terminal-only governance to using OrqaStudio's UI as the primary governance management layer — while the CLI remains available for all development tasks.
 
 This is not optional — it is a foundational design constraint:
 
-- **Every governance feature must be good enough for OrqaStudio's own team to use daily.** If a feature isn't useful for managing this project, it isn't useful for anyone.
+- **Every feature must be good enough for OrqaStudio's own team to use daily.** If a feature isn't useful for managing this project, it isn't useful for anyone.
 - **Deficiencies discovered through self-use are highest-priority fixes.** The dogfooding loop is the primary driver of roadmap priority after the MVP.
-- **OrqaStudio and the CLI coexist permanently.** The transition is from "invisible CLI governance buried in dotfiles" to "visible governance through OrqaStudio's UI." The CLI continues to work against the same `.claude/` files. See [Product Governance](/product/governance) for transition criteria.
+- **OrqaStudio and the CLI coexist permanently.** The transition is from "invisible governance buried in dotfiles" to "visible governance through OrqaStudio's UI." The CLI continues to work against the same `.claude/` files. See [Product Governance](governance.md) for transition criteria.
 
 ## CLI Interoperability
 
@@ -124,11 +152,11 @@ OrqaStudio is a companion to the Claude Code CLI, not a replacement for it. This
 
 ## Key Differentiators
 
-1. **Clarity engine, not code generator** — Designed to improve the quality of thinking that leads to action, not just generate output
-2. **Product management, not developer tooling** — Designed for PMs and tech leads who define process and review results, not just developers who write code
-3. **Native Claude Code format** — All governance artifacts are standard `.claude/` files that work identically in OrqaStudio and the Claude Code CLI. No proprietary formats, no lock-in.
-4. **Process visibility** — What was invisible in the CLI (governance artifacts, scanner results, learning loops) becomes a first-class UI
-5. **Automated governance backfill** — Point at an existing codebase, answer questions, and OrqaStudio builds the governance framework through conversation
-6. **Continuous improvement** — The system genuinely gets smarter over time through the learning loop, not just accumulating conversation history
-7. **Solo PM capability** — A technical PM can define product standards, delegate to Claude Code agents, and ship software with architecture oversight but without dedicated developer resource for every task
+1. **Clarity engine, not chat interface** — Conversations produce structured, persistent, evolving artifacts — not just chat history
+2. **Structured thinking, not just task execution** — Designed to improve the quality of thinking that leads to action, not just generate output faster
+3. **Learning that compounds** — The system genuinely gets smarter over time through the reflection loop, not just accumulating conversation history
+4. **Governance made tangible** — What was invisible (standards, rules, decisions, quality trends) becomes a first-class, visual, manageable layer
+5. **Native Claude Code format** — All governance artifacts are standard `.claude/` files that work identically in OrqaStudio and the CLI. No proprietary formats, no lock-in.
+6. **Multi-provider architecture** — Claude is the primary provider, but the architecture supports additional AI providers through a composable provider interface
+7. **Solo capability** — A technical PM can define standards, delegate to AI agents, and ship quality work with architecture oversight but without dedicated team resource
 8. **Dogfooding-driven design** — OrqaStudio is its own first customer, ensuring every feature is validated by real use before release

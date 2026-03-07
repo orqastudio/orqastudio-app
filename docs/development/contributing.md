@@ -131,7 +131,7 @@ Open a discussion with:
 - Proposed solution — how do you think it should work?
 - Alternatives considered
 
-Feature requests that align with the [product vision](../product/vision.md) and serve at least one of the two pillars (Self-Learning Loop or Process Governance) are more likely to be accepted.
+Feature requests that align with the [product vision](../product/vision.md) and serve at least one of the two pillars (Clarity Through Structure or Learning Through Reflection) are more likely to be accepted.
 
 ### Documentation
 

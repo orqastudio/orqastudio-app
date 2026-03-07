@@ -13,17 +13,17 @@ Every documentation page that describes a feature, component, workflow, integrat
 
 | Pillar | Alignment |
 |--------|-----------|
-| Self-Learning Loop | [How this page's topic serves Pillar 1, or "N/A" if it doesn't] |
-| Process Governance | [How this page's topic serves Pillar 2, or "N/A" if it doesn't] |
+| Clarity Through Structure | [How this page's topic serves Pillar 1, or "N/A" if it doesn't] |
+| Learning Through Reflection | [How this page's topic serves Pillar 2, or "N/A" if it doesn't] |
 ```
 
 Every page must serve at least one pillar. If a page cannot justify alignment with either pillar, it is scope creep and should be flagged for removal.
 
-## Orqa Studio's Two Pillars
+## OrqaStudio's Two Pillars
 
-**Pillar 1: Self-Learning Loop** — The system improves over time. Features that capture lessons, track metrics, feed retrospectives back into governance, accumulate knowledge across sessions, or make the system smarter with each interaction serve this pillar.
+**Pillar 1: Clarity Through Structure** — Making thinking, standards, and decisions visible and structured. Features that surface governance artifacts, produce structured knowledge (plans, decisions, rules), enforce documentation-first workflows, or make the invisible tangible serve this pillar.
 
-**Pillar 2: Process Governance** — Standards, rules, and workflows are visible, enforceable, and manageable. Features that define rules, manage agents, run scanners, enforce quality gates, track architecture decisions, or surface compliance status serve this pillar.
+**Pillar 2: Learning Through Reflection** — The system and its users improve over time through structured retrospection. Features that capture lessons, track metrics, feed retrospectives back into governance, accumulate knowledge across sessions, or make the process smarter with each interaction serve this pillar.
 
 ## Pages That REQUIRE a Pillar Alignment Section
 
@@ -51,22 +51,22 @@ Write the alignment description as a concise sentence explaining how the page's 
 **Good:**
 
 ```markdown
-| Self-Learning Loop | The scanner dashboard tracks pass/fail trends over time, surfacing recurring violations that feed into the lesson promotion pipeline. |
-| Process Governance | N/A |
+| Clarity Through Structure | N/A |
+| Learning Through Reflection | The scanner dashboard tracks pass/fail trends over time, surfacing recurring violations that feed into the lesson promotion pipeline. |
 ```
 
 **Good:**
 
 ```markdown
-| Self-Learning Loop | N/A |
-| Process Governance | The rule editor allows users to view, create, and modify agent enforcement rules — making governance tangible and editable. |
+| Clarity Through Structure | The rule editor allows users to view, create, and modify agent enforcement rules — making governance tangible and editable. |
+| Learning Through Reflection | N/A |
 ```
 
 **Bad (too vague):**
 
 ```markdown
-| Self-Learning Loop | Helps the system learn |
-| Process Governance | Makes governance better |
+| Clarity Through Structure | Makes governance better |
+| Learning Through Reflection | Helps the system learn |
 ```
 
 ## When Writing or Editing Documentation
