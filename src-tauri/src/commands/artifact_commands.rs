@@ -300,7 +300,8 @@ pub fn governance_read(
 #[tauri::command]
 pub fn research_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, OrqaError> {
     let project_path = active_project_path(&state)?;
-    crate::domain::artifact_reader::scan_research_tree(Path::new(&project_path))
+    let research_path = Path::new(&project_path).join(crate::domain::paths::RESEARCH_DIR);
+    crate::domain::artifact_reader::scan_research_tree(&research_path)
 }
 
 /// Read a single research document by relative path.
@@ -317,7 +318,8 @@ pub fn research_read(rel_path: String, state: State<'_, AppState>) -> Result<Art
 #[tauri::command]
 pub fn plan_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, OrqaError> {
     let project_path = active_project_path(&state)?;
-    crate::domain::artifact_reader::scan_plan_tree(Path::new(&project_path))
+    let plans_path = Path::new(&project_path).join(crate::domain::paths::PLANS_DIR);
+    crate::domain::artifact_reader::scan_plan_tree(&plans_path)
 }
 
 /// Read a single plan document by relative path.

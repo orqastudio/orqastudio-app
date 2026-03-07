@@ -9,10 +9,12 @@
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { parseFrontmatter } from "$lib/utils/frontmatter";
 
 	const artifact = $derived(artifactStore.activeArtifact);
 	const breadcrumbs = $derived(navigationStore.breadcrumbs);
 	const activity = $derived(navigationStore.activeActivity);
+	const parsedContent = $derived(artifact ? parseFrontmatter(artifact.content) : null);
 
 	function handleContentClick(event: MouseEvent) {
 		const anchor = (event.target as HTMLElement).closest("a");
@@ -71,7 +73,7 @@
 				{:else if activity === "rules"}
 					<RuleViewer content={artifact.content} ruleName={artifact.name} />
 				{:else}
-					<MarkdownRenderer content={artifact.content} />
+					<MarkdownRenderer content={parsedContent?.body ?? artifact.content} />
 				{/if}
 			</div>
 		</div>
