@@ -1,6 +1,7 @@
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine};
 use std::path::Path;
 
+use crate::domain::paths;
 use crate::domain::project_scanner::{self, ProjectScanResult};
 use crate::domain::project_settings::{self, ProjectSettings};
 use crate::error::OrqaError;
@@ -53,7 +54,7 @@ pub fn project_icon_upload(project_path: String, source_path: String) -> Result<
         )));
     }
 
-    let orqa_dir = Path::new(&project_path).join(".orqa");
+    let orqa_dir = Path::new(&project_path).join(paths::ORQA_DIR);
     std::fs::create_dir_all(&orqa_dir)?;
 
     if let Ok(entries) = std::fs::read_dir(&orqa_dir) {
@@ -79,7 +80,9 @@ pub fn project_icon_upload(project_path: String, source_path: String) -> Result<
 /// (e.g. `icon.png`). Returns a `data:{mime};base64,...` string.
 #[tauri::command(rename_all = "snake_case")]
 pub fn project_icon_read(project_path: String, icon_filename: String) -> Result<String, OrqaError> {
-    let icon_path = Path::new(&project_path).join(".orqa").join(&icon_filename);
+    let icon_path = Path::new(&project_path)
+        .join(paths::ORQA_DIR)
+        .join(&icon_filename);
 
     if !icon_path.exists() {
         return Err(OrqaError::NotFound(format!(

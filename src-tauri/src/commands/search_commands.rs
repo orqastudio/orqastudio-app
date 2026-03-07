@@ -1,5 +1,6 @@
 use tauri::State;
 
+use crate::domain::paths;
 use crate::error::OrqaError;
 use crate::search::embedder;
 use crate::search::types::{IndexStatus, SearchResult};
@@ -17,7 +18,7 @@ pub async fn index_codebase(
     excluded_paths: Vec<String>,
 ) -> Result<IndexStatus, OrqaError> {
     let project_path_buf = std::path::PathBuf::from(&project_path);
-    let db_path = project_path_buf.join(".orqa").join("search.duckdb");
+    let db_path = project_path_buf.join(paths::SEARCH_DB);
 
     // Ensure .orqa directory exists
     if let Some(parent) = db_path.parent() {
@@ -105,9 +106,7 @@ pub async fn get_index_status(
     }
 
     // If no engine loaded, check if a search DB exists on disk
-    let db_path = std::path::PathBuf::from(&project_path)
-        .join(".orqa")
-        .join("search.duckdb");
+    let db_path = std::path::PathBuf::from(&project_path).join(paths::SEARCH_DB);
 
     if db_path.exists() {
         // Drop the current guard before re-acquiring as mutable

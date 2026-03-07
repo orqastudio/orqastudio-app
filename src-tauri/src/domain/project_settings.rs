@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::path::Path;
 
+use crate::domain::paths;
 use crate::domain::project::DetectedStack;
 use crate::error::OrqaError;
 
@@ -56,7 +57,7 @@ fn default_excluded_paths() -> Vec<String> {
 /// Returns `Ok(None)` if the file does not exist.
 /// Returns `Err(OrqaError::Serialization(...))` if JSON is malformed.
 pub fn read_settings(project_path: &str) -> Result<Option<ProjectSettings>, OrqaError> {
-    let settings_file = Path::new(project_path).join(".orqa").join("project.json");
+    let settings_file = Path::new(project_path).join(paths::SETTINGS_FILE);
 
     if !settings_file.exists() {
         return Ok(None);
@@ -71,7 +72,7 @@ pub fn read_settings(project_path: &str) -> Result<Option<ProjectSettings>, Orqa
 ///
 /// Creates the `.orqa/` directory if it does not exist.
 pub fn write_settings(project_path: &str, settings: &ProjectSettings) -> Result<(), OrqaError> {
-    let orqa_dir = Path::new(project_path).join(".orqa");
+    let orqa_dir = Path::new(project_path).join(paths::ORQA_DIR);
     std::fs::create_dir_all(&orqa_dir)?;
 
     let settings_file = orqa_dir.join("project.json");
@@ -166,7 +167,7 @@ mod tests {
     fn malformed_json_returns_serialization_error() {
         let tmp = std::env::temp_dir().join("forge_test_settings_malformed");
         let _ = std::fs::remove_dir_all(&tmp);
-        let orqa_dir = tmp.join(".orqa");
+        let orqa_dir = tmp.join(paths::ORQA_DIR);
         std::fs::create_dir_all(&orqa_dir).expect("create dirs");
 
         let settings_file = orqa_dir.join("project.json");
