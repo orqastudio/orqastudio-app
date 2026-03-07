@@ -311,16 +311,17 @@ pub fn run_stream_loop(
             }
         };
 
-        // Persist SDK session UUID — not forwarded to frontend
+        // Persist provider session UUID — not forwarded to frontend
         if let SidecarResponse::SessionInitialized {
             session_id,
-            ref sdk_session_id,
+            ref provider_session_id,
         } = response
         {
             if let Ok(db) = state.db.lock() {
-                if let Err(e) = session_repo::update_sdk_session_id(&db, session_id, sdk_session_id)
+                if let Err(e) =
+                    session_repo::update_provider_session_id(&db, session_id, provider_session_id)
                 {
-                    tracing::warn!("[stream] failed to persist sdk_session_id: {e}");
+                    tracing::warn!("[stream] failed to persist provider_session_id: {e}");
                 }
             }
             continue;

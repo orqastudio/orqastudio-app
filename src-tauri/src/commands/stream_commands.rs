@@ -380,15 +380,17 @@ fn handle_tool_approval(
     }
 }
 
-/// Persist the SDK session UUID when a `SessionInitialized` response is received.
+/// Persist the provider session UUID when a `SessionInitialized` response is received.
 fn handle_session_initialized(
     session_id: i64,
-    sdk_session_id: &str,
+    provider_session_id: &str,
     state: &tauri::State<'_, AppState>,
 ) {
     if let Ok(db) = state.db.lock() {
-        if let Err(e) = session_repo::update_sdk_session_id(&db, session_id, sdk_session_id) {
-            tracing::warn!("[stream] failed to persist sdk_session_id: {e}");
+        if let Err(e) =
+            session_repo::update_provider_session_id(&db, session_id, provider_session_id)
+        {
+            tracing::warn!("[stream] failed to persist provider_session_id: {e}");
         }
     }
 }
@@ -431,10 +433,10 @@ fn dispatch_response(
 ) -> Result<bool, ()> {
     if let SidecarResponse::SessionInitialized {
         session_id,
-        ref sdk_session_id,
+        ref provider_session_id,
     } = response
     {
-        handle_session_initialized(session_id, sdk_session_id, state);
+        handle_session_initialized(session_id, provider_session_id, state);
         return Ok(true);
     }
     if let SidecarResponse::ToolExecute {
@@ -756,15 +758,18 @@ fn build_system_prompt(project_path: &Path) -> Result<String, OrqaError> {
     Ok(parts.join("\n"))
 }
 
-/// Look up the persisted SDK session UUID for the given session, used to resume across restarts.
-fn lookup_sdk_session_id(state: &AppState, session_id: i64) -> Result<Option<String>, OrqaError> {
+/// Look up the persisted provider session UUID for the given session, used to resume across restarts.
+fn lookup_provider_session_id(
+    state: &AppState,
+    session_id: i64,
+) -> Result<Option<String>, OrqaError> {
     let db = state
         .db
         .lock()
         .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
     Ok(session_repo::get(&db, session_id)
         .ok()
-        .and_then(|s| s.sdk_session_id))
+        .and_then(|s| s.provider_session_id))
 }
 
 /// Resolve the optional system prompt for the current project, logging but not failing on errors.
@@ -820,14 +825,14 @@ pub fn stream_send_message(
     super::sidecar_commands::ensure_sidecar_running(&state)?;
 
     let system_prompt = resolve_system_prompt(&state);
-    let sdk_session_id = lookup_sdk_session_id(&state, session_id)?;
+    let provider_session_id = lookup_provider_session_id(&state, session_id)?;
 
     let request = SidecarRequest::SendMessage {
         session_id,
         content,
         model,
         system_prompt,
-        sdk_session_id,
+        provider_session_id,
         enable_thinking: false,
     };
     state.sidecar.send(&request)?;

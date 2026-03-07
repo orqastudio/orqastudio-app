@@ -22,6 +22,7 @@ pub fn init_db(path: &str) -> Result<Connection, OrqaError> {
     conn.execute_batch(include_str!("../migrations/003_enforcement.sql"))?;
     run_migration_004(&conn)?;
     run_migration_005(&conn)?;
+    run_migration_006(&conn)?;
 
     Ok(conn)
 }
@@ -36,6 +37,7 @@ pub fn init_memory_db() -> Result<Connection, OrqaError> {
     conn.execute_batch(include_str!("../migrations/003_enforcement.sql"))?;
     run_migration_004(&conn)?;
     run_migration_005(&conn)?;
+    run_migration_006(&conn)?;
 
     Ok(conn)
 }
@@ -61,8 +63,9 @@ fn run_migration_005(conn: &Connection) -> Result<(), OrqaError> {
 /// Migration 004: Add `sdk_session_id` column to sessions table.
 ///
 /// Idempotent — checks `pragma_table_info` before altering.
+/// This migration is superseded by migration 005 which renames the column.
 fn run_migration_004(conn: &Connection) -> Result<(), OrqaError> {
-    let has_col: bool = conn
+    let has_sdk_col: bool = conn
         .prepare(
             "SELECT COUNT(*) FROM pragma_table_info('sessions') WHERE name = 'sdk_session_id'",
         )?
@@ -70,8 +73,39 @@ fn run_migration_004(conn: &Connection) -> Result<(), OrqaError> {
         .map(|count| count > 0)
         .unwrap_or(false);
 
-    if !has_col {
+    let has_provider_col: bool = conn
+        .prepare(
+            "SELECT COUNT(*) FROM pragma_table_info('sessions') WHERE name = 'provider_session_id'",
+        )?
+        .query_row([], |row| row.get::<_, i64>(0))
+        .map(|count| count > 0)
+        .unwrap_or(false);
+
+    // Only add the old-name column if neither the old nor new column exists.
+    // Migration 005 will handle renaming it to provider_session_id.
+    if !has_sdk_col && !has_provider_col {
         conn.execute_batch("ALTER TABLE sessions ADD COLUMN sdk_session_id TEXT")?;
+    }
+    Ok(())
+}
+
+/// Migration 006: Rename `sdk_session_id` → `provider_session_id` in sessions table.
+///
+/// Idempotent — checks `pragma_table_info` before renaming.
+/// Requires SQLite 3.25.0+ (2018) for ALTER TABLE RENAME COLUMN support.
+fn run_migration_006(conn: &Connection) -> Result<(), OrqaError> {
+    let has_old_col: bool = conn
+        .prepare(
+            "SELECT COUNT(*) FROM pragma_table_info('sessions') WHERE name = 'sdk_session_id'",
+        )?
+        .query_row([], |row| row.get::<_, i64>(0))
+        .map(|count| count > 0)
+        .unwrap_or(false);
+
+    if has_old_col {
+        conn.execute_batch(
+            "ALTER TABLE sessions RENAME COLUMN sdk_session_id TO provider_session_id",
+        )?;
     }
     Ok(())
 }

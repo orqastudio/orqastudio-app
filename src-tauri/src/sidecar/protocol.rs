@@ -45,7 +45,7 @@ mod tests {
             content: "hello".to_string(),
             model: None,
             system_prompt: None,
-            sdk_session_id: None,
+            provider_session_id: None,
             enable_thinking: false,
         };
         let line = to_ndjson(&req).expect("serialization should succeed");
@@ -81,7 +81,7 @@ mod tests {
             content: "test message".to_string(),
             model: Some("claude-opus-4-6".to_string()),
             system_prompt: Some("be concise".to_string()),
-            sdk_session_id: None,
+            provider_session_id: None,
             enable_thinking: false,
         };
 
@@ -144,7 +144,7 @@ mod tests {
             content: "line1\nline2\ttab \"quoted\"".to_string(),
             model: None,
             system_prompt: None,
-            sdk_session_id: None,
+            provider_session_id: None,
             enable_thinking: false,
         };
         let line = to_ndjson(&req).expect("serialization should succeed");
