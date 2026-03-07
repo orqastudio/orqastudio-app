@@ -31,15 +31,22 @@ dev: ## Run app without Rust file watcher (safe default for dogfooding)
 
 stop: ## Stop all Orqa Studio processes (app, Vite, cargo)
 	@echo "Stopping Orqa Studio processes..."
-	@taskkill //F //IM orqa-studio.exe 2>/dev/null || true
+ifeq ($(OS),Windows_NT)
+	-taskkill //F //IM orqa-studio.exe 2>/dev/null || true
 	@for pid in $$(netstat -ano 2>/dev/null | grep ':1420.*LISTENING' | awk '{print $$5}' | sort -u); do \
-		echo "Killing Vite (PID $$pid)"; \
+		echo "Killing port 1420 (PID $$pid)"; \
 		taskkill //F //PID $$pid 2>/dev/null || true; \
 	done
-	@for pid in $$(netstat -ano 2>/dev/null | grep ':1421.*LISTENING' | awk '{print $$5}' | sort -u); do \
-		echo "Killing dev server (PID $$pid)"; \
+	@for pid in $$(netstat -ano 2>/dev/null | grep ':5173.*LISTENING' | awk '{print $$5}' | sort -u); do \
+		echo "Killing port 5173 (PID $$pid)"; \
 		taskkill //F //PID $$pid 2>/dev/null || true; \
 	done
+else
+	-pkill -f "orqa-studio" 2>/dev/null || true
+	-pkill -f "vite.*orqa" 2>/dev/null || true
+	-lsof -ti:1420 | xargs kill -9 2>/dev/null || true
+	-lsof -ti:5173 | xargs kill -9 2>/dev/null || true
+endif
 	@echo "Waiting for ports to release..."
 	@sleep 2
 	@echo "Done."
