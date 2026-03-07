@@ -1,11 +1,9 @@
 use std::path::{Path, PathBuf};
 
 use crate::domain::lessons::{parse_lesson, render_lesson, Lesson, NewLesson};
+use crate::domain::paths;
 use crate::domain::time_utils;
 use crate::error::OrqaError;
-
-/// Directory within the project root that holds lesson files.
-const LESSONS_DIR: &str = ".orqa/lessons";
 
 /// List all lessons from `.orqa/lessons/` in the given project directory.
 ///
@@ -130,7 +128,7 @@ fn parse_impl_number(filename: &str) -> Option<u32> {
 
 /// Resolve the absolute path to the lessons directory.
 fn lessons_dir(project_path: &Path) -> PathBuf {
-    project_path.join(LESSONS_DIR)
+    project_path.join(paths::LESSONS_DIR)
 }
 
 /// Resolve the absolute path to a specific lesson file.
@@ -140,7 +138,7 @@ fn lesson_file_path(project_path: &Path, id: &str) -> PathBuf {
 
 /// Compute the relative file path for a lesson ID, for storage in the struct.
 fn relative_file_path(id: &str) -> String {
-    format!("{LESSONS_DIR}/{id}.md")
+    format!("{}/{id}.md", paths::LESSONS_DIR)
 }
 
 /// Read and parse a lesson file, computing its relative path from the project root.

@@ -6,6 +6,7 @@ use crate::domain::artifact::{
     parse_doc_frontmatter, parse_plan_frontmatter, parse_research_frontmatter, Artifact,
     ArtifactSummary, ArtifactType, DocFrontmatter, DocNode,
 };
+use crate::domain::paths;
 use crate::domain::time_utils;
 use crate::error::OrqaError;
 use crate::repo::{artifact_repo, project_repo};
@@ -302,8 +303,7 @@ pub fn research_read(rel_path: String, state: State<'_, AppState>) -> Result<Art
 
     let project_path = active_project_path(&state)?;
     let file_path = Path::new(&project_path)
-        .join(".orqa")
-        .join("research")
+        .join(paths::RESEARCH_DIR)
         .join(format!("{}.md", rel_path));
 
     if !file_path.exists() {
@@ -351,7 +351,7 @@ pub fn research_read(rel_path: String, state: State<'_, AppState>) -> Result<Art
         id: 0,
         project_id: 0,
         artifact_type: ArtifactType::Doc,
-        rel_path: format!(".orqa/research/{}.md", rel_path),
+        rel_path: format!("{}/{}.md", paths::RESEARCH_DIR, rel_path),
         name,
         description,
         content: body,
@@ -389,7 +389,7 @@ pub fn doc_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, OrqaErr
 #[tauri::command]
 pub fn research_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, OrqaError> {
     let project_path = active_project_path(&state)?;
-    let research_dir = Path::new(&project_path).join(".orqa").join("research");
+    let research_dir = Path::new(&project_path).join(paths::RESEARCH_DIR);
     if !research_dir.is_dir() {
         return Ok(Vec::new());
     }
@@ -507,7 +507,7 @@ fn relative_research_path(file: &Path, research_root: &Path) -> String {
 #[tauri::command]
 pub fn plan_tree_scan(state: State<'_, AppState>) -> Result<Vec<DocNode>, OrqaError> {
     let project_path = active_project_path(&state)?;
-    let plans_dir = Path::new(&project_path).join(".orqa").join("plans");
+    let plans_dir = Path::new(&project_path).join(paths::PLANS_DIR);
     if !plans_dir.is_dir() {
         return Ok(Vec::new());
     }
@@ -565,8 +565,7 @@ pub fn plan_read(rel_path: String, state: State<'_, AppState>) -> Result<Artifac
 
     let project_path = active_project_path(&state)?;
     let file_path = Path::new(&project_path)
-        .join(".orqa")
-        .join("plans")
+        .join(paths::PLANS_DIR)
         .join(format!("{}.md", rel_path));
 
     if !file_path.exists() {
@@ -594,7 +593,7 @@ pub fn plan_read(rel_path: String, state: State<'_, AppState>) -> Result<Artifac
         id: 0,
         project_id: 0,
         artifact_type: ArtifactType::Doc,
-        rel_path: format!(".orqa/plans/{}.md", rel_path),
+        rel_path: format!("{}/{}.md", paths::PLANS_DIR, rel_path),
         name,
         description: None,
         content: body,

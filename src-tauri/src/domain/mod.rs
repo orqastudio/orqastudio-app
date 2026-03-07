@@ -6,6 +6,7 @@ pub mod governance;
 pub mod governance_scanner;
 pub mod lessons;
 pub mod message;
+pub mod paths;
 pub mod process_state;
 pub mod project;
 pub mod project_scanner;
