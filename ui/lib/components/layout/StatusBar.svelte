@@ -14,7 +14,7 @@
 			case "starting":
 				return "bg-warning";
 			case "error":
-				return "bg-red-500";
+				return "bg-destructive";
 			case "stopped":
 			case "not_started":
 			default:

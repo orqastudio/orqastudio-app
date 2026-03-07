@@ -8,6 +8,7 @@
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import type { Lesson } from "$lib/types/lessons";
+	import { categoryColor } from "$lib/utils/category-colors";
 
 	let {
 		lessons,
@@ -30,19 +31,6 @@
 	const promotionCandidates = $derived(
 		lessons.filter((l) => l.recurrence >= 2 && l.status === "active"),
 	);
-
-	function categoryColor(category: string): string {
-		switch (category) {
-			case "process":
-				return "bg-blue-500/10 text-blue-600 dark:text-blue-400";
-			case "coding":
-				return "bg-violet-500/10 text-violet-600 dark:text-violet-400";
-			case "architecture":
-				return "bg-warning/10 text-warning";
-			default:
-				return "bg-muted text-muted-foreground";
-		}
-	}
 
 	function statusVariant(status: string): "default" | "secondary" | "outline" {
 		switch (status) {

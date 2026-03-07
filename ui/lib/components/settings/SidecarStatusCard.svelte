@@ -16,7 +16,7 @@
 			case "starting":
 				return "text-warning";
 			case "error":
-				return "text-red-500";
+				return "text-destructive";
 			case "stopped":
 			case "not_started":
 			default:
@@ -44,7 +44,7 @@
 					{:else if settingsStore.sidecarStatus.state === "starting"}
 						<LoaderCircleIcon class="h-4 w-4 animate-spin text-warning" />
 					{:else if settingsStore.sidecarStatus.state === "error"}
-						<CircleXIcon class="h-4 w-4 text-red-500" />
+						<CircleXIcon class="h-4 w-4 text-destructive" />
 					{:else}
 						<CircleDotIcon class="h-4 w-4 text-muted-foreground" />
 					{/if}

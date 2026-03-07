@@ -43,8 +43,8 @@
 						</div>
 					{:else}
 						<div class="flex items-center gap-1.5">
-							<CircleXIcon class="h-4 w-4 text-red-500" />
-							<span class="text-red-600 dark:text-red-400">Not found</span>
+							<CircleXIcon class="h-4 w-4 text-destructive" />
+							<span class="text-destructive">Not found</span>
 						</div>
 					{/if}
 				</div>

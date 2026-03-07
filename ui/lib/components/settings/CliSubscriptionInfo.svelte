@@ -69,7 +69,7 @@
 		{@const expiry = formatExpiry(expiresAt)}
 		<div class="flex items-center gap-2 text-sm">
 			<span class="w-28 text-muted-foreground">Token Expiry:</span>
-			<span class={expiry.expired ? "text-red-600 dark:text-red-400 font-medium" : ""}>
+			<span class={expiry.expired ? "text-destructive font-medium" : ""}>
 				{expiry.label}
 			</span>
 		</div>

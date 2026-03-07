@@ -54,7 +54,7 @@
 		{/if}
 	</button>
 	<button
-		class="flex h-8 w-10 items-center justify-center text-muted-foreground hover:bg-red-500 hover:text-white"
+		class="flex h-8 w-10 items-center justify-center text-muted-foreground hover:bg-destructive hover:text-destructive-foreground"
 		onclick={close}
 		title="Close"
 	>
