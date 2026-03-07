@@ -591,6 +591,24 @@ Composability is not just a coding standard — it is a platform principle. The 
 
 **Verification:** Orqa Studio's own composability score ≥85/100. Composability scanner runs on itself as part of `make check`.
 
+## Future: Multi-Provider Ecosystem
+
+**Research:** [`.orqa/research/provider-architecture.md`](/.orqa/research/provider-architecture)
+
+The aim is **compatibility** — Orqa Studio should work with as many AI providers as possible.
+
+- [ ] Third-party AI cloud provider research — Investigate "middlemen" providers (OpenRouter, Together AI, Fireworks, Replicate, etc.) who offer multiple models on shared hardware infrastructure. Document APIs, pricing, model availability, and integration approach.
+- [ ] Direct Anthropic API provider — Rust-native HTTP provider bypassing the sidecar for pay-per-token API usage
+- [ ] Direct OpenAI-compatible API provider — Covers OpenAI, Azure OpenAI, and any OpenAI-compatible endpoint
+- [ ] Gemini Developer API provider — Direct API for Google's models
+- [ ] OpenAI Agents SDK sidecar — Second agent runtime SDK alongside Claude Agent SDK
+- [ ] Google ADK sidecar — Third agent runtime SDK
+- [ ] Ollama / local LLM provider — For organisations with local hardware infrastructure
+- [ ] Budget & billing prediction — Usage tracking and cost prediction across providers
+- [ ] Multi-provider cost optimisation — Use multiple low-cost subscriptions as individual agents in a "team", routing work to the cheapest capable provider
+- [ ] Provider selection in project config — Per-project provider preferences in `.orqa/project.json`
+- [ ] M365 Copilot / Google Workspace AI — Keep integration path open for future partnership. Currently locked to their own apps (no general-purpose API for third-party tools).
+
 ## Future: Code Quality Audit
 
 - [ ] Abstraction pattern audit — Review the codebase for areas where iterative development has introduced overcomplicated patterns, duplicate logic, or unnecessary layers. Identify opportunities for reusable abstractions (e.g. the generic `parse_frontmatter<T>` pattern applied to YAML parsing). Produce a refactoring plan with prioritised simplification targets that reduce maintenance burden without losing functionality.
