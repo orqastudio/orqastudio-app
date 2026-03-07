@@ -46,6 +46,32 @@ Every feature in OrqaStudio serves this loop:
 
 The loop is domain-agnostic. Software development is OrqaStudio's first domain — where the loop manifests as code governance, implementation cycles, and learning from agent sessions. But the underlying pattern applies wherever complex work requires structured thinking: product strategy, research, operations, consulting, and beyond.
 
+## Entry Modes
+
+Users arrive at OrqaStudio from different starting points. Not everyone enters with a clear task — many enter with ambiguity. The platform meets them where they are:
+
+| Mode | Starting point | What the user needs |
+|------|---------------|-------------------|
+| **Problem** | Something is not working and needs diagnosis | Understand root causes, map the situation, produce a fix plan |
+| **Idea** | A concept needs validation and shaping | Explore feasibility, challenge assumptions, shape into something actionable |
+| **Goal** | A desired outcome requires planning | Gap analysis, breakdown into steps, produce a backlog or experiment plan |
+| **Chaos** | A messy situation needs clarity | Triage, find structure in the mess, identify what matters and what to do first |
+
+Each entry mode supports both **new projects** (starting from scratch) and **existing work** (adapting a codebase, asset library, research corpus, or any body of work the user is already engaged with). The AI-assisted onboarding flow helps the user assess what they have, understand where they are, and create a structured thinking process around it.
+
+Each mode triggers a different onboarding flow — different questions, different reasoning patterns, different initial artifact structures. But all four paths converge into the same agile learning loop: structured understanding → experiments → execution → retrospective → improved understanding.
+
+The entry modes are how agile thinking is operationalised at the point of entry. The user doesn't need to know agile terminology or frameworks. They just describe their situation, and OrqaStudio guides them from wherever they are toward structured reasoning.
+
+While software development is OrqaStudio's first domain — where implementation can be directly integrated into the structured thinking process — the entry modes are domain-agnostic by design. The same onboarding patterns apply to personal life management, healthcare project management, research planning, consulting engagements, or any situation where complex work benefits from structured thinking.
+
+```
+Problem ──┐
+Idea ─────┤
+Goal ─────┼──→ Structured Understanding ──→ Agile Learning Loop
+Chaos ────┘
+```
+
 ---
 
 ## Product Pillars

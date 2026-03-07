@@ -3,12 +3,12 @@ title: "Roadmap"
 category: product
 tags: []
 created: 2026-03-02
-updated: 2026-03-06
+updated: 2026-03-07
 ---
 
 # Roadmap
 
-**Date:** 2026-03-06
+**Date:** 2026-03-07
 
 Feature ideas and future work. Remove entries once implemented.
 
@@ -628,3 +628,122 @@ This makes OrqaStudio's governance genuinely portable: define your standards onc
 - [ ] Abstraction pattern audit — Review the codebase for areas where iterative development has introduced overcomplicated patterns, duplicate logic, or unnecessary layers. Identify opportunities for reusable abstractions (e.g. the generic `parse_frontmatter<T>` pattern applied to YAML parsing). Produce a refactoring plan with prioritised simplification targets that reduce maintenance burden without losing functionality.
 - [ ] Coding standards compliance audit — Systematic review of the entire codebase against `docs/development/coding-standards.md`. Verify all Rust code follows error propagation rules, function size limits, naming conventions, and clippy compliance. Verify all Svelte code uses Svelte 5 runes only, strict TypeScript, component purity, and shared component patterns. Document violations and produce a remediation plan.
 - [ ] Enforcement artifact review — Audit existing rules (`.claude/rules/`), hooks (`.claude/hooks/`), and skills (`.claude/skills/`) for completeness and effectiveness. Identify coding standards that lack automated enforcement. Create missing enforcement hooks and rules to close gaps. Ensure pre-commit hooks catch all documented standards.
+
+## Future: Entry Modes & Onboarding
+
+AI-assisted onboarding flows that meet users where they are. Each mode supports both new projects and adaptation of existing work (codebases, asset libraries, research corpora, operational systems).
+
+- [ ] Problem mode onboarding — Guided diagnosis flow: "What's not working?", root cause mapping, situation assessment, fix plan generation
+- [ ] Idea mode onboarding — Validation flow: feasibility exploration, assumption challenging, shaping into actionable experiments
+- [ ] Goal mode onboarding — Planning flow: gap analysis, step breakdown, backlog or experiment plan generation
+- [ ] Chaos mode onboarding — Triage flow: find structure in ambiguity, identify what matters, prioritise first actions
+- [ ] Existing work assessment — When entering with an existing codebase/project, AI scans and assesses current state before creating structured artifacts
+- [ ] Mode convergence — All four paths produce the same artifact structure (structured understanding + backlog), entering the agile learning loop
+- [ ] Domain-agnostic templates — Artifact templates that work beyond software: personal planning, healthcare operations, research, consulting
+- [ ] Mode detection — AI suggests the most appropriate entry mode based on the user's initial description
+
+## Future: Structured Thinking Tools
+
+Tools that operationalise the agile learning loop beyond conversation.
+
+- [ ] Decision matrices — Structured comparison of options with weighted criteria, AI-assisted factor identification
+- [ ] Experiment design — Hypothesis → test → measure → learn templates with outcome tracking
+- [ ] Assumption mapping — Surface and track assumptions, link to validation experiments
+- [ ] Impact/effort prioritisation — Visual prioritisation of backlog items with AI-suggested rankings
+- [ ] Dependency mapping — Visualise relationships between tasks, decisions, and knowledge artifacts
+- [ ] Risk registers — Structured risk identification and tracking with mitigation plans
+- [ ] Stakeholder mapping — Who cares about what, who needs to be informed, who approves
+
+## Future: Knowledge & Artifact Intelligence
+
+Making the accumulated knowledge base actively useful.
+
+- [ ] Semantic search across artifacts — Search plans, decisions, retrospectives, and lessons by meaning, not just keywords
+- [ ] Cross-artifact linking — Automatic detection of relationships between artifacts (e.g., a lesson that relates to a decision)
+- [ ] Knowledge graph visualisation — Visual map of how artifacts connect: decisions → implementations → lessons → rules
+- [ ] Artifact staleness detection — Flag artifacts that haven't been reviewed since related work changed
+- [ ] AI-assisted artifact summarisation — Generate executive summaries from collections of related artifacts
+- [ ] Contradiction detection — Surface when new information conflicts with existing documented decisions or assumptions
+
+## Future: Cross-Project Intelligence
+
+Learning that transfers between projects.
+
+- [ ] Project templates — Pre-configured governance setups for common project types (web app, mobile app, research project, personal goals)
+- [ ] Cross-project pattern detection — Identify recurring lessons across projects and suggest universal rules
+- [ ] Shared governance libraries — Publish and import governance artifacts (rules, agents, skills) between projects
+- [ ] Organisation-level learning — Aggregate metrics and lessons across all projects for an organisation
+- [ ] Benchmarking — Compare project health metrics against anonymised averages
+
+## Future: Collaboration & Teams
+
+Multi-user support for the clarity engine.
+
+- [ ] Shared projects — Multiple users viewing and contributing to the same project artifacts
+- [ ] Role-based access — Different permission levels (viewer, contributor, approver) per project
+- [ ] Review workflows — Artifact review and approval flows with audit trails
+- [ ] Handoff protocols — Structured handoff between team members with context preservation
+- [ ] Activity feeds — See what changed, who changed it, and why across shared projects
+- [ ] Conflict resolution — When two users modify the same artifact, structured merge with AI assistance
+
+## Future: Integration Ecosystem
+
+Connecting OrqaStudio with external tools and workflows.
+
+- [ ] Git integration — Branch awareness, commit history correlation with decisions and plans
+- [ ] Issue tracker sync — Bidirectional sync with GitHub Issues, Linear, Jira (backlog items ↔ structured plans)
+- [ ] Documentation platform export — Publish artifact collections to Notion, Confluence, or static sites
+- [ ] Calendar integration — Link experiment timelines and retrospective schedules to calendar events
+- [ ] Notification channels — Slack/Teams/email notifications for artifact changes, review requests, learning milestones
+- [ ] CI/CD integration — Pull quality gate results into OrqaStudio's metrics and learning loop
+- [ ] Import from existing tools — Migrate structured content from Notion, Obsidian, or markdown repositories into OrqaStudio artifacts
+
+## Future: Domain Expansion
+
+Extending beyond software development as the first domain.
+
+- [ ] Research domain — Hypothesis tracking, literature review artifacts, experiment logs, publication planning
+- [ ] Product management domain — Feature prioritisation, user research synthesis, roadmap management, stakeholder communication
+- [ ] Operations domain — Process documentation, incident retrospectives, SOP management, compliance tracking
+- [ ] Personal productivity domain — Goal setting, habit tracking, life area management, reflection journals
+- [ ] Consulting domain — Client engagement structure, deliverable tracking, knowledge transfer artifacts
+- [ ] Education domain — Learning path design, curriculum planning, student progress tracking
+
+## Future: Reporting & Stakeholder Access
+
+Making accumulated understanding accessible to people who don't use OrqaStudio directly.
+
+- [ ] Executive dashboards — High-level project health, progress, and risk summaries
+- [ ] Shareable artifact links — Read-only access to specific artifacts or artifact collections
+- [ ] PDF/HTML export — Generate formatted reports from artifact collections
+- [ ] Progress reports — Auto-generated periodic summaries of work, decisions, and learning
+- [ ] Audit trails — Complete history of decisions, approvals, and changes for compliance contexts
+
+## Future: Session Intelligence
+
+Making AI conversations smarter over time.
+
+- [ ] Conversation summarisation — Auto-generate concise summaries of long sessions for future reference
+- [ ] Context-aware suggestions — AI suggests relevant artifacts, lessons, and decisions during conversation
+- [ ] Session branching — Fork a conversation to explore alternative approaches without losing the original thread
+- [ ] Conversation replay — Step through past sessions to understand how decisions were reached
+- [ ] Proactive learning — AI surfaces relevant past lessons and decisions before the user encounters the same problem
+
+## Future: Extension System
+
+Allowing users and communities to extend OrqaStudio.
+
+- [ ] Plugin architecture — Defined extension points for custom tools, artifact types, and integrations
+- [ ] Custom artifact types — Users define their own structured artifact schemas beyond the built-in types
+- [ ] Custom scanners — User-defined quality checks and analysis tools
+- [ ] Community marketplace — Share and discover plugins, governance templates, and domain configurations
+- [ ] Scripting hooks — User-defined automation triggered by artifact lifecycle events
+
+## Future: Platform Access
+
+Expanding beyond desktop.
+
+- [ ] Web companion — Read-only web view for reviewing artifacts and dashboards (not a full replacement for the desktop app)
+- [ ] Mobile companion — Quick capture and review on mobile devices
+- [ ] API access — Programmatic access to OrqaStudio's artifact store and learning loop for automation
+- [ ] CLI companion — Lightweight command-line tool for artifact queries and quick captures without launching the full app
