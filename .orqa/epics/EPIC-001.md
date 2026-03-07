@@ -7,7 +7,7 @@ milestone: MS-001
 created: 2026-03-07
 updated: 2026-03-07
 deadline: null
-plan: null
+plan: epic-001-ai-transparency
 depends-on: []
 blocks: []
 assignee: null
@@ -45,7 +45,18 @@ Can't debug reasoning without seeing what's sent to the model. This is a reasoni
 
 ## Tasks
 
-- [ ] Emit `SystemPromptSent` event from `stream_commands.rs` — read custom + governance prompts, emit before calling sidecar
-- [ ] Emit `ContextInjected` event when context is injected (see EPIC-003)
-- [ ] Render `ContextEntry` components in `ConversationView` above assistant messages
-- [ ] Wire `ThinkingBlock` rendering in `ConversationView` when `show_thinking` is enabled
+- [ ] [TASK-001] Emit `SystemPromptSent` event from `stream_commands.rs` (backend-engineer)
+- [ ] [TASK-002] Verify end-to-end rendering (qa-tester)
+- [ ] [TASK-003] Update streaming pipeline documentation (documentation-writer)
+
+## Out of Scope (handled by other epics)
+
+- `ContextInjected` emission — depends on EPIC-003 (Context Injection on Failed Resume)
+- `show_thinking` project setting toggle — EPIC-002 (Settings UI)
+- Custom system prompt — EPIC-002 (Settings UI)
+
+## Notes
+
+- `ContextEntry` and `ThinkingBlock` rendering is already wired in `ConversationView.svelte`
+- Store accumulation for `system_prompt_sent` and `context_injected` events already works
+- The only missing piece is the Rust backend emission of `SystemPromptSent`
