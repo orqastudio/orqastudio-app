@@ -290,9 +290,7 @@ impl EnforcementEngine {
                 let content = match std::fs::read_to_string(&file_path) {
                     Ok(c) => c,
                     Err(e) => {
-                        tracing::warn!(
-                            "[enforcement] cannot read file '{file_path}': {e}"
-                        );
+                        tracing::warn!("[enforcement] cannot read file '{file_path}': {e}");
                         continue;
                     }
                 };

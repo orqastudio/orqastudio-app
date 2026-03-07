@@ -1,7 +1,7 @@
 ---
 id: EPIC-001
 title: "AI Transparency Wiring"
-status: draft
+status: done
 priority: P1
 milestone: MS-001
 created: 2026-03-07
@@ -45,13 +45,15 @@ Can't debug reasoning without seeing what's sent to the model. This is a reasoni
 
 ## Tasks
 
-- [ ] [TASK-001] Emit `SystemPromptSent` event from `stream_commands.rs` (backend-engineer)
-- [ ] [TASK-002] Verify end-to-end rendering (qa-tester)
-- [ ] [TASK-003] Update streaming pipeline documentation (documentation-writer)
+- [x] [TASK-001] Emit `SystemPromptSent` event from `stream_commands.rs` (backend-engineer)
+- [x] [TASK-002] Verify end-to-end rendering (qa-tester)
+- [x] [TASK-003] Update streaming pipeline documentation (documentation-writer)
+
+## Additional Completed Work
+
+- [x] [TASK-004] Emit `ContextInjected` event when prior messages exist in session (backend-engineer)
 
 ## Out of Scope (handled by other epics)
-
-- `ContextInjected` emission — depends on EPIC-003 (Context Injection on Failed Resume)
 - `show_thinking` project setting toggle — EPIC-002 (Settings UI)
 - Custom system prompt — EPIC-002 (Settings UI)
 

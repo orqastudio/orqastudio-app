@@ -1,7 +1,7 @@
 ---
 id: TASK-001
 title: "Emit SystemPromptSent event from stream_commands.rs"
-status: todo
+status: done
 epic: EPIC-001
 created: 2026-03-07
 updated: 2026-03-07

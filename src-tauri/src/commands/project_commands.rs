@@ -3,9 +3,9 @@ use std::path::Path;
 use tauri::State;
 
 use crate::domain::enforcement_engine::EnforcementEngine;
-use crate::repo::enforcement_rules_repo;
 use crate::domain::project::{Project, ProjectSummary};
 use crate::error::OrqaError;
+use crate::repo::enforcement_rules_repo;
 use crate::repo::project_repo;
 use crate::state::AppState;
 

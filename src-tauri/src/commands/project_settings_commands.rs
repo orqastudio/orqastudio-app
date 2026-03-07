@@ -4,8 +4,8 @@ use std::path::Path;
 use crate::domain::paths;
 use crate::domain::project_scanner::{self, ProjectScanResult};
 use crate::domain::project_settings::ProjectSettings;
-use crate::repo::project_settings_repo;
 use crate::error::OrqaError;
+use crate::repo::project_settings_repo;
 
 /// Read project settings from the `.orqa/project.json` file.
 ///

@@ -96,6 +96,17 @@ Plans exist within the artifact framework. When a plan is created:
 
 See `.claude/rules/artifact-lifecycle.md` for the full artifact lifecycle and `docs/process/artifact-workflow.md` for day-to-day workflow.
 
+## Roadmap Reconciliation (MANDATORY)
+
+Before a plan is approved, the orchestrator MUST reconcile the plan's task list with the epic's roadmap entry:
+
+1. Read the roadmap entry for the epic (e.g., D1 items under Milestone 1)
+2. Verify every roadmap item appears as a task in the plan
+3. If any roadmap item is missing from the plan, either add it as a task or get explicit user approval to descope it
+4. No item may be silently moved to "Out of Scope" or deferred to another epic without user approval
+
+See `.claude/rules/no-deferred-deliverables.md` for the full enforcement rule.
+
 ## When This Rule Applies
 
 - Creating a new implementation plan (plan mode or TODO.md)

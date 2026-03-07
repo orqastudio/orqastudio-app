@@ -92,8 +92,24 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 ### Artifact Updates
 
 - [ ] Epic `status` updated to `done` in `.orqa/epics/EPIC-NNN.md`
+- [ ] All task statuses updated to `done` in `.orqa/tasks/TASK-NNN.md`
+- [ ] Epic task checkboxes all checked in `.orqa/epics/EPIC-NNN.md`
 - [ ] Parent milestone `completed-epics` count updated in `.orqa/milestones/MS-NNN.md`
-- [ ] If all P1 epics in the milestone are done -- check whether milestone gate is satisfied
+- [ ] If all P1 epics in the milestone are done — check whether milestone gate is satisfied
+- [ ] Roadmap entry updated to reflect completion (items checked, status noted)
+
+### Deliverable Completeness (checked by orchestrator)
+
+- [ ] Every item in the epic's roadmap entry has been implemented — not deferred, not scaffolded
+- [ ] Every item in the epic's plan has a completed task
+- [ ] No "out of scope" items that were in the original roadmap scope (see `.claude/rules/no-deferred-deliverables.md`)
+- [ ] If any item was descoped, user approval for the descope is documented
+
+### Commit & Session State
+
+- [ ] All changes committed with a descriptive commit message
+- [ ] Session state written to `tmp/session-state.md` (tasks completed, verification results, next steps)
+- [ ] If Rust backend changes: orchestrator offers to run `make restart` (single atomic command — see `dogfood-mode.md`)
 
 ### Worktree Cleanup
 

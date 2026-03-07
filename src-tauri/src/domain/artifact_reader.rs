@@ -445,7 +445,10 @@ pub(crate) fn humanize_name(filename: &str) -> String {
 
 /// Title-case a hyphenated string (e.g. `"my-category"` -> `"My Category"`).
 fn title_case_hyphenated(s: &str) -> String {
-    s.split('-').map(title_case_word).collect::<Vec<_>>().join(" ")
+    s.split('-')
+        .map(title_case_word)
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 /// Title-case a single word (first char uppercase, rest lowercase).

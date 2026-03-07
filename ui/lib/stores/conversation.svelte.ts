@@ -86,6 +86,7 @@ class ConversationStore {
 		this.activeToolCalls = new SvelteMap();
 		this.streamingMessageId = null;
 		this.processViolations = [];
+		this.contextEntries = [];
 		this.isStreaming = true;
 
 		// Optimistically add the user message to the UI immediately

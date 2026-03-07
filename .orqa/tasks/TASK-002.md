@@ -1,7 +1,7 @@
 ---
 id: TASK-002
 title: "Verify end-to-end AI transparency rendering"
-status: todo
+status: done
 epic: EPIC-001
 created: 2026-03-07
 updated: 2026-03-07

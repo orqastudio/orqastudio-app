@@ -16,15 +16,20 @@ You are editing the app you are running inside. The OrqaStudio codebase IS the r
 
 - `make dev` uses `--no-watch` so editing `.rs` files does NOT auto-restart the app and kill the active session
 - **NEVER use `make dev-watch`** — it causes the app to restart on every Rust file save, destroying the session
-- After Rust backend changes, the user must manually restart `make dev`
+- After Rust backend changes, the orchestrator manages the restart (see Restart Protocol)
 
 ### Restart Protocol
 
-After making Rust backend changes:
+After making Rust backend changes, the orchestrator manages the full restart lifecycle:
 
 1. Write session state to `tmp/session-state.md` (tasks completed, in-progress work, what to resume)
-2. Tell the user the backend needs a manual restart
-3. Do NOT continue with work that depends on the Rust changes until the user confirms restart
+2. Commit all changes (so nothing is lost when the app closes)
+3. **Offer to restart**: "Backend changes need a restart. Shall I run `make restart`?"
+4. If the user approves, run `make restart` as a single atomic command — this stops all processes, rebuilds, and relaunches in one step
+5. **NEVER break restart into multiple commands** — the app closes when processes are killed, so multi-step sequences fail halfway. `make restart` handles the entire lifecycle atomically.
+6. The session will end when the app restarts. The next session picks up from `tmp/session-state.md`.
+
+**The orchestrator owns the dev lifecycle.** Do not tell the user to run development commands — offer to run them and execute on approval.
 
 ### Sidecar Self-Edit Warnings
 

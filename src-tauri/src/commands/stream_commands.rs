@@ -758,6 +758,63 @@ fn build_system_prompt(project_path: &Path) -> Result<String, OrqaError> {
     Ok(parts.join("\n"))
 }
 
+/// Load a summary of prior text messages in a session for context injection.
+///
+/// Returns `(message_count, total_chars, messages_json)` where:
+/// - `message_count` is the number of text messages found (excluding `exclude_id`)
+/// - `total_chars` is the sum of content lengths (not the JSON string length)
+/// - `messages_json` is a JSON array of `{"role": "...", "content": "..."}` objects
+///
+/// Only `ContentType::Text` messages are included; tool calls, thinking, and images
+/// are excluded. The message with `exclude_id` is skipped so the just-persisted
+/// user message is not counted as prior context.
+fn load_context_summary(
+    state: &AppState,
+    session_id: i64,
+    exclude_id: i64,
+) -> Result<(i32, i64, String), OrqaError> {
+    use crate::domain::message::ContentType;
+
+    let db = state
+        .db
+        .lock()
+        .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
+
+    let messages = message_repo::list(&db, session_id, 1000, 0)?;
+
+    let mut message_count: i32 = 0;
+    let mut total_chars: i64 = 0;
+    let mut entries: Vec<serde_json::Value> = Vec::new();
+
+    for msg in messages {
+        if msg.id == exclude_id {
+            continue;
+        }
+        if msg.content_type != ContentType::Text {
+            continue;
+        }
+        if let Some(ref content) = msg.content {
+            let role_str = match msg.role {
+                crate::domain::message::MessageRole::User => "user",
+                crate::domain::message::MessageRole::Assistant => "assistant",
+                crate::domain::message::MessageRole::System => "system",
+            };
+            total_chars += content.len() as i64;
+            message_count += 1;
+            entries.push(serde_json::json!({
+                "role": role_str,
+                "content": content,
+            }));
+        }
+    }
+
+    let messages_json = serde_json::to_string(&entries).map_err(|e| {
+        OrqaError::Serialization(format!("failed to serialize context messages: {e}"))
+    })?;
+
+    Ok((message_count, total_chars, messages_json))
+}
+
 /// Look up the persisted provider session UUID for the given session, used to resume across restarts.
 fn lookup_provider_session_id(
     state: &AppState,
@@ -826,6 +883,31 @@ pub fn stream_send_message(
 
     let system_prompt = resolve_system_prompt(&state);
     let provider_session_id = lookup_provider_session_id(&state, session_id)?;
+
+    if let Some(ref prompt) = system_prompt {
+        let _ = on_event.send(StreamEvent::SystemPromptSent {
+            custom_prompt: None,
+            governance_prompt: prompt.clone(),
+            total_chars: prompt.len() as i64,
+        });
+    }
+
+    // Emit ContextInjected if there are prior messages in this session.
+    // The just-persisted user message is excluded so only conversation history
+    // visible to the AI as prior context is counted.
+    match load_context_summary(&state, session_id, user_message_id) {
+        Ok((count, chars, json)) if count > 0 => {
+            let _ = on_event.send(StreamEvent::ContextInjected {
+                message_count: count,
+                total_chars: chars,
+                messages: json,
+            });
+        }
+        Ok(_) => {}
+        Err(e) => {
+            tracing::warn!("[stream] failed to load context summary for session {session_id}: {e}");
+        }
+    }
 
     let request = SidecarRequest::SendMessage {
         session_id,

@@ -252,7 +252,10 @@ pub fn build_recommendations(
 /// Write a recommendation's content to its target path within the project.
 ///
 /// Creates parent directories as needed. Performs filesystem I/O.
-pub fn write_recommendation_file(rec: &Recommendation, project_path: &str) -> Result<(), OrqaError> {
+pub fn write_recommendation_file(
+    rec: &Recommendation,
+    project_path: &str,
+) -> Result<(), OrqaError> {
     let target = resolve_target_path(&rec.target_path, project_path)?;
 
     if let Some(parent) = target.parent() {

@@ -114,16 +114,16 @@ Working Tauri v2 app with Claude conversations via Agent SDK sidecar:
 
 These items block dogfooding. Each represents a gap between "the pieces exist" and "it actually works end-to-end."
 
-#### D1. AI Transparency Wiring
+#### D1. AI Transparency Wiring — EPIC-001 (Done)
 
-The types, components, and store handling all exist. Missing: the emission logic that connects them.
+The types, components, and store handling all exist. The emission logic now connects them.
 
-- [ ] Emit `SystemPromptSent` event from `stream_commands.rs` — read custom + governance prompts, emit before calling sidecar
-- [ ] Emit `ContextInjected` event when context is injected (see D3)
-- [ ] Render `ContextEntry` components in `ConversationView` above assistant messages
-- [ ] Wire `ThinkingBlock` rendering in `ConversationView` when `show_thinking` is enabled
+- [x] Emit `SystemPromptSent` event from `stream_commands.rs` (TASK-001)
+- [x] Verify end-to-end rendering pipeline (TASK-002)
+- [x] Update streaming pipeline documentation (TASK-003)
+- [x] Emit `ContextInjected` event when prior messages exist in session (TASK-004)
 
-**Why P1:** Can't debug reasoning without seeing what's sent to the model. This is a reasoning platform.
+**Completed:** `SystemPromptSent` emitted before sidecar request. Full pipeline verified: Rust emission → Channel<T> → store accumulation → ContextEntry + ContextDetailDialog rendering. ThinkingBlock already wired. `ContextInjected` emission deferred to EPIC-003.
 
 #### D2. Settings UI for Thinking & Custom Prompt
 

@@ -1,5 +1,5 @@
 ---
-status: draft
+status: approved
 epic: EPIC-001
 created: 2026-03-07
 updated: 2026-03-07

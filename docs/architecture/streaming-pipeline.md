@@ -1233,3 +1233,107 @@ The `stop_reason: "user_cancelled"` field distinguishes user-cancelled responses
 | Svelte 5 runes only | `$state`, `$derived`, `$props` for all reactivity | AD-004 |
 | SQLite for persistence | Buffered writes every ~500ms, WAL mode for concurrency | AD-005 |
 | Provider-agnostic protocol | `ProviderEvent` enum is neutral; sidecar is swappable | AD-017 |
+
+---
+
+## 12. Current Implementation Reference
+
+> **Note:** Sections 1–11 above reflect the original design specification. This section documents the actual implemented state of the streaming pipeline as of EPIC-001 (AI Transparency Wiring).
+
+### Implemented StreamEvent Enum
+
+The Rust `StreamEvent` enum is defined in `src-tauri/src/domain/provider_event.rs`. It is serialized with `#[serde(tag = "type", content = "data", rename_all = "snake_case")]`, producing `{ "type": "...", "data": { ... } }` on the wire.
+
+| Variant | Serialized `type` | Source |
+|---------|-------------------|--------|
+| `SystemPromptSent` | `system_prompt_sent` | Emitted by Rust in `stream_send_message()` |
+| `StreamStart` | `stream_start` | Relayed from sidecar |
+| `TextDelta` | `text_delta` | Relayed from sidecar |
+| `ThinkingDelta` | `thinking_delta` | Relayed from sidecar |
+| `ToolUseStart` | `tool_use_start` | Relayed from sidecar |
+| `ToolInputDelta` | `tool_input_delta` | Relayed from sidecar |
+| `ToolResult` | `tool_result` | Relayed from sidecar |
+| `BlockComplete` | `block_complete` | Relayed from sidecar |
+| `TurnComplete` | `turn_complete` | Relayed from sidecar |
+| `StreamError` | `stream_error` | Relayed from sidecar |
+| `StreamCancelled` | `stream_cancelled` | Relayed from sidecar |
+| `ToolApprovalRequest` | `tool_approval_request` | Relayed from sidecar; stream loop blocks until response |
+| `ProcessViolation` | `process_violation` | Emitted by Rust after `TurnComplete` |
+| `SessionTitleUpdated` | `session_title_updated` | Emitted by Rust after assistant message is persisted |
+| `ContextInjected` | `context_injected` | Emitted by Rust in `stream_send_message()` when prior messages exist |
+
+The TypeScript mirror of this union is `ui/lib/types/streaming.ts`. Both must stay in sync — adding a variant requires updating both files in the same commit.
+
+### Event Sequence per Turn
+
+For a single user turn, events arrive in this order:
+
+```
+1. SystemPromptSent        ← Rust, before sidecar send (only when prompt is present)
+2. StreamStart             ← sidecar, when API call begins
+3. ThinkingDelta*          ← sidecar, zero or more (extended thinking only)
+4. TextDelta*              ← sidecar, zero or more
+5. ToolUseStart / ToolInputDelta* / ToolResult*   ← sidecar, per tool call
+6. ToolApprovalRequest?    ← sidecar, if write/execute tool needs approval (stream blocks)
+7. BlockComplete*          ← sidecar, when each content block closes
+8. TurnComplete            ← sidecar, response complete; carries token counts
+9. ProcessViolation*       ← Rust, after TurnComplete, only on violations
+10. SessionTitleUpdated?   ← Rust, after assistant message persisted, only if auto-named
+```
+
+`StreamError` or `StreamCancelled` may replace any event after `StreamStart`.
+
+`ContextInjected` appears before `StreamStart` on any turn where prior messages exist in the session (i.e., not the first message). It shows the user what conversation history the AI has access to.
+
+### SystemPromptSent — Emission Point and Fields
+
+`SystemPromptSent` is emitted in `stream_send_message()` (`src-tauri/src/commands/stream_commands.rs`, lines 830–836) after `resolve_system_prompt()` returns and before `SidecarRequest::SendMessage` is constructed. It is only emitted when a system prompt is present (i.e., an active project with governance artifacts is configured).
+
+```
+resolve_system_prompt(&state)   →   Option<String>
+        │
+        │  if Some(prompt)
+        ▼
+on_event.send(StreamEvent::SystemPromptSent {
+    custom_prompt: None,           // always None until EPIC-002
+    governance_prompt: prompt,     // full governance prompt built from project artifacts
+    total_chars: prompt.len(),     // character count
+})
+        │
+        ▼
+SidecarRequest::SendMessage { system_prompt: prompt, ... }
+        │
+        ▼
+state.sidecar.send(&request)
+```
+
+Fields:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `custom_prompt` | `string \| null` | User-supplied custom prompt prefix. Always `null` until EPIC-002 is implemented. |
+| `governance_prompt` | `string` | Full governance prompt built from project artifacts (CLAUDE.md, AGENTS.md, etc.). |
+| `total_chars` | `number` | Character count of the combined prompt. |
+
+### Emission Points Summary
+
+| Event | Location | When |
+|-------|----------|------|
+| `system_prompt_sent` | `stream_send_message()`, after `resolve_system_prompt()` | Before sidecar `send()` |
+| `stream_start` through `turn_complete` | `run_stream_loop()`, per `SidecarResponse` line | As sidecar stdout is read |
+| `tool_approval_request` | `run_stream_loop()`, on `SidecarResponse::ToolApprovalRequest` | Stream blocks until `stream_tool_approval_respond` called |
+| `process_violation` | `emit_process_violations()`, after `TurnComplete` processed | After assistant message persisted |
+| `context_injected` | `stream_send_message()`, after `SystemPromptSent` | When session has prior messages (count > 0) |
+| `session_title_updated` | `stream_send_message()`, after assistant message persisted | Only when session is auto-named |
+
+### Future Work
+
+- **EPIC-002 (Custom System Prompt):** The `custom_prompt` field on `system_prompt_sent` will carry the user-supplied custom prompt prefix. Currently always `null`.
+- **EPIC-003 (Context Injection on Failed Resume):** When a provider session resume fails, Rust will load prior messages from SQLite and inject them into the sidecar conversation. The `ContextInjected` event emission already exists (EPIC-001) — EPIC-003 adds the actual injection mechanism.
+
+### Pillar Alignment
+
+| Pillar | Alignment |
+|--------|-----------|
+| Self-Learning Loop | N/A |
+| Process Governance | The `system_prompt_sent` event surfaces the exact governance prompt sent to the AI on every turn, making the enforcement layer visible and auditable in the conversation UI. |

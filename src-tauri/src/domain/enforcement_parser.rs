@@ -256,8 +256,7 @@ mod tests {
 
     #[test]
     fn parse_rule_content_no_frontmatter() {
-        let rule =
-            parse_rule_content("my-rule", "# My Rule\n\nSome prose.").expect("should parse");
+        let rule = parse_rule_content("my-rule", "# My Rule\n\nSome prose.").expect("should parse");
         assert_eq!(rule.name, "my-rule");
         assert_eq!(rule.scope, "project");
         assert!(rule.entries.is_empty());

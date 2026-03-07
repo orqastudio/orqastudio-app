@@ -62,6 +62,7 @@ Review agents that skip lesson documentation are in violation of this rule AND `
 ## Related Rules
 
 - `no-stubs.md` — what counts as a stub + mandatory output structure
+- `no-deferred-deliverables.md` — deferring scoped deliverables is dishonest reporting
 - `plan-mode-compliance.md` — verification gate protocol + evidence requirements
 - `error-ownership.md` — all errors are your responsibility
 - `lessons-learned.md` — learning loop enforcement for review agents

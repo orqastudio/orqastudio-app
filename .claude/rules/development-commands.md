@@ -46,8 +46,10 @@ After Rust backend changes, use `make restart` to cleanly stop all processes and
 2. After completing changes, verify the dev server is still running and the app is open
 3. If `make dev` dies during work (compile error, crash), fix the issue and restart it
 4. Only sessions that are purely docs/planning are exempt
-5. After Rust changes, write session state to `tmp/session-state.md` (tasks completed, in-progress work, what to resume), then tell the user the backend needs a restart. The user must restart `make dev` manually because restarting kills the app and the active session.
+5. After Rust changes: write session state, commit all work, then **offer to run `make restart`**. `make restart` is atomic — it stops, rebuilds, and relaunches in one command. The session ends when the app restarts; the next session resumes from `tmp/session-state.md`.
 6. **NEVER run `make dev-watch`** — it is for human use only, outside of dogfooding
+7. **NEVER break restart into multiple steps** (e.g., `make stop` then `make dev`). The app closes on stop, killing the session mid-sequence. Always use `make restart` as one atomic operation.
+8. **The orchestrator manages its own dev lifecycle.** Do not expect the user to run `make dev`, `make restart`, or `make stop`. Offer to run them and execute on approval.
 
 ## Exceptions
 
