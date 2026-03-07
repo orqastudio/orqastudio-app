@@ -89,6 +89,8 @@ See the [LICENSE](./LICENSE) file for the full license text.
 
 Documentation (`docs/`) is licensed under [Creative Commons Attribution 4.0 (CC BY 4.0)](docs/LICENSE).
 
+For third-party dependency licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+
 ---
 
 ## Trademark Notice
