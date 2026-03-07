@@ -424,10 +424,11 @@ fn relative_path_without_extension(file: &Path, root: &Path) -> String {
 /// Strips `.md` / `.sh`, replaces hyphens with spaces, and title-cases each word.
 /// Preserves fully uppercase names (e.g. README, CHANGELOG).
 pub(crate) fn humanize_name(filename: &str) -> String {
-    let stem = filename
-        .strip_suffix(".md")
-        .or_else(|| filename.strip_suffix(".sh"))
-        .unwrap_or(filename);
+    // Strip any file extension
+    let stem = match filename.rfind('.') {
+        Some(pos) if pos > 0 => &filename[..pos],
+        _ => filename,
+    };
     // Preserve all-caps names like README, CHANGELOG, TODO
     if stem
         .chars()
