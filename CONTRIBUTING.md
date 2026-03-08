@@ -1,4 +1,4 @@
-# Contributing to OrqaStudio
+# Contributing to OrqaStudio™
 
 Thank you for your interest in contributing! This document points you to the right places.
 

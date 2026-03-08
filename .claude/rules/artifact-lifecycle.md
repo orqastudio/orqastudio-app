@@ -25,6 +25,7 @@ Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enf
 | A strategic goal is defined | `MS-NNN` | Create in `.orqa/milestones/` |
 | An implementation reveals a reusable pattern | `IMPL-NNN` | Create in `.orqa/lessons/` (see `lessons-learned.md`) |
 | A question needs investigation before a decision | Research file | Create in `.orqa/research/` |
+| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/decisions/`, add entry to `docs/architecture/decisions.md` index |
 
 ### ID Assignment
 
@@ -87,6 +88,21 @@ captured ──> exploring ──> shaped ──> promoted
 - `captured → promoted` — skipping research/shaping is not allowed
 - `exploring → promoted` — must be shaped (scoped and validated) before promotion
 - Any backward transition without user approval
+
+### Decision
+
+```
+proposed ──> accepted ──> superseded
+                      └──> deprecated
+```
+
+- `proposed → accepted`: Decision reviewed and approved by the user
+- `accepted → superseded`: A new decision replaces this one — both the new and old artifacts MUST be updated in the same commit
+- `accepted → deprecated`: Decision is no longer relevant (technology removed, context changed) — reason documented in the decision body
+
+**Creation rule:** When research produces an architectural choice, an `AD-NNN.md` MUST be created in `.orqa/decisions/` and an entry added to the index at `docs/architecture/decisions.md`. Adding a decision only to the monolithic index without an individual artifact file is FORBIDDEN.
+
+**Supersession rule:** When a new decision replaces an accepted decision, both the new artifact (`supersedes: AD-<old>`) and the old artifact (`status: superseded`, `superseded-by: AD-<new>`) MUST be updated in the same commit. A one-sided supersession is an integrity violation.
 
 ---
 
@@ -197,7 +213,7 @@ The following changes MUST be reflected in `docs/product/roadmap.md`:
 The orchestrator SHOULD periodically verify:
 
 1. **No orphaned artifacts** — every epic references an existing milestone, every task references an existing epic
-2. **No broken references** — `depends-on`, `blocks`, `promoted-to`, `plan` all point to existing artifacts
+2. **No broken references** — `depends-on`, `blocks`, `promoted-to`, `plan`, `supersedes`, `superseded-by` all point to existing artifacts
 3. **Status consistency** — a milestone marked `active` has at least one `in-progress` or `ready` epic
 4. **Count accuracy** — milestone `epic-count` and `completed-epics` match reality
 5. **Frontmatter completeness** — all required fields are present and non-empty
@@ -213,6 +229,8 @@ The orchestrator SHOULD periodically verify:
 - Leaving `promoted-to` null on an idea with `status: promoted`
 - Creating duplicate IDs (two artifacts with the same ID)
 - Modifying artifact IDs after creation
+- Recording an architecture decision only in `docs/architecture/decisions.md` without a corresponding `AD-NNN.md` file in `.orqa/decisions/`
+- Updating one side of a decision supersession without updating the other
 
 ---
 

@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-OrqaStudio includes or depends on the following third-party software. Each component is used in accordance with its respective license.
+OrqaStudio™ includes or depends on the following third-party software. Each component is used in accordance with its respective license.
 
 ---
 

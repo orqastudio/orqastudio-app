@@ -329,6 +329,7 @@ See `.claude/rules/artifact-lifecycle.md` for full enforcement rules and `docs/p
 | Plans | `.orqa/plans/` | Design documents referenced by epics |
 | Lessons learned | `.orqa/lessons/` | Implementation lessons |
 | Research | `.orqa/research/` | Investigation artifacts |
+| Decisions | `.orqa/decisions/` | Architecture decision artifacts |
 | Retrospectives | `docs/process/retrospectives.md` | Process retrospectives |
 | Session state | `tmp/session-state.md` | Cross-session continuity |
 

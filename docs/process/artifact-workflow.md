@@ -80,7 +80,7 @@ Triggered when the user approves investigation of a captured idea.
    - Create or update research artifacts in `.orqa/research/`
    - Investigate technical feasibility, UX implications, architectural fit
    - Document findings in the research artifacts
-3. If research produces architectural decisions, record them in `docs/architecture/decisions.md`
+3. If research produces an architectural choice, create an `AD-NNN.md` in `.orqa/decisions/` (see Decision Creation below) and add an entry to the index at `docs/architecture/decisions.md`
 
 ### Shaping (exploring → shaped)
 
@@ -232,6 +232,42 @@ Summary:
 
 ---
 
+## Decision Creation
+
+### When
+
+When research produces an architectural choice that affects the system — a technology selection, a structural constraint, an interface contract, or a rejected alternative with a documented reason.
+
+### How
+
+1. Scan `.orqa/decisions/` to determine the next ID (`AD-NNN`)
+2. Create `AD-NNN.md` with required frontmatter:
+   - `status: proposed` initially; advance to `accepted` once the user has reviewed and approved
+   - `category` set to the appropriate domain (`ipc`, `data`, `ui`, `security`, `tooling`, `process`)
+   - `research-refs` linking to the research artifact(s) that produced this decision
+3. Write the decision body in three sections:
+   - **Context** — what situation or question prompted this decision
+   - **Decision** — what was chosen and the key reasons
+   - **Consequences** — what becomes easier, harder, or newly constrained
+4. Add an entry to the index at `docs/architecture/decisions.md` referencing the artifact ID and title
+
+### Supersession
+
+When a new decision replaces an existing accepted decision:
+
+1. Create the new `AD-NNN.md` with `supersedes: AD-<old>` in frontmatter
+2. Update the superseded decision: set `status: superseded` and `superseded-by: AD-<new>`
+3. Both artifacts MUST be updated in the same commit — a supersession is incomplete if only one side is updated
+4. Update the index at `docs/architecture/decisions.md` to reflect the new status
+
+### What NOT to Do
+
+- Do not record decisions only in `docs/architecture/decisions.md` without creating an individual `AD-NNN.md` artifact
+- Do not modify an accepted decision in place — supersede it with a new decision instead
+- Do not leave a decision at `proposed` indefinitely — either accept it or archive it with a reason
+
+---
+
 ## Roadmap Synchronisation
 
 The roadmap (`docs/product/roadmap.md`) must stay in sync with artifacts:
@@ -255,6 +291,8 @@ The orchestrator periodically verifies:
 - Every epic's `depends-on` and `blocks` point to existing epics
 - Every idea's `promoted-to` (when set) points to an existing epic
 - Every epic's `plan` (when set) points to an existing plan file
+- Every decision's `supersedes` (when set) points to an existing `AD-NNN.md`
+- Every decision's `superseded-by` (when set) points to an existing `AD-NNN.md`
 - Milestone `epic-count` matches the actual number of epics referencing it
 - Milestone `completed-epics` matches the count of epics with `status: done`
 

@@ -1,4 +1,4 @@
-# OrqaStudio
+# OrqaStudio™
 
 Desktop application that automates product management and the agentic implementation cycle. Designed for Product Managers and Tech Leads who define process governance, delegate implementation to AI agents, and verify results — with a visual process layer where governance artifacts (agents, skills, rules, learning loops, documentation) live alongside the conversation as interactive, editable documents.
 

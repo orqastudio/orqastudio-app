@@ -21,7 +21,7 @@ questions:
     title: Chart/Visualization Library
     status: resolved
     verdict: LayerChart (shadcn-svelte Chart). Badge + lucide for indicators.
-produces_decisions: [AD-013]
+produces_decisions: [AD-013, AD-018, AD-019, AD-020]
 informs_phases: [0b, 0d, 0e, 1]
 informs_features: [F-003, F-004, F-006, F-007, F-008, F-010]
 ---

@@ -12,9 +12,9 @@ enforcement:
 
 # Architecture Decisions
 
-**Source of Truth:** `@docs/architecture/decisions.md`
+**Source of Truth:** `@docs/architecture/decisions.md` (index) and `.orqa/decisions/` (individual `AD-NNN.md` artifacts)
 
-**READ the full document to understand all architecture decisions.**
+**READ the index document to understand all architecture decisions. For detail on any specific decision, read its individual `AD-NNN.md` artifact.**
 
 ## Critical Decisions (violations = immediate rejection)
 
@@ -31,9 +31,9 @@ enforcement:
 
 ## Before Writing Code
 
-1. Read `@docs/architecture/decisions.md`
-2. Check if your change affects any existing decision
-3. If proposing a new decision, follow the decision template format
+1. Read `@docs/architecture/decisions.md` for the decision index
+2. Check if your change affects any existing decision; read the relevant `AD-NNN.md` artifact for full context
+3. If proposing a new decision, create an `AD-NNN.md` in `.orqa/decisions/` following the framework schema (see `docs/product/artifact-framework.md` — Decision schema). Adding a decision only to the index without an individual artifact is FORBIDDEN.
 
 ## Before Writing Plans
 

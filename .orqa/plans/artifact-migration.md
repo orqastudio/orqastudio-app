@@ -1,8 +1,9 @@
 ---
 title: "Artifact Migration & Backfill Plan"
-status: draft
+status: active
 created: 2026-03-07
-updated: 2026-03-07
+updated: 2026-03-08
+epic: EPIC-032
 tags: [migration, artifacts, backfill, infrastructure]
 ---
 
@@ -107,7 +108,7 @@ Every research doc gets YAML frontmatter linking it to what it informed.
 | File | Current Frontmatter | Add |
 |------|-------------------|-----|
 | `mvp/claude-integration.md` | type, status, date | `produces_decisions: [AD-007, AD-008]`, `informs_epics: []` |
-| `mvp/tauri-v2-capabilities.md` | type, status, date | `produces_decisions: [AD-009, AD-010]`, `informs_epics: []` |
+| `mvp/tauri-v2.md` | type, status, date | `produces_decisions: [AD-009, AD-010]`, `informs_epics: []` |
 | `mvp/frontend-library.md` | type, status, date | `produces_decisions: [AD-011, AD-012]`, `informs_epics: []` |
 | `mvp/persistence-design.md` | type, status, date | `produces_decisions: [AD-013]`, `informs_epics: []` |
 | `mvp/onboarding-strategy.md` | type, status, date | `produces_decisions: [AD-014]`, `informs_epics: []` |

@@ -79,6 +79,7 @@ Each level adds capability without replacing the previous one. A user who never 
 | **Plan** | (filename) | `.orqa/plans/` | Design document referenced by epics |
 | **Lesson** | `IMPL-NNN` | `.orqa/lessons/` | Learning capture from implementation |
 | **Research** | (filename) | `.orqa/research/` | Investigation artifact producing decisions |
+| **Decision** | `AD-NNN` | `.orqa/decisions/` | Architecture decision record — captures what was decided and why |
 
 Plans, Lessons, and Research already have established schemas (see their respective READMEs). This document defines the schemas for Milestones, Epics, Tasks, and Ideas, and the connections between all types.
 
@@ -95,7 +96,9 @@ Idea ──promote──> Epic (when validated)
 
 Lesson ──promote──> Rule / Skill / Coding Standard
 
-Research ──promote──> Architecture Decision
+Research ──promote──> Decision (AD-NNN)
+
+Decision ──supersedes──> Decision (when updated)
 ```
 
 ---
@@ -270,6 +273,41 @@ tags: [providers, composability]
 | `docs-produced` | No | string[] | Documentation this idea will produce when explored |
 | `tags` | No | string[] | Freeform tags |
 
+### Decision (`AD-NNN`)
+
+Decisions are architecture decision records. Each captures a significant technical or design choice that constrains future work — what was decided, why, and what the consequences are. Decisions are produced by research and supersede earlier decisions when the situation changes.
+
+```yaml
+---
+id: AD-001
+title: "Use Tauri Channel<T> for streaming IPC"
+status: accepted                  # proposed | accepted | superseded | deprecated
+created: 2026-03-07
+updated: 2026-03-07
+category: ipc                     # ipc | data | ui | security | tooling | process
+research-refs:                    # Research artifacts that produced this decision
+  - .orqa/research/mvp/streaming-ipc.md
+supersedes: null                  # AD-NNN of the decision this replaces, or null
+superseded-by: null               # AD-NNN of the decision that replaced this, or null
+tags: [streaming, ipc, tauri]
+---
+```
+
+| Field | Required | Type | Description |
+|-------|----------|------|-------------|
+| `id` | Yes | string | Auto-incrementing `AD-NNN` identifier |
+| `title` | Yes | string | Human-readable decision title |
+| `status` | Yes | enum | `proposed`, `accepted`, `superseded`, `deprecated` |
+| `created` | Yes | date | ISO date of creation |
+| `updated` | Yes | date | ISO date of last update |
+| `category` | Yes | string | Broad category: `ipc`, `data`, `ui`, `security`, `tooling`, `process` |
+| `research-refs` | No | string[] | Paths to research artifacts that informed this decision |
+| `supersedes` | No | string | `AD-NNN` of the decision this replaces, or null |
+| `superseded-by` | No | string | `AD-NNN` of the decision that replaced this, or null |
+| `tags` | No | string[] | Freeform tags |
+
+The decision body follows the standard structure: **Context** (what situation prompted this decision), **Decision** (what was chosen and why), **Consequences** (what becomes easier, harder, or constrained).
+
 ---
 
 ## Status Workflows
@@ -311,6 +349,13 @@ draft ──> approved ──> in-progress ──> complete
 
 ```
 active ──> promoted (recurrence >= threshold)
+```
+
+### Decision
+
+```
+proposed ──> accepted ──> superseded
+                      └──> deprecated
 ```
 
 ---
@@ -373,6 +418,8 @@ Priority dimensions, weights, and bands are stored in `.orqa/project.json` under
 ├── lessons/                  # Already exists
 │   ├── IMPL-001.md
 │   └── ...
+├── decisions/                # Architecture decision records
+│   └── AD-001.md
 ├── research/                 # Already exists
 │   ├── README.md
 │   └── mvp/
@@ -390,6 +437,7 @@ All artifact IDs auto-increment within their type:
 - `TASK-001`, `TASK-002`, ...
 - `IDEA-001`, `IDEA-002`, ...
 - `IMPL-001`, `IMPL-002`, ... (existing)
+- `AD-001`, `AD-002`, ...
 
 IDs are stable — never reused after deletion. The next ID is determined by scanning existing files in the directory.
 
@@ -447,7 +495,7 @@ Idea ──research-needed──→ Research ──→ (validates) ──→ pro
 
 Lesson ──promoted-to──→ Rule / Skill
 
-Research ──produces-decisions──→ Architecture Decision
+Research ──produces──→ Decision (AD-NNN) ──supersedes──→ Earlier Decision
 ```
 
 ### Documentation Traceability Chain
@@ -457,7 +505,7 @@ Every stage of work self-documents its decisions:
 ```
 Idea captured
   → Research investigates (produces .orqa/research/ artifact)
-  → Research resolves → Architecture Decision recorded (docs/architecture/decisions.md)
+  → Research resolves → Architecture Decision recorded (.orqa/decisions/AD-NNN.md, indexed in docs/architecture/decisions.md)
   → Idea promoted → Epic created (references plan, lists docs-required)
   → Plan written and approved (docs-required gate satisfied)
   → Implementation begins (produces code + docs-produced artifacts)

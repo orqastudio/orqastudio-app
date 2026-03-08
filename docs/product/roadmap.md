@@ -49,38 +49,32 @@ This framework will be built into OrqaStudio itself as an MVP feature (see Miles
 
 ## Completed Work
 
-### Phase 0: Foundation (Complete)
+### Milestone 0: Foundation & Scaffold (MS-000) — Complete
 
-All pre-build phases are complete and approved:
+All pre-build phases are complete. Each phase is tracked as a retroactive epic for full traceability.
 
-- **Phase 0a: Tech Stack Research** — Claude integration (Agent SDK sidecar), Tauri v2 capability audit, frontend library selection, persistence design, onboarding strategy. All findings documented in `.orqa/research/mvp/`.
-- **Phase 0b: Architecture Decisions** — AD-007 through AD-017 recorded in `docs/architecture/decisions.md`. Covers sidecar integration, streaming pipeline, security model, MCP host, persistence, governance format, composability principle.
-- **Phase 0c: Product Definition** — Glossary, personas, user journeys, information architecture, MVP feature specification. All in `docs/product/`.
-- **Phase 0d: UX Design** — Design system, wireframes (core layout, conversation, artifact browser, settings/onboarding, dashboard), component inventory, interaction patterns, responsive behaviour. All in `docs/ui/`.
-- **Phase 0e: Technical Design** — SQLite schema, IPC command catalogue, Rust module architecture, Svelte component tree, streaming pipeline, tool definitions, MCP host interface, error taxonomy. All in `docs/architecture/`.
-
-### Phase 1: Scaffold (Complete)
-
-Working Tauri v2 app with Claude conversations via Agent SDK sidecar:
-
-- [x] Tauri v2 + Svelte 5 project with configured plugins
-- [x] Rust backend: Agent SDK sidecar with streaming (Channel<T>)
-- [x] Rust backend: SQLite with schema + migrations
-- [x] Rust backend: Session and message CRUD
-- [x] Rust backend: 40+ IPC commands across 8 domains
-- [x] Frontend: Four-zone layout, conversation UI, streaming token display
-- [x] Frontend: Tool call rendering (collapsible cards with input/output)
-- [x] Frontend: Session dropdown with history, search, and navigation
-- [x] Frontend: Settings view (provider config, model selection)
-- [x] Semantic code search: ONNX embeddings + DuckDB vector search
-- [x] Integration: Send message → stream response → render in UI
-
-### Phase 2b: Governance Bootstrap (Complete)
-
-- [x] Governance scanner — filesystem walk to collect .claude/ and other governance files
-- [x] Governance analysis with recommendations
-- [x] Recommendation review and approval UI
-- [x] Governance coverage indicator on dashboard
+- [x] **EPIC-025: Phase 0a — Tech Stack Research** — Claude integration (Agent SDK sidecar), Tauri v2 capability audit, frontend library selection, persistence design, onboarding strategy. All findings documented in `.orqa/research/mvp/`.
+- [x] **EPIC-026: Phase 0b — Architecture Decisions** — AD-001 through AD-020 recorded. Covers thick backend architecture, IPC boundary, error propagation, Svelte 5 runes, SQLite persistence, component purity, sidecar integration, streaming pipeline, security model, MCP host, persistence, governance format, composability principle, layout decisions, and documentation browsing model. See `docs/architecture/decisions.md` for the index.
+- [x] **EPIC-027: Phase 0c — Product Definition** — Glossary, personas, user journeys, information architecture, MVP feature specification. All in `docs/product/`.
+- [x] **EPIC-028: Phase 0d — UX Design** — Design system, wireframes (core layout, conversation, artifact browser, settings/onboarding, dashboard), component inventory, interaction patterns, responsive behaviour. All in `docs/ui/`.
+- [x] **EPIC-029: Phase 0e — Technical Design** — SQLite schema, IPC command catalogue, Rust module architecture, Svelte component tree, streaming pipeline, tool definitions, MCP host interface, error taxonomy. All in `docs/architecture/`.
+- [x] **EPIC-030: Phase 1 — Scaffold** — Working Tauri v2 app with Claude conversations via Agent SDK sidecar. Includes:
+  - Tauri v2 + Svelte 5 project with configured plugins
+  - Rust backend: Agent SDK sidecar with streaming (Channel<T>)
+  - Rust backend: SQLite with schema + migrations
+  - Rust backend: Session and message CRUD
+  - Rust backend: 40+ IPC commands across 8 domains
+  - Frontend: Four-zone layout, conversation UI, streaming token display
+  - Frontend: Tool call rendering (collapsible cards with input/output)
+  - Frontend: Session dropdown with history, search, and navigation
+  - Frontend: Settings view (provider config, model selection)
+  - Semantic code search: ONNX embeddings + DuckDB vector search
+  - Integration: Send message → stream response → render in UI
+- [x] **EPIC-031: Phase 2b — Governance Bootstrap** — Governance scanner, analysis, recommendation UI, coverage indicator. Includes:
+  - Governance scanner — filesystem walk to collect .claude/ and other governance files
+  - Governance analysis with recommendations
+  - Recommendation review and approval UI
+  - Governance coverage indicator on dashboard
 
 ### Additional Completed Features (verified by audit)
 

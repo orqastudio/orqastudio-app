@@ -21,7 +21,7 @@ questions:
     title: Plugin Ecosystem
     status: resolved
     verdict: All 9 needed plugins exist and are stable
-produces_decisions: [AD-011, AD-012]
+produces_decisions: [AD-009, AD-011, AD-012]
 informs_phases: [0b, 0e, 1, 2]
 informs_features: [F-001, F-002, F-006, F-009, F-011]
 ---
