@@ -2,18 +2,6 @@
 	import * as Collapsible from "$lib/components/ui/collapsible";
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import TargetIcon from "@lucide/svelte/icons/target";
-	import LayersIcon from "@lucide/svelte/icons/layers";
-	import CheckSquareIcon from "@lucide/svelte/icons/check-square";
-	import LightbulbIcon from "@lucide/svelte/icons/lightbulb";
-	import ScrollTextIcon from "@lucide/svelte/icons/scroll-text";
-	import BookOpenIcon from "@lucide/svelte/icons/book-open";
-	import BotIcon from "@lucide/svelte/icons/bot";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import ZapIcon from "@lucide/svelte/icons/zap";
-	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
-	import FlaskConicalIcon from "@lucide/svelte/icons/flask-conical";
-	import ClipboardListIcon from "@lucide/svelte/icons/clipboard-list";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
@@ -28,8 +16,7 @@
 		type ActivityView,
 		type ActivityGroup,
 	} from "$lib/stores/navigation.svelte";
-	import type { ArtifactSummary, ArtifactType, DocNode } from "$lib/types";
-	import type { Component } from "svelte";
+	import type { DocNode } from "$lib/types/nav-tree";
 
 	const GROUP_DISPLAY_LABELS: Record<ActivityGroup, string> = {
 		documentation: "Docs",
@@ -42,162 +29,24 @@
 
 	let filterText = $state("");
 
-	interface NavConfig {
-		label: string;
-		emptyTitle: string;
-		emptyDescription: string;
-		emptyIcon: Component;
-		getNodes: () => DocNode[];
-		isLoading: () => boolean;
-		onRetry?: () => void;
-		treeError?: () => string | null;
-	}
+	/** Find the NavType for this category in the navTree. */
+	const currentNavType = $derived(() => {
+		return navigationStore.getNavType(category);
+	});
 
-	function flatToNodes(items: ArtifactSummary[]): DocNode[] {
-		return items.map((item) => ({
-			label: item.name,
-			path: item.rel_path,
-			children: null,
-			description: item.description ?? null,
-		}));
-	}
+	/** Nodes for this category — either from navTree or empty. */
+	const allNodes = $derived(currentNavType() ? currentNavType()!.nodes : []);
 
-	const categoryConfig: Record<string, NavConfig> = {
-		milestones: {
-			label: "Milestones",
-			emptyTitle: "No milestones yet",
-			emptyDescription: "Milestones define strategic goals and gate questions for the project.",
-			emptyIcon: TargetIcon,
-			getNodes: () => flatToNodes(artifactStore.milestones),
-			isLoading: () => artifactStore.milestonesLoading,
-		},
-		epics: {
-			label: "Epics",
-			emptyTitle: "No epics yet",
-			emptyDescription: "Epics are trackable work units that group related tasks together.",
-			emptyIcon: LayersIcon,
-			getNodes: () => flatToNodes(artifactStore.epics),
-			isLoading: () => artifactStore.epicsLoading,
-		},
-		tasks: {
-			label: "Tasks",
-			emptyTitle: "No tasks yet",
-			emptyDescription: "Tasks are scoped work items within an epic.",
-			emptyIcon: CheckSquareIcon,
-			getNodes: () => flatToNodes(artifactStore.tasks),
-			isLoading: () => artifactStore.tasksLoading,
-		},
-		ideas: {
-			label: "Ideas",
-			emptyTitle: "No ideas captured yet",
-			emptyDescription: "Ideas are candidate features that need research and validation before promotion.",
-			emptyIcon: LightbulbIcon,
-			getNodes: () => flatToNodes(artifactStore.ideas),
-			isLoading: () => artifactStore.ideasLoading,
-		},
-		decisions: {
-			label: "Decisions",
-			emptyTitle: "No decisions recorded yet",
-			emptyDescription: "Architecture decisions capture why key choices were made.",
-			emptyIcon: ScrollTextIcon,
-			getNodes: () => flatToNodes(artifactStore.decisions),
-			isLoading: () => artifactStore.decisionsLoading,
-		},
-		lessons: {
-			label: "Lessons",
-			emptyTitle: "No lessons captured yet",
-			emptyDescription: "Lessons record implementation discoveries and prevent recurring mistakes.",
-			emptyIcon: BookOpenIcon,
-			getNodes: () => flatToNodes(artifactStore.lessons),
-			isLoading: () => artifactStore.lessonsLoading,
-		},
-		agents: {
-			label: "Agents",
-			emptyTitle: "No agents yet",
-			emptyDescription:
-				"Agents define AI personas with specialized knowledge and behavior. Create your first agent to customize how Claude works on your project.",
-			emptyIcon: BotIcon,
-			getNodes: () => flatToNodes(artifactStore.artifactsByType("agent" as ArtifactType)),
-			isLoading: () => artifactStore.loading,
-			onRetry: () => artifactStore.loadGovernanceList("agent"),
-		},
-		rules: {
-			label: "Rules",
-			emptyTitle: "No rules yet",
-			emptyDescription:
-				"Rules enforce coding standards and project conventions. They are automatically applied based on file path globs.",
-			emptyIcon: ShieldIcon,
-			getNodes: () => flatToNodes(artifactStore.artifactsByType("rule" as ArtifactType)),
-			isLoading: () => artifactStore.loading,
-			onRetry: () => artifactStore.loadGovernanceList("rule"),
-		},
-		skills: {
-			label: "Skills",
-			emptyTitle: "No skills yet",
-			emptyDescription:
-				"Skills define reusable capabilities that agents can invoke during sessions. Create your first skill to get started.",
-			emptyIcon: ZapIcon,
-			getNodes: () => flatToNodes(artifactStore.artifactsByType("skill" as ArtifactType)),
-			isLoading: () => artifactStore.loading,
-			onRetry: () => artifactStore.loadGovernanceList("skill"),
-		},
-		hooks: {
-			label: "Hooks",
-			emptyTitle: "No hooks yet",
-			emptyDescription:
-				"Hooks include lifecycle hooks that run automated actions before or after AI operations, and hookify enforcement rules.",
-			emptyIcon: GitBranchIcon,
-			getNodes: () => flatToNodes(artifactStore.artifactsByType("hook" as ArtifactType)),
-			isLoading: () => artifactStore.loading,
-			onRetry: () => artifactStore.loadGovernanceList("hook"),
-		},
-		docs: {
-			label: "Docs",
-			emptyTitle: "No documentation found.",
-			emptyDescription: "",
-			emptyIcon: FileTextIcon,
-			getNodes: () => artifactStore.docTree,
-			isLoading: () => artifactStore.docTreeLoading,
-			treeError: () => artifactStore.docTreeError,
-			onRetry: () => artifactStore.loadDocTree(),
-		},
-		research: {
-			label: "Research",
-			emptyTitle: "No research docs found.",
-			emptyDescription: "",
-			emptyIcon: FlaskConicalIcon,
-			getNodes: () => artifactStore.researchTree,
-			isLoading: () => artifactStore.researchTreeLoading,
-			treeError: () => artifactStore.researchTreeError,
-			onRetry: () => artifactStore.loadResearchTree(),
-		},
-		plans: {
-			label: "Plans",
-			emptyTitle: "No plans found.",
-			emptyDescription: "",
-			emptyIcon: ClipboardListIcon,
-			getNodes: () => artifactStore.planTree,
-			isLoading: () => artifactStore.planTreeLoading,
-			treeError: () => artifactStore.planTreeError,
-			onRetry: () => artifactStore.loadPlanTree(),
-		},
-	};
-
-	/** Tree types use hierarchical rendering and have their own error fields. */
-	const TREE_CATEGORIES = new Set(["docs", "research", "plans"]);
-
-	const config = $derived(categoryConfig[category]);
-	const isTree = $derived(TREE_CATEGORIES.has(category));
-
-	/** All nodes from the config, with README filtered out for all categories. */
-	const rawNodes = $derived(
-		config
-			? config.getNodes().filter((n) => !isReadmePath(n.path))
-			: [],
+	/** Label for this category. */
+	const categoryLabel = $derived(
+		currentNavType()?.label ?? SUB_CATEGORY_LABELS[category] ?? category,
 	);
 
-	const loading = $derived(config ? config.isLoading() : false);
-	const treeError = $derived(config?.treeError ? config.treeError() : null);
+	/** Whether data is still loading. */
+	const loading = $derived(artifactStore.navTreeLoading);
+
+	/** Any error loading the tree. */
+	const treeError = $derived(artifactStore.navTreeError);
 
 	function isReadmePath(path: string | null): boolean {
 		if (!path) return false;
@@ -205,6 +54,11 @@
 		const name = p.split("/").pop() ?? "";
 		return name === "README" || name === "README.md";
 	}
+
+	/** All nodes from the navTree, with README filtered out. */
+	const rawNodes = $derived(
+		allNodes.filter((n) => !isReadmePath(n.path)),
+	);
 
 	// ---- Filtering ----
 
@@ -232,6 +86,9 @@
 
 	const filteredNodes = $derived(filterTree(rawNodes, filterText));
 
+	/** Whether nodes form a tree (have children) or a flat list. */
+	const isTree = $derived(rawNodes.some((n) => n.children !== null));
+
 	// ---- Breadcrumb helpers ----
 
 	function humanizeSegment(segment: string): string {
@@ -239,10 +96,6 @@
 			.split("-")
 			.map((w) => w.charAt(0).toUpperCase() + w.slice(1))
 			.join(" ");
-	}
-
-	function breadcrumbsForTreePath(path: string): string[] {
-		return path.split("/").map(humanizeSegment);
 	}
 
 	function buildBreadcrumbs(node: DocNode): string[] {
@@ -253,14 +106,12 @@
 		if (group) {
 			crumbs.push(GROUP_DISPLAY_LABELS[group]);
 			// Only add type label if the group has multiple sub-categories.
-			// When a group has exactly one sub-category, the type label IS the
-			// group label — adding both produces duplicates like "Docs > Docs".
 			const subCategories = GROUP_SUB_CATEGORIES[group];
 			if (subCategories.length > 1) {
-				crumbs.push(SUB_CATEGORY_LABELS[category]);
+				crumbs.push(categoryLabel);
 			}
 		} else {
-			crumbs.push(SUB_CATEGORY_LABELS[category]);
+			crumbs.push(categoryLabel);
 		}
 
 		// Add folder hierarchy for tree items
@@ -302,74 +153,68 @@
 	});
 </script>
 
-{#if config}
-	<div class="flex h-full flex-col">
-		<div class="border-b border-border p-2">
-			<SearchInput
-				bind:value={filterText}
-				placeholder="Filter {config.label.toLowerCase()}..."
-				size="xs"
-			/>
-		</div>
-
-		<ScrollArea.Root class="min-h-0 flex-1">
-			<div class="p-1">
-				{#if loading}
-					<div class="flex items-center justify-center py-8">
-						<LoadingSpinner />
-					</div>
-				{:else if treeError}
-					<div class="px-2 py-4">
-						<ErrorDisplay message={treeError} onRetry={config.onRetry} />
-					</div>
-				{:else if artifactStore.error && !isTree}
-					<div class="px-2 py-4">
-						<ErrorDisplay message={artifactStore.error} onRetry={config.onRetry} />
-					</div>
-				{:else if rawNodes.length === 0}
-					<div class="px-2 py-8">
-						<EmptyState
-							icon={config.emptyIcon}
-							title={config.emptyTitle}
-							description={config.emptyDescription}
-						/>
-					</div>
-				{:else if filteredNodes.length === 0}
-					<div class="px-2 py-4 text-center text-xs text-muted-foreground">
-						No matching items.
-					</div>
-				{:else if isTree}
-					<div class="space-y-0.5 p-1">
-						{#each filteredNodes as node (node.path ?? node.label)}
-							{@render treeSection(node, 0)}
-						{/each}
-					</div>
-				{:else}
-					{#each filteredNodes as node (node.path)}
-						<button
-							class="flex w-full flex-col gap-0.5 rounded px-2 py-1.5 text-left hover:bg-accent/50"
-							class:bg-accent={navigationStore.selectedArtifactPath === node.path}
-							onclick={() => handleLeafClick(node)}
-						>
-							<span class="flex items-center gap-1.5 truncate text-sm font-medium">
-								{node.label}
-								{#if category === "rules" && rulesWithViolations.has(node.label)}
-									<span
-										class="inline-block h-2 w-2 shrink-0 rounded-full bg-destructive"
-										title="Has violations"
-									></span>
-								{/if}
-							</span>
-							{#if node.description}
-								<p class="line-clamp-2 text-xs text-muted-foreground">{node.description}</p>
-							{/if}
-						</button>
-					{/each}
-				{/if}
-			</div>
-		</ScrollArea.Root>
+<div class="flex h-full flex-col">
+	<div class="border-b border-border p-2">
+		<SearchInput
+			bind:value={filterText}
+			placeholder="Filter {categoryLabel.toLowerCase()}..."
+			size="xs"
+		/>
 	</div>
-{/if}
+
+	<ScrollArea.Root class="min-h-0 flex-1">
+		<div class="p-1">
+			{#if loading}
+				<div class="flex items-center justify-center py-8">
+					<LoadingSpinner />
+				</div>
+			{:else if treeError}
+				<div class="px-2 py-4">
+					<ErrorDisplay message={treeError} onRetry={() => artifactStore.loadNavTree()} />
+				</div>
+			{:else if rawNodes.length === 0}
+				<div class="px-2 py-8">
+					<EmptyState
+						icon={FileTextIcon}
+						title="No {categoryLabel.toLowerCase()} yet"
+						description="No {categoryLabel.toLowerCase()} files found in this project."
+					/>
+				</div>
+			{:else if filteredNodes.length === 0}
+				<div class="px-2 py-4 text-center text-xs text-muted-foreground">
+					No matching items.
+				</div>
+			{:else if isTree}
+				<div class="space-y-0.5 p-1">
+					{#each filteredNodes as node (node.path ?? node.label)}
+						{@render treeSection(node, 0)}
+					{/each}
+				</div>
+			{:else}
+				{#each filteredNodes as node (node.path)}
+					<button
+						class="flex w-full flex-col gap-0.5 rounded px-2 py-1.5 text-left hover:bg-accent/50"
+						class:bg-accent={navigationStore.selectedArtifactPath === node.path}
+						onclick={() => handleLeafClick(node)}
+					>
+						<span class="flex items-center gap-1.5 truncate text-sm font-medium">
+							{node.label}
+							{#if category === "rules" && rulesWithViolations.has(node.label)}
+								<span
+									class="inline-block h-2 w-2 shrink-0 rounded-full bg-destructive"
+									title="Has violations"
+								></span>
+							{/if}
+						</span>
+						{#if node.description}
+							<p class="line-clamp-2 text-xs text-muted-foreground">{node.description}</p>
+						{/if}
+					</button>
+				{/each}
+			{/if}
+		</div>
+	</ScrollArea.Root>
+</div>
 
 {#snippet treeSection(node: DocNode, depth: number)}
 	{#if node.children}

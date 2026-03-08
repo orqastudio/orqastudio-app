@@ -21,23 +21,23 @@ pub fn derive_rel_path(artifact_type: &ArtifactType, name: &str) -> String {
     let sanitized = name.replace(' ', "-").to_lowercase();
 
     match artifact_type {
-        ArtifactType::Agent => format!(".orqa/agents/{sanitized}.md"),
-        ArtifactType::Rule => format!(".orqa/rules/{sanitized}.md"),
-        ArtifactType::Skill => format!(".orqa/skills/{sanitized}/SKILL.md"),
-        ArtifactType::Hook => format!(".orqa/hooks/{sanitized}.sh"),
+        ArtifactType::Agent => format!(".orqa/team/agents/{sanitized}.md"),
+        ArtifactType::Rule => format!(".orqa/governance/rules/{sanitized}.md"),
+        ArtifactType::Skill => format!(".orqa/team/skills/{sanitized}/SKILL.md"),
+        ArtifactType::Hook => format!(".orqa/governance/hooks/{sanitized}.sh"),
         ArtifactType::Doc => format!("docs/{sanitized}.md"),
     }
 }
 
 /// Infer an `ArtifactType` from a `.orqa/` relative path prefix.
 pub fn infer_artifact_type_from_path(rel_path: &str) -> ArtifactType {
-    if rel_path.starts_with(".orqa/agents") {
+    if rel_path.starts_with(".orqa/team/agents") {
         ArtifactType::Agent
-    } else if rel_path.starts_with(".orqa/rules") {
+    } else if rel_path.starts_with(".orqa/governance/rules") {
         ArtifactType::Rule
-    } else if rel_path.starts_with(".orqa/skills") {
+    } else if rel_path.starts_with(".orqa/team/skills") {
         ArtifactType::Skill
-    } else if rel_path.starts_with(".orqa/hooks") {
+    } else if rel_path.starts_with(".orqa/governance/hooks") {
         ArtifactType::Hook
     } else {
         ArtifactType::Doc
@@ -157,6 +157,76 @@ pub struct DocNode {
     /// first paragraph of the body. `None` for directories.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
+}
+
+/// README frontmatter for navigation discovery.
+///
+/// Each group and type folder in `.orqa/` has a `README.md` with this frontmatter.
+/// The `role` field distinguishes group folders ("group") from artifact-list folders ("artifacts").
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct NavReadme {
+    /// "group" or "artifacts"
+    pub role: Option<String>,
+    /// Human-readable display label (e.g. "Planning", "Milestones")
+    pub label: Option<String>,
+    /// Short description of the folder's contents
+    pub description: Option<String>,
+    /// Lucide icon name (e.g. "clipboard-list", "target")
+    pub icon: Option<String>,
+    /// Numeric sort order within the parent
+    pub sort: Option<i64>,
+}
+
+/// A group folder in the navigation tree (e.g. Planning, Governance).
+///
+/// Groups contain one or more `NavType` folders.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NavGroup {
+    /// Human-readable display label.
+    pub label: String,
+    /// Short description of the group's purpose.
+    pub description: String,
+    /// Lucide icon name.
+    pub icon: String,
+    /// Numeric sort order (lower = first).
+    pub sort: i64,
+    /// Relative path to the group folder (e.g. ".orqa/planning").
+    pub path: String,
+    /// Raw content of the group's README.md.
+    pub readme_content: String,
+    /// Artifact type folders nested within this group.
+    pub types: Vec<NavType>,
+}
+
+/// An artifact type folder within a group (e.g. Milestones, Rules).
+///
+/// Types contain a flat list of `DocNode` artifacts.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NavType {
+    /// Human-readable display label.
+    pub label: String,
+    /// Short description of the type's purpose.
+    pub description: String,
+    /// Lucide icon name.
+    pub icon: String,
+    /// Numeric sort order (lower = first).
+    pub sort: i64,
+    /// Relative path to the type folder (e.g. ".orqa/planning/milestones").
+    pub path: String,
+    /// Raw content of the type's README.md.
+    pub readme_content: String,
+    /// Artifact nodes within this type folder.
+    pub nodes: Vec<DocNode>,
+}
+
+/// The full navigation tree returned by `artifact_scan_tree`.
+///
+/// Groups are sorted by their `sort` field. Within each group, types are sorted
+/// by their `sort` field. Within each type, nodes are sorted alphabetically by label.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct NavTree {
+    /// All top-level groups discovered from `.orqa/` and `docs/`.
+    pub groups: Vec<NavGroup>,
 }
 
 /// Extract the YAML text between `---` delimiters from a markdown file.
@@ -410,7 +480,7 @@ mod tests {
     fn derive_rel_path_agent() {
         assert_eq!(
             derive_rel_path(&ArtifactType::Agent, "backend-engineer"),
-            ".orqa/agents/backend-engineer.md"
+            ".orqa/team/agents/backend-engineer.md"
         );
     }
 
@@ -418,7 +488,7 @@ mod tests {
     fn derive_rel_path_skill() {
         assert_eq!(
             derive_rel_path(&ArtifactType::Skill, "chunkhound"),
-            ".orqa/skills/chunkhound/SKILL.md"
+            ".orqa/team/skills/chunkhound/SKILL.md"
         );
     }
 
@@ -426,14 +496,14 @@ mod tests {
     fn derive_rel_path_sanitizes_spaces() {
         assert_eq!(
             derive_rel_path(&ArtifactType::Rule, "No Stubs Rule"),
-            ".orqa/rules/no-stubs-rule.md"
+            ".orqa/governance/rules/no-stubs-rule.md"
         );
     }
 
     #[test]
     fn infer_artifact_type_agents() {
         assert_eq!(
-            infer_artifact_type_from_path(".orqa/agents/foo.md"),
+            infer_artifact_type_from_path(".orqa/team/agents/foo.md"),
             ArtifactType::Agent
         );
     }
@@ -512,13 +582,13 @@ mod tests {
     fn artifact_relationship_uses_type_field() {
         let rel = ArtifactRelationship {
             relationship_type: "references".to_string(),
-            target: ".orqa/rules/coding-standards.md".to_string(),
+            target: ".orqa/governance/rules/coding-standards.md".to_string(),
         };
 
         let json = serde_json::to_value(&rel).expect("serialization should succeed");
         // Serde renames relationship_type -> "type" in JSON
         assert_eq!(json["type"], "references");
-        assert_eq!(json["target"], ".orqa/rules/coding-standards.md");
+        assert_eq!(json["target"], ".orqa/governance/rules/coding-standards.md");
     }
 
     #[test]
@@ -527,7 +597,7 @@ mod tests {
             id: 1,
             project_id: 1,
             artifact_type: ArtifactType::Rule,
-            rel_path: ".orqa/rules/no-stubs.md".to_string(),
+            rel_path: ".orqa/governance/rules/no-stubs.md".to_string(),
             name: "no-stubs".to_string(),
             description: Some("No stubs or placeholders".to_string()),
             content: "# No Stubs\n\nContent here.".to_string(),
@@ -537,7 +607,7 @@ mod tests {
             compliance_status: ComplianceStatus::Compliant,
             relationships: Some(vec![ArtifactRelationship {
                 relationship_type: "references".to_string(),
-                target: ".orqa/rules/error-ownership.md".to_string(),
+                target: ".orqa/governance/rules/error-ownership.md".to_string(),
             }]),
             metadata: Some(serde_json::json!({"priority": "high"})),
             created_at: "2026-03-03T00:00:00Z".to_string(),
@@ -567,7 +637,7 @@ mod tests {
         let summary = ArtifactSummary {
             id: 1,
             artifact_type: ArtifactType::Agent,
-            rel_path: ".orqa/agents/backend-engineer.md".to_string(),
+            rel_path: ".orqa/team/agents/backend-engineer.md".to_string(),
             name: "backend-engineer".to_string(),
             description: Some("Rust backend agent".to_string()),
             compliance_status: ComplianceStatus::Unknown,

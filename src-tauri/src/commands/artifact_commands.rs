@@ -4,7 +4,7 @@ use tauri::State;
 
 use crate::domain::artifact::{
     derive_rel_path, infer_artifact_type_from_path, parse_artifact_type, Artifact, ArtifactSummary,
-    ArtifactType, DocNode,
+    ArtifactType, DocNode, NavTree,
 };
 use crate::domain::artifact_fs::{
     artifact_from_file, list_governance_files, now_iso, scan_directory, write_artifact_file,
@@ -434,6 +434,18 @@ pub fn lesson_read(rel_path: String, state: State<'_, AppState>) -> Result<Artif
     crate::domain::artifact_reader::read_lesson_file(Path::new(&project_path), &rel_path)
 }
 
+/// Scan the active project and return a unified navigation tree.
+///
+/// Discovers `.orqa/` group and type folders by reading their `README.md` frontmatter,
+/// then scans each artifact type folder for browsable documents. Also includes
+/// the `docs/` directory as a top-level group. Returns an empty tree when no
+/// active project is set.
+#[tauri::command]
+pub fn artifact_scan_tree(state: State<'_, AppState>) -> Result<NavTree, OrqaError> {
+    let project_path = active_project_path(&state)?;
+    crate::domain::artifact_reader::artifact_scan_tree(Path::new(&project_path))
+}
+
 /// Look up the active project's filesystem path from the database.
 fn active_project_path(state: &State<'_, AppState>) -> Result<String, OrqaError> {
     let conn = state
@@ -539,7 +551,7 @@ mod tests {
             &conn,
             1,
             &ArtifactType::Agent,
-            ".orqa/agents/test.md",
+            ".orqa/team/agents/test.md",
             "test-agent",
             "# Agent",
             None,
@@ -547,7 +559,7 @@ mod tests {
         .expect("create");
 
         let fetched =
-            artifact_repo::get_by_path(&conn, 1, ".orqa/agents/test.md").expect("get_by_path");
+            artifact_repo::get_by_path(&conn, 1, ".orqa/team/agents/test.md").expect("get_by_path");
         assert_eq!(fetched.name, "test-agent");
     }
 

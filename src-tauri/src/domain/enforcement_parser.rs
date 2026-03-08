@@ -244,13 +244,13 @@ mod tests {
                 pattern: r"unwrap\(\)".to_string(),
             }],
             pattern: None,
-            scope: Some(".orqa/agents/*.md".to_string()),
+            scope: Some(".orqa/team/agents/*.md".to_string()),
         };
         let entry = parse_entry(raw).expect("should parse");
         assert_eq!(entry.event, EventType::Scan);
         assert_eq!(entry.action, RuleAction::Warn);
         assert_eq!(entry.conditions.len(), 1);
-        assert_eq!(entry.scope.as_deref(), Some(".orqa/agents/*.md"));
+        assert_eq!(entry.scope.as_deref(), Some(".orqa/team/agents/*.md"));
         assert!(entry.pattern.is_none());
     }
 

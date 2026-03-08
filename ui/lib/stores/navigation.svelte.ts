@@ -1,3 +1,5 @@
+import { artifactStore } from "$lib/stores/artifact.svelte";
+
 export type ActivityView =
 	| "chat"
 	| "project"
@@ -26,20 +28,27 @@ export type ExplorerView =
 	| "project-dashboard"
 	| "settings";
 
-/** Sub-categories within each group */
-export const GROUP_SUB_CATEGORIES: Record<ActivityGroup, ActivityView[]> = {
-	documentation: ["docs"],
-	planning: ["ideas", "research", "plans", "milestones", "epics", "tasks"],
-	team: ["orchestrator", "agents", "skills"],
-	governance: ["lessons", "decisions", "rules", "hooks"],
-};
-
 /** Sub-category display config */
 export interface SubCategoryConfig {
 	key: ActivityView;
 	label: string;
 }
 
+/**
+ * Static fallback sub-categories — used when the navTree has not loaded yet.
+ * Once the navTree loads, the store's `groupSubCategories` getter replaces these.
+ */
+const STATIC_GROUP_SUB_CATEGORIES: Record<ActivityGroup, ActivityView[]> = {
+	documentation: ["docs"],
+	planning: ["ideas", "research", "plans", "milestones", "epics", "tasks"],
+	team: ["orchestrator", "agents", "skills"],
+	governance: ["lessons", "decisions", "rules", "hooks"],
+};
+
+/** Export the static version so existing imports of GROUP_SUB_CATEGORIES keep working. */
+export const GROUP_SUB_CATEGORIES = STATIC_GROUP_SUB_CATEGORIES;
+
+/** Sub-category display labels */
 export const SUB_CATEGORY_LABELS: Record<ActivityView, string> = {
 	chat: "Chat",
 	project: "Project",
@@ -120,9 +129,52 @@ class NavigationStore {
 		return ARTIFACT_ACTIVITIES.includes(this.activeActivity);
 	}
 
+	/**
+	 * Sub-categories for each group, derived from the navTree when available,
+	 * falling back to the static mapping.
+	 */
+	get groupSubCategories(): Record<ActivityGroup, ActivityView[]> {
+		const tree = artifactStore.navTree;
+		if (!tree) return STATIC_GROUP_SUB_CATEGORIES;
+
+		const result: Partial<Record<ActivityGroup, ActivityView[]>> = {};
+		for (const group of tree.groups) {
+			const groupKey = group.path.split("/").pop() as ActivityGroup | undefined;
+			if (!groupKey || !(groupKey in STATIC_GROUP_SUB_CATEGORIES)) continue;
+			result[groupKey] = group.types
+				.map((t) => t.path.split("/").pop() as ActivityView | undefined)
+				.filter((v): v is ActivityView => v !== undefined && v in SUB_CATEGORY_LABELS);
+		}
+
+		// Fill in any missing groups from the static fallback
+		for (const key of Object.keys(STATIC_GROUP_SUB_CATEGORIES) as ActivityGroup[]) {
+			if (!result[key]) {
+				result[key] = STATIC_GROUP_SUB_CATEGORIES[key];
+			}
+		}
+
+		return result as Record<ActivityGroup, ActivityView[]>;
+	}
+
+	/**
+	 * Find the NavType for the given ActivityView string, if the navTree has loaded.
+	 * Returns null if the navTree is not yet available or the type is not found.
+	 */
+	getNavType(view: ActivityView) {
+		const tree = artifactStore.navTree;
+		if (!tree) return null;
+		for (const group of tree.groups) {
+			for (const type of group.types) {
+				const typeKey = type.path.split("/").pop();
+				if (typeKey === view) return type;
+			}
+		}
+		return null;
+	}
+
 	setGroup(group: ActivityGroup) {
 		this.activeGroup = group;
-		const subCategories = GROUP_SUB_CATEGORIES[group];
+		const subCategories = this.groupSubCategories[group];
 		const firstSub = subCategories[0];
 		this.setSubCategory(firstSub);
 	}

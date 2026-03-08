@@ -200,6 +200,7 @@ pub fn run() {
             commands::artifact_commands::decision_read,
             commands::artifact_commands::lesson_list,
             commands::artifact_commands::lesson_read,
+            commands::artifact_commands::artifact_scan_tree,
             // Project settings commands (file-based)
             commands::project_settings_commands::project_settings_read,
             commands::project_settings_commands::project_settings_write,

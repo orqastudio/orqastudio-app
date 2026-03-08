@@ -25,7 +25,7 @@ pub struct Lesson {
     pub updated: String,
     /// Full markdown body (everything after the YAML frontmatter).
     pub body: String,
-    /// Relative file path within the project, e.g. ".orqa/lessons/IMPL-001.md".
+    /// Relative file path within the project, e.g. ".orqa/governance/lessons/IMPL-001.md".
     pub file_path: String,
 }
 
@@ -172,7 +172,7 @@ Test body.
 
     #[test]
     fn parse_valid_lesson() {
-        let lesson = parse_lesson(SAMPLE, ".orqa/lessons/IMPL-001.md").expect("should parse");
+        let lesson = parse_lesson(SAMPLE, ".orqa/governance/lessons/IMPL-001.md").expect("should parse");
         assert_eq!(lesson.id, "IMPL-001");
         assert_eq!(lesson.title, "Agent forgot to load skills");
         assert_eq!(lesson.category, "process");
@@ -182,41 +182,41 @@ Test body.
         assert_eq!(lesson.created, "2026-03-05");
         assert_eq!(lesson.updated, "2026-03-05");
         assert!(lesson.body.contains("## Description"));
-        assert_eq!(lesson.file_path, ".orqa/lessons/IMPL-001.md");
+        assert_eq!(lesson.file_path, ".orqa/governance/lessons/IMPL-001.md");
     }
 
     #[test]
     fn parse_missing_frontmatter_returns_error() {
-        let result = parse_lesson("no frontmatter here", ".orqa/lessons/x.md");
+        let result = parse_lesson("no frontmatter here", ".orqa/governance/lessons/x.md");
         assert!(result.is_err());
     }
 
     #[test]
     fn parse_unclosed_frontmatter_returns_error() {
-        let result = parse_lesson("---\nid: IMPL-001\n", ".orqa/lessons/x.md");
+        let result = parse_lesson("---\nid: IMPL-001\n", ".orqa/governance/lessons/x.md");
         assert!(result.is_err());
     }
 
     #[test]
     fn parse_missing_required_field_returns_error() {
         let bad = "---\nid: IMPL-001\n---\nbody\n";
-        let result = parse_lesson(bad, ".orqa/lessons/x.md");
+        let result = parse_lesson(bad, ".orqa/governance/lessons/x.md");
         assert!(result.is_err());
     }
 
     #[test]
     fn parse_promoted_to_value() {
-        let content = "---\nid: IMPL-002\ntitle: \"Test\"\ncategory: coding\nrecurrence: 3\nstatus: promoted\npromoted_to: \".orqa/rules/foo.md\"\ncreated: 2026-01-01\nupdated: 2026-01-02\n---\nbody\n";
-        let lesson = parse_lesson(content, ".orqa/lessons/IMPL-002.md").expect("should parse");
-        assert_eq!(lesson.promoted_to, Some(".orqa/rules/foo.md".to_string()));
+        let content = "---\nid: IMPL-002\ntitle: \"Test\"\ncategory: coding\nrecurrence: 3\nstatus: promoted\npromoted_to: \".orqa/governance/rules/foo.md\"\ncreated: 2026-01-01\nupdated: 2026-01-02\n---\nbody\n";
+        let lesson = parse_lesson(content, ".orqa/governance/lessons/IMPL-002.md").expect("should parse");
+        assert_eq!(lesson.promoted_to, Some(".orqa/governance/rules/foo.md".to_string()));
     }
 
     #[test]
     fn render_round_trip() {
-        let lesson = parse_lesson(SAMPLE, ".orqa/lessons/IMPL-001.md").expect("should parse");
+        let lesson = parse_lesson(SAMPLE, ".orqa/governance/lessons/IMPL-001.md").expect("should parse");
         let rendered = render_lesson(&lesson);
         let reparsed =
-            parse_lesson(&rendered, ".orqa/lessons/IMPL-001.md").expect("should re-parse");
+            parse_lesson(&rendered, ".orqa/governance/lessons/IMPL-001.md").expect("should re-parse");
         assert_eq!(reparsed.id, lesson.id);
         assert_eq!(reparsed.title, lesson.title);
         assert_eq!(reparsed.recurrence, lesson.recurrence);

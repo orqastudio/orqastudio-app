@@ -17,7 +17,7 @@
 	import ArtifactMasterDetail from "$lib/components/artifact/ArtifactMasterDetail.svelte";
 	import * as Resizable from "$lib/components/ui/resizable";
 	import setupBackground from "$lib/assets/setup-background.png";
-	import { navigationStore, GROUP_SUB_CATEGORIES } from "$lib/stores/navigation.svelte";
+	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
@@ -28,7 +28,7 @@
 	const hasProject = $derived(projectStore.hasProject);
 	const groupHasMultipleSubCategories = $derived(
 		navigationStore.activeGroup !== null &&
-		GROUP_SUB_CATEGORIES[navigationStore.activeGroup].length > 1,
+		navigationStore.groupSubCategories[navigationStore.activeGroup].length > 1,
 	);
 	const needsSetup = $derived(projectStore.settingsLoaded && !projectStore.hasSettings);
 	const hideChatPanel = $derived(
@@ -56,39 +56,18 @@
 	});
 
 
-	// Load doc tree when switching to docs activity (and project is loaded)
+	// Load the unified navigation tree once the project is ready
 	$effect(() => {
-		if (
-			hasProject &&
-			!needsSetup &&
-			navigationStore.activeActivity === "docs" &&
-			artifactStore.docTree.length === 0
-		) {
-			artifactStore.loadDocTree();
+		if (hasProject && !needsSetup && artifactStore.navTree === null) {
+			artifactStore.loadNavTree();
 		}
 	});
 
-	// Load research tree when switching to research activity
+	// Load enforcement rules when the rules activity is active
 	$effect(() => {
-		if (
-			hasProject &&
-			!needsSetup &&
-			navigationStore.activeActivity === "research" &&
-			artifactStore.researchTree.length === 0
-		) {
-			artifactStore.loadResearchTree();
-		}
-	});
-
-	// Load plan tree when switching to plans activity
-	$effect(() => {
-		if (
-			hasProject &&
-			!needsSetup &&
-			navigationStore.activeActivity === "plans" &&
-			artifactStore.planTree.length === 0
-		) {
-			artifactStore.loadPlanTree();
+		const activity = navigationStore.activeActivity;
+		if (hasProject && !needsSetup && activity === "rules") {
+			enforcementStore.loadRules();
 		}
 	});
 
@@ -110,76 +89,11 @@
 		})();
 	});
 
-	// Activity-to-artifact-type mapping
-	const activityToArtifactType: Record<string, string> = {
-		agents: "agent",
-		rules: "rule",
-		skills: "skill",
-		hooks: "hook",
-	};
-
-	// Load governance artifacts when switching to agents/rules/skills/hooks activity
-	$effect(() => {
-		const activity = navigationStore.activeActivity;
-		const artifactType = activityToArtifactType[activity];
-		if (hasProject && !needsSetup && artifactType) {
-			artifactStore.loadGovernanceList(artifactType);
-			if (activity === "rules") {
-				enforcementStore.loadRules();
-			}
-		}
-	});
-
-	// Load orqa artifact lists when switching to their sub-categories
-	$effect(() => {
-		const activity = navigationStore.activeActivity;
-		if (!hasProject || needsSetup) return;
-		// Clear any stale error from a previously visited artifact type so it
-		// does not bleed into the newly selected view (Bug 2 fix).
-		artifactStore.error = null;
-		if (activity === "milestones" && artifactStore.milestones.length === 0) {
-			artifactStore.loadMilestones();
-		} else if (activity === "epics" && artifactStore.epics.length === 0) {
-			artifactStore.loadEpics();
-		} else if (activity === "tasks" && artifactStore.tasks.length === 0) {
-			artifactStore.loadTasks();
-		} else if (activity === "ideas" && artifactStore.ideas.length === 0) {
-			artifactStore.loadIdeas();
-		} else if (activity === "decisions" && artifactStore.decisions.length === 0) {
-			artifactStore.loadDecisions();
-		} else if (activity === "lessons" && artifactStore.lessons.length === 0) {
-			artifactStore.loadLessons();
-		}
-	});
-
 	// Auto-load artifact content when the selected artifact path changes
 	$effect(() => {
 		const path = navigationStore.selectedArtifactPath;
-		const activity = navigationStore.activeActivity;
-		if (!path) return;
-
-		if (activity === "docs") {
-			artifactStore.loadDoc(path);
-		} else if (activity === "research") {
-			artifactStore.loadResearch(path);
-		} else if (activity === "plans") {
-			artifactStore.loadPlan(path);
-		} else if (activity === "orchestrator") {
-			artifactStore.loadGovernanceArtifact(".orqa/agents/orchestrator.md");
-		} else if (activityToArtifactType[activity]) {
-			artifactStore.loadGovernanceArtifact(path);
-		} else if (
-			activity === "milestones" ||
-			activity === "epics" ||
-			activity === "tasks" ||
-			activity === "ideas" ||
-			activity === "decisions" ||
-			activity === "lessons"
-		) {
-			// Strip plural 's' to get the command prefix (milestones → milestone, etc.)
-			const commandType = activity.replace(/s$/, "");
-			artifactStore.loadArtifactByType(commandType, path);
-		}
+		if (!path || !hasProject || needsSetup) return;
+		artifactStore.loadContent(path);
 	});
 </script>
 
