@@ -149,7 +149,7 @@ pub fn build_analysis_prompt(scan: &GovernanceScanResult) -> String {
                \"title\": \"<short title>\",\n\
                \"description\": \"<what this does and why>\",\n\
                \"artifact_type\": \"markdown|shell|json\",\n\
-               \"target_path\": \"<relative path e.g. .claude/rules/error-handling.md>\",\n\
+               \"target_path\": \"<relative path e.g. .orqa/rules/error-handling.md>\",\n\
                \"content\": \"<full file content to write>\",\n\
                \"rationale\": \"<why Claude recommends this>\"\n\
              }}\n\
@@ -421,7 +421,7 @@ mod tests {
 
     #[test]
     fn resolve_target_path_relative_within_root() {
-        let result = resolve_target_path(".claude/rules/test.md", "/project");
+        let result = resolve_target_path(".orqa/rules/test.md", "/project");
         assert!(result.is_ok());
         let path = result.expect("ok");
         assert!(path.starts_with("/project"));
@@ -469,7 +469,7 @@ mod tests {
                 title: "Error handling".to_string(),
                 description: "desc".to_string(),
                 artifact_type: "markdown".to_string(),
-                target_path: ".claude/rules/error.md".to_string(),
+                target_path: ".orqa/rules/error.md".to_string(),
                 content: "# Error".to_string(),
                 rationale: "missing".to_string(),
             }],
@@ -493,7 +493,7 @@ mod tests {
                 title: "t".to_string(),
                 description: "d".to_string(),
                 artifact_type: "markdown".to_string(),
-                target_path: ".claude/rules/t.md".to_string(),
+                target_path: ".orqa/rules/t.md".to_string(),
                 content: "c".to_string(),
                 rationale: "r".to_string(),
             }],

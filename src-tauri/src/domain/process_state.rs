@@ -26,7 +26,7 @@ pub struct ProcessViolation {
 pub struct SessionProcessState {
     /// The session this state belongs to. `None` before any message is sent.
     pub session_id: Option<i64>,
-    /// Set when any `read_file` call targets a path inside `docs/` or `.claude/rules/`.
+    /// Set when any `read_file` call targets a path inside `docs/` or `.orqa/rules/`.
     pub docs_read: bool,
     /// Set when any `load_skill` tool call is made.
     pub skills_loaded: bool,
@@ -51,7 +51,7 @@ impl SessionProcessState {
         match tool_name {
             "read_file" => {
                 if let Some(path) = input["path"].as_str() {
-                    if path.contains("docs/") || path.contains(".claude/rules/") {
+                    if path.contains("docs/") || path.contains(".orqa/rules/") {
                         self.docs_read = true;
                     }
                 }
@@ -79,7 +79,7 @@ impl SessionProcessState {
             violations.push(ProcessViolation {
                 check: "docs_before_code".to_string(),
                 message: "Code was written before reading documentation. \
-                    Read docs/ or .claude/rules/ before making code changes."
+                    Read docs/ or .orqa/rules/ before making code changes."
                     .to_string(),
                 severity: "warn".to_string(),
             });
@@ -120,11 +120,11 @@ mod tests {
     }
 
     #[test]
-    fn track_read_file_claude_rules_sets_docs_read() {
+    fn track_read_file_orqa_rules_sets_docs_read() {
         let mut ps = SessionProcessState::default();
         ps.track_tool_call(
             "read_file",
-            &make_path_input(".claude/rules/coding-standards.md"),
+            &make_path_input(".orqa/rules/coding-standards.md"),
         );
         assert!(ps.docs_read);
     }

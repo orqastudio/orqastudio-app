@@ -437,7 +437,7 @@ mod tests {
             &conn,
             1,
             &ArtifactType::Agent,
-            ".claude/agents/test.md",
+            ".orqa/agents/test.md",
             "test-agent",
             "# Agent",
             None,
@@ -445,7 +445,7 @@ mod tests {
         .expect("create");
 
         let fetched =
-            artifact_repo::get_by_path(&conn, 1, ".claude/agents/test.md").expect("get_by_path");
+            artifact_repo::get_by_path(&conn, 1, ".orqa/agents/test.md").expect("get_by_path");
         assert_eq!(fetched.name, "test-agent");
     }
 

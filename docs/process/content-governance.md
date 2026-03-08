@@ -19,10 +19,10 @@ OrqaStudio™ uses six distinct layers for governance knowledge: documentation, 
 | Layer | Owns | Examples | Source of Truth For |
 |-------|------|----------|---------------------|
 | **Documentation (`docs/`)** | Functional and product knowledge: architecture decisions, coding standards, IPC contracts, UI specs | Architecture decisions, function size limits, IPC response format, component state tables | Yes -- code that doesn't match docs is wrong |
-| **Agent Instructions (`.claude/agents/`)** | Process: how the agent works, which tools it uses, which docs to read first, when to delegate, verification steps | "Run clippy before committing", "Read docs/architecture/decisions.md first", "Delegate to test-engineer after implementation" | Process only -- agents reference docs, not restate them |
-| **Skills (`.claude/skills/`)** | Domain knowledge: how a technology works, general patterns, reusable techniques not specific to OrqaStudio | How Svelte 5 runes work, how to structure a Rust module, how to write a cargo test | Technology patterns only -- skills must not contain OrqaStudio-specific architectural rules |
-| **Rules (`.claude/rules/`)** | Enforcement: automated checks and behavioral constraints that apply across all agents | "No stubs", "Error ownership", "End-to-end completeness" | Behavioral constraints -- rules reference docs for the standards they enforce |
-| **Hooks (`.claude/hooks/`)** | Automated rule implementation: shell scripts triggered by lifecycle events that enforce rules programmatically | Session-start checklist, skill loading protocol, pre-commit verification | Executable enforcement -- hooks are the mechanism through which rules are actively enforced at key lifecycle points |
+| **Agent Instructions (`.orqa/agents/`)** | Process: how the agent works, which tools it uses, which docs to read first, when to delegate, verification steps | "Run clippy before committing", "Read docs/architecture/decisions.md first", "Delegate to test-engineer after implementation" | Process only -- agents reference docs, not restate them |
+| **Skills (`.orqa/skills/`)** | Domain knowledge: how a technology works, general patterns, reusable techniques not specific to OrqaStudio | How Svelte 5 runes work, how to structure a Rust module, how to write a cargo test | Technology patterns only -- skills must not contain OrqaStudio-specific architectural rules |
+| **Rules (`.orqa/rules/`)** | Enforcement: automated checks and behavioral constraints that apply across all agents | "No stubs", "Error ownership", "End-to-end completeness" | Behavioral constraints -- rules reference docs for the standards they enforce |
+| **Hooks (`.orqa/hooks/`)** | Automated rule implementation: shell scripts triggered by lifecycle events that enforce rules programmatically | Session-start checklist, skill loading protocol, pre-commit verification | Executable enforcement -- hooks are the mechanism through which rules are actively enforced at key lifecycle points |
 | **Hookify (`.claude/hookify.*.local.md`)** | Real-time enforcement: pattern-based blocks and warnings triggered by file edits and bash commands | Block `any` type in TypeScript, block `todo!()` in Rust, warn on destructive git commands, block `--no-verify` | Action-level constraints -- hookify files are the active enforcement mechanism that catches violations at the moment they happen, not at lifecycle boundaries |
 
 ---
@@ -37,7 +37,7 @@ Documentation is the source of truth for **what** the system does and **how** it
 - Never copy a rule from `docs/` into an agent file or skill -- reference the doc instead.
 - Every architecture decision lives in `docs/architecture/decisions.md`. Agent files do not define decisions; they cite them.
 
-### Agent Instructions (`.claude/agents/`)
+### Agent Instructions (`.orqa/agents/`)
 
 Agent files define **process** -- the workflow an agent follows to do its job. They do not define the standards themselves.
 
@@ -57,7 +57,7 @@ No backwards compatibility shims.      <- Belongs in docs/development/coding-sta
 IPC boundary: only invoke()...         <- Belongs in docs/architecture/decisions.md
 ```
 
-### Skills (`.claude/skills/`)
+### Skills (`.orqa/skills/`)
 
 Skills teach **how a technology works** -- patterns, idioms, and examples from the technology's own documentation and best practices. They are intentionally portable: a Svelte skill should be useful on any Svelte project, not just OrqaStudio.
 
@@ -77,7 +77,7 @@ EmptyState component from $lib/components/    <- OrqaStudio-specific, not portab
 All Rust functions must return Result.        <- Project architecture rule
 ```
 
-### Rules (`.claude/rules/`)
+### Rules (`.orqa/rules/`)
 
 Rules enforce behavioral constraints across all agents. They describe **how agents must behave**, not what the product does. Rules reference documentation for the standards they enforce -- they do not duplicate those standards.
 
@@ -95,7 +95,7 @@ The IPC response format is: Result<T, String>    <- Belongs in architecture docs
 Functions must be <= 50 lines.                    <- Belongs in coding-standards.md
 ```
 
-### Hooks (`.claude/hooks/`)
+### Hooks (`.orqa/hooks/`)
 
 Hooks are **the mechanism through which rules are actively enforced**. Where rules define behavioral constraints as written instructions that agents should follow, hooks implement those constraints as executable shell scripts triggered at specific lifecycle events.
 
@@ -168,8 +168,8 @@ Hookify files are markdown files with YAML frontmatter that define:
 
 | Layer | Enforces | When | How |
 |-------|----------|------|-----|
-| Rules (`.claude/rules/`) | Behavioral constraints | Read at session start, apply throughout | Written instructions agents follow |
-| Hooks (`.claude/hooks/`) | Process discipline | Lifecycle events (session start, stop) | Shell scripts that run automatically |
+| Rules (`.orqa/rules/`) | Behavioral constraints | Read at session start, apply throughout | Written instructions agents follow |
+| Hooks (`.orqa/hooks/`) | Process discipline | Lifecycle events (session start, stop) | Shell scripts that run automatically |
 | Hookify (`.claude/hookify.*.local.md`) | Code/command violations | Every file edit, every bash command | Pattern matching that blocks or warns |
 
 Think of it this way: a rule says "don't do X", a hook reminds you about X at lifecycle boundaries, and hookify actively prevents X from happening in real-time.
@@ -235,7 +235,7 @@ architectural constraints, see docs/architecture/decisions.md.
 
 ### Multiple agent files containing the same rule
 
-When the same behavioral rule appears in two or more agent files, it will drift. Move the rule to `docs/` or `.claude/rules/` and replace both copies with a reference.
+When the same behavioral rule appears in two or more agent files, it will drift. Move the rule to `docs/` or `.orqa/rules/` and replace both copies with a reference.
 
 ---
 
@@ -306,4 +306,4 @@ This loop ensures the governance system stays consistent as documentation evolve
 - [Skills Log](/process/skills-log) -- Full skill inventory with provenance
 - `docs/development/coding-standards.md` -- The standards all agents must follow
 - `docs/architecture/decisions.md` -- Architecture decisions agents cite
-- `.claude/rules/documentation-first.md` -- Documentation as source of truth for implementation
+- `.orqa/rules/documentation-first.md` -- Documentation as source of truth for implementation

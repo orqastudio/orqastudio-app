@@ -46,7 +46,14 @@ tmp/
 .claude/plugins/
 .claude/worktrees/
 
-# Skills CLI cache (npx skills add --copy creates these; .claude/skills/ is authoritative)
+# Platform compatibility junctions (symlinks from .claude/ to .orqa/)
+# The canonical files live in .orqa/; .claude/ directories are junctions for CLI compatibility
+.claude/agents/
+.claude/rules/
+.claude/skills/
+.claude/hooks/
+
+# Skills CLI cache (npx skills add --copy creates these; .orqa/skills/ is authoritative)
 .agents/
 .continue/
 skills-lock.json

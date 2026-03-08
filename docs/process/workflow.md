@@ -33,7 +33,7 @@ Copy and complete at the start of every implementation session:
 
 All agents MUST use worktrees. NO direct work on main.
 
-For the full worktree protocol including background process discipline, Windows-specific process killing, and post-merge verification, see `.claude/rules/git-workflow.md`.
+For the full worktree protocol including background process discipline, Windows-specific process killing, and post-merge verification, see `.orqa/rules/git-workflow.md`.
 
 **Quick reference:**
 
@@ -180,7 +180,7 @@ Format:
 
 ## Error Ownership
 
-For the full error ownership policy, see `.claude/rules/error-ownership.md`.
+For the full error ownership policy, see `.orqa/rules/error-ownership.md`.
 
 **Summary:** ALL errors are YOUR responsibility. No exceptions.
 
@@ -199,7 +199,7 @@ Before calling ANY existing function, Tauri command, or store method:
 2. Check the types -- verify parameter names and types
 3. Run `cargo clippy` and `npm run check` -- catch mismatches immediately
 
-NO backwards compatibility shims. Fix ALL callers in the same commit. See `.claude/rules/error-ownership.md`.
+NO backwards compatibility shims. Fix ALL callers in the same commit. See `.orqa/rules/error-ownership.md`.
 
 ---
 

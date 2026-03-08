@@ -206,9 +206,9 @@ Test body.
 
     #[test]
     fn parse_promoted_to_value() {
-        let content = "---\nid: IMPL-002\ntitle: \"Test\"\ncategory: coding\nrecurrence: 3\nstatus: promoted\npromoted_to: \".claude/rules/foo.md\"\ncreated: 2026-01-01\nupdated: 2026-01-02\n---\nbody\n";
+        let content = "---\nid: IMPL-002\ntitle: \"Test\"\ncategory: coding\nrecurrence: 3\nstatus: promoted\npromoted_to: \".orqa/rules/foo.md\"\ncreated: 2026-01-01\nupdated: 2026-01-02\n---\nbody\n";
         let lesson = parse_lesson(content, ".orqa/lessons/IMPL-002.md").expect("should parse");
-        assert_eq!(lesson.promoted_to, Some(".claude/rules/foo.md".to_string()));
+        assert_eq!(lesson.promoted_to, Some(".orqa/rules/foo.md".to_string()));
     }
 
     #[test]

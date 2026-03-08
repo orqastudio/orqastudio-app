@@ -14,7 +14,7 @@ informs_epics: []
 
 ## Problem Statement
 
-All 15 agent definitions in `.claude/agents/` are effectively dormant. Dogfooding readiness requires that the agentic framework actually works — agents must know what tools they have, where to find documentation, what patterns to follow, and how to operate in both CLI and app contexts.
+All 15 agent definitions in `.orqa/agents/` are effectively dormant. Dogfooding readiness requires that the agentic framework actually works — agents must know what tools they have, where to find documentation, what patterns to follow, and how to operate in both CLI and app contexts.
 
 **Current gaps:**
 
@@ -103,8 +103,8 @@ When the project being managed IS OrqaStudio itself, agents need enhanced cautio
 **Deliverables:**
 1. Add `"dogfood": true` to `.orqa/project.json`
 2. Add `ProjectSettings.dogfood: bool` (Rust + TypeScript)
-3. Create `.claude/rules/dogfood-mode.md` — consolidates all dogfood-specific rules, references the detection flag
-4. Every agent's "Operating Context" section includes: "If the project is a dogfood project (`dogfood: true` in `.orqa/project.json`), apply enhanced caution rules — see `.claude/rules/dogfood-mode.md`"
+3. Create `.orqa/rules/dogfood-mode.md` — consolidates all dogfood-specific rules, references the detection flag
+4. Every agent's "Operating Context" section includes: "If the project is a dogfood project (`dogfood: true` in `.orqa/project.json`), apply enhanced caution rules — see `.orqa/rules/dogfood-mode.md`"
 5. System prompt injection in app context when dogfood is detected
 
 ### 1b: Required Reading Path Corrections
@@ -174,7 +174,7 @@ Use `make` targets for all build/test/lint commands (see `docs/development/comma
 
 ### 1f: Update `chunkhound-usage.md` Rule
 
-Update `.claude/rules/chunkhound-usage.md` to:
+Update `.orqa/rules/chunkhound-usage.md` to:
 - Document both tool name sets (CLI MCP vs. app native)
 - Explain the native tools are embedded (ONNX + DuckDB in `src-tauri/src/search/`)
 - Note that `.mcp.json` ChunkHound is a permanent CLI/dev-tool enhancement; native search is for the app context
@@ -235,7 +235,7 @@ Update `.claude/rules/chunkhound-usage.md` to:
 
 ### Skill Format
 
-Each skill is a `.md` file in `.claude/skills/` following the standard format:
+Each skill is a `.md` file in `.orqa/skills/` following the standard format:
 - YAML frontmatter with `name`, `description`, `tags`
 - Patterns section with **real code examples from this codebase** (not generic)
 - Anti-patterns section with actual mistakes we've made
@@ -243,7 +243,7 @@ Each skill is a `.md` file in `.claude/skills/` following the standard format:
 
 ### Acceptance Criteria
 
-- [ ] 5 project-level skills created in `.claude/skills/`
+- [ ] 5 project-level skills created in `.orqa/skills/`
 - [ ] Each skill has concrete OrqaStudio code examples (not generic)
 - [ ] Agent definitions updated to reference these skills in their `skills:` lists
 - [ ] Skills load successfully via `Skill(name)` invocation
@@ -256,7 +256,7 @@ Each skill is a `.md` file in `.claude/skills/` following the standard format:
 
 ### 3a: Orchestration Enforcement Rule
 
-Create `.claude/rules/agent-delegation.md`:
+Create `.orqa/rules/agent-delegation.md`:
 - The orchestrator MUST delegate implementation to agents, never implement directly
 - Every implementation task must name the agent being delegated to
 - The orchestrator may only: read files for planning, write plans/docs, coordinate, report status
@@ -264,14 +264,14 @@ Create `.claude/rules/agent-delegation.md`:
 
 ### 3b: Agent Usage Audit Hook
 
-Update `.claude/hooks/session-start-hook.sh` to:
+Update `.orqa/hooks/session-start-hook.sh` to:
 - List available agents and their domains
 - Remind the orchestrator to delegate, not implement
 - Check that agent definitions have valid Required Reading paths
 
 ### 3c: Skill Loading Enforcement
 
-Update `.claude/rules/skill-enforcement.md`:
+Update `.orqa/rules/skill-enforcement.md`:
 - Before any agent starts implementation, it MUST load all skills declared in its frontmatter
 - Skill loading must happen BEFORE Required Reading
 - If a skill fails to load, the agent must report it (not silently continue)

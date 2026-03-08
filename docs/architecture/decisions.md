@@ -65,4 +65,4 @@ Architecture decisions for OrqaStudio™. Each decision is numbered AD-NNN and i
 
 - `docs/product/artifact-framework.md` — artifact schemas, including the AD schema
 - `docs/architecture/` — architecture documentation for individual subsystems
-- `.claude/rules/architecture-decisions.md` — enforcement rule that agents must read decisions before implementing
+- `.orqa/rules/architecture-decisions.md` — enforcement rule that agents must read decisions before implementing

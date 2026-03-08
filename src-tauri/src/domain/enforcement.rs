@@ -46,7 +46,7 @@ pub struct EnforcementEntry {
     pub conditions: Vec<Condition>,
     /// Pattern for bash events (single regex against the full command).
     pub pattern: Option<String>,
-    /// Glob pattern for scan events (e.g., `.claude/agents/*.md`).
+    /// Glob pattern for scan events (e.g., `.orqa/agents/*.md`).
     ///
     /// Defines which project files are scanned when this entry is evaluated.
     /// Resolved relative to the project root at scan time.
@@ -71,7 +71,7 @@ pub struct ScanFinding {
     pub message: String,
 }
 
-/// A parsed enforcement rule from a `.claude/rules/*.md` file.
+/// A parsed enforcement rule from a `.orqa/rules/*.md` file.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct EnforcementRule {
     /// The filename stem (e.g., `"coding-standards"`).

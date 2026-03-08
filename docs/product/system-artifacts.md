@@ -24,9 +24,9 @@ System artifacts describe how to do managed agentic development correctly. They 
 
 | Artifact | Location | What It Contains |
 |----------|----------|-----------------|
-| System rules | `.claude/rules/` | Behavioral constraints that apply to all agents on all projects: no stubs, error ownership, end-to-end completeness, documentation-first, vision alignment |
-| System agents | `.claude/agents/` | Generic role definitions: backend-engineer, frontend-engineer, code-reviewer, etc. Role defines *how* the agent works; project knowledge is injected via skills |
-| System skills | `.claude/skills/` | Technology patterns that are portable: Svelte 5 runes, Rust async, Tauri v2, ChunkHound, planning methodology |
+| System rules | `.orqa/rules/` | Behavioral constraints that apply to all agents on all projects: no stubs, error ownership, end-to-end completeness, documentation-first, vision alignment |
+| System agents | `.orqa/agents/` | Generic role definitions: backend-engineer, frontend-engineer, code-reviewer, etc. Role defines *how* the agent works; project knowledge is injected via skills |
+| System skills | `.orqa/skills/` | Technology patterns that are portable: Svelte 5 runes, Rust async, Tauri v2, ChunkHound, planning methodology |
 | Process docs | `docs/process/` | Governance framework, orchestration model, DoR/DoD, content governance |
 | AGENTS.md | `AGENTS.md` | Cross-agent project instructions (imported by CLAUDE.md) |
 | CLAUDE.md | `.claude/CLAUDE.md` | Orchestrator configuration |
@@ -85,7 +85,7 @@ Some system rules reference technology choices (Rust, Svelte 5, SQLite) because 
 
 ## System Agents
 
-All agent definitions in `.claude/agents/` are system-level. They define generic roles, not technology-specific implementations. The technology context is provided by the skills each agent loads.
+All agent definitions in `.orqa/agents/` are system-level. They define generic roles, not technology-specific implementations. The technology context is provided by the skills each agent loads.
 
 | Agent | Role (Generic) | Project Context Injected Via |
 |-------|---------------|------------------------------|
@@ -104,7 +104,7 @@ An agent definition that says "write Rust code this way" is encoding project kno
 
 | Type | Examples | Where It Lives |
 |------|----------|---------------|
-| **System skills** (technology patterns, portable) | `chunkhound`, `planning`, `svelte5-best-practices`, `rust-async-patterns`, `tauri-v2`, `architecture` | `.claude/skills/` |
+| **System skills** (technology patterns, portable) | `chunkhound`, `planning`, `svelte5-best-practices`, `rust-async-patterns`, `tauri-v2`, `architecture` | `.orqa/skills/` |
 | **Project skills** (would be project-specific knowledge) | "How OrqaStudio's session model works", "The governance bootstrap flow" | Does NOT exist as a skill — lives in `docs/` and is Referenced Reading in agent files |
 
 Project knowledge should not be encoded as skills. Skills are portable technology patterns. Project-specific context belongs in documentation, referenced by agent Required Reading lists.
@@ -143,9 +143,9 @@ OrqaStudio governance artifacts are native Claude Code artifacts. Everything Orq
 
 | Artifact | Works in CLI without OrqaStudio |
 |----------|----------------------------------|
-| `.claude/rules/*.md` | Yes — injected into context automatically |
-| `.claude/agents/*.md` | Yes — used by orchestrator |
-| `.claude/hooks/*.sh` | Yes — executed at lifecycle events |
+| `.orqa/rules/*.md` | Yes — injected into context automatically |
+| `.orqa/agents/*.md` | Yes — used by orchestrator |
+| `.orqa/hooks/*.sh` | Yes — executed at lifecycle events |
 | `.claude/hookify.*.local.md` | Yes — real-time pattern enforcement |
 | `.orqa/lessons/*.md` | PLANNED — readable by agents via file tools |
 | `docs/` | Yes — readable by agents via file tools |

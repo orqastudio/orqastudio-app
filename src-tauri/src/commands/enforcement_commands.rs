@@ -28,14 +28,14 @@ pub fn enforcement_rules_list(
     }
 }
 
-/// Reload the enforcement engine from the active project's `.claude/rules/` directory.
+/// Reload the enforcement engine from the active project's `.orqa/rules/` directory.
 ///
 /// Returns the number of rules loaded. Use this when rule files have been edited
 /// and you want the engine to pick up the changes without restarting the app.
 #[tauri::command]
 pub fn enforcement_rules_reload(state: State<'_, AppState>) -> Result<usize, OrqaError> {
     let project_path = resolve_active_project_path(&state)?;
-    let rules_dir = Path::new(&project_path).join(".claude").join("rules");
+    let rules_dir = Path::new(&project_path).join(".orqa").join("rules");
 
     if !rules_dir.exists() {
         let mut guard = state

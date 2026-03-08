@@ -70,7 +70,7 @@ Add a "Decision Creation" section covering:
 - Required fields and links
 - How supersession works
 
-**1c. Update `.claude/rules/artifact-lifecycle.md`**
+**1c. Update `.orqa/rules/artifact-lifecycle.md`**
 
 Add Decision to the enforced artifact types:
 - Status transitions: proposed → accepted → superseded | deprecated
@@ -85,7 +85,7 @@ Add:
 | Decisions | `.orqa/decisions/` | Architecture decision artifacts |
 ```
 
-**1e. Update `.claude/rules/architecture-decisions.md`**
+**1e. Update `.orqa/rules/architecture-decisions.md`**
 
 Currently says "Read `@docs/architecture/decisions.md`". Update to also reference `.orqa/decisions/` as the source of individual decision artifacts.
 

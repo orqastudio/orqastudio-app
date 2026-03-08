@@ -1,6 +1,6 @@
 //! Filesystem helpers for reading and scanning artifact files.
 //!
-//! These functions perform I/O against the project's `.claude/` and `docs/` directories.
+//! These functions perform I/O against the project's `.orqa/` and `docs/` directories.
 //! None of them touch the database — database operations live in `repo::artifact_repo`.
 
 use std::path::{Path, PathBuf};
@@ -54,15 +54,15 @@ pub fn artifact_from_file(
     })
 }
 
-/// Map an `ArtifactType` to its `.claude/` subdirectory path.
+/// Map an `ArtifactType` to its `.orqa/` subdirectory path.
 ///
-/// Returns `None` for `Doc` — docs live in `docs/`, not in `.claude/`.
+/// Returns `None` for `Doc` — docs live in `docs/`, not in `.orqa/`.
 pub fn governance_dir(root: &Path, artifact_type: &ArtifactType) -> Option<PathBuf> {
     match artifact_type {
-        ArtifactType::Agent => Some(root.join(".claude").join("agents")),
-        ArtifactType::Rule => Some(root.join(".claude").join("rules")),
-        ArtifactType::Skill => Some(root.join(".claude").join("skills")),
-        ArtifactType::Hook => Some(root.join(".claude").join("hooks")),
+        ArtifactType::Agent => Some(root.join(".orqa").join("agents")),
+        ArtifactType::Rule => Some(root.join(".orqa").join("rules")),
+        ArtifactType::Skill => Some(root.join(".orqa").join("skills")),
+        ArtifactType::Hook => Some(root.join(".orqa").join("hooks")),
         ArtifactType::Doc => None,
     }
 }
@@ -188,7 +188,7 @@ fn summary_from_entry(
                 Some(ArtifactSummary {
                     id: 0,
                     artifact_type: artifact_type.clone(),
-                    rel_path: format!(".claude/skills/{}/SKILL.md", name),
+                    rel_path: format!(".orqa/skills/{}/SKILL.md", name),
                     name: humanize_name(&name),
                     description: None,
                     compliance_status: ComplianceStatus::Unknown,
@@ -206,9 +206,9 @@ fn summary_from_entry(
             };
             if valid {
                 let rel_path = match artifact_type {
-                    ArtifactType::Agent => format!(".claude/agents/{}", name),
-                    ArtifactType::Rule => format!(".claude/rules/{}", name),
-                    ArtifactType::Hook => format!(".claude/hooks/{}", name),
+                    ArtifactType::Agent => format!(".orqa/agents/{}", name),
+                    ArtifactType::Rule => format!(".orqa/rules/{}", name),
+                    ArtifactType::Hook => format!(".orqa/hooks/{}", name),
                     _ => return Ok(None),
                 };
                 Some(ArtifactSummary {
@@ -381,6 +381,6 @@ mod tests {
         let root = Path::new("/tmp/project");
         let dir = governance_dir(root, &ArtifactType::Agent);
         assert!(dir.is_some());
-        assert!(dir.unwrap().ends_with(".claude/agents"));
+        assert!(dir.unwrap().ends_with(".orqa/agents"));
     }
 }

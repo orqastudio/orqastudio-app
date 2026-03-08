@@ -234,7 +234,7 @@ pub fn summary_from_entry(
                 Some(ArtifactSummary {
                     id: 0,
                     artifact_type: artifact_type.clone(),
-                    rel_path: format!(".claude/skills/{}/SKILL.md", name),
+                    rel_path: format!(".orqa/skills/{}/SKILL.md", name),
                     name: humanize_name(&name),
                     description: None,
                     compliance_status: ComplianceStatus::Unknown,
@@ -252,9 +252,9 @@ pub fn summary_from_entry(
             };
             if valid {
                 let rel_path = match artifact_type {
-                    ArtifactType::Agent => format!(".claude/agents/{name}"),
-                    ArtifactType::Rule => format!(".claude/rules/{name}"),
-                    ArtifactType::Hook => format!(".claude/hooks/{name}"),
+                    ArtifactType::Agent => format!(".orqa/agents/{name}"),
+                    ArtifactType::Rule => format!(".orqa/rules/{name}"),
+                    ArtifactType::Hook => format!(".orqa/hooks/{name}"),
                     _ => return Ok(None),
                 };
                 Some(ArtifactSummary {

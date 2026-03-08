@@ -13,7 +13,7 @@ updated: 2026-03-07
 This document describes how artifacts flow through the OrqaStudio™ development process day-to-day. It covers when artifacts are created, how they transition between states, and the gates that govern each transition.
 
 For artifact schemas and field definitions, see `docs/product/artifact-framework.md`.
-For enforcement rules, see `.claude/rules/artifact-lifecycle.md`.
+For enforcement rules, see `.orqa/rules/artifact-lifecycle.md`.
 
 ---
 
@@ -221,7 +221,7 @@ P2/P3 epics may still be in progress — they carry forward to the next mileston
 
 ## Lesson Lifecycle
 
-See `.claude/rules/lessons-learned.md` for the full lesson lifecycle.
+See `.orqa/rules/lessons-learned.md` for the full lesson lifecycle.
 
 Summary:
 

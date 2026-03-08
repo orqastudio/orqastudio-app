@@ -132,7 +132,7 @@ CREATE TABLE artifacts (
     project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     -- type: 'agent', 'rule', 'skill', 'doc'
     artifact_type   TEXT NOT NULL CHECK (artifact_type IN ('agent', 'rule', 'skill', 'doc')),
-    -- Relative path from project root (e.g. ".claude/agents/backend-engineer.md")
+    -- Relative path from project root (e.g. ".orqa/agents/backend-engineer.md")
     rel_path        TEXT NOT NULL,
     -- Extracted from frontmatter or filename
     name            TEXT NOT NULL,
@@ -516,7 +516,7 @@ PRAGMA mmap_size=268435456;        -- 256MB memory-mapped I/O
 
 #### What Metadata Does OrqaStudio Need?
 
-Governance artifacts (`.claude/agents/*.md`, `.claude/rules/*.md`, `.claude/skills/**`, `docs/**`) are markdown files committed to git. OrqaStudio needs the following metadata that cannot be derived from the file alone:
+Governance artifacts (`.orqa/agents/*.md`, `.orqa/rules/*.md`, `.orqa/skills/**`, `docs/**`) are markdown files committed to git. OrqaStudio needs the following metadata that cannot be derived from the file alone:
 
 | Metadata | Source | Why DB |
 |----------|--------|--------|
@@ -643,7 +643,7 @@ fn start_artifact_watcher(project_path: &Path, app_handle: AppHandle) {
 
 **Keeping metadata fresh -- the re-scan flow:**
 
-1. File watcher detects change to `.claude/rules/no-stubs.md`
+1. File watcher detects change to `.orqa/rules/no-stubs.md`
 2. Compute SHA-256 of the file
 3. Compare with `artifacts.file_hash` in DB
 4. If hash differs:

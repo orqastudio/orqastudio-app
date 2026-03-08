@@ -12,7 +12,7 @@ updated: 2026-03-04
 
 This page tracks all installed skills in the OrqaStudio™ project -- their source, purpose, and when they were added. It is maintained by the `agent-maintainer` agent.
 
-Skills are stored in `.claude/skills/` and follow the open [Agent Skills](https://agentskills.io) standard.
+Skills are stored in `.orqa/skills/` and follow the open [Agent Skills](https://agentskills.io) standard.
 
 ---
 
@@ -67,7 +67,7 @@ The `agent-maintainer` audits skills periodically for portability violations. An
 ## Skill Lifecycle
 
 1. **Discovery** -- Find a skill need during a task. Search skills.sh: `npx skills find <query>`
-2. **Installation** -- `npx skills add <source> -y` (installs to `.claude/skills/`)
+2. **Installation** -- `npx skills add <source> -y` (installs to `.orqa/skills/`)
 3. **Documentation** -- Add entry to this skills-log.md with source, purpose, and date
 4. **Loading** -- Add to relevant agent YAML frontmatter `skills:` list
 5. **Updates** -- `npx skills check` to see available updates, `npx skills update` to apply

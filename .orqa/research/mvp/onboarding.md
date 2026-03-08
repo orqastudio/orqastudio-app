@@ -116,10 +116,10 @@ OrqaStudio uses extracted design tokens to theme its own UI when a project is op
 |----------|---------|
 | `.claude/` | Claude Code governance (OrqaStudio-compatible) |
 | `.claude/CLAUDE.md` | Main orchestrator instructions |
-| `.claude/agents/` | Agent definitions |
-| `.claude/rules/` | Governance rules |
-| `.claude/skills/` | Skill definitions |
-| `.claude/hooks/` | Hook scripts |
+| `.orqa/agents/` | Agent definitions |
+| `.orqa/rules/` | Governance rules |
+| `.orqa/skills/` | Skill definitions |
+| `.orqa/hooks/` | Hook scripts |
 
 **Implementation in Rust:** A handful of `Path::exists()` calls and a few file reads, completing in single-digit milliseconds. Parse manifest dependency lists (with `toml`, `serde_json`, `serde_yaml`) for framework detection — more reliable than tree-sitter because frameworks are declared, not inferred.
 

@@ -31,7 +31,7 @@ The orchestrator does NOT implement code directly. Its job is coordination, dele
 
 ## Agent Directory
 
-All 15 agents are defined in `.claude/agents/`. Each is invoked via the Task tool with `subagent_type`.
+All 15 agents are defined in `.orqa/agents/`. Each is invoked via the Task tool with `subagent_type`.
 
 | Agent | Domain | Skills Loaded | Use When |
 |-------|--------|---------------|----------|
@@ -55,7 +55,7 @@ All 15 agents are defined in `.claude/agents/`. Each is invoked via the Task too
 
 ## Skill Directory
 
-Skills are domain-specific instruction sets stored in `.claude/skills/`. They follow the open [Agent Skills](https://agentskills.io) standard and must be portable -- no OrqaStudio-specific architectural rules in skills.
+Skills are domain-specific instruction sets stored in `.orqa/skills/`. They follow the open [Agent Skills](https://agentskills.io) standard and must be portable -- no OrqaStudio-specific architectural rules in skills.
 
 | Skill | Source | Domain | Loaded By |
 |-------|--------|--------|-----------|
@@ -106,10 +106,10 @@ Each layer of the governance system owns a specific type of content. For the ful
 | Layer | Owns |
 |-------|------|
 | `docs/` | Standards, IPC contracts, architecture decisions -- source of truth |
-| `.claude/agents/` | Process: how agents work, what to read, when to delegate |
-| `.claude/skills/` | Technology patterns -- portable, no OrqaStudio-specific rules |
-| `.claude/rules/` | Behavioral enforcement -- applies to all agents automatically |
-| `.claude/hooks/` | Lifecycle hooks -- shell scripts triggered by lifecycle events (session start, stop, pre-commit) |
+| `.orqa/agents/` | Process: how agents work, what to read, when to delegate |
+| `.orqa/skills/` | Technology patterns -- portable, no OrqaStudio-specific rules |
+| `.orqa/rules/` | Behavioral enforcement -- applies to all agents automatically |
+| `.orqa/hooks/` | Lifecycle hooks -- shell scripts triggered by lifecycle events (session start, stop, pre-commit) |
 | `.claude/hookify.*.local.md` | Hookify rules -- action-boundary enforcement that blocks or warns on specific patterns in file edits or bash commands |
 
 ---

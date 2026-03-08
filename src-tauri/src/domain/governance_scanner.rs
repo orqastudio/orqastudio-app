@@ -39,24 +39,28 @@ pub fn scan_governance(project_path: &Path) -> Result<GovernanceScanResult, Orqa
     })
 }
 
-/// Scan all 7 canonical Claude governance areas.
+/// Scan all 7 canonical governance areas.
+///
+/// Governance artifacts (agents, rules, skills, hooks) are read from `.orqa/`.
+/// Platform config (settings.json, CLAUDE.md) remains in `.claude/`.
 fn scan_claude_areas(project_path: &Path) -> Vec<GovernanceArea> {
+    let orqa_dir = project_path.join(".orqa");
     let claude_dir = project_path.join(".claude");
     vec![
         scan_directory_area(
             "claude_rules",
             "claude",
-            &claude_dir.join("rules"),
+            &orqa_dir.join("rules"),
             Some(".md"),
         ),
         scan_directory_area(
             "claude_agents",
             "claude",
-            &claude_dir.join("agents"),
+            &orqa_dir.join("agents"),
             Some(".md"),
         ),
-        scan_skills_area(project_path, &claude_dir.join("skills")),
-        scan_directory_area("claude_hooks", "claude", &claude_dir.join("hooks"), None),
+        scan_skills_area(project_path, &orqa_dir.join("skills")),
+        scan_directory_area("claude_hooks", "claude", &orqa_dir.join("hooks"), None),
         scan_single_file_area(
             "claude_settings",
             "claude",
@@ -267,20 +271,21 @@ mod tests {
     #[test]
     fn full_claude_governance_has_full_coverage() {
         let dir = create_test_dir("full");
+        let orqa_dir = dir.join(".orqa");
         let claude_dir = dir.join(".claude");
 
-        // claude_rules
-        fs::create_dir_all(claude_dir.join("rules")).expect("mkdir");
-        fs::write(claude_dir.join("rules").join("no-stubs.md"), "# Rule").expect("write");
+        // claude_rules — now in .orqa/
+        fs::create_dir_all(orqa_dir.join("rules")).expect("mkdir");
+        fs::write(orqa_dir.join("rules").join("no-stubs.md"), "# Rule").expect("write");
 
-        // claude_agents
-        fs::create_dir_all(claude_dir.join("agents")).expect("mkdir");
-        fs::write(claude_dir.join("agents").join("backend.md"), "# Agent").expect("write");
+        // claude_agents — now in .orqa/
+        fs::create_dir_all(orqa_dir.join("agents")).expect("mkdir");
+        fs::write(orqa_dir.join("agents").join("backend.md"), "# Agent").expect("write");
 
-        // claude_skills
-        fs::create_dir_all(claude_dir.join("skills").join("chunkhound")).expect("mkdir");
+        // claude_skills — now in .orqa/
+        fs::create_dir_all(orqa_dir.join("skills").join("chunkhound")).expect("mkdir");
         fs::write(
-            claude_dir
+            orqa_dir
                 .join("skills")
                 .join("chunkhound")
                 .join("SKILL.md"),
@@ -288,18 +293,19 @@ mod tests {
         )
         .expect("write");
 
-        // claude_hooks
-        fs::create_dir_all(claude_dir.join("hooks")).expect("mkdir");
+        // claude_hooks — now in .orqa/
+        fs::create_dir_all(orqa_dir.join("hooks")).expect("mkdir");
         fs::write(
-            claude_dir.join("hooks").join("pre-commit.sh"),
+            orqa_dir.join("hooks").join("pre-commit.sh"),
             "#!/bin/bash",
         )
         .expect("write");
 
-        // claude_settings
+        // claude_settings — stays in .claude/
+        fs::create_dir_all(&claude_dir).expect("mkdir claude");
         fs::write(claude_dir.join("settings.json"), "{}").expect("write");
 
-        // claude_md
+        // claude_md — stays in .claude/
         fs::write(claude_dir.join("CLAUDE.md"), "# Config").expect("write");
 
         // agents_md
@@ -314,14 +320,14 @@ mod tests {
     #[test]
     fn partial_coverage_computed_correctly() {
         let dir = create_test_dir("partial");
-        let claude_dir = dir.join(".claude");
+        let orqa_dir = dir.join(".orqa");
 
         // Only rules and agents covered (2 of 7)
-        fs::create_dir_all(claude_dir.join("rules")).expect("mkdir");
-        fs::write(claude_dir.join("rules").join("rule.md"), "# Rule").expect("write");
+        fs::create_dir_all(orqa_dir.join("rules")).expect("mkdir");
+        fs::write(orqa_dir.join("rules").join("rule.md"), "# Rule").expect("write");
 
-        fs::create_dir_all(claude_dir.join("agents")).expect("mkdir");
-        fs::write(claude_dir.join("agents").join("agent.md"), "# Agent").expect("write");
+        fs::create_dir_all(orqa_dir.join("agents")).expect("mkdir");
+        fs::write(orqa_dir.join("agents").join("agent.md"), "# Agent").expect("write");
 
         let result = scan_governance(&dir).expect("scan");
         let expected = 2.0 / 7.0;
@@ -337,7 +343,7 @@ mod tests {
     #[test]
     fn content_preview_truncated_at_500_chars() {
         let dir = create_test_dir("preview");
-        let claude_dir = dir.join(".claude").join("rules");
+        let claude_dir = dir.join(".orqa").join("rules");
         fs::create_dir_all(&claude_dir).expect("mkdir");
 
         let long_content = "x".repeat(1000);

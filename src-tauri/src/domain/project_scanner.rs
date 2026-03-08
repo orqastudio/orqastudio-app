@@ -191,10 +191,10 @@ fn detect_package_manager(root: &Path) -> Option<String> {
 /// Count governance artifacts in the project.
 fn scan_governance(root: &Path) -> GovernanceCounts {
     let docs = count_md_files_recursive(&root.join("docs"));
-    let agents = count_md_files_in_dir(&root.join(".claude").join("agents"));
-    let rules = count_md_files_in_dir(&root.join(".claude").join("rules"));
-    let skills = count_subdirs(&root.join(".claude").join("skills"));
-    let hooks = count_files_in_dir(&root.join(".claude").join("hooks"));
+    let agents = count_md_files_in_dir(&root.join(".orqa").join("agents"));
+    let rules = count_md_files_in_dir(&root.join(".orqa").join("rules"));
+    let skills = count_subdirs(&root.join(".orqa").join("skills"));
+    let hooks = count_files_in_dir(&root.join(".orqa").join("hooks"));
     let has_claude_config = root.join(".claude").join("CLAUDE.md").exists();
 
     GovernanceCounts {
@@ -359,21 +359,25 @@ mod tests {
         fs::write(docs_dir.join("readme.md"), "# Docs").expect("write");
         fs::write(docs_dir.join("sub").join("page.md"), "# Page").expect("write");
 
-        // Create .claude/ structure
-        let claude_dir = dir.join(".claude");
-        fs::create_dir_all(claude_dir.join("agents")).expect("mkdir");
-        fs::create_dir_all(claude_dir.join("rules")).expect("mkdir");
-        fs::create_dir_all(claude_dir.join("skills").join("chunkhound")).expect("mkdir");
-        fs::create_dir_all(claude_dir.join("hooks")).expect("mkdir");
+        // Create .orqa/ structure for governance artifacts
+        let orqa_dir = dir.join(".orqa");
+        fs::create_dir_all(orqa_dir.join("agents")).expect("mkdir");
+        fs::create_dir_all(orqa_dir.join("rules")).expect("mkdir");
+        fs::create_dir_all(orqa_dir.join("skills").join("chunkhound")).expect("mkdir");
+        fs::create_dir_all(orqa_dir.join("hooks")).expect("mkdir");
 
-        fs::write(claude_dir.join("CLAUDE.md"), "# Config").expect("write");
-        fs::write(claude_dir.join("agents").join("backend.md"), "# Agent").expect("write");
-        fs::write(claude_dir.join("rules").join("no-stubs.md"), "# Rule").expect("write");
+        fs::write(orqa_dir.join("agents").join("backend.md"), "# Agent").expect("write");
+        fs::write(orqa_dir.join("rules").join("no-stubs.md"), "# Rule").expect("write");
         fs::write(
-            claude_dir.join("hooks").join("pre-commit.sh"),
+            orqa_dir.join("hooks").join("pre-commit.sh"),
             "#!/bin/bash",
         )
         .expect("write");
+
+        // Create .claude/ for platform config (has_claude_config check)
+        let claude_dir = dir.join(".claude");
+        fs::create_dir_all(&claude_dir).expect("mkdir claude");
+        fs::write(claude_dir.join("CLAUDE.md"), "# Config").expect("write");
 
         let dir_str = dir.to_str().expect("path");
         let excluded = vec![".git".to_string()];

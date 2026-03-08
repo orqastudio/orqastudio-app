@@ -644,13 +644,13 @@ fn read_governance_file(project_path: &Path, relative: &str) -> Result<Option<St
     Ok(Some(contents))
 }
 
-/// List skill names with one-line descriptions from `.claude/skills/*/SKILL.md`.
+/// List skill names with one-line descriptions from `.orqa/skills/*/SKILL.md`.
 ///
 /// Reads only the first non-empty line of each SKILL.md as the description.
 /// Full skill content is intentionally NOT loaded here — skills are loaded
 /// on demand via the `load_skill` tool.
 fn list_skill_catalog(project_path: &Path) -> Vec<(String, String)> {
-    let skills_dir = project_path.join(".claude").join("skills");
+    let skills_dir = project_path.join(".orqa").join("skills");
     let mut catalog = Vec::new();
 
     let read_dir = match std::fs::read_dir(&skills_dir) {
@@ -682,9 +682,9 @@ fn list_skill_catalog(project_path: &Path) -> Vec<(String, String)> {
     catalog
 }
 
-/// Read all rule files from `.claude/rules/*.md`.
+/// Read all rule files from `.orqa/rules/*.md`.
 fn read_rules(project_path: &Path) -> Vec<(String, String)> {
-    let rules_dir = project_path.join(".claude").join("rules");
+    let rules_dir = project_path.join(".orqa").join("rules");
     let mut rules = Vec::new();
 
     let read_dir = match std::fs::read_dir(&rules_dir) {
@@ -716,10 +716,10 @@ fn read_rules(project_path: &Path) -> Vec<(String, String)> {
 /// Build a structured system prompt from the project's governance artifacts.
 ///
 /// Reads:
-/// - `.claude/rules/*.md` — rule files (full content)
-/// - `.claude/CLAUDE.md` — project instructions (full content)
+/// - `.orqa/rules/*.md` — rule files (full content)
+/// - `.claude/CLAUDE.md` — project instructions (full content, platform config)
 /// - `AGENTS.md` — agent definitions (full content)
-/// - `.claude/skills/*/SKILL.md` — skill catalog (name + one-line description only)
+/// - `.orqa/skills/*/SKILL.md` — skill catalog (name + one-line description only)
 ///
 /// Returns `Ok(None)` when the project path cannot be resolved (no active project).
 fn build_system_prompt(project_path: &Path) -> Result<String, OrqaError> {
@@ -1654,7 +1654,7 @@ fn tool_code_research(
     }
 }
 
-/// Load the full content of a skill from `.claude/skills/{name}/SKILL.md`.
+/// Load the full content of a skill from `.orqa/skills/{name}/SKILL.md`.
 fn tool_load_skill(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let name = match input["name"].as_str() {
         Some(n) => n,
@@ -1670,7 +1670,7 @@ fn tool_load_skill(input: &serde_json::Value, root: &Path) -> (String, bool) {
     }
 
     let skill_path = root
-        .join(".claude")
+        .join(".orqa")
         .join("skills")
         .join(name)
         .join("SKILL.md");

@@ -14,7 +14,7 @@ use crate::state::AppState;
 /// If the directory is already registered, returns the existing project.
 /// Otherwise creates a new project record. In Phase 1, scanning is deferred.
 ///
-/// Also loads the enforcement engine from `.claude/rules/` if it exists.
+/// Also loads the enforcement engine from `.orqa/rules/` if it exists.
 #[tauri::command]
 pub fn project_open(path: String, state: State<'_, AppState>) -> Result<Project, OrqaError> {
     let canonical = validate_directory_path(&path)?;
@@ -45,13 +45,13 @@ pub fn project_open(path: String, state: State<'_, AppState>) -> Result<Project,
     Ok(project)
 }
 
-/// Load the enforcement engine from the project's `.claude/rules/` directory.
+/// Load the enforcement engine from the project's `.orqa/rules/` directory.
 ///
 /// If the rules directory does not exist, the engine is cleared (no enforcement).
 /// Failures are logged as warnings — a missing or malformed rules directory must
 /// not block the project from opening.
 fn load_enforcement_engine(state: &State<'_, AppState>, project_path: &str) {
-    let rules_dir = Path::new(project_path).join(".claude").join("rules");
+    let rules_dir = Path::new(project_path).join(".orqa").join("rules");
 
     let engine = if rules_dir.exists() {
         match enforcement_rules_repo::load_rules(&rules_dir).map(EnforcementEngine::new) {
@@ -105,7 +105,7 @@ fn init_project_directory(
         )));
     }
 
-    std::fs::create_dir_all(project_dir.join(".claude"))?;
+    std::fs::create_dir_all(project_dir.join(".orqa"))?;
 
     if init_git {
         if let Err(e) = std::process::Command::new("git")
@@ -125,7 +125,7 @@ fn init_project_directory(
 
 /// Create a new project directory and register it.
 ///
-/// Creates the directory at `parent_path/name`, creates a `.claude/` subdirectory,
+/// Creates the directory at `parent_path/name`, creates a `.orqa/` subdirectory,
 /// and optionally runs `git init`. Registers the project in the database.
 #[tauri::command]
 pub fn project_create(

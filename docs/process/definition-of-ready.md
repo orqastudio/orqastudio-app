@@ -81,7 +81,7 @@ The orchestrator works through this checklist before using the Task tool to dele
 
 ## Relationship to Plan-Mode Compliance
 
-For tasks that require an implementation plan, the plan itself must satisfy the requirements in `.claude/rules/plan-mode-compliance.md`:
+For tasks that require an implementation plan, the plan itself must satisfy the requirements in `.orqa/rules/plan-mode-compliance.md`:
 
 1. **UX-first design** -- user journeys -> UI design -> component state table -> backend
 2. **Architectural compliance section** -- verifies all relevant architecture decisions

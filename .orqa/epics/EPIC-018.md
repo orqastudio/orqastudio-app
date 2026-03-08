@@ -34,7 +34,7 @@ tags: [agents, sub-agents, delegation]
 
 ## Tasks
 
-- [ ] Agent registry — reads `.claude/agents/*.md`, indexes capabilities
+- [ ] Agent registry — reads `.orqa/agents/*.md`, indexes capabilities
 - [ ] `spawn_agent` tool — spawns sub-agent with role and instructions
 - [ ] Explore mode — lightweight codebase exploration agent (no tool approval)
 - [ ] Output aggregation — child tool calls collected, summary card with expandable detail

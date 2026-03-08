@@ -64,7 +64,7 @@ The following are immutable without explicit user approval:
 Governance artifacts are native `.claude/` files stored on disk. OrqaStudio reads and writes these files through its UI. The same files are read by the Claude Code CLI. OrqaStudio's SQLite database is a derived cache, not the source of truth.
 
 This means:
-- `.claude/rules/*.md`, `.claude/agents/*.md`, `.claude/skills/`, `.claude/hooks/`, and `CLAUDE.md` are the canonical governance format
+- `.orqa/rules/*.md`, `.orqa/agents/*.md`, `.orqa/skills/`, `.orqa/hooks/`, and `CLAUDE.md` are the canonical governance format
 - Users can edit these files in OrqaStudio, in a text editor, or through a Claude Code CLI session — all changes are reflected everywhere
 - OrqaStudio adds a visual management layer on top of this file-based governance; it does not replace the file format with a proprietary one
 
@@ -75,10 +75,10 @@ This means:
 The current process uses:
 
 - **Claude Code CLI** as the orchestrator (`.claude/CLAUDE.md`)
-- **15 specialised agents** defined as `.claude/agents/*.md` files
-- **20 rules** enforced via `.claude/rules/*.md`
+- **15 specialised agents** defined as `.orqa/agents/*.md` files
+- **20 rules** enforced via `.orqa/rules/*.md`
 - **11 hookify files** in `.claude/` for real-time code/command enforcement
-- **3 hooks** in `.claude/hooks/` (session start, skill loading, pre-commit)
+- **3 hooks** in `.orqa/hooks/` (session start, skill loading, pre-commit)
 - **Git worktree workflow** for task isolation
 
 This is the same framework used in the Alvarez project, adapted for OrqaStudio's Tauri/Svelte/Rust stack. The governance works, but it is invisible — artifacts live in dotfiles and terminal output. This is exactly the problem OrqaStudio exists to solve: making this governance visible (Pillar 1) and improving it over time through structured reflection (Pillar 2).

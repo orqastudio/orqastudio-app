@@ -10,15 +10,15 @@ updated: 2026-03-05
 
 **Date:** 2026-03-05
 
-This page describes the rule enforcement model, lists all active rules in `.claude/rules/`, and explains how rules, frontmatter, and generated hooks relate to each other.
+This page describes the rule enforcement model, lists all active rules in `.orqa/rules/`, and explains how rules, frontmatter, and generated hooks relate to each other.
 
 ---
 
 ## How Rules Work
 
-Rule files in `.claude/rules/` serve two purposes simultaneously:
+Rule files in `.orqa/rules/` serve two purposes simultaneously:
 
-1. **Context injection** — Every `.md` file in `.claude/rules/` is automatically injected into every Claude Code session as part of the system prompt. Rules describe behavioral constraints that agents must follow.
+1. **Context injection** — Every `.md` file in `.orqa/rules/` is automatically injected into every Claude Code session as part of the system prompt. Rules describe behavioral constraints that agents must follow.
 
 2. **Enforcement definitions** — Each rule file carries YAML frontmatter that declares machine-readable enforcement entries. The app reads this frontmatter to power the enforcement engine (pattern evaluation, block/warn verdicts, violation persistence) and to auto-generate CLI-compatible hook scripts.
 
@@ -46,7 +46,7 @@ A single rule file can declare multiple enforcement entries — one per pattern 
 
 ## Enforcement Engine
 
-When the app loads a project, it reads YAML frontmatter from all rule files in `.claude/rules/` and compiles them into an in-memory enforcement set.
+When the app loads a project, it reads YAML frontmatter from all rule files in `.orqa/rules/` and compiles them into an in-memory enforcement set.
 
 **Evaluation flow:**
 

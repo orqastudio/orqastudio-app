@@ -88,7 +88,7 @@ updated: 2026-03-02
 - **Coverage:** 80%+ test coverage, no exceptions without documented justification
 - **No TODO comments:** Track in TODO.md, not scattered across the codebase
 - **No commented-out code:** Delete it. Git history preserves it.
-- **No hardcoded fake data:** See `.claude/rules/no-stubs.md`
+- **No hardcoded fake data:** See `.orqa/rules/no-stubs.md`
 - **Documentation-first:** Read governing docs before implementing
 
 ## Enforcement

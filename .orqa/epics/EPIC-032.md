@@ -21,8 +21,8 @@ docs-produced:
   - "docs/product/artifact-framework.md (Decision type added)"
   - "docs/process/artifact-workflow.md (Decision creation section)"
   - "docs/architecture/decisions.md (converted to index)"
-  - ".claude/rules/artifact-lifecycle.md (Decision enforcement)"
-  - ".claude/rules/architecture-decisions.md (dual-source reference)"
+  - ".orqa/rules/artifact-lifecycle.md (Decision enforcement)"
+  - ".orqa/rules/architecture-decisions.md (dual-source reference)"
 depends-on: []
 blocks: [EPIC-005]
 tags: [migration, artifacts, governance, self-sustaining]

@@ -777,7 +777,7 @@ pub fn tool_code_research(
     }
 }
 
-/// Load the full content of a skill from `.claude/skills/{name}/SKILL.md`.
+/// Load the full content of a skill from `.orqa/skills/{name}/SKILL.md`.
 pub fn tool_load_skill(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let name = match input["name"].as_str() {
         Some(n) => n,
@@ -793,7 +793,7 @@ pub fn tool_load_skill(input: &serde_json::Value, root: &Path) -> (String, bool)
     }
 
     let skill_path = root
-        .join(".claude")
+        .join(".orqa")
         .join("skills")
         .join(name)
         .join("SKILL.md");

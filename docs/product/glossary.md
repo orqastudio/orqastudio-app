@@ -48,13 +48,13 @@ Any structured document that defines how a project operates. Governance artifact
 
 ### Agent
 
-A specialized AI persona with a defined role, skill set, and domain boundary. Agents are defined as markdown files (`.claude/agents/*.md`) with YAML frontmatter specifying skills and capabilities. In the current bootstrap process, agents are Claude Code subagents; in OrqaStudio, they become provider-agnostic definitions that the sidecar instantiates.
+A specialized AI persona with a defined role, skill set, and domain boundary. Agents are defined as markdown files (`.orqa/agents/*.md`) with YAML frontmatter specifying skills and capabilities. In the current bootstrap process, agents are Claude Code subagents; in OrqaStudio, they become provider-agnostic definitions that the sidecar instantiates.
 
 **Examples:** backend-engineer, frontend-engineer, code-reviewer, systems-architect.
 
 ### Rule
 
-A constraint that agents must follow during implementation. Rules are markdown files (`.claude/rules/*.md`) that encode coding standards, workflow requirements, architectural constraints, and process gates. Rules are the primary mechanism for enforcing governance.
+A constraint that agents must follow during implementation. Rules are markdown files (`.orqa/rules/*.md`) that encode coding standards, workflow requirements, architectural constraints, and process gates. Rules are the primary mechanism for enforcing governance.
 
 **Examples:** "All Rust code must use Result types, not unwrap," "Every task must pass through a review gate before completion."
 
@@ -68,7 +68,7 @@ A reusable knowledge package that provides domain-specific context to agents. Sk
 
 A governance enforcement mechanism triggered automatically during development. OrqaStudio supports two types of hooks:
 
-**Lifecycle hooks** (`.claude/hooks/`) — Shell scripts that execute in response to lifecycle events (session start, stop). Used for process reminders and checklists.
+**Lifecycle hooks** (`.orqa/hooks/`) — Shell scripts that execute in response to lifecycle events (session start, stop). Used for process reminders and checklists.
 
 **Hookify rules** (`.claude/hookify.*.local.md`) — Pattern-based enforcement files that block or warn in real-time when a file edit or bash command matches a forbidden pattern. Used for active prevention of code-level violations.
 

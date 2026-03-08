@@ -44,7 +44,7 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 - [ ] `npm run test` passes -- all frontend tests green
 - [ ] Test coverage is 80%+ for all affected modules
 - [ ] No stubs, no hardcoded data, no TODO/FIXME comments
-- [ ] No backwards compatibility shims, no aliases, no workarounds (see `.claude/rules/no-aliases-or-hacks.md`)
+- [ ] No backwards compatibility shims, no aliases, no workarounds (see `.orqa/rules/no-aliases-or-hacks.md`)
 
 ### End-to-End Completeness (checked by `code-reviewer`)
 
@@ -102,7 +102,7 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 
 - [ ] Every item in the epic's roadmap entry has been implemented — not deferred, not scaffolded
 - [ ] Every item in the epic's plan has a completed task
-- [ ] No "out of scope" items that were in the original roadmap scope (see `.claude/rules/no-deferred-deliverables.md`)
+- [ ] No "out of scope" items that were in the original roadmap scope (see `.orqa/rules/no-deferred-deliverables.md`)
 - [ ] If any item was descoped, user approval for the descope is documented
 
 ### Commit & Session State
