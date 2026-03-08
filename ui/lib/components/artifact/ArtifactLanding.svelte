@@ -10,7 +10,6 @@
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { enforcementStore } from "$lib/stores/enforcement.svelte";
 	import { navigationStore, type ActivityView } from "$lib/stores/navigation.svelte";
-	import type { ArtifactType } from "$lib/types";
 	import type { Component } from "svelte";
 
 	let { category }: { category: ActivityView } = $props();
@@ -21,7 +20,6 @@
 			icon: Component;
 			label: string;
 			singular: string;
-			artifactType: ArtifactType;
 			description: string;
 			location: string;
 		}
@@ -30,7 +28,6 @@
 			icon: BotIcon,
 			label: "Agents",
 			singular: "agent",
-			artifactType: "agent",
 			description:
 				"Agent definitions give AI personas specialized knowledge and behavior for your project.",
 			location: ".claude/agents/",
@@ -39,7 +36,6 @@
 			icon: ShieldIcon,
 			label: "Rules",
 			singular: "rule",
-			artifactType: "rule",
 			description:
 				"Rules enforce coding standards and project conventions. They are loaded automatically by Claude Code.",
 			location: ".claude/rules/",
@@ -48,7 +44,6 @@
 			icon: ZapIcon,
 			label: "Skills",
 			singular: "skill",
-			artifactType: "skill",
 			description:
 				"Skills define reusable capabilities that agents can invoke during sessions.",
 			location: ".claude/skills/",
@@ -57,7 +52,6 @@
 			icon: GitBranchIcon,
 			label: "Hooks",
 			singular: "hook",
-			artifactType: "hook",
 			description:
 				"Hooks run automated actions at lifecycle events — before/after prompts, on stop, etc.",
 			location: ".claude/hooks/",
@@ -65,7 +59,18 @@
 	};
 
 	const config = $derived(categoryConfig[category]);
-	const items = $derived(config ? artifactStore.artifactsByType(config.artifactType) : []);
+
+	/** Derive items from the navTree nodes for this category. */
+	const items = $derived(() => {
+		const navType = navigationStore.getNavType(category);
+		if (!navType) return [];
+		return navType.nodes.filter((n) => {
+			// Filter out README nodes
+			if (!n.path) return false;
+			const name = n.path.replace(/\\/g, "/").split("/").pop() ?? "";
+			return name !== "README" && name !== "README.md";
+		});
+	});
 
 	// Violation counts per rule name (only relevant when category === "rules")
 	const violationsByRule = $derived(
@@ -88,15 +93,15 @@
 
 {#if config}
 	<div class="flex h-full flex-col">
-		{#if artifactStore.loading}
+		{#if artifactStore.navTreeLoading}
 			<div class="flex flex-1 items-center justify-center">
 				<LoadingSpinner />
 			</div>
-		{:else if artifactStore.error}
+		{:else if artifactStore.navTreeError}
 			<div class="flex flex-1 items-center justify-center px-4">
 				<ErrorDisplay
-					message={artifactStore.error}
-					onRetry={() => artifactStore.setError(null)}
+					message={artifactStore.navTreeError}
+					onRetry={() => artifactStore.loadNavTree()}
 				/>
 			</div>
 		{:else}
@@ -125,7 +130,7 @@
 					</div>
 				{/if}
 
-				{#if items.length === 0}
+				{#if items().length === 0}
 					<Card.Root>
 						<Card.Content class="py-8 text-center">
 							<p class="text-sm text-muted-foreground">
@@ -136,31 +141,31 @@
 				{:else}
 					<!-- Summary -->
 					<p class="text-sm text-muted-foreground">
-						{items.length} {items.length === 1 ? config.singular : config.label.toLowerCase()} detected. Select one from the sidebar to view its contents.
+						{items().length} {items().length === 1 ? config.singular : config.label.toLowerCase()} detected. Select one from the sidebar to view its contents.
 					</p>
 
 					<!-- Card grid -->
 					<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-						{#each items as item (item.rel_path)}
+						{#each items() as item (item.path)}
 							{@const Icon = config.icon}
 							<button
 								class="text-left"
-								onclick={() => handleItemClick(item.name, item.rel_path)}
+								onclick={() => item.path && handleItemClick(item.label, item.path)}
 							>
 								<Card.Root class="transition-colors hover:bg-accent/50">
 									<Card.Content class="p-4">
 										<div class="flex items-start gap-3">
 											<Icon class="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
 											<div class="min-w-0 flex-1">
-												<p class="truncate text-sm font-medium">{item.name}</p>
+												<p class="truncate text-sm font-medium">{item.label}</p>
 												{#if item.description}
 													<p class="mt-0.5 line-clamp-2 text-xs text-muted-foreground">
 														{item.description}
 													</p>
 												{/if}
 											</div>
-											{#if category === "rules" && violationsByRule[item.name]}
-												{@const counts = violationsByRule[item.name]}
+											{#if category === "rules" && violationsByRule[item.label]}
+												{@const counts = violationsByRule[item.label]}
 												<div class="flex shrink-0 items-center gap-1">
 													{#if counts.blocks > 0}
 														<Badge variant="destructive" class="h-4 px-1 py-0 text-xs">

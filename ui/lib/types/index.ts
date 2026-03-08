@@ -32,6 +32,8 @@ export type {
 	DocNode,
 } from "./artifact";
 
+export type { NavReadme, NavTree, NavGroup, NavType } from "./nav-tree";
+
 export type {
 	ResolvedTheme,
 	ThemeToken,

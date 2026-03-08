@@ -8,10 +8,10 @@
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { parseFrontmatter } from "$lib/utils/frontmatter";
 
-	const artifact = $derived(artifactStore.activeArtifact);
+	const content = $derived(artifactStore.activeContent);
 	const breadcrumbs = $derived(navigationStore.breadcrumbs);
 	const activity = $derived(navigationStore.activeActivity);
-	const parsedContent = $derived(artifact ? parseFrontmatter(artifact.content) : null);
+	const parsedContent = $derived(content ? parseFrontmatter(content) : null);
 
 	/**
 	 * Strip a leading `# Heading` line and the first paragraph from body content.
@@ -104,15 +104,15 @@
 	{/if}
 
 	<!-- Content -->
-	{#if artifactStore.loading}
+	{#if artifactStore.activeContentLoading}
 		<div class="flex flex-1 items-center justify-center">
 			<LoadingSpinner />
 		</div>
-	{:else if artifactStore.error}
+	{:else if artifactStore.activeContentError}
 		<div class="flex flex-1 items-center justify-center px-4">
-			<ErrorDisplay message={artifactStore.error} />
+			<ErrorDisplay message={artifactStore.activeContentError} />
 		</div>
-	{:else if artifact}
+	{:else if content}
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div class="min-h-0 flex-1 overflow-y-auto" onclick={handleContentClick}>
@@ -136,7 +136,7 @@
 					{/if}
 					<MarkdownRenderer content={bodyToRender ?? parsedContent.body} />
 				{:else}
-					<MarkdownRenderer content={artifact.content} />
+					<MarkdownRenderer content={content} />
 				{/if}
 			</div>
 		</div>

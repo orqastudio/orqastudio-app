@@ -16,7 +16,6 @@
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import {
 		navigationStore,
-		GROUP_SUB_CATEGORIES,
 		SUB_CATEGORY_LABELS,
 		type ActivityGroup,
 		type ActivityView,
@@ -46,7 +45,8 @@
 		configure: ShieldIcon,
 	};
 
-	const subCategories = $derived(GROUP_SUB_CATEGORIES[group]);
+	// Use the store getter which derives from navTree when available
+	const subCategories = $derived(navigationStore.groupSubCategories[group]);
 	const activeSubCategory = $derived(navigationStore.activeSubCategory);
 </script>
 

@@ -2,11 +2,15 @@
 	import ArtifactNav from "$lib/components/navigation/ArtifactNav.svelte";
 	import ArtifactViewer from "./ArtifactViewer.svelte";
 	import { navigationStore, type ActivityView } from "$lib/stores/navigation.svelte";
+	import { artifactStore } from "$lib/stores/artifact.svelte";
 
 	let { activity }: { activity: ActivityView } = $props();
 
-	/** README path for each category — shown when nothing is explicitly selected. */
-	const README_PATHS: Partial<Record<ActivityView, string>> = {
+	/**
+	 * Static fallback README paths per category — used when the navTree hasn't loaded yet
+	 * or when the category doesn't have a navType entry.
+	 */
+	const FALLBACK_README_PATHS: Partial<Record<ActivityView, string>> = {
 		milestones: ".orqa/milestones/README.md",
 		epics: ".orqa/epics/README.md",
 		tasks: ".orqa/tasks/README.md",
@@ -22,15 +26,29 @@
 		plans: ".orqa/plans/README.md",
 	};
 
+	/**
+	 * Derive the README path for the current activity.
+	 * Prefer the navTree's type path to construct the README path,
+	 * falling back to the static map.
+	 */
+	const readmePath = $derived(() => {
+		const navType = navigationStore.getNavType(activity);
+		if (navType) {
+			// The navType path is the folder path — append README.md
+			return `${navType.path}/README.md`;
+		}
+		return FALLBACK_README_PATHS[activity] ?? null;
+	});
+
 	const hasSelection = $derived(navigationStore.selectedArtifactPath !== null);
 
 	/** When the activity changes and nothing is selected, auto-load the category README. */
 	$effect(() => {
 		const act = activity;
 		if (navigationStore.selectedArtifactPath !== null) return;
-		const readmePath = README_PATHS[act];
-		if (readmePath) {
-			navigationStore.openArtifact(readmePath, []);
+		const rp = readmePath();
+		if (rp) {
+			navigationStore.openArtifact(rp, []);
 		}
 	});
 </script>

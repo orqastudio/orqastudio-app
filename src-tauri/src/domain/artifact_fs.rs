@@ -59,10 +59,10 @@ pub fn artifact_from_file(
 /// Returns `None` for `Doc` — docs live in `docs/`, not in `.orqa/`.
 pub fn governance_dir(root: &Path, artifact_type: &ArtifactType) -> Option<PathBuf> {
     match artifact_type {
-        ArtifactType::Agent => Some(root.join(".orqa").join("agents")),
-        ArtifactType::Rule => Some(root.join(".orqa").join("rules")),
-        ArtifactType::Skill => Some(root.join(".orqa").join("skills")),
-        ArtifactType::Hook => Some(root.join(".orqa").join("hooks")),
+        ArtifactType::Agent => Some(root.join(".orqa").join("team").join("agents")),
+        ArtifactType::Rule => Some(root.join(".orqa").join("governance").join("rules")),
+        ArtifactType::Skill => Some(root.join(".orqa").join("team").join("skills")),
+        ArtifactType::Hook => Some(root.join(".orqa").join("governance").join("hooks")),
         ArtifactType::Doc => None,
     }
 }
@@ -190,7 +190,7 @@ fn summary_from_entry(
                 Some(ArtifactSummary {
                     id: 0,
                     artifact_type: artifact_type.clone(),
-                    rel_path: format!(".orqa/skills/{}/SKILL.md", name),
+                    rel_path: format!(".orqa/team/skills/{}/SKILL.md", name),
                     name: humanize_name(&name),
                     description: None,
                     compliance_status: ComplianceStatus::Unknown,
@@ -208,9 +208,9 @@ fn summary_from_entry(
             };
             if valid {
                 let rel_path = match artifact_type {
-                    ArtifactType::Agent => format!(".orqa/agents/{}", name),
-                    ArtifactType::Rule => format!(".orqa/rules/{}", name),
-                    ArtifactType::Hook => format!(".orqa/hooks/{}", name),
+                    ArtifactType::Agent => format!(".orqa/team/agents/{}", name),
+                    ArtifactType::Rule => format!(".orqa/governance/rules/{}", name),
+                    ArtifactType::Hook => format!(".orqa/governance/hooks/{}", name),
                     _ => return Ok(None),
                 };
                 Some(ArtifactSummary {
@@ -383,6 +383,6 @@ mod tests {
         let root = Path::new("/tmp/project");
         let dir = governance_dir(root, &ArtifactType::Agent);
         assert!(dir.is_some());
-        assert!(dir.unwrap().ends_with(".orqa/agents"));
+        assert!(dir.unwrap().ends_with("team/agents"));
     }
 }

@@ -5,28 +5,28 @@ pub const ORQA_DIR: &str = ".orqa";
 pub const SETTINGS_FILE: &str = ".orqa/project.json";
 
 /// Directory containing research documents, relative to the project root.
-pub const RESEARCH_DIR: &str = ".orqa/research";
+pub const RESEARCH_DIR: &str = ".orqa/planning/research";
 
 /// Directory containing implementation plans, relative to the project root.
-pub const PLANS_DIR: &str = ".orqa/plans";
+pub const PLANS_DIR: &str = ".orqa/planning/plans";
 
 /// Directory containing implementation lessons, relative to the project root.
-pub const LESSONS_DIR: &str = ".orqa/lessons";
+pub const LESSONS_DIR: &str = ".orqa/governance/lessons";
 
 /// Directory containing project milestones, relative to the project root.
-pub const MILESTONES_DIR: &str = ".orqa/milestones";
+pub const MILESTONES_DIR: &str = ".orqa/planning/milestones";
 
 /// Directory containing project epics, relative to the project root.
-pub const EPICS_DIR: &str = ".orqa/epics";
+pub const EPICS_DIR: &str = ".orqa/planning/epics";
 
 /// Directory containing project tasks, relative to the project root.
-pub const TASKS_DIR: &str = ".orqa/tasks";
+pub const TASKS_DIR: &str = ".orqa/planning/tasks";
 
 /// Directory containing captured ideas, relative to the project root.
-pub const IDEAS_DIR: &str = ".orqa/ideas";
+pub const IDEAS_DIR: &str = ".orqa/planning/ideas";
 
 /// Directory containing architecture decision records, relative to the project root.
-pub const DECISIONS_DIR: &str = ".orqa/decisions";
+pub const DECISIONS_DIR: &str = ".orqa/governance/decisions";
 
 /// Path to the DuckDB search index, relative to the project root.
 pub const SEARCH_DB: &str = ".orqa/search.duckdb";

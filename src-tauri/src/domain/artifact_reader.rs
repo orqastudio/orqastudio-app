@@ -3,7 +3,8 @@ use std::path::{Path, PathBuf};
 
 use crate::domain::artifact::{
     parse_doc_frontmatter, parse_plan_frontmatter, parse_research_frontmatter, Artifact,
-    ArtifactSummary, ArtifactType, ComplianceStatus, DocFrontmatter, DocNode,
+    ArtifactSummary, ArtifactType, ComplianceStatus, DocFrontmatter, DocNode, NavGroup, NavReadme,
+    NavTree, NavType,
 };
 use crate::domain::paths;
 use crate::error::OrqaError;
@@ -254,7 +255,7 @@ pub fn summary_from_entry(
                 Some(ArtifactSummary {
                     id: 0,
                     artifact_type: artifact_type.clone(),
-                    rel_path: format!(".orqa/skills/{}/SKILL.md", name),
+                    rel_path: format!(".orqa/team/skills/{}/SKILL.md", name),
                     name: display_name,
                     description,
                     compliance_status: ComplianceStatus::Unknown,
@@ -272,9 +273,9 @@ pub fn summary_from_entry(
             };
             if valid {
                 let rel_path = match artifact_type {
-                    ArtifactType::Agent => format!(".orqa/agents/{name}"),
-                    ArtifactType::Rule => format!(".orqa/rules/{name}"),
-                    ArtifactType::Hook => format!(".orqa/hooks/{name}"),
+                    ArtifactType::Agent => format!(".orqa/team/agents/{name}"),
+                    ArtifactType::Rule => format!(".orqa/governance/rules/{name}"),
+                    ArtifactType::Hook => format!(".orqa/governance/hooks/{name}"),
                     _ => return Ok(None),
                 };
                 let content = std::fs::read_to_string(entry.path()).unwrap_or_default();
@@ -380,7 +381,7 @@ pub fn read_orqa_artifact(
     dir_label: &str,
     rel_path: &str,
 ) -> Result<Artifact, OrqaError> {
-    // Accept either bare filename ("MS-001") or full relative path (".orqa/milestones/MS-001.md").
+    // Accept either bare filename ("MS-001") or full relative path (".orqa/planning/milestones/MS-001.md").
     let filename = rel_path
         .split('/')
         .next_back()
@@ -510,6 +511,257 @@ pub fn scan_lessons_dir(project_path: &Path) -> Result<Vec<ArtifactSummary>, Orq
 pub fn read_lesson_file(project_path: &Path, rel_path: &str) -> Result<Artifact, OrqaError> {
     let dir = project_path.join(paths::LESSONS_DIR);
     read_orqa_artifact(&dir, paths::LESSONS_DIR, rel_path)
+}
+
+// ---------------------------------------------------------------------------
+// Navigation tree scanner
+// ---------------------------------------------------------------------------
+
+/// Build the unified navigation tree from `.orqa/` and `docs/`.
+///
+/// Walks `.orqa/planning/`, `.orqa/team/`, and `.orqa/governance/`, reading each
+/// `README.md` for navigation metadata. Also includes `docs/` as a top-level group.
+/// Groups are sorted by their `sort` field; types within groups are sorted by their
+/// `sort` field; artifact nodes within types are sorted alphabetically by label.
+///
+/// Returns an empty `NavTree` (no groups) when the project has no `.orqa/` directory.
+pub fn artifact_scan_tree(project_path: &Path) -> Result<NavTree, OrqaError> {
+    let mut groups: Vec<NavGroup> = Vec::new();
+
+    let orqa_dir = project_path.join(".orqa");
+
+    // Scan the three first-level group subdirectories.
+    for group_name in &["planning", "team", "governance"] {
+        let group_dir = orqa_dir.join(group_name);
+        if !group_dir.is_dir() {
+            continue;
+        }
+        if let Some(group) = scan_group_dir(&group_dir, group_name)? {
+            groups.push(group);
+        }
+    }
+
+    // Include docs/ as a synthetic top-level group.
+    let docs_dir = project_path.join("docs");
+    if docs_dir.is_dir() {
+        let docs_nodes = scan_doc_tree(&docs_dir).unwrap_or_default();
+        let readme_content = read_readme_content(&docs_dir);
+        let docs_group = NavGroup {
+            label: "Documentation".to_string(),
+            description: "Project documentation and architecture references.".to_string(),
+            icon: "file-text".to_string(),
+            sort: 1,
+            path: "docs".to_string(),
+            readme_content,
+            types: vec![NavType {
+                label: "Docs".to_string(),
+                description: "All documentation pages.".to_string(),
+                icon: "file-text".to_string(),
+                sort: 1,
+                path: "docs".to_string(),
+                readme_content: String::new(),
+                nodes: docs_nodes,
+            }],
+        };
+        groups.push(docs_group);
+    }
+
+    groups.sort_by_key(|g| g.sort);
+    Ok(NavTree { groups })
+}
+
+/// Scan a single group directory (e.g. `.orqa/planning`) and build a `NavGroup`.
+///
+/// Reads the group's `README.md` for metadata, then scans subdirectories for
+/// artifact type folders. Returns `None` if the directory has no `README.md`
+/// with `role = "group"`.
+fn scan_group_dir(group_dir: &Path, group_name: &str) -> Result<Option<NavGroup>, OrqaError> {
+    let readme_path = group_dir.join("README.md");
+    let readme_content = read_readme_content(group_dir);
+
+    let nav = parse_nav_readme(&readme_content);
+
+    // Only treat as a group if `role` is "group" or if there is no README (be permissive).
+    let is_group = nav
+        .role
+        .as_deref()
+        .map(|r| r == "group")
+        .unwrap_or(!readme_path.exists());
+
+    if !is_group {
+        return Ok(None);
+    }
+
+    let label = nav
+        .label
+        .unwrap_or_else(|| humanize_name(group_name));
+    let description = nav.description.unwrap_or_default();
+    let icon = nav.icon.unwrap_or_else(|| "folder".to_string());
+    let sort = nav.sort.unwrap_or(i64::MAX);
+    let path = format!(".orqa/{group_name}");
+
+    let types = scan_type_dirs(group_dir, &path)?;
+
+    Ok(Some(NavGroup {
+        label,
+        description,
+        icon,
+        sort,
+        path,
+        readme_content,
+        types,
+    }))
+}
+
+/// Scan all subdirectories of a group dir and collect `NavType` entries.
+///
+/// Each subdirectory that has a `README.md` with `role = "artifacts"` becomes
+/// a `NavType`. Directories without a valid README are skipped.
+fn scan_type_dirs(group_dir: &Path, group_path: &str) -> Result<Vec<NavType>, OrqaError> {
+    let mut types: Vec<NavType> = Vec::new();
+
+    let read_dir_result = std::fs::read_dir(group_dir);
+    let Ok(entries) = read_dir_result else {
+        return Ok(types);
+    };
+
+    for entry in entries {
+        let entry = entry?;
+        let file_name = entry.file_name();
+        let name = file_name.to_string_lossy();
+
+        // Skip hidden entries and non-directories.
+        if name.starts_with('.') || name.starts_with('_') {
+            continue;
+        }
+        if !entry.file_type()?.is_dir() {
+            continue;
+        }
+
+        let type_dir = entry.path();
+        let readme_content = read_readme_content(&type_dir);
+        let nav = parse_nav_readme(&readme_content);
+
+        let is_artifacts = nav
+            .role
+            .as_deref()
+            .map(|r| r == "artifacts")
+            .unwrap_or(false);
+
+        if !is_artifacts {
+            continue;
+        }
+
+        let label = nav.label.unwrap_or_else(|| humanize_name(&name));
+        let description = nav.description.unwrap_or_default();
+        let icon = nav.icon.unwrap_or_else(|| "file".to_string());
+        let sort = nav.sort.unwrap_or(i64::MAX);
+        let type_path = format!("{group_path}/{}", name);
+
+        let nodes = scan_type_nodes(&type_dir, &name)?;
+
+        types.push(NavType {
+            label,
+            description,
+            icon,
+            sort,
+            path: type_path,
+            readme_content,
+            nodes,
+        });
+    }
+
+    types.sort_by_key(|t| t.sort);
+    Ok(types)
+}
+
+/// Scan artifact files within a type directory and return sorted `DocNode` entries.
+///
+/// Skills are special: they are subdirectories containing `SKILL.md`.
+/// All other types contain `.md` files directly (excluding `README.md`).
+fn scan_type_nodes(type_dir: &Path, type_name: &str) -> Result<Vec<DocNode>, OrqaError> {
+    let mut nodes: Vec<DocNode> = Vec::new();
+
+    let read_dir_result = std::fs::read_dir(type_dir);
+    let Ok(entries) = read_dir_result else {
+        return Ok(nodes);
+    };
+
+    let is_skills = type_name == "skills";
+
+    for entry in entries {
+        let entry = entry?;
+        let file_name = entry.file_name();
+        let name = file_name.to_string_lossy();
+
+        if name.starts_with('.') || name.starts_with('_') {
+            continue;
+        }
+
+        // Skip README — it is navigation metadata, not a browsable artifact.
+        if name.to_ascii_uppercase() == "README.MD" {
+            continue;
+        }
+
+        let ft = entry.file_type()?;
+
+        if is_skills {
+            // Skills are directories containing SKILL.md.
+            if !ft.is_dir() {
+                continue;
+            }
+            let skill_file = entry.path().join("SKILL.md");
+            if !skill_file.exists() {
+                continue;
+            }
+            let content = std::fs::read_to_string(&skill_file).unwrap_or_default();
+            let (_, title, _, description) = extract_basic_frontmatter(&content);
+            let label = title.unwrap_or_else(|| humanize_name(&name));
+            nodes.push(DocNode {
+                label,
+                path: Some(format!("{}/SKILL.md", name)),
+                children: None,
+                frontmatter: None,
+                description,
+            });
+        } else {
+            // Regular artifact files.
+            if !ft.is_file() || !name.ends_with(".md") {
+                continue;
+            }
+            let content = std::fs::read_to_string(entry.path()).unwrap_or_default();
+            let (_, title, _, description) = extract_basic_frontmatter(&content);
+            let stem = name.trim_end_matches(".md");
+            let label = title.unwrap_or_else(|| humanize_name(stem));
+            nodes.push(DocNode {
+                label,
+                path: Some(stem.to_string()),
+                children: None,
+                frontmatter: None,
+                description,
+            });
+        }
+    }
+
+    nodes.sort_by(|a, b| a.label.cmp(&b.label));
+    Ok(nodes)
+}
+
+/// Read the raw content of a `README.md` in `dir`, or return an empty string.
+fn read_readme_content(dir: &Path) -> String {
+    let readme = dir.join("README.md");
+    if readme.exists() {
+        std::fs::read_to_string(&readme).unwrap_or_default()
+    } else {
+        String::new()
+    }
+}
+
+/// Parse `NavReadme` frontmatter from raw README content.
+fn parse_nav_readme(content: &str) -> NavReadme {
+    use crate::domain::artifact::parse_frontmatter;
+    let (nav, _): (NavReadme, _) = parse_frontmatter(content);
+    nav
 }
 
 // ---------------------------------------------------------------------------
@@ -1055,15 +1307,16 @@ mod tests {
     #[test]
     fn scan_orqa_artifact_dir_missing_dir_returns_empty() {
         let tmp = make_temp_project();
-        let result = scan_orqa_artifact_dir(&tmp.path().join("nonexistent"), ".orqa/milestones")
-            .expect("should not error");
+        let result =
+            scan_orqa_artifact_dir(&tmp.path().join("nonexistent"), ".orqa/planning/milestones")
+                .expect("should not error");
         assert!(result.is_empty());
     }
 
     #[test]
     fn scan_orqa_artifact_dir_parses_frontmatter() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("milestones");
+        let dir = tmp.path().join(".orqa").join("planning").join("milestones");
         fs::create_dir_all(&dir).expect("create dir");
         fs::write(
             dir.join("MS-001.md"),
@@ -1072,21 +1325,21 @@ mod tests {
         .expect("write file");
 
         let summaries =
-            scan_orqa_artifact_dir(&dir, ".orqa/milestones").expect("scan");
+            scan_orqa_artifact_dir(&dir, ".orqa/planning/milestones").expect("scan");
         assert_eq!(summaries.len(), 1);
         assert_eq!(summaries[0].name, "Dogfooding");
-        assert_eq!(summaries[0].rel_path, ".orqa/milestones/MS-001.md");
+        assert_eq!(summaries[0].rel_path, ".orqa/planning/milestones/MS-001.md");
     }
 
     #[test]
     fn scan_orqa_artifact_dir_skips_hidden_files() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("epics");
+        let dir = tmp.path().join(".orqa").join("planning").join("epics");
         fs::create_dir_all(&dir).expect("create dir");
         fs::write(dir.join("EPIC-001.md"), "---\ntitle: Real\n---\nContent.").expect("write");
         fs::write(dir.join(".hidden.md"), "---\ntitle: Hidden\n---\nContent.").expect("write hidden");
 
-        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/epics").expect("scan");
+        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/planning/epics").expect("scan");
         assert_eq!(summaries.len(), 1);
         assert_eq!(summaries[0].name, "Real");
     }
@@ -1094,13 +1347,13 @@ mod tests {
     #[test]
     fn scan_orqa_artifact_dir_sorted_by_numeric_id() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("epics");
+        let dir = tmp.path().join(".orqa").join("planning").join("epics");
         fs::create_dir_all(&dir).expect("create dir");
         fs::write(dir.join("EPIC-010.md"), "---\ntitle: Ten\n---\n").expect("write");
         fs::write(dir.join("EPIC-002.md"), "---\ntitle: Two\n---\n").expect("write");
         fs::write(dir.join("EPIC-001.md"), "---\ntitle: One\n---\n").expect("write");
 
-        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/epics").expect("scan");
+        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/planning/epics").expect("scan");
         assert_eq!(summaries.len(), 3);
         assert_eq!(summaries[0].name, "One");
         assert_eq!(summaries[1].name, "Two");
@@ -1110,7 +1363,7 @@ mod tests {
     #[test]
     fn read_orqa_artifact_returns_raw_content_with_frontmatter() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("milestones");
+        let dir = tmp.path().join(".orqa").join("planning").join("milestones");
         fs::create_dir_all(&dir).expect("create dir");
         fs::write(
             dir.join("MS-001.md"),
@@ -1118,9 +1371,10 @@ mod tests {
         )
         .expect("write file");
 
-        let artifact = read_orqa_artifact(&dir, ".orqa/milestones", "MS-001").expect("read");
+        let artifact =
+            read_orqa_artifact(&dir, ".orqa/planning/milestones", "MS-001").expect("read");
         assert_eq!(artifact.name, "Dogfooding");
-        assert_eq!(artifact.rel_path, ".orqa/milestones/MS-001.md");
+        assert_eq!(artifact.rel_path, ".orqa/planning/milestones/MS-001.md");
         assert!(artifact.content.contains("# Milestone 1"));
         assert!(artifact.content.contains("Body here."));
         // Raw content includes frontmatter so the frontend can parse and display it
@@ -1131,10 +1385,10 @@ mod tests {
     #[test]
     fn read_orqa_artifact_not_found() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("epics");
+        let dir = tmp.path().join(".orqa").join("planning").join("epics");
         fs::create_dir_all(&dir).expect("create dir");
 
-        let result = read_orqa_artifact(&dir, ".orqa/epics", "EPIC-999");
+        let result = read_orqa_artifact(&dir, ".orqa/planning/epics", "EPIC-999");
         assert!(matches!(result, Err(OrqaError::NotFound(_))));
     }
 
@@ -1288,7 +1542,7 @@ mod tests {
     #[test]
     fn scan_orqa_artifact_dir_falls_back_to_first_paragraph() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("ideas");
+        let dir = tmp.path().join(".orqa").join("planning").join("ideas");
         fs::create_dir_all(&dir).expect("create dir");
         fs::write(
             dir.join("IDEA-001.md"),
@@ -1296,7 +1550,7 @@ mod tests {
         )
         .expect("write file");
 
-        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/ideas").expect("scan");
+        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/planning/ideas").expect("scan");
         assert_eq!(summaries.len(), 1);
         assert_eq!(
             summaries[0].description.as_deref(),
@@ -1307,7 +1561,7 @@ mod tests {
     #[test]
     fn scan_orqa_artifact_dir_prefers_yaml_description_over_paragraph() {
         let tmp = make_temp_project();
-        let dir = tmp.path().join(".orqa").join("ideas");
+        let dir = tmp.path().join(".orqa").join("planning").join("ideas");
         fs::create_dir_all(&dir).expect("create dir");
         fs::write(
             dir.join("IDEA-002.md"),
@@ -1315,7 +1569,7 @@ mod tests {
         )
         .expect("write file");
 
-        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/ideas").expect("scan");
+        let summaries = scan_orqa_artifact_dir(&dir, ".orqa/planning/ideas").expect("scan");
         assert_eq!(summaries.len(), 1);
         assert_eq!(
             summaries[0].description.as_deref(),
@@ -1340,9 +1594,9 @@ mod tests {
 
     #[test]
     fn numeric_id_from_path_extracts_correctly() {
-        assert_eq!(numeric_id_from_path(".orqa/epics/EPIC-005.md"), 5);
-        assert_eq!(numeric_id_from_path(".orqa/milestones/MS-001.md"), 1);
-        assert_eq!(numeric_id_from_path(".orqa/decisions/AD-012.md"), 12);
+        assert_eq!(numeric_id_from_path(".orqa/planning/epics/EPIC-005.md"), 5);
+        assert_eq!(numeric_id_from_path(".orqa/planning/milestones/MS-001.md"), 1);
+        assert_eq!(numeric_id_from_path(".orqa/governance/decisions/AD-012.md"), 12);
         assert_eq!(numeric_id_from_path("no-number.md"), u64::MAX);
     }
 }
