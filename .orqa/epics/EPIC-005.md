@@ -1,15 +1,15 @@
 ---
 id: EPIC-005
-title: "Artifact Browser & Visibility"
+title: "Artifact Browser: Navigation Groups, Platform Portability, Cross-Linking"
 status: draft
 priority: P1
 milestone: MS-001
 created: 2026-03-07
-updated: 2026-03-07
+updated: 2026-03-08
 deadline: null
-plan: null
-depends-on: []
-blocks: [EPIC-016]
+plan: epic-005-artifact-browser
+depends-on: [EPIC-032]
+blocks: [EPIC-016, EPIC-004]
 assignee: null
 pillar:
   - clarity-through-structure
@@ -18,44 +18,89 @@ scoring:
   pillar: 5
   impact: 5
   dependency: 3
-  effort: 3
-score: 11.7
+  effort: 4
+score: 8.8
 roadmap-ref: "D5"
 docs-required:
   - docs/product/artifact-framework.md
-  - docs/wireframes/artifact-browser.md
-  - docs/architecture/ipc-commands.md
+  - .orqa/plans/epic-005-artifact-browser.md
 docs-produced:
-  - docs/wireframes/artifact-browser.md (update with .orqa/ browser wireframes)
-  - docs/architecture/ipc-commands.md (new artifact scanning/parsing commands)
-  - docs/architecture/decisions.md (AD for .orqa/ parsing and indexing strategy)
-tags: [artifacts, browser, markdown, ux-model]
+  - docs/architecture/ipc-commands.md (new artifact scanning commands)
+  - docs/ui/navigation-groups.md (grouped navigation wireframes)
+tags: [artifacts, browser, navigation, portability, cross-linking]
 ---
 
-# Artifact Browser & Visibility
+# Artifact Browser: Navigation Groups, Platform Portability, Cross-Linking
 
-Make `.orqa/` artifacts (milestones, epics, ideas, plans, research, lessons) browsable as rendered markdown documents in OrqaStudio's UI.
+Make all `.orqa/` artifacts browsable, restructure navigation into groups, make `.orqa/` the single source of truth with platform adapters, and enable cross-artifact navigation.
 
 ## Why P1
 
-This is the **underlying UX model**. Markdown documents visible in the UI is the foundational layer. All richer views (kanban boards, dashboards, graph visualisations) are optional layers built on top. Without this, structured thinking artifacts are invisible inside the app.
+This is the **underlying UX model**. Markdown documents visible in the UI is the foundational layer. Without grouped navigation, adding artifact types creates bloat. Without platform portability, governance is locked to Claude CLI's `.claude/` convention. Without cross-linking, the traceability web exists in frontmatter but is invisible.
 
-## Design Principle
+## Design Principles
 
-> "Structuring them as markdown documents that are visible within the UI is an important first step and is the underlying UX model. Other ways of displaying and interacting with this content all become optional layers on top."
+> "Structuring them as markdown documents that are visible within the UI is an important first step and is the underlying UX model."
 
-## Scope
+> ".orqa/ should be the source of truth and what is read by the viewer."
 
-This epic covers the `.orqa/` artifact types defined in the artifact framework. The existing `.claude/` governance artifact browser (agents, rules, skills, hooks) already works and is a separate concern (EPIC-004 adds editing).
+> "Platform compatibility should be a setting — when a platform is 'turned on', symlinks should be created."
 
-## Tasks
+## Scope — Three Pillars
 
-- [ ] `.orqa/` directory scanner — read and parse all artifact types (milestones, epics, ideas, plans, lessons, research)
-- [ ] Frontmatter parser — extract YAML frontmatter from markdown files into structured data
-- [ ] Artifact browser sidebar — tree navigation by type (Milestones > Epics > Tasks, Ideas, Plans, Lessons, Research)
-- [ ] Markdown renderer view — render artifact body with syntax highlighting
-- [ ] Frontmatter metadata panel — display structured frontmatter alongside the document (status, priority, connections)
-- [ ] Connection links — clickable references to related artifacts (milestone, epic, depends-on, blocks)
-- [ ] Status badges — colour-coded status indicators per artifact type
-- [ ] Priority band indicators — P1/P2/P3 badges for epics
-- [ ] File watcher integration — refresh when `.orqa/` files change on disk (coordinate with EPIC-006)
+### 1. Navigation Restructuring
+Replace 8 individual activity bar items with 4 grouped categories:
+- **Documentation** — Docs
+- **Planning** — Research, Plans, Milestones, Epics, Tasks, Ideas
+- **Team** — Agents, Skills, Orchestrator
+- **Governance** — Rules, Hooks, Lessons, Decisions
+
+### 2. Platform Portability
+- Move governance artifacts from `.claude/` to `.orqa/` (agents, rules, skills, hooks)
+- Merge `CLAUDE.md` + `AGENTS.md` into `.orqa/agents/orchestrator.md`
+- Platform compatibility as a project setting
+- Claude CLI adapter: symlinks from `.claude/` → `.orqa/` and `CLAUDE.md` → `.orqa/agents/orchestrator.md`
+- Remove `TODO.md` (content already in artifacts)
+
+### 3. Cross-Linking
+- Frontmatter fields containing artifact IDs render as clickable links
+- Markdown body references (EPIC-001, AD-017, etc.) detected and linked
+- Clicking navigates to the correct group/sub-category/artifact
+
+## Phases
+
+### Phase 1: Directory Migration & Platform Portability
+- Move governance files to `.orqa/`
+- Create orchestrator agent definition
+- Symlink adapter for Claude CLI
+- Update all path references in agents, rules, skills, docs
+- Remove TODO.md
+
+### Phase 2: Navigation Restructuring
+- Activity bar: 4 group icons
+- NavSubPanel: two-level navigation (group → sub-category → artifact list)
+- Navigation store updates
+
+### Phase 3: Backend Readers
+- Scan/read commands for milestones, epics, tasks, ideas, decisions, lessons
+- Update existing governance commands to read from `.orqa/`
+- Store methods for each type
+
+### Phase 4: Artifact Viewers with Structured Frontmatter
+- FrontmatterHeader component (badges, links, tags, dates, progress)
+- Type-specific viewers (MilestoneViewer, EpicViewer, etc.)
+- Orchestrator viewer under Team
+
+### Phase 5: Cross-Linking
+- Frontmatter cross-links (clickable artifact ID chips)
+- Body cross-links (regex detection + inline link rendering)
+- navigateToArtifact() resolver
+
+### Phase 6: Cleanup & Polish
+- Remove all old path references
+- Update governance artifacts for new structure
+- Final verification
+
+## Full Plan
+
+See `.orqa/plans/epic-005-artifact-browser.md` for detailed implementation plan with architectural compliance, UX design, component states, and verification criteria.
