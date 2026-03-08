@@ -17,7 +17,7 @@
 	import LessonsPanel from "$lib/components/lessons/LessonsPanel.svelte";
 	import * as Resizable from "$lib/components/ui/resizable";
 	import setupBackground from "$lib/assets/setup-background.png";
-	import { navigationStore, COMING_SOON_ACTIVITIES } from "$lib/stores/navigation.svelte";
+	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
@@ -126,6 +126,25 @@
 		}
 	});
 
+	// Load orqa artifact lists when switching to their sub-categories
+	$effect(() => {
+		const activity = navigationStore.activeActivity;
+		if (!hasProject || needsSetup) return;
+		if (activity === "milestones" && artifactStore.milestones.length === 0) {
+			artifactStore.loadMilestones();
+		} else if (activity === "epics" && artifactStore.epics.length === 0) {
+			artifactStore.loadEpics();
+		} else if (activity === "tasks" && artifactStore.tasks.length === 0) {
+			artifactStore.loadTasks();
+		} else if (activity === "ideas" && artifactStore.ideas.length === 0) {
+			artifactStore.loadIdeas();
+		} else if (activity === "decisions" && artifactStore.decisions.length === 0) {
+			artifactStore.loadDecisions();
+		} else if (activity === "lessons" && artifactStore.lessons.length === 0) {
+			artifactStore.loadLessons();
+		}
+	});
+
 	// Auto-load artifact content when the selected artifact path changes
 	$effect(() => {
 		const path = navigationStore.selectedArtifactPath;
@@ -140,6 +159,17 @@
 			artifactStore.loadPlan(path);
 		} else if (activityToArtifactType[activity]) {
 			artifactStore.loadGovernanceArtifact(path);
+		} else if (
+			activity === "milestones" ||
+			activity === "epics" ||
+			activity === "tasks" ||
+			activity === "ideas" ||
+			activity === "decisions" ||
+			activity === "lessons"
+		) {
+			// Strip plural 's' to get the command prefix (milestones → milestone, etc.)
+			const commandType = activity.replace(/s$/, "");
+			artifactStore.loadArtifactByType(commandType, path);
 		}
 	});
 </script>
@@ -196,7 +226,11 @@
 							{#if navigationStore.activeActivity === "project"}
 								<ProjectDashboard />
 							{:else if navigationStore.activeActivity === "lessons"}
-								<LessonsPanel />
+								{#if navigationStore.explorerView === "artifact-viewer"}
+									<ArtifactViewer />
+								{:else}
+									<LessonsPanel />
+								{/if}
 							{:else if navigationStore.activeActivity === "chat"}
 								<WelcomeScreen />
 							{:else if navigationStore.isArtifactActivity || (navigationStore.activeGroup !== null && navigationStore.explorerView === "artifact-viewer")}
@@ -205,10 +239,14 @@
 								{:else}
 									<ArtifactLanding category={navigationStore.activeActivity} />
 								{/if}
-							{:else if navigationStore.activeGroup !== null && COMING_SOON_ACTIVITIES.includes(navigationStore.activeActivity)}
-								<div class="flex h-full items-center justify-center p-8 text-center text-sm text-muted-foreground">
-									Select an item from the sidebar to view it here.
-								</div>
+							{:else if navigationStore.activeGroup !== null}
+								{#if navigationStore.explorerView === "artifact-viewer"}
+									<ArtifactViewer />
+								{:else}
+									<div class="flex h-full items-center justify-center p-8 text-center text-sm text-muted-foreground">
+										Select an item from the sidebar to view it here.
+									</div>
+								{/if}
 							{:else}
 								<WelcomeScreen />
 							{/if}

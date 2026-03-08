@@ -4,6 +4,7 @@
 	import SkillViewer from "./SkillViewer.svelte";
 	import HookViewer from "./HookViewer.svelte";
 	import RuleViewer from "./RuleViewer.svelte";
+	import FrontmatterHeader from "./FrontmatterHeader.svelte";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
@@ -15,6 +16,16 @@
 	const breadcrumbs = $derived(navigationStore.breadcrumbs);
 	const activity = $derived(navigationStore.activeActivity);
 	const parsedContent = $derived(artifact ? parseFrontmatter(artifact.content) : null);
+
+	/** Activities whose artifacts have structured YAML frontmatter. */
+	const FRONTMATTER_ACTIVITIES = new Set([
+		"milestones",
+		"epics",
+		"tasks",
+		"ideas",
+		"decisions",
+		"lessons",
+	]);
 
 	function handleContentClick(event: MouseEvent) {
 		const anchor = (event.target as HTMLElement).closest("a");
@@ -72,6 +83,12 @@
 					<HookViewer content={artifact.content} />
 				{:else if activity === "rules"}
 					<RuleViewer content={artifact.content} ruleName={artifact.name} />
+				{:else if FRONTMATTER_ACTIVITIES.has(activity) && parsedContent}
+					<FrontmatterHeader
+						metadata={parsedContent.metadata}
+						artifactType={activity}
+					/>
+					<MarkdownRenderer content={parsedContent.body} />
 				{:else}
 					<MarkdownRenderer content={parsedContent?.body ?? artifact.content} />
 				{/if}

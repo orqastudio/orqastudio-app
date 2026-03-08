@@ -85,8 +85,21 @@ const ACTIVITIES_WITH_NAV_PANEL: ActivityView[] = [
 /** Activity views that show artifact browsing in the explorer */
 const ARTIFACT_ACTIVITIES: ActivityView[] = ["docs", "research", "plans", "agents", "rules", "skills", "hooks"];
 
+/** Orqa planning/governance sub-categories backed by the new artifact readers */
+const ORQA_ARTIFACT_ACTIVITIES: ActivityView[] = ["milestones", "epics", "tasks", "ideas", "decisions"];
+
 /** Sub-categories that have no backend reader yet (show EmptyState) */
-export const COMING_SOON_ACTIVITIES: ActivityView[] = ["milestones", "epics", "tasks", "ideas", "decisions"];
+export const COMING_SOON_ACTIVITIES: ActivityView[] = [];
+
+/** Maps artifact ID prefixes to their group and sub-category */
+const ARTIFACT_PREFIX_MAP: Record<string, { group: ActivityGroup; subCategory: ActivityView }> = {
+	MS: { group: "planning", subCategory: "milestones" },
+	EPIC: { group: "planning", subCategory: "epics" },
+	TASK: { group: "planning", subCategory: "tasks" },
+	IDEA: { group: "planning", subCategory: "ideas" },
+	AD: { group: "governance", subCategory: "decisions" },
+	IMPL: { group: "governance", subCategory: "lessons" },
+};
 
 class NavigationStore {
 	activeActivity = $state<ActivityView>("chat");
@@ -96,6 +109,8 @@ class NavigationStore {
 	selectedArtifactPath = $state<string | null>(null);
 	navPanelCollapsed = $state(false);
 	breadcrumbs = $state<string[]>([]);
+	/** Pending artifact ID to auto-select after navigating to a sub-category via cross-link. */
+	pendingArtifactId = $state<string | null>(null);
 
 	get showNavPanel(): boolean {
 		if (this.navPanelCollapsed) return false;
@@ -164,13 +179,14 @@ class NavigationStore {
 			if (this.navPanelCollapsed) {
 				this.navPanelCollapsed = false;
 			}
-		} else if (COMING_SOON_ACTIVITIES.includes(view)) {
+		} else if (ORQA_ARTIFACT_ACTIVITIES.includes(view)) {
 			this.explorerView = "artifact-list";
 			if (this.navPanelCollapsed) {
 				this.navPanelCollapsed = false;
 			}
 		} else if (view === "lessons") {
-			// Lessons manages its own internal panel
+			// Lessons: sidebar nav shows orqa lessons; main panel shows LessonsPanel or ArtifactViewer
+			this.explorerView = "artifact-list";
 			if (this.navPanelCollapsed) {
 				this.navPanelCollapsed = false;
 			}
@@ -196,6 +212,21 @@ class NavigationStore {
 		this.selectedArtifactPath = null;
 		this.explorerView = "artifact-list";
 		this.breadcrumbs = [];
+	}
+
+	/**
+	 * Navigate to an artifact by its ID string (e.g. "EPIC-005", "MS-001", "AD-017").
+	 * Resolves the prefix to the correct group and sub-category, then opens the artifact.
+	 */
+	navigateToArtifact(id: string) {
+		const prefix = id.split("-")[0];
+		const target = ARTIFACT_PREFIX_MAP[prefix];
+		if (!target) return;
+		this.activeGroup = target.group;
+		this.setSubCategory(target.subCategory);
+		// The artifact list will be loaded by AppLayout's $effect.
+		// We store the pending ID so the list can auto-select it once loaded.
+		this.pendingArtifactId = id;
 	}
 
 	toggleNavPanel() {

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import DocTreeNav from "$lib/components/navigation/DocTreeNav.svelte";
-	import ArtifactListNav from "$lib/components/navigation/ArtifactListNav.svelte";
 	import SettingsCategoryNav from "$lib/components/navigation/SettingsCategoryNav.svelte";
 	import GroupSubPanel from "$lib/components/navigation/GroupSubPanel.svelte";
 	import { navigationStore, type ActivityGroup } from "$lib/stores/navigation.svelte";

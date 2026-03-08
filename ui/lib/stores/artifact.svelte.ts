@@ -17,6 +17,20 @@ class ArtifactStore {
 	error = $state<string | null>(null);
 	filterText = $state("");
 
+	// Orqa artifact lists
+	milestones = $state<ArtifactSummary[]>([]);
+	milestonesLoading = $state(false);
+	epics = $state<ArtifactSummary[]>([]);
+	epicsLoading = $state(false);
+	tasks = $state<ArtifactSummary[]>([]);
+	tasksLoading = $state(false);
+	ideas = $state<ArtifactSummary[]>([]);
+	ideasLoading = $state(false);
+	decisions = $state<ArtifactSummary[]>([]);
+	decisionsLoading = $state(false);
+	lessons = $state<ArtifactSummary[]>([]);
+	lessonsLoading = $state(false);
+
 	get filteredArtifacts(): ArtifactSummary[] {
 		if (!this.filterText) return this.artifacts;
 		const query = this.filterText.toLowerCase();
@@ -175,6 +189,98 @@ class ArtifactStore {
 		}
 	}
 
+	async loadMilestones() {
+		this.milestonesLoading = true;
+		this.error = null;
+		try {
+			this.milestones = await invoke<ArtifactSummary[]>("milestone_list");
+		} catch (err: unknown) {
+			this.error = `Failed to load milestones: ${extractErrorMessage(err)}`;
+			this.milestones = [];
+		} finally {
+			this.milestonesLoading = false;
+		}
+	}
+
+	async loadEpics() {
+		this.epicsLoading = true;
+		this.error = null;
+		try {
+			this.epics = await invoke<ArtifactSummary[]>("epic_list");
+		} catch (err: unknown) {
+			this.error = `Failed to load epics: ${extractErrorMessage(err)}`;
+			this.epics = [];
+		} finally {
+			this.epicsLoading = false;
+		}
+	}
+
+	async loadTasks() {
+		this.tasksLoading = true;
+		this.error = null;
+		try {
+			this.tasks = await invoke<ArtifactSummary[]>("task_list");
+		} catch (err: unknown) {
+			this.error = `Failed to load tasks: ${extractErrorMessage(err)}`;
+			this.tasks = [];
+		} finally {
+			this.tasksLoading = false;
+		}
+	}
+
+	async loadIdeas() {
+		this.ideasLoading = true;
+		this.error = null;
+		try {
+			this.ideas = await invoke<ArtifactSummary[]>("idea_list");
+		} catch (err: unknown) {
+			this.error = `Failed to load ideas: ${extractErrorMessage(err)}`;
+			this.ideas = [];
+		} finally {
+			this.ideasLoading = false;
+		}
+	}
+
+	async loadDecisions() {
+		this.decisionsLoading = true;
+		this.error = null;
+		try {
+			this.decisions = await invoke<ArtifactSummary[]>("decision_list");
+		} catch (err: unknown) {
+			this.error = `Failed to load decisions: ${extractErrorMessage(err)}`;
+			this.decisions = [];
+		} finally {
+			this.decisionsLoading = false;
+		}
+	}
+
+	async loadLessons() {
+		this.lessonsLoading = true;
+		this.error = null;
+		try {
+			this.lessons = await invoke<ArtifactSummary[]>("lesson_list");
+		} catch (err: unknown) {
+			this.error = `Failed to load lessons: ${extractErrorMessage(err)}`;
+			this.lessons = [];
+		} finally {
+			this.lessonsLoading = false;
+		}
+	}
+
+	async loadArtifactByType(type: string, relPath: string) {
+		this.loading = true;
+		this.error = null;
+		try {
+			const artifact = await invoke<Artifact>(`${type}_read`, { relPath });
+			this.activeArtifact = artifact;
+		} catch (err: unknown) {
+			this.error = `Failed to load artifact: ${extractErrorMessage(err)}`;
+			this.activeArtifact = null;
+		} finally {
+			this.loading = false;
+		}
+	}
+
 	clear() {
 		this.artifacts = [];
 		this.activeArtifact = null;
@@ -190,6 +296,18 @@ class ArtifactStore {
 		this.loading = false;
 		this.error = null;
 		this.filterText = "";
+		this.milestones = [];
+		this.milestonesLoading = false;
+		this.epics = [];
+		this.epicsLoading = false;
+		this.tasks = [];
+		this.tasksLoading = false;
+		this.ideas = [];
+		this.ideasLoading = false;
+		this.decisions = [];
+		this.decisionsLoading = false;
+		this.lessons = [];
+		this.lessonsLoading = false;
 	}
 }
 

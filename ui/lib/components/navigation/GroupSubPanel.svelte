@@ -14,14 +14,13 @@
 	import LightbulbIcon from "@lucide/svelte/icons/lightbulb";
 	import ScrollTextIcon from "@lucide/svelte/icons/scroll-text";
 	import * as Tooltip from "$lib/components/ui/tooltip";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import DocTreeNav from "./DocTreeNav.svelte";
 	import ArtifactListNav from "./ArtifactListNav.svelte";
+	import OrqaListNav from "./OrqaListNav.svelte";
 	import {
 		navigationStore,
 		GROUP_SUB_CATEGORIES,
 		SUB_CATEGORY_LABELS,
-		COMING_SOON_ACTIVITIES,
 		type ActivityGroup,
 		type ActivityView,
 	} from "$lib/stores/navigation.svelte";
@@ -60,8 +59,11 @@
 		plans: "plans",
 	};
 
-	/** Sub-categories that support ArtifactListNav */
-	const ARTIFACT_LIST_CATEGORIES: ActivityView[] = ["agents", "rules", "skills", "hooks", "lessons"];
+	/** Sub-categories that support ArtifactListNav (governance types) */
+	const ARTIFACT_LIST_CATEGORIES: ActivityView[] = ["agents", "rules", "skills", "hooks"];
+
+	/** Sub-categories backed by orqa artifact readers */
+	const ORQA_LIST_CATEGORIES: ActivityView[] = ["milestones", "epics", "tasks", "ideas", "decisions", "lessons"];
 </script>
 
 <div class="flex h-full flex-col">
@@ -96,13 +98,8 @@
 			<div class="flex h-full items-center justify-center p-4 text-center text-xs text-muted-foreground">
 				Select a category above.
 			</div>
-		{:else if COMING_SOON_ACTIVITIES.includes(activeSubCategory)}
-			<div class="px-3 py-6">
-				<EmptyState
-					title="Coming soon"
-					description="Backend readers for this category are not yet available."
-				/>
-			</div>
+		{:else if ORQA_LIST_CATEGORIES.includes(activeSubCategory)}
+			<OrqaListNav category={activeSubCategory} />
 		{:else if activeSubCategory === "orchestrator"}
 			<div class="p-2">
 				<button
