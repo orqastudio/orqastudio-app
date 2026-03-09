@@ -1,1 +1,1 @@
-@.orqa/agents/orchestrator.md
+C:/Users/Bobbi/code/orqa-studio/.orqa/team/agents/orchestrator.md
