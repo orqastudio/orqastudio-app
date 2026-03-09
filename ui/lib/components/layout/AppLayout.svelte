@@ -49,8 +49,13 @@
 		}
 
 		// Listen for backend file-watcher events and refresh the nav tree.
-		unlistenArtifactChanged = await listen("artifact-changed", () => {
+		// Also reload project settings so new artifact types in project.json
+		// appear immediately without requiring an app restart.
+		unlistenArtifactChanged = await listen("artifact-changed", async () => {
 			artifactStore.invalidateNavTree();
+			if (projectStore.projectPath) {
+				await projectStore.loadProjectSettings(projectStore.projectPath);
+			}
 		});
 	});
 
