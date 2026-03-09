@@ -17,6 +17,10 @@
 	import TargetIcon from "@lucide/svelte/icons/target";
 	import UsersIcon from "@lucide/svelte/icons/users";
 	import ZapIcon from "@lucide/svelte/icons/zap";
+	import CompassIcon from "@lucide/svelte/icons/compass";
+	import CodeIcon from "@lucide/svelte/icons/code";
+	import LayoutIcon from "@lucide/svelte/icons/layout";
+	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
@@ -47,6 +51,10 @@
 		target: TargetIcon,
 		users: UsersIcon,
 		zap: ZapIcon,
+		compass: CompassIcon,
+		code: CodeIcon,
+		layout: LayoutIcon,
+		palette: PaletteIcon,
 	};
 
 	function resolveDirectoryIcon(iconName: string | null | undefined): Component {

@@ -14,13 +14,20 @@
 	import LightbulbIcon from "@lucide/svelte/icons/lightbulb";
 	import ScrollTextIcon from "@lucide/svelte/icons/scroll-text";
 	import FolderIcon from "@lucide/svelte/icons/folder";
+	import CompassIcon from "@lucide/svelte/icons/compass";
+	import CodeIcon from "@lucide/svelte/icons/code";
+	import LayoutIcon from "@lucide/svelte/icons/layout";
+	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { projectStore } from "$lib/stores/project.svelte";
+	import { artifactStore } from "$lib/stores/artifact.svelte";
+	import { isArtifactGroup } from "$lib/types/project";
 	import type { Component } from "svelte";
 
 	let { group }: { group: string } = $props();
 
-	/** Map from icon name strings to Lucide icon components. */
+	/** Map from icon name strings (as stored in config / navTree) to Lucide icon components. */
 	const ICON_MAP: Record<string, Component> = {
 		"file-text": FileTextIcon,
 		"flask-conical": FlaskConicalIcon,
@@ -37,34 +44,42 @@
 		lightbulb: LightbulbIcon,
 		"scroll-text": ScrollTextIcon,
 		folder: FolderIcon,
+		compass: CompassIcon,
+		code: CodeIcon,
+		layout: LayoutIcon,
+		palette: PaletteIcon,
 	};
 
-	/** Fallback icon map keyed by artifact type key (for projects without icon in config). */
-	const FALLBACK_ICONS: Record<string, Component> = {
-		docs: FileTextIcon,
-		research: FlaskConicalIcon,
-		plans: ClipboardListIcon,
-		milestones: TargetIcon,
-		epics: LayersIcon,
-		tasks: CheckSquareIcon,
-		ideas: LightbulbIcon,
-		agents: BotIcon,
-		skills: ZapIcon,
-		orchestrator: UsersIcon,
-		rules: ShieldIcon,
-		hooks: GitBranchIcon,
-		lessons: BookOpenIcon,
-		decisions: ScrollTextIcon,
-	};
-
-	function resolveIcon(key: string, iconName: string | undefined): Component {
+	function resolveIcon(iconName: string | undefined): Component {
 		if (iconName && iconName in ICON_MAP) {
 			return ICON_MAP[iconName];
 		}
-		if (key in FALLBACK_ICONS) {
-			return FALLBACK_ICONS[key];
-		}
 		return FolderIcon;
+	}
+
+	/**
+	 * Look up the icon for a sub-category by matching its config path against navTree types.
+	 * Priority: config icon → navTree icon → undefined (caller falls back to FolderIcon).
+	 */
+	function getSubCategoryIcon(subKey: string): string | undefined {
+		const config = projectStore.artifactConfig;
+		for (const entry of config) {
+			if (isArtifactGroup(entry)) {
+				for (const child of entry.children) {
+					if (child.key === subKey) {
+						if (child.icon) return child.icon;
+						const tree = artifactStore.navTree;
+						if (!tree) return undefined;
+						for (const group of tree.groups) {
+							for (const type of group.types) {
+								if (type.path === child.path) return type.icon;
+							}
+						}
+					}
+				}
+			}
+		}
+		return undefined;
 	}
 
 	// Use the store getter which derives from artifact config
@@ -74,7 +89,7 @@
 
 <div class="flex flex-col">
 	{#each subCategories as sub (sub.key)}
-		{@const SubIcon = resolveIcon(sub.key, undefined)}
+		{@const SubIcon = resolveIcon(getSubCategoryIcon(sub.key))}
 		{@const isActive = activeSubCategory === sub.key}
 		<Tooltip.Root>
 			<Tooltip.Trigger class="w-full">

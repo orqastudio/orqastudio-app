@@ -15,15 +15,21 @@
 	import ScrollTextIcon from "@lucide/svelte/icons/scroll-text";
 	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
 	import BotIcon from "@lucide/svelte/icons/bot";
+	import CheckSquareIcon from "@lucide/svelte/icons/check-square";
+	import CompassIcon from "@lucide/svelte/icons/compass";
+	import CodeIcon from "@lucide/svelte/icons/code";
+	import LayoutIcon from "@lucide/svelte/icons/layout";
+	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import { Separator } from "$lib/components/ui/separator";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
+	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { isArtifactGroup } from "$lib/types/project";
 	import ActivityBarItem from "./ActivityBarItem.svelte";
 	import type { Component } from "svelte";
 
-	/** Map from icon name strings (as stored in config) to Lucide icon components. */
+	/** Map from icon name strings (as stored in config / navTree) to Lucide icon components. */
 	const ICON_MAP: Record<string, Component> = {
 		"file-text": FileTextIcon,
 		"clipboard-list": ClipboardListIcon,
@@ -39,6 +45,11 @@
 		"scroll-text": ScrollTextIcon,
 		"git-branch": GitBranchIcon,
 		bot: BotIcon,
+		"check-square": CheckSquareIcon,
+		compass: CompassIcon,
+		code: CodeIcon,
+		layout: LayoutIcon,
+		palette: PaletteIcon,
 	};
 
 	function resolveIcon(iconName: string | undefined): Component {
@@ -46,6 +57,41 @@
 			return ICON_MAP[iconName];
 		}
 		return FolderIcon;
+	}
+
+	/**
+	 * Look up the icon for a config entry from the navTree.
+	 * For group entries, the navTree group is found by matching the first child's path prefix.
+	 * For type entries, the navTree type is found by direct path match.
+	 * Returns undefined if the navTree is not yet loaded or no match is found.
+	 */
+	function getNavTreeIcon(entryKey: string, entryPath?: string): string | undefined {
+		const tree = artifactStore.navTree;
+		if (!tree) return undefined;
+
+		// Direct path match for type entries
+		if (entryPath) {
+			for (const group of tree.groups) {
+				if (group.path === entryPath) return group.icon;
+				for (const type of group.types) {
+					if (type.path === entryPath) return type.icon;
+				}
+			}
+		}
+
+		// For group entries without a direct path, derive the group path from the first child
+		const config = projectStore.artifactConfig;
+		for (const cfgEntry of config) {
+			if (isArtifactGroup(cfgEntry) && cfgEntry.key === entryKey && cfgEntry.children.length > 0) {
+				const firstChildPath = cfgEntry.children[0].path;
+				const groupPath = firstChildPath.split("/").slice(0, 2).join("/");
+				for (const group of tree.groups) {
+					if (group.path === groupPath) return group.icon;
+				}
+			}
+		}
+
+		return undefined;
 	}
 
 	/** Convert a config key to a human-readable label (mirrors Rust humanize_name). */
@@ -74,7 +120,8 @@
 
 		<!-- Config-driven artifact entries -->
 		{#each artifactConfig as entry (entry.key)}
-			{@const Icon = resolveIcon(entry.icon)}
+			{@const navIcon = isArtifactGroup(entry) ? getNavTreeIcon(entry.key) : getNavTreeIcon(entry.key, entry.path)}
+			{@const Icon = resolveIcon(entry.icon ?? navIcon)}
 			{@const entryLabel = entry.label ?? humanizeKey(entry.key)}
 			{#if isArtifactGroup(entry)}
 				<!-- Group entry — clicking activates the group -->
