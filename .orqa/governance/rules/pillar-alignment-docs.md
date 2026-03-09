@@ -12,22 +12,22 @@ Every documentation page that describes a feature, component, workflow, integrat
 
 ## Required Section Format
 
+Read the active pillars from `.orqa/planning/pillars/` and create a row for each one:
+
 ```markdown
 ## Pillar Alignment
 
 | Pillar | Alignment |
 |--------|-----------|
-| Clarity Through Structure | [How this page's topic serves Pillar 1, or "N/A" if it doesn't] |
-| Learning Through Reflection | [How this page's topic serves Pillar 2, or "N/A" if it doesn't] |
+| [Pillar title] | [How this page's topic serves this pillar, or "N/A" if it doesn't] |
+| [Pillar title] | [How this page's topic serves this pillar, or "N/A" if it doesn't] |
 ```
 
-Every page must serve at least one pillar. If a page cannot justify alignment with either pillar, it is scope creep and should be flagged for removal.
+Every page must serve at least one active pillar. If a page cannot justify alignment with any pillar, it is scope creep and should be flagged for removal.
 
-## OrqaStudio's Two Pillars
+## Pillar Source of Truth
 
-**Pillar 1: Clarity Through Structure** — Making thinking, standards, and decisions visible and structured. Features that surface governance artifacts, produce structured knowledge (plans, decisions, rules), enforce documentation-first workflows, or make the invisible tangible serve this pillar.
-
-**Pillar 2: Learning Through Reflection** — The system and its users improve over time through structured retrospection. Features that capture lessons, track metrics, feed retrospectives back into governance, accumulate knowledge across sessions, or make the process smarter with each interaction serve this pillar.
+Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. Each pillar has a `title`, `description`, `test-questions`, and `priority` field. Read the pillar artifacts to understand what each pillar means — do not hardcode pillar names or descriptions in documentation pages.
 
 ## Pages That REQUIRE a Pillar Alignment Section
 
@@ -45,21 +45,20 @@ The following page categories are exempt because they define or govern the pilla
 |-----------------|----------|--------|
 | Research pages | `.orqa/planning/research/` | Historical investigations, not features |
 | Development guidelines | Coding standards, agentic workflow, library guides | Internal process docs |
-| High-level overview pages | `.orqa/documentation/product/vision.md`, `.orqa/documentation/product/governance.md` | These define the pillars |
+| Pillar definitions | `.orqa/planning/pillars/` | These ARE the pillars |
+| High-level overview pages | `.orqa/documentation/product/vision.md`, `.orqa/documentation/product/governance.md` | These reference the pillars |
 | Architecture decisions log | `.orqa/documentation/architecture/decisions.md` | Individual decisions already have context |
 
 ## Alignment Descriptions
 
 Write the alignment description as a concise sentence explaining how the page's topic directly serves the pillar. Do not write vague or generic text.
 
-**Good:**
+**Good** (assumes pillars "Clarity Through Structure" and "Learning Through Reflection"):
 
 ```markdown
 | Clarity Through Structure | N/A |
 | Learning Through Reflection | The scanner dashboard tracks pass/fail trends over time, surfacing recurring violations that feed into the lesson promotion pipeline. |
 ```
-
-**Good:**
 
 ```markdown
 | Clarity Through Structure | The rule editor allows users to view, create, and modify agent enforcement rules — making governance tangible and editable. |
@@ -69,8 +68,8 @@ Write the alignment description as a concise sentence explaining how the page's 
 **Bad (too vague):**
 
 ```markdown
-| Clarity Through Structure | Makes governance better |
-| Learning Through Reflection | Helps the system learn |
+| [Pillar title] | Makes governance better |
+| [Pillar title] | Helps the system learn |
 ```
 
 ## When Writing or Editing Documentation

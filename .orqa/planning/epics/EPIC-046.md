@@ -1,7 +1,7 @@
 ---
 id: EPIC-046
 title: "Pillars as First-Class Artifacts"
-status: draft
+status: done
 priority: P1
 milestone: MS-001
 description: >

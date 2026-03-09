@@ -52,7 +52,7 @@ The following rules are classified as system-level because they apply to every m
 
 | Rule | Classification Rationale |
 |------|--------------------------|
-| `vision-alignment.md` | The Two-Pillar framework is OrqaStudio's methodology. Any project using OrqaStudio must pass features through this test. |
+| `vision-alignment.md` | The pillar framework is OrqaStudio's methodology. Any project using OrqaStudio must pass features against active pillars. |
 | `documentation-first.md` | Documentation-first is a universal principle of managed agentic development. It does not depend on the tech stack. |
 | `no-stubs.md` | Stub prevention applies to any implementation. Not specific to Rust or Svelte. |
 | `error-ownership.md` | All errors are the agent's responsibility — universal. |

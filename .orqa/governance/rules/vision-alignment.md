@@ -3,43 +3,46 @@ id: vision-alignment
 layer: canon
 status: active
 title: "Vision Alignment"
-description: "Every feature must serve at least one pillar: Clarity Through Structure or Learning Through Reflection."
+description: "Every feature must serve at least one active pillar defined in .orqa/planning/pillars/."
 scope: project
 ---
 
 
-Every feature, command, and UI element must serve OrqaStudio's product vision. Read `.orqa/documentation/product/vision.md` and `.orqa/documentation/product/governance.md` before implementing any new capability.
+Every feature, command, and UI element must serve the project's guiding principles. These principles are defined as **pillar artifacts** in `.orqa/planning/pillars/`. Read the active pillars before implementing any new capability.
 
-## Two-Pillar Test
+## Pillar Alignment Test
 
-Every feature MUST trace to at least one pillar:
+Every feature MUST trace to at least one active pillar. Pillars are structured artifacts with:
 
-**Pillar 1: Clarity Through Structure**
-Covers: making governance artifacts visible and manageable, producing structured knowledge (plans, decisions, rules), surfacing what would otherwise be hidden in files or terminal output, enforcing documentation-first workflows, architecture decision tracking, rule enforcement and visualisation, agent definition management, scanner execution and dashboard, quality gate enforcement. Governance is not a document collecting dust — it is a living, enforceable, visible layer that OrqaStudio makes tangible and manageable.
+- **`title`** — The principle name
+- **`description`** — What the pillar means
+- **`test-questions`** — Questions to evaluate whether work serves this pillar
+- **`priority`** — Conflict resolution order (lower number = higher priority)
 
-**Pillar 2: Learning Through Reflection**
-Covers: lesson capture, metric tracking (pass/fail rates, coverage trends, violation recurrence), retrospective generation, pattern promotion (lesson -> rule -> scanner -> enforcement), session continuity and handoff, codebase scanning and re-scanning, knowledge accumulation over time. The system and its users get smarter with every cycle — mistakes are documented, patterns are extracted, and governance artifacts are updated automatically.
+**Source of truth:** `.orqa/planning/pillars/PILLAR-NNN.md` files. Do not hardcode pillar names or descriptions in rules, documentation, or agent instructions — always reference the pillar artifacts.
+
+To evaluate a feature, read each active pillar's `test-questions` and check if the feature can answer "yes" to at least one question from at least one pillar.
 
 ## Feature Rejection Criteria
 
 Reject any feature that:
 
-- Does not serve either pillar
-- Adds complexity without improving clarity or learning
-- Cannot explain how it makes work more visible and structured (Pillar 1) or how it makes the process smarter over time (Pillar 2)
-- Is a generic tool feature with no connection to structured thinking or reflective improvement
+- Does not serve any active pillar (cannot answer "yes" to any pillar's test questions)
+- Adds complexity without serving a pillar's intent
+- Cannot articulate which pillar(s) it serves and how
+- Is a generic tool feature with no connection to any pillar
 
 ## Questions Every Agent Should Ask
 
 Before implementing any feature:
 
-1. **Pillar 1 check:** "Does this make thinking, standards, or decisions more visible and structured? Does it help the user see and manage their governance framework?"
-2. **Pillar 2 check:** "Does this help the system or its users improve over time? Does it capture knowledge, track outcomes, or feed information back into the governance loop?"
-3. **Neither?** If the answer to both is "no," the feature is out of scope. Flag it to the user and suggest an alternative that aligns.
+1. **Read active pillars** from `.orqa/planning/pillars/`
+2. **For each pillar**, evaluate the feature against its test-questions
+3. **If no pillar is served**, the feature is out of scope — flag to the user and suggest an alternative that aligns
 
 ## Pillar Conflict Resolution
 
-When Pillar 1 and Pillar 2 conflict, **Pillar 1 takes priority**. You cannot improve a process that isn't visible and structured. Governance must be solid before the learning loop can meaningfully operate on it.
+When pillars conflict, the pillar with the lower `priority` number takes precedence. Check each pillar's `priority` field in its frontmatter. This ordering is project-configurable.
 
 ## UX-First Design
 
@@ -60,7 +63,7 @@ UX-first does NOT mean ignoring architectural constraints. It means the UI defin
 
 The following are **foundational principles** that can ONLY be changed with explicit user direction and approval:
 
-- The Two-Pillar framework (Pillar 1: Clarity Through Structure, Pillar 2: Learning Through Reflection)
+- The pillar framework (active pillars defined in `.orqa/planning/pillars/`)
 - The Tauri v2 + Svelte 5 + Rust + SQLite technology stack
 - The IPC boundary design (Tauri commands as the only frontend-backend interface)
 - The UX-first design principle

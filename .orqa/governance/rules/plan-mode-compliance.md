@@ -191,7 +191,7 @@ In OrqaStudio, the app can verify that plans contain the required sections (Arch
 ## Related Rules
 
 - `artifact-lifecycle.md` — artifact creation, status transitions, promotion gates
-- `vision-alignment.md` — the Two-Pillar framework that plans must serve
+- `vision-alignment.md` — the pillar framework that plans must serve
 - `architecture-decisions.md` — the architecture decisions plans must comply with
 - `coding-standards.md` — the standards implementations must meet
 - `end-to-end-completeness.md` — the full-stack requirement per feature

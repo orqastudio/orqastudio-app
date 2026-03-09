@@ -1,7 +1,7 @@
 ---
 id: TASK-059
 title: "Register pillars in artifact config"
-status: todo
+status: done
 epic: EPIC-046
 created: 2026-03-09
 updated: 2026-03-09

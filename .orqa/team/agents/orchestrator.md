@@ -356,17 +356,23 @@ orqa-studio/
 
 ### Feature Governance
 
-Every feature must pass the Two-Pillar Test:
+Every feature request, task, and implementation must pass the Pillar Alignment Test before work begins. Active pillars are defined as structured artifacts in `.orqa/planning/pillars/`. Read the active pillars before implementing any new capability.
 
-**Pillar 1: Clarity Through Structure** — Does this make governance artifacts visible and manageable? Does it produce structured knowledge?
+Every feature MUST trace to at least one active pillar. To evaluate, read each pillar's `test-questions` and check if the feature can answer "yes" to at least one question from at least one pillar. Reject any feature that serves no active pillar.
 
-**Pillar 2: Learning Through Reflection** — Does this help the system or its users improve over time? Does it capture lessons, track metrics, feed retrospectives?
+When pillars conflict, the pillar with the lower `priority` number takes precedence.
 
-Reject any feature that serves neither pillar.
+#### Feature Rejection Criteria
+
+Reject any feature that:
+
+- Does not serve any active pillar (cannot answer "yes" to any pillar's test questions)
+- Adds complexity without serving a pillar's intent
+- Cannot articulate which pillar(s) it serves and how
 
 #### Foundational Principles Are Immutable
 
-The Two-Pillar framework, the Tauri v2 + Svelte 5 + Rust + SQLite technology stack, the IPC boundary design, and the governance rules are **foundational principles**. They can ONLY be changed with explicit user direction and approval.
+The pillar framework, the Tauri v2 + Svelte 5 + Rust + SQLite technology stack, the IPC boundary design, and the governance rules are **foundational principles**. They can ONLY be changed with explicit user direction and approval.
 
 ### End-to-End Completeness
 

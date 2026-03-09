@@ -170,6 +170,7 @@ Artifact types fall into three management layers. **Canon** artifacts are manage
 
 | Type | ID Pattern | Directory | Layer | Purpose |
 |------|-----------|-----------|-------|---------|
+| **Pillar** | `PILLAR-NNN` | `.orqa/planning/pillars/` | Project | Guiding principle that features are evaluated against |
 | **Milestone** | `MS-NNN` | `.orqa/milestones/` | Project | Strategic goal with gate question |
 | **Epic** | `EPIC-NNN` | `.orqa/epics/` | Project | Trackable work unit within a milestone |
 | **Task** | `TASK-NNN` | `.orqa/tasks/` | Project | Individual implementation unit within an epic |
@@ -182,6 +183,7 @@ Artifact types fall into three management layers. **Canon** artifacts are manage
 
 | Type | Use This When | NOT This |
 |------|--------------|----------|
+| **Pillar** | Defining a guiding principle that the project evaluates all work against. Every feature must serve at least one active pillar. | Don't use for specific constraints — that's a rule. Pillars are strategic principles, not enforcement. |
 | **Milestone** | Defining a strategic goal that groups related epics. Has a gate question that must be answerable "yes" when complete. | Don't use for individual features — that's an epic. |
 | **Epic** | Scoping a trackable body of work with clear deliverables, acceptance criteria, and documentation gates. Titles describe outcomes, not process. | Don't use for investigation — that's research. Don't use for one-off tasks. |
 | **Task** | Tracking an individual implementation unit within an epic. Has a specific assignee, acceptance criteria, and scope. | Don't use for standalone work — tasks always belong to an epic. |
@@ -195,8 +197,11 @@ Lessons and Research already have established schemas (see their respective READ
 ### Connections
 
 ```
+Pillar ──referenced-by──> Epic, Idea (pillars: [PILLAR-NNN])
+  │                        └── evaluated against pillar test-questions
+  │
 Milestone
-  └── Epic (milestone: MS-NNN)
+  └── Epic (milestone: MS-NNN, pillars: [PILLAR-NNN])
         ├── Task (epic: EPIC-NNN)  — inline checklist or separate file
         └── research-refs: []  — design explorations and investigations
 
@@ -212,6 +217,42 @@ Decision ──supersedes──> Decision (when updated)
 ---
 
 ## Schemas
+
+### Pillar (`PILLAR-NNN`)
+
+Pillars are the guiding principles that a project evaluates all work against. Every feature, epic, and idea must serve at least one active pillar. Pillars are project-configurable — different projects define different principles. The `priority` field determines conflict resolution order (lower number = higher priority).
+
+```yaml
+---
+id: PILLAR-001
+title: "Clarity Through Structure"
+status: active                    # active | inactive
+description: >
+  Making thinking, standards, and decisions visible and structured.
+test-questions:
+  - Does this make governance artifacts visible and manageable?
+  - Does it produce structured knowledge (plans, decisions, rules)?
+  - Does it surface what would otherwise be hidden?
+priority: 1                       # Conflict resolution order (1 = highest)
+created: 2026-03-09
+updated: 2026-03-09
+tags: [visibility, structure, governance]
+---
+```
+
+| Field | Required | Type | Description |
+|-------|----------|------|-------------|
+| `id` | Yes | string | Auto-incrementing `PILLAR-NNN` identifier |
+| `title` | Yes | string | Human-readable pillar name |
+| `status` | Yes | enum | `active` (enforced), `inactive` (preserved but not evaluated against) |
+| `description` | Yes | string | What this pillar means — used in system prompt injection |
+| `test-questions` | Yes | string[] | Questions to evaluate whether work serves this pillar |
+| `priority` | Yes | integer | Conflict resolution order (1 = highest priority; wins when pillars conflict) |
+| `created` | Yes | date | ISO date of creation |
+| `updated` | Yes | date | ISO date of last update |
+| `tags` | No | string[] | Freeform tags |
+
+The pillar body contains the full narrative: what the pillar means in practice, examples of work that serves it, anti-patterns that violate it. The `description` and `test-questions` fields are the machine-readable summary used for system prompt injection and scoring.
 
 ### Milestone (`MS-NNN`)
 
@@ -292,6 +333,7 @@ tags: [streaming, transparency]
 | `research-refs` | No | string[] | Research filenames (without `.md`) in `.orqa/research/` that informed this epic |
 | `docs-required` | No | string[] | Documentation that must exist before work begins |
 | `docs-produced` | No | string[] | Documentation this work will create or update |
+| `pillars` | No | string[] | Pillar IDs this epic serves (e.g., `[PILLAR-001, PILLAR-002]`) |
 | `scoring` | No | object | Dimension scores for priority calculation (includes computed `score` field) |
 | `tags` | No | string[] | Freeform tags |
 
@@ -370,7 +412,7 @@ tags: [providers, composability]
 | `id` | Yes | string | Auto-incrementing `IDEA-NNN` identifier |
 | `title` | Yes | string | Human-readable idea name |
 | `status` | Yes | enum | `captured`, `exploring`, `shaped`, `promoted`, `archived` |
-| `pillar` | No | string[] | Product pillars served |
+| `pillars` | No | string[] | Pillar IDs this idea serves (e.g., `[PILLAR-001, PILLAR-002]`) |
 | `description` | No | string | Brief description of the idea |
 | `research-needed` | No | string[] | Questions to answer before promotion |
 | `promoted-to` | No | string | Epic ID if promoted, null otherwise |

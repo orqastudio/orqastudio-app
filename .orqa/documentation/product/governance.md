@@ -1,6 +1,6 @@
 ---
 title: "Product Governance"
-description: "Product governance criteria defining how features are evaluated against the two-pillar framework."
+description: "Product governance criteria defining how features are evaluated against the project's active pillars."
 category: product
 tags: []
 created: 2026-03-02
@@ -13,42 +13,37 @@ updated: 2026-03-07
 
 ## Feature Governance Framework
 
-Every feature, task, and implementation must pass the Two-Pillar Test before work begins.
+Every feature, task, and implementation must pass the Pillar Alignment Test before work begins.
 
-### The Two-Pillar Test
+### Pillar Alignment Test
 
-**Pillar 1: Clarity Through Structure** — Does this feature make thinking, standards, or decisions more visible and structured?
+Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. Each pillar has:
 
-- Does it make governance artifacts visible and manageable?
-- Does it produce or organise structured knowledge (plans, decisions, rules)?
-- Does it enforce a workflow that ensures understanding precedes action?
-- Does it surface what would otherwise be hidden in files, terminal output, or people's heads?
+- **`title`** — The principle name
+- **`description`** — What the pillar means
+- **`test-questions`** — Questions to evaluate whether work serves this pillar
+- **`priority`** — Conflict resolution order (lower number = higher priority)
 
-**Pillar 2: Learning Through Reflection** — Does this feature help the system or its users improve over time?
-
-- Does it capture lessons, discoveries, or patterns?
-- Does it track metrics or outcomes that show improvement (or regression)?
-- Does it feed retrospectives back into the governance framework?
-- Does it accumulate knowledge across sessions so each cycle starts from a better position?
+To evaluate a feature, read each active pillar's `test-questions` and check if the feature can answer "yes" to at least one question from at least one pillar.
 
 ### Rejection Criteria
 
 Reject any feature that:
 
-- Serves neither pillar
-- Adds complexity without improving clarity or learning
-- Is a generic tool feature with no connection to structured thinking or reflective improvement
-- Cannot articulate how it makes the work more visible and structured (Pillar 1) or how it makes the process smarter over time (Pillar 2)
+- Does not serve any active pillar (cannot answer "yes" to any pillar's test questions)
+- Adds complexity without serving a pillar's intent
+- Cannot articulate which pillar(s) it serves and how
+- Is a generic tool feature with no connection to any pillar
 
 ### Pillar Conflict Resolution
 
-When Pillar 1 (Clarity Through Structure) and Pillar 2 (Learning Through Reflection) conflict, **Pillar 1 takes priority**. You cannot improve a process that isn't visible and structured. Governance must be solid before the learning loop can meaningfully operate on it.
+When pillars conflict, the pillar with the lower `priority` number takes precedence. Check each pillar's `priority` field in its frontmatter.
 
 ## Foundational Principles
 
 The following are immutable without explicit user approval:
 
-1. **Two-Pillar framework** — Every feature serves at least one pillar
+1. **Pillar framework** — Every feature serves at least one active pillar defined in `.orqa/planning/pillars/`
 2. **Primary audience** — Structured thinkers: product managers, tech leads, and anyone who needs to turn complex situations into structured understanding
 3. **Human approval gate** — Plans must be approved by a human before execution begins. AI assists and executes, but humans authorise.
 4. **Technology stack** — Tauri v2 + Svelte 5 + Rust + SQLite
@@ -150,7 +145,7 @@ The current process uses:
 - **Hooks** in `.orqa/governance/hooks/` (session start, pre-commit)
 - **Git worktree workflow** for task isolation
 
-The governance works, but it is invisible — artifacts live in dotfiles and terminal output. This is exactly the problem OrqaStudio exists to solve: making this governance visible (Pillar 1) and improving it over time through structured reflection (Pillar 2).
+The governance works, but it is invisible — artifacts live in dotfiles and terminal output. This is exactly the problem OrqaStudio exists to solve: making governance visible and structured, and improving it over time through structured reflection. See `.orqa/planning/pillars/` for the active pillar definitions.
 
 Everything being developed in this bootstrap phase is destined to become the canon layer. The agents, rules, hooks, and artifact framework defined here are not OrqaStudio-specific — they represent the reusable, opinionated framework that ships with every new project OrqaStudio creates.
 

@@ -230,6 +230,8 @@ OrqaStudio does not only generate outputs; it helps users reflect on their think
 
 ## Product Pillars
 
+> **Source of truth:** Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. The narrative below provides context; the pillar artifacts are authoritative for test-questions and conflict resolution priority.
+
 ### Pillar 1: Clarity Through Structure
 
 Making thinking visible, structured, and evolvable.
@@ -264,7 +266,7 @@ The two pillars are complementary and sequential:
 - **Clarity Through Structure** provides the foundation — you cannot improve a process that isn't visible and structured
 - **Learning Through Reflection** operates on that foundation — structured artifacts can be measured, compared, and evolved
 
-When they conflict, Clarity Through Structure takes priority. Governance must be solid before the learning loop can meaningfully operate on it.
+When pillars conflict, the pillar with the lower `priority` number in its frontmatter takes precedence. Currently, Clarity Through Structure (priority: 1) takes precedence over Learning Through Reflection (priority: 2).
 
 ---
 

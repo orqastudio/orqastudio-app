@@ -49,7 +49,7 @@ Architecture decisions for OrqaStudio™. Each decision is numbered AD-NNN and i
 | AD-028 | Three-Tier Skill Loading — Agent, Orchestrator, Wrapper | accepted | governance | `.orqa/governance/decisions/AD-028.md` |
 | AD-029 | Universal Roles, Domain-Specific Skills | accepted | governance | `.orqa/governance/decisions/AD-029.md` |
 | AD-030 | Skill-Driven Project Initialisation | accepted | governance | `.orqa/governance/decisions/AD-030.md` |
-| AD-031 | Pillars as First-Class Planning Artifacts | proposed | governance | `.orqa/governance/decisions/AD-031.md` |
+| AD-031 | Pillars as First-Class Planning Artifacts | accepted | governance | `.orqa/governance/decisions/AD-031.md` |
 
 ## How to Read This Table
 
