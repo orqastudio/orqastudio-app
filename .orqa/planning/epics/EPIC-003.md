@@ -4,31 +4,24 @@ title: "Context Injection on Failed Resume"
 status: draft
 priority: P1
 milestone: MS-001
+description: >
+  Add fallback context injection when SDK session resume fails due to
+  app restart or cleared storage.
 created: 2026-03-07
 updated: 2026-03-07
-deadline: null
-plan: null
-depends-on: []
-blocks: []
-assignee: null
-pillar:
-  - learning-through-reflection
-scoring:
-  pillar: 4
-  impact: 5
-  dependency: 3
-  effort: 3
-score: 11.0
-roadmap-ref: "D3"
+research-refs: []
 docs-required:
   - docs/architecture/streaming-pipeline.md
   - docs/architecture/sqlite-schema.md
 docs-produced:
   - docs/architecture/streaming-pipeline.md (update with context injection protocol)
   - docs/architecture/decisions.md (AD for context injection strategy)
-description: >
-  Add fallback context injection when SDK session resume fails due to
-  app restart or cleared storage.
+scoring:
+  pillar: 4
+  impact: 5
+  dependency: 3
+  effort: 3
+  score: 11.0
 tags: [session, resume, context]
 ---
 

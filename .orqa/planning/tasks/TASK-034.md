@@ -1,0 +1,48 @@
+---
+id: TASK-034
+title: "Orchestrator skill injection table"
+description: >
+  Adds a Tier 2 skill injection table to the orchestrator definition and updates the
+  skill-enforcement rule to document how project-specific skills are matched to task scope at delegation time.
+status: done
+epic: EPIC-042
+created: 2026-03-09
+updated: 2026-03-09
+assignee: agent-maintainer
+skills: [skills-maintenance, orqa-governance]
+scope:
+  - .orqa/team/agents/orchestrator.md
+  - .orqa/governance/rules/skill-enforcement.md
+acceptance:
+  - Orchestrator agent definition includes a skill injection table mapping scope → skills
+  - skill-enforcement.md updated to document the three-tier model
+  - Injection table covers all orqa-* project skills with clear scope triggers
+tags: [orchestrator, skills, injection, tier-2]
+---
+
+## What
+
+Add the Tier 2 skill injection table to the orchestrator's agent definition and update
+the skill-enforcement rule to document the three-tier loading model.
+
+## Implementation Notes
+
+The injection table maps task scope (file paths/directories) to the project-specific
+skills that should be loaded. The orchestrator includes these skills in the delegation
+prompt when creating tasks for agents.
+
+Table from EPIC-042 implementation design:
+
+| Task Scope | Injected Skills |
+|-----------|----------------|
+| `src-tauri/src/commands/` | `orqa-ipc-patterns`, `orqa-error-composition` |
+| `src-tauri/src/domain/` | `orqa-domain-services`, `orqa-error-composition` |
+| `src-tauri/src/repo/`, `src-tauri/src/db.rs` | `orqa-repository-pattern` |
+| `src-tauri/src/search/` | `orqa-native-search` |
+| `sidecar/src/` | `orqa-streaming` |
+| `ui/lib/stores/` | `orqa-store-patterns`, `orqa-store-orchestration` |
+| `ui/lib/components/` | `orqa-store-patterns` |
+| `.orqa/` | `orqa-governance` |
+| Any streaming work | `orqa-streaming` |
+| Any cross-boundary work | `orqa-composability` (always injected) |
+| Any test work | `orqa-testing` |

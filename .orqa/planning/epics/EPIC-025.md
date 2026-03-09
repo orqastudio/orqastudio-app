@@ -1,13 +1,12 @@
 ---
 id: EPIC-025
-title: "Phase 0a — Tech Stack Research"
+title: "Tech Stack Research"
 status: done
 priority: P1
 milestone: MS-000
 created: 2026-03-02
 updated: 2026-03-07
 deadline: null
-plan: null
 depends-on: []
 blocks: [EPIC-026, EPIC-027, EPIC-028, EPIC-029, EPIC-030]
 assignee: null

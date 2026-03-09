@@ -1,13 +1,12 @@
 ---
 id: EPIC-028
-title: "Phase 0d — UX Design"
+title: "UX Design"
 status: done
 priority: P1
 milestone: MS-000
 created: 2026-03-02
 updated: 2026-03-07
 deadline: null
-plan: null
 depends-on: [EPIC-025, EPIC-027]
 blocks: [EPIC-029, EPIC-030]
 assignee: null

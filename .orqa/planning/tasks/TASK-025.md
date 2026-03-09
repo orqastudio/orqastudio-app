@@ -1,0 +1,35 @@
+---
+id: TASK-025
+title: "Extract remaining command domain logic"
+description: >
+  Applies the thin-handler pattern established in TASK-024 to the setup, governance, and
+  artifact command files, moving all business logic into dedicated domain and repository modules.
+status: done
+epic: EPIC-039
+created: 2026-03-07
+updated: 2026-03-09
+assignee: refactor-agent
+skills: [orqa-domain-services, orqa-composability]
+scope:
+  - src-tauri/src/commands/setup_commands.rs
+  - src-tauri/src/commands/governance_commands.rs
+  - src-tauri/src/commands/artifact_commands.rs
+  - src-tauri/src/domain/setup.rs
+  - src-tauri/src/domain/governance_analysis.rs
+  - src-tauri/src/domain/artifact_reader.rs
+acceptance:
+  - All command files follow thin-handler pattern
+  - Domain logic in domain/ modules
+  - Data access in repo/ modules
+tags: [decomposition, domain-services, commands]
+---
+
+## What
+
+Apply the domain service extraction pattern (established in TASK-024) to the
+remaining command files: setup, governance, and artifact commands.
+
+## Outcome
+
+All command files now follow the thin-command → domain service → repository
+pattern. Git commits: `35b6f76`, `e55dd76`, `8750420`, `c60b181`, `e7d4d99`.

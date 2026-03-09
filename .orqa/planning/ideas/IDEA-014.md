@@ -2,18 +2,16 @@
 id: IDEA-014
 title: "Chaos-to-Clarity Engine"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
-promoted-to: null
+description: >
+  Dedicated workflows for transforming unstructured situations into
+  structured understanding through brain-dump flows and AI-driven triage.
 research-needed:
   - Cognitive unloading UX patterns
   - Theme detection accuracy
   - Situation mapping visualisation
-description: >
-  Dedicated workflows for transforming unstructured situations into
-  structured understanding through brain-dump flows and AI-driven triage.
+promoted-to: null
 tags: [chaos, clarity, brain-dump, triage]
 ---
 

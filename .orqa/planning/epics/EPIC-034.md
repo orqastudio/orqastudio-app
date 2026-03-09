@@ -1,0 +1,59 @@
+---
+id: EPIC-034
+title: "Native Search Engine"
+status: done
+priority: P1
+milestone: MS-001
+description: >
+  Implement native code search engine using DuckDB for storage, ONNX Runtime
+  for embeddings, and DirectML for hardware acceleration. Three search modes:
+  regex, semantic, and code_research.
+created: 2026-03-04
+updated: 2026-03-09
+research-refs:
+  - search-engine-implementation
+  - mvp/persistence
+docs-required: []
+docs-produced:
+  - .orqa/documentation/architecture/search-engine.md
+scoring:
+  user-value: 5
+  pillar-alignment: 5
+  dependency-weight: 4
+  effort: 5
+  risk: 3
+  score: 22
+tags: [search, duckdb, onnx, semantic-search, native]
+---
+
+## Implementation Design
+
+### Architecture
+- **Chunker** (`src-tauri/src/search/chunker.rs`) — Splits code at semantic boundaries (functions, classes, imports)
+- **Embedder** (`src-tauri/src/search/embedder.rs`) — ONNX Runtime with bge-small-en-v1.5, DirectML acceleration
+- **Store** (`src-tauri/src/search/store.rs`) — DuckDB vector storage and similarity search
+- **SearchEngine** (`src-tauri/src/search/mod.rs`) — Coordinator: regex, semantic, code_research
+
+### IPC Commands
+- `search_regex` — Exact pattern matching via DuckDB full-text scan
+- `search_semantic` — ONNX embedding → cosine similarity
+- `index_codebase` — Background indexing with status bar progress
+- `get_index_status` — Check indexing state
+
+### Model Distribution
+- Production: bundled in installer (~67MB)
+- Development: auto-download from Hugging Face on first use
+- Background startup task with progress tracking
+
+## Produced Decision
+
+AD-024
+
+## Git Evidence
+
+- `0486837` — Architecture docs
+- `2313f80` — DuckDB indexer + regex search
+- `69a9ae3` — ONNX embeddings + semantic search
+- `4c191f7` — Auto-download model
+- `304a4e6` — Pre-download at startup
+- `e4c5f69` — Startup task tracker

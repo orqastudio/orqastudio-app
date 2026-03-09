@@ -1,19 +1,17 @@
 ---
 id: IDEA-012
 title: "Session Intelligence"
-status: captured
-created: 2026-03-07
-updated: 2026-03-07
+status: exploring
 pillar:
   - learning-through-reflection
-promoted-to: null
+description: >
+  Make AI conversations smarter over time with summarisation,
+  context-aware suggestions, session branching, and proactive learning.
 research-needed:
   - Conversation summarisation approaches
   - Session branching data model
   - Proactive learning pattern matching
-description: >
-  Make AI conversations smarter over time with summarisation,
-  context-aware suggestions, session branching, and proactive learning.
+promoted-to: null
 tags: [sessions, intelligence, summarisation]
 ---
 

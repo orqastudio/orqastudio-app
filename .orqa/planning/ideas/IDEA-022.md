@@ -2,18 +2,16 @@
 id: IDEA-022
 title: "Platform Access"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
-promoted-to: null
+description: >
+  Expand beyond desktop with web companion, mobile companion,
+  API access, and CLI companion.
 research-needed:
   - Web companion architecture (read-only vs interactive)
   - Mobile companion scope
   - API design for programmatic access
-description: >
-  Expand beyond desktop with web companion, mobile companion,
-  API access, and CLI companion.
+promoted-to: null
 tags: [web, mobile, api, cli]
 ---
 

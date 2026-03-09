@@ -2,19 +2,17 @@
 id: IDEA-004
 title: "Structured Thinking Tools"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
   - learning-through-reflection
-promoted-to: null
+description: >
+  Tools that operationalise the agile learning loop beyond conversation,
+  including decision matrices, experiments, and assumption mapping.
 research-needed:
   - Which tools provide most value for structured thinkers
   - UX research for interactive decision matrices
   - Integration with artifact layer
-description: >
-  Tools that operationalise the agile learning loop beyond conversation,
-  including decision matrices, experiments, and assumption mapping.
+promoted-to: null
 tags: [thinking-tools, decision-matrices, experiments]
 ---
 

@@ -13,7 +13,7 @@ scope:
   - ui/lib/components/shared/ThinkingBlock.svelte
   - ui/lib/stores/conversation.svelte.ts
 acceptance:
-  - "System prompt sent (N chars)" appears inline above assistant response when project is loaded
+  - System prompt sent (N chars) appears inline above assistant response when project is loaded
   - Clicking the entry opens ContextDetailDialog with governance prompt text visible
   - ThinkingBlock renders during streaming if thinking deltas arrive
   - No context entry appears when no project is loaded

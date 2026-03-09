@@ -4,31 +4,23 @@ title: "Code Quality Audit"
 status: draft
 priority: P2
 milestone: MS-001
+description: >
+  Audit the codebase against coding standards, fix violations, and
+  feed findings into the learning loop as lessons.
 created: 2026-03-07
 updated: 2026-03-07
-deadline: null
-plan: null
-depends-on: []
-blocks: []
-assignee: null
-pillar:
-  - clarity-through-structure
-  - learning-through-reflection
-scoring:
-  pillar: 4
-  impact: 3
-  dependency: 1
-  effort: 3
-score: 6.3
-roadmap-ref: "D8"
+research-refs: []
 docs-required:
   - docs/development/coding-standards.md
 docs-produced:
   - docs/development/coding-standards.md (update if gaps found)
   - .orqa/lessons/ (new lessons from audit findings)
-description: >
-  Audit the codebase against coding standards, fix violations, and
-  feed findings into the learning loop as lessons.
+scoring:
+  pillar: 4
+  impact: 3
+  dependency: 1
+  effort: 3
+  score: 6.3
 tags: [audit, quality, standards]
 ---
 

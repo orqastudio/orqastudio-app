@@ -1,13 +1,12 @@
 ---
 id: EPIC-030
-title: "Phase 1 — Scaffold"
+title: "Project Scaffold"
 status: done
 priority: P1
 milestone: MS-000
 created: 2026-03-02
 updated: 2026-03-07
 deadline: null
-plan: null
 depends-on: [EPIC-025, EPIC-026, EPIC-027, EPIC-028, EPIC-029]
 blocks: [EPIC-031]
 assignee: null

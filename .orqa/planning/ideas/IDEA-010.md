@@ -1,18 +1,16 @@
 ---
 id: IDEA-010
 title: "Domain Expansion"
-description: "Extend OrqaStudio beyond software development to other domains — research, product management, operations, personal productivity, consulting, and education."
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
   - learning-through-reflection
-promoted-to: null
+description: "Extend OrqaStudio beyond software development to other domains — research, product management, operations, personal productivity, consulting, and education."
 research-needed:
   - User research per domain
   - Domain-specific artifact templates
   - Tool and agent customisation per domain
+promoted-to: null
 tags: [domains, non-software, expansion]
 ---
 

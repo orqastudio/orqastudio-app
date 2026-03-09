@@ -3,6 +3,7 @@ id: RES-009
 title: "Provider Architecture"
 type: research
 status: complete
+milestone: MS-001
 date: 2026-03-07
 category: provider-architecture
 description: >

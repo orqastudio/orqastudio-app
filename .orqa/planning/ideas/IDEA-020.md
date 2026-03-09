@@ -2,18 +2,16 @@
 id: IDEA-020
 title: "Design Tool Integration"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
-promoted-to: null
+description: >
+  Integration with 3rd-party design tools including Figma MCP server,
+  design token sync, and code-to-Figma backfill.
 research-needed:
   - Figma MCP server capabilities
   - Design token sync architecture
   - Code-to-Figma backfill feasibility
-description: >
-  Integration with 3rd-party design tools including Figma MCP server,
-  design token sync, and code-to-Figma backfill.
+promoted-to: null
 tags: [design, figma, tokens]
 ---
 

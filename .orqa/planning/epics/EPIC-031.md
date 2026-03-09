@@ -1,13 +1,12 @@
 ---
 id: EPIC-031
-title: "Phase 2b — Governance Bootstrap"
+title: "Governance Bootstrap"
 status: done
 priority: P1
 milestone: MS-000
 created: 2026-03-02
 updated: 2026-03-07
 deadline: null
-plan: null
 depends-on: [EPIC-030]
 blocks: []
 assignee: null

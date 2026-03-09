@@ -2,18 +2,16 @@
 id: IDEA-021
 title: "Developer Experience Enhancements"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
-promoted-to: null
+description: >
+  Developer experience improvements discovered through self-use,
+  including wireframe browser, terminal, and git integration.
 research-needed:
   - Wireframe rendering library evaluation
   - Terminal integration approach (xterm.js vs native)
   - Git panel scope and UX
-description: >
-  Developer experience improvements discovered through self-use,
-  including wireframe browser, terminal, and git integration.
+promoted-to: null
 tags: [dx, dogfooding, terminal, git]
 ---
 

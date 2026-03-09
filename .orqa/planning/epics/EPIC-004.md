@@ -4,31 +4,24 @@ title: "Artifact Editing UI"
 status: draft
 priority: P1
 milestone: MS-001
+description: >
+  Build an editor component for governance artifacts, connecting existing
+  backend CRUD commands to a CodeMirror-based editing UI.
 created: 2026-03-07
 updated: 2026-03-07
-deadline: null
-plan: null
-depends-on: []
-blocks: []
-assignee: null
-pillar:
-  - clarity-through-structure
-scoring:
-  pillar: 5
-  impact: 5
-  dependency: 2
-  effort: 3
-score: 10.3
-roadmap-ref: "D4"
+research-refs: []
 docs-required:
   - docs/wireframes/artifact-browser.md
   - docs/architecture/ipc-commands.md
 docs-produced:
   - docs/wireframes/artifact-browser.md (update with edit mode wireframes)
   - docs/architecture/ipc-commands.md (verify artifact CRUD commands documented)
-description: >
-  Build an editor component for governance artifacts, connecting existing
-  backend CRUD commands to a CodeMirror-based editing UI.
+scoring:
+  pillar: 5
+  impact: 5
+  dependency: 2
+  effort: 3
+  score: 10.3
 tags: [artifacts, editing, governance]
 ---
 

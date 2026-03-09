@@ -7,7 +7,6 @@ milestone: MS-002
 created: 2026-03-07
 updated: 2026-03-07
 deadline: null
-plan: null
 depends-on: [EPIC-005]
 blocks: []
 assignee: null

@@ -2,34 +2,32 @@
 id: EPIC-032
 title: "Artifact System Migration"
 status: in-progress
-milestone: MS-001
 priority: P1
+milestone: MS-001
+description: >
+  Make the artifact system self-sustaining: correct default creation,
+  historical content linkage, and framework coverage for all 8 types.
 created: 2026-03-08
 updated: 2026-03-08
-plan: self-sustaining-artifacts
-scoring:
-  dogfood-value: 5
-  foundation: 5
-  user-visible: 3
-  scope: 3
-  dependency-risk: 2
-score: 4.1
+research-refs:
+  - self-sustaining-artifacts
 docs-required:
-  - ".orqa/plans/self-sustaining-artifacts.md"
-  - ".orqa/plans/artifact-migration.md"
+  - ".orqa/planning/research/self-sustaining-artifacts.md"
+  - ".orqa/planning/research/artifact-migration.md"
 docs-produced:
   - "docs/product/artifact-framework.md (Decision type added)"
   - "docs/process/artifact-workflow.md (Decision creation section)"
   - "docs/architecture/decisions.md (converted to index)"
   - ".orqa/rules/artifact-lifecycle.md (Decision enforcement)"
   - ".orqa/rules/architecture-decisions.md (dual-source reference)"
-depends-on: []
-blocks: [EPIC-005]
-description: >
-  Make the artifact system self-sustaining: correct default creation,
-  historical content linkage, and framework coverage for all 8 types.
+scoring:
+  dogfood-value: 5
+  foundation: 5
+  user-visible: 3
+  scope: 3
+  dependency-risk: 2
+  score: 4.1
 tags: [migration, artifacts, governance, self-sustaining]
-deadline: null
 ---
 
 ## Workstreams

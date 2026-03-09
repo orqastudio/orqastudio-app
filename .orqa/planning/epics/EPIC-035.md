@@ -1,0 +1,50 @@
+---
+id: EPIC-035
+title: "Native Tool UX & First-Run Setup"
+status: done
+priority: P1
+milestone: MS-001
+description: >
+  Two related UX improvements: (1) friendly tool call display with names, icons,
+  and grouping; (2) first-run setup wizard for project creation and AI provider
+  configuration.
+created: 2026-03-04
+updated: 2026-03-09
+research-refs:
+  - native-tool-ux
+  - first-run-setup-wizard
+docs-required: []
+docs-produced: []
+scoring:
+  user-value: 4
+  pillar-alignment: 3
+  dependency-weight: 4
+  effort: 3
+  risk: 2
+  score: 16
+tags: [ux, tools, onboarding, setup-wizard]
+---
+
+## Implementation Design
+
+### Native Tool UX
+- Friendly names for tool types: Read → "Reading file", Bash → "Running command"
+- Lucide icons per tool type
+- Parameter extraction for summary display
+- Consecutive call de-duplication ("Read 3 files")
+- Collapsible detail view
+
+### First-Run Setup Wizard
+- Claude CLI detection (binary on PATH)
+- Auth status verification
+- Project configuration (name, icon, model)
+- Custom project icon upload via Tauri dialog plugin
+- Settings decomposition into focused sub-components
+
+## Git Evidence
+
+- `b0ee670` — Phase 1: Native tool UX
+- `1ccf304` — Phase 2a: First-run setup wizard
+- `5156a6e` — CLI version and auth status
+- `34ec185` — Custom project icon
+- `1193abb` — File-based project settings

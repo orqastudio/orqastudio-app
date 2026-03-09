@@ -2,17 +2,15 @@
 id: IDEA-015
 title: "Multi-View Output System"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
-promoted-to: null
-research-needed:
-  - View projection architecture
-  - Audience-tailored output generation
 description: >
   Expand artifact projections beyond backlogs with strategy maps,
   experiment frameworks, and audience-tailored summaries.
+research-needed:
+  - View projection architecture
+  - Audience-tailored output generation
+promoted-to: null
 tags: [views, output, projections]
 ---
 

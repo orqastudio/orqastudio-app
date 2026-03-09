@@ -1,19 +1,17 @@
 ---
 id: IDEA-017
 title: "Institutional Memory"
-status: captured
-created: 2026-03-07
-updated: 2026-03-07
+status: exploring
 pillar:
   - learning-through-reflection
-promoted-to: null
+description: >
+  Long-term knowledge preservation with project evolution maps,
+  organisational learning records, and strategic timeline visualisations.
 research-needed:
   - Long-term knowledge preservation model
   - Project evolution timeline UX
   - Organisational learning aggregation
-description: >
-  Long-term knowledge preservation with project evolution maps,
-  organisational learning records, and strategic timeline visualisations.
+promoted-to: null
 tags: [memory, history, preservation]
 ---
 

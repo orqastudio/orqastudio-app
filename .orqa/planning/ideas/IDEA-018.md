@@ -2,17 +2,15 @@
 id: IDEA-018
 title: "Output Composability"
 status: captured
-created: 2026-03-07
-updated: 2026-03-07
 pillar:
   - clarity-through-structure
-promoted-to: null
-research-needed:
-  - Module format design
-  - Domain-specific output templates
 description: >
   New artifact generation modules for different domains including
   service design, policy development, and research planning.
+research-needed:
+  - Module format design
+  - Domain-specific output templates
+promoted-to: null
 tags: [output, modules, composability]
 ---
 
