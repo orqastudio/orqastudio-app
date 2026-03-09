@@ -393,8 +393,7 @@ Ideas are candidates for future work. They need research, validation, and shapin
 id: IDEA-001
 title: "Multi-Provider Ecosystem"
 status: captured                  # captured | exploring | shaped | promoted | archived
-pillar:
-  - clarity-through-structure
+pillars: [PILLAR-001]
 description: >
   Support additional AI providers through the provider-agnostic sidecar
   interface without changing the Rust core or Svelte UI.
@@ -567,9 +566,10 @@ YAML frontmatter fields follow a consistent content hierarchy across all artifac
 | Type | Field Order |
 |------|------------|
 | **Milestone** | id, title, status, description, created, updated, deadline, gate, epic-count, completed-epics, tags |
-| **Epic** | id, title, status, priority, milestone, description, created, updated, research-refs, docs-required, docs-produced, scoring, tags |
+| **Pillar** | id, title, status, description, test-questions, priority, created, updated, tags |
+| **Epic** | id, title, status, priority, milestone, pillars, description, created, updated, research-refs, docs-required, docs-produced, scoring, tags |
 | **Task** | id, title, status, epic, description, created, updated, depends-on, assignee, skills, scope, acceptance, tags |
-| **Idea** | id, title, status, pillar, description, research-needed, promoted-to, tags |
+| **Idea** | id, title, status, pillars, description, research-needed, promoted-to, tags |
 | **Lesson** | id, title, category, description, recurrence, promoted_to, tags |
 | **Rule** | id, title, description, scope |
 | **Decision** | id, title, status, description, created, updated, supersedes, superseded-by, tags |
@@ -667,6 +667,11 @@ Priority dimensions, weights, and bands are stored in `.orqa/project.json` under
 ```
 .orqa/
 ├── project.json              # Project config including priority dimensions
+├── planning/
+│   └── pillars/
+│       ├── README.md            # What pillars are and how to create them
+│       ├── PILLAR-001.md        # Clarity Through Structure
+│       └── PILLAR-002.md        # Learning Through Reflection
 ├── milestones/
 │   ├── MS-001.md             # Dogfooding
 │   └── MS-002.md             # MVP
@@ -696,11 +701,12 @@ Priority dimensions, weights, and bands are stored in `.orqa/project.json` under
 
 All artifact IDs auto-increment within their type:
 
+- `PILLAR-001`, `PILLAR-002`, ...
 - `MS-001`, `MS-002`, ...
 - `EPIC-001`, `EPIC-002`, ...
 - `TASK-001`, `TASK-002`, ...
 - `IDEA-001`, `IDEA-002`, ...
-- `IMPL-001`, `IMPL-002`, ... (existing)
+- `IMPL-001`, `IMPL-002`, ...
 - `AD-001`, `AD-002`, ...
 
 IDs are stable — never reused after deletion. The next ID is determined by scanning existing files in the directory.
@@ -754,7 +760,10 @@ Milestone ←── milestone ── Epic ←── epic ── Task
                               │
                               ├── docs-produced ──→ New/Updated Docs (output)
                               │
-                              └── pillar ──→ Product Vision
+                              └── pillars ──→ Pillar (PILLAR-NNN)
+
+Pillar ←── pillars ── Idea
+Pillar ←── pillars ── Epic
 
 Idea ──research-needed──→ Research ──→ (validates) ──→ promoted-to ──→ Epic
                                     └── docs-produced ──→ Research artifact

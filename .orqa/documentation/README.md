@@ -3,7 +3,7 @@ role: group
 label: Documentation
 description: Project documentation, architecture references, and UI specs.
 icon: file-text
-sort: 4
+sort: 1
 ---
 
 ![OrqaStudio™](../ui/lib/assets/banner.png)
@@ -19,9 +19,7 @@ Desktop app for managed agentic development. Claude Code's capabilities with a v
 
 ## Product Pillars
 
-**Pillar 1: Clarity Through Structure** — Making governance visible and manageable. Standards, rules, and workflows are not invisible infrastructure — they are tangible, enforceable, and browsable.
-
-**Pillar 2: Learning Through Reflection** — The system and its users improve over time. Retrospectives, metrics, and lessons feed back into governance. Every session makes OrqaStudio smarter.
+Active pillars are defined in `.orqa/planning/pillars/`. Every feature must serve at least one active pillar. See the **Pillars** section under Planning for the current pillar definitions and their test questions.
 
 ## Tech Stack
 

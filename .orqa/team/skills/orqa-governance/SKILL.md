@@ -29,6 +29,7 @@ OrqaStudio's governance layer manages documentation, research, lessons, rules, a
     product/                #   Product docs
     ui/                     #   UI specs
   planning/                 # Planning artifacts
+    pillars/                #   PILLAR-NNN.md (guiding principles)
     ideas/                  #   IDEA-NNN.md
     research/               #   Research documents (investigations, designs, spikes)
     milestones/             #   MS-NNN.md
@@ -102,6 +103,65 @@ The scanner recursively walks directories like a file explorer:
 ### Critical Rule: Config Paths Must Match Disk
 
 Every `path` in the config must resolve to an actual directory. Moving files on disk requires updating the config. See `.orqa/governance/rules/artifact-config-integrity.md`.
+
+## Directory README Format
+
+Every artifact directory and group directory has a `README.md` that provides navigation metadata for the UI. READMEs are NOT browsable artifacts — they are skipped by the scanner.
+
+### Group README (parent directories)
+
+```yaml
+---
+role: group
+label: "Planning"
+description: "Strategic planning artifacts."
+icon: "clipboard-list"
+sort: 2
+---
+
+Body text describing what this group contains.
+```
+
+### Artifact README (leaf directories)
+
+```yaml
+---
+role: artifacts
+label: "Epics"
+description: "Trackable work units that group related tasks together."
+icon: "layers"
+sort: 2
+---
+
+# Epics
+
+Description, lifecycle diagram, key concepts, and Related section.
+```
+
+### Fields
+
+| Field | Required | Values | Purpose |
+|-------|----------|--------|---------|
+| `role` | Yes | `group` or `artifacts` | Group = parent with children, artifacts = scannable leaf directory |
+| `label` | Yes | string | Display name in nav sidebar |
+| `description` | Yes | string | Tooltip/subtitle in nav |
+| `icon` | Yes | string | Lucide icon name (e.g., `layers`, `target`, `compass`) |
+| `sort` | Yes | integer | Display order within parent (0 = first) |
+
+### Body Structure (artifact READMEs)
+
+1. **Heading** matching the label
+2. **One-paragraph description** of what this artifact type is
+3. **Lifecycle** section with status flow diagram
+4. **Key concepts** — what makes a good artifact of this type, gates, relationships
+5. **Related** section linking to connected artifact types
+
+### When to Create/Update a README
+
+- **New artifact directory**: Create a README before adding any artifacts
+- **New artifact type registered in project.json**: Create matching README
+- **Renaming or moving a directory**: Update the README's label and description
+- **Changing the artifact's lifecycle or schema**: Update the README to match
 
 ## Artifact Frontmatter Schemas
 
@@ -216,22 +276,20 @@ Lesson documented (.orqa/governance/lessons/IMPL-NNN.md)
     → Enforcement verified
 ```
 
-## Two-Pillar Alignment
+## Pillar Alignment
 
-Every governance artifact serves at least one pillar:
+Active pillars are defined in `.orqa/planning/pillars/PILLAR-NNN.md`. Every governance artifact and feature must serve at least one active pillar. To evaluate alignment, read each pillar's `test-questions` and check if the work can answer "yes" to at least one question from at least one pillar.
 
-| Pillar | What It Covers |
-|--------|---------------|
-| **Clarity Through Structure** | Rules, agents, scanners, enforcement, quality gates, architecture decisions, artifact visibility |
-| **Learning Through Reflection** | Lessons, metrics, retrospectives, pattern promotion, knowledge accumulation |
+When pillars conflict, the pillar with the lower `priority` number takes precedence.
 
-Features that serve neither pillar are out of scope.
+Features that serve no active pillar are out of scope.
 
 ## Key Files
 
 | File | Purpose |
 |------|---------|
 | `.orqa/project.json` | Project configuration (includes `artifacts` array) |
+| `.orqa/planning/pillars/` | Product pillars (PILLAR-NNN.md) — guiding principles |
 | `.orqa/governance/lessons/` | Implementation lessons (IMPL-NNN.md) |
 | `.orqa/governance/decisions/` | Architecture decisions (AD-NNN.md) |
 | `.orqa/governance/rules/` | Governance rules |
