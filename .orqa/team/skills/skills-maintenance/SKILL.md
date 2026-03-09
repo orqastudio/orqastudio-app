@@ -1,5 +1,6 @@
 ---
 id: skills-maintenance
+layer: canon
 title: "Skills Maintenance"
 name: skills-maintenance
 description: |

@@ -1,12 +1,14 @@
 ---
 id: error-ownership
+layer: canon
+status: active
 title: "Error Ownership"
 description: "All errors are your responsibility. Pre-existing errors must be fixed. Never skip or ignore failures."
 scope: system
 ---
 
 
-**Source of Truth:** `@TODO.md` -> "HOW TO WORK" section
+**Source of Truth:** `TODO.md` -> "HOW TO WORK" section
 
 ## Rule (NON-NEGOTIABLE)
 

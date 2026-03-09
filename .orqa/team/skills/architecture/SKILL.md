@@ -1,5 +1,6 @@
 ---
 id: architecture
+layer: canon
 title: "Architecture"
 name: architecture
 description: |

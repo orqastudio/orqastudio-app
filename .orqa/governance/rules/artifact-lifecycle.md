@@ -1,5 +1,7 @@
 ---
 id: artifact-lifecycle
+layer: canon
+status: active
 title: "Artifact Lifecycle"
 description: "Enforces creation standards, status transitions, promotion gates, and documentation gates for all .orqa/ artifacts."
 scope: project
@@ -8,7 +10,7 @@ scope: project
 
 Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enforces creation standards, status transitions, promotion gates, documentation gates, and cross-referencing.
 
-**Source of Truth:** `docs/product/artifact-framework.md`
+**Source of Truth:** `.orqa/documentation/product/artifact-framework.md`
 
 ---
 
@@ -21,13 +23,13 @@ Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enf
 | User mentions a future feature or "we should eventually..." | `IDEA-NNN` | Create in `.orqa/ideas/` with `status: captured` |
 | User approves an idea for investigation | Update existing `IDEA-NNN` | Set `status: exploring`, begin research |
 | Research validates an idea for implementation | `EPIC-NNN` | Create in `.orqa/epics/` with `status: draft`, update idea `promoted-to` |
-| An epic needs a design document | Plan file | Create in `.orqa/plans/`, reference from epic `plan` field |
+| An epic needs investigation work before implementation | Research file | Create in `.orqa/research/`; reference from epic `research-refs` field. Implementation design goes in the epic body. |
 | An epic is approved and scoped for implementation | Update `EPIC-NNN` | Set `status: ready` (requires `docs-required` gate satisfied) |
-| A task within an epic needs detailed tracking | `TASK-NNN` | Create in `.orqa/tasks/` with `epic` reference |
+| A task within an epic needs detailed tracking | `TASK-NNN` | Create in `.orqa/tasks/` with `epic:` reference |
 | A strategic goal is defined | `MS-NNN` | Create in `.orqa/milestones/` |
 | An implementation reveals a reusable pattern | `IMPL-NNN` | Create in `.orqa/lessons/` (see `lessons-learned.md`) |
 | A question needs investigation before a decision | Research file | Create in `.orqa/research/` |
-| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/decisions/`, add entry to `docs/architecture/decisions.md` index |
+| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/decisions/`, add entry to `.orqa/documentation/architecture/decisions.md` index |
 
 ### ID Assignment
 
@@ -35,7 +37,7 @@ IDs auto-increment per type. To determine the next ID, scan existing files in th
 
 ### Required Fields
 
-Every artifact MUST have all fields marked "Required" in the schema defined in `docs/product/artifact-framework.md`. Missing required fields are a review FAIL.
+Every artifact MUST have all fields marked "Required" in the schema defined in `.orqa/documentation/product/artifact-framework.md`. Missing required fields are a review FAIL.
 
 ---
 
@@ -63,14 +65,40 @@ draft ──> ready ──> in-progress ──> review ──> done
 - `in-progress → review`: Implementation complete, submitted for verification gates
 - `review → done`: All verification gates passed (code-reviewer, qa-tester, ux-reviewer), all `docs-produced` items verified as created/updated
 
+The epic body contains the implementation design — data model, IPC contracts, component breakdown, and approach. For investigation-heavy work, the epic may carry a `research-refs` field listing research documents in `.orqa/research/` that informed the design.
+
 ### Task
 
 ```
 todo ──> in-progress ──> done
 ```
 
-- `todo → in-progress`: Parent epic is `in-progress`, agent is assigned
+- `todo → in-progress`: Parent epic is `in-progress`, agent is assigned, **and all tasks listed in `depends-on` have `status: done`**
 - `in-progress → done`: Acceptance criteria met, verified by reviewer
+
+Tasks are either completed or not. There is no surpassed state for tasks.
+
+### Task Dependency Gate (NON-NEGOTIABLE)
+
+If a task has a `depends-on` field listing other task IDs, those tasks MUST be `done` before the dependent task can move to `in-progress`. This is a hard gate — not a suggestion.
+
+**Before starting any task**, the orchestrator MUST:
+
+1. Check the task's `depends-on` field
+2. If non-empty, verify each listed task has `status: done`
+3. If any dependency is not done, the task is **blocked** — do not start it
+4. Report which dependencies are blocking if asked about task status
+
+**Circular dependencies are forbidden.** If TASK-A depends on TASK-B and TASK-B depends on TASK-A, both tasks are broken — fix the dependency chain before proceeding.
+
+### Research
+
+```
+draft ──> complete ──> surpassed
+```
+
+- Research documents capture investigation findings and feed into epics or architecture decisions.
+- A research document may be marked `surpassed` when newer investigation supersedes it. Set `surpassed-by` field. Do NOT delete — research documents are historical records of reasoning and findings.
 
 ### Idea
 
@@ -102,7 +130,7 @@ proposed ──> accepted ──> superseded
 - `accepted → superseded`: A new decision replaces this one — both the new and old artifacts MUST be updated in the same commit
 - `accepted → deprecated`: Decision is no longer relevant (technology removed, context changed) — reason documented in the decision body
 
-**Creation rule:** When research produces an architectural choice, an `AD-NNN.md` MUST be created in `.orqa/decisions/` and an entry added to the index at `docs/architecture/decisions.md`. Adding a decision only to the monolithic index without an individual artifact file is FORBIDDEN.
+**Creation rule:** When research produces an architectural choice, an `AD-NNN.md` MUST be created in `.orqa/decisions/` and an entry added to the index at `.orqa/documentation/architecture/decisions.md`. Adding a decision only to the monolithic index without an individual artifact file is FORBIDDEN.
 
 **Supersession rule:** When a new decision replaces an accepted decision, both the new artifact (`supersedes: AD-<old>`) and the old artifact (`status: superseded`, `superseded-by: AD-<new>`) MUST be updated in the same commit. A one-sided supersession is an integrity violation.
 
@@ -154,7 +182,7 @@ An idea MUST NOT be promoted to an epic until:
 2. Update the source `IDEA-NNN.md`:
    - Set `status: promoted`
    - Set `promoted-to: EPIC-NNN`
-3. Update `docs/product/roadmap.md` if the epic adds to or modifies the roadmap
+3. Update `.orqa/documentation/product/roadmap.md` if the epic adds to or modifies the roadmap
 4. Update the parent `MS-NNN.md` milestone's `epic-count` if applicable
 
 ---
@@ -194,7 +222,7 @@ P2 and P3 epics may remain in-progress or draft when a milestone is completed �
 
 ### When Artifacts Change
 
-The following changes MUST be reflected in `docs/product/roadmap.md`:
+The following changes MUST be reflected in `.orqa/documentation/product/roadmap.md`:
 
 - New epic added to a milestone → add to roadmap under the milestone section
 - Epic priority changes → update roadmap ordering
@@ -215,7 +243,7 @@ The following changes MUST be reflected in `docs/product/roadmap.md`:
 The orchestrator SHOULD periodically verify:
 
 1. **No orphaned artifacts** — every epic references an existing milestone, every task references an existing epic
-2. **No broken references** — `depends-on`, `blocks`, `promoted-to`, `plan`, `supersedes`, `superseded-by` all point to existing artifacts
+2. **No broken references** — `depends-on`, `blocks`, `promoted-to`, `research-refs`, `supersedes`, `superseded-by` all point to existing artifacts
 3. **Status consistency** — a milestone marked `active` has at least one `in-progress` or `ready` epic
 4. **Count accuracy** — milestone `epic-count` and `completed-epics` match reality
 5. **Frontmatter completeness** — all required fields are present and non-empty
@@ -231,8 +259,9 @@ The orchestrator SHOULD periodically verify:
 - Leaving `promoted-to` null on an idea with `status: promoted`
 - Creating duplicate IDs (two artifacts with the same ID)
 - Modifying artifact IDs after creation
-- Recording an architecture decision only in `docs/architecture/decisions.md` without a corresponding `AD-NNN.md` file in `.orqa/decisions/`
+- Recording an architecture decision only in `.orqa/documentation/architecture/decisions.md` without a corresponding `AD-NNN.md` file in `.orqa/decisions/`
 - Updating one side of a decision supersession without updating the other
+- Using process words (UAT, Phase, Sprint, Round, Audit) in epic titles unless they describe the actual deliverable content — epic titles describe what is achieved, not how work is organised
 
 ---
 
@@ -240,7 +269,6 @@ The orchestrator SHOULD periodically verify:
 
 - `documentation-first.md` — documentation is the source of truth; artifacts enforce the documentation-first principle at the workflow level
 - `vision-alignment.md` — pillar alignment required for all artifacts
-- `plan-mode-compliance.md` — plans referenced by epics must meet plan structure requirements
 - `lessons-learned.md` — lesson lifecycle and promotion pipeline
 - `pillar-alignment-docs.md` — pillar alignment in documentation pages
 - `honest-reporting.md` — artifact status must reflect reality

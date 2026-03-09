@@ -1,5 +1,6 @@
 ---
 id: orqa-ipc-patterns
+layer: project
 title: "Orqa IPC Patterns"
 name: orqa-ipc-patterns
 description: |

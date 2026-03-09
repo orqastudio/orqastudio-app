@@ -1,7 +1,10 @@
 ---
 id: development-commands
+layer: project
+status: active
 title: "Development Commands"
 description: "All development commands must be invoked via make targets. Raw cargo and npm commands are forbidden."
+scope: project
 ---
 
 
@@ -32,7 +35,7 @@ All development commands MUST be invoked via `make` targets. Raw `cargo` and `np
 - Single source of truth for how commands are invoked
 - Ensures `--manifest-path` and other flags are always correct
 - Consistent across agents, humans, and CI
-- Documented in `docs/development/commands.md`
+- Documented in `.orqa/documentation/development/commands.md`
 
 ## Dev Server (NON-NEGOTIABLE)
 
@@ -70,7 +73,7 @@ These raw commands are still allowed because they have no `make` equivalent:
 
 When adding a new recurring command to the project:
 1. Add a `make` target first
-2. Document it in `docs/development/commands.md`
+2. Document it in `.orqa/documentation/development/commands.md`
 3. Update this rule's command mapping table
 4. Only then start using the command
 

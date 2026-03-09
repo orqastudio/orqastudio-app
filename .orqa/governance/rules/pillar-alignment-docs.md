@@ -1,5 +1,7 @@
 ---
 id: pillar-alignment-docs
+layer: canon
+status: active
 title: "Pillar Alignment in Documentation"
 description: "Every documentation page describing a feature must include a Pillar Alignment section."
 scope: project
@@ -29,8 +31,8 @@ Every page must serve at least one pillar. If a page cannot justify alignment wi
 
 ## Pages That REQUIRE a Pillar Alignment Section
 
-- Feature pages (docs/ui/)
-- Architecture pages (docs/architecture/)
+- Feature pages (.orqa/documentation/ui/)
+- Architecture pages (.orqa/documentation/architecture/)
 - Component and module documentation
 - Workflow and process pages
 - Any page describing a capability, component, or system behavior
@@ -41,10 +43,10 @@ The following page categories are exempt because they define or govern the pilla
 
 | Exempt Category | Examples | Reason |
 |-----------------|----------|--------|
-| Research pages | `.orqa/research/` | Historical investigations, not features |
+| Research pages | `.orqa/planning/research/` | Historical investigations, not features |
 | Development guidelines | Coding standards, agentic workflow, library guides | Internal process docs |
-| High-level overview pages | `docs/product/vision.md`, `docs/product/governance.md` | These define the pillars |
-| Architecture decisions log | `docs/architecture/decisions.md` | Individual decisions already have context |
+| High-level overview pages | `.orqa/documentation/product/vision.md`, `.orqa/documentation/product/governance.md` | These define the pillars |
+| Architecture decisions log | `.orqa/documentation/architecture/decisions.md` | Individual decisions already have context |
 
 ## Alignment Descriptions
 

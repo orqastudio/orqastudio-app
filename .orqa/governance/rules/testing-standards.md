@@ -1,5 +1,7 @@
 ---
 id: testing-standards
+layer: canon
+status: active
 title: "Testing Standards"
 description: "Test organisation, coverage requirements, mock boundaries, and isolation rules."
 scope: project
@@ -14,7 +16,7 @@ enforcement:
 ---
 
 
-**Source of Truth:** This file defines testing patterns. `docs/development/coding-standards.md` defines coverage requirements.
+**Source of Truth:** This file defines testing patterns. `.orqa/documentation/development/coding-standards.md` defines coverage requirements.
 
 ## Test Organisation
 
@@ -29,7 +31,7 @@ enforcement:
 
 - **Rust backend**: >=80% per module (`cargo tarpaulin --fail-under 80` or equivalent coverage tool)
 - **Frontend**: Run `npm run test` — all tests must pass (Vitest)
-- **E2E**: All user flows in `docs/ui/` must have Playwright coverage
+- **E2E**: All user flows in `.orqa/documentation/ui/` must have Playwright coverage
 
 ## Mock Boundaries
 
@@ -81,7 +83,7 @@ make test-watch
 make test-e2e
 ```
 
-For the full command reference, see `docs/development/commands.md`.
+For the full command reference, see `.orqa/documentation/development/commands.md`.
 
 ## Related Rules
 

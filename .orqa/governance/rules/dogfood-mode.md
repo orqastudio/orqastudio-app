@@ -1,5 +1,6 @@
 ---
 id: dogfood-mode
+layer: project
 title: "Dogfood Mode"
 description: "Project-level rule for when an app is editing itself. Provides agent context awareness, operational caution, and system prompt injection. Active when dogfood: true in project.json."
 status: active
@@ -33,7 +34,7 @@ When `dogfood: true`, the app's system prompt builder should include context lik
 
 > You are working on a project that is dogfooding — the app you are building IS the app you are running inside. Changes to the backend require a restart. Changes to the sidecar protocol affect your active connection. Frontend changes apply via HMR but can crash mid-stream. Apply the systems-thinking rule with awareness that you are part of the system you are modifying.
 
-This injection is what transitions an agent from "building an app" to "building the app I'm running in." The CLI achieves this via `.claude/rules/dogfood-mode.md` being loaded into context. The app achieves it via the system prompt injection.
+This injection is what transitions an agent from "building an app" to "building the app I'm running in." The CLI achieves this via the dogfood-mode rule (`.claude/rules/` symlinks to `.orqa/team/rules/`) being loaded into context. The app achieves it via the system prompt injection.
 
 ## Enhanced Caution Rules
 

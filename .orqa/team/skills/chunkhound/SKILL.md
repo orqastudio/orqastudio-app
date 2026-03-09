@@ -1,5 +1,6 @@
 ---
 id: chunkhound
+layer: canon
 title: "ChunkHound"
 name: chunkhound
 description: |

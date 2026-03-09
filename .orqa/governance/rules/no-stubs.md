@@ -1,5 +1,7 @@
 ---
 id: no-stubs
+layer: canon
+status: active
 title: "No Stubs or Placeholders"
 description: "No hardcoded fake data, TODO functions, or scaffolded implementations in production code."
 scope: system

@@ -1,5 +1,6 @@
 ---
 id: planning
+layer: canon
 title: "Planning"
 name: planning
 description: |

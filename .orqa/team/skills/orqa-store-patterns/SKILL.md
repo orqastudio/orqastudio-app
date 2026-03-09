@@ -1,5 +1,6 @@
 ---
 id: orqa-store-patterns
+layer: project
 title: "Orqa Store Patterns"
 name: orqa-store-patterns
 description: |

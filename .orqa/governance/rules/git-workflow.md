@@ -1,5 +1,7 @@
 ---
 id: git-workflow
+layer: canon
+status: active
 title: "Git Workflow"
 description: "Worktree-based workflow with mandatory cleanup, stash policy, and data loss prevention rules."
 scope: system
@@ -19,7 +21,7 @@ enforcement:
 ---
 
 
-**Source of Truth:** `@docs/development/agentic-workflow.md`
+**Source of Truth:** `.orqa/documentation/development/agentic-workflow.md`
 
 ## Worktree Workflow (MANDATORY)
 

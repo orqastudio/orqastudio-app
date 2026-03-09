@@ -1,5 +1,7 @@
 ---
 id: no-aliases-or-hacks
+layer: canon
+status: active
 title: "No Aliases or Hacks"
 description: "Fix root causes of type mismatches between layers. Never paper over with aliases, shims, or duplicate mappings."
 scope: system

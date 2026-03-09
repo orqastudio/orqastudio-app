@@ -1,5 +1,7 @@
 ---
 id: plan-mode-compliance
+layer: canon
+status: active
 title: "Plan Mode Compliance"
 description: "Every implementation plan must have architectural compliance verification and UX-first design."
 scope: system
@@ -96,7 +98,7 @@ Plans exist within the artifact framework. When a plan is created:
 3. **Plans produce epics:** A plan that is approved should result in an `EPIC-NNN` being created (or updated) with `docs-required` and `docs-produced` fields populated from the plan's documentation sections
 4. **The plan's documentation section feeds the epic's gates:** Items in the plan's "Documentation" dimension of the Systems Architecture Checklist become the epic's `docs-required` and `docs-produced` lists
 
-See `.orqa/rules/artifact-lifecycle.md` for the full artifact lifecycle and `docs/process/artifact-workflow.md` for day-to-day workflow.
+See `.orqa/team/rules/artifact-lifecycle.md` for the full artifact lifecycle and `.orqa/documentation/process/artifact-workflow.md` for day-to-day workflow.
 
 ## Roadmap Reconciliation (MANDATORY)
 
@@ -107,7 +109,7 @@ Before a plan is approved, the orchestrator MUST reconcile the plan's task list 
 3. If any roadmap item is missing from the plan, either add it as a task or get explicit user approval to descope it
 4. No item may be silently moved to "Out of Scope" or deferred to another epic without user approval
 
-See `.orqa/rules/no-deferred-deliverables.md` for the full enforcement rule.
+See `.orqa/team/rules/no-deferred-deliverables.md` for the full enforcement rule.
 
 ## When This Rule Applies
 

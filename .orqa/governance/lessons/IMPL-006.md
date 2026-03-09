@@ -1,0 +1,39 @@
+---
+id: IMPL-006
+title: "Symlinks Prevent Governance Divergence"
+category: implementation
+description: >
+  When .claude/ contains copies instead of symlinks to .orqa/, agents
+  writing to .claude/ bypass the source of truth and the two directories
+  silently diverge.
+status: promoted
+recurrence: 1
+promoted_to: artifact-config-integrity
+tags: [symlinks, governance, divergence, source-of-truth, bug]
+---
+
+## What Happened
+
+Agents were writing governance artifacts (rules, agents, skills) directly to `.claude/` directories, which were separate copies of the `.orqa/` source of truth. Over multiple sessions, the two directories diverged — `.claude/` had newer rule content while `.orqa/` had the original versions. The CLI loaded from `.claude/` and the app scanned `.orqa/`, resulting in inconsistent governance enforcement.
+
+## Why It Was Unexpected
+
+The initial setup created `.claude/` as copies of `.orqa/` files. When agent delegation rules said "write to `.claude/rules/`", agents complied — but this bypassed the `.orqa/` source of truth. The divergence was invisible until a full audit revealed different file contents.
+
+## The Correct Approach
+
+`.claude/` should contain ONLY symlinks to `.orqa/` directories, plus `settings.json` and `worktrees/` as real files:
+
+| Symlink | Target |
+|---------|--------|
+| `.claude/rules/` | → `.orqa/governance/rules/` |
+| `.claude/agents/` | → `.orqa/team/agents/` |
+| `.claude/skills/` | → `.orqa/team/skills/` |
+| `.claude/hooks/` | → `.orqa/governance/hooks/` |
+| `.claude/CLAUDE.md` | → `.orqa/team/agents/orchestrator.md` |
+
+All writes go to `.orqa/`; symlinks ensure CLI reads the same content.
+
+## Prevention
+
+This lesson was promoted to the `artifact-config-integrity` rule's `.claude/ Symlink Architecture` section, which forbids writing directly to `.claude/` and requires symlinks.

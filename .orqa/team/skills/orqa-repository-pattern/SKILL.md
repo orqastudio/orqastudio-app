@@ -1,5 +1,6 @@
 ---
 id: orqa-repository-pattern
+layer: project
 title: "Orqa Repository Pattern"
 name: orqa-repository-pattern
 description: |

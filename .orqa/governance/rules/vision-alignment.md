@@ -1,12 +1,14 @@
 ---
 id: vision-alignment
+layer: canon
+status: active
 title: "Vision Alignment"
 description: "Every feature must serve at least one pillar: Clarity Through Structure or Learning Through Reflection."
 scope: project
 ---
 
 
-Every feature, command, and UI element must serve OrqaStudio's product vision. Read `docs/product/vision.md` and `docs/product/governance.md` before implementing any new capability.
+Every feature, command, and UI element must serve OrqaStudio's product vision. Read `.orqa/documentation/product/vision.md` and `.orqa/documentation/product/governance.md` before implementing any new capability.
 
 ## Two-Pillar Test
 
@@ -75,9 +77,9 @@ If the user gives an instruction that appears to conflict with a foundational pr
 2. **Ask for clarification** — The user may have a valid reason, or the instruction may be a misunderstanding
 3. **Document the outcome** — If the user confirms a change to a foundational principle:
    - Update the relevant documentation
-   - Update `docs/product/vision.md` and/or `docs/product/governance.md` if the pillars or governance rules change
-   - Update this rule file (`.orqa/rules/vision-alignment.md`) to reflect the new principle
-   - Update all affected agent definitions in `.orqa/agents/`
+   - Update `.orqa/documentation/product/vision.md` and/or `.orqa/documentation/product/governance.md` if the pillars or governance rules change
+   - Update this rule file (`.orqa/team/rules/vision-alignment.md`) to reflect the new principle
+   - Update all affected agent definitions in `.orqa/team/agents/`
 4. **Never silently comply** — If an instruction contradicts a principle, do NOT just implement it without flagging the conflict first
 
 **Examples of instructions that should be questioned:**
@@ -103,7 +105,7 @@ If the user gives an instruction that appears to conflict with a foundational pr
 
 ## Governance References
 
-- Vision: `docs/product/vision.md`
-- Governance: `docs/product/governance.md`
-- Artifact Framework: `docs/product/artifact-framework.md`
-- Artifact Workflow: `docs/process/artifact-workflow.md`
+- Vision: `.orqa/documentation/product/vision.md`
+- Governance: `.orqa/documentation/product/governance.md`
+- Artifact Framework: `.orqa/documentation/product/artifact-framework.md`
+- Artifact Workflow: `.orqa/documentation/process/artifact-workflow.md`

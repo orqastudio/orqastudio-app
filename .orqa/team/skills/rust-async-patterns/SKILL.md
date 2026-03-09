@@ -1,5 +1,6 @@
 ---
 id: rust-async-patterns
+layer: canon
 title: "Rust Async Patterns"
 name: rust-async-patterns
 description: Master Rust async programming with Tokio, async traits, error handling, and concurrent patterns. Use when building async Rust applications, implementing concurrent systems, or debugging async code.

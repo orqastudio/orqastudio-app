@@ -1,5 +1,7 @@
 ---
 id: architecture-decisions
+layer: canon
+status: active
 title: "Architecture Decisions"
 description: "All code must comply with architecture decisions in docs/architecture/decisions.md."
 scope: project
@@ -14,7 +16,7 @@ enforcement:
 ---
 
 
-**Source of Truth:** `@docs/architecture/decisions.md` (index) and `.orqa/decisions/` (individual `AD-NNN.md` artifacts)
+**Source of Truth:** `.orqa/documentation/architecture/decisions.md` (index) and `.orqa/decisions/` (individual `AD-NNN.md` artifacts)
 
 **READ the index document to understand all architecture decisions. For detail on any specific decision, read its individual `AD-NNN.md` artifact.**
 
@@ -33,12 +35,12 @@ enforcement:
 
 ## Before Writing Code
 
-1. Read `@docs/architecture/decisions.md` for the decision index
+1. Read `.orqa/documentation/architecture/decisions.md` for the decision index
 2. Check if your change affects any existing decision; read the relevant `AD-NNN.md` artifact for full context
-3. If proposing a new decision, create an `AD-NNN.md` in `.orqa/decisions/` following the framework schema (see `docs/product/artifact-framework.md` — Decision schema). Adding a decision only to the index without an individual artifact is FORBIDDEN.
+3. If proposing a new decision, create an `AD-NNN.md` in `.orqa/decisions/` following the framework schema (see `.orqa/documentation/product/artifact-framework.md` — Decision schema). Adding a decision only to the index without an individual artifact is FORBIDDEN.
 
 ## Before Writing Plans
 
-1. Read `.orqa/rules/plan-mode-compliance.md`
+1. Read `.orqa/team/rules/plan-mode-compliance.md`
 2. Start with user journeys and UI design (UX-first)
 3. Include architectural compliance section verifying all relevant decisions

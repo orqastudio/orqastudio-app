@@ -1,5 +1,7 @@
 ---
 id: root-cleanliness
+layer: canon
+status: active
 title: "Root Directory Cleanliness"
 description: "The project root must stay lean. Every file in root must have a justification."
 scope: system
@@ -30,7 +32,7 @@ The project root must stay lean. Every file in root must have a justification.
 | `postcss.config.js` | PostCSS configuration |
 | `.gitignore`, `.gitattributes` | Git configuration (must be root) |
 | `.pre-commit-config.yaml` | Pre-commit hooks (must be root) |
-| `.mcp.json` | Claude Code MCP server config |
+| `.mcp.json` | MCP server config (CLI tool integration) |
 | `.chunkhound.json` | ChunkHound code search config (must be root for auto-discovery) |
 | `components.json` | shadcn-svelte component registry config (must be root) |
 | `skills-lock.json` | Skills CLI lock file for reproducible skill versions (must be root) |

@@ -1,5 +1,6 @@
 ---
 id: orqa-composability
+layer: canon
 title: "Orqa Composability"
 name: orqa-composability
 description: |

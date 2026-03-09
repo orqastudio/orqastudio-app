@@ -1,5 +1,7 @@
 ---
 id: lessons-learned
+layer: canon
+status: active
 title: "Lessons Learned"
 description: "Two learning loops: implementation lessons in .orqa/lessons/ and process retrospectives. Both are mandatory."
 scope: system
@@ -20,13 +22,13 @@ When `code-reviewer`, `qa-tester`, or `ux-reviewer` reports a FAIL verdict:
 4. **When an IMPL entry reaches recurrence >= 2:** the `agent-maintainer` is triggered to promote it to a rule, coding standard addition, or skill update
 5. **After promotion:** the lesson file's "promoted-to" frontmatter field is updated with the target artifact
 
-## Process Retrospectives (`docs/process/retrospectives.md`)
+## Process Retrospectives (`.orqa/documentation/process/retrospectives.md`)
 
 When a process-level change occurs:
 
 1. **Process changes** (new rule, new agent, workflow change, governance update) — the `agent-maintainer` adds a `RETRO-NNN` entry
 2. **Ineffective rules** (violations continue despite the rule) — the `agent-maintainer` adds a RETRO entry and proposes stronger enforcement
-3. **Session start** — the orchestrator checks `docs/process/retrospectives.md` to load current process context and avoid repeating known mistakes
+3. **Session start** — the orchestrator checks `.orqa/documentation/process/retrospectives.md` to load current process context and avoid repeating known mistakes
 
 ## Promotion Pipeline
 
@@ -43,6 +45,18 @@ All review agents (`code-reviewer`, `qa-tester`, `ux-reviewer`) MUST include a "
 - Any new IMPL entries added during this review
 - Any recurrence updates to existing IMPL entries
 - Confirmation that `.orqa/lessons/` was checked for known patterns
+
+## Lesson Status Vocabulary
+
+Lessons carry a `status` field that reflects their promotion state:
+
+| Status | Meaning | Indicator |
+|--------|---------|-----------|
+| `active` | Unpromoted lesson, normal state | Blue dot |
+| `recurring` | Recurrence >= 2, pending promotion review | Amber dot |
+| `promoted` | Promoted to a rule, coding standard, or skill | Purple dot |
+
+When a lesson's recurrence is incremented to >= 2, update `status: recurring`. When promoted (the `promoted_to` field is set), update `status: promoted`.
 
 ## The learning loop is NOT optional
 

@@ -1,5 +1,6 @@
 ---
 id: orqa-streaming
+layer: project
 title: "Orqa Streaming Pipeline"
 name: orqa-streaming
 description: |

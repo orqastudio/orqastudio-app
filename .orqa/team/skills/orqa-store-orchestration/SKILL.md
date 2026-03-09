@@ -1,5 +1,6 @@
 ---
 id: orqa-store-orchestration
+layer: project
 title: "Orqa Store Orchestration"
 name: orqa-store-orchestration
 description: |

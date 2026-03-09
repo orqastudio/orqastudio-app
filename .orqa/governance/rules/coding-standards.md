@@ -1,5 +1,7 @@
 ---
 id: coding-standards
+layer: canon
+status: active
 title: "Coding Standards"
 description: "Rust and TypeScript coding standards: formatting, linting, error handling, component patterns, and coverage requirements."
 scope: project
@@ -35,7 +37,7 @@ enforcement:
 ---
 
 
-**Source of Truth:** `@docs/development/coding-standards.md`
+**Source of Truth:** `.orqa/documentation/development/coding-standards.md`
 
 **READ the full document before writing any code.**
 
@@ -78,15 +80,15 @@ This single command runs: `fmt-check` + `clippy` + `test-rust` + `check-frontend
 
 A git pre-commit hook (`.githooks/pre-commit`) enforces this automatically. It runs the relevant subset of checks based on which files are staged. **NEVER bypass the hook with `--no-verify`.**
 
-For individual checks, see `docs/development/commands.md` or run `make help`.
+For individual checks, see `.orqa/documentation/development/commands.md` or run `make help`.
 
 ## Lint Rule Alignment (NON-NEGOTIABLE)
 
-Coding standards MUST be reflected in automated linting rules. If a standard exists in this document or in `docs/development/coding-standards.md`, there MUST be a corresponding lint rule that enforces it. Conversely, if a lint rule enforces something, that standard MUST be documented.
+Coding standards MUST be reflected in automated linting rules. If a standard exists in this document or in `.orqa/documentation/development/coding-standards.md`, there MUST be a corresponding lint rule that enforces it. Conversely, if a lint rule enforces something, that standard MUST be documented.
 
 **When modifying coding standards:**
 
-1. Update this document AND `docs/development/coding-standards.md`
+1. Update this document AND `.orqa/documentation/development/coding-standards.md`
 2. Add or update the corresponding ESLint rule in `eslint.config.js` (frontend) or clippy configuration (Rust)
 3. Run `make check` to verify the rule works
 4. Fix ALL existing violations introduced by the new rule in the same commit

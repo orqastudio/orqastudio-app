@@ -1,5 +1,7 @@
 ---
 id: honest-reporting
+layer: canon
+status: active
 title: "Honest Reporting"
 description: "Report status accurately. Partial work reported as complete is worse than reporting it as incomplete."
 scope: system
@@ -49,7 +51,7 @@ Use these precise terms — not vague language like "mostly done" or "almost com
 
 ## Agent Output Requirements
 
-See `.orqa/rules/no-stubs.md` > "Agent Completion Reports" for the mandatory output structure.
+See `.orqa/team/rules/no-stubs.md` > "Agent Completion Reports" for the mandatory output structure.
 
 ## Lesson Documentation Status
 
@@ -59,7 +61,7 @@ Completion reports from review agents (`code-reviewer`, `qa-tester`, `ux-reviewe
 - Were any existing IMPL entries updated with recurrence increments?
 - Was `.orqa/lessons/` checked for known patterns before reporting findings?
 
-Review agents that skip lesson documentation are in violation of this rule AND `.orqa/rules/lessons-learned.md`.
+Review agents that skip lesson documentation are in violation of this rule AND `.orqa/team/rules/lessons-learned.md`.
 
 ## Related Rules
 

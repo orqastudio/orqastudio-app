@@ -1,5 +1,7 @@
 ---
 id: end-to-end-completeness
+layer: canon
+status: active
 title: "End-to-End Completeness"
 description: "Every feature must be implemented across all layers (Rust command, IPC type, Svelte component, store) in the same commit."
 scope: system
