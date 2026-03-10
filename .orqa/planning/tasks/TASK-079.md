@@ -2,7 +2,7 @@
 id: TASK-079
 title: "File watcher for .orqa/ with graph rebuild and event emission"
 description: "Watch .orqa/ for file system changes and rebuild the artifact graph on change, emitting a full snapshot Tauri event to the frontend."
-status: todo
+status: done
 created: 2026-03-10
 updated: 2026-03-10
 epic: EPIC-048
