@@ -27,3 +27,11 @@ implement the code_research tool natively, and fix process violation hooks.
 
 Session resume works via provider_session_id persistence in SQLite. code_research
 combines semantic search with LLM analysis. Git commit: `3a469da`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

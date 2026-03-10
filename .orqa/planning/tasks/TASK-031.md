@@ -31,3 +31,11 @@ third-party dependency documentation, and contributing guidelines.
 Apache 2.0 license, NOTICE file, THIRD_PARTY_NOTICES.md, CONTRIBUTING.md
 all created. README updated. Git commits: `104f3e1`, `e463c65`, `a06b474`,
 `43ad651`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

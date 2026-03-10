@@ -23,3 +23,15 @@ acceptance:
   - "pendingArtifactId replaced with artifactGraph.resolve(id).path + navigateToPath()"
   - "navigateToPath() walks full NavTree including tree children"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

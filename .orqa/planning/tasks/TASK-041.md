@@ -38,3 +38,15 @@ Two candidates identified:
 ## Priority
 
 This is a stability bug — should be fixed before UX improvements. Memory leaks in a dogfood tool used for extended sessions are blocking.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

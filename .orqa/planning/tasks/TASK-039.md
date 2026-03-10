@@ -57,3 +57,15 @@ No shared list item component exists. Rendering is inline in both `ArtifactNav.s
 ## Root Cause
 
 Missing shared abstractions. Status display logic is duplicated. List item structure is defined inline per context rather than as a reusable component.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

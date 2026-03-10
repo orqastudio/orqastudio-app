@@ -31,3 +31,11 @@ Fixing issues one by one leads to inconsistent solutions — each fix is designe
 - Any batch of related issues reported together
 - Refactoring decisions
 - Any situation where multiple symptoms share a root cause
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

@@ -36,3 +36,15 @@ acceptance:
 
 Add to artifact-lifecycle.md under Epic creation standards:
 > Epic titles describe what is achieved, not how work is organised. Avoid process words (UAT, Phase, Sprint, Round) unless they describe the actual deliverable.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

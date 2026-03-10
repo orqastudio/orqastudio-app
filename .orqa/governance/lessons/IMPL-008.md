@@ -24,3 +24,11 @@ Extract domain logic into focused service modules (`domain/*.rs`) as soon as a c
 
 - `7fd306e` — The extraction: stream_commands.rs decomposed into 4 domain modules
 - Multiple follow-up commits extracted other command files similarly
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

@@ -138,3 +138,7 @@ TASK-057 (dependency mechanism)
   │                       └── TASK-055 (update product docs)
   └── TASK-054 (setup skills — independent track)
 ```
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

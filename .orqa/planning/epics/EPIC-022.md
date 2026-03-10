@@ -35,3 +35,11 @@ scoring:
 - [ ] Bug artifact type in `.orqa/bugs/` with reproduction steps
 - [ ] Task-to-agent assignment and worktree branch generation
 - [ ] Progress dashboard — plan completion %, epic progress
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

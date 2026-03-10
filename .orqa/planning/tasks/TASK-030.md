@@ -28,3 +28,11 @@ clarity engine. Rename pillars to reflect broader scope. Align all documentation
 
 Vision, governance, and roadmap documents rewritten. Pillar names updated across
 all documentation. Git commits: `6b9dda7`, `53991a6`, `0c93902`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

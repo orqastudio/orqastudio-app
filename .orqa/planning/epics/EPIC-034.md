@@ -54,3 +54,11 @@ AD-024
 - `4c191f7` — Auto-download model
 - `304a4e6` — Pre-download at startup
 - `e4c5f69` — Startup task tracker
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

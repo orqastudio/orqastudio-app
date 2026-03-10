@@ -37,3 +37,11 @@ Pillar 2 (Learning Through Reflection) — the system must get smarter with each
 - [ ] Automated promotion suggestions when recurrence >= threshold
 - [ ] Lesson dashboard with recurrence trends (LayerChart)
 - [ ] Session analytics — pass/fail rates, coverage trends
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

@@ -20,3 +20,15 @@ acceptance:
   - "IDs inside code blocks and pre elements are NOT linked"
   - "Always-on — no configuration toggle"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

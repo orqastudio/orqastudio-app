@@ -26,3 +26,11 @@ Update `docs/architecture/streaming-pipeline.md` to reflect the new `SystemPromp
 2. **StreamEvent variants table** — Ensure `SystemPromptSent` and `ContextInjected` are listed with their fields
 3. **Emission points section** — Document where and when `SystemPromptSent` is emitted
 4. **Future work notes** — Note that `custom_prompt` (EPIC-002) and `ContextInjected` (EPIC-003) extend this
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

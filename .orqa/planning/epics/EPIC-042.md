@@ -70,3 +70,11 @@ Migrate from the current model (all skills on agent definitions) to three tiers:
 - [ ] Orchestrator delegation prompts include Tier 2 skill injection based on task scope
 - [ ] `skill-enforcement.md` documents the three-tier model
 - [ ] A test delegation (dry-run) confirms all three tiers load
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

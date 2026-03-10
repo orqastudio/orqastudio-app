@@ -29,3 +29,11 @@ to the native search engine.
 Implemented as `search_semantic` Tauri command. Embedder uses `ort` crate with
 DirectML execution provider. 384-dimensional vectors stored in DuckDB.
 Git commit: `69a9ae3`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

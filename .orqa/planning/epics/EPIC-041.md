@@ -54,3 +54,11 @@ AD-027 (Vision Evolution)
 ## Git Evidence
 
 - `72662b1` through `0c93902` — Vision, licensing, branding, alignment (2026-03-07)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

@@ -27,3 +27,11 @@ and pre-download at startup with status bar progress tracking.
 
 Model downloads on first use via Hugging Face API. Startup task tracker shows
 progress in status bar. Git commits: `4c191f7`, `304a4e6`, `e4c5f69`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

@@ -19,3 +19,15 @@ acceptance:
   - Scoring pillar-alignment dimension documented as reading from pillars field
   - Existing epics do not need backfilling (field is optional)
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

@@ -49,3 +49,11 @@ defined in the plan. Fix any misalignment in-place.
 ## Deliverable
 
 Updated markdown files with a summary of changes made per file.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

@@ -32,3 +32,15 @@ acceptance:
 - AD-029 has the concept taxonomy and decision framework
 - AD-030 has the governance hub model, coexistence architecture, drift reconciliation
 - vision.md Platform Identity section sets the framing (clarity engine first)
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

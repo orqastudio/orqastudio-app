@@ -23,3 +23,11 @@ Use domain-neutral names for concepts that might have multiple implementations. 
 ## Git Evidence
 
 - `fa8ecc7` — 13-file rename across Rust, TypeScript, SQLite migration
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

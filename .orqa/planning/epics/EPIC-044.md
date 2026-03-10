@@ -59,3 +59,11 @@ Most rules are `layer: canon` (platform principles). Project-specific rules are 
 | TASK-048 | Classify skills with layer field | agent-maintainer |
 | TASK-049 | Classify rules and hooks with layer field | agent-maintainer |
 | TASK-050 | Update artifact-framework with classification schema | agent-maintainer |
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

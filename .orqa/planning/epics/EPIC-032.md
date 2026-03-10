@@ -73,3 +73,15 @@ scoring:
 ## Notes
 
 WS-1 through WS-4 are documentation/rules changes completed in a single session. WS-5 is code work deferred to EPIC-005 (Artifact Browser) which was already planned as a P1 dogfooding epic.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

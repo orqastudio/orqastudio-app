@@ -35,3 +35,15 @@ Current field order is hardcoded in the component. The fix should respect YAML s
 ## Root Cause
 
 The renderer displays every field it finds rather than filtering meaningless values. Field order is hardcoded in the component rather than derived from the data.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

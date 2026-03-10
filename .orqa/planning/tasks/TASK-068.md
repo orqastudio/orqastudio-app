@@ -20,3 +20,15 @@ acceptance:
   - IMPL-015 promoted_to field updated with references to updated rule and skill
   - Verification that all root causes identified in IMPL-015 are addressed
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

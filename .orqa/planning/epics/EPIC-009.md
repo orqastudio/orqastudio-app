@@ -31,3 +31,11 @@ scoring:
 - [ ] Store unit tests (conversation, session, project, settings — state transitions, reactive updates)
 - [ ] Component tests for critical UI (ConversationView, ToolApprovalDialog, SessionDropdown)
 - [ ] IPC contract tests — verify invoke calls match actual Tauri commands
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

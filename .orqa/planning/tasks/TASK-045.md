@@ -32,3 +32,15 @@ The scanner in `artifact_reader.rs` scans for `.md` files. If `.orqa/governance/
 3. Defer hooks display to IDEA-027 (hooks system research)
 
 Check what files actually exist in `.orqa/governance/hooks/` first.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

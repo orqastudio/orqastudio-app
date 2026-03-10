@@ -33,3 +33,11 @@ scoring:
 - [ ] Idea inbox — uncategorised ideas, sortable
 - [ ] Idea-to-research and idea-to-plan promotion
 - [ ] Duplicate detection via FTS5 + semantic search
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

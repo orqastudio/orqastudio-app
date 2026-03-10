@@ -28,3 +28,11 @@ names, icons, parameter summaries, and grouping.
 
 Implemented in `tool-display.ts` utility and tool components. Git commit: `b0ee670`.
 Later enhanced with output truncation and improved grouping in `7a954d9`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

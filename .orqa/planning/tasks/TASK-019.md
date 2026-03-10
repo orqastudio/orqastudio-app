@@ -27,3 +27,11 @@ Fix frontend audit findings (debug logging, any types).
 
 Governance artifacts updated, hook paths fixed, frontend cleaned. Git commits:
 `1481f00`, `08a74bf`, `5b2d50a`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

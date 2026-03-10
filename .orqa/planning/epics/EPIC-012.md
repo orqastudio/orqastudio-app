@@ -36,3 +36,11 @@ Pillar 1 (Clarity Through Structure) — governance must be visible, not buried 
 - [ ] Scanner dashboard — pass/fail history, violation details, trend charts (LayerChart)
 - [ ] Metrics dashboard — KPI cards for key project health indicators
 - [ ] Agent activity panel — which agent is active, what tools it's using, current task
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

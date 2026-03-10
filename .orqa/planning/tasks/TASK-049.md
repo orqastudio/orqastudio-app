@@ -37,3 +37,15 @@ development-commands (make targets), dogfood-mode (dogfood flag)
 ### Hooks — Canon
 
 session-start-hook.sh (session awareness), pre-commit-reminder.sh (quality gates)
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

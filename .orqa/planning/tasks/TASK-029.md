@@ -33,3 +33,11 @@ commands, domain, repository, and SQLite (migration 005).
 
 Atomic rename across 13+ files including database migration. Zero behavioral
 changes, all tests pass. Git commit: `fa8ecc7`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

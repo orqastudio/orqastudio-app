@@ -72,3 +72,11 @@ this should come from the `artifacts` config loaded via the project store.
 All `$derived(() => ...)` patterns must use `$derived.by(() => ...)`.
 The arrow-function-stored-as-value pattern breaks Svelte 5 reactivity
 and is the proximate cause of the app hang.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

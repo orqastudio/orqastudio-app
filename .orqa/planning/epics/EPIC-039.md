@@ -53,3 +53,11 @@ AD-026 (Domain Service Extraction Pattern)
 ## Git Evidence
 
 - `7fd306e` through `d0fa094` — Full refactoring series (2026-03-06 to 2026-03-07)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

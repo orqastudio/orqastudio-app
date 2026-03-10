@@ -24,3 +24,11 @@ Documentation browsing is a first-class feature of OrqaStudio, not a bolted-on e
 
 - `5fb0454` — Docsify removal, sidebar-synchronization rule deleted
 - `088a7bf` — Fix artifact viewers for native rendering
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

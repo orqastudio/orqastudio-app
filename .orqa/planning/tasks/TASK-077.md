@@ -21,3 +21,15 @@ acceptance:
   - "docs-required/docs-produced paths validated against disk — broken paths flagged visually"
   - "Working links unchanged in appearance"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

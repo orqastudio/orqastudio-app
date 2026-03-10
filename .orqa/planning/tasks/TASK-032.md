@@ -32,3 +32,11 @@ The wrapper skill SKILL.md should:
    ChunkHound patterns. If `search_regex`/`search_semantic` are Tauri commands, you are in
    App context — follow native search patterns."
 4. Link to both concrete skills for implementation-specific details
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

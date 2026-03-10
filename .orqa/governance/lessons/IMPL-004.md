@@ -40,3 +40,11 @@ All three were fixed in the same session by converting to `$derived.by(() => ...
 ## Prevention
 
 The `svelte5-best-practices` skill documents this pattern. ESLint could potentially catch it with a custom rule.
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

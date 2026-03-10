@@ -34,3 +34,15 @@ acceptance:
 ## Notes
 
 This is primarily a data + documentation task. The artifact framework needs formal type definitions that answer "when do I create this type?" for each artifact. Then existing artifacts need auditing against those definitions.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

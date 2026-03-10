@@ -41,3 +41,11 @@ OrqaStudio is a structured thinking tool. Prioritisation is a core structured th
 - [ ] Manual override with tracking
 - [ ] Priority views — backlog sorted by composite score, filterable by band
 - [ ] Custom dimensions — users add project-specific scoring dimensions
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

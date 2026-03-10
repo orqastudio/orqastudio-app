@@ -35,3 +35,11 @@ scoring:
 
 - `0aab794` — Fix error swallowing and settings persistence
 - `7a954d9` — Streaming fix, output truncation, tool grouping, auto-naming, custom titlebar
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

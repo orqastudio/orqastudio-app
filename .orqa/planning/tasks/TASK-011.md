@@ -69,3 +69,11 @@ Real lessons from recent sessions:
 ## Why This Matters
 
 Without historical data, the decision history UI will only show a flat list of accepted decisions with no evolution story. The lesson pipeline will have 3 entries. The surpassed status will be untested. We need enough variety to validate that the tooling works for the real use case: tracing how thinking evolved over time.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

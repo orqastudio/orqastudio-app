@@ -27,3 +27,11 @@ scoring:
 - [ ] Composability Gate phases C+D — composable learning loop, initialization assessment
 - [ ] Sprint/iteration planning — optional timeboxing, burndown
 - [ ] Dependency tracking between backlog items
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

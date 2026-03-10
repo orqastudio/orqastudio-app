@@ -51,3 +51,11 @@ AD-025 (Provider-Agnostic AI Integration)
 
 - `fa8ecc7` — Pluggable sidecar, sdk→provider rename
 - `34cc4b6` — Provider interface, Claude adapter
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

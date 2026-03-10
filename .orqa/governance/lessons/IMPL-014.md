@@ -22,3 +22,11 @@ Epic titles should answer "what does this achieve?" not "what process does this 
 - Good: "Streaming Pipeline Reliability"
 
 Process words to avoid in titles: UAT, Phase, Sprint, Round, Audit, Review (when describing the activity rather than the outcome).
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

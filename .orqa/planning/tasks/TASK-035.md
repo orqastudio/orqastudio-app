@@ -35,3 +35,11 @@ and "Provide context":
 
 The agent then loads these alongside its own Tier 1 skills and any Tier 3 wrapper
 resolutions.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

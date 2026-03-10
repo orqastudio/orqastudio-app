@@ -82,3 +82,7 @@ referencing the updated rule and new skill.
 | TASK-066 | Update git-workflow rule for governance-only work patterns | — |
 | TASK-067 | Create or update commit discipline skill | TASK-066 |
 | TASK-068 | Promote IMPL-015 to enforcement artifacts | TASK-064, TASK-065, TASK-066, TASK-067 |
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

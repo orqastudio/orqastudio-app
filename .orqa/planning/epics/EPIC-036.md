@@ -42,3 +42,11 @@ AD-027 (Vision Evolution)
 - `b20f9f8` — Core rebrand
 - `4a1c88f` — Brand assets
 - `8e20d5d` — Simplify scanner to Claude-only
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

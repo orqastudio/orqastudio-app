@@ -36,3 +36,7 @@ scope: project
 1. Read RULE-022 (plan-mode-compliance)
 2. Start with user journeys and UI design (UX-first)
 3. Include architectural compliance section verifying all relevant decisions
+
+## Related Rules
+
+

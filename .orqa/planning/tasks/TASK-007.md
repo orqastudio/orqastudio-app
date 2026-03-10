@@ -39,3 +39,11 @@ acceptance:
 
 See plan for the full artifacts array. Groups: docs, planning, team, governance.
 Types within each group per current `.orqa/` directory structure.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

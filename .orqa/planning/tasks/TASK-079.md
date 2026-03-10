@@ -21,3 +21,15 @@ acceptance:
   - "Frontend SDK receives event and refreshes local graph"
   - "Watcher ignores non-.md files and hidden directories"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

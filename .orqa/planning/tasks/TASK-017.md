@@ -29,3 +29,11 @@ Implement the first-run onboarding wizard for project creation and AI provider s
 
 Implemented as ProjectSetupWizard.svelte with Claude CLI detection, auth status,
 and project configuration. Git commits: `1ccf304`, `5156a6e`, `34ec185`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

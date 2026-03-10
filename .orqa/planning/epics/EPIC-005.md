@@ -94,3 +94,15 @@ Replace 8 individual activity bar items with 4 grouped categories:
 ## Full Plan
 
 See `.orqa/plans/epic-005-artifact-browser.md` for detailed implementation plan with architectural compliance, UX design, component states, and verification criteria.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

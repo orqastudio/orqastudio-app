@@ -40,3 +40,11 @@ Can't ship to users without a build pipeline and update mechanism.
 - [ ] Semantic versioning: tauri.conf.json + Cargo.toml + package.json sync
 - [ ] Auto-update via `tauri-plugin-updater` with GitHub Releases
 - [ ] Update channel selector in Settings (pre-release / stable)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

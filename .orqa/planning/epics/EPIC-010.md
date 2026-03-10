@@ -31,3 +31,11 @@ Quality of life improvements for dogfooding. Not blocking but make daily use mor
 - [ ] Project-local database — move SQLite from `app_data_dir` to `.orqa/orqa.db` so session history travels with the project
 - [ ] Build splash window — small branded window during `make dev` compilation
 - [ ] Custom system prompt templates — pre-built prompts for common scenarios (dogfooding, greenfield, legacy)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

@@ -46,3 +46,11 @@ orchestrator is permitted to edit governance artifacts directly.
    (end of epic, end of task batch, end of session)
 4. RULE-013 (`git-workflow`) should explicitly address governance-only work patterns
    where worktrees aren't used
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

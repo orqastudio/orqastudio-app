@@ -32,3 +32,11 @@ Process skills (like UAT methodology) should be loadable by the orchestrator, no
 ## Broader Implication
 
 A general agent review is needed to ensure task ownership is properly defined across all agent definitions. Some process knowledge may be incorrectly embedded in specialist agents rather than available at orchestration level.
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

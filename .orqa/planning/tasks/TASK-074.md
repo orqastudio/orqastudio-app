@@ -24,3 +24,15 @@ acceptance:
   - "get_graph_stats returns node count, edge count, orphan count, broken ref count"
   - "All commands registered in Tauri app builder"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

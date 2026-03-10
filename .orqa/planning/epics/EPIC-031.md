@@ -38,3 +38,15 @@ Orqa Studio's Pillar 2 (Process Governance) requires the app to be able to inspe
 ## Notes
 
 Retroactively captured. Work preceded the artifact framework. This capability underpins the governance browsing and enforcement features built in later milestones.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

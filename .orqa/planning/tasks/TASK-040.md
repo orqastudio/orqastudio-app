@@ -50,3 +50,15 @@ Recommended field order per type:
 - **Rules**: id, title, description, scope
 - **Decisions**: id, title, status, description, created, updated, supersedes, superseded_by, tags
 - **Research**: id, title, status, description, created, updated, milestone, tags
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

@@ -39,3 +39,11 @@ This creates a traceable chain:
 Update:
 1. `tasks/README.md` — add `skills` to the frontmatter schema
 2. `artifact-framework.md` — add `skills` to the task type definition
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

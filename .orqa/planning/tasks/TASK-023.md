@@ -30,3 +30,11 @@ tool output, cluttered tool display, unnamed sessions, and generic titlebar.
 
 All issues fixed in a single sprint commit. Streaming robust, tool display
 clean, sessions named, titlebar branded. Git commits: `0aab794`, `7a954d9`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

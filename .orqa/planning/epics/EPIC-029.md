@@ -49,3 +49,15 @@ All technical design documentation in `docs/architecture/`.
 ## Notes
 
 Retroactively captured. Work preceded the artifact framework. These specifications are the source of truth for all implementation.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

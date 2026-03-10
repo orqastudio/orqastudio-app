@@ -37,3 +37,11 @@ Every time a process works better than expected or a new pattern emerges:
 - All process improvements discovered during work
 - All UAT findings that reveal process gaps
 - All agent behavior corrections that should persist
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

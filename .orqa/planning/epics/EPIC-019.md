@@ -34,3 +34,11 @@ scoring:
 - [ ] Config loader — merge project + user MCP server configs
 - [ ] Tool aggregator — merge built-in + external tools, namespace external tools
 - [ ] MCP Servers section in Settings — server list, add/remove, test connection, trust levels
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

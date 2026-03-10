@@ -40,3 +40,11 @@ reference `.orqa/` as the canonical location.
 ## Deliverable
 
 Updated rule and agent files with a summary of changes.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

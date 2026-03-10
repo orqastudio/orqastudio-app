@@ -33,3 +33,11 @@ four focused domain modules.
 Extracted to `tool_executor.rs` (~700 lines), `system_prompt.rs` (~150 lines),
 `stream_loop.rs` (~350 lines), `session_title.rs` (~85 lines). Command file is
 now thin orchestration only. Git commit: `7fd306e`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

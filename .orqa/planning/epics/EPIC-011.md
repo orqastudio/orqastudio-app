@@ -35,3 +35,11 @@ The conversation IS the onboarding. Without this, new users don't know what to d
 - [ ] AI suggests next steps when project is new or incomplete ("I notice you don't have any rules defined yet...")
 - [ ] First-conversation guidance — when no sessions exist, AI introduces OrqaStudio's capabilities naturally
 - [ ] Entry mode detection — AI identifies which mode (Problem, Idea, Goal, Chaos) fits the user's opening message
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

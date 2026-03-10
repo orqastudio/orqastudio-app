@@ -43,3 +43,15 @@ Architecture decisions are the governing law of the codebase. Every implementati
 ## Notes
 
 Retroactively captured. Work preceded the artifact framework. These decisions remain active and govern all subsequent implementation.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

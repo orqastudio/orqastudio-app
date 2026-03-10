@@ -31,3 +31,11 @@ scoring:
 - [ ] Initialize Existing Folder — improve scan results presentation
 - [ ] Guided first conversation — suggest first task after project setup
 - [ ] Open Project validation — graceful handling of corrupted `.orqa/`
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

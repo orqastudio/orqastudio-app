@@ -37,3 +37,11 @@ Without this, non-software users encounter software-specific features that don't
 - [ ] Software projects get code tools (ChunkHound, file tools, git); others get domain-appropriate tooling
 - [ ] Non-software projects work without requiring a codebase
 - [ ] Project type selector in project creation/settings
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

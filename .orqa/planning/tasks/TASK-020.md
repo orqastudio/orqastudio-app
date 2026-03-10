@@ -32,3 +32,11 @@ workflow, model selection, enforcement UI, and process violation detection.
 Full enforcement pipeline implemented across 4 sprint phases. Scanner runs
 governance checks, tool approval uses Channel<T> for UI delegation, violations
 shown inline. Git commits: `54acaf4`, `e2047a9`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

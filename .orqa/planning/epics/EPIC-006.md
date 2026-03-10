@@ -32,3 +32,11 @@ Without this, CLI edits to governance files and `.orqa/` artifacts aren't reflec
 - [ ] Watch `.claude/` and `.orqa/` directories for external modifications
 - [ ] Refresh artifact list and viewer when files change on disk
 - [ ] Debounce rapid changes (editor auto-save)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

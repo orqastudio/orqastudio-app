@@ -45,3 +45,15 @@ All UX design documentation in `docs/ui/`.
 ## Notes
 
 Retroactively captured. Work preceded the artifact framework. UX specs govern all subsequent frontend implementation.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

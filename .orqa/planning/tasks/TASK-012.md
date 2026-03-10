@@ -24,3 +24,11 @@ Remove the Plan artifact type from artifact-framework.md. Add a Research schema.
 ## Outcome
 
 Completed by background agent. The Plan type was removed, Research schema added, and traceability chain updated. This task was part of the schema simplification sprint that was later continued directly by the orchestrator (no delegation) after the "don't refactor agentic structure while using agents" lesson was learned.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

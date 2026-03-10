@@ -266,3 +266,11 @@ The findings cluster around a few systemic issues rather than isolated bugs:
 - [x] Round 3 findings investigated and fixed
 - [x] Round 4 findings investigated and fixed
 - [ ] Non-critical findings prioritised for future sprints
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

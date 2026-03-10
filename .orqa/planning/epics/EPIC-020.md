@@ -34,3 +34,11 @@ scoring:
 - [ ] Research-to-AD promotion workflow
 - [ ] Discovery dashboard — open questions, pending decisions
 - [ ] Conversational research workflow — Claude-assisted investigation producing structured artifacts
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

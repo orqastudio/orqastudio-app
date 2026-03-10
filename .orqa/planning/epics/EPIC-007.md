@@ -39,3 +39,11 @@ See `.orqa/plans/composability-gate.md` for the detailed refactoring plan.
 - [ ] Implement `Tool` trait and `ToolRegistry` from `tool_executor.rs` (966 lines -> pluggable tools)
 - [ ] Decompose `ConversationView.svelte` (367 lines) into smaller composable units if complexity grows
 - [ ] Service layer for enforcement, governance, and scanning (wrap procedural code in structs)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

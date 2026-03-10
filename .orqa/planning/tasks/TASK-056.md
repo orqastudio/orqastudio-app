@@ -26,3 +26,15 @@ acceptance:
   - honest-reporting.md references updated
   - No remaining references to deleted agent names in any rule file
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

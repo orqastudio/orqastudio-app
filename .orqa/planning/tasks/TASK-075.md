@@ -24,3 +24,15 @@ acceptance:
   - "Auto-refresh on artifact-graph-updated Tauri event"
   - "TypeScript types for ArtifactNode, ArtifactRef, GraphStats exported"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

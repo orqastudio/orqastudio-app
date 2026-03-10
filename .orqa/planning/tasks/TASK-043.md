@@ -40,3 +40,15 @@ The Rust `DocNode` struct has `label`, `path`, `children`, `description` but no 
 3. Ensure `label` always prefers frontmatter `title` over filename — verify the existing logic handles all-caps IDs correctly
 4. Update `DocNode` TypeScript interface in `nav-tree.ts`
 5. Pass `status` to `ArtifactListItem` in `ArtifactNav.svelte`
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

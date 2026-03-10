@@ -31,3 +31,11 @@ documentation, and brand assets.
 
 Complete rebrand across 50+ files. Source directory renamed, brand assets replaced,
 WelcomeScreen redesigned. Git commits: `b20f9f8`, `4a1c88f`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

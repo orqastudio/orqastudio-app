@@ -31,3 +31,11 @@ remaining command files: setup, governance, and artifact commands.
 
 All command files now follow the thin-command → domain service → repository
 pattern. Git commits: `35b6f76`, `e55dd76`, `8750420`, `c60b181`, `e7d4d99`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

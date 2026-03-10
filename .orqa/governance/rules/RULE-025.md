@@ -49,3 +49,7 @@ The project root must stay lean. Every file in root must have a justification.
 2. **Never create new .md documentation files in root.** README.md is the only documentation file. Project tracking files (TODO, BLOCKERS) and agent instructions (AGENTS) are the only other .md files permitted.
 3. **Before adding any file to root**, verify the tool requires root placement. If it supports a config path option, use it to place the file elsewhere.
 4. **Clean up after yourself.** If a task produces temporary files, delete them or ensure they are in `tmp/`.
+
+## Related Rules
+
+

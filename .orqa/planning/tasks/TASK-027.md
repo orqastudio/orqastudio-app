@@ -24,3 +24,11 @@ Audit and restrict Tauri capabilities to minimum required permissions. Enable CS
 
 Broad permissions removed, replaced with minimum required (`dialog:allow-open`).
 CSP enabled. Git commit: `71838b4`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

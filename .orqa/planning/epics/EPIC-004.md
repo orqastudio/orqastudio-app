@@ -34,3 +34,11 @@ Can't manage governance in-app without editing. Currently requires switching to 
 - [ ] Create new artifact from template (agents, rules, skills, hooks)
 - [ ] Delete artifact with confirmation dialog
 - [ ] Wire artifact store methods to backend CRUD commands
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

@@ -23,3 +23,15 @@ acceptance:
   - Alternatively
   - a standalone commit-discipline skill if scope warrants it
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

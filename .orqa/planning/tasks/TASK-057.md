@@ -26,3 +26,15 @@ is no formal mechanism — dependencies are written as prose in the task body.
 
 This task adds `depends-on` as a first-class frontmatter field with lifecycle
 enforcement.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

@@ -32,3 +32,11 @@ scoring:
 - [ ] Real-time violation detection during streaming (pattern matching on streamed tokens)
 - [ ] Visual compliance dashboard
 - [ ] Session handoff and continuity — cross-session search, handoff summaries
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

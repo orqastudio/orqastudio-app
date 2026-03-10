@@ -81,3 +81,7 @@ Write the alignment description as a concise sentence explaining how the page's 
 ## Placement
 
 Place the Pillar Alignment section near the bottom of the page, after the main content but before "Related Documents". This keeps it visible but out of the way of the primary content.
+
+## Related Rules
+
+

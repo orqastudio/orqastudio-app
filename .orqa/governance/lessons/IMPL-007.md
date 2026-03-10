@@ -30,3 +30,11 @@ This is the meta-lesson: the system that coordinates work must be stable before 
 ## Prevention
 
 Added to RULE-009 (`dogfood-mode`) awareness. When `dogfood: true` and the work involves changing governance structure, the orchestrator must handle it directly.
+
+## Pattern
+
+See description in frontmatter.
+
+## Fix
+
+Fix approach documented at time of lesson capture.

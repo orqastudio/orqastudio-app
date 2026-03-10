@@ -32,3 +32,11 @@ scoring:
 - [ ] Explore mode — lightweight codebase exploration agent (no tool approval)
 - [ ] Output aggregation — child tool calls collected, summary card with expandable detail
 - [ ] Turn limits — configurable max turns per sub-agent invocation
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

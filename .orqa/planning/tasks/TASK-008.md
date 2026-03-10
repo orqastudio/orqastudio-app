@@ -45,3 +45,11 @@ on README frontmatter (`role: group`, `role: artifacts`). Replace with:
 - `scan_type_dirs()` guessing logic
 - README frontmatter role parsing
 - All folder-structure inference code
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

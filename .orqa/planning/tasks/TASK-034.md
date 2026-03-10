@@ -44,3 +44,11 @@ Table from EPIC-042 implementation design:
 | Any streaming work | `orqa-streaming` |
 | Any cross-boundary work | `orqa-composability` (always injected) |
 | Any test work | `orqa-testing` |
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

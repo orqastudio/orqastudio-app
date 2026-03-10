@@ -33,3 +33,11 @@ and regex search command.
 
 Implemented as `search_regex` Tauri command. DuckDB stores code chunks with file paths.
 Regex patterns are matched across all indexed content. Git commit: `2313f80`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

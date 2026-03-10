@@ -38,3 +38,11 @@ scenarios and confirming the right skills are loaded in each case.
 
 3. **Governance task** (scope: `.orqa/`) — Expect: `code-search` + `planning` (Tier 1),
    `orqa-governance` + `orqa-composability` (Tier 2)
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

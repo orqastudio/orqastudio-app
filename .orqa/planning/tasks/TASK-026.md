@@ -33,3 +33,11 @@ semantic design tokens.
 
 Components and stores decomposed, 60+ colors tokenized, error/loading states
 added. Git commits: `304d3ff`, `9a1bf1b`, `be356bd`, `d240a00`, `0aba78d`, `b257edb`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

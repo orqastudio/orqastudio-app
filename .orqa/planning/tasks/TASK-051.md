@@ -35,3 +35,15 @@ acceptance:
 - AD-029 defines the 7 universal roles and migration path
 - universal-roles-ownership.md has the ownership boundaries and subagent mapping
 - Orchestrator already restructured (Section 1 + 2) — not in scope here
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

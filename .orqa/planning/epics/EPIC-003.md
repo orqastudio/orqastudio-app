@@ -34,3 +34,11 @@ Can't restart the app during development without losing conversation context. Ev
 - [ ] Rust loads last ~20 text messages from SQLite for the session
 - [ ] Rust sends `context_history` to sidecar for injection
 - [ ] Rust emits `ContextInjected` event for transparency (EPIC-001)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

@@ -60,3 +60,11 @@ scoring:
 
 - `1481f00` through `3a469da` — Full sprint (2026-03-05)
 - `0aab794` — Fix error swallowing and settings persistence
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

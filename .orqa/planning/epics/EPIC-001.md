@@ -53,3 +53,7 @@ Can't debug reasoning without seeing what's sent to the model. This is a reasoni
 - `ContextEntry` and `ThinkingBlock` rendering is already wired in `ConversationView.svelte`
 - Store accumulation for `system_prompt_sent` and `context_injected` events already works
 - The only missing piece is the Rust backend emission of `SystemPromptSent`
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

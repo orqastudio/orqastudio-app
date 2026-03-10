@@ -123,3 +123,7 @@ If `git status --short | wc -l` exceeds 20 on main, stop current work and commit
 - `git stash` as a way to park work between sessions — FORBIDDEN (commit to a branch instead)
 
 If pre-commit hooks fail, it's YOUR responsibility to fix the issues.
+
+## Related Rules
+
+

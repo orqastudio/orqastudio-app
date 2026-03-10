@@ -24,3 +24,15 @@ acceptance:
 ## Notes
 
 Quick fix — change `<LoadingSpinner />` to `<LoadingSpinner size="lg" />` in ArtifactViewer.svelte (line 122). The "lg" variant (h-12 w-12) already exists and shows the branded logo-pulse animation at a visible size.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

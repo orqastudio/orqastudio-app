@@ -25,3 +25,15 @@ acceptance:
    - Which frontmatter fields carry classification
 
 2. Update skill-enforcement.md to reference layer classification for loading decisions
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

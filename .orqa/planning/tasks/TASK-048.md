@@ -43,3 +43,15 @@ acceptance:
 | orqa-governance | project | OrqaStudio-specific governance |
 | orqa-testing | project | OrqaStudio-specific testing |
 | orqa-native-search | project | OrqaStudio-specific search engine |
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

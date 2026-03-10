@@ -45,3 +45,11 @@ scoring:
 - `5156a6e` — CLI version and auth status
 - `34ec185` — Custom project icon
 - `1193abb` — File-based project settings
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Tasks
+
+Task breakdown to be defined.

@@ -45,3 +45,15 @@ All research findings documented in `.orqa/research/mvp/`.
 ## Notes
 
 Retroactively captured. Work preceded the artifact framework.
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.
+
+## Tasks
+
+Task breakdown to be defined.

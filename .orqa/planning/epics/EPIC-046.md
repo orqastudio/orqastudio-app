@@ -99,3 +99,7 @@ TASK-058 (create pillar artifacts)
   │     └── TASK-063 (update product docs)
   └── TASK-061 (schema reference field)
 ```
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

@@ -30,3 +30,11 @@ integration into a ClaudeAgentProvider class implementing that interface.
 
 Provider interface extracted, Claude-specific code encapsulated. Factory pattern
 for future provider addition. Git commit: `34cc4b6`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

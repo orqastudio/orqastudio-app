@@ -33,3 +33,11 @@ After TASK-001 is implemented, verify the full pipeline works: Rust emission →
 5. **Without project:** Send a message → no context entry → no error
 6. **ThinkingBlock:** If thinking deltas arrive, verify amber block appears and auto-collapses
 7. **No regression:** Tool calls, streaming text, cancel all still work
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

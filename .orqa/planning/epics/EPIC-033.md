@@ -78,3 +78,7 @@ scoring:
 - Rust types and frontend types have no `plan` field
 - `research-refs:` field documented and in use
 - All audit results recorded as research documents
+
+## Context
+
+This epic addresses a need identified during project development.

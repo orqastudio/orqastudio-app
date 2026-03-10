@@ -21,3 +21,15 @@ acceptance:
   - "All known link fields extracted as references (milestone, epic, depends-on, pillars, research-refs, supersedes, etc)"
   - "Graph stored in AppState behind a Mutex or RwLock"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

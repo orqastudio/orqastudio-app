@@ -18,3 +18,15 @@ acceptance:
   - prompts to commit before ending session
   - Suggests logical commit groupings based on changed file paths
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

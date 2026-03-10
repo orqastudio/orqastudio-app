@@ -28,3 +28,11 @@ promote to rules/skills at threshold.
 
 Pipeline implemented with config-driven recurrence threshold in project.json.
 Lessons viewable and promotable through the app. Git commit: `ebabb95`.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

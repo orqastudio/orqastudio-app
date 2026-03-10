@@ -39,3 +39,15 @@ Breadcrumbs are built in two separate places (`ArtifactNav.svelte:89-118` and `A
 ## Root Cause
 
 Navigation assumes artifact sections are groups with children. Direct types (like "docs") take a different code path that may not populate the sidebar or viewer correctly.
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

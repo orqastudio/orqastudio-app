@@ -22,3 +22,15 @@ acceptance:
   - "Skill explains how to install a local plugin via file path"
   - "Skill references IDEA-038 for future distribution architecture"
 ---
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.
