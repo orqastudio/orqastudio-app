@@ -10,10 +10,10 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - vision-alignment-and-config-artifacts
-  - audits/product-docs-audit-2026-03-04
-  - audits/architecture-docs-audit-2026-03-04
-  - audits/ui-docs-audit-2026-03-04
+  - RES-031
+  - RES-014
+  - RES-011
+  - RES-017
 docs-required: []
 docs-produced:
   - .orqa/documentation/product/artifact-framework.md (Plan type removed

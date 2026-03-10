@@ -10,7 +10,7 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - rebrand-forge-to-orqa
+  - RES-015
 docs-required: []
 docs-produced: []
 scoring:

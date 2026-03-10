@@ -10,7 +10,7 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - epic-001-ai-transparency
+  - RES-026
 docs-required:
   - docs/architecture/streaming-pipeline.md
 docs-produced:

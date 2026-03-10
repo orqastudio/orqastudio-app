@@ -10,8 +10,8 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - rebrand-forge-to-orqa
-  - mvp/branding
+  - RES-015
+  - RES-001
 docs-required: []
 docs-produced:
   - .orqa/documentation/product/vision.md

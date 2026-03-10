@@ -10,7 +10,7 @@ milestone: MS-002
 pillars:
   - PILLAR-001
 research-refs:
-  - .orqa/planning/research/universal-roles-ownership.md
+  - RES-010
 docs-required:
   - .orqa/governance/decisions/AD-029.md
   - .orqa/governance/decisions/AD-030.md

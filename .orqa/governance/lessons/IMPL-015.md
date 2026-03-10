@@ -7,7 +7,7 @@ status: promoted
 created: 2026-03-09
 updated: 2026-03-09
 recurrence: 1
-promoted_to: RULE-013, project-type-software/SKILL.md, session-start-hook.sh, pre-commit-reminder.sh
+promoted_to: RULE-013
 ---
 ## What Happened
 

@@ -10,8 +10,8 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - search-engine-implementation
-  - mvp/persistence
+  - RES-016
+  - RES-006
 docs-required: []
 docs-produced:
   - .orqa/documentation/architecture/search-engine.md

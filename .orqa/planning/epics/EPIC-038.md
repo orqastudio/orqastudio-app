@@ -10,7 +10,7 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - ux-polish-sprint
+  - RES-023
 docs-required: []
 docs-produced: []
 scoring:

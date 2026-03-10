@@ -10,7 +10,7 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - epic-005-artifact-browser
+  - RES-029
 docs-required:
   - docs/product/artifact-framework.md
   - .orqa/plans/epic-005-artifact-browser.md

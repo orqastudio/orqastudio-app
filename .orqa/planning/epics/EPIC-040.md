@@ -10,8 +10,8 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - provider-architecture
-  - provider-abstraction
+  - RES-009
+  - RES-027
 docs-required: []
 docs-produced:
   - .orqa/governance/decisions/AD-025.md

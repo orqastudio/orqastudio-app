@@ -10,8 +10,8 @@ milestone: MS-001
 pillars:
   - PILLAR-001
 research-refs:
-  - native-tool-ux
-  - first-run-setup-wizard
+  - RES-013
+  - RES-012
 docs-required: []
 docs-produced: []
 scoring:
