@@ -3,10 +3,10 @@ id: DOC-013
 title: SQLite Schema
 description: SQLite database schema covering sessions, messages, governance artifacts, and configuration tables.
 created: "2026-03-02"
-updated: "2026-03-04"
+updated: "2026-03-10"
 ---
 
-**Date:** 2026-03-02 | **Updated:** 2026-03-04 | **Status:** Aligned with Phase 1 implementation
+**Date:** 2026-03-02 | **Updated:** 2026-03-10 | **Status:** Current
 **References:** [Persistence Research](RES-006) ([AD-014](AD-014)), [Design Tokens Research](RES-003)
 
 Full table definitions, indexes, FTS5 configuration, and migration strategy for `orqa.db`.
@@ -33,7 +33,7 @@ conn.execute_batch("
 
 ---
 
-## Core Tables (7 implemented + 4 planned)
+## Core Tables (9 implemented + 3 planned)
 
 ### projects
 
@@ -69,7 +69,11 @@ CREATE TABLE IF NOT EXISTS sessions (
     total_output_tokens INTEGER DEFAULT 0,
     total_cost_usd  REAL DEFAULT 0.0,
     created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
-    updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+    updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    -- Added by migration 006 (renamed from sdk_session_id added in migration 004)
+    provider_session_id TEXT,                   -- Claude Agent SDK UUID for conversation resumption
+    -- Added by migration 005
+    title_manually_set  INTEGER DEFAULT 0       -- 1 if user explicitly renamed; prevents auto-overwrite
 );
 
 CREATE INDEX IF NOT EXISTS idx_sessions_project ON sessions(project_id);
@@ -274,6 +278,73 @@ CREATE TABLE IF NOT EXISTS project_theme_overrides (
 CREATE UNIQUE INDEX IF NOT EXISTS idx_overrides_project_token ON project_theme_overrides(project_id, token_name);
 ```
 
+### governance_analyses
+
+Stores the output of a governance analysis run — the scan data, summary, strengths, and gaps. Added in migration 002.
+
+```sql
+CREATE TABLE IF NOT EXISTS governance_analyses (
+    id              INTEGER PRIMARY KEY,
+    project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    scan_data       TEXT NOT NULL,
+    summary         TEXT NOT NULL,
+    strengths       TEXT NOT NULL,
+    gaps            TEXT NOT NULL,
+    session_id      INTEGER REFERENCES sessions(id),
+    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_governance_analyses_project
+    ON governance_analyses(project_id, created_at);
+```
+
+### governance_recommendations
+
+Stores Claude-generated recommendations from a governance analysis. Each recommendation has a workflow status (`pending` → `approved`/`rejected` → `applied`). Added in migration 002.
+
+```sql
+CREATE TABLE IF NOT EXISTS governance_recommendations (
+    id              INTEGER PRIMARY KEY,
+    project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+    analysis_id     INTEGER NOT NULL REFERENCES governance_analyses(id) ON DELETE CASCADE,
+    category        TEXT NOT NULL,
+    priority        TEXT NOT NULL
+                    CHECK (priority IN ('critical', 'recommended', 'optional')),
+    title           TEXT NOT NULL,
+    description     TEXT NOT NULL,
+    artifact_type   TEXT NOT NULL,
+    target_path     TEXT NOT NULL,
+    content         TEXT NOT NULL,
+    rationale       TEXT NOT NULL,
+    status          TEXT NOT NULL DEFAULT 'pending'
+                    CHECK (status IN ('pending', 'approved', 'rejected', 'applied')),
+    applied_at      TEXT,
+    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+    updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_governance_recommendations_project
+    ON governance_recommendations(project_id, status);
+CREATE INDEX IF NOT EXISTS idx_governance_recommendations_analysis
+    ON governance_recommendations(analysis_id);
+```
+
+### enforcement_violations
+
+Tracks every rule enforcement event that occurs during tool execution — whether a rule blocked a tool call or issued a warning. Used for auditing which rules triggered and for the self-learning loop. Added in migration 003.
+
+```sql
+CREATE TABLE IF NOT EXISTS enforcement_violations (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    project_id INTEGER NOT NULL REFERENCES projects(id),
+    rule_name  TEXT    NOT NULL,
+    action     TEXT    NOT NULL,   -- 'block' or 'warn'
+    tool_name  TEXT    NOT NULL,   -- e.g. 'write_file', 'bash'
+    detail     TEXT,               -- file path, command snippet, etc.
+    created_at TEXT    NOT NULL DEFAULT (datetime('now'))
+);
+```
+
 ---
 
 ## FTS5 Virtual Tables (2)
@@ -330,18 +401,22 @@ CREATE VIRTUAL TABLE IF NOT EXISTS artifacts_fts USING fts5(
 
 ### Approach
 
-Numbered SQL migration files in `src-tauri/migrations/`, executed by `db::init_db()` using `rusqlite` directly (NOT `tauri-plugin-sql`). Each migration uses `IF NOT EXISTS` to be idempotent and re-runnable.
+Numbered SQL migration files in `src-tauri/migrations/`, executed by `db::init_db()` using `rusqlite` directly (NOT `tauri-plugin-sql`). Migrations 001–003 are loaded via `include_str!()` and are fully idempotent. Migrations 004–006 are implemented as Rust functions in `src-tauri/src/db.rs` using `pragma_table_info` guards because SQLite does not support `ALTER TABLE ADD/RENAME COLUMN IF NOT EXISTS`.
 
 ```
 src-tauri/migrations/
-  001_initial_schema.sql       # All Phase 1 tables, indexes, triggers, FTS5, stream recovery
+  001_initial_schema.sql         # Core tables, indexes, FTS5 virtual tables, stream recovery
+  002_governance_bootstrap.sql   # governance_analyses, governance_recommendations
+  003_enforcement.sql            # enforcement_violations
+  004_sdk_session_id.sql         # (stub — actual logic in run_migration_004 Rust fn)
+  005_title_manually_set.sql     # (stub — actual logic in run_migration_005 Rust fn)
 ```
 
-> **Note:** There is no `002_add_themes.sql`. The `project_themes` and `project_theme_overrides` tables are included in `001_initial_schema.sql`.
+Migration 006 (rename `sdk_session_id` → `provider_session_id`) has no corresponding `.sql` file; it is implemented entirely as `run_migration_006()` in `db.rs`.
 
 ### Migration Execution
 
-`db::init_db()` opens the database with `rusqlite::Connection::open()`, applies PRAGMAs, then executes the migration SQL via `include_str!()`:
+`db::init_db()` opens the database with `rusqlite::Connection::open()`, applies PRAGMAs, then runs all migrations in order:
 
 ```rust
 // src-tauri/src/db.rs
@@ -349,17 +424,22 @@ pub fn init_db(path: &str) -> Result<Connection, OrqaError> {
     let conn = Connection::open(path)?;
     conn.execute_batch("PRAGMA journal_mode = WAL; ...");
     conn.execute_batch(include_str!("../migrations/001_initial_schema.sql"))?;
+    conn.execute_batch(include_str!("../migrations/002_governance_bootstrap.sql"))?;
+    conn.execute_batch(include_str!("../migrations/003_enforcement.sql"))?;
+    run_migration_004(&conn)?;
+    run_migration_005(&conn)?;
+    run_migration_006(&conn)?;
     Ok(conn)
 }
 ```
 
 The database path is `orqa.db` in the Tauri app data directory, resolved during `.setup()` in `lib.rs`.
 
-For tests, `db::init_memory_db()` creates an in-memory SQLite database with the same schema.
+For tests, `db::init_memory_db()` creates an in-memory SQLite database with the same schema, running all 6 migrations identically.
 
 ### Migration 001: Initial Schema
 
-Contains all 7 implemented tables (`projects`, `sessions`, `messages`, `artifacts`, `settings`, `project_themes`, `project_theme_overrides`), 2 FTS5 virtual tables (`messages_fts`, `artifacts_fts`), all indexes, sync triggers, and the stream recovery statement. All statements use `IF NOT EXISTS` to be safely re-runnable on app restart.
+Contains the 7 core tables (`projects`, `sessions`, `messages`, `artifacts`, `settings`, `project_themes`, `project_theme_overrides`), 2 FTS5 virtual tables (`messages_fts`, `artifacts_fts`), all indexes, sync triggers, and the stream recovery statement.
 
 Ends with a stream recovery statement:
 
@@ -368,10 +448,31 @@ UPDATE messages SET stream_status = 'error'
 WHERE stream_status = 'pending';
 ```
 
+### Migration 002: Governance Bootstrap
+
+Adds `governance_analyses` and `governance_recommendations` tables used by the governance analysis workflow.
+
+### Migration 003: Enforcement Violations
+
+Adds the `enforcement_violations` table which tracks every rule enforcement event (block or warn) during tool execution. Used for auditing which rules triggered and for the self-learning loop.
+
+### Migration 004: `sdk_session_id` Column
+
+Adds `sdk_session_id TEXT` to `sessions` if neither `sdk_session_id` nor `provider_session_id` already exists. Implemented as `run_migration_004()` in `db.rs` due to SQLite's lack of `ADD COLUMN IF NOT EXISTS`.
+
+### Migration 005: `title_manually_set` Column
+
+Adds `title_manually_set INTEGER DEFAULT 0` to `sessions`. Tracks whether the user explicitly renamed the session to prevent auto-naming from overwriting user titles. Implemented as `run_migration_005()` in `db.rs`.
+
+### Migration 006: Rename Column
+
+Renames `sdk_session_id` → `provider_session_id` on the `sessions` table. Implemented as `run_migration_006()` in `db.rs`. Requires SQLite 3.25.0+ for `ALTER TABLE RENAME COLUMN` support.
+
 ### Rules
 
 - Migrations are append-only. Never modify a deployed migration.
-- Each migration is idempotent (`CREATE TABLE IF NOT EXISTS`, `CREATE INDEX IF NOT EXISTS`, `CREATE TRIGGER IF NOT EXISTS`).
+- Migrations 001–003 use `IF NOT EXISTS` throughout and are safely re-runnable.
+- Migrations 004–006 check `pragma_table_info` before altering to achieve idempotency.
 - Destructive changes (column removal, type changes) require a new migration that copies data.
 - Test migrations against an empty database and against the previous version.
 
@@ -463,18 +564,21 @@ Schema design for `global.db` will be specified when Phase 5 implementation begi
 
 ## Table Summary
 
-| Table | Rows (est. 1yr heavy use) | Phase | Status |
-|-------|---------------------------|-------|--------|
-| projects | 10-50 | 1 | Implemented |
-| sessions | 1,000-5,000 | 1 | Implemented |
-| messages | 100,000-500,000 | 1 | Implemented |
-| artifacts | 50-500 per project | 1 | Implemented |
-| settings | 20-50 | 1 | Implemented |
-| project_themes | 1-5 per project | 1 | Implemented |
-| project_theme_overrides | 0-30 per project | 1 | Implemented |
-| messages_fts | (mirrors messages) | 1 | Implemented |
-| artifacts_fts | (mirrors artifacts) | 1 | Implemented |
-| scanner_results | 1,000-10,000 | 3 | Not yet created |
-| tasks | 100-1,000 per project | 1+ | Not yet created |
-| metrics | 10,000-100,000 | 5 | Not yet created |
-| lessons | 50-500 per project | 5 | Not yet created |
+| Table | Rows (est. 1yr heavy use) | Migration | Status |
+|-------|---------------------------|-----------|--------|
+| projects | 10-50 | 001 | Implemented |
+| sessions | 1,000-5,000 | 001 | Implemented |
+| messages | 100,000-500,000 | 001 | Implemented |
+| artifacts | 50-500 per project | 001 | Implemented |
+| settings | 20-50 | 001 | Implemented |
+| project_themes | 1-5 per project | 001 | Implemented |
+| project_theme_overrides | 0-30 per project | 001 | Implemented |
+| messages_fts | (mirrors messages) | 001 | Implemented |
+| artifacts_fts | (mirrors artifacts) | 001 | Implemented |
+| governance_analyses | 10-100 | 002 | Implemented |
+| governance_recommendations | 50-500 | 002 | Implemented |
+| enforcement_violations | 1,000-50,000 | 003 | Implemented |
+| scanner_results | 1,000-10,000 | PLANNED | Not yet created |
+| tasks | 100-1,000 per project | PLANNED | Not yet created |
+| metrics | 10,000-100,000 | PLANNED | Not yet created |
+| lessons | 50-500 per project | PLANNED | Not yet created |

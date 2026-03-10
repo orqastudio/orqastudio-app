@@ -3,10 +3,10 @@ id: DOC-011
 title: Search Engine Architecture
 description: Architecture of the embedded semantic and regex search engine using ONNX embeddings and DuckDB.
 created: "2026-03-04"
-updated: "2026-03-04"
+updated: "2026-03-10"
 ---
 
-**Date:** 2026-03-04 | **Status:** Active specification | **References:** [Rust Modules](DOC-010), [IPC Commands](DOC-005), [Tool Definitions](DOC-017)
+**Date:** 2026-03-04 | **Updated:** 2026-03-10 | **Status:** Current | **References:** [Rust Modules](DOC-010), [IPC Commands](DOC-005), [Tool Definitions](DOC-017)
 
 Built-in semantic code search with no external dependencies. The entire search stack — code chunking, ONNX embeddings, vector store, and search API — runs natively in OrqaStudio™'s Rust backend.
 
@@ -218,9 +218,11 @@ pub fn search_semantic(
 - Returns top-K chunks sorted by cosine similarity score
 - Only searches chunks that have embeddings (non-NULL embedding column)
 
-### Code Research (Future — Phase 4)
+### Code Research
 
-Combines regex + semantic search with LLM synthesis. Claude reads the top results and produces a coherent analysis. Design deferred until Phases 2-3 are validated.
+Combines regex and semantic search, merging the top results from both into a single response. The query is used as-is for semantic search; for the regex pass the query is treated as a literal pattern (special regex characters are escaped). Results from both modes are returned together so Claude can synthesise a coherent analysis of the codebase.
+
+Implemented in `src-tauri/src/domain/tool_executor.rs` as `tool_code_research()` and in `src-tauri/src/commands/stream_commands.rs`. Available as the `code_research` MCP tool registered in the sidecar.
 
 ---
 
@@ -230,7 +232,9 @@ Combines regex + semantic search with LLM synthesis. Claude reads the top result
 #[tauri::command]
 pub async fn index_codebase(
     state: State<'_, AppState>,
-) -> Result<IndexStatus, String>
+    project_path: String,
+    excluded_paths: Vec<String>,
+) -> Result<IndexStatus, OrqaError>
 
 #[tauri::command]
 pub async fn search_regex(
@@ -238,22 +242,29 @@ pub async fn search_regex(
     pattern: String,
     path: Option<String>,
     max_results: Option<u32>,
-) -> Result<Vec<SearchResult>, String>
+) -> Result<Vec<SearchResult>, OrqaError>
 
 #[tauri::command]
 pub async fn search_semantic(
     state: State<'_, AppState>,
     query: String,
     max_results: Option<u32>,
-) -> Result<Vec<SearchResult>, String>
+) -> Result<Vec<SearchResult>, OrqaError>
 
 #[tauri::command]
 pub async fn get_index_status(
     state: State<'_, AppState>,
-) -> Result<IndexStatus, String>
+    project_path: String,
+) -> Result<IndexStatus, OrqaError>
+
+#[tauri::command]
+pub async fn init_embedder(
+    state: State<'_, AppState>,
+    model_dir: String,
+) -> Result<(), OrqaError>
 ```
 
-All commands follow the standard Tauri error propagation pattern: domain errors are mapped to `String` at the command boundary.
+All search commands return `Result<T, OrqaError>`. Tauri serialises `OrqaError` to the frontend via the `Serialize` derive on `OrqaError`. This follows the project-wide error propagation pattern (see [AD-003](AD-003)) — no mapping to `String` at the command boundary.
 
 ---
 
@@ -265,7 +276,7 @@ Tools are registered in the orqa-studio MCP server (`sidecar/src/provider.ts`):
 |------|-------------|--------------|-------------|
 | `search_regex` | `search_regex` | Yes | Regex pattern search over indexed code |
 | `search_semantic` | `search_semantic` | Yes | Semantic similarity search |
-| `code_research` | `code_research` | Yes | Combined search + LLM synthesis (Phase 4) |
+| `code_research` | `code_research` | Yes | Combined regex + semantic search, results merged |
 
 All search tools are auto-approved (read-only operations). They follow the same `executeToolViaRust` pattern as file/shell tools.
 
