@@ -1,5 +1,6 @@
 <script lang="ts">
 	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
+	import Link2OffIcon from "@lucide/svelte/icons/link-2-off";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 
@@ -23,5 +24,11 @@
 		<ExternalLinkIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
 	</button>
 {:else}
-	<span class="font-mono text-[11px] font-medium text-foreground">{id}</span>
+	<span
+		class="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-warning"
+		title="Broken link: {id} not found in artifact graph"
+	>
+		<Link2OffIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
+		{id}
+	</span>
 {/if}

@@ -2,6 +2,7 @@
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import GateQuestions from "./GateQuestions.svelte";
 	import StatusIndicator from "$lib/components/shared/StatusIndicator.svelte";
+	import Link2OffIcon from "@lucide/svelte/icons/link-2-off";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 
 	let {
@@ -50,6 +51,14 @@
 	 */
 	function isArtifactId(value: string): boolean {
 		return artifactGraphSDK.resolve(value.trim()) !== undefined;
+	}
+
+	/**
+	 * Returns true when the SDK cannot resolve the path to a known artifact node.
+	 * Used for docs-required / docs-produced file path validation.
+	 */
+	function isBrokenPath(path: string): boolean {
+		return artifactGraphSDK.resolveByPath(path.trim()) === undefined;
 	}
 
 	/** Returns true if a value is non-empty (not null, undefined, empty string, or "null"). */
@@ -123,7 +132,7 @@
 	const priority = $derived(
 		isPresent(metadata["priority"]) ? String(metadata["priority"]) : undefined,
 	);
-/**
+	/**
 	 * Gate question — extracted and rendered last,
 	 * separated from the main body entries loop.
 	 */
@@ -213,11 +222,21 @@
 					</span>
 					<div class="flex flex-wrap gap-1">
 						{#each items as item, i (i)}
-							<span
-								class="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[11px] text-foreground"
-							>
-								{item}
-							</span>
+							{#if isBrokenPath(item)}
+								<span
+									class="inline-flex items-center gap-1 rounded border border-warning/30 bg-warning/10 px-1.5 py-0.5 font-mono text-[11px] text-warning"
+									title="Path not found: {item}"
+								>
+									<Link2OffIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
+									{item}
+								</span>
+							{:else}
+								<span
+									class="rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[11px] text-foreground"
+								>
+									{item}
+								</span>
+							{/if}
 						{/each}
 					</div>
 				</div>
@@ -235,7 +254,13 @@
 							{#if isArtifactId(val.trim())}
 								<ArtifactLink id={val.trim()} />
 							{:else}
-								<span class="text-xs text-foreground">{val}</span>
+								<span
+									class="inline-flex items-center gap-1 font-mono text-[11px] font-medium text-warning"
+									title="Broken link: {val.trim()} not found in artifact graph"
+								>
+									<Link2OffIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
+									{val}
+								</span>
 							{/if}
 						{/each}
 					</div>
