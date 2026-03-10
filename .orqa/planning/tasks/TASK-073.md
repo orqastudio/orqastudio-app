@@ -2,7 +2,7 @@
 id: TASK-073
 title: Build backend artifact node graph with bidirectional references
 description: "Build an ArtifactGraph struct with HashMap nodes and bidirectional ArtifactRef edges, constructed during artifact_scan_tree."
-status: todo
+status: done
 created: 2026-03-10
 updated: 2026-03-10
 epic: EPIC-048
