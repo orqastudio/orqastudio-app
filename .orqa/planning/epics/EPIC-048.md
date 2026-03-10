@@ -199,12 +199,33 @@ Phase 4c — Navigation and linking components:
 - SDK receives event, replaces local graph, fires subscription callbacks
 - Note: full snapshot approach will need to become incremental when graph expands to full codebase (see IDEA-036)
 
+### Built-in vs Plugin Boundary
+
+The app ships with **default views only** — these are the artifact browser, viewers, and core navigation. They use the SDK exactly as plugins will. Everything beyond the defaults is a plugin.
+
+| Layer | Examples | Distribution |
+|-------|----------|-------------|
+| **Built-in (default)** | Artifact browser, viewers (artifact, agent, skill, rule, hook), navigation, conversation | Shipped with app binary |
+| **Official plugins** | Governance dashboard, dependency graph, sprint planning | Official plugins repo (IDEA-038) |
+| **Community plugins** | Third-party extensions | Standalone repos, installable via URL |
+
+### Plugin Development Skill (TASK-081)
+
+The skill must guide the AI to:
+
+1. **Always create plugins in a new standalone project** — never inside the user's production codebase
+2. **Generate seed data** for testing — a mock `.orqa/` directory with representative artifacts that exercise the plugin's features
+3. **Develop and test against seed data** using the Artifact Graph SDK
+4. **Only import into production** once the plugin is working and tested
+
+This protects production governance data during development. The skill references IDEA-038 for the distribution architecture that will be built in the next phase.
+
 ## Out of Scope
 
 - Graph visualization UI (node/edge rendering) — separate epic
 - App-assisted template pre-population (artifact editor) — deferred to EPIC-004
 - Full-codebase graph expansion — captured as IDEA-036
-- Plugin runtime and loading mechanism — this epic builds the SDK foundation, not the plugin system itself
+- Plugin runtime, loading, and distribution mechanism — captured as IDEA-038
 - Artifact write operations via SDK — EPIC-004 scope
 
 ## Tasks
@@ -224,7 +245,7 @@ Phase 4c — Navigation and linking components:
 | TASK-078 | Markdown cross-linking in MarkdownRenderer | ui/lib/components/shared/ |
 | TASK-079 | File watcher for .orqa/ with graph rebuild and event emission | src-tauri/src/ |
 | TASK-080 | Write Artifact Graph SDK documentation | .orqa/documentation/development/ |
-| TASK-081 | Create plugin-development skill | .orqa/team/skills/ |
+| TASK-081 | Create plugin-development skill (new project + seed data approach) | .orqa/team/skills/ |
 
 ## Dependency Chain
 
