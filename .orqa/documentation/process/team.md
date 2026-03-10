@@ -52,14 +52,14 @@ Skills are domain-specific instruction sets stored in `.orqa/team/skills/`. They
 | Skill | Source | Domain | Loaded By |
 |-------|--------|--------|-----------|
 | `chunkhound` | Custom | Semantic code search: search_regex, search_semantic, code_research | ALL agents |
-| `planning` | Custom | Discuss-Agree-Plan-Approve-Implement-Verify methodology | orchestrator, agent-maintainer, systems-architect |
-| `skills-maintenance` | Custom | skills.sh CLI, skill lifecycle, portability rules, audit protocol | agent-maintainer |
-| `architecture` | Custom | ADR pattern, data flow mapping, architectural violations | systems-architect, documentation-writer |
-| `svelte5-best-practices` | skills.sh registry | Svelte 5 runes ($state, $derived, $effect), component patterns | frontend-engineer, designer, debugger, code-reviewer, qa-tester, ux-reviewer |
-| `typescript-advanced-types` | skills.sh registry | Strict TypeScript, readonly types, string literal unions | frontend-engineer, debugger, code-reviewer, test-engineer, refactor-agent, qa-tester, ux-reviewer |
-| `tailwind-design-system` | skills.sh registry | Tailwind CSS utilities, theme variables, design tokens | frontend-engineer, designer, ux-reviewer |
-| `rust-async-patterns` | skills.sh registry | Rust async/await, tokio, error handling, lifetimes | backend-engineer, data-engineer, debugger, code-reviewer, test-engineer, security-engineer, refactor-agent |
-| `tauri-v2` | skills.sh registry | Tauri v2 commands, Channel&lt;T&gt;, plugins, security model | backend-engineer, debugger, devops-engineer, security-engineer, systems-architect |
+| `planning` | Custom | Discuss-Agree-Plan-Approve-Implement-Verify methodology | orchestrator, planner, researcher, writer |
+| `skills-maintenance` | Custom | skills.sh CLI, skill lifecycle, portability rules, audit protocol | orchestrator (governance work) |
+| `architecture` | Custom | ADR pattern, data flow mapping, architectural violations | Planner, Writer |
+| `svelte5-best-practices` | skills.sh registry | Svelte 5 runes ($state, $derived, $effect), component patterns | Implementer (frontend), Designer, Reviewer |
+| `typescript-advanced-types` | skills.sh registry | Strict TypeScript, readonly types, string literal unions | Implementer (frontend), Reviewer |
+| `tailwind-design-system` | skills.sh registry | Tailwind CSS utilities, theme variables, design tokens | Implementer (frontend), Designer, Reviewer (UX) |
+| `rust-async-patterns` | skills.sh registry | Rust async/await, tokio, error handling, lifetimes | Implementer (backend), Reviewer |
+| `tauri-v2` | skills.sh registry | Tauri v2 commands, Channel&lt;T&gt;, plugins, security model | Implementer (backend), Planner, Reviewer |
 
 For full provenance and date-added information, see [Skills Log](DOC-033).
 
@@ -87,13 +87,13 @@ graph LR
 | `qa-tester` | End-to-end functional correctness from a user perspective; smoke test; DoD smoke test items |
 | `ux-reviewer` | Labels match UI specs in `.orqa/documentation/ui/`; all component states handled; shared components used; no jargon in UI; DoD UI items |
 
-Review failures generate entries in [Implementation Lessons](DOC-006). The agent-maintainer promotes recurring failures to rules or standards.
+Review failures generate entries in [Implementation Lessons](DOC-006). The orchestrator promotes recurring failures to rules or standards.
 
 ---
 
 ## Content Ownership
 
-Each layer of the governance system owns a specific type of content. For the full framework, see [Content Governance](DOC-026). The `agent-maintainer` owns hookify rule files alongside lifecycle hooks.
+Each layer of the governance system owns a specific type of content. For the full framework, see [Content Governance](DOC-026).
 
 | Layer | Owns |
 |-------|------|
@@ -102,7 +102,6 @@ Each layer of the governance system owns a specific type of content. For the ful
 | `.orqa/team/skills/` | Technology patterns — portable, no OrqaStudio-specific rules |
 | `.orqa/governance/rules/` | Behavioral enforcement — applies to all agents automatically |
 | `.orqa/governance/hooks/` | Lifecycle hooks — shell scripts triggered by lifecycle events (session start, stop, pre-commit) |
-| `.orqa/hookify/` | Hookify rules — action-boundary enforcement that blocks or warns on specific patterns in file edits or bash commands (CLI tools may read from a `.claude/` symlink layer) |
 
 ---
 

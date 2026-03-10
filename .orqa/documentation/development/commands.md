@@ -3,7 +3,7 @@ id: DOC-022
 title: Development Commands
 description: Reference for all development commands available via make targets.
 created: "2026-03-05"
-updated: "2026-03-05"
+updated: "2026-03-10"
 ---
 
 **Date:** 2026-03-05
@@ -16,15 +16,17 @@ Single source of truth for all Makefile targets and the underlying commands they
 
 ### `make install`
 
-Install all frontend Node.js dependencies.
+Install all project dependencies: frontend Node.js packages, sidecar Bun packages, and Rust crate dependencies.
 
 **Underlying command:**
 
 ```bash
 npm install
+cd sidecar && bun install
+cargo fetch --manifest-path src-tauri/Cargo.toml
 ```
 
-**When to use:** After cloning the repository for the first time, or after pulling changes that modify `package.json`.
+**When to use:** After cloning the repository for the first time, or after pulling changes that modify `package.json`, `sidecar/package.json`, or `Cargo.toml`.
 
 ---
 
@@ -114,15 +116,15 @@ npm run dev
 
 ### `make dev-sidecar`
 
-Run the Agent SDK sidecar in development mode with Bun's hot reload.
+Build the Agent SDK sidecar for development.
 
 **Underlying command:**
 
 ```bash
-bun run --hot sidecar/index.ts
+cd sidecar && bun run build
 ```
 
-**When to use:** When iterating on sidecar logic (streaming pipeline, NDJSON message format, tool output handling) without rebuilding the full binary.
+**When to use:** When iterating on sidecar logic (streaming pipeline, NDJSON message format, tool output handling) to rebuild the sidecar without triggering a full production build.
 
 ---
 
