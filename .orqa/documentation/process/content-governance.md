@@ -8,11 +8,11 @@ updated: "2026-03-09"
 
 **Created:** 2026-03-02
 
-OrqaStudio™ uses six distinct layers for governance knowledge: documentation, agent instructions, skills, rules, hooks, and hookify. Each layer owns a specific type of content. Mixing them creates maintenance burden and drift -- when a standard changes in one place, stale copies in other layers remain undetected.
+OrqaStudio™ uses five distinct layers for governance knowledge: documentation, agent instructions, skills, rules, and hooks. Each layer owns a specific type of content. Mixing them creates maintenance burden and drift -- when a standard changes in one place, stale copies in other layers remain undetected.
 
 ---
 
-## The Six Layers
+## The Five Layers
 
 | Layer | Owns | Examples | Source of Truth For |
 |-------|------|----------|---------------------|
@@ -21,7 +21,6 @@ OrqaStudio™ uses six distinct layers for governance knowledge: documentation, 
 | **Skills (`.orqa/team/skills/`)** | Domain knowledge: how a technology works, general patterns, reusable techniques not specific to OrqaStudio | How Svelte 5 runes work, how to structure a Rust module, how to write a cargo test | Technology patterns only — skills must not contain OrqaStudio-specific architectural rules |
 | **Rules (`.orqa/governance/rules/`)** | Enforcement: automated checks and behavioral constraints that apply across all agents | "No stubs", "Error ownership", "End-to-end completeness" | Behavioral constraints — rules reference docs for the standards they enforce |
 | **Hooks (`.orqa/governance/hooks/`)** | Automated rule implementation: shell scripts triggered by lifecycle events that enforce rules programmatically | Session-start checklist, skill loading protocol, pre-commit verification | Executable enforcement — hooks are the mechanism through which rules are actively enforced at key lifecycle points |
-| **Hookify (`.orqa/hookify/`)** | Real-time enforcement: pattern-based blocks and warnings triggered by file edits and bash commands | Block `any` type in TypeScript, block `todo!()` in Rust, warn on destructive git commands, block `--no-verify` | Action-level constraints — hookify files are the active enforcement mechanism that catches violations at the moment they happen, not at lifecycle boundaries |
 
 ---
 
@@ -107,14 +106,14 @@ Think of it this way: a rule says "you must do X", a hook makes sure X actually 
 | `required-reading.md` — Read governing docs before implementing | `session-start-hook.sh` — Checks for session state, stale worktrees, stashes | `UserPromptSubmit` (first) |
 | `testing-standards.md` — Run tests before committing | `pre-commit-reminder.sh` — Checklist: cargo test, clippy, npm check, no stubs | `Stop` |
 
-**When to use a rule vs a hook vs hookify:**
+**When to use a rule vs a hook:**
 
-| Use a Rule When | Use a Hook When | Use Hookify When |
-|----------------|-----------------|------------------|
-| The constraint is judgement-based ("ensure error handling is comprehensive") | The constraint is checkable at a lifecycle boundary ("run clippy before committing") | The constraint is a specific code or command pattern ("`any` type in TypeScript") |
-| Compliance requires context the agent must evaluate | Compliance can be verified or prompted by a script | Compliance can be pattern-matched in real-time |
-| The constraint applies situationally | The constraint should fire on every lifecycle event | The constraint should block or warn on every file edit or command |
-| The constraint is about quality of work | The constraint is about process discipline | The constraint is about preventing specific violations |
+| Use a Rule When | Use a Hook When |
+|----------------|-----------------|
+| The constraint is judgement-based ("ensure error handling is comprehensive") | The constraint is checkable at a lifecycle boundary ("run clippy before committing") |
+| Compliance requires context the agent must evaluate | Compliance can be verified or prompted by a script |
+| The constraint applies situationally | The constraint should fire on every lifecycle event |
+| The constraint is about quality of work | The constraint is about process discipline |
 
 **Hook lifecycle events:**
 
@@ -142,63 +141,6 @@ echo "Functions must be <= 50 lines"         <- Belongs in coding-standards.md
 ```
 
 **Not every rule needs a hook.** Hooks are appropriate when enforcement can be automated at a lifecycle boundary. Many rules are best left as written instructions that agents internalize — over-automating creates brittle process.
-
-### Hookify (`.orqa/hookify/`)
-
-Hookify files (`.orqa/hookify/`) are **real-time enforcement** — pattern-based blocks and warnings that fire the moment an agent edits a file or runs a bash command. Where hooks enforce at lifecycle boundaries (session start, stop), hookify enforces at the action level (every file write, every command execution). CLI tools may read these from a `.claude/hookify.*.local.md` symlink layer if present.
-
-**How hookify files work:**
-
-Hookify files are markdown files with YAML frontmatter that define:
-
-- **`event`** — What triggers the rule: `file` (file edit) or `bash` (bash command)
-- **`action`** — What happens on match: `block` (prevents the action) or `warn` (allows but shows a warning)
-- **`conditions`** / **`pattern`** — The regex or glob pattern that triggers the rule
-
-**The enforcement model:**
-
-| Action | Behavior |
-|--------|----------|
-| `block` | The action is prevented entirely. The agent cannot proceed until the violation is resolved. |
-| `warn` | The action is allowed, but a warning is displayed. The agent should address the concern. |
-
-**Relationship between rules, hooks, and hookify:**
-
-| Layer | Enforces | When | How |
-|-------|----------|------|-----|
-| Rules (`.orqa/governance/rules/`) | Behavioral constraints | Read at session start, apply throughout | Written instructions agents follow |
-| Hooks (`.orqa/governance/hooks/`) | Process discipline | Lifecycle events (session start, stop) | Shell scripts that run automatically |
-| Hookify (`.orqa/hookify/`) | Code/command violations | Every file edit, every bash command | Pattern matching that blocks or warns |
-
-Think of it this way: a rule says "don't do X", a hook reminds you about X at lifecycle boundaries, and hookify actively prevents X from happening in real-time.
-
-**Correct hookify content:**
-
-```yaml
----
-event: file
-action: block
-conditions:
-  - file_pattern: "**/*.ts"
-    content_pattern: ": any"
----
-Block usage of `any` type in TypeScript files. Use proper types instead.
-```
-
-**Forbidden hookify content:**
-
-```yaml
-# WRONG: Using hookify for things that need judgement
-# Hookify is for concrete pattern matches, not subjective quality
----
-event: file
-action: block
-conditions:
-  - content_pattern: "function"   # Too broad — blocks all functions
----
-```
-
-**Not every rule needs a hookify file.** Hookify is appropriate when a violation can be detected by pattern matching against file content or command text. Rules that require context, judgement, or multi-file analysis should remain as written instructions or lifecycle hooks.
 
 ---
 
@@ -241,7 +183,7 @@ When the same behavioral rule appears in two or more agent files, it will drift.
 
 ### Periodic Audit
 
-The `agent-maintainer` and `code-reviewer` include doc-layer compliance in their review checklists:
+The `orchestrator` and the Reviewer role (with `code-quality-review` skills) include doc-layer compliance in their review checklists:
 
 - Agent files reference docs for standards they cite, rather than restating them
 - Skill files contain technology patterns, not OrqaStudio-specific rules
@@ -266,32 +208,30 @@ After implementation, independent review agents evaluate each phase before it is
 | `code-reviewer` | Code quality: clippy, rustfmt, ESLint, svelte-check, no stubs, coverage, doc layer compliance |
 | `qa-tester` | Functional correctness: does it behave as documented, not just compile |
 | `ux-reviewer` | UX/accessibility: labels match docs, states are complete, no jargon in the UI |
-| `agent-maintainer` | Governance audits: content layer compliance, reading list completeness |
+| `orchestrator` | Governance audits: content layer compliance, reading list completeness |
 
 ---
 
 ## Documentation-Change Feedback Loop
 
-When the `documentation-writer` agent makes changes to any documentation page, it triggers the `agent-maintainer` to review whether:
+When the Writer role makes changes to any documentation page, the orchestrator reviews whether:
 
 - Agent Required Reading lists need updating (new pages or moved pages)
 - Rules need updating (new constraints documented, old ones removed)
 - Skills need updating (new technology patterns documented)
 - Hooks need updating (new rules that should be enforced programmatically at lifecycle boundaries)
-- Hookify files need updating (new rules that can be pattern-matched against file edits or commands)
 
-### Rule → Hook / Hookify Promotion
+### Rule → Hook Promotion
 
-When a rule is repeatedly violated (recurrence >= 2 in `.orqa/lessons/`), consider whether it can be enforced by a hook or hookify file. The promotion path:
+When a rule is repeatedly violated (recurrence >= 2 in `.orqa/governance/lessons/`), consider whether it can be enforced by a hook. The promotion path:
 
 1. Rule violation captured as an IMPL lesson
 2. Lesson recurrence reaches threshold
-3. `agent-maintainer` evaluates: can this be pattern-matched against file content or commands?
-4. If yes (specific pattern): write a hookify file that blocks or warns on the pattern
-5. If no but enforceable at lifecycle boundary: write a hook that implements the rule
-6. If neither: strengthen the rule's language, add to more agents' required reading
+3. The `orchestrator` evaluates: can this be enforced at a lifecycle boundary?
+4. If yes: write a hook script in `.orqa/governance/hooks/` that implements the rule
+5. If no: strengthen the rule's language, add to more agents' required reading
 
-The key distinction: hookify is for violations that can be caught by matching a specific pattern in a file edit or bash command. Hooks are for enforcement that requires running a script at a lifecycle boundary (session start, stop). Rules remain for constraints that require judgement or context.
+Hooks are for enforcement that requires running a script at a lifecycle boundary (session start, stop). Rules remain for constraints that require judgement or context.
 
 This loop ensures the governance system stays consistent as documentation evolves.
 
