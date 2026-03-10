@@ -139,6 +139,39 @@ for (const file of files) {
     errors += validate.errors.length;
   }
 
+  // Body template validation: check required sections exist in the markdown body
+  const bodySchema = loadSchema(artifactDir);
+  if (bodySchema?.bodyTemplate?.sections) {
+    // Extract body (everything after closing ---)
+    const normalizedContent = content.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+    const lines = normalizedContent.split("\n");
+    let bodyStart = -1;
+    let delimCount = 0;
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim() === "---") {
+        delimCount++;
+        if (delimCount === 2) {
+          bodyStart = i + 1;
+          break;
+        }
+      }
+    }
+    if (bodyStart > 0) {
+      const body = lines.slice(bodyStart).join("\n");
+      const requiredSections = bodySchema.bodyTemplate.sections
+        .filter((s) => s.required)
+        .map((s) => s.heading);
+      for (const heading of requiredSections) {
+        // Match ## Heading (case-sensitive, at start of line)
+        const pattern = new RegExp(`^## ${heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*$`, "m");
+        if (!pattern.test(body)) {
+          console.error(`ERROR: ${file} — missing required section "## ${heading}"`);
+          errors++;
+        }
+      }
+    }
+  }
+
   // Field order validation: frontmatter keys must follow schema property order
   const schema = loadSchema(artifactDir);
   if (schema?.properties) {

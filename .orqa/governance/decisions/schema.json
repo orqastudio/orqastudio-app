@@ -10,6 +10,7 @@
     "title": { "type": "string" },
     "description": { "type": "string" },
     "status": { "enum": ["proposed", "accepted", "superseded", "deprecated"] },
+    "category": { "type": "string", "description": "Decision category (e.g., architecture, persistence, governance)" },
     "created": { "type": "string", "format": "date" },
     "updated": { "type": "string", "format": "date" },
     "research-refs": {
