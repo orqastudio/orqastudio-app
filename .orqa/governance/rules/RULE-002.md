@@ -1,16 +1,14 @@
 ---
 id: RULE-002
 title: Architecture Decisions
-description: All code must comply with architecture decisions in docs/architecture/decisions.md.
+description: All code must comply with architecture decisions in .orqa/governance/decisions/.
 status: active
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-10"
 layer: canon
 scope: project
 ---
-**Source of Truth:** `.orqa/documentation/architecture/decisions.md` (index) and `.orqa/decisions/` (individual `AD-NNN.md` artifacts)
-
-**READ the index document to understand all architecture decisions. For detail on any specific decision, read its individual `AD-NNN.md` artifact.**
+**Source of Truth:** `.orqa/governance/decisions/` — individual `AD-NNN.md` artifacts. Decisions are first-class artifacts browsable in the app's artifact navigation.
 
 ## Critical Decisions (violations = immediate rejection)
 
@@ -27,9 +25,9 @@ scope: project
 
 ## Before Writing Code
 
-1. Read `.orqa/documentation/architecture/decisions.md` for the decision index
-2. Check if your change affects any existing decision; read the relevant `AD-NNN.md` artifact for full context
-3. If proposing a new decision, create an `AD-NNN.md` in `.orqa/decisions/` following the framework schema (see `.orqa/documentation/product/artifact-framework.md` — Decision schema). Adding a decision only to the index without an individual artifact is FORBIDDEN.
+1. Check if your change affects any existing decision — browse decisions in the app or search `.orqa/governance/decisions/` for the relevant `AD-NNN.md`
+2. Read the relevant decision artifact(s) for full context
+3. If proposing a new decision, create an `AD-NNN.md` in `.orqa/governance/decisions/` following the framework schema (see `.orqa/documentation/product/artifact-framework.md` — Decision schema).
 
 ## Before Writing Plans
 

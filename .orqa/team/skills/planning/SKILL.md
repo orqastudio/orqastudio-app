@@ -45,7 +45,7 @@ For any non-trivial feature, follow this preferred workflow before writing the f
 ### Always Read
 
 - `.orqa/documentation/ui/` — Existing feature designs related to the task
-- `.orqa/documentation/architecture/decisions.md` — Relevant AD-XXX architecture decisions
+- `.orqa/governance/decisions/` — Relevant `AD-NNN.md` architecture decision artifacts
 - `TODO.md` — Task context, constraints, priorities
 - `.orqa/documentation/product/roadmap.md` — Verify the work is prioritized and not scope creep
 
@@ -168,7 +168,7 @@ Every plan MUST explicitly address each dimension below. For each, state either 
 - `npm run check` passes
 
 **Documentation Compliance:**
-- IPC command signatures match `.orqa/documentation/architecture/decisions.md`
+- IPC command signatures match the relevant `AD-NNN.md` decisions in `.orqa/governance/decisions/`
 - Component states match the plan's component state table
 - Error types match documented error propagation strategy
 ```

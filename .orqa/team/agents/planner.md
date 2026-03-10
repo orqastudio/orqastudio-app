@@ -49,7 +49,7 @@ Before any planning work, load and understand:
 - `.orqa/documentation/product/vision.md` — Product vision and pillars
 - `.orqa/documentation/product/artifact-framework.md` — Artifact schemas and connections
 - `.orqa/governance/rules/plan-mode-compliance.md` — Mandatory plan structure
-- `.orqa/governance/rules/architecture-decisions.md` — Architecture decisions index
+- [RULE-002](RULE-002) — Architecture decision compliance
 
 ## Operating Context
 

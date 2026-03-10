@@ -416,7 +416,7 @@ Composability is not just for OrqaStudio's own codebase — it is a principle th
 
 ## See Also
 
-- `.orqa/documentation/architecture/decisions.md` — [AD-017](AD-017) defines the composability principle
+- [AD-017](AD-017) — defines the composability principle
 - `src-tauri/src/domain/enforcement_engine.rs` — canonical example of pure function composition
 - `src-tauri/src/error.rs` — canonical example of error composition via From traits
 - `sidecar/src/provider.ts` — canonical example of a pluggable integration boundary

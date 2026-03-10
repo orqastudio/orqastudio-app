@@ -6,7 +6,7 @@
   "required": ["id", "title", "description", "status", "created", "updated"],
   "additionalProperties": false,
   "propertyOrder": [
-    "id", "title", "description", "status", "category",
+    "id", "title", "description", "status",
     "created", "updated",
     "research-refs", "supersedes", "superseded-by"
   ],
@@ -15,7 +15,6 @@
     "title": { "type": "string" },
     "description": { "type": "string" },
     "status": { "enum": ["proposed", "accepted", "superseded", "deprecated"] },
-    "category": { "type": "string", "description": "Decision category (e.g., architecture, persistence, governance)" },
     "created": { "type": "string", "format": "date" },
     "updated": { "type": "string", "format": "date" },
     "research-refs": {

@@ -130,7 +130,7 @@ proposed ──> accepted ──> superseded
 - `accepted → superseded`: A new decision replaces this one — both the new and old artifacts MUST be updated in the same commit
 - `accepted → deprecated`: Decision is no longer relevant (technology removed, context changed) — reason documented in the decision body
 
-**Creation rule:** When research produces an architectural choice, an `AD-NNN.md` MUST be created in `.orqa/decisions/` and an entry added to the index at `.orqa/documentation/architecture/decisions.md`. Adding a decision only to the monolithic index without an individual artifact file is FORBIDDEN.
+**Creation rule:** When research produces an architectural choice, an `AD-NNN.md` MUST be created in `.orqa/governance/decisions/` following the Decision schema in `.orqa/documentation/product/artifact-framework.md`.
 
 **Supersession rule:** When a new decision replaces an accepted decision, both the new artifact (`supersedes: AD-<old>`) and the old artifact (`status: superseded`, `superseded-by: AD-<new>`) MUST be updated in the same commit. A one-sided supersession is an integrity violation.
 
