@@ -1,7 +1,6 @@
 ---
 title: "Artifact Framework"
 description: "Schema definitions, lifecycle rules, and governance for all structured artifacts in .orqa/."
-category: product
 tags: [artifacts, governance, structured-thinking]
 created: 2026-03-07
 updated: 2026-03-07
@@ -221,7 +220,7 @@ Decision ──supersedes──> Decision (when updated)
 
 ### Pillar (`PILLAR-NNN`)
 
-Pillars are the guiding principles that a project evaluates all work against. Every feature, epic, and idea must serve at least one active pillar. Pillars are project-configurable — different projects define different principles. The `priority` field determines conflict resolution order (lower number = higher priority).
+Pillars are the guiding principles that a project evaluates all work against. Every feature, epic, and idea must serve at least one active pillar. Pillars are project-configurable — different projects define different principles. All pillars are equal — when a task conflicts with one pillar while serving another, the agent asks the user for direction.
 
 ```yaml
 ---
@@ -234,7 +233,6 @@ test-questions:
   - Does this make governance artifacts visible and manageable?
   - Does it produce structured knowledge (plans, decisions, rules)?
   - Does it surface what would otherwise be hidden?
-priority: 1                       # Conflict resolution order (1 = highest)
 created: 2026-03-09
 updated: 2026-03-09
 tags: [visibility, structure, governance]
@@ -248,7 +246,6 @@ tags: [visibility, structure, governance]
 | `status` | Yes | enum | `active` (enforced), `inactive` (preserved but not evaluated against) |
 | `description` | Yes | string | What this pillar means — used in system prompt injection |
 | `test-questions` | Yes | string[] | Questions to evaluate whether work serves this pillar |
-| `priority` | Yes | integer | Conflict resolution order (1 = highest priority; wins when pillars conflict) |
 | `created` | Yes | date | ISO date of creation |
 | `updated` | Yes | date | ISO date of last update |
 | `tags` | No | string[] | Freeform tags |
@@ -496,7 +493,6 @@ Lessons capture implementation learnings — unexpected behaviours, non-obvious 
 ---
 id: IMPL-001
 title: "Use typed error enums instead of String errors in Tauri commands"
-category: error-handling
 status: active
 description: >
   Tauri commands returning Result<T, String> lose error context.
@@ -572,7 +568,7 @@ YAML frontmatter fields follow a consistent content hierarchy across all artifac
 | Type | Field Order |
 |------|------------|
 | **Milestone** | id, title, status, description, created, updated, deadline, gate, epic-count, completed-epics, tags |
-| **Pillar** | id, title, status, description, test-questions, priority, created, updated, tags |
+| **Pillar** | id, title, status, description, test-questions, created, updated, tags |
 | **Epic** | id, title, status, priority, milestone, pillars, description, created, updated, research-refs, docs-required, docs-produced, scoring, tags |
 | **Task** | id, title, status, epic, description, created, updated, depends-on, assignee, skills, scope, acceptance, tags |
 | **Idea** | id, title, status, pillars, description, research-needed, promoted-to, tags |

@@ -1,7 +1,6 @@
 ---
 title: "Development Workflow"
 description: "Development workflow covering worktree lifecycle, branch strategy, and merge procedures."
-category: process
 tags: []
 created: 2026-03-02
 updated: 2026-03-04

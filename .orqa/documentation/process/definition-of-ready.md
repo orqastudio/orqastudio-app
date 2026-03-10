@@ -1,7 +1,6 @@
 ---
 title: "Definition of Ready"
 description: "Prerequisites that must be met before a task can be started by an implementing agent."
-category: process
 tags: []
 created: 2026-03-02
 updated: 2026-03-08

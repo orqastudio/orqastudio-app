@@ -3,7 +3,6 @@ id: TASK-007
 title: "Add artifacts config to project.json and Rust types"
 status: done
 epic: EPIC-033
-phase: 2
 created: 2026-03-08
 updated: 2026-03-08
 assignee: backend-engineer

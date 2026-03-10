@@ -1,7 +1,6 @@
 ---
 title: "Lesson Promotion Pipeline Architecture"
 description: "Architecture of the lesson promotion pipeline that converts implementation lessons into enforced rules."
-category: architecture
 tags: []
 created: 2026-03-05
 updated: 2026-03-05
@@ -31,7 +30,6 @@ Example: `.orqa/lessons/IMPL-001.md`
 ---
 id: IMPL-001
 title: "Brief title describing the mistake"
-category: rust | typescript | svelte | architecture | process | testing | other
 tags:
   - tauri
   - error-handling

@@ -3,7 +3,6 @@ id: TASK-005
 title: "Architecture Docs Vision Audit"
 status: done
 epic: EPIC-033
-phase: 1
 created: 2026-03-08
 updated: 2026-03-08
 assignee: documentation-writer

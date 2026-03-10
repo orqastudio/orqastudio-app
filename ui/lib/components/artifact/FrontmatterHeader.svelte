@@ -42,8 +42,8 @@
 		}
 	}
 
-	/** Pattern that matches artifact IDs like EPIC-005, MS-001, AD-017, IMPL-003. */
-	const ARTIFACT_ID_RE = /^(MS|EPIC|TASK|IDEA|AD|IMPL)-\d+$/;
+	/** Pattern that matches artifact IDs like EPIC-005, MS-001, AD-017, IMPL-003, RES-001, RULE-005, PILLAR-001. */
+	const ARTIFACT_ID_RE = /^(MS|EPIC|TASK|IDEA|AD|IMPL|RES|RULE|PILLAR)-\d+$/;
 
 	function isArtifactId(value: string): boolean {
 		return ARTIFACT_ID_RE.test(value.trim());
@@ -70,28 +70,45 @@
 	 */
 	const SKIP_FIELDS = new Set([
 		"id", "title", "description", "status", "priority", "tags",
-		"enforcement", "scoring",
+		"enforcement", "scoring", "category", "phase", "roadmap-refs", "type",
 	]);
 
 	const DATE_FIELDS = new Set(["created", "updated", "deadline"]);
 
+	/**
+	 * FILE_LIST_FIELDS: path-like values rendered as monospace chips.
+	 * scope and research-refs removed from here — scope is generic array, research-refs are links.
+	 */
 	const FILE_LIST_FIELDS = new Set([
-		"docs-required", "docs-produced", "research-refs", "plan", "scope",
+		"docs-required", "docs-produced", "plan",
 	]);
 
+	/**
+	 * LINK_FIELDS: values that are artifact IDs and should render as clickable ArtifactLink chips.
+	 * research-refs added here (RES-NNN IDs).
+	 */
 	const LINK_FIELDS = new Set([
 		"milestone", "epic", "promoted-to", "promoted_to",
 		"surpassed-by", "supersedes", "superseded-by",
-		"depends-on", "blocks",
+		"depends-on", "blocks", "research-refs",
+	]);
+
+	/**
+	 * CHIP_FIELDS: rendered as styled chips but NOT clickable links.
+	 * e.g. pillar names, assignee, skills.
+	 */
+	const CHIP_FIELDS = new Set([
+		"pillar", "pillars", "assignee", "skills",
 	]);
 
 	/** Classify a field key into its render type. */
-	type FieldType = "date" | "file-list" | "link" | "gate" | "progress" | "generic";
+	type FieldType = "date" | "file-list" | "link" | "chip" | "gate" | "progress" | "generic";
 
 	function fieldType(key: string): FieldType {
 		if (DATE_FIELDS.has(key)) return "date";
 		if (FILE_LIST_FIELDS.has(key)) return "file-list";
 		if (LINK_FIELDS.has(key)) return "link";
+		if (CHIP_FIELDS.has(key)) return "chip";
 		if (key === "gate") return "gate";
 		if (key === "epic-count" || key === "completed-epics") return "progress";
 		return "generic";
@@ -128,15 +145,25 @@
 	const hasProgress = $derived(isPresent(epicCount) || isPresent(completedEpics));
 
 	/**
+	 * Gate question — extracted and rendered last (after tags),
+	 * separated from the main body entries loop.
+	 */
+	const gateValue = $derived(
+		isPresent(metadata["gate"]) ? String(metadata["gate"]) : undefined,
+	);
+
+	/**
 	 * The ordered body entries from the metadata object, skipping:
 	 * - Fixed header fields (SKIP_FIELDS)
 	 * - Progress fields (rendered as a combined row)
+	 * - Gate field (rendered separately after tags)
 	 * - Entries without a present value
 	 */
 	const bodyEntries = $derived(
 		Object.entries(metadata).filter(([key, value]) => {
 			if (SKIP_FIELDS.has(key)) return false;
 			if (key === "epic-count" || key === "completed-epics") return false;
+			if (key === "gate") return false;
 			if (!isPresent(value)) return false;
 			return true;
 		}),
@@ -167,7 +194,7 @@
 			{/if}
 		</div>
 
-		<div class="flex shrink-0 flex-col items-end gap-1.5">
+		<div class="flex shrink-0 items-center gap-1.5">
 			{#if status && isPresent(status)}
 				<StatusIndicator {status} mode="badge" />
 			{/if}
@@ -210,7 +237,7 @@
 			{@const items = asArray(value).filter(Boolean)}
 			{#if items.length > 0}
 				<div class="flex flex-wrap items-start gap-2">
-					<span class="min-w-[7rem] text-xs font-medium capitalize text-muted-foreground">
+					<span class="min-w-[7rem] shrink-0 text-xs font-medium capitalize text-muted-foreground">
 						{humanizeKey(key)}
 					</span>
 					<div class="flex flex-wrap gap-1">
@@ -228,8 +255,8 @@
 		{:else if type === "link"}
 			{@const vals = asArray(value).filter(Boolean)}
 			{#if vals.length > 0}
-				<div class="flex flex-wrap items-center gap-2">
-					<span class="min-w-[7rem] text-xs font-medium capitalize text-muted-foreground">
+				<div class="flex flex-wrap items-start gap-2">
+					<span class="min-w-[7rem] shrink-0 text-xs font-medium capitalize text-muted-foreground">
 						{humanizeKey(key)}
 					</span>
 					<div class="flex flex-wrap gap-1">
@@ -244,11 +271,22 @@
 				</div>
 			{/if}
 
-		{:else if type === "gate"}
-			<div class="rounded border border-border bg-muted/40 px-3 py-2">
-				<p class="text-xs font-medium text-muted-foreground">Gate question</p>
-				<p class="mt-0.5 text-sm italic text-foreground">"{String(value)}"</p>
-			</div>
+		{:else if type === "chip"}
+			{@const items = asArray(value).filter(Boolean)}
+			{#if items.length > 0}
+				<div class="flex flex-wrap items-start gap-2">
+					<span class="min-w-[7rem] shrink-0 text-xs font-medium capitalize text-muted-foreground">
+						{humanizeKey(key)}
+					</span>
+					<div class="flex flex-wrap gap-1">
+						{#each items as item, i (i)}
+							<span class="rounded-full border border-border bg-secondary px-2 py-0.5 text-[11px] capitalize text-secondary-foreground">
+								{item}
+							</span>
+						{/each}
+					</div>
+				</div>
+			{/if}
 
 		{:else}
 			<!-- generic -->
@@ -259,17 +297,19 @@
 				{#if Array.isArray(value)}
 					<div class="flex flex-wrap gap-1">
 						{#each value as v, i (i)}
-							<span class="text-xs text-foreground">{v}</span>
+							<span class="rounded-full border border-border bg-secondary px-2 py-0.5 text-[11px] capitalize text-secondary-foreground">
+								{v}
+							</span>
 						{/each}
 					</div>
 				{:else}
-					<span class="text-xs text-foreground">{String(value)}</span>
+					<span class="text-xs capitalize text-foreground">{String(value)}</span>
 				{/if}
 			</div>
 		{/if}
 	{/each}
 
-	<!-- Tags — always last -->
+	<!-- Tags — after body entries, before gate -->
 	{#if tagList.length > 0}
 		<div class="flex flex-wrap items-center gap-2">
 			<span class="min-w-[7rem] text-xs font-medium text-muted-foreground">Tags</span>
@@ -282,6 +322,14 @@
 					</span>
 				{/each}
 			</div>
+		</div>
+	{/if}
+
+	<!-- Gate question — always last -->
+	{#if gateValue}
+		<div class="rounded border border-border bg-muted/40 px-3 py-2">
+			<p class="text-xs font-medium text-muted-foreground">Gate question</p>
+			<p class="mt-0.5 text-sm italic text-foreground">"{gateValue}"</p>
 		</div>
 	{/if}
 </div>

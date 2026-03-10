@@ -3,7 +3,6 @@ id: TASK-008
 title: "Update scanner to use config-driven paths"
 status: done
 epic: EPIC-033
-phase: 2
 created: 2026-03-08
 updated: 2026-03-08
 depends-on: [TASK-007]

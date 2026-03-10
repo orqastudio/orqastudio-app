@@ -18,7 +18,6 @@ Every feature MUST trace to at least one active pillar. Pillars are structured a
 - **`title`** — The principle name
 - **`description`** — What the pillar means
 - **`test-questions`** — Questions to evaluate whether work serves this pillar
-- **`priority`** — Conflict resolution order (lower number = higher priority)
 
 **Source of truth:** `.orqa/planning/pillars/PILLAR-NNN.md` files. Do not hardcode pillar names or descriptions in rules, documentation, or agent instructions — always reference the pillar artifacts.
 
@@ -43,7 +42,7 @@ Before implementing any feature:
 
 ## Pillar Conflict Resolution
 
-When pillars conflict, the pillar with the lower `priority` number takes precedence. Check each pillar's `priority` field in its frontmatter. This ordering is project-configurable.
+Pillars are equal in importance — there is no numeric priority ranking between them. When a task or feature appears to conflict with one pillar while serving another, the agent MUST flag the conflict to the user and ask for direction. The user decides how to resolve pillar tensions — agents do not prioritise one pillar over another unilaterally. Each pillar's body may describe its relationship to other pillars, but this is context for understanding, not a precedence rule.
 
 ## UX-First Design
 

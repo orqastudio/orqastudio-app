@@ -3,7 +3,6 @@ id: TASK-009
 title: "Frontend: config-driven navigation and fix app hang"
 status: done
 epic: EPIC-033
-phase: 2
 created: 2026-03-08
 updated: 2026-03-08
 depends-on: [TASK-007, TASK-008]

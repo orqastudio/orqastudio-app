@@ -3,7 +3,6 @@ id: TASK-010
 title: "Add Skills Field to Task Schema"
 status: done
 epic: EPIC-033
-phase: 3
 created: 2026-03-08
 updated: 2026-03-08
 assignee: documentation-writer

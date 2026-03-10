@@ -1,6 +1,6 @@
 ---
 id: IMPL-004
-title: "$derived(() => expr) Causes Infinite Loops"
+title: "Svelte 5 derived requires .by() for function expressions"
 category: implementation
 description: >
   Use $derived(expr) for simple expressions or $derived.by(() => expr) for

@@ -1,7 +1,6 @@
 ---
 title: "Definition of Done"
 description: "Checklist of gates that must be satisfied before any task is considered complete."
-category: process
 tags: []
 created: 2026-03-02
 updated: 2026-03-08

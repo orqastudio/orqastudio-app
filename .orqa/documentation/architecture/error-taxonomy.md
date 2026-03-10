@@ -1,7 +1,6 @@
 ---
 title: "Error Taxonomy"
 description: "Complete error type hierarchy using thiserror, covering all typed Rust error enums across the application."
-category: architecture
 tags: []
 created: 2026-03-02
 updated: 2026-03-04

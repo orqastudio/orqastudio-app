@@ -9,7 +9,6 @@ test-questions:
   - Does it produce structured knowledge (plans, decisions, rules)?
   - Does it enforce a workflow that ensures understanding precedes action?
   - Does it surface what would otherwise be hidden in files, terminal output, or people's heads?
-priority: 1
 created: 2026-03-09
 updated: 2026-03-09
 tags: [visibility, structure, governance]

@@ -9,7 +9,6 @@ test-questions:
   - Does it track metrics or outcomes that show improvement (or regression)?
   - Does it feed retrospectives back into the governance framework?
   - Does it accumulate knowledge across sessions so each cycle starts from a better position?
-priority: 2
 created: 2026-03-09
 updated: 2026-03-09
 tags: [learning, reflection, improvement, retrospection]

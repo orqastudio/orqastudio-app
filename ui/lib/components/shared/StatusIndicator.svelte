@@ -111,8 +111,8 @@
 {:else if mode === "inline"}
 	<span class="inline-flex items-center gap-1 text-xs">
 		<Icon class="h-3.5 w-3.5 shrink-0" />
-		<span>{status}</span>
+		<span class="capitalize">{status}</span>
 	</span>
 {:else}
-	<Badge variant={badgeVariant} class={badgeExtra}>{status}</Badge>
+	<Badge variant={badgeVariant} class="{badgeExtra} capitalize">{status}</Badge>
 {/if}

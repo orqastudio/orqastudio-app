@@ -3,7 +3,6 @@ id: TASK-006
 title: "Governance Vision Alignment Audit"
 status: done
 epic: EPIC-033
-phase: 1
 created: 2026-03-08
 updated: 2026-03-08
 assignee: agent-maintainer
