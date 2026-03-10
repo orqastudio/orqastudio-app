@@ -15,6 +15,7 @@ skills:
   - orqa-store-patterns
 scope:
   - ui/lib/sdk/
+  - ui/lib/components/shared/StatusBar.svelte
 acceptance:
   - "ArtifactGraphSDK class with reactive graph state"
   - "Synchronous resolve, resolveByPath, referencesFrom, referencesTo, children, byType, byStatus methods"
@@ -23,6 +24,7 @@ acceptance:
   - "subscribe(id, callback) and subscribeType(type, callback) with unsubscribe return"
   - "Auto-refresh on artifact-graph-updated Tauri event"
   - "TypeScript types for ArtifactNode, ArtifactRef, GraphStats exported"
+  - "Status bar indexing button: triggers manual refresh, disabled with spinner while indexing"
 ---
 
 ## What
