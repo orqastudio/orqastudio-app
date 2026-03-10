@@ -140,17 +140,43 @@ class ArtifactGraphSDK {
 - Async only for `readContent()` (disk I/O)
 - Subscriptions for plugins — callbacks fire on graph refresh when watched node/type changes
 
-### Part 4: Migration to SDK
+### Part 4: Dogfood Migration — Built-in Views as SDK Consumers
 
-| Current Pattern | Replaced By |
-|----------------|-------------|
-| `ARTIFACT_PREFIX_MAP` in NavigationStore | `artifactGraph.resolve(id)` |
-| `pendingArtifactId` + `label.startsWith()` | `artifactGraph.resolve(id).path` → `navigateToPath()` |
-| `ArtifactLink` hardcoded prefix routing | `artifactGraph.resolve(id)` |
-| `read_artifact` for viewer | `artifactGraph.readContent(path)` + `artifactGraph.resolve(id)` |
-| Ad-hoc frontmatter parsing in components | `node.frontmatter` from graph |
+The built-in artifact views are the first consumer of the SDK. Every ad-hoc artifact access pattern in the existing UI is replaced by SDK calls, proving the API works before plugins use it.
 
-**NavTree remains** for sidebar shape (groups, ordering, icons). `DocNode.id` connects sidebar items to graph nodes. The graph does NOT replace NavTree — they serve different purposes.
+**Migration map (10 files, 3 phases):**
+
+Phase 4a — Stores (data layer):
+
+| File | Current Pattern | Replaced By |
+|------|----------------|-------------|
+| `artifact.svelte.ts` | `invoke("artifact_scan_tree")` for NavTree | Keep for sidebar shape; SDK handles metadata/relationships |
+| `artifact.svelte.ts` | `invoke("read_artifact")` + `viewerCache` | `artifactGraph.readContent(path)` (always from disk, no frontend cache) |
+| `navigation.svelte.ts` | `ARTIFACT_PREFIX_MAP` hardcoded prefix→group map | `artifactGraph.resolve(id)` for ID→path, then `navigateToPath()` |
+| `navigation.svelte.ts` | `pendingArtifactId` + `label.startsWith()` workaround | `artifactGraph.resolve(id).path` — exact match, no label guessing |
+
+Phase 4b — Viewer components:
+
+| File | Current Pattern | Replaced By |
+|------|----------------|-------------|
+| `ArtifactViewer.svelte` | `parseFrontmatter(content)` to extract metadata | `artifactGraph.resolve(id).frontmatter` (already parsed in graph) |
+| `ArtifactViewer.svelte` | Internal link click handler parsing hrefs | SDK-based navigation via `navigateToPath()` |
+| `AgentViewer.svelte` | `parseFrontmatter()` for agent metadata | `artifactGraph.resolveByPath(path).frontmatter` |
+| `SkillViewer.svelte` | `parseFrontmatter()` for skill metadata | `artifactGraph.resolveByPath(path).frontmatter` |
+
+Phase 4c — Navigation and linking components:
+
+| File | Current Pattern | Replaced By |
+|------|----------------|-------------|
+| `ArtifactLink.svelte` | `navigateToArtifact(id)` via prefix map | `artifactGraph.resolve(id)` — broken if undefined |
+| `ArtifactNav.svelte` | `pendingArtifactId` auto-select with `if (isTree) return` guard | SDK resolution — works for flat AND tree types |
+| `FrontmatterHeader.svelte` | `ARTIFACT_ID_RE` regex for link detection | SDK `resolve()` — if resolvable, render as link |
+| `GroupSubPanel.svelte` | Icon lookup from config + NavTree | Unchanged (NavTree stays for sidebar shape) |
+| `AppLayout.svelte` | `invoke("artifact_watch_start")` | SDK watcher integration (auto-refresh) |
+
+**What stays:** `frontmatter.ts` parser stays as a lightweight fallback for files not yet in the graph (e.g., newly created files before watcher fires). NavTree remains for sidebar shape. Icon mapping and file-type routing unchanged.
+
+**NavTree vs SDK:** NavTree defines sidebar structure (groups, ordering, icons). SDK provides artifact data (metadata, relationships, content). `DocNode.id` connects the two.
 
 ### Part 5: Link Rendering and Broken Link Detection
 
@@ -191,7 +217,9 @@ class ArtifactGraphSDK {
 | TASK-073 | Build backend artifact node graph with bidirectional references | src-tauri/src/domain/ |
 | TASK-074 | Add artifact graph Tauri commands | src-tauri/src/commands/ |
 | TASK-075 | Build frontend Artifact Graph SDK with subscription API | ui/lib/sdk/ |
-| TASK-076 | Migrate navigation, viewer, and links to use SDK | ui/lib/stores/, ui/lib/components/ |
+| TASK-076 | Migrate stores to SDK: replace artifact/navigation store ad-hoc patterns | ui/lib/stores/ |
+| TASK-082 | Migrate viewer components to SDK: frontmatter from graph, link handling | ui/lib/components/artifact/*Viewer.svelte |
+| TASK-083 | Migrate nav and linking to SDK: ArtifactLink, ArtifactNav, FrontmatterHeader, AppLayout | ui/lib/components/ |
 | TASK-077 | Broken link styling and path validation | ui/lib/components/artifact/ |
 | TASK-078 | Markdown cross-linking in MarkdownRenderer | ui/lib/components/shared/ |
 | TASK-079 | File watcher for .orqa/ with graph rebuild and event emission | src-tauri/src/ |
@@ -204,16 +232,18 @@ class ArtifactGraphSDK {
 Track A — Body Templates (governance-only, no code changes):
 TASK-070 (templates + schema) ──> TASK-071 (linting) ──> TASK-072 (backfill)
 
-Track B — Graph + SDK + Migration:
+Track B — Graph + SDK + Dogfood Migration:
 TASK-073 (backend graph) ──> TASK-074 (Tauri commands) ──> TASK-075 (frontend SDK)
-  ──> TASK-076 (migrate nav/viewer/links)
-  ──> TASK-077 (broken links)
-  ──> TASK-078 (markdown cross-links)
+  ──> TASK-076 (migrate stores)
+    ──> TASK-082 (migrate viewers)
+    ──> TASK-083 (migrate nav/linking)
+      ──> TASK-077 (broken links)
+      ──> TASK-078 (markdown cross-links)
 
 TASK-073 (backend graph) ──> TASK-079 (file watcher)
 
-Track C — Documentation (after SDK is built):
-TASK-075 (SDK) ──> TASK-080 (SDK docs) ──> TASK-081 (plugin skill)
+Track C — Documentation (after migration proves the SDK):
+TASK-083 (migration complete) ──> TASK-080 (SDK docs) ──> TASK-081 (plugin skill)
 ```
 
-Tracks A and B are independent and can be parallelized. Track C depends on the SDK being built. Within Track B, TASK-076/077/078 can be parallelized after TASK-075 is complete.
+Tracks A and B are independent and can be parallelized. Track C depends on the migration being complete — the SDK docs describe the proven API, not a speculative one. Within Track B, TASK-082 and TASK-083 can be parallelized after TASK-076. TASK-077 and TASK-078 can be parallelized after TASK-083.
