@@ -2,7 +2,7 @@
 id: TASK-077
 title: Broken link styling and path validation
 description: "Style unresolvable artifact IDs as broken links with warning colour and broken-link icon. Validate docs-required/docs-produced paths against disk during scan."
-status: todo
+status: done
 created: 2026-03-10
 updated: 2026-03-10
 epic: EPIC-048
