@@ -170,6 +170,21 @@ Systems thinking and agile project planning can be applied to any industry and a
 
 The framework that produces structured outcomes is not optional or configurable. How users experience and extend that framework is.
 
+### The Self-Extension Principle
+
+OrqaStudio can build anything — including extensions of itself. A plugin is just a project, and OrqaStudio is a tool for turning messy ideas into structured, working output. When a user needs a capability the app doesn't have, they don't file a feature request and wait — they describe what they need, and the AI helps them build it as a plugin using the same structured thinking process the app provides for any other problem.
+
+This creates a flywheel: the app teaches structured thinking → the user applies structured thinking to extend the app → the extension makes the app more capable → the more capable app enables more ambitious extensions. The four plugin layers reflect this progression:
+
+| Layer | What | Who |
+|-------|------|-----|
+| **Built-in** | Default views shipped with the app | OrqaStudio team |
+| **Official** | Curated plugins in the official repository | OrqaStudio team + community contributors |
+| **Community** | Publicly shared plugins | Anyone |
+| **User** | Local plugins built with the AI | The individual user |
+
+The user layer is the most important. The barrier from "I had an idea" to "I have a working plugin" is a single conversation with the AI. The barrier from "working locally" to "shared with the world" is a git push. This means OrqaStudio can solve ANY problem and build ANY useful tool — not because the app ships with every possible feature, but because it ships with the ability to help users build whatever they need through structured thinking.
+
 ---
 
 ## Entry Modes
