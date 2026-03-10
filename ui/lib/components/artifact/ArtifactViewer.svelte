@@ -1,5 +1,7 @@
 <script lang="ts">
 	import Breadcrumb from "./Breadcrumb.svelte";
+	import AgentViewer from "./AgentViewer.svelte";
+	import SkillViewer from "./SkillViewer.svelte";
 	import FrontmatterHeader from "./FrontmatterHeader.svelte";
 	import HookViewer from "./HookViewer.svelte";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
@@ -7,12 +9,40 @@
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { parseFrontmatter } from "$lib/utils/frontmatter";
 
 	const content = $derived(artifactStore.activeContent);
 	const breadcrumbs = $derived(navigationStore.breadcrumbs);
 	const activity = $derived(navigationStore.activeActivity);
-	const parsedContent = $derived(content ? parseFrontmatter(content) : null);
+	const currentPath = $derived(navigationStore.selectedArtifactPath);
+
+	/**
+	 * Graph node for the current artifact. Populated when the artifact is in the
+	 * graph (i.e. after the watcher has indexed it). May be undefined for newly
+	 * created files that the watcher hasn't processed yet.
+	 */
+	const graphNode = $derived(
+		currentPath ? artifactGraphSDK.resolveByPath(currentPath) : undefined,
+	);
+
+	/**
+	 * Effective metadata: prefer pre-parsed frontmatter from the graph node when
+	 * available; fall back to parsing the raw content string for files not yet
+	 * in the graph.
+	 */
+	const parsedContent = $derived.by(() => {
+		if (!content) return null;
+		if (graphNode) {
+			// Use graph metadata — already parsed by the Rust backend.
+			// Cast to the shape expected by FrontmatterHeader (Record<string, string | string[]>).
+			const metadata = graphNode.frontmatter as Record<string, string | string[]>;
+			// Still parse the body from raw content so we get the stripped-frontmatter markdown.
+			const fallback = parseFrontmatter(content);
+			return { metadata, body: fallback.body };
+		}
+		return parseFrontmatter(content);
+	});
 
 	/**
 	 * Strip a leading `# Heading` line and the first paragraph from body content.
@@ -94,12 +124,37 @@
 			: null,
 	);
 
+	/**
+	 * Artifact type from the graph node. Falls back to activity string.
+	 * Used to route to specialised viewer components (AgentViewer, SkillViewer).
+	 */
+	const artifactType = $derived(graphNode?.artifact_type ?? activity);
+
+	/** True when the current artifact should use the AgentViewer. */
+	const isAgentArtifact = $derived(artifactType === "agent");
+
+	/** True when the current artifact should use the SkillViewer. */
+	const isSkillArtifact = $derived(artifactType === "skill");
+
+	/**
+	 * Pattern matching artifact IDs like EPIC-048, TASK-001, AD-017, MS-001, etc.
+	 * These are all-uppercase prefix + hyphen + digits.
+	 */
+	const ARTIFACT_ID_RE = /^[A-Z]+-\d+$/;
+
 	function handleContentClick(event: MouseEvent) {
 		const anchor = (event.target as HTMLElement).closest("a");
 		if (!anchor) return;
 
 		const href = anchor.getAttribute("href");
 		if (!href) return;
+
+		// Artifact ID links (e.g. href="EPIC-048") — use SDK-based navigation.
+		if (ARTIFACT_ID_RE.test(href.trim())) {
+			event.preventDefault();
+			navigationStore.navigateToArtifact(href.trim());
+			return;
+		}
 
 		// Internal doc links start with / and don't have a protocol
 		if (href.startsWith("/") && !href.includes("://")) {
@@ -145,6 +200,10 @@
 			<div class="p-6">
 				{#if fileExtension === "sh"}
 					<HookViewer {content} />
+				{:else if isAgentArtifact}
+					<AgentViewer {content} path={currentPath ?? undefined} />
+				{:else if isSkillArtifact}
+					<SkillViewer {content} path={currentPath ?? undefined} />
 				{:else if parsedContent}
 					{#if hasMetadataFields}
 						<FrontmatterHeader
