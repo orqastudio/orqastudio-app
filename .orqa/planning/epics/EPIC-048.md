@@ -207,7 +207,8 @@ The app ships with **default views only** — these are the artifact browser, vi
 |-------|----------|-------------|
 | **Built-in (default)** | Artifact browser, viewers (artifact, agent, skill, rule, hook), navigation, conversation | Shipped with app binary |
 | **Official plugins** | Governance dashboard, dependency graph, sprint planning | Official plugins repo (IDEA-038) |
-| **Community plugins** | Third-party extensions | Standalone repos, installable via URL |
+| **Community plugins** | Third-party extensions shared publicly | Their own repos, installable via URL |
+| **User plugins** | Custom extensions built locally with the AI | Local file path, git-versioned locally |
 
 ### Plugin Development Skill (TASK-081)
 

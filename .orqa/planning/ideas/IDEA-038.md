@@ -58,15 +58,39 @@ github.com/orqa-studio/plugin-governance-dashboard
 4. Plugin is loaded via the SDK — same `artifactGraph` API the built-in views use
 5. Updates: app checks plugin repo for new tags, offers to update
 
-### Built-in vs Plugin
+### Four-Layer Plugin Model
 
-The app ships with **default views only** — the artifact browser, viewers, and core navigation. Everything else is a plugin:
+The app ships with **default views only**. Everything else is a plugin, distributed through one of four layers:
 
-| Layer | What | Distribution |
-|-------|------|-------------|
-| **Built-in** | Artifact browser, viewers (artifact, agent, skill, rule, hook), navigation, conversation | Shipped with app binary |
-| **Official plugins** | Governance dashboard, dependency graph, sprint planning, etc. | Official plugins repo |
-| **Community plugins** | Third-party extensions | Their own repos, installable via URL |
+| Layer | What | Distribution | Versioning |
+|-------|------|-------------|------------|
+| **Built-in** | Artifact browser, viewers, navigation, conversation | Shipped with app binary | App version |
+| **Official plugins** | Curated plugins maintained by the OrqaStudio team | Official plugins repo (git submodules) | Semver per plugin repo |
+| **Community plugins** | Third-party plugins shared publicly | Their own GitHub repos, installable via URL | Author-managed |
+| **User plugins** | Local plugins created by the user, for the user | Local file path, git-versioned locally | User-managed |
+
+### User Plugins — The Fourth Layer
+
+User plugins are the most important layer. They represent the core promise: **anyone can use the app to extend the app**. A plugin is just a project that OrqaStudio knows how to help build.
+
+**Workflow:**
+
+1. User asks the AI to build a plugin ("I want a dashboard that shows my milestone progress")
+2. The AI (with `plugin-development` skill loaded) creates a new local project with seed data
+3. User develops the plugin collaboratively with the AI, testing against seed data
+4. When ready, user installs the plugin into their production project via file path
+5. The plugin uses the same Artifact Graph SDK as the built-in views
+6. Git is initialised locally for versioning — the user owns their plugin history
+
+**Sharing is optional and progressive:**
+
+| Want to... | Do this |
+|------------|---------|
+| Keep it private | Just use it locally — nothing else needed |
+| Share with others | Push to a public GitHub repo, share the URL |
+| Get it into the official catalogue | Create a PR to the official plugins repo to add it as a submodule |
+
+The barrier from "I had an idea" to "I have a working plugin" is a single conversation with the AI. The barrier from "working locally" to "shared with the world" is a git push.
 
 ### Development Workflow
 
@@ -77,4 +101,4 @@ Plugin development uses the `plugin-development` skill (TASK-081), which guides 
 3. Develop and test against the seed data using the Artifact Graph SDK
 4. Only import into the production project once the plugin is working
 
-This keeps production governance data safe during plugin development.
+This keeps production governance data safe during development. A plugin IS a project — it has its own `.orqa/` structure, its own governance, and the AI has the skills to help build it.
