@@ -31,7 +31,7 @@ This applies to:
 - Research (`.orqa/planning/research/`)
 - Tasks (`.orqa/planning/tasks/`)
 - Ideas (`.orqa/planning/ideas/`) — use `status: archived` per existing lifecycle
-- Lessons (`.orqa/governance/lessons/`) — use `promoted-to` field per existing lifecycle
+- Lessons (`.orqa/governance/lessons/`) — use `promoted_to` field per existing lifecycle
 
 ## The `surpassed` Status
 
@@ -60,7 +60,7 @@ surpassed-by: TASK-009
 
 ## Rule Status Vocabulary
 
-Rules use `active` / `inactive` — NOT `surpassed`. Surpassed is for research, plans, and tasks.
+Rules use `active` / `inactive` — NOT `surpassed`. Surpassed is for research and tasks.
 
 - **Active**: The rule is enforced. Agents must comply.
 - **Inactive**: The rule is no longer enforced. If a rule was superseded by a newer rule, mark it `inactive` and add a leading comment in the body explaining why (e.g., "Superseded by `new-rule.md`"). The file is preserved for historical reference.

@@ -252,4 +252,4 @@ it('handles load failure', async () => {
 | `ui/**/*.test.ts` | Frontend unit tests (Vitest) |
 | `tests/` | E2E tests (Playwright) |
 | `vitest.config.ts` | Vitest configuration |
-| `docs/development/coding-standards.md` | Coverage requirements |
+| `.orqa/documentation/development/coding-standards.md` | Coverage requirements |

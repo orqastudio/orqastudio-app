@@ -12,9 +12,9 @@ The lesson promotion pipeline captures implementation mistakes, tracks their rec
 
 ---
 
-## Storage: `.orqa/lessons/`
+## Storage: `.orqa/governance/lessons/`
 
-Lessons are stored as individual markdown files in `.orqa/lessons/` within the project root. Each file holds a single lesson with YAML frontmatter for machine-readable metadata and a markdown body for human-readable content.
+Lessons are stored as individual markdown files in `.orqa/governance/lessons/` within the project root. Each file holds a single lesson with YAML frontmatter for machine-readable metadata and a markdown body for human-readable content.
 
 This location is intentional: `.orqa/` is the project-specific directory for OrqaStudio™ metadata. CLI compatibility layers (such as `.claude/`) may symlink into `.orqa/` but `.orqa/` is the authoritative source of truth.
 
@@ -22,7 +22,7 @@ This location is intentional: `.orqa/` is the project-specific directory for Orq
 
 `<IMPL-NNN>.md` — lesson identifier matches the IMPL number displayed in the UI.
 
-Example: `.orqa/lessons/[IMPL-001](IMPL-001).md`
+Example: `.orqa/governance/lessons/[IMPL-001](IMPL-001).md`
 
 ### YAML Frontmatter Schema
 
@@ -86,7 +86,7 @@ The markdown body follows this structure:
 
 ## SQLite Metadata Cache
 
-The `.orqa/lessons/*.md` files are the authoritative source. SQLite caches metadata for fast queries, filtering, and dashboard aggregation.
+The `.orqa/governance/lessons/*.md` files are the authoritative source. SQLite caches metadata for fast queries, filtering, and dashboard aggregation.
 
 ```sql
 CREATE TABLE lessons (
@@ -171,7 +171,7 @@ src-tauri/src/
     repository.rs      -- SQLite cache operations
     promoter.rs        -- Promotion workflow: lesson → rule enforcement entry
     types.rs           -- Lesson, LessonSummary, CreateLessonInput, PromoteLessonInput
-    watcher.rs         -- File watcher for .orqa/lessons/ cache invalidation
+    watcher.rs         -- File watcher for .orqa/governance/lessons/ cache invalidation
   commands/
     lessons.rs         -- Tauri command handlers
 ```
@@ -192,4 +192,4 @@ src-tauri/src/
 - `.orqa/documentation/ui/lesson-dashboard.md` — UI spec for the lesson navigation and viewer
 - `.orqa/documentation/architecture/enforcement.md` — Enforcement engine that consumes promoted lessons
 - `.orqa/documentation/process/rules.md` — Rule frontmatter schema that receives promoted entries
-- `.orqa/lessons/` — Current lesson log (the actual lesson content, not this architecture doc)
+- `.orqa/governance/lessons/` — Current lesson log (the actual lesson content, not this architecture doc)

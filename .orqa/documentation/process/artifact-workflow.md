@@ -11,7 +11,7 @@ updated: "2026-03-09"
 This document describes how artifacts flow through the OrqaStudio™ development process day-to-day. It covers when artifacts are created, how they transition between states, and the gates that govern each transition.
 
 For artifact schemas and field definitions, see `.orqa/documentation/product/artifact-framework.md`.
-For enforcement rules, see `.orqa/rules/artifact-lifecycle.md`.
+For enforcement rules, see [RULE-004](RULE-004).
 
 ---
 
@@ -20,7 +20,7 @@ For enforcement rules, see `.orqa/rules/artifact-lifecycle.md`.
 ```
 User has an idea
   → Idea captured (IDEA-NNN, status: captured)
-  → Research investigates (status: exploring, .orqa/research/ artifacts created)
+  → Research investigates (status: exploring, .orqa/planning/research/ artifacts created)
   → Idea scoped and validated (status: shaped)
   → User approves promotion (status: promoted, EPIC-NNN created)
 
@@ -31,7 +31,7 @@ Epic implementation
   → Verification gates passed, docs-produced verified (status: done)
 
 Lessons along the way
-  → Implementation patterns captured (IMPL-NNN in .orqa/lessons/)
+  → Implementation patterns captured (IMPL-NNN in .orqa/governance/lessons/)
   → Recurring patterns promoted to rules/skills
 
 Milestone completion
@@ -219,7 +219,7 @@ P2/P3 epics may still be in progress — they carry forward to the next mileston
 
 ## Lesson Lifecycle
 
-See `.orqa/governance/rules/lessons-learned.md` for the full lesson lifecycle.
+See [RULE-017](RULE-017) for the full lesson lifecycle.
 
 Summary:
 

@@ -65,7 +65,7 @@ draft ──> ready ──> in-progress ──> review ──> done
 - `in-progress → review`: Implementation complete, submitted for verification gates
 - `review → done`: All verification gates passed (code-reviewer, qa-tester, ux-reviewer), all `docs-produced` items verified as created/updated
 
-The epic body contains the implementation design — data model, IPC contracts, component breakdown, and approach. For investigation-heavy work, the epic may carry a `research-refs` field listing research documents in `.orqa/research/` that informed the design.
+The epic body contains the implementation design — data model, IPC contracts, component breakdown, and approach. For investigation-heavy work, the epic may carry a `research-refs` field listing research documents in `.orqa/planning/research/` that informed the design.
 
 ### Task
 
@@ -180,13 +180,13 @@ Every epic's `docs-produced` field lists documentation that this work creates or
 An idea MUST NOT be promoted to an epic until:
 
 1. **Status is `shaped`** — the idea has been through `exploring` and has clear scope
-2. **All `research-needed` items are investigated** — research artifacts exist in `.orqa/research/` or the research question has been answered and documented in the idea body
+2. **All `research-needed` items are investigated** — research artifacts exist in `.orqa/planning/research/` or the research question has been answered and documented in the idea body
 3. **Pillar alignment confirmed** — at least one pillar is listed and justified
 4. **User approves promotion** — the orchestrator presents the shaped idea and asks for explicit approval
 
 ### Promotion Procedure
 
-1. Create `EPIC-NNN.md` in `.orqa/epics/` with:
+1. Create `EPIC-NNN.md` in `.orqa/planning/epics/` with:
    - `milestone` set to the appropriate milestone
    - `status: draft`
    - `priority` computed from scoring dimensions
@@ -225,7 +225,7 @@ A milestone MUST NOT be marked `complete` until:
 
 1. **All P1 epics are `done`** — every epic with `priority: P1` in the milestone has `status: done`
 2. **The gate question can be answered "yes"** — the orchestrator presents the gate question to the user and gets explicit confirmation
-3. **Epic counts are accurate** — `epic-count` and `completed-epics` match the actual state of `.orqa/epics/`
+3. **Epic counts are accurate** — `epic-count` and `completed-epics` match the actual state of `.orqa/planning/epics/`
 
 P2 and P3 epics may remain in-progress or draft when a milestone is completed — they carry forward or are re-assigned to the next milestone.
 
@@ -274,7 +274,7 @@ The orchestrator SHOULD periodically verify:
 - Leaving `promoted-to` null on an idea with `status: promoted`
 - Creating duplicate IDs (two artifacts with the same ID)
 - Modifying artifact IDs after creation
-- Recording an architecture decision only in `.orqa/documentation/architecture/decisions.md` without a corresponding `AD-NNN.md` file in `.orqa/decisions/`
+- Recording an architecture decision only in `.orqa/documentation/architecture/decisions.md` without a corresponding `AD-NNN.md` file in `.orqa/governance/decisions/`
 - Updating one side of a decision supersession without updating the other
 - Using process words (UAT, Phase, Sprint, Round, Audit) in epic titles unless they describe the actual deliverable content — epic titles describe what is achieved, not how work is organised
 

@@ -78,7 +78,7 @@ if [ -f ".orqa/project.json" ]; then
         echo "DOGFOOD MODE ACTIVE: You are editing the app you are running inside."
         echo "- Use 'make dev' (--no-watch) — never 'make dev-watch'"
         echo "- After Rust changes: write session state, then ask user to restart"
-        echo "- See .orqa/rules/dogfood-mode.md for full rules"
+        echo "- See .orqa/governance/rules/RULE-009.md for full rules"
         echo ""
     fi
 fi

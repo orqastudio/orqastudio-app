@@ -8,11 +8,11 @@ sort: 1
 
 ![OrqaStudio™](../ui/lib/assets/banner.png)
 
-Desktop app for managed agentic development. Claude Code's capabilities with a visual process layer.
+An AI-assisted clarity engine that helps people turn messy situations into structured understanding and evolving plans through agile thinking and continuous retrospection.
 
 ## What OrqaStudio Does
 
-- **Wraps Claude Code** — Same model, same capabilities, but with a UI that surfaces the process layer
+- **Structures thinking** — Artifacts, epics, milestones, and lessons turn vague problems into navigable plans
 - **Backfills governance** — Point it at an existing codebase, answer questions, and OrqaStudio progressively builds the documentation, rules, and agent definitions through conversation
 - **Makes process visible** — Scanner dashboards, task pipelines, retrospective cards, and metrics charts replace terminal output
 - **Persists everything** — Conversation history linked to artifacts, searchable across sessions
@@ -36,7 +36,7 @@ Active pillars are defined in `.orqa/planning/pillars/`. Every feature must serv
 
 ```bash
 npm install
-cargo tauri dev
+make dev
 ```
 
 ## Documentation Sections

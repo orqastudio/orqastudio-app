@@ -216,7 +216,7 @@ The implementing agent CANNOT self-certify completion. An independent Reviewer m
 
 When an agent encounters something unexpected (a library quirk, a platform-specific behavior, a non-obvious pattern), capture it:
 
-1. Add the lesson to `.orqa/lessons/` with: what happened, why it was unexpected, the correct approach, tags for discoverability
+1. Add the lesson to `.orqa/governance/lessons/` with: what happened, why it was unexpected, the correct approach, tags for discoverability
 2. These lessons are searchable and prevent repeating mistakes
 3. When a lesson recurs (threshold >= 2), promote to a rule or skill update
 
@@ -235,18 +235,18 @@ At the end of significant features or when the User requests it:
 New feature requests, ideas, and enhancements are managed through the artifact framework.
 
 When the User mentions a future feature or "we should eventually...":
-1. Create an `IDEA-NNN.md` in `.orqa/ideas/` with `status: captured`
+1. Create an `IDEA-NNN.md` in `.orqa/planning/ideas/` with `status: captured`
 2. Do NOT start investigating or implementing unless the User explicitly approves
 
 When the User approves investigation:
 1. Update the idea to `status: exploring` and begin research
-2. Create research artifacts in `.orqa/research/`
+2. Create research artifacts in `.orqa/planning/research/`
 
 When research validates an idea and the User approves promotion:
-1. Create an `EPIC-NNN.md` in `.orqa/epics/` with `status: draft`
+1. Create an `EPIC-NNN.md` in `.orqa/planning/epics/` with `status: draft`
 2. Update the idea to `status: promoted` with `promoted-to: EPIC-NNN`
 
-See `.orqa/rules/artifact-lifecycle.md` for full enforcement rules.
+See [RULE-004](RULE-004) for full enforcement rules.
 
 ---
 

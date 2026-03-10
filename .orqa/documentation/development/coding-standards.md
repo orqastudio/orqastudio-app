@@ -86,7 +86,7 @@ updated: "2026-03-08"
 - **Coverage:** 80%+ test coverage, no exceptions without documented justification
 - **No TODO comments:** Track in TODO.md, not scattered across the codebase
 - **No commented-out code:** Delete it. Git history preserves it.
-- **No hardcoded fake data:** See `.orqa/rules/no-stubs.md`
+- **No hardcoded fake data:** See [RULE-020](RULE-020)
 - **Documentation-first:** Read governing docs before implementing
 
 ## Enforcement

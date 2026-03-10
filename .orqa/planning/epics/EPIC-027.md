@@ -37,7 +37,7 @@ UX design (Phase 0d) and technical design (Phase 0e) cannot proceed without know
 
 ## Output
 
-All product documentation in `docs/product/`.
+All product documentation in `.orqa/documentation/product/`.
 
 ## Notes
 

@@ -42,7 +42,7 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 - [ ] `npm run test` passes -- all frontend tests green
 - [ ] Test coverage is 80%+ for all affected modules
 - [ ] No stubs, no hardcoded data, no TODO/FIXME comments
-- [ ] No backwards compatibility shims, no aliases, no workarounds (see `.orqa/rules/no-aliases-or-hacks.md`)
+- [ ] No backwards compatibility shims, no aliases, no workarounds (see [RULE-018](RULE-018))
 
 ### End-to-End Completeness (checked by `code-reviewer`)
 
@@ -89,10 +89,10 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 
 ### Artifact Updates
 
-- [ ] Epic `status` updated to `done` in `.orqa/epics/EPIC-NNN.md`
-- [ ] All task statuses updated to `done` in `.orqa/tasks/TASK-NNN.md`
-- [ ] Epic task checkboxes all checked in `.orqa/epics/EPIC-NNN.md`
-- [ ] Parent milestone `completed-epics` count updated in `.orqa/milestones/MS-NNN.md`
+- [ ] Epic `status` updated to `done` in `.orqa/planning/epics/EPIC-NNN.md`
+- [ ] All task statuses updated to `done` in `.orqa/planning/tasks/TASK-NNN.md`
+- [ ] Epic task checkboxes all checked in `.orqa/planning/epics/EPIC-NNN.md`
+- [ ] Parent milestone `completed-epics` count updated in `.orqa/planning/milestones/MS-NNN.md`
 - [ ] If all P1 epics in the milestone are done — check whether milestone gate is satisfied
 - [ ] Roadmap entry updated to reflect completion (items checked, status noted)
 
@@ -100,7 +100,7 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 
 - [ ] Every item in the epic's roadmap entry has been implemented — not deferred, not scaffolded
 - [ ] Every item in the epic's plan has a completed task
-- [ ] No "out of scope" items that were in the original roadmap scope (see `.orqa/rules/no-deferred-deliverables.md`)
+- [ ] No "out of scope" items that were in the original roadmap scope (see [RULE-019](RULE-019))
 - [ ] If any item was descoped, user approval for the descope is documented
 
 ### Commit & Session State
@@ -189,4 +189,4 @@ Chain: COMPLETE
 - [Definition of Ready](DOC-028) -- The gate checklist before implementation starts
 - [Orchestration](DOC-030) -- Orchestrator verification gate protocol
 - [Workflow](DOC-035) -- Full task lifecycle including review gate steps
-- [Implementation Lessons](DOC-006) -- Patterns to document when review fails
+- [Implementation Lessons](lessons) -- Patterns to document when review fails

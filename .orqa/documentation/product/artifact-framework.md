@@ -298,9 +298,9 @@ created: 2026-03-07
 updated: 2026-03-07
 research-refs: []                 # RES-NNN identifiers of research docs that informed this epic
 docs-required:                    # Documentation that must exist before work begins
-  - docs/architecture/streaming-pipeline.md
+  - .orqa/documentation/architecture/streaming-pipeline.md
 docs-produced:                    # Documentation this work creates or updates
-  - docs/architecture/streaming-pipeline.md (update with new events)
+  - .orqa/documentation/architecture/streaming-pipeline.md (update with new events)
 depends-on: []                    # EPIC-NNN IDs that must be done before this can start
 blocks: []                        # EPIC-NNN IDs that this epic blocks
 deadline: null                    # ISO date or null
@@ -332,7 +332,7 @@ scoring:                          # Priority dimension scores
 | `deadline` | No | date/null | ISO date for time-constrained epics, null otherwise |
 | `scoring` | Yes | object | Dimension scores for priority calculation (includes computed `score` field). Required for now — see [IDEA-035](IDEA-035) for configurable scoring. |
 
-**Task checklists in epics:** Tasks are listed as markdown checklists in the epic body. When a task needs its own detailed tracking (acceptance criteria, agent assignment, discussion), it graduates to a separate `TASK-NNN.md` file in `.orqa/tasks/`.
+**Task checklists in epics:** Tasks are listed as markdown checklists in the epic body. When a task needs its own detailed tracking (acceptance criteria, agent assignment, discussion), it graduates to a separate `TASK-NNN.md` file in `.orqa/planning/tasks/`.
 
 ### Task (`TASK-NNN`)
 
@@ -843,13 +843,13 @@ Every stage of work self-documents its decisions:
 
 ```
 Idea captured
-  → Research investigates (produces .orqa/research/ artifact)
+  → Research investigates (produces .orqa/planning/research/ artifact)
   → Research resolves → Architecture Decision recorded (`.orqa/governance/decisions/AD-NNN.md`)
   → Idea promoted → Epic created (references research-refs, lists docs-required)
   → Epic body written with implementation design (docs-required gate satisfied)
   → Implementation begins (produces code + docs-produced artifacts)
   → Completion updates architecture docs, component specs, schemas
-  → Lessons captured (.orqa/lessons/) → promoted to rules/skills
+  → Lessons captured (.orqa/governance/lessons/) → promoted to rules/skills
 ```
 
 At any point, you can trace backwards: "Why does this rule exist?" → lesson → epic → research → original idea. This is the automated documentation process — the system records what was decided at each stage and why.

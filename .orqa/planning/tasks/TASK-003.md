@@ -8,7 +8,7 @@ updated: "2026-03-07"
 epic: EPIC-001
 assignee: AGENT-007
 scope:
-  - docs/architecture/streaming-pipeline.md
+  - .orqa/documentation/architecture/streaming-pipeline.md
 acceptance:
   - SystemPromptSent emission point documented in event sequence
   - Emission location noted (after resolve_system_prompt
@@ -18,7 +18,7 @@ acceptance:
 ---
 ## What
 
-Update `docs/architecture/streaming-pipeline.md` to reflect the new `SystemPromptSent` emission point added by [TASK-001](TASK-001).
+Update `.orqa/documentation/architecture/streaming-pipeline.md` to reflect the new `SystemPromptSent` emission point added by [TASK-001](TASK-001).
 
 ## Sections to Update
 

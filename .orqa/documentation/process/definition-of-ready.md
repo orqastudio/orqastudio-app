@@ -26,7 +26,7 @@ Run this checklist for every task before delegating it. Check each item that app
 
 ### Artifact Trail
 
-- [ ] An artifact exists for this work -- either an `EPIC-NNN` in `.orqa/epics/` or a task within one
+- [ ] An artifact exists for this work -- either an `EPIC-NNN` in `.orqa/planning/epics/` or a task within one
 - [ ] Epic `docs-required` gate is satisfied -- all listed documents exist and are current
 - [ ] Epic status is `ready` or later -- not still `draft`
 - [ ] If promoted from an idea -- the source `IDEA-NNN` has `status: shaped` or `promoted`, and `research-needed` items have been addressed
@@ -79,7 +79,7 @@ The orchestrator works through this checklist before using the Task tool to dele
 
 ## Relationship to Plan-Mode Compliance
 
-For tasks that require an implementation plan, the plan itself must satisfy the requirements in `.orqa/rules/plan-mode-compliance.md`:
+For tasks that require an implementation plan, the plan itself must satisfy the requirements in [RULE-022](RULE-022):
 
 1. **UX-first design** -- user journeys -> UI design -> component state table -> backend
 2. **Architectural compliance section** -- verifies all relevant architecture decisions
@@ -105,4 +105,4 @@ A plan that omits any of these is not approved, and the task does not meet DoR.
 - [Definition of Done](DOC-027) -- The gate checklist before a task is marked complete
 - [Orchestration](DOC-030) -- Full orchestrator responsibilities and delegation guide
 - [Workflow](DOC-035) -- Task lifecycle protocol including the before-starting checklist
-- [Implementation Lessons](DOC-006) -- Known patterns to check before starting
+- [Implementation Lessons](lessons) -- Known patterns to check before starting

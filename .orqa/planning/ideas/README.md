@@ -30,4 +30,4 @@ captured → exploring → shaped → promoted (or archived)
 ## Related
 
 - Promoted ideas become epics in the **Epics** section
-- Research artifacts live in **Research** under Documentation
+- Research artifacts live in **Research** under Planning

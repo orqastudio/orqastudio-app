@@ -27,7 +27,7 @@ Can't credibly enforce quality on managed projects if our own code has violation
 
 ## Tasks
 
-- [ ] Coding standards compliance audit against `docs/development/coding-standards.md`
+- [ ] Coding standards compliance audit against `.orqa/documentation/development/coding-standards.md`
 - [ ] Enforcement artifact review — rules/hooks/skills completeness
 - [ ] Abstraction pattern audit — identify over-complicated patterns from iterative development
 - [ ] Fix function size violations in `tool_executor.rs` (`tool_bash` 97 lines, `execute_tool` 69 lines, `project_root_from_state` 152 lines)

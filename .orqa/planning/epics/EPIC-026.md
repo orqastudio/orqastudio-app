@@ -31,13 +31,13 @@ Architecture decisions are the governing law of the codebase. Every implementati
 
 ## What Was Done
 
-- [AD-007](AD-007) through [AD-017](AD-017) recorded in `docs/architecture/decisions.md`
+- [AD-007](AD-007) through [AD-017](AD-017) recorded in `.orqa/documentation/architecture/decisions.md`
 - Decisions cover: sidecar integration pattern, streaming pipeline design, security model, MCP host approach, persistence strategy, governance format, composability principle
 - Each decision includes context, the decision made, consequences, and status
 
 ## Output
 
-`docs/architecture/decisions.md` — the authoritative record of all architecture decisions.
+`.orqa/documentation/architecture/decisions.md` — the authoritative record of all architecture decisions.
 
 ## Notes
 

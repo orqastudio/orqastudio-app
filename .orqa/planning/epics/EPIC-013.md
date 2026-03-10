@@ -30,7 +30,7 @@ Pillar 2 (Learning Through Reflection) — the system must get smarter with each
 
 ## Tasks
 
-- [ ] Post-session hooks that capture lessons automatically to `.orqa/lessons/`
+- [ ] Post-session hooks that capture lessons automatically to `.orqa/governance/lessons/`
 - [ ] Rules enforcing lesson checking before implementation
 - [ ] Automated promotion suggestions when recurrence >= threshold
 - [ ] Lesson dashboard with recurrence trends (LayerChart)
