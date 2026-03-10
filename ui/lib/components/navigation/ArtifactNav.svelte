@@ -179,17 +179,6 @@
 		navigationStore.openArtifact(node.path, buildBreadcrumbs(node));
 	}
 
-	// ---- Cross-link auto-select ----
-
-	$effect(() => {
-		const pendingId = navigationStore.pendingArtifactId;
-		if (!pendingId || rawNodes.length === 0 || isTree) return;
-		const match = rawNodes.find((n) => n.label.startsWith(pendingId));
-		if (match?.path) {
-			navigationStore.pendingArtifactId = null;
-			navigationStore.openArtifact(match.path, [match.label]);
-		}
-	});
 </script>
 
 <div class="flex h-full flex-col">

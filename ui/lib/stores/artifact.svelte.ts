@@ -1,4 +1,5 @@
 import { invoke, extractErrorMessage } from "$lib/ipc/invoke";
+import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 import type { NavTree } from "$lib/types/nav-tree";
 
 class ArtifactStore {
@@ -6,11 +7,6 @@ class ArtifactStore {
 	navTree = $state<NavTree | null>(null);
 	navTreeLoading = $state(false);
 	navTreeError = $state<string | null>(null);
-
-	// Cache for full artifact content when viewing.
-	// Capped at MAX_VIEWER_CACHE entries; oldest entry is evicted on overflow.
-	private static readonly MAX_VIEWER_CACHE = 50;
-	private viewerCache = new Map<string, string>();
 
 	// Active viewer state
 	activeContent = $state<string | null>(null);
@@ -33,26 +29,13 @@ class ArtifactStore {
 		}
 	}
 
-	/** Load artifact content for viewing */
+	/** Load artifact content for viewing. Delegates to the SDK which reads from disk each time. */
 	async loadContent(path: string) {
-		// Check cache first
-		const cached = this.viewerCache.get(path);
-		if (cached !== undefined) {
-			this.activeContent = cached;
-			return;
-		}
-
 		this.activeContentLoading = true;
 		this.activeContentError = null;
 		try {
-			const result = await invoke<{ content: string }>("read_artifact", { relPath: path });
-			if (this.viewerCache.size >= ArtifactStore.MAX_VIEWER_CACHE) {
-				// Evict the oldest entry (Map preserves insertion order).
-				const oldestKey = this.viewerCache.keys().next().value;
-				if (oldestKey !== undefined) this.viewerCache.delete(oldestKey);
-			}
-			this.viewerCache.set(path, result.content);
-			this.activeContent = result.content;
+			const content = await artifactGraphSDK.readContent(path);
+			this.activeContent = content;
 		} catch (err: unknown) {
 			const message = extractErrorMessage(err);
 			this.activeContentError = `Failed to load content: ${message}`;
@@ -68,16 +51,10 @@ class ArtifactStore {
 		this.loadNavTree();
 	}
 
-	/** Invalidate a specific viewer cache entry */
-	invalidateContent(path: string) {
-		this.viewerCache.delete(path);
-	}
-
 	clear() {
 		this.navTree = null;
 		this.navTreeLoading = false;
 		this.navTreeError = null;
-		this.viewerCache.clear();
 		this.activeContent = null;
 		this.activeContentLoading = false;
 		this.activeContentError = null;

@@ -1,6 +1,8 @@
 import { artifactStore } from "$lib/stores/artifact.svelte";
+import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 import { projectStore } from "$lib/stores/project.svelte";
 import { isArtifactGroup } from "$lib/types/project";
+import type { DocNode, NavType } from "$lib/types/nav-tree";
 
 /**
  * Convert a config key to a human-readable label.
@@ -36,15 +38,6 @@ export interface SubCategoryConfig {
 	label: string;
 }
 
-/** Maps artifact ID prefixes to their group and sub-category for cross-link navigation. */
-const ARTIFACT_PREFIX_MAP: Record<string, { group: string; subCategory: string }> = {
-	MS: { group: "planning", subCategory: "milestones" },
-	EPIC: { group: "planning", subCategory: "epics" },
-	TASK: { group: "planning", subCategory: "tasks" },
-	IDEA: { group: "planning", subCategory: "ideas" },
-	AD: { group: "governance", subCategory: "decisions" },
-	IMPL: { group: "governance", subCategory: "lessons" },
-};
 
 class NavigationStore {
 	activeActivity = $state<string>("chat");
@@ -54,8 +47,6 @@ class NavigationStore {
 	selectedArtifactPath = $state<string | null>(null);
 	navPanelCollapsed = $state(false);
 	breadcrumbs = $state<string[]>([]);
-	/** Pending artifact ID to auto-select after navigating to a sub-category via cross-link. */
-	pendingArtifactId = $state<string | null>(null);
 
 	/** Flat list of all artifact type keys from config (groups expanded to their children). */
 	get allArtifactKeys(): string[] {
@@ -217,9 +208,6 @@ class NavigationStore {
 		this.activeActivity = view;
 		this.selectedArtifactPath = null;
 		this.breadcrumbs = [];
-		// Clear any pending cross-link ID that was not consumed. This prevents a
-		// stale ID from auto-selecting an unrelated artifact on a future navigation.
-		this.pendingArtifactId = null;
 
 		if (view === "project") {
 			this.activeGroup = null;
@@ -257,17 +245,135 @@ class NavigationStore {
 
 	/**
 	 * Navigate to an artifact by its ID string (e.g. "EPIC-005", "MS-001", "AD-017").
-	 * Resolves the prefix to the correct group and sub-category, then opens the artifact.
+	 * Uses the SDK to resolve the ID to a path, then calls navigateToPath.
 	 */
 	navigateToArtifact(id: string) {
-		const prefix = id.split("-")[0];
-		const target = ARTIFACT_PREFIX_MAP[prefix];
-		if (!target) return;
-		this.activeGroup = target.group;
-		this.setSubCategory(target.subCategory);
-		// The artifact list will be loaded by AppLayout's $effect.
-		// We store the pending ID so the list can auto-select it once loaded.
-		this.pendingArtifactId = id;
+		const node = artifactGraphSDK.resolve(id);
+		if (!node) {
+			console.warn(`[navigateToArtifact] could not resolve artifact ID: ${id}`);
+			return;
+		}
+		this.navigateToPath(node.path);
+	}
+
+	/**
+	 * Navigate to an artifact by its relative file path
+	 * (e.g. ".orqa/planning/epics/EPIC-048.md").
+	 *
+	 * Walks the full NavTree — including tree children — to find the node
+	 * that matches the path, then sets the activity, group, and sub-category
+	 * before opening the artifact viewer.
+	 */
+	navigateToPath(path: string) {
+		const tree = artifactStore.navTree;
+		if (!tree) {
+			console.warn(`[navigateToPath] navTree not yet loaded, cannot navigate to: ${path}`);
+			return;
+		}
+
+		const normalizedPath = path.replace(/\\/g, "/");
+
+		for (const group of tree.groups) {
+			for (const navType of group.types) {
+				const found = this._findNodeInNavType(navType, normalizedPath);
+				if (found) {
+					// Determine the config key for this NavType by matching its path
+					const typeKey = this._resolveKeyForNavTypePath(navType.path);
+					if (!typeKey) {
+						console.warn(`[navigateToPath] no config key for NavType path: ${navType.path}`);
+						return;
+					}
+
+					// Determine the group key — use the group key from config that matches
+					const groupKey = this._resolveGroupKeyForNavTypePath(navType.path);
+
+					if (groupKey) {
+						this.activeGroup = groupKey;
+						this.activeSubCategory = typeKey;
+					} else {
+						this.activeGroup = null;
+						this.activeSubCategory = null;
+					}
+
+					// Set the activity to the type key and open the artifact
+					this.activeActivity = typeKey;
+					this.explorerView = "artifact-viewer";
+					if (this.navPanelCollapsed) this.navPanelCollapsed = false;
+					this.selectedArtifactPath = found.path;
+					this.breadcrumbs = [found.label];
+					return;
+				}
+			}
+		}
+
+		console.warn(`[navigateToPath] no NavTree node found for path: ${path}`);
+	}
+
+	/**
+	 * Recursively search a NavType's nodes (including tree children) for a node
+	 * whose path matches the given normalised path. Returns the matching leaf DocNode
+	 * or null if not found.
+	 */
+	private _findNodeInNavType(navType: NavType, normalizedPath: string): DocNode | null {
+		return this._findNodeInList(navType.nodes, normalizedPath);
+	}
+
+	private _findNodeInList(nodes: DocNode[], normalizedPath: string): DocNode | null {
+		for (const node of nodes) {
+			if (node.children) {
+				const found = this._findNodeInList(node.children, normalizedPath);
+				if (found) return found;
+			} else if (node.path) {
+				const np = node.path.replace(/\\/g, "/");
+				// NavTree paths may omit the .md extension; match both forms
+				if (np === normalizedPath || `${np}.md` === normalizedPath || np === normalizedPath.replace(/\.md$/, "")) {
+					return node;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Given a NavType's directory path, find the config key that maps to it.
+	 * Searches both direct-type entries and group children.
+	 */
+	private _resolveKeyForNavTypePath(navTypePath: string): string | null {
+		const config = projectStore.artifactConfig;
+		const normalized = navTypePath.replace(/\\/g, "/").replace(/\/$/, "");
+		for (const entry of config) {
+			if (isArtifactGroup(entry)) {
+				for (const child of entry.children) {
+					if (child.path && child.path.replace(/\\/g, "/").replace(/\/$/, "") === normalized) {
+						return child.key;
+					}
+				}
+			} else {
+				if (entry.path && entry.path.replace(/\\/g, "/").replace(/\/$/, "") === normalized) {
+					return entry.key;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Given a NavType's directory path, find the group key that contains it,
+	 * or null if it is a top-level (non-grouped) type.
+	 */
+	private _resolveGroupKeyForNavTypePath(navTypePath: string): string | null {
+		const config = projectStore.artifactConfig;
+		const normalized = navTypePath.replace(/\\/g, "/").replace(/\/$/, "");
+		for (const entry of config) {
+			if (isArtifactGroup(entry)) {
+				for (const child of entry.children) {
+					if (child.path && child.path.replace(/\\/g, "/").replace(/\/$/, "") === normalized) {
+						return entry.key;
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	toggleNavPanel() {
