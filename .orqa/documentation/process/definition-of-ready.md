@@ -40,7 +40,7 @@ Run this checklist for every task before delegating it. Check each item that app
 ### Planning
 
 - [ ] Implementation plan approved -- applies if the task requires a plan per `plan-mode-compliance.md` (crosses 3+ files or the IPC boundary)
-- [ ] If the epic has a `plan` field -- the referenced plan file exists in `.orqa/plans/` and is approved
+- [ ] Epic body contains an implementation design section — the approach, phases, and acceptance criteria are documented
 - [ ] UX design documented with component state table -- applies if the task is user-facing
 - [ ] **Design review passed** (Medium/High risk tasks only): `systems-architect` reviewed and approved the implementation plan for architectural compliance before implementation begins
 
@@ -52,7 +52,7 @@ Run this checklist for every task before delegating it. Check each item that app
 
 ### Dependencies and State
 
-- [ ] `development/lessons.md` checked for known patterns in this area -- prevents repeating documented mistakes
+- [ ] `.orqa/governance/lessons/` checked for known patterns in this area -- prevents repeating documented mistakes
 - [ ] No blocking dependencies -- all `blocked-by` tasks in `TODO.md` are marked `[x]`
 - [ ] `BLOCKERS.md` checked -- the task is not listed as blocked awaiting external resolution
 - [ ] Working tree clean -- `git status --short` shows no untracked or modified files

@@ -136,7 +136,7 @@ An automated quality check that evaluates the codebase or governance framework a
 
 ### Lesson (IMPL Entry)
 
-A documented implementation-level learning captured when something goes wrong or a non-obvious pattern is discovered. Tracked in `development/lessons.md` with a recurrence count and promotion status. Format: `IMPL-NNN`.
+A documented implementation-level learning captured when something goes wrong or a non-obvious pattern is discovered. Individual lesson files stored in `.orqa/governance/lessons/` as `IMPL-NNN.md` with a recurrence count and promotion status. Format: `IMPL-NNN`.
 
 ### Retrospective (RETRO Entry)
 

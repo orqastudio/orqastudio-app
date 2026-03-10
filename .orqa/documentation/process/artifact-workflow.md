@@ -109,7 +109,7 @@ The idea MUST be `shaped` before promotion. The user MUST explicitly approve.
    - `priority` derived from score
    - `docs-required` — documentation that must exist before implementation
    - `docs-produced` — documentation the implementation will create/update
-   - `plan` — reference to a plan file if one exists or will be created
+   - Implementation design in the epic body — approach, phases, and acceptance criteria
 3. Update `IDEA-NNN.md`:
    - Set `status: promoted`
    - Set `promoted-to: EPIC-NNN`
@@ -139,7 +139,7 @@ Before an epic can begin implementation:
 
 ### Implementation
 
-1. Follow the plan referenced by the epic's `plan` field
+1. Follow the implementation design in the epic body
 2. Tasks are tracked as checklist items in the epic body
 3. If a task needs its own tracking, graduate it to `TASK-NNN.md` in `.orqa/planning/tasks/`
 4. Commit regularly to the worktree branch
@@ -288,7 +288,7 @@ The orchestrator periodically verifies:
 - Every task's `epic` points to an existing `EPIC-NNN.md`
 - Every epic's `depends-on` and `blocks` point to existing epics
 - Every idea's `promoted-to` (when set) points to an existing epic
-- Every epic's `plan` (when set) points to an existing plan file
+- Every epic's `research-refs` (when set) point to existing research files in `.orqa/planning/research/`
 - Every decision's `supersedes` (when set) points to an existing `AD-NNN.md`
 - Every decision's `superseded-by` (when set) points to an existing `AD-NNN.md`
 - Milestone `epic-count` matches the actual number of epics referencing it

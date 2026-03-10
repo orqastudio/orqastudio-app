@@ -170,14 +170,14 @@ Artifact types fall into three management layers. **Canon** artifacts are manage
 | Type | ID Pattern | Directory | Layer | Purpose |
 |------|-----------|-----------|-------|---------|
 | **Pillar** | `PILLAR-NNN` | `.orqa/planning/pillars/` | Project | Guiding principle that features are evaluated against |
-| **Milestone** | `MS-NNN` | `.orqa/milestones/` | Project | Strategic goal with gate question |
-| **Epic** | `EPIC-NNN` | `.orqa/epics/` | Project | Trackable work unit within a milestone |
-| **Task** | `TASK-NNN` | `.orqa/tasks/` | Project | Individual implementation unit within an epic |
-| **Idea** | `IDEA-NNN` | `.orqa/ideas/` | Project | Candidate for future work, needs validation |
-| **Lesson** | `IMPL-NNN` | `.orqa/lessons/` | Project | Learning capture from implementation |
-| **Research** | `RES-NNN` | `.orqa/research/` | Project | Investigation, design exploration, or implementation plan — produces decisions |
+| **Milestone** | `MS-NNN` | `.orqa/planning/milestones/` | Project | Strategic goal with gate question |
+| **Epic** | `EPIC-NNN` | `.orqa/planning/epics/` | Project | Trackable work unit within a milestone |
+| **Task** | `TASK-NNN` | `.orqa/planning/tasks/` | Project | Individual implementation unit within an epic |
+| **Idea** | `IDEA-NNN` | `.orqa/planning/ideas/` | Project | Candidate for future work, needs validation |
+| **Lesson** | `IMPL-NNN` | `.orqa/governance/lessons/` | Project | Learning capture from implementation |
+| **Research** | `RES-NNN` | `.orqa/planning/research/` | Project | Investigation, design exploration, or implementation plan — produces decisions |
 | **Rule** | `RULE-NNN` | `.orqa/governance/rules/` | Canon/Project | Constraint that must be followed — binary: compliant or not |
-| **Decision** | `AD-NNN` | `.orqa/decisions/` | Project | Architecture decision record — captures what was decided and why |
+| **Decision** | `AD-NNN` | `.orqa/governance/decisions/` | Project | Architecture decision record — captures what was decided and why |
 
 ### Type Definitions (When to Use Each)
 
@@ -198,7 +198,7 @@ Lessons and Research already have established schemas (see their respective READ
 
 ```
 Pillar ──referenced-by──> Epic, Idea (pillars: [PILLAR-NNN])
-  │                        └── evaluated against pillar test-questions
+  │                        └── evaluated against pillar gate questions
   │
 Milestone
   └── Epic (milestone: MS-NNN, pillars: [PILLAR-NNN])
@@ -618,7 +618,7 @@ YAML frontmatter fields follow a consistent content hierarchy across all artifac
 
 1. **Identity** — `id`, `title` (who is this?)
 2. **Classification** — `slug`, `layer`, `status`, `priority`, `scope`, `milestone`, `epic`, `pillars` (what kind of thing is it?)
-3. **Description** — `description`, `test-questions` (what is it about?)
+3. **Description** — `description`, `gate` (what is it about?)
 4. **Lifecycle** — `created`, `updated`, `deadline` (when?)
 5. **Relationships** — `depends-on`, `blocks`, `research-refs`, `docs-required`, `docs-produced`, `research-needed`, `promoted-to`, `supersedes`, `superseded-by`, `surpassed-by`, `promoted-from` (what connects to what?)
 6. **Scoring** — `scoring` block (how important?)
@@ -735,27 +735,29 @@ Priority dimensions, weights, and bands are stored in `.orqa/project.json` under
 │       ├── README.md            # What pillars are and how to create them
 │       ├── PILLAR-001.md        # Clarity Through Structure
 │       └── PILLAR-002.md        # Learning Through Reflection
-├── milestones/
-│   ├── MS-001.md             # Dogfooding
-│   └── MS-002.md             # MVP
-├── epics/
-│   ├── EPIC-001.md           # AI Transparency Wiring
-│   ├── EPIC-002.md           # Settings UI
-│   └── ...
-├── tasks/                    # Only for tasks that need separate files
-│   └── TASK-001.md
-├── ideas/
-│   ├── IDEA-001.md           # Multi-Provider Ecosystem
-│   └── ...
-├── lessons/                  # Already exists
-│   ├── IMPL-001.md
-│   └── ...
-├── decisions/                # Architecture decision records
-│   └── AD-001.md
-├── research/                 # Investigations, design explorations, spikes, implementation plans
-│   ├── README.md
-│   ├── RES-001.md
-│   └── ...
+├── planning/
+│   ├── milestones/
+│   │   ├── MS-001.md             # Dogfooding
+│   │   └── MS-002.md             # MVP
+│   ├── epics/
+│   │   ├── EPIC-001.md           # AI Transparency Wiring
+│   │   ├── EPIC-002.md           # Settings UI
+│   │   └── ...
+│   ├── tasks/                    # Only for tasks that need separate files
+│   │   └── TASK-001.md
+│   ├── ideas/
+│   │   ├── IDEA-001.md           # Multi-Provider Ecosystem
+│   │   └── ...
+│   └── research/                 # Investigations, design explorations, spikes, implementation plans
+│       ├── README.md
+│       ├── RES-001.md
+│       └── ...
+├── governance/
+│   ├── lessons/                  # Already exists
+│   │   ├── IMPL-001.md
+│   │   └── ...
+│   └── decisions/                # Architecture decision records
+│       └── AD-001.md
 └── icon.svg
 ```
 

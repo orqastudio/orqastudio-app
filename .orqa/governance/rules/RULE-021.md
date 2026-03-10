@@ -27,7 +27,7 @@ Every page must serve at least one active pillar. If a page cannot justify align
 
 ## Pillar Source of Truth
 
-Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. Each pillar has a `title`, `description`, `test-questions`, and `priority` field. Read the pillar artifacts to understand what each pillar means — do not hardcode pillar names or descriptions in documentation pages.
+Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. Each pillar has a `title`, `description`, and `gate` field. Read the pillar artifacts to understand what each pillar means — do not hardcode pillar names or descriptions in documentation pages.
 
 ## Pages That REQUIRE a Pillar Alignment Section
 

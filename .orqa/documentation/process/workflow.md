@@ -21,7 +21,7 @@ Copy and complete at the start of every implementation session:
 [ ] Working in worktree (NOT main)
 [ ] Re-read relevant implementation plan and governing docs
 [ ] Loaded relevant skills (Skill tool) including chunkhound
-[ ] Checked `.orqa/documentation/development/lessons.md` for known patterns in this area
+[ ] Checked `.orqa/governance/lessons/` for known patterns in this area
 [ ] Ready to write tests FIRST
 ```
 

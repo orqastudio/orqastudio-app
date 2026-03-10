@@ -28,10 +28,6 @@ scoring:
 
 Code health for sustained velocity. Functions individually pass size limits, but file-level cohesion is poor. This is about practicing what we preach — composability is a platform principle.
 
-## Related Plan
-
-See `.orqa/plans/composability-gate.md` for the detailed refactoring plan.
-
 ## Tasks
 
 - [ ] Extract `StreamOrchestrator` from `stream_commands.rs` (2,232 lines -> command handlers + orchestrator service)

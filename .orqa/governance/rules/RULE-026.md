@@ -70,6 +70,7 @@ These are NOT on agent YAML frontmatter. The orchestrator injects them based on 
 | `orqa-store-patterns` | Svelte 5 rune stores, reactive data flow | `ui/lib/stores/`, `ui/lib/components/` |
 | `orqa-store-orchestration` | Multi-store coordination, $effect wiring | `ui/lib/stores/` |
 | `orqa-governance` | Artifacts, scanning, lessons, rules | `.orqa/` |
+| `orqa-documentation` | Internal link format, cross-referencing, content structure | `.orqa/` |
 | `orqa-testing` | Test commands, patterns, mock boundaries | Test-related work |
 | `orqa-native-search` | Embedded DuckDB + ONNX search engine | `src-tauri/src/search/` |
 

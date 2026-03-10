@@ -300,9 +300,9 @@ Lesson documented (.orqa/governance/lessons/IMPL-NNN.md)
 
 ## Pillar Alignment
 
-Active pillars are defined in `.orqa/planning/pillars/PILLAR-NNN.md`. Every governance artifact and feature must serve at least one active pillar. To evaluate alignment, read each pillar's `test-questions` and check if the work can answer "yes" to at least one question from at least one pillar.
+Active pillars are defined in `.orqa/planning/pillars/PILLAR-NNN.md`. Every governance artifact and feature must serve at least one active pillar. To evaluate alignment, read each pillar's `gate` questions and check if the work can answer "yes" to at least one question from at least one pillar.
 
-When pillars conflict, the pillar with the lower `priority` number takes precedence.
+Pillars are equal in importance — when they conflict, flag the conflict to the user and ask for direction.
 
 Features that serve no active pillar are out of scope.
 

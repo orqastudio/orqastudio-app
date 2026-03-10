@@ -38,7 +38,7 @@ When pillars conflict, the pillar with the lower `priority` number takes precede
 Pillars are project-level artifacts. To add a new pillar:
 
 1. Create `PILLAR-NNN.md` with the next available ID
-2. Define `title`, `description`, `test-questions`, and `priority`
+2. Define `title`, `description`, and `gate`
 3. Write a body explaining what the pillar means in practice, with examples and anti-patterns
 4. Update any rules or documentation that reference pillars generically
 

@@ -44,10 +44,10 @@ For any non-trivial feature, follow this preferred workflow before writing the f
 
 ### Always Read
 
-- `docs/ui/` — Existing feature designs related to the task
-- `docs/architecture/decisions.md` — Relevant AD-XXX architecture decisions
+- `.orqa/documentation/ui/` — Existing feature designs related to the task
+- `.orqa/documentation/architecture/decisions.md` — Relevant AD-XXX architecture decisions
 - `TODO.md` — Task context, constraints, priorities
-- `docs/product/roadmap.md` — Verify the work is prioritized and not scope creep
+- `.orqa/documentation/product/roadmap.md` — Verify the work is prioritized and not scope creep
 
 ### Read When Modifying Backend
 
@@ -55,8 +55,8 @@ For any non-trivial feature, follow this preferred workflow before writing the f
 
 ### Read When User-Facing Changes
 
-- `docs/product/vision.md` — Two-Pillar framework and product vision
-- `docs/product/governance.md` — Governance rules and decision-making process
+- `.orqa/documentation/product/vision.md` — Two-Pillar framework and product vision
+- `.orqa/documentation/product/governance.md` — Governance rules and decision-making process
 
 ### Use ChunkHound First
 
@@ -168,7 +168,7 @@ Every plan MUST explicitly address each dimension below. For each, state either 
 - `npm run check` passes
 
 **Documentation Compliance:**
-- IPC command signatures match `docs/architecture/decisions.md`
+- IPC command signatures match `.orqa/documentation/architecture/decisions.md`
 - Component states match the plan's component state table
 - Error types match documented error propagation strategy
 ```
@@ -222,10 +222,10 @@ Phase 4: Documentation verification ← Confirm docs still match
 
 ## See Also
 
-- `.orqa/rules/plan-mode-compliance.md` — Plan mode requirements
-- `.orqa/rules/architecture-decisions.md` — AD-XXX quick reference
-- `.orqa/rules/vision-alignment.md` — Two-Pillar framework and governance
-- `docs/development/coding-standards.md` — Code quality standards
+- `.orqa/governance/rules/RULE-022.md` — Plan mode requirements
+- `.orqa/governance/rules/RULE-002.md` — AD-XXX quick reference
+- `.orqa/governance/rules/RULE-031.md` — Two-Pillar framework and governance
+- `.orqa/documentation/development/coding-standards.md` — Code quality standards
 
 ## Related Skills
 

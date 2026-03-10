@@ -43,7 +43,7 @@ Create `.orqa/planning/pillars/` directory with two initial artifacts:
 - `[PILLAR-001](PILLAR-001).md` — Clarity Through Structure
 - `[PILLAR-002](PILLAR-002).md` — Learning Through Reflection
 
-Schema: id, title, description, test-questions, priority, status, tags.
+Schema: id, title, description, gate, status, tags.
 
 ### 2. Artifact Config Registration
 

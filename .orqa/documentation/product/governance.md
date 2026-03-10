@@ -20,16 +20,15 @@ Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PI
 
 - **`title`** — The principle name
 - **`description`** — What the pillar means
-- **`test-questions`** — Questions to evaluate whether work serves this pillar
-- **`priority`** — Conflict resolution order (lower number = higher priority)
+- **`gate`** — Questions to evaluate whether work serves this pillar
 
-To evaluate a feature, read each active pillar's `test-questions` and check if the feature can answer "yes" to at least one question from at least one pillar.
+To evaluate a feature, read each active pillar's `gate` questions and check if the feature can answer "yes" to at least one question from at least one pillar. Pillars are equal in importance — when they conflict, flag to the user.
 
 ### Rejection Criteria
 
 Reject any feature that:
 
-- Does not serve any active pillar (cannot answer "yes" to any pillar's test questions)
+- Does not serve any active pillar (cannot answer "yes" to any pillar's gate questions)
 - Adds complexity without serving a pillar's intent
 - Cannot articulate which pillar(s) it serves and how
 - Is a generic tool feature with no connection to any pillar

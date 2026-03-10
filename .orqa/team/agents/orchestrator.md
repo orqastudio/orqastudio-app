@@ -358,15 +358,15 @@ orqa-studio/
 
 Every feature request, task, and implementation must pass the Pillar Alignment Test before work begins. Active pillars are defined as structured artifacts in `.orqa/planning/pillars/`. Read the active pillars before implementing any new capability.
 
-Every feature MUST trace to at least one active pillar. To evaluate, read each pillar's `test-questions` and check if the feature can answer "yes" to at least one question from at least one pillar. Reject any feature that serves no active pillar.
+Every feature MUST trace to at least one active pillar. To evaluate, read each pillar's `gate` questions and check if the feature can answer "yes" to at least one question from at least one pillar. Reject any feature that serves no active pillar.
 
-When pillars conflict, the pillar with the lower `priority` number takes precedence.
+When pillars conflict, flag the conflict to the user and ask for direction. Pillars are equal in importance — there is no numeric priority ranking.
 
 #### Feature Rejection Criteria
 
 Reject any feature that:
 
-- Does not serve any active pillar (cannot answer "yes" to any pillar's test questions)
+- Does not serve any active pillar (cannot answer "yes" to any pillar's gate questions)
 - Adds complexity without serving a pillar's intent
 - Cannot articulate which pillar(s) it serves and how
 
@@ -514,7 +514,7 @@ git worktree remove ../orqa-<task-name>
 | `src-tauri/src/repo/`, `db.rs` | `orqa-repository-pattern` |
 | `sidecar/src/` | `orqa-streaming` |
 | `ui/lib/stores/` | `orqa-store-patterns`, `orqa-store-orchestration` |
-| `.orqa/` | `orqa-governance` |
+| `.orqa/` | `orqa-governance`, `orqa-documentation` |
 | Test work | `orqa-testing` |
 
 ### MCP Tools (Code Search)

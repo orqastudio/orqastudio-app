@@ -57,7 +57,7 @@ The orchestrator may bypass delegation for:
 - Governance artifacts (`.orqa/governance/rules/`, `.orqa/team/agents/`, `.orqa/team/skills/`) — these ARE the orchestrator's domain
 - Process documentation (`.orqa/documentation/process/`) — orchestration is a process concern
 - Session state (`tmp/session-state.md`) — coordination artifact
-- Plan files (`.orqa/planning/plans/`) — planning is an orchestrator responsibility
+- Planning artifacts (`.orqa/planning/`) — planning is an orchestrator responsibility
 
 ## Resource Safety (NON-NEGOTIABLE)
 

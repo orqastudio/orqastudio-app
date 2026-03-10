@@ -13,7 +13,7 @@
 		children?: Snippet;
 	} = $props();
 
-	const ARTIFACT_ID_RE = /^(EPIC|TASK|AD|MS|IDEA|IMPL|RES|PILLAR|RULE|DOC)-\d{3,}$/;
+	const ARTIFACT_ID_RE = /^(EPIC|TASK|AD|MS|IDEA|IMPL|RES|PILLAR|RULE|DOC|SKILL|AGENT)-\d{3,}$/;
 
 	const isArtifactLink = $derived(ARTIFACT_ID_RE.test(href));
 	const isExternal = $derived(href.startsWith("http://") || href.startsWith("https://"));

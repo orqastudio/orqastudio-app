@@ -98,8 +98,8 @@ pub fn parse_frontmatter<T: serde::de::DeserializeOwned + Default>(content: &str
 pub fn parse_doc_frontmatter(content: &str) -> (DocFrontmatter, String) {
     parse_frontmatter::<DocFrontmatter>(content)
 }
-pub fn parse_plan_frontmatter(content: &str) -> (PlanFrontmatter, String) {
-    parse_frontmatter::<PlanFrontmatter>(content)
+pub fn parse_epic_frontmatter(content: &str) -> (EpicFrontmatter, String) {
+    parse_frontmatter::<EpicFrontmatter>(content)
 }
 ```
 
@@ -416,7 +416,7 @@ Composability is not just for OrqaStudio's own codebase — it is a principle th
 
 ## See Also
 
-- `docs/architecture/decisions.md` — [AD-017](AD-017) defines the composability principle
+- `.orqa/documentation/architecture/decisions.md` — [AD-017](AD-017) defines the composability principle
 - `src-tauri/src/domain/enforcement_engine.rs` — canonical example of pure function composition
 - `src-tauri/src/error.rs` — canonical example of error composition via From traits
 - `sidecar/src/provider.ts` — canonical example of a pluggable integration boundary

@@ -25,6 +25,7 @@ skills:
   - SKILL-005
   - SKILL-008
   - SKILL-019
+  - SKILL-037
 subagent_mapping:
   default: Documentation Writer
 ---

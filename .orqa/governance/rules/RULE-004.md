@@ -20,16 +20,16 @@ Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enf
 
 | Trigger | Artifact Type | Action |
 |---------|--------------|--------|
-| User mentions a future feature or "we should eventually..." | `IDEA-NNN` | Create in `.orqa/ideas/` with `status: captured` |
+| User mentions a future feature or "we should eventually..." | `IDEA-NNN` | Create in `.orqa/planning/ideas/` with `status: captured` |
 | User approves an idea for investigation | Update existing `IDEA-NNN` | Set `status: exploring`, begin research |
-| Research validates an idea for implementation | `EPIC-NNN` | Create in `.orqa/epics/` with `status: draft`, update idea `promoted-to` |
-| An epic needs investigation work before implementation | Research file | Create in `.orqa/research/`; reference from epic `research-refs` field. Implementation design goes in the epic body. |
+| Research validates an idea for implementation | `EPIC-NNN` | Create in `.orqa/planning/epics/` with `status: draft`, update idea `promoted-to` |
+| An epic needs investigation work before implementation | Research file | Create in `.orqa/planning/research/`; reference from epic `research-refs` field. Implementation design goes in the epic body. |
 | An epic is approved and scoped for implementation | Update `EPIC-NNN` | Set `status: ready` (requires `docs-required` gate satisfied) |
-| A task within an epic needs detailed tracking | `TASK-NNN` | Create in `.orqa/tasks/` with `epic:` reference |
-| A strategic goal is defined | `MS-NNN` | Create in `.orqa/milestones/` |
-| An implementation reveals a reusable pattern | `IMPL-NNN` | Create in `.orqa/lessons/` (see [RULE-017](RULE-017) (lessons-learned)) |
-| A question needs investigation before a decision | Research file | Create in `.orqa/research/` |
-| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/decisions/`, add entry to `.orqa/documentation/architecture/decisions.md` index |
+| A task within an epic needs detailed tracking | `TASK-NNN` | Create in `.orqa/planning/tasks/` with `epic:` reference |
+| A strategic goal is defined | `MS-NNN` | Create in `.orqa/planning/milestones/` |
+| An implementation reveals a reusable pattern | `IMPL-NNN` | Create in `.orqa/governance/lessons/` (see [RULE-017](RULE-017) (lessons-learned)) |
+| A question needs investigation before a decision | Research file | Create in `.orqa/planning/research/` |
+| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/governance/decisions/`, add entry to `.orqa/documentation/architecture/decisions.md` index |
 
 ### ID Assignment
 

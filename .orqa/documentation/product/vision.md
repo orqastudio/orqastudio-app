@@ -244,7 +244,7 @@ OrqaStudio does not only generate outputs; it helps users reflect on their think
 
 ## Product Pillars
 
-> **Source of truth:** Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. The narrative below provides context; the pillar artifacts are authoritative for test-questions and conflict resolution priority.
+> **Source of truth:** Active pillars are defined as structured artifacts in `.orqa/planning/pillars/PILLAR-NNN.md`. The narrative below provides context; the pillar artifacts are authoritative for gate questions and conflict resolution.
 
 ### Pillar 1: Clarity Through Structure
 

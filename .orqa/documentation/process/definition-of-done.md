@@ -83,7 +83,7 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 
 ### Learning Loops
 
-- [ ] Any new implementation patterns discovered during this task logged in `development/lessons.md`
+- [ ] Any new implementation patterns discovered during this task logged in `.orqa/governance/lessons/` as `IMPL-NNN` files
 - [ ] Any review failures that revealed new patterns added as IMPL-NNN entries
 - [ ] If a pattern appeared for the second or more time, recurrence count updated
 

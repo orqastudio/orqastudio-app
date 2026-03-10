@@ -25,18 +25,17 @@ This applies to:
 
 ### Planning & Research Artifacts (PRESERVE, mark as surpassed)
 
-Research, plans, and tasks are historical records of thinking, investigation, and decisions. They have lasting value for understanding *why* the project evolved the way it did. When they are no longer current, they are marked as `status: surpassed` — never deleted.
+Research and tasks are historical records of thinking, investigation, and decisions. They have lasting value for understanding *why* the project evolved the way it did. When they are no longer current, they are marked as `status: surpassed` — never deleted.
 
 This applies to:
 - Research (`.orqa/planning/research/`)
-- Plans (`.orqa/planning/plans/`)
 - Tasks (`.orqa/planning/tasks/`)
 - Ideas (`.orqa/planning/ideas/`) — use `status: archived` per existing lifecycle
 - Lessons (`.orqa/governance/lessons/`) — use `promoted-to` field per existing lifecycle
 
 ## The `surpassed` Status
 
-When a research document, plan, or task has been overtaken by newer work:
+When a research document or task has been overtaken by newer work:
 
 1. Set `status: surpassed` in the YAML frontmatter
 2. Add a `surpassed-by` field referencing the replacement artifact (if one exists)
@@ -57,8 +56,7 @@ surpassed-by: TASK-009
 
 - **Documentation** answers "what is the current state?" — stale docs cause bugs and confusion
 - **Research** answers "what did we investigate and learn?" — deleting research loses institutional knowledge
-- **Plans** answer "what was the thinking behind this approach?" — future decisions benefit from understanding past reasoning
-- **Tasks** answer "what was done and by whom?" — traceability from plan to implementation
+- **Tasks** answer "what was done and by whom?" — traceability from epic to implementation
 
 ## Rule Status Vocabulary
 
@@ -69,7 +67,7 @@ Rules use `active` / `inactive` — NOT `surpassed`. Surpassed is for research, 
 
 ## FORBIDDEN
 
-- Deleting research, plan, or task files (mark as surpassed instead)
+- Deleting research or task files (mark as surpassed instead)
 - Leaving outdated documentation pages alive (delete and replace)
 - Marking documentation pages as "surpassed" instead of deleting them
 - Modifying the body content of surpassed artifacts (the historical record is immutable)

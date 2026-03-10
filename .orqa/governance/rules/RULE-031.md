@@ -16,17 +16,17 @@ Every feature MUST trace to at least one active pillar. Pillars are structured a
 
 - **`title`** — The principle name
 - **`description`** — What the pillar means
-- **`test-questions`** — Questions to evaluate whether work serves this pillar
+- **`gate`** — Questions to evaluate whether work serves this pillar
 
 **Source of truth:** `.orqa/planning/pillars/PILLAR-NNN.md` files. Do not hardcode pillar names or descriptions in rules, documentation, or agent instructions — always reference the pillar artifacts.
 
-To evaluate a feature, read each active pillar's `test-questions` and check if the feature can answer "yes" to at least one question from at least one pillar.
+To evaluate a feature, read each active pillar's `gate` questions and check if the feature can answer "yes" to at least one question from at least one pillar.
 
 ## Feature Rejection Criteria
 
 Reject any feature that:
 
-- Does not serve any active pillar (cannot answer "yes" to any pillar's test questions)
+- Does not serve any active pillar (cannot answer "yes" to any pillar's gate questions)
 - Adds complexity without serving a pillar's intent
 - Cannot articulate which pillar(s) it serves and how
 - Is a generic tool feature with no connection to any pillar
@@ -36,7 +36,7 @@ Reject any feature that:
 Before implementing any feature:
 
 1. **Read active pillars** from `.orqa/planning/pillars/`
-2. **For each pillar**, evaluate the feature against its test-questions
+2. **For each pillar**, evaluate the feature against its gate questions
 3. **If no pillar is served**, the feature is out of scope — flag to the user and suggest an alternative that aligns
 
 ## Pillar Conflict Resolution
