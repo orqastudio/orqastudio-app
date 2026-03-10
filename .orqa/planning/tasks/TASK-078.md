@@ -2,7 +2,7 @@
 id: TASK-078
 title: Markdown cross-linking in MarkdownRenderer
 description: "Auto-detect artifact ID patterns in rendered markdown and wrap them as clickable links that navigate to the referenced artifact."
-status: todo
+status: done
 created: 2026-03-10
 updated: 2026-03-10
 epic: EPIC-048
