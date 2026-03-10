@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { LoaderCircle } from "lucide-svelte";
 	import BrainIcon from "@lucide/svelte/icons/brain";
+	import DatabaseIcon from "@lucide/svelte/icons/database";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import { sessionStore } from "$lib/stores/session.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import logoPulse from "$lib/assets/logo-pulse.svg";
 
 	const statusColor = $derived.by(() => {
@@ -78,6 +80,20 @@
 				{formatTokens(session.total_input_tokens)}↑ {formatTokens(session.total_output_tokens)}↓
 			</span>
 		{/if}
+
+		<button
+			class="flex items-center gap-1 rounded px-1.5 py-0.5 transition-colors hover:bg-accent hover:text-accent-foreground disabled:cursor-not-allowed disabled:opacity-50"
+			onclick={() => artifactGraphSDK.refresh()}
+			disabled={artifactGraphSDK.loading}
+			title="Rebuild artifact graph index"
+		>
+			{#if artifactGraphSDK.loading}
+				<LoaderCircle class="h-3 w-3 animate-spin" />
+			{:else}
+				<DatabaseIcon class="h-3 w-3" />
+			{/if}
+			<span>Index</span>
+		</button>
 
 		<button
 			class="flex items-center gap-1 rounded px-1.5 py-0.5 transition-colors hover:bg-accent hover:text-accent-foreground"

@@ -9,6 +9,7 @@
 	import ZapIcon from "@lucide/svelte/icons/zap";
 	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
 	import LayersIcon from "@lucide/svelte/icons/layers";
+	import NetworkIcon from "@lucide/svelte/icons/network";
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
@@ -17,7 +18,10 @@
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { governanceStore } from "$lib/stores/governance.svelte";
+	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { ARTIFACT_TYPES } from "$lib/types/artifact-graph";
 	import type { Component } from "svelte";
+	import { SvelteMap } from "svelte/reactivity";
 
 	const project = $derived(projectStore.activeProject);
 	const projectName = $derived(
@@ -41,6 +45,35 @@
 	function navigateToCategory(activity: "docs" | "agents" | "rules" | "skills" | "hooks") {
 		navigationStore.setActivity(activity);
 	}
+
+	// Derived graph data for the insights card.
+	const graphStats = $derived(artifactGraphSDK.stats);
+	const graphLoading = $derived(artifactGraphSDK.loading);
+	const graphError = $derived(artifactGraphSDK.error);
+
+	/** Count of nodes per artifact type — computed from the in-memory graph. */
+	const typeCounts = $derived.by(() => {
+		const counts: { type: string; count: number }[] = [];
+		for (const t of ARTIFACT_TYPES) {
+			const count = artifactGraphSDK.byType(t).length;
+			if (count > 0) counts.push({ type: t, count });
+		}
+		return counts.sort((a, b) => b.count - a.count);
+	});
+
+	/** Count of nodes per status value — computed from the in-memory graph. */
+	const statusCounts = $derived.by(() => {
+		const map = new SvelteMap<string, number>();
+		for (const node of artifactGraphSDK.graph.values()) {
+			const s = node.status ?? "(none)";
+			map.set(s, (map.get(s) ?? 0) + 1);
+		}
+		return [...map.entries()]
+			.map(([status, count]) => ({ status, count }))
+			.sort((a, b) => b.count - a.count);
+	});
+
+	const hasGraphData = $derived(artifactGraphSDK.graph.size > 0);
 </script>
 
 <ScrollArea.Root class="h-full">
@@ -148,6 +181,97 @@
 						/>
 					{:else}
 						<p class="text-sm text-muted-foreground">Scan not yet run</p>
+					{/if}
+				</Card.Content>
+			</Card.Root>
+
+			<!-- Artifact Graph Insights -->
+			<Card.Root class="mb-4">
+				<Card.Header class="pb-3">
+					<div class="flex items-center justify-between">
+						<Card.Title class="text-base">
+							<div class="flex items-center gap-2">
+								<NetworkIcon class="h-4 w-4" />
+								Artifact Graph
+							</div>
+						</Card.Title>
+						<Button
+							variant="ghost"
+							size="sm"
+							onclick={() => artifactGraphSDK.refresh()}
+							disabled={graphLoading}
+						>
+							<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
+							Refresh
+						</Button>
+					</div>
+				</Card.Header>
+				<Card.Content>
+					{#if graphLoading && !hasGraphData}
+						<div class="flex items-center justify-center py-4">
+							<LoadingSpinner />
+						</div>
+					{:else if graphError && !hasGraphData}
+						<ErrorDisplay
+							message={graphError}
+							onRetry={() => artifactGraphSDK.refresh()}
+						/>
+					{:else if !hasGraphData}
+						<p class="text-sm text-muted-foreground">
+							No artifact graph data. Click Refresh to build the index.
+						</p>
+					{:else}
+						<!-- Summary stats row -->
+						{#if graphStats}
+							<div class="mb-4 grid grid-cols-4 gap-3 text-sm">
+								<div class="text-center">
+									<div class="text-lg font-semibold tabular-nums">{graphStats.node_count}</div>
+									<div class="text-xs text-muted-foreground">Nodes</div>
+								</div>
+								<div class="text-center">
+									<div class="text-lg font-semibold tabular-nums">{graphStats.edge_count}</div>
+									<div class="text-xs text-muted-foreground">Edges</div>
+								</div>
+								<div class="text-center">
+									<div class="text-lg font-semibold tabular-nums {graphStats.orphan_count > 0 ? 'text-warning' : ''}">{graphStats.orphan_count}</div>
+									<div class="text-xs text-muted-foreground">Orphans</div>
+								</div>
+								<div class="text-center">
+									<div class="text-lg font-semibold tabular-nums {graphStats.broken_ref_count > 0 ? 'text-destructive' : ''}">{graphStats.broken_ref_count}</div>
+									<div class="text-xs text-muted-foreground">Broken Refs</div>
+								</div>
+							</div>
+						{/if}
+
+						<!-- By type -->
+						{#if typeCounts.length > 0}
+							<div class="mb-3">
+								<p class="mb-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wide">By Type</p>
+								<div class="flex flex-wrap gap-x-4 gap-y-1">
+									{#each typeCounts as { type, count } (type)}
+										<span class="text-sm">
+											<span class="font-medium capitalize">{type}</span>
+											<span class="ml-1 text-muted-foreground tabular-nums">({count})</span>
+										</span>
+									{/each}
+								</div>
+							</div>
+						{/if}
+
+						<!-- By status -->
+						{#if statusCounts.length > 0}
+							<div>
+								<p class="mb-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wide">By Status</p>
+								<div class="flex flex-wrap gap-x-4 gap-y-1">
+									{#each statusCounts as { status, count } (status)}
+										<span class="text-sm">
+											<span class="font-medium">{status}</span>
+											<span class="ml-1 text-muted-foreground tabular-nums">({count})</span>
+										</span>
+									{/each}
+								</div>
+							</div>
+						{/if}
 					{/if}
 				</Card.Content>
 			</Card.Root>

@@ -76,3 +76,6 @@ export type {
 } from "./enforcement";
 
 export type { Lesson, NewLesson, LessonStatus, LessonCategory } from "./lessons";
+
+export type { ArtifactNode, ArtifactRef, GraphStats, ArtifactGraphType } from "./artifact-graph";
+export { ARTIFACT_TYPES } from "./artifact-graph";
