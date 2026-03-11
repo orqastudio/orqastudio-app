@@ -8,10 +8,10 @@ description: |
   file paths and prompt intent. Tooling ecosystem management delegates code quality
   to linters while OrqaStudio manages the full chain from documented intent to
   linter config to hook trigger.
-status: draft
+status: done
 priority: P1
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-12"
 deadline: null
 milestone: MS-002
 pillars:
@@ -113,7 +113,7 @@ determine if prerequisites are met before allowing transitions.
 - [ ] [TASK-205](TASK-205): Add prompt-based injection to Rust system prompt builder
 
 ### New Rules + Verification
-- [ ] [TASK-206](TASK-206): Create RULE-041, RULE-042, RULE-043
+- [ ] [TASK-206](TASK-206): Create [RULE-041](RULE-041), [RULE-042](RULE-042), [RULE-043](RULE-043)
 - [ ] [TASK-207](TASK-207): Integration testing
 
 ## Out of Scope

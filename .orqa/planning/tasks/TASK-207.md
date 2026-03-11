@@ -4,9 +4,9 @@ title: Integration testing for all enforcement layers
 description: |
   End-to-end verification that all four enforcement layers work together in
   both CLI (plugin) and app (Rust) contexts.
-status: todo
+status: done
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-196
@@ -34,7 +34,7 @@ Verify all enforcement layers work end-to-end:
 3. Injection test: Edit domain file → skills injected as systemMessage
 4. Injection test: Second edit same area → skills NOT re-injected
 5. Linter test: `make check` catches all documented standards
-6. Schema test: All rules (including RULE-041/042/043) validate
+6. Schema test: All rules (including [RULE-041](RULE-041)/042/043) validate
 
 ## Verification
 
