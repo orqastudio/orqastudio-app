@@ -262,7 +262,7 @@ The findings cluster around a few systemic issues rather than isolated bugs:
 - [ ] User has exercised all test areas
 - [x] Round 1 findings captured as tasks and fixed
 - [x] Round 2 findings captured as tasks and fixed
-- [x] Round 2 architectural concerns ([EPIC-044](EPIC-044)) implemented
+- [x] Round 2 architectural concerns [EPIC-044](EPIC-044) implemented
 - [x] Round 3 findings investigated and fixed
 - [x] Round 4 findings investigated and fixed
 - [ ] Non-critical findings prioritised for future sprints

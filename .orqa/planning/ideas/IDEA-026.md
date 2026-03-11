@@ -28,4 +28,4 @@ The platform scans and displays artifacts from `.orqa/` but treats them all as g
 
 ## Origin
 
-UAT Round 1 ([EPIC-043](EPIC-043)): User observation during artifact browsing
+UAT Round 1 [EPIC-043](EPIC-043): User observation during artifact browsing

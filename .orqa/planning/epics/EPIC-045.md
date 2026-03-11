@@ -45,7 +45,7 @@ not an AI development tool.
 
 ## Implementation Scope
 
-### 1. Agent Restructuring ([AD-029](AD-029))
+### 1. Agent Restructuring [AD-029](AD-029)
 
 Replace 16 software-specific agent files with 7 universal role definitions:
 
@@ -71,7 +71,7 @@ Replace 16 software-specific agent files with 7 universal role definitions:
 - debugger.md, refactor-agent.md → become skills only
 - agent-maintainer.md → becomes skill for Orchestrator
 
-### 2. Domain Skill Extraction ([AD-029](AD-029))
+### 2. Domain Skill Extraction [AD-029](AD-029)
 
 Extract domain knowledge from old agents into loadable skills:
 
@@ -87,7 +87,7 @@ Extract domain knowledge from old agents into loadable skills:
 | test-engineer | `test-engineering` | TDD workflow, coverage, mock boundaries |
 | systems-architect | `architectural-evaluation` | Compliance checks, boundary verification |
 
-### 3. Project Setup Skills ([AD-030](AD-030))
+### 3. Project Setup Skills [AD-030](AD-030)
 
 Create the four setup skills that replace templates:
 

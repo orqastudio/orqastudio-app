@@ -55,4 +55,4 @@ The lesson documents the pattern, the rule codifies it, and the hook enforces it
 
 ## Origin
 
-UAT Round 1 ([EPIC-043](EPIC-043)): F18 — Hooks section shows empty despite Claude hooks existing
+UAT Round 1 [EPIC-043](EPIC-043): F18 — Hooks section shows empty despite Claude hooks existing

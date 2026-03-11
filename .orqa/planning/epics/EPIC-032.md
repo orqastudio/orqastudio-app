@@ -49,7 +49,7 @@ scoring:
 - [x] [MS-001](MS-001) completed-epics count updated (0 → 1)
 
 ### WS-4: Migration Tracking (DONE)
-- [x] This epic ([EPIC-032](EPIC-032)) created to track the migration
+- [x] This epic [EPIC-032](EPIC-032) created to track the migration
 
 ### WS-5: Viewer Infrastructure (DEFERRED → [EPIC-005](EPIC-005))
 - [ ] Backend readers for milestones, epics, tasks, ideas, decisions

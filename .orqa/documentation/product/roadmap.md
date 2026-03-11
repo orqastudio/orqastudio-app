@@ -12,8 +12,8 @@ updated: "2026-03-07"
 
 This roadmap is structured around two milestones and a feature enhancement backlog:
 
-1. **Milestone 1: Dogfooding** ([MS-001](MS-001)) — OrqaStudio is usable as a daily workspace for its own development
-2. **Milestone 2: MVP** ([MS-002](MS-002)) — Someone else can use OrqaStudio to fulfil the mission statement
+1. **Milestone 1: Dogfooding** [MS-001](MS-001) — OrqaStudio is usable as a daily workspace for its own development
+2. **Milestone 2: MVP** [MS-002](MS-002) — Someone else can use OrqaStudio to fulfil the mission statement
 3. **Feature Enhancements** — Future ideas ([IDEA-001](IDEA-001) through [IDEA-022](IDEA-022)) that enhance the platform beyond MVP
 
 Items within milestones are prioritised using the framework defined below. All items are tracked as first-class artifacts in `.orqa/` — see [Artifact Framework](artifact-framework.md) for schemas and structure.
@@ -47,7 +47,7 @@ This framework will be built into OrqaStudio itself as an MVP feature (see Miles
 
 ## Completed Work
 
-### Milestone 0: Foundation & Scaffold ([MS-000](MS-000)) — Complete
+### Milestone 0: Foundation & Scaffold [MS-000](MS-000) — Complete
 
 All pre-build phases are complete. Each phase is tracked as a retroactive epic for full traceability.
 
@@ -110,10 +110,10 @@ These items block dogfooding. Each represents a gap between "the pieces exist" a
 
 The types, components, and store handling all exist. The emission logic now connects them.
 
-- [x] Emit `SystemPromptSent` event from `stream_commands.rs` ([TASK-001](TASK-001))
-- [x] Verify end-to-end rendering pipeline ([TASK-002](TASK-002))
-- [x] Update streaming pipeline documentation ([TASK-003](TASK-003))
-- [x] Emit `ContextInjected` event when prior messages exist in session ([TASK-004](TASK-004))
+- [x] Emit `SystemPromptSent` event from `stream_commands.rs` [TASK-001](TASK-001)
+- [x] Verify end-to-end rendering pipeline [TASK-002](TASK-002)
+- [x] Update streaming pipeline documentation [TASK-003](TASK-003)
+- [x] Emit `ContextInjected` event when prior messages exist in session [TASK-004](TASK-004)
 
 **Completed:** `SystemPromptSent` emitted before sidecar request. Full pipeline verified: Rust emission → Channel<T> → store accumulation → ContextEntry + ContextDetailDialog rendering. ThinkingBlock already wired. `ContextInjected` emission deferred to [EPIC-003](EPIC-003).
 

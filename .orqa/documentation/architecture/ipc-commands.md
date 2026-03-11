@@ -8,9 +8,9 @@ updated: "2026-03-10"
 
 **References:** [Tauri v2 Research](RES-007), [AD-002](AD-002), [AD-009](AD-009), [Rust Module Architecture](DOC-010)
 
-Complete catalog of `#[tauri::command]` functions. Every frontend-to-backend call crosses the IPC boundary through one of these commands. Streaming data uses `Channel<T>` ([AD-009](AD-009)) rather than `invoke()`.
+Complete catalog of `#[tauri::command]` functions. Every frontend-to-backend call crosses the IPC boundary through one of these commands. Streaming data uses `Channel<T>` [AD-009](AD-009) rather than `invoke()`.
 
-All commands return `Result<T, OrqaError>` where `OrqaError` is a `thiserror`-derived enum serialized as `{"code": "<variant>", "message": "<detail>"}` ([AD-003](AD-003)).
+All commands return `Result<T, OrqaError>` where `OrqaError` is a `thiserror`-derived enum serialized as `{"code": "<variant>", "message": "<detail>"}` [AD-003](AD-003).
 
 There are currently **15 command modules** containing approximately **82 commands** in total.
 

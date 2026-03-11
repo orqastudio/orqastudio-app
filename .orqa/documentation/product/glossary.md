@@ -244,7 +244,7 @@ A collapsible 200px panel between the Activity Bar and Explorer Panel. Provides 
 
 ### Session Dropdown
 
-A dropdown control in the Chat Panel header for switching between sessions. Shows the active session title (clickable to open), a list of recent sessions with search filter, and a "New Session" button. Replaces the dedicated Sessions Panel from the previous four-zone layout ([AD-018](AD-018)). `Ctrl+N` creates a new session directly.
+A dropdown control in the Chat Panel header for switching between sessions. Shows the active session title (clickable to open), a list of recent sessions with search filter, and a "New Session" button. Replaces the dedicated Sessions Panel from the previous four-zone layout [AD-018](AD-018). `Ctrl+N` creates a new session directly.
 
 ### Chat Panel
 

@@ -1,37 +1,36 @@
 ---
 id: TASK-162
-title: Remove brackets from artifact links in all .orqa/ artifacts
-description: Strip square brackets from artifact link display text across all .orqa/ markdown files — change [EPIC-001](EPIC-001) to EPIC-001 plain text or bare link format.
+title: Remove outer wrapping parentheses from artifact links
+description: Strip surrounding parentheses/brackets from artifact links across all .orqa/ markdown files — change ([EPIC-001](EPIC-001)) to [EPIC-001](EPIC-001). The markdown links themselves stay as-is.
 status: todo
 created: "2026-03-11"
 updated: "2026-03-11"
-epic: EPIC-049
+epic: EPIC-038
 depends-on: []
 scope:
-  - Identify the current artifact link format used across .orqa/ files
-  - Replace bracketed link format with a cleaner alternative across all artifacts
-  - Ensure the app's markdown renderer still resolves artifact links correctly after the change
+  - Find all instances of artifact links wrapped in outer parentheses like ([ID](ID))
+  - Remove the outer wrapping parentheses while preserving the markdown link intact
+  - Cover all artifact ID prefixes (EPIC, TASK, AD, IDEA, RULE, RES, MS, PILLAR, IMPL, RETRO)
 acceptance:
-  - No artifact links use the [ID](ID) bracketed display format
-  - Artifact links still resolve correctly in the app's markdown renderer
+  - No artifact links are wrapped in outer parentheses like ([ID](ID))
+  - All markdown links [ID](ID) remain intact and functional
   - All .orqa/ markdown files updated consistently
   - Research files (status surpassed) are exempt per RULE-014
 ---
 ## What
 
-Artifact links currently use the markdown format `[EPIC-001](EPIC-001)` which renders with brackets as visual noise in the app's display. Since the app controls how artifacts are rendered, the bracketed display text is unnecessary — the bare ID or a cleaner link format would be visually cleaner.
+Many artifact links across `.orqa/` files are wrapped in unnecessary outer parentheses: `([EPIC-001](EPIC-001))`. The markdown link format `[EPIC-001](EPIC-001)` is correct and should stay, but the surrounding parentheses add visual noise in both raw markdown and rendered output.
 
 ## How
 
-1. Determine the target format — either bare `EPIC-001` with auto-linking by the renderer, or a bracket-free markdown link format
-2. Verify the app's markdown renderer can handle the new format (auto-link artifact IDs, or support a simpler syntax)
-3. Find-and-replace across all non-surpassed `.orqa/` markdown files
-4. Skip research files with `status: surpassed` per RULE-014 (historical records are immutable)
-5. Update RULE-044 (artifact link format rule, if created by TASK-144) to reflect the new convention
+1. Search all `.orqa/` markdown files for the pattern `([ID](ID))` where ID matches artifact prefixes
+2. Replace with `[ID](ID)` — removing only the outer wrapping parentheses
+3. Skip research files with `status: surpassed` per [RULE-014](RULE-014) (historical records are immutable)
+4. Verify no links were broken by the replacement
 
 ## Verification
 
-- [ ] No `[ID](ID)` format artifact links remain in active .orqa/ files
-- [ ] Artifact links still render and navigate correctly in the app
+- [ ] No `([ID](ID))` patterns remain in active .orqa/ files
+- [ ] All `[ID](ID)` markdown links still resolve correctly
 - [ ] Surpassed research files are unchanged
 - [ ] Consistent format across all artifact types

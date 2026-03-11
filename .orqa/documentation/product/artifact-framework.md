@@ -534,7 +534,7 @@ promoted-from: null               # IMPL-NNN if promoted from a lesson, null oth
 | `id` | Yes | string | Auto-incrementing `RULE-NNN` identifier |
 | `layer` | Yes | enum | `canon` (platform), `project` (project-specific), `plugin` (ecosystem) |
 | `status` | Yes | enum | `active` (enforced) or `inactive` (preserved but not enforced) |
-| `scope` | Yes | string | What the rule governs: `system`, `domain`, `project`, `role`, `artifact`. Temporary — will be replaced by structured enforcement model ([IDEA-034](IDEA-034)). |
+| `scope` | Yes | string | What the rule governs: `system`, `domain`, `project`, `role`, `artifact`. Temporary — will be replaced by structured enforcement model [IDEA-034](IDEA-034). |
 | `title` | Yes | string | Human-readable rule title |
 | `description` | Yes | string | Brief description of what the rule enforces |
 | `created` | Yes | date | ISO date of creation |
@@ -787,8 +787,8 @@ IDs are stable — never reused after deletion. The next ID is determined by sca
 
 | Layer | What It Provides | When Built |
 |-------|-----------------|------------|
-| **Document browser** | Navigate and read `.orqa/` artifacts as rendered markdown | Dogfooding ([EPIC-005](EPIC-005)) |
-| **Frontmatter sidebar** | Structured metadata displayed alongside the document | Dogfooding ([EPIC-005](EPIC-005)) |
+| **Document browser** | Navigate and read `.orqa/` artifacts as rendered markdown | Dogfooding [EPIC-005](EPIC-005) |
+| **Frontmatter sidebar** | Structured metadata displayed alongside the document | Dogfooding [EPIC-005](EPIC-005) |
 | **Status filtering** | Filter artifacts by status, priority, milestone, type | MVP |
 | **Board views** | Kanban-style board projecting epic/task status | MVP |
 | **Priority dashboard** | Scored and ranked backlog with band indicators | MVP |

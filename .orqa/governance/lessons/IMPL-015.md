@@ -13,7 +13,7 @@ promoted-to: RULE-013
 
 Over multiple sessions, 237 files of changes accumulated on main without being
 committed. This included app code changes (artifact scanning system), governance
-restructuring ([EPIC-045](EPIC-045)), documentation migration, planning artifacts, and
+restructuring [EPIC-045](EPIC-045), documentation migration, planning artifacts, and
 architecture decisions. The user discovered this when reviewing priorities.
 
 ## Why It Was Unexpected

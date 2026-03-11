@@ -5,7 +5,7 @@ description: Make scrollbar appearance consistent across all panels — use the 
 status: todo
 created: "2026-03-11"
 updated: "2026-03-11"
-epic: EPIC-049
+epic: EPIC-038
 depends-on: []
 scope:
   - Identify the viewer panel scrollbar CSS as the reference style

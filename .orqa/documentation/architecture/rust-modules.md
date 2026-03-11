@@ -8,7 +8,7 @@ updated: "2026-03-10"
 
 **References:** [Claude Integration](RES-002), [Tauri v2](RES-007), [Persistence](RES-006)
 
-Module tree, domain types, command handlers, and dependency graph for `src-tauri/src/`. Rust owns the domain model ([AD-001](AD-001)). All functions return `Result<T, E>` ([AD-003](AD-003)). No `unwrap()`, `expect()`, or `panic!()` in production code.
+Module tree, domain types, command handlers, and dependency graph for `src-tauri/src/`. Rust owns the domain model [AD-001](AD-001). All functions return `Result<T, E>` [AD-003](AD-003). No `unwrap()`, `expect()`, or `panic!()` in production code.
 
 ---
 

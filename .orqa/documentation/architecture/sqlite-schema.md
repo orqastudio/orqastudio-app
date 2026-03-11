@@ -7,7 +7,7 @@ updated: "2026-03-10"
 ---
 
 **Date:** 2026-03-02 | **Updated:** 2026-03-10 | **Status:** Current
-**References:** [Persistence Research](RES-006) ([AD-014](AD-014)), [Design Tokens Research](RES-003)
+**References:** [Persistence Research](RES-006) [AD-014](AD-014), [Design Tokens Research](RES-003)
 
 Full table definitions, indexes, FTS5 configuration, and migration strategy for `orqa.db`.
 

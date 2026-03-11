@@ -101,7 +101,7 @@ orqa-studio/
 └── tsconfig.json
 ```
 
-### Tauri Plugins ([AD-012](AD-012))
+### Tauri Plugins [AD-012](AD-012)
 
 OrqaStudio requires the following Tauri v2 plugins. All are official and maintained in [tauri-apps/plugins-workspace](https://github.com/tauri-apps/plugins-workspace) unless noted.
 
@@ -153,7 +153,7 @@ npm install tauri-plugin-keyring-api
 
 Each plugin must also be registered in the Tauri app builder (`src-tauri/src/main.rs`) and have its permissions declared in `src-tauri/capabilities/default.json`. See [AD-012](DOC-001) and [Tauri v2 Research](RES-007) for configuration details.
 
-### Frontend Dependencies ([AD-013](AD-013))
+### Frontend Dependencies [AD-013](AD-013)
 
 OrqaStudio's frontend depends on these libraries, selected in [AD-013](DOC-001):
 

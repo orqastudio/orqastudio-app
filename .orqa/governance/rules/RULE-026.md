@@ -8,7 +8,7 @@ updated: "2026-03-07"
 layer: canon
 scope: system
 ---
-Every agent MUST have a `skills:` list in its YAML frontmatter. Skills load in three tiers ([AD-028](AD-028)).
+Every agent MUST have a `skills:` list in its YAML frontmatter. Skills load in three tiers [AD-028](AD-028).
 
 ## Three-Tier Model
 

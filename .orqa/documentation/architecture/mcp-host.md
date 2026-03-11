@@ -372,7 +372,7 @@ MCP servers operate at one of three trust levels, which determine what capabilit
 
 ### Capability Scoping
 
-**Built-in tools** operate within Tauri's file system security scopes ([AD-011](AD-011)):
+**Built-in tools** operate within Tauri's file system security scopes [AD-011](AD-011):
 
 - Base scope: `$HOME/**`
 - Project scope: dynamically expanded via `app_handle.fs_scope().allow_directory()` when a project is opened

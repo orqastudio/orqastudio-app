@@ -45,7 +45,7 @@ This epic addresses all three by building a bidirectional artifact node graph in
 
 ## Implementation Design
 
-### Part 1: Body Templates ([RES-032](RES-032))
+### Part 1: Body Templates [RES-032](RES-032)
 
 Document and enforce minimum body structure for each artifact type:
 
@@ -100,7 +100,7 @@ ArtifactRef { target_id, field, source_id }
 - `read_artifact_content(path)` — raw markdown body (always from disk, no caching)
 - `get_graph_stats()` — node count, edge count, orphans, broken refs
 
-### Part 3: Frontend Artifact Graph SDK ([RES-034](RES-034))
+### Part 3: Frontend Artifact Graph SDK [RES-034](RES-034)
 
 Typed Svelte 5 rune store at `ui/lib/sdk/artifact-graph.svelte.ts`:
 
@@ -206,11 +206,11 @@ The app ships with **default views only** — these are the artifact browser, vi
 | Layer | Examples | Distribution |
 |-------|----------|-------------|
 | **Built-in (default)** | Artifact browser, viewers (artifact, agent, skill, rule, hook), navigation, conversation | Shipped with app binary |
-| **Official plugins** | Governance dashboard, dependency graph, sprint planning | Official plugins repo ([IDEA-038](IDEA-038)) |
+| **Official plugins** | Governance dashboard, dependency graph, sprint planning | Official plugins repo [IDEA-038](IDEA-038) |
 | **Community plugins** | Third-party extensions shared publicly | Their own repos, installable via URL |
 | **User plugins** | Custom extensions built locally with the AI | Local file path, git-versioned locally |
 
-### Plugin Development Skill ([TASK-081](TASK-081))
+### Plugin Development Skill [TASK-081](TASK-081)
 
 The skill must guide the AI to:
 

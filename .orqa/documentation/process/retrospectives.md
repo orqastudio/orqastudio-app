@@ -90,7 +90,7 @@ The following RETRO entries are imported from the Alvarez project. They represen
 - **Root cause:** Sidebar files were created incrementally as sections were populated. By the time the synchronization rule was established, many sidebars were already out of sync.
 - **Action taken (OrqaStudio):** Initially adopted from Alvarez. Superseded by [AD-020](AD-020) — Docsify replaced by OrqaStudio's built-in doc viewer with filesystem-driven navigation. Rule and sidebar files removed.
 - **Outcome:** Resolved — sidebar synchronization no longer applicable. Doc navigation is generated dynamically from the project's `docs/` directory.
-- **Status:** Closed ([AD-020](AD-020))
+- **Status:** Closed [AD-020](AD-020)
 
 ---
 

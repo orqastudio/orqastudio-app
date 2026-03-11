@@ -208,7 +208,7 @@ ui/
 
 ## Store Architecture
 
-All stores use Svelte 5 runes exclusively ([AD-004](AD-004)). Store files use the `.svelte.ts` extension to enable runes outside of components. Each store is a class instance exported as a singleton.
+All stores use Svelte 5 runes exclusively [AD-004](AD-004). Store files use the `.svelte.ts` extension to enable runes outside of components. Each store is a class instance exported as a singleton.
 
 | Store | File | Purpose |
 |-------|------|---------|

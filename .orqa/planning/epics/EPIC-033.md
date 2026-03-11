@@ -45,7 +45,7 @@ scoring:
 - Ensure no `plan:` field can be created going forward
 - Verify scanning/reading code handles `research-refs:` correctly
 
-### Phase D: Historical Backfill ([TASK-011](TASK-011))
+### Phase D: Historical Backfill [TASK-011](TASK-011)
 - Decision chains, surpassed artifacts, lesson history
 - Reference integrity for all existing artifacts
 
