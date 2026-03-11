@@ -1,7 +1,7 @@
 ---
 id: TASK-148
-title: Replace OrqaStudio-specific examples with generic ones in orqa-composability skill
-description: Replace OrqaStudio-specific file paths and code examples in the orqa-composability skill with generic equivalents that illustrate the same composability principles without tying them to this codebase.
+title: Replace OrqaStudio-specific examples with generic ones in composability skill
+description: Replace OrqaStudio-specific file paths and code examples in the composability skill with generic equivalents that illustrate the same composability principles without tying them to this codebase.
 status: done
 created: "2026-03-11"
 updated: "2026-03-11"
@@ -21,13 +21,13 @@ acceptance:
 ---
 ## What
 
-The `orqa-composability` skill is `layer: canon` (portable across all projects) but currently contains OrqaStudio-specific file paths and code examples. The composability principles are universal and essential for plugin development — the examples need to be generic.
+The `composability` skill is `layer: canon` (portable across all projects) but currently contains OrqaStudio-specific file paths and code examples. The composability principles are universal and essential for plugin development — the examples need to be generic.
 
 Replace OrqaStudio-specific references (file paths, module names, component names) with generic examples that illustrate the same composability principles without tying them to this codebase.
 
 ## How
 
-1. Open `orqa-composability.md` in `.orqa/team/skills/`
+1. Open `composability.md` in `.orqa/team/skills/`
 2. Identify every code block that references OrqaStudio-specific paths (e.g., `src-tauri/src/domain/enforcement_engine.rs`) or module names
 3. For each such block: rewrite using generic names (e.g., `src/domain/engine.rs`, `MyService`, `UserStore`) that convey the same structural lesson
 4. Verify every composability principle section (Pure Over Stateful, Small Composable Units, Trait Boundaries, etc.) still has a clear illustrative example after the rename

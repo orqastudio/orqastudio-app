@@ -20,7 +20,7 @@ scope:
   - Include path and naming consistency checks
   - Include the systemic pattern grouping approach from RES-035
 acceptance:
-  - SKILL.md exists in .orqa/team/skills/artifact-audit/
+  - SKILL.md exists in .orqa/team/skills/orqa-artifact-audit/
   - Skill covers all artifact types in .orqa/
   - Skill includes verification checklists that an agent can follow
   - Skill is referenced in relevant agent definitions (reviewer, orchestrator)

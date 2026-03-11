@@ -42,7 +42,7 @@ Table from [EPIC-042](EPIC-042) implementation design:
 | `ui/lib/components/` | `orqa-store-patterns` |
 | `.orqa/` | `orqa-governance` |
 | Any streaming work | `orqa-streaming` |
-| Any cross-boundary work | `orqa-composability` (always injected) |
+| Any cross-boundary work | `composability` (always injected) |
 | Any test work | `orqa-testing` |
 
 ## How

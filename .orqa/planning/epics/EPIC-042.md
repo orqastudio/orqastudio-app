@@ -44,7 +44,7 @@ Migrate from the current model (all skills on agent definitions) to three tiers:
 | Tier | Skills |
 |------|--------|
 | Tier 1 (Agent) | `code-search`, `architecture`, `rust-async-patterns`, `svelte5-best-practices`, `typescript-advanced-types`, `tailwind-design-system`, `planning`, `skills-maintenance` |
-| Tier 2 (Orchestrator) | `orqa-composability`, `orqa-ipc-patterns`, `orqa-store-patterns`, `orqa-store-orchestration`, `orqa-streaming`, `orqa-domain-services`, `orqa-repository-pattern`, `orqa-error-composition`, `orqa-governance`, `orqa-testing`, `orqa-native-search` |
+| Tier 2 (Orchestrator) | `composability`, `orqa-ipc-patterns`, `orqa-store-patterns`, `orqa-store-orchestration`, `orqa-streaming`, `orqa-domain-services`, `orqa-repository-pattern`, `orqa-error-composition`, `orqa-governance`, `orqa-testing`, `orqa-native-search` |
 | Tier 3 (Wrapper) | `code-search` → resolves to `chunkhound` (CLI) or `orqa-native-search` (App) |
 
 ### Orchestrator Injection Table
@@ -60,7 +60,7 @@ Migrate from the current model (all skills on agent definitions) to three tiers:
 | `ui/lib/components/` | `orqa-store-patterns` |
 | `.orqa/` | `orqa-governance` |
 | Any streaming work | `orqa-streaming` |
-| Any cross-boundary work | `orqa-composability` (always injected) |
+| Any cross-boundary work | `composability` (always injected) |
 | Any test work | `orqa-testing` |
 
 ## Acceptance Criteria

@@ -1,0 +1,10 @@
+{
+  "defaults": {
+    "group": "status",
+    "sort": { "field": "updated", "direction": "desc" },
+    "group_order": {
+      "status": ["active", "planning", "complete"]
+    },
+    "collapsed_groups": ["complete"]
+  }
+}

@@ -76,7 +76,7 @@ User plugins are the most important layer. They represent the core promise: **an
 **Workflow:**
 
 1. User asks the AI to build a plugin ("I want a dashboard that shows my milestone progress")
-2. The AI (with `plugin-development` skill loaded) creates a new local project with seed data
+2. The AI (with `orqa-plugin-development` skill loaded) creates a new local project with seed data
 3. User develops the plugin collaboratively with the AI, testing against seed data
 4. When ready, user installs the plugin into their production project via file path
 5. The plugin uses the same Artifact Graph SDK as the built-in views
@@ -94,7 +94,7 @@ The barrier from "I had an idea" to "I have a working plugin" is a single conver
 
 ### Development Workflow
 
-Plugin development uses the `plugin-development` skill [TASK-081](TASK-081), which guides the AI to:
+Plugin development uses the `orqa-plugin-development` skill [TASK-081](TASK-081), which guides the AI to:
 
 1. Create the plugin in a **new standalone project** (not inside the user's production project)
 2. Generate **seed data** for testing (mock `.orqa/` directory with representative artifacts)

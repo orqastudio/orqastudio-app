@@ -8,7 +8,7 @@ updated: "2026-03-11"
 epic: EPIC-049
 depends-on: []
 scope:
-  - Add status note to project-inference, project-migration, project-setup, project-type-software, and plugin-development skills
+  - Add status note to project-inference, project-migration, project-setup, project-type-software, and orqa-plugin-development skills
   - Each note references the parent epic/idea that will activate the skill
   - No changes to skill content — status clarity only
 acceptance:
@@ -26,7 +26,7 @@ Five skills have no current loading mechanism because the features they support 
 | `project-migration` | [EPIC-045](EPIC-045), [TASK-054](TASK-054) |
 | `project-setup` | [EPIC-045](EPIC-045), [TASK-054](TASK-054) |
 | `project-type-software` | [EPIC-045](EPIC-045), [TASK-054](TASK-054), [TASK-067](TASK-067), [EPIC-047](EPIC-047) |
-| `plugin-development` | [IDEA-038](IDEA-038), [TASK-081](TASK-081) |
+| `orqa-plugin-development` | [IDEA-038](IDEA-038), [TASK-081](TASK-081) |
 
 Add a note to each skill's SKILL.md frontmatter or body indicating it is forward-looking and which epic/idea it supports. This prevents them from appearing to be active skills that should be loaded.
 

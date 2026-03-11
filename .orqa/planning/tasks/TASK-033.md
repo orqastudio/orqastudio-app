@@ -36,7 +36,7 @@ All agents in `.orqa/team/agents/`:
 For each agent:
 1. Keep: `code-search`, `architecture`, language/framework skills relevant to their role
 2. Remove: `chunkhound`, `orqa-native-search`, all `orqa-*` project skills
-3. The `orqa-composability` meta-skill moves to Tier 2 (always injected by orchestrator)
+3. The `composability` meta-skill moves to Tier 2 (always injected by orchestrator)
 
 ## How
 

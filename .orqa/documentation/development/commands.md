@@ -48,55 +48,126 @@ bun build sidecar/index.ts --compile --outfile src-tauri/binaries/sidecar
 
 ### `make dev`
 
-Run the full Tauri application in development mode without the Rust file watcher. Starts both the Vite frontend dev server and the Tauri backend. Frontend hot-reload (HMR) is active; Rust changes require a manual restart.
+Start the full dev environment. Spawns the dev controller as a detached background process, polls until Vite and Tauri are both ready, then exits. The controller continues running independently with its own terminal window and web dashboard.
 
 **Underlying command:**
 
 ```bash
-cargo tauri dev --no-watch
+node scripts/dev.mjs dev
 ```
 
-**When to use:** Primary command for local development. Safe default during dogfooding — agents can edit `.rs` files without triggering app restarts mid-conversation. Restart manually after Rust changes.
+**What it does:**
+1. Spawns the controller as a detached process
+2. Polls the control file until state is `running` (Vite + Tauri both up)
+3. Exits cleanly — no hanging process
 
-**Lifecycle note:** When run as a background task (e.g., via CLI agents), `make dev` keeps running as long as the app is open. If the app window is closed or the process exits, the background task completes — this means the app is DOWN, not that it restarted successfully. Always check whether the app is still running before assuming it is available.
+**When to use:** Primary command for starting local development. Partner to `make kill` — use `make dev` to start everything, `make kill` to tear it all down.
+
+---
+
+### `make start`
+
+Start the dev controller in the foreground — a persistent Node process that owns the entire dev lifecycle. Spawns Vite, compiles and runs the Tauri app, opens a web-based dev dashboard, and streams unified output from all processes.
+
+**Underlying command:**
+
+```bash
+node scripts/dev.mjs start
+```
+
+**What it does:**
+1. Kills any orphaned processes from previous runs
+2. Starts the dashboard server at `http://localhost:3001` and opens it in the browser
+3. Spawns Vite dev server, waits for port 1420
+4. Compiles and runs the Tauri app via `cargo run`
+5. Watches for IPC signals from restart/stop commands
+6. Streams all output with colour-coded prefixes: `[ctrl]`, `[vite]`, `[rust]`
+
+**When to use:** When you want the controller in the foreground (e.g., for debugging). Most users should use `make dev` instead.
+
+---
+
+### `make restart-tauri`
+
+Signal the dev controller to kill the Tauri app binary, recompile, and relaunch. Vite and the controller stay alive.
+
+**Underlying command:**
+
+```bash
+node scripts/dev.mjs restart-tauri
+```
+
+**When to use:** After Rust backend changes that require a recompile. The dashboard shows rebuild progress live.
+
+---
+
+### `make restart-vite`
+
+Signal the dev controller to restart only the Vite dev server. The Tauri app stays alive.
+
+**Underlying command:**
+
+```bash
+node scripts/dev.mjs restart-vite
+```
+
+**When to use:** When the Vite dev server gets stuck, HMR stops working, or port 1420 needs to be recycled.
 
 ---
 
 ### `make restart`
 
-Stop all Orqa Studio processes (app, Vite, cargo), wait for ports to release, then relaunch with `make dev`.
+Signal the dev controller to restart everything — kills Vite and the Tauri app, then relaunches both. The controller stays alive.
 
 **Underlying command:**
 
 ```bash
-make stop && make dev
+node scripts/dev.mjs restart
 ```
 
-**When to use:** After Rust backend changes that require a full recompile. This is an atomic operation — do not break it into separate `make stop` + `make dev` steps.
-
-**Lifecycle note:** When run as a background task, `make restart` completing means the app has **exited** — the foreground process finished. The app is DOWN after `make restart` completes as a background task. You must run `make dev` again to relaunch. To avoid this, run `make restart` in the foreground (blocking) or follow up with `make dev` as a new background task.
+**When to use:** When both Vite and Rust need a clean restart.
 
 ---
 
 ### `make stop`
 
-Kill all Orqa Studio processes: the Tauri app, Vite dev server, and any cargo builds. Waits for ports to release.
-
-**When to use:** When you need to stop the app without immediately relaunching. Prefer `make restart` when you intend to relaunch.
-
----
-
-### `make dev-watch`
-
-Run the full Tauri application with auto-rebuild on Rust file changes. The app window will close, recompile, and reopen whenever a `.rs` file is saved.
+Gracefully signal the dev controller to stop all processes and exit. The dashboard auto-closes. **After stopping, a manual `make dev` is required to bring the environment back up.** During dogfooding, this means the app goes down and must be relaunched.
 
 **Underlying command:**
 
 ```bash
-cargo tauri dev
+node scripts/dev.mjs stop
 ```
 
-**When to use:** When you are not dogfooding (i.e., the app is not being used for its own development) and want automatic Rust rebuilds.
+**When to use:** When you intentionally want to shut everything down and don't need it running. Prefer `make restart` commands during active development — they keep the controller alive.
+
+---
+
+### `make kill`
+
+Force-kill all OrqaStudio processes regardless of controller state. Does not wait for graceful shutdown.
+
+**Underlying command:**
+
+```bash
+node scripts/dev.mjs kill
+```
+
+**When to use:** When `make stop` doesn't work, processes are stuck, or you need to tear down the entire dev environment. Partner to `make dev`.
+
+---
+
+### `make status`
+
+Show the dev controller's state: controller PID, child process PIDs, and whether they are alive.
+
+**Underlying command:**
+
+```bash
+node scripts/dev.mjs status
+```
+
+**When to use:** To check what's running without opening the dashboard.
 
 ---
 

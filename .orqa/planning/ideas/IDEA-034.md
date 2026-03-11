@@ -3,7 +3,7 @@ id: IDEA-034
 title: Structured Rule Enforcement Engine
 description: |
   Replace freeform rule scope strings with a structured enforcement model that maps rules to file paths, artifact types, and agent contexts — enabling the app to automatically load only relevant rules.
-status: captured
+status: promoted
 created: "2026-03-07"
 updated: "2026-03-07"
 pillars:
@@ -14,9 +14,9 @@ research-needed:
   - Integration with artifact scanner (rule violations as scan findings)
   - UI for rule management (browse, enable/disable, see enforcement coverage)
   - Migration path from current freeform scope field to structured model
-promoted-to: null
+promoted-to: EPIC-050
 ---
-## Problem
+## Motivation
 
 Rules currently carry a freeform `scope` field (`system`, `domain`, `project`, etc.) that agents interpret loosely. The app doesn't use this field at all — it can't filter rules by relevance to the current file, artifact type, or agent context. Every agent loads every rule, regardless of relevance.
 

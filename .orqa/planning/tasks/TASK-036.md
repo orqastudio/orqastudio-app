@@ -29,15 +29,15 @@ scenarios and confirming the right skills are loaded in each case.
 
 1. **Backend task** (scope: `src-tauri/src/commands/`) — Expect: agent loads `code-search` +
    `rust-async-patterns` (Tier 1), orchestrator injects `orqa-ipc-patterns` +
-   `orqa-error-composition` + `orqa-composability` (Tier 2), `code-search` resolves to
+   `orqa-error-composition` + `composability` (Tier 2), `code-search` resolves to
    `chunkhound` in CLI (Tier 3)
 
 2. **Frontend task** (scope: `ui/lib/stores/`) — Expect: `code-search` +
    `svelte5-best-practices` (Tier 1), `orqa-store-patterns` + `orqa-store-orchestration` +
-   `orqa-composability` (Tier 2)
+   `composability` (Tier 2)
 
 3. **Governance task** (scope: `.orqa/`) — Expect: `code-search` + `planning` (Tier 1),
-   `orqa-governance` + `orqa-composability` (Tier 2)
+   `orqa-governance` + `composability` (Tier 2)
 
 ## How
 

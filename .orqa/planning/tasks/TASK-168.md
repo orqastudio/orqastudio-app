@@ -2,7 +2,7 @@
 id: TASK-168
 title: "Frontend: Client-side sorting, filtering, and grouping logic"
 description: Implement the ArtifactViewState store integration and client-side sort/filter/group logic that transforms the DocNode array based on user selections.
-status: todo
+status: done
 created: "2026-03-11"
 updated: "2026-03-11"
 epic: EPIC-005

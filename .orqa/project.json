@@ -60,9 +60,9 @@
     },
     { "key": "governance",
       "children": [
-        { "key": "lessons", "path": ".orqa/governance/lessons" },
         { "key": "decisions", "path": ".orqa/governance/decisions" },
         { "key": "rules", "path": ".orqa/governance/rules" },
+        { "key": "lessons", "path": ".orqa/governance/lessons" },
         { "key": "hooks", "path": ".orqa/governance/hooks" }
       ]
     },

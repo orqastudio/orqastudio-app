@@ -27,7 +27,7 @@ acceptance:
 | skills-maintenance | canon | Platform lifecycle |
 | architecture | canon | Portable architecture patterns |
 | uat-process | canon | Platform testing methodology |
-| orqa-composability | canon | Platform design philosophy |
+| composability | canon | Platform design philosophy |
 | svelte5-best-practices | canon | Portable technology skill |
 | typescript-advanced-types | canon | Portable technology skill |
 | tailwind-design-system | canon | Portable technology skill |

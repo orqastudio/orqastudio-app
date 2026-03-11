@@ -107,7 +107,7 @@ The orchestrator assigns a risk level at task start. The review gate matches the
 
 - [ ] All changes committed with a descriptive commit message
 - [ ] Session state written to `tmp/session-state.md` (tasks completed, verification results, next steps)
-- [ ] If Rust backend changes: orchestrator offers to run `make restart` (single atomic command — see `dogfood-mode.md`)
+- [ ] If Rust backend changes: orchestrator offers to run `make restart-tauri` (Vite stays alive — see `dogfood-mode.md`)
 
 ### Worktree Cleanup
 

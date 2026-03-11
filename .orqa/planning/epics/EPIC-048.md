@@ -246,7 +246,7 @@ This protects production governance data during development. The skill reference
 | [TASK-078](TASK-078) | Markdown cross-linking in MarkdownRenderer | ui/lib/components/shared/ |
 | [TASK-079](TASK-079) | File watcher for .orqa/ with graph rebuild and event emission | src-tauri/src/ |
 | [TASK-080](TASK-080) | Write Artifact Graph SDK documentation | .orqa/documentation/development/ |
-| [TASK-081](TASK-081) | Create plugin-development skill (new project + seed data approach) | .orqa/team/skills/ |
+| [TASK-081](TASK-081) | Create orqa-plugin-development skill (new project + seed data approach) | .orqa/team/skills/ |
 
 ## Dependency Chain
 

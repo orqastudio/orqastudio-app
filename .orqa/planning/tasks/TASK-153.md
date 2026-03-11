@@ -9,7 +9,7 @@ epic: EPIC-049
 depends-on:
   - TASK-152
 scope:
-  - Create a schema-compliance skill covering validation methodology, common violations, and remediation patterns
+  - Create a orqa-schema-compliance skill covering validation methodology, common violations, and remediation patterns
   - Design a validation tool (Tauri command or script) that scans all artifacts for schema compliance on demand
   - Tool reports all violations across the entire .orqa/ directory in one pass
   - Includes propertyOrder enforcement — flags fields out of schema-defined order
@@ -27,7 +27,7 @@ Schema validation currently only runs at commit time (pre-commit hook). Agents a
 
 ## How
 
-1. Create `.orqa/team/skills/schema-compliance/SKILL.md` covering: schema discovery (how schemas map to directories), common violation patterns (missing required fields, invalid enums, malformed IDs, field ordering violations, missing body sections), remediation patterns, and how to use the validation tools
+1. Create `.orqa/team/skills/orqa-schema-compliance/SKILL.md` covering: schema discovery (how schemas map to directories), common violation patterns (missing required fields, invalid enums, malformed IDs, field ordering violations, missing body sections), remediation patterns, and how to use the validation tools
 2. Create or enhance a validation script (Node.js with ajv) that walks all `.orqa/` directories, discovers `schema.json` files, validates every `.md` file against its schema, and reports all violations
 3. Design the output format: grouped by violation type, with file path, field name, expected vs actual value
 4. Plan a Tauri command wrapper so the app can surface compliance status in the dashboard
