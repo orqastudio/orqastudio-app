@@ -185,6 +185,7 @@ Surface the graph's cross-reference data in the viewer:
 
 - `ArtifactSearchOverlay.svelte` — Spotlight-style floating modal with search input + results area
 - Centred overlay that doesn't replace panel content — current context preserved
+- Search input auto-focused on open — user can start typing immediately
 - Keyboard shortcut: Ctrl+Space (Cmd+Space on macOS if available)
 - Add Search icon to ActivityBar bottom section (above Settings) as alternative trigger
 - Search query sent to AI provider with system prompt including artifact graph summary
