@@ -5,6 +5,7 @@
 	import XIcon from "@lucide/svelte/icons/x";
 	import PlayIcon from "@lucide/svelte/icons/play";
 	import * as Card from "$lib/components/ui/card";
+	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import { Button } from "$lib/components/ui/button";
 	import SmallBadge from "$lib/components/shared/SmallBadge.svelte";
 	import type { BadgeVariant } from "$lib/components/ui/badge";
@@ -175,11 +176,13 @@
 						<p class="mb-1 text-xs font-medium text-muted-foreground uppercase">
 							Content preview
 						</p>
+						<ScrollArea class="max-h-48 rounded-md bg-muted p-3">
 						<pre
-							class="max-h-48 overflow-y-auto rounded-md bg-muted p-3 font-mono text-xs whitespace-pre-wrap"
+							class="font-mono text-xs whitespace-pre-wrap"
 						>{recommendation.content.slice(0, 800)}{recommendation.content.length > 800
 								? "\n..."
 								: ""}</pre>
+					</ScrollArea>
 					</div>
 				</div>
 			{/if}

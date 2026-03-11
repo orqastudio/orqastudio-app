@@ -2,6 +2,7 @@
 	import CopyIcon from "@lucide/svelte/icons/copy";
 	import CheckIcon from "@lucide/svelte/icons/check";
 	import { Badge } from "$lib/components/ui/badge";
+	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import { Highlight, type LanguageType } from "svelte-highlight";
 	import bash from "svelte-highlight/languages/bash";
 	import rust from "svelte-highlight/languages/rust";
@@ -67,7 +68,7 @@
 			{/if}
 		</button>
 	</div>
-	<div class="codeblock-highlight overflow-x-auto text-sm [&_pre]:!bg-transparent [&_pre]:!p-1 [&_pre]:!my-0 [&_code]:!bg-transparent">
+	<ScrollArea orientation="horizontal" class="codeblock-highlight text-sm [&_pre]:!bg-transparent [&_pre]:!p-1 [&_pre]:!my-0 [&_code]:!bg-transparent">
 		<Highlight language={resolvedLang} code={text} />
-	</div>
+	</ScrollArea>
 </div>

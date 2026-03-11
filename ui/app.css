@@ -161,22 +161,4 @@
   [role="button"][aria-disabled="true"] {
     cursor: not-allowed;
   }
-
-  /* Themed scrollbars */
-  ::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--border);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--muted-foreground);
-  }
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
 }

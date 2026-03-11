@@ -5,6 +5,7 @@
 	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
 	import { Button } from "$lib/components/ui/button";
 	import * as Card from "$lib/components/ui/card";
+	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import GovernanceScanPanel from "./GovernanceScanPanel.svelte";
@@ -119,7 +120,8 @@
 			</Card.Header>
 
 			<!-- Body -->
-			<Card.Content class="max-h-[55vh] overflow-y-auto p-4">
+			<Card.Content class="max-h-[55vh] p-4">
+				<ScrollArea class="h-full">
 				{#if governanceStore.error}
 					<ErrorDisplay
 						message={governanceStore.error}
@@ -216,6 +218,7 @@
 						</p>
 					</div>
 				{/if}
+				</ScrollArea>
 			</Card.Content>
 
 			<!-- Footer -->

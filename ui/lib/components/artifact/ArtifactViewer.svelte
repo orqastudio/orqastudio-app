@@ -5,6 +5,7 @@
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
+	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
@@ -187,7 +188,7 @@
 	{:else if content}
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
-		<div class="min-h-0 flex-1 overflow-y-auto" onclick={handleContentClick}>
+		<ScrollArea class="min-h-0 flex-1" onclick={handleContentClick}>
 			<div class="p-6">
 				{#if fileExtension === "sh"}
 					<HookViewer {content} />
@@ -213,7 +214,7 @@
 					<MarkdownRenderer content={content} />
 				{/if}
 			</div>
-		</div>
+		</ScrollArea>
 	{:else}
 		<div class="flex flex-1 items-center justify-center text-sm text-muted-foreground">
 			Select an artifact to view its contents
