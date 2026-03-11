@@ -40,8 +40,9 @@ This pillar governs features that:
 
 ## Relationship to Pillar 1
 
-This pillar depends on Pillar 1 (Clarity Through Structure). The learning loop operates on structured, visible governance artifacts. If the artifacts aren't structured and visible, there's nothing for the reflection process to improve. This is why Pillar 1 has higher priority in conflict resolution.
+This pillar complements Pillar 1 (Clarity Through Structure). The learning loop operates on structured, visible governance artifacts — if artifacts aren't structured and visible, there is nothing for the reflection process to improve. The two pillars are deeply intertwined in practice.
 
 ## Conflict Resolution
 
+Pillars are equal in importance. When this pillar appears to conflict with Pillar 1 (Clarity Through Structure), the conflict should be flagged to the user for resolution rather than one pillar automatically winning. Agents do not prioritise one pillar over another unilaterally.
 

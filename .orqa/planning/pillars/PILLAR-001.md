@@ -39,4 +39,4 @@ This pillar governs features that:
 
 ## Conflict Resolution
 
-When this pillar conflicts with Pillar 2 (Learning Through Reflection), this pillar takes priority. You cannot improve a process that isn't visible and structured. Governance must be solid before the learning loop can meaningfully operate on it.
+Pillars are equal in importance. When this pillar appears to conflict with Pillar 2 (Learning Through Reflection), the conflict should be flagged to the user for resolution rather than one pillar automatically winning. Agents do not prioritise one pillar over another unilaterally.

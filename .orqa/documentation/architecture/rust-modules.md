@@ -171,7 +171,7 @@ Note on dependencies: `tool_executor.rs` and `stream_loop.rs` import `AppState` 
 
 ### `sidecar/`
 
-Process lifecycle management for the Agent SDK sidecar. Uses `std::process::Command` (not `tauri-plugin-shell`) for process spawning. `SidecarManager` uses interior mutability with per-field Mutex locks. The NDJSON protocol in `protocol.rs` handles stdin/stdout framing. `types.rs` defines `SidecarRequest` (6 variants) and `SidecarResponse` (14 variants).
+Process lifecycle management for the Agent SDK sidecar. Uses `std::process::Command` (not `tauri-plugin-shell`) for process spawning. `SidecarManager` uses interior mutability with per-field Mutex locks. The NDJSON protocol in `protocol.rs` handles stdin/stdout framing. `types.rs` defines `SidecarRequest` (6 variants) and `SidecarResponse` (15 variants).
 
 ### `search/`
 

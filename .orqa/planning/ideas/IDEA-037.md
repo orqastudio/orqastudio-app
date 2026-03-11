@@ -8,7 +8,9 @@ updated: "2026-03-10"
 pillars:
   - PILLAR-001
   - PILLAR-002
-research-needed: []
+research-needed:
+  - "Inter-artifact linking design (RES-033)"
+  - "Graph SDK design (RES-034)"
 promoted-to: EPIC-048
 ---
 ## Motivation

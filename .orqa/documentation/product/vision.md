@@ -275,12 +275,12 @@ Learning Through Reflection answers the question: *"Is this work getting better 
 
 ### Pillar Relationship
 
-The two pillars are complementary and sequential:
+The two pillars are complementary and deeply intertwined:
 
 - **Clarity Through Structure** provides the foundation — you cannot improve a process that isn't visible and structured
 - **Learning Through Reflection** operates on that foundation — structured artifacts can be measured, compared, and evolved
 
-When pillars conflict, the pillar with the lower `priority` number in its frontmatter takes precedence. Currently, Clarity Through Structure (priority: 1) takes precedence over Learning Through Reflection (priority: 2).
+The pillars are equal in importance. When they appear to conflict, the conflict is flagged to the user for resolution rather than one pillar automatically taking precedence. See the pillar artifacts in `.orqa/planning/pillars/` for authoritative conflict resolution guidance.
 
 ---
 

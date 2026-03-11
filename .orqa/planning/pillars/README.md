@@ -16,7 +16,6 @@ Each pillar defines:
 
 - **Title and description** — What the principle means
 - **Test questions** — Concrete questions to evaluate whether work serves this pillar
-- **Priority** — Conflict resolution order (lower number = higher priority)
 
 When evaluating a feature, read each active pillar's test questions. If the feature can answer "yes" to at least one question from at least one pillar, it passes.
 
@@ -31,7 +30,7 @@ active ←→ inactive
 
 ## Conflict Resolution
 
-When pillars conflict, the pillar with the lower `priority` number takes precedence. This ordering is project-configurable.
+Pillars are equal in importance. When pillars appear to conflict, the conflict is flagged to the user for resolution — no pillar automatically takes precedence over another.
 
 ## Creating a Pillar
 

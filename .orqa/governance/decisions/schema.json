@@ -21,7 +21,13 @@
       "type": "array",
       "items": { "type": "string", "pattern": "^RES-\\d+$" }
     },
-    "supersedes": { "type": ["string", "null"], "pattern": "^AD-\\d+$" },
+    "supersedes": {
+      "oneOf": [
+        { "type": "null" },
+        { "type": "string", "pattern": "^AD-\\d+$" },
+        { "type": "array", "items": { "type": "string", "pattern": "^AD-\\d+$" }, "minItems": 1 }
+      ]
+    },
     "superseded-by": { "type": ["string", "null"], "pattern": "^AD-\\d+$" }
   },
   "bodyTemplate": {
