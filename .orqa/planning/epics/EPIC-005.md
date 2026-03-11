@@ -151,38 +151,37 @@ Surface the graph's cross-reference data in the viewer:
 
 ## Implementation Design
 
-### Phase 1: `_navigation.json` + Sort/Group/Filter Toolbar
+### Phase 1: Schema-Driven Sort/Group/Filter Toolbar + `_navigation.json`
 
 **Backend:**
-- Extend the artifact scanner to read `_navigation.json` from each artifact type directory
-- Include navigation config in the `NavType` struct returned to the frontend
-- No new Tauri commands needed — data flows through the existing `artifact_scan_tree` response
+- Extend DocNode to carry all scalar frontmatter fields
+- Read each type's `schema.json` — extract enum fields as `filterable_fields` and date/string fields as `sortable_fields` on NavType
+- Read `_navigation.json` from each type directory — include as `navigation_config` on NavType
+- No new Tauri commands — data flows through the existing `artifact_scan_tree` response
 
 **Frontend — Toolbar:**
 - Replace `SearchInput` in `ArtifactNav` with `ArtifactToolbar.svelte` — fixed `h-10` bar
-- Two icon buttons: `FilterIcon` and `ArrowUpDownIcon` from Lucide
-- Each opens a `DropdownMenu` (shadcn) with rich content
+- Two ghost icon buttons: `ArrowUpDownIcon` (sort) and `FilterIcon` (filter)
 - Active state indicators on icons when non-default sort/filter is applied
 
-**Frontend — Filter dropdown:**
-- Sectioned layout using `DropdownMenu.Group` + `DropdownMenu.GroupHeading`
-- `DropdownMenu.CheckboxItem` for each filter value
-- Count badges derived from scanning the current node list
-- Sections dynamically built from available frontmatter fields in the current artifact type's nodes
+**Frontend — Filter panel (Popover):**
+- Sections generated dynamically from NavType's `filterable_fields` (schema enum properties)
+- Each section: heading + checkbox rows for each enum value
+- Visual decorators by field name: status dots for `status`, priority colours for `priority`
 
-**Frontend — Sort dropdown:**
-- `DropdownMenu.RadioGroup` with `DropdownMenu.RadioItem` for each sort option
-- Check icon on active sort
+**Frontend — Sort dropdown (DropdownMenu):**
+- Sort options from NavType's `sortable_fields` plus universal fields (title)
+- Group-by options from `filterable_fields` (enum fields)
+- Collapsible group headers replace tree rendering
 
 **Frontend — State:**
-- `ArtifactViewState` type: `{ sort: SortConfig; filters: FilterConfig; group: string | null }`
-- Defaults loaded from `_navigation.json` via the NavType response
-- User overrides stored in navigation store per artifact type key
-- Sorting/filtering applied client-side on the DocNode array before rendering
+- `ArtifactViewState`: `{ sort: SortConfig; filters: FilterConfig; group: string | null }`
+- Defaults from `_navigation.json` → user overrides in navigation store per type key
+- Client-side sorting/filtering/grouping on the DocNode array
 
-**Frontend — Custom layout mode:**
-- When `_navigation.json` has `layout` instead of `defaults`, ArtifactNav renders sections from the layout config instead of the standard sorted/filtered list
-- Toolbar shows a "book" icon indicator instead of sort/filter controls
+**Frontend — Tree mode removal + custom layout:**
+- Remove tree rendering — all types render as flat lists with optional collapsible groups
+- When `_navigation.json` has `layout`, render curated sections instead of sort/filter
 
 ### Phase 2: References Panel
 
