@@ -1,7 +1,7 @@
 ---
 id: EPIC-005
 title: Artifact Browser — Sort, Filter, Search, Edit
-description: Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and in-app artifact editing. Absorbs EPIC-004 (editing UI).
+description: Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and in-app artifact editing. Absorbs [EPIC-004](EPIC-004) (editing UI).
 status: draft
 priority: P1
 created: "2026-03-07"
@@ -28,7 +28,7 @@ The core app's job is to let users **navigate, search, and edit** artifacts ([AD
 
 ## What's Already Done
 
-Previous work (EPIC-043, EPIC-044, and prior phases of this epic) delivered:
+Previous work ([EPIC-043](EPIC-043), [EPIC-044](EPIC-044), and prior phases of this epic) delivered:
 
 - **Config-driven sidebar navigation** — ActivityBar, ArtifactNav, GroupSubPanel
 - **Navigation store** with `navigateToArtifact(id)` and `navigateToPath(path)`
@@ -42,7 +42,7 @@ Previous work (EPIC-043, EPIC-044, and prior phases of this epic) delivered:
 
 ## Context
 
-The core app's job is to let users navigate, search, and edit artifacts. Navigation and cross-linking are built. This epic completes the remaining core capabilities: sorting/filtering the artifact list, AI-driven semantic search, in-app editing, and a references panel. It absorbs EPIC-004 (editing UI) to consolidate all remaining artifact interaction work. The architecture decision [AD-033](AD-033) establishes that all system-level visualizations (roadmaps, dashboards, kanban) are plugin territory — the core app stays focused on these three capabilities.
+The core app's job is to let users navigate, search, and edit artifacts. Navigation and cross-linking are built. This epic completes the remaining core capabilities: sorting/filtering the artifact list, AI-driven semantic search, in-app editing, and a references panel. It absorbs [EPIC-004](EPIC-004) (editing UI) to consolidate all remaining artifact interaction work. The architecture decision [AD-033](AD-033) establishes that all system-level visualizations (roadmaps, dashboards, kanban) are plugin territory — the core app stays focused on these three capabilities.
 
 ## Design Principles
 
@@ -124,12 +124,12 @@ Search is NOT in the artifact browser panel. It is a **global project search** i
 - **Opens a search panel** — full-width panel (replaces the explorer content area) with a prominent search input
 - **AI query routing** — search query sent to the AI with artifact graph context as system prompt
 - **Structured results** — AI returns artifact IDs with relevance explanations, rendered as a navigable list with ArtifactLink chips
-- **Examples**: "what's blocking the next milestone", "show me all rules about error handling", "which tasks depend on EPIC-005"
+- **Examples**: "what's blocking the next milestone", "show me all rules about error handling", "which tasks depend on [EPIC-005](EPIC-005)"
 - **Keyboard shortcut** — Cmd+K / Ctrl+K opens search from anywhere
 
 The AI search builds on the existing artifact graph SDK — the AI has access to the full graph for context when answering queries.
 
-### 4. In-App Artifact Editing (absorbed from EPIC-004)
+### 4. In-App Artifact Editing (absorbed from [EPIC-004](EPIC-004))
 
 Edit artifacts without leaving the app:
 
@@ -144,8 +144,8 @@ Edit artifacts without leaving the app:
 
 Surface the graph's cross-reference data in the viewer:
 
-- **Incoming references** — "Referenced by: EPIC-048, TASK-163, RULE-004"
-- **Outgoing references** — "References: PILLAR-001, MS-001, RES-029"
+- **Incoming references** — "Referenced by: [EPIC-048](EPIC-048), [TASK-163](TASK-163), [RULE-004](RULE-004)"
+- **Outgoing references** — "References: [PILLAR-001](PILLAR-001), [MS-001](MS-001), [RES-029](RES-029)"
 - Rendered as ArtifactLink chips below the frontmatter header
 - Uses existing `referencesFrom()` and `referencesTo()` from the graph SDK
 
@@ -212,6 +212,6 @@ Surface the graph's cross-reference data in the viewer:
 
 ## Tasks
 
-- TASK-164: Audit artifact group README files for accuracy
+- [TASK-164](TASK-164): Audit artifact group README files for accuracy
 
 Full task breakdown to be created during planning.

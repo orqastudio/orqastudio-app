@@ -2,7 +2,7 @@
 id: EPIC-004
 title: Artifact Editing UI
 description: Build an editor component for governance artifacts, connecting existing backend CRUD commands to a CodeMirror-based editing UI. Absorbed into EPIC-005.
-status: done
+status: draft
 priority: P1
 created: "2026-03-07"
 updated: "2026-03-11"
