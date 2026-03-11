@@ -4,9 +4,9 @@ title: Implement skill injection in Rust enforcement engine
 description: |
   Add inject action handling to the Rust enforcement engine for use in the
   app's native enforcement pipeline.
-status: todo
+status: done
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-193

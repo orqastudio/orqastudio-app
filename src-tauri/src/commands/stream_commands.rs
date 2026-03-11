@@ -1042,27 +1042,130 @@ fn resolve_write_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
     Ok(candidate)
 }
 
+/// Result of running enforcement checks on a tool call.
+///
+/// Captures both blocking verdicts and skill injection content.
+struct EnforcementResult {
+    /// If set, the tool execution is blocked with this message.
+    block_message: Option<String>,
+    /// Skill content to inject into the agent's context.
+    ///
+    /// May be non-empty even when the tool is not blocked.
+    injected_content: Option<String>,
+}
+
+/// Strip YAML frontmatter from a markdown document.
+///
+/// If the content starts with `---`, everything up to and including the
+/// closing `---` line is removed. Returns the body content trimmed of
+/// leading whitespace.
+fn strip_frontmatter(content: &str) -> String {
+    if !content.starts_with("---") {
+        return content.to_string();
+    }
+    if let Some(end) = content[3..].find("\n---") {
+        content[3 + end + 4..].trim_start().to_string()
+    } else {
+        content.to_string()
+    }
+}
+
+/// Read a skill's SKILL.md file and return its body (frontmatter stripped).
+fn read_skill_content(project_dir: &Path, skill_name: &str) -> Option<String> {
+    let skill_path = project_dir
+        .join(".orqa")
+        .join("team")
+        .join("skills")
+        .join(skill_name)
+        .join("SKILL.md");
+    let content = std::fs::read_to_string(&skill_path).ok()?;
+    Some(strip_frontmatter(&content))
+}
+
+/// Collect and deduplicate skill content for Inject verdicts.
+///
+/// Reads each skill from disk, marks it as injected in the `WorkflowTracker`,
+/// and returns the combined content. Skills already injected this session are
+/// skipped.
+fn collect_injected_skills(
+    skills: &[String],
+    state: &tauri::State<'_, AppState>,
+    project_dir: &Path,
+) -> Option<String> {
+    if skills.is_empty() {
+        return None;
+    }
+
+    let mut tracker = match state.workflow_tracker.lock() {
+        Ok(t) => t,
+        Err(e) => {
+            tracing::warn!("[enforcement] workflow_tracker lock poisoned: {e}");
+            return None;
+        }
+    };
+
+    let mut parts: Vec<String> = Vec::new();
+    for skill in skills {
+        if !tracker.mark_skill_injected(skill) {
+            tracing::debug!("[enforcement] skill '{skill}' already injected, skipping");
+            continue;
+        }
+        match read_skill_content(project_dir, skill) {
+            Some(body) => {
+                tracing::debug!(
+                    "[enforcement] injecting skill '{skill}' ({} chars)",
+                    body.len()
+                );
+                parts.push(format!("## Skill: {skill}\n\n{body}"));
+            }
+            None => {
+                tracing::warn!("[enforcement] skill '{skill}' not found on disk, skipping");
+            }
+        }
+    }
+
+    if parts.is_empty() {
+        None
+    } else {
+        Some(parts.join("\n\n---\n\n"))
+    }
+}
+
 /// Run enforcement checks for a file write/edit tool call.
 ///
-/// Returns `Some((error_message, true))` if a Block verdict fires.
-/// Warn verdicts log but return `None` (execution continues).
+/// Returns an `EnforcementResult` with an optional block message and/or
+/// injected skill content.
 fn enforce_file(
     tool_name: &str,
     file_path: &str,
     new_text: &str,
     state: &tauri::State<'_, AppState>,
-) -> Option<(String, bool)> {
+    project_dir: &Path,
+) -> EnforcementResult {
     let guard = match state.enforcement.lock() {
         Ok(g) => g,
         Err(e) => {
             tracing::warn!("[enforcement] lock poisoned: {e}");
-            return None;
+            return EnforcementResult {
+                block_message: None,
+                injected_content: None,
+            };
         }
     };
 
-    let engine = guard.as_ref()?;
+    let engine = match guard.as_ref() {
+        Some(e) => e,
+        None => {
+            return EnforcementResult {
+                block_message: None,
+                injected_content: None,
+            }
+        }
+    };
 
     let verdicts = engine.evaluate_file(file_path, new_text);
+    let mut all_inject_skills: Vec<String> = Vec::new();
+
     for verdict in &verdicts {
         match verdict.action {
             RuleAction::Block => {
@@ -1070,13 +1173,13 @@ fn enforce_file(
                     "[enforcement] BLOCK tool={tool_name} rule='{}' file='{file_path}'",
                     verdict.rule_name
                 );
-                return Some((
-                    format!(
+                return EnforcementResult {
+                    block_message: Some(format!(
                         "Rule '{}' blocked this tool call.\n\n{}",
                         verdict.rule_name, verdict.message
-                    ),
-                    true,
-                ));
+                    )),
+                    injected_content: None,
+                };
             }
             RuleAction::Warn => {
                 tracing::warn!(
@@ -1089,30 +1192,55 @@ fn enforce_file(
                     "[enforcement] INJECT tool={tool_name} rule='{}' file='{file_path}' skills={:?}",
                     verdict.rule_name, verdict.skills
                 );
-                // Inject is non-blocking — execution continues; caller uses the skills list
+                all_inject_skills.extend(verdict.skills.clone());
             }
         }
     }
 
-    None
+    // Drop the enforcement lock before acquiring the workflow_tracker lock.
+    drop(guard);
+
+    let injected_content = collect_injected_skills(&all_inject_skills, state, project_dir);
+
+    EnforcementResult {
+        block_message: None,
+        injected_content,
+    }
 }
 
 /// Run enforcement checks for a bash tool call.
 ///
-/// Returns `Some((error_message, true))` if a Block verdict fires.
-/// Warn verdicts log but return `None` (execution continues).
-fn enforce_bash(command: &str, state: &tauri::State<'_, AppState>) -> Option<(String, bool)> {
+/// Returns an `EnforcementResult` with an optional block message and/or
+/// injected skill content.
+fn enforce_bash(
+    command: &str,
+    state: &tauri::State<'_, AppState>,
+    project_dir: &Path,
+) -> EnforcementResult {
     let guard = match state.enforcement.lock() {
         Ok(g) => g,
         Err(e) => {
             tracing::warn!("[enforcement] lock poisoned: {e}");
-            return None;
+            return EnforcementResult {
+                block_message: None,
+                injected_content: None,
+            };
         }
     };
 
-    let engine = guard.as_ref()?;
+    let engine = match guard.as_ref() {
+        Some(e) => e,
+        None => {
+            return EnforcementResult {
+                block_message: None,
+                injected_content: None,
+            }
+        }
+    };
 
     let verdicts = engine.evaluate_bash(command);
+    let mut all_inject_skills: Vec<String> = Vec::new();
+
     for verdict in &verdicts {
         match verdict.action {
             RuleAction::Block => {
@@ -1120,13 +1248,13 @@ fn enforce_bash(command: &str, state: &tauri::State<'_, AppState>) -> Option<(St
                     "[enforcement] BLOCK tool=bash rule='{}' command='{command}'",
                     verdict.rule_name
                 );
-                return Some((
-                    format!(
+                return EnforcementResult {
+                    block_message: Some(format!(
                         "Rule '{}' blocked this bash command.\n\n{}",
                         verdict.rule_name, verdict.message
-                    ),
-                    true,
-                ));
+                    )),
+                    injected_content: None,
+                };
             }
             RuleAction::Warn => {
                 tracing::warn!(
@@ -1140,38 +1268,50 @@ fn enforce_bash(command: &str, state: &tauri::State<'_, AppState>) -> Option<(St
                     verdict.rule_name,
                     verdict.skills
                 );
-                // Inject is non-blocking — execution continues; caller uses the skills list
+                all_inject_skills.extend(verdict.skills.clone());
             }
         }
     }
 
-    None
+    // Drop the enforcement lock before acquiring the workflow_tracker lock.
+    drop(guard);
+
+    let injected_content = collect_injected_skills(&all_inject_skills, state, project_dir);
+
+    EnforcementResult {
+        block_message: None,
+        injected_content,
+    }
 }
 
 /// Run enforcement checks for the given tool before execution.
 ///
-/// Returns `Some((error_message, true))` if a rule blocks the call, `None` to proceed.
+/// Returns an `EnforcementResult` with block/inject information.
 fn check_enforcement(
     tool_name: &str,
     input: &serde_json::Value,
     state: &tauri::State<'_, AppState>,
-) -> Option<(String, bool)> {
+    project_dir: &Path,
+) -> EnforcementResult {
     match tool_name {
         "write_file" => {
             let file_path = input["path"].as_str().unwrap_or("");
             let new_text = input["content"].as_str().unwrap_or("");
-            enforce_file(tool_name, file_path, new_text, state)
+            enforce_file(tool_name, file_path, new_text, state, project_dir)
         }
         "edit_file" => {
             let file_path = input["path"].as_str().unwrap_or("");
             let new_text = input["new_string"].as_str().unwrap_or("");
-            enforce_file(tool_name, file_path, new_text, state)
+            enforce_file(tool_name, file_path, new_text, state, project_dir)
         }
         "bash" => {
             let command = input["command"].as_str().unwrap_or("");
-            enforce_bash(command, state)
+            enforce_bash(command, state, project_dir)
         }
-        _ => None,
+        _ => EnforcementResult {
+            block_message: None,
+            injected_content: None,
+        },
     }
 }
 
@@ -1203,11 +1343,13 @@ fn execute_tool(
         }
     };
 
-    if let Some(blocked) = check_enforcement(tool_name, &input, state) {
-        return blocked;
+    let enforcement = check_enforcement(tool_name, &input, state, &root);
+
+    if let Some(msg) = enforcement.block_message {
+        return (msg, true);
     }
 
-    let (output, is_error) = match tool_name {
+    let (mut output, is_error) = match tool_name {
         "read_file" => tool_read_file(&input, &root),
         "write_file" => tool_write_file(&input, &root),
         "edit_file" => tool_edit_file(&input, &root),
@@ -1220,6 +1362,17 @@ fn execute_tool(
         "load_skill" => tool_load_skill(&input, &root),
         _ => (format!("unknown tool: {tool_name}"), true),
     };
+
+    // Prepend injected skill content to the tool output so the agent
+    // receives the relevant skill knowledge alongside the tool result.
+    if let Some(content) = enforcement.injected_content {
+        output = format!(
+            "[Enforcement: the following skills have been loaded for context]\n\n\
+             {content}\n\n\
+             [End of injected skills]\n\n\
+             {output}"
+        );
+    }
 
     tracing::debug!(
         "[tool] result: is_error={is_error} output_len={} first_100={}",
