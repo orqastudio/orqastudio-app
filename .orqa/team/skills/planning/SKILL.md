@@ -9,7 +9,7 @@ status: active
 created: "2026-03-01"
 updated: "2026-03-10"
 layer: canon
-allowed-tools: Read, Glob, Grep, mcp__MCP_DOCKER__fetch, mcp__MCP_DOCKER__search
+allowed-tools: Read, Glob, Grep
 ---
 
 

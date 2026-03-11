@@ -84,7 +84,7 @@ if [ -f ".orqa/project.json" ]; then
 fi
 
 echo "SESSION START CHECKLIST:"
-echo "- Read TODO.md for current tasks"
-echo "- Check BLOCKERS.md for known issues"
+echo "- Check .orqa/planning/tasks/ for current tasks"
+echo "- Check .orqa/planning/epics/ for active epics"
 echo "- Embeddings server needed for ChunkHound: ensure localhost:11435 is running"
 echo ""

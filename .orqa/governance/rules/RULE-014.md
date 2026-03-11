@@ -1,7 +1,7 @@
 ---
 id: RULE-014
 title: Historical Artifact Preservation
-description: Documentation is deleted when outdated. Research, plans, and tasks are preserved and marked as surpassed for historical traceability.
+description: Documentation is deleted when outdated. Research and tasks are preserved and marked as surpassed for historical traceability.
 status: active
 created: "2026-03-07"
 updated: "2026-03-07"
@@ -23,7 +23,7 @@ This applies to:
 - UI specs (`.orqa/documentation/ui/`)
 - Wireframes (`.orqa/documentation/wireframes/`)
 
-### Planning & Research Artifacts (PRESERVE, mark as surpassed)
+### Research & Task Artifacts (PRESERVE, mark as surpassed)
 
 Research and tasks are historical records of thinking, investigation, and decisions. They have lasting value for understanding *why* the project evolved the way it did. When they are no longer current, they are marked as `status: surpassed` — never deleted.
 

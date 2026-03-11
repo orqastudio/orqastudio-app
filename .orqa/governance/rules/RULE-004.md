@@ -29,7 +29,7 @@ Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enf
 | A strategic goal is defined | `MS-NNN` | Create in `.orqa/planning/milestones/` |
 | An implementation reveals a reusable pattern | `IMPL-NNN` | Create in `.orqa/governance/lessons/` (see [RULE-017](RULE-017) (lessons-learned)) |
 | A question needs investigation before a decision | Research file | Create in `.orqa/planning/research/` |
-| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/governance/decisions/`, add entry to `.orqa/documentation/architecture/decisions.md` index |
+| Research produces an architectural choice | `AD-NNN` | Create in `.orqa/governance/decisions/` |
 
 ### ID Assignment
 
@@ -271,7 +271,7 @@ The orchestrator SHOULD periodically verify:
 - Leaving `promoted-to` null on an idea with `status: promoted`
 - Creating duplicate IDs (two artifacts with the same ID)
 - Modifying artifact IDs after creation
-- Recording an architecture decision only in `.orqa/documentation/architecture/decisions.md` without a corresponding `AD-NNN.md` file in `.orqa/governance/decisions/`
+- Recording an architecture decision without a corresponding `AD-NNN.md` file in `.orqa/governance/decisions/`
 - Updating one side of a decision supersession without updating the other
 - Using process words (UAT, Phase, Sprint, Round, Audit) in epic titles unless they describe the actual deliverable content — epic titles describe what is achieved, not how work is organised
 

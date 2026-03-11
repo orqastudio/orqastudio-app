@@ -1,5 +1,5 @@
 ---
-id: SKILL-038
+id: SKILL-039
 title: Schema Compliance
 description: |
   Schema compliance validation methodology: schema discovery, common violation

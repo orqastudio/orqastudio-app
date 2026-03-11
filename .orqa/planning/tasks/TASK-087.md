@@ -2,7 +2,7 @@
 id: TASK-087
 title: Audit hooks for correctness
 description: Verify all hook scripts in .orqa/governance/hooks/ exist, are executable, reference correct paths, and function as intended.
-status: todo
+status: done
 created: "2026-03-11"
 updated: "2026-03-11"
 epic: EPIC-049

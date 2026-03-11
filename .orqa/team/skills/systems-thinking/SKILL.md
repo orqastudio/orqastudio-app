@@ -1,6 +1,10 @@
 ---
+id: SKILL-040
 title: Systems Thinking
 description: Practical methodology for applying systems thinking to codebases — identifying systems, mapping boundaries, tracing relationships, finding patterns, and discovering the uniform base.
+status: active
+created: "2026-03-11"
+updated: "2026-03-11"
 layer: canon
 scope: general
 user-invocable: true

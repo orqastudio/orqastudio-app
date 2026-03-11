@@ -47,7 +47,7 @@ The following page categories are exempt because they define or govern the pilla
 | Development guidelines | Coding standards, agentic workflow, library guides | Internal process docs |
 | Pillar definitions | `.orqa/planning/pillars/` | These ARE the pillars |
 | High-level overview pages | `.orqa/documentation/product/vision.md`, `.orqa/documentation/product/governance.md` | These reference the pillars |
-| Architecture decisions log | `.orqa/documentation/architecture/decisions.md` | Individual decisions already have context |
+| Architecture decisions | `.orqa/governance/decisions/` | Individual decisions already have context |
 
 ## Alignment Descriptions
 
