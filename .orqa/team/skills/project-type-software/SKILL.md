@@ -14,6 +14,7 @@ version: 1.0.0
 user-invocable: true
 ---
 
+> **Forward-looking:** This skill will be activated when project initialisation and software project type support are implemented. See [EPIC-045](EPIC-045) and [EPIC-047](EPIC-047) for context.
 
 Adds software development governance to a base OrqaStudio setup. This is a project type preset — it layers development-specific rules, skills, and documentation templates on top of the canon governance foundation.
 

@@ -49,4 +49,7 @@ The project root must stay lean. Every file in root must have a justification.
 
 ## Related Rules
 
+- [RULE-003](RULE-003) (artifact-config-integrity) — config paths in `project.json` must match actual disk structure; root directory discipline keeps that structure predictable
+- [RULE-007](RULE-007) (development-commands) — `make` targets reference root-level config files (`Cargo.toml`, `package.json`, etc.) whose placement this rule governs
+- [RULE-013](RULE-013) (git-workflow) — `.gitignore` and `.gitattributes` belong in root per this rule; `tmp/` is gitignored to keep temporary files out of commits
 

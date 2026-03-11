@@ -37,4 +37,8 @@ scope: project
 
 ## Related Rules
 
+- [RULE-022](RULE-022) (plan-mode-compliance) — plans must include an architectural compliance section verifying all decisions
+- [RULE-008](RULE-008) (documentation-first) — architecture decisions ARE documentation; this rule defines their source of truth
+- [RULE-031](RULE-031) (vision-alignment) — decisions implement the foundational principles; this rule governs their creation and compliance
+- [RULE-010](RULE-010) (end-to-end-completeness) — decisions define the layer requirements (IPC boundary, component purity, type safety) that every feature must satisfy
 

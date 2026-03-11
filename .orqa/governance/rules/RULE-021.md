@@ -84,4 +84,7 @@ Place the Pillar Alignment section near the bottom of the page, after the main c
 
 ## Related Rules
 
+- [RULE-031](RULE-031) (vision-alignment) — governs pillar alignment for features and implementation; this rule extends the same requirement to documentation pages
+- [RULE-008](RULE-008) (documentation-first) — documentation is the source of truth; this rule ensures docs remain aligned with the product vision
+- [RULE-004](RULE-004) (artifact-lifecycle) — documentation gates on epics (`docs-required`, `docs-produced`) produce pages that must include pillar alignment sections
 

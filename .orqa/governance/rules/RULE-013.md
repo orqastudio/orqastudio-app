@@ -128,4 +128,8 @@ If pre-commit hooks fail, it's YOUR responsibility to fix the issues.
 
 ## Related Rules
 
+- [RULE-007](RULE-007) (development-commands) — `make dev` and `make restart` commands that interact with the worktree lifecycle
+- [RULE-012](RULE-012) (error-ownership) — pre-commit hook enforcement; `--no-verify` is forbidden under both rules
+- [RULE-006](RULE-006) (coding-standards) — defines the quality checks the pre-commit hook enforces; commits must be clean
+- [RULE-009](RULE-009) (dogfood-mode) — restart protocol and session-ending behavior that intersects with commit discipline
 

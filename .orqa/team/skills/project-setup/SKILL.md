@@ -15,6 +15,7 @@ version: 1.0.0
 user-invocable: true
 ---
 
+> **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.
 
 Creates the base governance structure for any project. This skill is domain-agnostic — it sets up the infrastructure that all project types share. Domain-specific rules and skills are added by project type presets (e.g., `project-type-software`).
 

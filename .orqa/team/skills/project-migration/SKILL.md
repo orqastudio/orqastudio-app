@@ -15,6 +15,7 @@ version: 1.0.0
 user-invocable: true
 ---
 
+> **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.
 
 Maps existing agentic tool configurations into OrqaStudio's governance structure. OrqaStudio coexists with other tools — it doesn't replace them. Migration creates the bridge between OrqaStudio's structured governance and each tool's native configuration format.
 

@@ -14,6 +14,8 @@ version: 1.0.0
 user-invocable: true
 ---
 
+> **Forward-looking:** This skill will be activated when the plugin system is implemented. See [IDEA-038](IDEA-038) for context.
+
 Guide the AI in building OrqaStudio plugins. Plugins are standalone projects that extend
 OrqaStudio with custom views, dashboards, and visualisations built on the Artifact Graph SDK.
 

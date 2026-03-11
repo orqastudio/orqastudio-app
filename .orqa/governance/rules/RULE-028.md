@@ -56,3 +56,9 @@ If you find yourself writing `if (type === "X") { ... } else if (type === "Y") {
 - Code reviews that find special-case handling where a general pattern exists are a FAIL
 - The orchestrator must ask "what is the system here?" before delegating any implementation task
 - Agents must describe the system they are modifying in their completion reports
+
+## Related Rules
+
+- [RULE-022](RULE-022) (plan-mode-compliance) — plans must describe the system being modified; the Systems Architecture Checklist operationalises this principle
+- [RULE-010](RULE-010) (end-to-end-completeness) — full-stack thinking is systems thinking applied to the four-layer feature structure
+- [RULE-009](RULE-009) (dogfood-mode) — heightened systems awareness applies when editing the app you are running inside, as changes affect the live system

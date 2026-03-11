@@ -15,6 +15,7 @@ version: 1.0.0
 user-invocable: true
 ---
 
+> **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.
 
 Analyses a project's folder structure and configuration files to infer its characteristics. The output is a structured project profile that other setup skills use to make decisions.
 

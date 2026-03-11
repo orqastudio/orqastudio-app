@@ -490,7 +490,7 @@ git worktree remove ../orqa-<task-name>
 
 ## Skills (Three-Tier Model)
 
-**Tier 1 — Role Skills** (declared in agent YAML, loaded automatically):
+**Tier 1 — Universal Skills** (every agent loads these regardless of task — universal principles that apply across all domains and projects):
 
 | Skill | When to Load |
 |-------|-------------|
@@ -498,20 +498,18 @@ git worktree remove ../orqa-<task-name>
 | `orqa-composability` | **ALWAYS** — mandatory composability philosophy |
 | `planning` | When breaking down features or creating plans |
 | `architecture` | When working on architecture decisions |
-| `svelte5-best-practices` | When working on Svelte 5 components |
-| `typescript-advanced-types` | When working on TypeScript |
-| `tailwind-design-system` | When working on styling |
-| `rust-async-patterns` | When working on Rust backend |
-| `tauri-v2` | When working on Tauri commands |
 
-**Tier 2 — Project Skills** (injected by orchestrator based on task scope):
+**Tier 2 — Project Skills** (injected by orchestrator based on task scope — tech-stack-specific knowledge loaded only when the task touches the relevant layer):
 
 | Task Scope | Injected Skills |
 |-----------|----------------|
+| `src-tauri/` (any Rust backend work) | `rust-async-patterns`, `tauri-v2` |
 | `src-tauri/src/commands/` | `orqa-ipc-patterns`, `orqa-error-composition` |
 | `src-tauri/src/domain/` | `orqa-domain-services`, `orqa-error-composition` |
 | `src-tauri/src/repo/`, `db.rs` | `orqa-repository-pattern` |
 | `sidecar/src/` | `orqa-streaming` |
+| `ui/` (any frontend work) | `svelte5-best-practices`, `typescript-advanced-types` |
+| `ui/` (styling work) | `tailwind-design-system` |
 | `ui/lib/stores/` | `orqa-store-patterns`, `orqa-store-orchestration` |
 | `.orqa/` | `orqa-governance`, `orqa-documentation` |
 | Test work | `orqa-testing` |
