@@ -14,7 +14,6 @@ blocks: []
 docs-required: []
 docs-produced:
   - DOC-024
-  - DOC-001
 scoring:
   pillar: 2
   impact: 5

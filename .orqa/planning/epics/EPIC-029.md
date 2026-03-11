@@ -16,7 +16,10 @@ depends-on:
 blocks:
   - EPIC-030
 docs-required:
-  - DOC-001
+  - AD-001
+  - AD-002
+  - AD-003
+  - AD-007
 docs-produced: []
 scoring:
   pillar: 3

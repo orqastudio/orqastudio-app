@@ -14,7 +14,6 @@ docs-required:
   - DOC-009
 docs-produced:
   - DOC-009
-  - DOC-001
 scoring:
   pillar: 2
   impact: 2

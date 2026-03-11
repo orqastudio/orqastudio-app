@@ -17,7 +17,17 @@ blocks:
   - EPIC-030
 docs-required: []
 docs-produced:
-  - DOC-001
+  - AD-007
+  - AD-008
+  - AD-009
+  - AD-010
+  - AD-011
+  - AD-012
+  - AD-013
+  - AD-014
+  - AD-015
+  - AD-016
+  - AD-017
 scoring:
   pillar: 5
   impact: 5

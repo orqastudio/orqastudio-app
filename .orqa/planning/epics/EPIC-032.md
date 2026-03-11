@@ -18,7 +18,9 @@ docs-required:
 docs-produced:
   - DOC-036
   - DOC-025
-  - DOC-001
+  - AD-021
+  - AD-022
+  - AD-023
 scoring:
   dogfood-value: 5
   foundation: 5

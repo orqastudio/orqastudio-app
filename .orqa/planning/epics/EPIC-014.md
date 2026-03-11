@@ -16,7 +16,8 @@ docs-required:
   - DOC-009
 docs-produced:
   - DOC-009
-  - DOC-001
+  - AD-029
+  - AD-030
 scoring:
   pillar: 4
   impact: 5

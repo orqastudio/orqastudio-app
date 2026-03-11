@@ -16,7 +16,7 @@ blocks: []
 docs-required:
   - DOC-036
 docs-produced:
-  - DOC-001
+  - AD-023
 scoring:
   pillar: 5
   impact: 3

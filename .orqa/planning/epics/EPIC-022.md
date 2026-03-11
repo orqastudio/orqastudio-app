@@ -15,8 +15,7 @@ depends-on:
 blocks: []
 docs-required:
   - DOC-036
-docs-produced:
-  - DOC-001
+docs-produced: []
 scoring:
   pillar: 4
   impact: 4

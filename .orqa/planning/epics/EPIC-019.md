@@ -15,7 +15,7 @@ docs-required:
   - DOC-007
 docs-produced:
   - DOC-007
-  - DOC-001
+  - AD-010
 scoring:
   pillar: 3
   impact: 4
