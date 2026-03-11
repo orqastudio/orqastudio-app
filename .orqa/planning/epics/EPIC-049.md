@@ -12,7 +12,7 @@ pillars:
   - PILLAR-001
 depends-on: []
 blocks: []
-research-refs: [RES-035]
+research-refs: [RES-035, RES-036]
 docs-required: []
 docs-produced: []
 scoring:
