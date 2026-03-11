@@ -116,16 +116,17 @@ This addresses the Documentation use case specifically — docs should read like
 
 **Scanner integration** — the Rust artifact scanner reads `_navigation.json` alongside `README.md` when scanning a directory. The config is included in the `NavType` response so the frontend can apply defaults without an extra round-trip.
 
-### 3. AI-Driven Global Search
+### 3. AI-Driven Global Search (Spotlight-Style)
 
-Search is NOT in the artifact browser panel. It is a **global project search** in the ActivityBar, positioned above Settings:
+Search is NOT in the artifact browser panel. It is a **Spotlight-style overlay** that appears over the current view without disrupting context:
 
-- **ActivityBar icon** — Search icon in the bottom section of the ActivityBar, above Settings
-- **Opens a search panel** — full-width panel (replaces the explorer content area) with a prominent search input
+- **Overlay modal** — centred, floating search bar (similar to macOS Spotlight or VS Code command palette) with results displayed underneath
+- **Non-destructive** — the current panel content remains visible behind the overlay; dismissing search returns to exactly where the user was
 - **AI query routing** — search query sent to the AI with artifact graph context as system prompt
 - **Structured results** — AI returns artifact IDs with relevance explanations, rendered as a navigable list with ArtifactLink chips
 - **Examples**: "what's blocking the next milestone", "show me all rules about error handling", "which tasks depend on [EPIC-005](EPIC-005)"
-- **Keyboard shortcut** — Cmd+K / Ctrl+K opens search from anywhere
+- **Keyboard shortcut** — Ctrl+Space opens search from anywhere (Cmd+Space on macOS if available, otherwise Ctrl+Space as primary)
+- **ActivityBar icon** — Search icon in the bottom section of the ActivityBar, above Settings (alternative trigger)
 
 The AI search builds on the existing artifact graph SDK — the AI has access to the full graph for context when answering queries.
 
@@ -180,15 +181,17 @@ Surface the graph's cross-reference data in the viewer:
 - Calls `artifactGraphSDK.referencesFrom(id)` and `referencesTo(id)`
 - Renders two collapsible sections with ArtifactLink chips
 
-### Phase 3: Global AI Search
+### Phase 3: Global AI Search (Spotlight-Style)
 
-- Add Search icon to ActivityBar bottom section (above Settings)
-- `ArtifactSearch.svelte` — full search panel with input + results area
+- `ArtifactSearchOverlay.svelte` — Spotlight-style floating modal with search input + results area
+- Centred overlay that doesn't replace panel content — current context preserved
+- Keyboard shortcut: Ctrl+Space (Cmd+Space on macOS if available)
+- Add Search icon to ActivityBar bottom section (above Settings) as alternative trigger
 - Search query sent to AI provider with system prompt including artifact graph summary
 - AI responds with structured result (artifact IDs + explanations)
 - Results rendered as navigable list with ArtifactLink + explanation text
-- Keyboard shortcut: Cmd+K / Ctrl+K
-- Needs: search-specific Tauri command or reuse of conversation streaming for search queries
+- Selecting a result navigates to the artifact and closes the overlay
+- Escape key or clicking outside dismisses the overlay
 
 ## Tasks
 
