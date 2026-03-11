@@ -1,7 +1,7 @@
 ---
 id: EPIC-005
-title: Artifact Browser — Sort, Filter, Search, Edit
-description: Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and in-app artifact editing. Absorbs [EPIC-004](EPIC-004) (editing UI).
+title: Artifact Browser — Sort, Filter, Search
+description: Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and a references panel.
 status: draft
 priority: P1
 created: "2026-03-07"
@@ -24,7 +24,7 @@ scoring:
 
 ## Why P1
 
-The core app's job is to let users **navigate, search, and edit** artifacts ([AD-033](AD-033)). Navigation and cross-linking are built. What's missing is the ability to sort/group/filter the artifact list, search across all artifacts semantically, and edit artifacts without leaving the app. Without these three, users must fall back to the terminal for basic governance work.
+The core app's job is to let users **navigate and search** artifacts ([AD-033](AD-033)). Navigation and cross-linking are built. What's missing is the ability to sort/group/filter the artifact list, search across all artifacts semantically, and surface cross-references. Editing is tracked separately in [EPIC-004](EPIC-004).
 
 ## What's Already Done
 
@@ -42,7 +42,7 @@ Previous work ([EPIC-043](EPIC-043), [EPIC-044](EPIC-044), and prior phases of t
 
 ## Context
 
-The core app's job is to let users navigate, search, and edit artifacts. Navigation and cross-linking are built. This epic completes the remaining core capabilities: sorting/filtering the artifact list, AI-driven semantic search, in-app editing, and a references panel. It absorbs [EPIC-004](EPIC-004) (editing UI) to consolidate all remaining artifact interaction work. The architecture decision [AD-033](AD-033) establishes that all system-level visualizations (roadmaps, dashboards, kanban) are plugin territory — the core app stays focused on these three capabilities.
+The core app's job is to let users navigate, search, and edit artifacts. Navigation and cross-linking are built. This epic completes the browsing and search capabilities: sorting/filtering the artifact list, AI-driven semantic search, and a references panel. Editing is a separate concern tracked in [EPIC-004](EPIC-004) — artifact mutations are AI-mediated proposals, not raw CRUD. The architecture decision [AD-033](AD-033) establishes that all system-level visualizations (roadmaps, dashboards, kanban) are plugin territory.
 
 ## Design Principles
 
@@ -129,18 +129,7 @@ Search is NOT in the artifact browser panel. It is a **global project search** i
 
 The AI search builds on the existing artifact graph SDK — the AI has access to the full graph for context when answering queries.
 
-### 4. In-App Artifact Editing (absorbed from [EPIC-004](EPIC-004))
-
-Edit artifacts without leaving the app:
-
-- **CodeMirror 6 editor** — markdown + YAML frontmatter editing with syntax highlighting
-- **Edit mode toggle** — view ↔ edit on artifact viewers
-- **Create from template** — new artifact with pre-filled frontmatter from schema
-- **Delete with confirmation** — ConfirmDeleteDialog integration
-- **Schema-aware validation** — frontmatter validated against the artifact type's schema.json on save
-- **Wire to backend** — connect to existing artifact_create, artifact_update, artifact_delete commands
-
-### 5. References Panel
+### 4. References Panel
 
 Surface the graph's cross-reference data in the viewer:
 
@@ -200,15 +189,6 @@ Surface the graph's cross-reference data in the viewer:
 - Results rendered as navigable list with ArtifactLink + explanation text
 - Keyboard shortcut: Cmd+K / Ctrl+K
 - Needs: search-specific Tauri command or reuse of conversation streaming for search queries
-
-### Phase 4: Artifact Editing
-
-- Add `codemirror` package + markdown/yaml language support
-- `ArtifactEditor.svelte` component wrapping CodeMirror
-- Edit button on ArtifactViewer toolbar — toggles view/edit mode
-- On save: validate frontmatter against schema, call `artifact_update`
-- Create flow: select type → pre-fill from schema → open editor
-- Delete flow: button → ConfirmDeleteDialog → `artifact_delete`
 
 ## Tasks
 
