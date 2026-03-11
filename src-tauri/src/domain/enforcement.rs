@@ -10,6 +10,8 @@ pub enum EventType {
     Bash,
     /// Applies to on-demand governance scans across project files.
     Scan,
+    /// Documents linter delegation — declarative only, not executed by the engine.
+    Lint,
 }
 
 /// What happens when an enforcement entry matches.
@@ -20,6 +22,8 @@ pub enum RuleAction {
     Block,
     /// Log a warning but allow the tool call to proceed.
     Warn,
+    /// Inject skill content into the agent context (non-blocking).
+    Inject,
 }
 
 /// A single field+pattern condition within a file enforcement entry.
@@ -39,7 +43,7 @@ pub struct Condition {
 pub struct EnforcementEntry {
     /// Whether this applies to file, bash, or scan events.
     pub event: EventType,
-    /// Whether to block or warn on match.
+    /// Whether to block, warn, or inject on match.
     pub action: RuleAction,
     /// Conditions for file and scan events (all must match).
     #[serde(default)]
@@ -52,6 +56,12 @@ pub struct EnforcementEntry {
     /// Resolved relative to the project root at scan time.
     #[serde(default)]
     pub scope: Option<String>,
+    /// Skills to inject when action is `inject`.
+    ///
+    /// Lists skill names (directory names under `.orqa/team/skills/`) that
+    /// should be loaded into agent context when this entry matches.
+    #[serde(default)]
+    pub skills: Vec<String>,
 }
 
 /// A finding produced by a governance scan entry.
@@ -89,8 +99,13 @@ pub struct EnforcementRule {
 pub struct Verdict {
     /// The name of the rule that triggered.
     pub rule_name: String,
-    /// Whether to block or warn.
+    /// Whether to block, warn, or inject.
     pub action: RuleAction,
     /// An excerpt of the rule prose for the error message (first ~200 chars).
     pub message: String,
+    /// Skills to inject when action is `inject`.
+    ///
+    /// Populated from the matching entry's `skills` field. Empty for block/warn verdicts.
+    #[serde(default)]
+    pub skills: Vec<String>,
 }

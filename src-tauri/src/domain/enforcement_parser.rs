@@ -15,6 +15,8 @@ struct RawEntry {
     pattern: Option<String>,
     #[serde(default)]
     scope: Option<String>,
+    #[serde(default)]
+    skills: Vec<String>,
 }
 
 /// Raw YAML frontmatter shape for a condition.
@@ -67,6 +69,7 @@ fn parse_entry(raw: RawEntry) -> Result<EnforcementEntry, OrqaError> {
         "file" => EventType::File,
         "bash" => EventType::Bash,
         "scan" => EventType::Scan,
+        "lint" => EventType::Lint,
         other => {
             return Err(OrqaError::Validation(format!(
                 "unknown enforcement event type: '{other}'"
@@ -77,6 +80,7 @@ fn parse_entry(raw: RawEntry) -> Result<EnforcementEntry, OrqaError> {
     let action = match raw.action.as_str() {
         "block" => RuleAction::Block,
         "warn" => RuleAction::Warn,
+        "inject" => RuleAction::Inject,
         other => {
             return Err(OrqaError::Validation(format!(
                 "unknown enforcement action: '{other}'"
@@ -99,6 +103,7 @@ fn parse_entry(raw: RawEntry) -> Result<EnforcementEntry, OrqaError> {
         conditions,
         pattern: raw.pattern,
         scope: raw.scope,
+        skills: raw.skills,
     })
 }
 
@@ -188,6 +193,7 @@ mod tests {
             ],
             pattern: None,
             scope: None,
+            skills: vec![],
         };
         let entry = parse_entry(raw).expect("should parse");
         assert_eq!(entry.event, EventType::File);
@@ -203,11 +209,45 @@ mod tests {
             conditions: vec![],
             pattern: Some("--no-verify".to_string()),
             scope: None,
+            skills: vec![],
         };
         let entry = parse_entry(raw).expect("should parse");
         assert_eq!(entry.event, EventType::Bash);
         assert_eq!(entry.action, RuleAction::Warn);
         assert!(entry.pattern.is_some());
+    }
+
+    #[test]
+    fn parse_entry_inject_with_skills() {
+        let raw = RawEntry {
+            event: "file".to_string(),
+            action: "inject".to_string(),
+            conditions: vec![RawCondition {
+                field: "file_path".to_string(),
+                pattern: r"src-tauri/.*\.rs$".to_string(),
+            }],
+            pattern: None,
+            scope: None,
+            skills: vec!["rust-async-patterns".to_string(), "tauri-v2".to_string()],
+        };
+        let entry = parse_entry(raw).expect("should parse");
+        assert_eq!(entry.event, EventType::File);
+        assert_eq!(entry.action, RuleAction::Inject);
+        assert_eq!(entry.skills, vec!["rust-async-patterns", "tauri-v2"]);
+    }
+
+    #[test]
+    fn parse_entry_lint_event() {
+        let raw = RawEntry {
+            event: "lint".to_string(),
+            action: "warn".to_string(),
+            conditions: vec![],
+            pattern: None,
+            scope: None,
+            skills: vec![],
+        };
+        let entry = parse_entry(raw).expect("should parse");
+        assert_eq!(entry.event, EventType::Lint);
     }
 
     #[test]
@@ -218,6 +258,7 @@ mod tests {
             conditions: vec![],
             pattern: None,
             scope: None,
+            skills: vec![],
         };
         assert!(parse_entry(raw).is_err());
     }
@@ -230,6 +271,7 @@ mod tests {
             conditions: vec![],
             pattern: None,
             scope: None,
+            skills: vec![],
         };
         assert!(parse_entry(raw).is_err());
     }
@@ -245,6 +287,7 @@ mod tests {
             }],
             pattern: None,
             scope: Some(".orqa/team/agents/*.md".to_string()),
+            skills: vec![],
         };
         let entry = parse_entry(raw).expect("should parse");
         assert_eq!(entry.event, EventType::Scan);

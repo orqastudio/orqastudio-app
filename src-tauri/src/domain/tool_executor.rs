@@ -135,6 +135,13 @@ pub fn enforce_file(
                     verdict.rule_name
                 );
             }
+            RuleAction::Inject => {
+                tracing::debug!(
+                    "[enforcement] INJECT tool={tool_name} rule='{}' file='{file_path}' skills={:?}",
+                    verdict.rule_name, verdict.skills
+                );
+                // Inject is non-blocking — execution continues; caller uses the skills list
+            }
         }
     }
 
@@ -177,6 +184,14 @@ pub fn enforce_bash(command: &str, state: &tauri::State<'_, AppState>) -> Option
                     "[enforcement] WARN tool=bash rule='{}' command='{command}'",
                     verdict.rule_name
                 );
+            }
+            RuleAction::Inject => {
+                tracing::debug!(
+                    "[enforcement] INJECT tool=bash rule='{}' command='{command}' skills={:?}",
+                    verdict.rule_name,
+                    verdict.skills
+                );
+                // Inject is non-blocking — execution continues; caller uses the skills list
             }
         }
     }

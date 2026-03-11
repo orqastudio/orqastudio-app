@@ -19,6 +19,8 @@ struct CompiledEntry {
     compiled_bash_pattern: Option<Regex>,
     /// Raw scope glob pattern for scan entries.
     scope: Option<String>,
+    /// Skills to inject when action is `inject`.
+    skills: Vec<String>,
 }
 
 /// Compile an `EnforcementEntry` into a `CompiledEntry`.
@@ -72,6 +74,7 @@ fn compile_entry(
         compiled_conditions,
         compiled_bash_pattern,
         scope: entry.scope.clone(),
+        skills: entry.skills.clone(),
     })
 }
 
@@ -190,6 +193,8 @@ impl EnforcementEngine {
     ///
     /// Checks all entries with `event: file`. All conditions in an entry must
     /// match (AND logic) for the entry to produce a verdict.
+    ///
+    /// Entries with `event: lint` are skipped — they are declarative only.
     pub fn evaluate_file(&self, file_path: &str, new_text: &str) -> Vec<Verdict> {
         let mut verdicts = Vec::new();
 
@@ -216,6 +221,7 @@ impl EnforcementEngine {
                     rule_name: rule.name.clone(),
                     action: ce.action.clone(),
                     message: prose_excerpt(&rule.prose),
+                    skills: ce.skills.clone(),
                 });
             }
         }
@@ -227,6 +233,8 @@ impl EnforcementEngine {
     ///
     /// Checks all entries with `event: bash`. The entry's `pattern` must match
     /// the full command string for the entry to produce a verdict.
+    ///
+    /// Entries with `event: lint` are skipped — they are declarative only.
     pub fn evaluate_bash(&self, command: &str) -> Vec<Verdict> {
         let mut verdicts = Vec::new();
 
@@ -247,6 +255,7 @@ impl EnforcementEngine {
                     rule_name: rule.name.clone(),
                     action: ce.action.clone(),
                     message: prose_excerpt(&rule.prose),
+                    skills: ce.skills.clone(),
                 });
             }
         }
@@ -473,6 +482,101 @@ enforcement:
         let engine = load_engine(dir.path());
         let verdicts = engine.evaluate_bash("git commit --no-verify");
         assert_eq!(verdicts.len(), 2);
+    }
+
+    #[test]
+    fn inject_verdict_is_non_blocking_and_carries_skills() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        write_rule_file(
+            dir.path(),
+            "skill-injector",
+            r#"---
+scope: project
+enforcement:
+  - event: file
+    action: inject
+    conditions:
+      - field: file_path
+        pattern: "src-tauri/.*\\.rs$"
+    skills:
+      - rust-async-patterns
+      - tauri-v2
+---
+# Skill Injector
+
+Load Rust skills when editing Rust files.
+"#,
+        );
+
+        let engine = load_engine(dir.path());
+
+        let verdicts = engine.evaluate_file("src-tauri/src/domain/foo.rs", "some content");
+        assert_eq!(verdicts.len(), 1);
+        assert_eq!(verdicts[0].action, RuleAction::Inject);
+        assert_eq!(verdicts[0].skills, vec!["rust-async-patterns", "tauri-v2"]);
+
+        // Non-matching path should produce no verdict
+        let verdicts = engine.evaluate_file("ui/lib/foo.ts", "some content");
+        assert!(verdicts.is_empty());
+    }
+
+    #[test]
+    fn lint_event_entries_are_skipped_during_evaluation() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        write_rule_file(
+            dir.path(),
+            "lint-rule",
+            r#"---
+scope: project
+enforcement:
+  - event: lint
+    action: warn
+    pattern: "clippy"
+---
+# Lint Rule
+
+Delegates to clippy.
+"#,
+        );
+
+        let engine = load_engine(dir.path());
+
+        // Lint entries must not produce verdicts from evaluate_file or evaluate_bash
+        let verdicts = engine.evaluate_file("src-tauri/src/foo.rs", "clippy stuff");
+        assert!(
+            verdicts.is_empty(),
+            "lint entries must not trigger evaluate_file"
+        );
+
+        let verdicts = engine.evaluate_bash("cargo clippy");
+        assert!(
+            verdicts.is_empty(),
+            "lint entries must not trigger evaluate_bash"
+        );
+    }
+
+    #[test]
+    fn inject_verdict_skills_empty_by_default() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        write_rule_file(
+            dir.path(),
+            "inject-no-skills",
+            r#"---
+scope: project
+enforcement:
+  - event: bash
+    action: inject
+    pattern: "cargo build"
+---
+# Inject No Skills
+"#,
+        );
+
+        let engine = load_engine(dir.path());
+        let verdicts = engine.evaluate_bash("cargo build --release");
+        assert_eq!(verdicts.len(), 1);
+        assert_eq!(verdicts[0].action, RuleAction::Inject);
+        assert!(verdicts[0].skills.is_empty());
     }
 
     #[test]

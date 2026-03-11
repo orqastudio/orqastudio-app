@@ -32,18 +32,23 @@
       "description": "Machine-enforceable patterns evaluated by the companion plugin or app enforcement engine",
       "items": {
         "type": "object",
-        "required": ["event", "pattern", "action", "message"],
+        "required": ["event", "action", "message"],
         "additionalProperties": false,
         "properties": {
-          "event": { "enum": ["file", "bash", "prompt", "stop"] },
-          "pattern": { "type": "string", "description": "Regex pattern to match against the event context" },
+          "event": { "enum": ["file", "bash", "prompt", "stop", "lint"] },
+          "pattern": { "type": "string", "description": "Regex pattern (file/bash/prompt/stop) or linter rule name (lint)" },
           "paths": {
             "type": "array",
             "items": { "type": "string" },
             "description": "Glob patterns to restrict which file paths this enforcement applies to"
           },
-          "action": { "enum": ["block", "warn"] },
-          "message": { "type": "string", "description": "Message shown when the pattern matches" }
+          "action": { "enum": ["block", "warn", "inject"] },
+          "message": { "type": "string", "description": "Message shown when the pattern matches" },
+          "skills": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Skill directory names to inject when action is 'inject'"
+          }
         }
       }
     }
