@@ -270,6 +270,167 @@ fn postprocess_embeddings(
     embeddings
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::PathBuf;
+
+    // ── postprocess_embeddings tests ────────────────────────────────────
+
+    #[test]
+    fn postprocess_single_sample_normalizes_to_unit_length() {
+        // Create a simple [1, 3, 4] shaped output (batch=1, seq_len=3, hidden=4)
+        let data = vec![
+            1.0f32, 0.0, 0.0, 0.0, // token 0
+            0.0, 1.0, 0.0, 0.0, // token 1
+            0.0, 0.0, 1.0, 0.0, // token 2
+        ];
+        let output = ndarray::ArrayD::from_shape_vec(vec![1, 3, 4], data).unwrap();
+        // All tokens are attended
+        let attention_mask = vec![1i64, 1, 1];
+        let batch_size = 1;
+        let max_len = 3;
+
+        let embeddings = postprocess_embeddings(&output, &attention_mask, batch_size, max_len);
+        assert_eq!(embeddings.len(), 1);
+        assert_eq!(embeddings[0].len(), 4);
+
+        // Mean of [1,0,0,0], [0,1,0,0], [0,0,1,0] = [1/3, 1/3, 1/3, 0]
+        // After L2 normalization: each nonzero component = 1/sqrt(3) * (1/3) / (1/3 * sqrt(3))
+        let norm: f32 = embeddings[0].iter().map(|x| x * x).sum::<f32>().sqrt();
+        assert!((norm - 1.0).abs() < 1e-5, "embedding should be unit length, got norm={norm}");
+    }
+
+    #[test]
+    fn postprocess_with_masked_tokens_excludes_padding() {
+        // [1, 4, 2] shaped: batch=1, seq_len=4, hidden=2
+        let data = vec![
+            1.0f32, 0.0, // token 0 (attended)
+            0.0, 1.0, // token 1 (attended)
+            9.9, 9.9, // token 2 (padding - should be ignored)
+            9.9, 9.9, // token 3 (padding - should be ignored)
+        ];
+        let output = ndarray::ArrayD::from_shape_vec(vec![1, 4, 2], data).unwrap();
+        let attention_mask = vec![1i64, 1, 0, 0];
+        let batch_size = 1;
+        let max_len = 4;
+
+        let embeddings = postprocess_embeddings(&output, &attention_mask, batch_size, max_len);
+        assert_eq!(embeddings.len(), 1);
+
+        // Mean of [1,0], [0,1] = [0.5, 0.5], normalized = [1/sqrt(2), 1/sqrt(2)]
+        let expected = 1.0f32 / 2.0f32.sqrt();
+        assert!((embeddings[0][0] - expected).abs() < 1e-5);
+        assert!((embeddings[0][1] - expected).abs() < 1e-5);
+    }
+
+    #[test]
+    fn postprocess_batch_of_two() {
+        // [2, 2, 3] shaped: batch=2, seq_len=2, hidden=3
+        let data = vec![
+            // Sample 0
+            1.0f32, 0.0, 0.0, // token 0
+            1.0, 0.0, 0.0, // token 1
+            // Sample 1
+            0.0, 0.0, 1.0, // token 0
+            0.0, 0.0, 1.0, // token 1
+        ];
+        let output = ndarray::ArrayD::from_shape_vec(vec![2, 2, 3], data).unwrap();
+        let attention_mask = vec![1i64, 1, 1, 1]; // all attended
+        let batch_size = 2;
+        let max_len = 2;
+
+        let embeddings = postprocess_embeddings(&output, &attention_mask, batch_size, max_len);
+        assert_eq!(embeddings.len(), 2);
+
+        // Sample 0: mean of [1,0,0],[1,0,0] = [1,0,0], normalized = [1,0,0]
+        assert!((embeddings[0][0] - 1.0).abs() < 1e-5);
+        assert!(embeddings[0][1].abs() < 1e-5);
+        assert!(embeddings[0][2].abs() < 1e-5);
+
+        // Sample 1: mean of [0,0,1],[0,0,1] = [0,0,1], normalized = [0,0,1]
+        assert!(embeddings[1][0].abs() < 1e-5);
+        assert!(embeddings[1][1].abs() < 1e-5);
+        assert!((embeddings[1][2] - 1.0).abs() < 1e-5);
+    }
+
+    #[test]
+    fn postprocess_all_masked_produces_zero_vector() {
+        // [1, 2, 3] shaped: batch=1, seq_len=2, hidden=3
+        let data = vec![1.0f32, 2.0, 3.0, 4.0, 5.0, 6.0];
+        let output = ndarray::ArrayD::from_shape_vec(vec![1, 2, 3], data).unwrap();
+        let attention_mask = vec![0i64, 0]; // nothing attended
+        let batch_size = 1;
+        let max_len = 2;
+
+        let embeddings = postprocess_embeddings(&output, &attention_mask, batch_size, max_len);
+        assert_eq!(embeddings.len(), 1);
+        // All zeros (count=0, norm=0)
+        for val in &embeddings[0] {
+            assert!(val.abs() < 1e-10);
+        }
+    }
+
+    // ── Embedder::new error path tests ──────────────────────────────────
+
+    #[test]
+    fn embedder_new_missing_model_file_returns_error() {
+        let dir = PathBuf::from("nonexistent_model_dir_12345");
+        let result = Embedder::new(&dir);
+        assert!(result.is_err());
+        match result {
+            Err(EmbedError::ModelNotFound(_)) => {} // expected
+            _ => panic!("expected ModelNotFound error"),
+        }
+    }
+
+    #[test]
+    fn embedder_new_missing_tokenizer_returns_error() {
+        // Create a temp dir with model.onnx but no tokenizer.json
+        let tmp = std::env::temp_dir().join("orqa_test_embedder_no_tokenizer");
+        let _ = std::fs::create_dir_all(&tmp);
+        let model_path = tmp.join("model.onnx");
+        std::fs::write(&model_path, b"fake onnx").unwrap();
+
+        let result = Embedder::new(&tmp);
+        assert!(result.is_err());
+        match result {
+            Err(EmbedError::ModelNotFound(_)) => {} // expected
+            _ => panic!("expected ModelNotFound error"),
+        }
+
+        // Cleanup
+        let _ = std::fs::remove_dir_all(&tmp);
+    }
+
+    // ── EmbedError display tests ────────────────────────────────────────
+
+    #[test]
+    fn embed_error_display_messages() {
+        let err = EmbedError::ModelNotFound("/path/to/model.onnx".to_string());
+        assert_eq!(err.to_string(), "model not found: /path/to/model.onnx");
+
+        let err = EmbedError::Tokenizer("bad token".to_string());
+        assert_eq!(err.to_string(), "tokenizer error: bad token");
+
+        let err = EmbedError::Ort("session failed".to_string());
+        assert_eq!(err.to_string(), "ONNX runtime error: session failed");
+
+        let err = EmbedError::Download("network error".to_string());
+        assert_eq!(err.to_string(), "download error: network error");
+    }
+
+    // ── MODEL_FILES constant tests ──────────────────────────────────────
+
+    #[test]
+    fn model_files_has_expected_entries() {
+        assert_eq!(MODEL_FILES.len(), 2);
+        let local_names: Vec<&str> = MODEL_FILES.iter().map(|(name, _)| *name).collect();
+        assert!(local_names.contains(&"model.onnx"));
+        assert!(local_names.contains(&"tokenizer.json"));
+    }
+}
+
 /// Download a single file from `url` to `dest`, streaming through a `.part` file.
 async fn download_file<F>(
     url: &str,

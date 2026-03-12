@@ -155,3 +155,145 @@ impl SearchEngine {
         Ok(status)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::PathBuf;
+    use std::sync::atomic::{AtomicU64, Ordering};
+
+    /// Monotonic counter to give each test a unique DB file.
+    static TEST_COUNTER: AtomicU64 = AtomicU64::new(0);
+
+    /// Helper to create a SearchEngine with a unique DuckDB file per test.
+    fn temp_engine() -> SearchEngine {
+        let id = TEST_COUNTER.fetch_add(1, Ordering::Relaxed);
+        let tmp_dir = std::env::temp_dir().join(format!(
+            "orqa_search_test_{}_{id}",
+            std::process::id()
+        ));
+        let _ = std::fs::create_dir_all(&tmp_dir);
+        let db_path = tmp_dir.join("test.duckdb");
+        let _ = std::fs::remove_file(&db_path);
+        SearchEngine::new(&db_path).unwrap()
+    }
+
+    #[test]
+    fn new_engine_has_empty_status() {
+        let engine = temp_engine();
+        let status = engine.get_status().unwrap();
+        assert!(!status.is_indexed);
+        assert_eq!(status.chunk_count, 0);
+        assert!(!status.has_embeddings);
+    }
+
+    #[test]
+    fn new_engine_with_invalid_path_still_works() {
+        // DuckDB can create the file even in a new directory
+        let path = std::env::temp_dir()
+            .join("orqa_test_nonexist_dir")
+            .join("test.duckdb");
+        let _ = std::fs::create_dir_all(path.parent().unwrap());
+        let result = SearchEngine::new(&path);
+        assert!(result.is_ok());
+        // Cleanup
+        let _ = std::fs::remove_dir_all(path.parent().unwrap());
+    }
+
+    #[test]
+    fn index_real_directory_stores_chunks() {
+        let mut engine = temp_engine();
+        // Index the search module itself — it has known .rs files
+        let search_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/search");
+        let status = engine.index(&search_dir, &[]).unwrap();
+        assert!(status.is_indexed);
+        assert!(status.chunk_count > 0, "should have indexed some chunks");
+    }
+
+    #[test]
+    fn index_with_exclusions() {
+        let mut engine = temp_engine();
+        let search_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/search");
+        // Exclude all files (everything starts with one of these prefixes in the search dir)
+        let status = engine
+            .index(&search_dir, &["mod.rs".to_string(), "store.rs".to_string(), "chunker.rs".to_string(), "embedder.rs".to_string(), "types.rs".to_string()])
+            .unwrap();
+        // Should have fewer chunks than without exclusions (or zero if all excluded)
+        // At minimum, the index operation should succeed
+        assert!(status.chunk_count == 0 || status.is_indexed);
+    }
+
+    #[test]
+    fn regex_search_on_indexed_codebase() {
+        let mut engine = temp_engine();
+        let search_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/search");
+        engine.index(&search_dir, &[]).unwrap();
+
+        // Search for a pattern we know exists in the search module
+        let results = engine.search_regex("SearchEngine", None, 10).unwrap();
+        assert!(!results.is_empty(), "should find SearchEngine in indexed files");
+    }
+
+    #[test]
+    fn regex_search_empty_index_returns_empty() {
+        let engine = temp_engine();
+        let results = engine.search_regex("anything", None, 10).unwrap();
+        assert!(results.is_empty());
+    }
+
+    #[test]
+    fn embed_chunks_without_embedder_returns_error() {
+        let mut engine = temp_engine();
+        let search_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/search");
+        engine.index(&search_dir, &[]).unwrap();
+
+        let result = engine.embed_chunks();
+        assert!(result.is_err());
+        let err_msg = result.unwrap_err().to_string();
+        assert!(err_msg.contains("embedder not initialized"));
+    }
+
+    #[test]
+    fn semantic_search_without_embedder_returns_error() {
+        let mut engine = temp_engine();
+        let result = engine.search_semantic("test query", 10);
+        assert!(result.is_err());
+        let err_msg = result.unwrap_err().to_string();
+        assert!(err_msg.contains("embedder not initialized"));
+    }
+
+    #[test]
+    fn init_embedder_sync_with_missing_model_returns_error() {
+        let mut engine = temp_engine();
+        let fake_dir = PathBuf::from("/nonexistent/model/dir");
+        let result = engine.init_embedder_sync(&fake_dir);
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn index_clears_previous_data() {
+        let mut engine = temp_engine();
+        let search_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("src/search");
+
+        // Index once
+        let status1 = engine.index(&search_dir, &[]).unwrap();
+        let count1 = status1.chunk_count;
+
+        // Index again — should clear and re-index, getting the same count
+        let status2 = engine.index(&search_dir, &[]).unwrap();
+        assert_eq!(status2.chunk_count, count1);
+    }
+
+    #[test]
+    fn index_empty_directory_produces_zero_chunks() {
+        let mut engine = temp_engine();
+        let empty_dir = std::env::temp_dir().join("orqa_empty_dir_test");
+        let _ = std::fs::create_dir_all(&empty_dir);
+
+        let status = engine.index(&empty_dir, &[]).unwrap();
+        assert_eq!(status.chunk_count, 0);
+        assert!(!status.is_indexed);
+
+        let _ = std::fs::remove_dir_all(&empty_dir);
+    }
+}

@@ -286,4 +286,189 @@ mod tests {
         let chunks = split_into_chunks("", "empty.rs", None);
         assert!(chunks.is_empty());
     }
+
+    // ── rel_path_str tests ──────────────────────────────────────────────
+
+    #[test]
+    fn rel_path_str_strips_prefix() {
+        let abs = Path::new("/home/user/project/src/main.rs");
+        let root = Path::new("/home/user/project");
+        assert_eq!(rel_path_str(abs, root), "src/main.rs");
+    }
+
+    #[test]
+    fn rel_path_str_handles_windows_separators() {
+        // Even if the path has backslashes, the output uses forward slashes
+        let abs = Path::new("C:\\Users\\test\\project\\src\\lib.rs");
+        let root = Path::new("C:\\Users\\test\\project");
+        let result = rel_path_str(abs, root);
+        assert!(!result.contains('\\'), "should not contain backslashes: {result}");
+        assert!(result.contains("src"));
+    }
+
+    #[test]
+    fn rel_path_str_unrelated_root_returns_full_path() {
+        let abs = Path::new("/other/path/file.rs");
+        let root = Path::new("/home/user/project");
+        // strip_prefix fails, so it returns the abs path (with slashes normalized)
+        let result = rel_path_str(abs, root);
+        assert!(result.contains("file.rs"));
+    }
+
+    // ── find_blank_line_boundary tests ──────────────────────────────────
+
+    #[test]
+    fn find_blank_line_at_target_returns_immediately() {
+        let lines = vec!["code", "code", "", "more code", "more code"];
+        // Target is line 2 (0-indexed), which is blank
+        let boundary = find_blank_line_boundary(&lines, 2);
+        assert_eq!(boundary, 3); // split after the blank line
+    }
+
+    #[test]
+    fn find_blank_line_within_tolerance_forward() {
+        let mut lines: Vec<&str> = vec!["code"; 60];
+        lines[52] = ""; // blank line 2 positions after target=50
+        let boundary = find_blank_line_boundary(&lines, 50);
+        assert_eq!(boundary, 53); // split after blank line at index 52
+    }
+
+    #[test]
+    fn find_blank_line_within_tolerance_backward() {
+        let mut lines: Vec<&str> = vec!["code"; 60];
+        lines[48] = ""; // blank line 2 positions before target=50
+        let boundary = find_blank_line_boundary(&lines, 50);
+        // Forward search happens first, so if no blank line is found forward,
+        // it checks backward. At offset=2, forward=52 (not blank), backward=48 (blank)
+        assert_eq!(boundary, 49);
+    }
+
+    #[test]
+    fn no_blank_line_returns_target() {
+        let lines = vec!["code"; 100];
+        let boundary = find_blank_line_boundary(&lines, 50);
+        assert_eq!(boundary, 50);
+    }
+
+    // ── is_binary_extension edge cases ──────────────────────────────────
+
+    #[test]
+    fn is_binary_extension_case_insensitive() {
+        assert!(is_binary_extension(Path::new("image.PNG")));
+        assert!(is_binary_extension(Path::new("archive.ZIP")));
+    }
+
+    #[test]
+    fn is_binary_extension_no_extension() {
+        assert!(!is_binary_extension(Path::new("Makefile")));
+        assert!(!is_binary_extension(Path::new("LICENSE")));
+    }
+
+    // ── detect_language additional cases ─────────────────────────────────
+
+    #[test]
+    fn detect_language_all_known_extensions() {
+        let cases = vec![
+            ("file.rs", "rust"),
+            ("file.ts", "typescript"),
+            ("file.tsx", "typescript"),
+            ("file.js", "javascript"),
+            ("file.jsx", "javascript"),
+            ("file.svelte", "svelte"),
+            ("file.py", "python"),
+            ("file.go", "go"),
+            ("file.toml", "toml"),
+            ("file.json", "json"),
+            ("file.yaml", "yaml"),
+            ("file.yml", "yaml"),
+            ("file.md", "markdown"),
+            ("file.html", "html"),
+            ("file.css", "css"),
+            ("file.sql", "sql"),
+            ("file.sh", "shell"),
+            ("file.bash", "shell"),
+        ];
+        for (filename, expected) in cases {
+            let result = detect_language(Path::new(filename));
+            assert_eq!(
+                result.as_deref(),
+                Some(expected),
+                "detect_language({filename})"
+            );
+        }
+    }
+
+    #[test]
+    fn detect_language_no_extension() {
+        assert_eq!(detect_language(Path::new("Makefile")), None);
+    }
+
+    // ── split_into_chunks edge cases ────────────────────────────────────
+
+    #[test]
+    fn split_single_line_file() {
+        let chunks = split_into_chunks("only one line", "single.rs", Some("rust"));
+        assert_eq!(chunks.len(), 1);
+        assert_eq!(chunks[0].start_line, 1);
+        assert_eq!(chunks[0].end_line, 1);
+        assert_eq!(chunks[0].content, "only one line");
+    }
+
+    #[test]
+    fn split_exactly_target_lines() {
+        let lines: Vec<String> = (1..=TARGET_CHUNK_LINES).map(|i| format!("line {i}")).collect();
+        let content = lines.join("\n");
+        let chunks = split_into_chunks(&content, "exact.rs", None);
+        assert_eq!(chunks.len(), 1);
+        assert_eq!(chunks[0].start_line, 1);
+        assert_eq!(chunks[0].end_line, TARGET_CHUNK_LINES as u32);
+    }
+
+    #[test]
+    fn split_preserves_file_path_and_language() {
+        let chunks = split_into_chunks("content", "my/path.ts", Some("typescript"));
+        assert_eq!(chunks[0].file_path, "my/path.ts");
+        assert_eq!(chunks[0].language.as_deref(), Some("typescript"));
+    }
+
+    #[test]
+    fn split_no_language_is_none() {
+        let chunks = split_into_chunks("content", "file.txt", None);
+        assert_eq!(chunks[0].language, None);
+    }
+
+    #[test]
+    fn chunks_cover_entire_file_without_gaps_or_overlaps() {
+        // Generate a file with 237 lines (odd number, not multiple of TARGET_CHUNK_LINES)
+        let lines: Vec<String> = (1..=237).map(|i| format!("line {i}")).collect();
+        let content = lines.join("\n");
+        let chunks = split_into_chunks(&content, "test.rs", None);
+
+        // First chunk starts at line 1
+        assert_eq!(chunks[0].start_line, 1);
+        // Last chunk ends at line 237
+        assert_eq!(chunks.last().unwrap().end_line, 237);
+        // No gaps between chunks
+        for pair in chunks.windows(2) {
+            assert_eq!(
+                pair[0].end_line + 1,
+                pair[1].start_line,
+                "gap between chunks ending at {} and starting at {}",
+                pair[0].end_line,
+                pair[1].start_line
+            );
+        }
+    }
+
+    // ── ChunkError tests ────────────────────────────────────────────────
+
+    #[test]
+    fn chunk_error_display_messages() {
+        let err = ChunkError::Walk("bad entry".to_string());
+        assert_eq!(err.to_string(), "walk error: bad entry");
+
+        let io_err = std::io::Error::new(std::io::ErrorKind::NotFound, "missing");
+        let err = ChunkError::Io(io_err);
+        assert!(err.to_string().contains("IO error"));
+    }
 }

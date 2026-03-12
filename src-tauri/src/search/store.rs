@@ -392,3 +392,392 @@ fn extract_match_context(content: &str, match_start: usize, _match_end: usize) -
 
     lines[start..end].join("\n")
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::path::PathBuf;
+
+    /// Helper to create an in-memory SearchStore for testing.
+    fn in_memory_store() -> SearchStore {
+        let conn = Connection::open_in_memory().unwrap();
+        let store = SearchStore {
+            conn,
+            index_path: PathBuf::from(":memory:"),
+        };
+        store.ensure_schema().unwrap();
+        store
+    }
+
+    /// Helper to create a ChunkInfo for testing.
+    fn test_chunk(path: &str, start: u32, end: u32, content: &str, lang: Option<&str>) -> ChunkInfo {
+        ChunkInfo {
+            file_path: path.to_string(),
+            start_line: start,
+            end_line: end,
+            content: content.to_string(),
+            language: lang.map(String::from),
+        }
+    }
+
+    // ── Schema and lifecycle tests ──────────────────────────────────────
+
+    #[test]
+    fn new_store_has_empty_index() {
+        let store = in_memory_store();
+        let status = store.get_status().unwrap();
+        assert!(!status.is_indexed);
+        assert_eq!(status.chunk_count, 0);
+        assert!(!status.has_embeddings);
+    }
+
+    #[test]
+    fn insert_and_count_chunks() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("src/main.rs", 1, 10, "fn main() {}", Some("rust")),
+            test_chunk("src/lib.rs", 1, 5, "pub mod foo;", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let status = store.get_status().unwrap();
+        assert!(status.is_indexed);
+        assert_eq!(status.chunk_count, 2);
+        assert!(!status.has_embeddings);
+    }
+
+    #[test]
+    fn clear_removes_all_chunks() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("a.rs", 1, 5, "content a", Some("rust")),
+            test_chunk("b.rs", 1, 5, "content b", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+        assert_eq!(store.get_status().unwrap().chunk_count, 2);
+
+        store.clear().unwrap();
+        assert_eq!(store.get_status().unwrap().chunk_count, 0);
+    }
+
+    #[test]
+    fn insert_chunk_without_language() {
+        let store = in_memory_store();
+        let chunks = vec![test_chunk("readme.txt", 1, 3, "hello world", None)];
+        store.insert_chunks(&chunks).unwrap();
+        assert_eq!(store.get_status().unwrap().chunk_count, 1);
+    }
+
+    // ── Regex search tests ──────────────────────────────────────────────
+
+    #[test]
+    fn regex_search_finds_matching_chunks() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("src/main.rs", 1, 10, "fn main() {\n    println!(\"hello\");\n}", Some("rust")),
+            test_chunk("src/lib.rs", 1, 5, "pub mod utils;", Some("rust")),
+            test_chunk("src/utils.rs", 1, 8, "fn helper() {\n    println!(\"world\");\n}", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let results = store.search_regex("println", None, 10).unwrap();
+        assert_eq!(results.len(), 2);
+        // Both matching chunks should contain "println"
+        for r in &results {
+            assert!(r.content.contains("println"));
+        }
+    }
+
+    #[test]
+    fn regex_search_with_path_filter() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("src/main.rs", 1, 5, "fn main() {}", Some("rust")),
+            test_chunk("tests/test.rs", 1, 5, "fn test_main() {}", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let results = store.search_regex("fn", Some("src/"), 10).unwrap();
+        assert_eq!(results.len(), 1);
+        assert_eq!(results[0].file_path, "src/main.rs");
+    }
+
+    #[test]
+    fn regex_search_no_matches_returns_empty() {
+        let store = in_memory_store();
+        let chunks = vec![test_chunk("a.rs", 1, 5, "hello world", Some("rust"))];
+        store.insert_chunks(&chunks).unwrap();
+
+        let results = store.search_regex("nonexistent_pattern", None, 10).unwrap();
+        assert!(results.is_empty());
+    }
+
+    #[test]
+    fn regex_search_invalid_pattern_returns_error() {
+        let store = in_memory_store();
+        let chunks = vec![test_chunk("a.rs", 1, 5, "content", Some("rust"))];
+        store.insert_chunks(&chunks).unwrap();
+
+        let result = store.search_regex("[invalid", None, 10);
+        assert!(result.is_err());
+        let err = result.unwrap_err();
+        assert!(matches!(err, StoreError::InvalidRegex(_)));
+    }
+
+    #[test]
+    fn regex_search_respects_max_results() {
+        let store = in_memory_store();
+        let chunks: Vec<ChunkInfo> = (0..10)
+            .map(|i| test_chunk(&format!("file{i}.rs"), 1, 5, "fn foo() {}", Some("rust")))
+            .collect();
+        store.insert_chunks(&chunks).unwrap();
+
+        let results = store.search_regex("fn foo", None, 3).unwrap();
+        assert_eq!(results.len(), 3);
+    }
+
+    #[test]
+    fn regex_search_scores_by_match_count() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("few.rs", 1, 3, "fn a() {}", Some("rust")),
+            test_chunk("many.rs", 1, 5, "fn a() {}\nfn b() {}\nfn c() {}", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let results = store.search_regex("fn", None, 10).unwrap();
+        assert_eq!(results.len(), 2);
+        // The chunk with more matches should be first (sorted by score desc)
+        assert!(results[0].score >= results[1].score);
+        assert_eq!(results[0].file_path, "many.rs");
+    }
+
+    // ── Embedding tests ──────────────────────────────────────────────
+
+    #[test]
+    fn get_unembedded_chunks_returns_all_initially() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("a.rs", 1, 5, "content a", Some("rust")),
+            test_chunk("b.rs", 1, 5, "content b", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let unembedded = store.get_unembedded_chunks().unwrap();
+        assert_eq!(unembedded.len(), 2);
+    }
+
+    #[test]
+    fn update_embedding_marks_chunk_as_embedded() {
+        let store = in_memory_store();
+        let chunks = vec![test_chunk("a.rs", 1, 5, "content", Some("rust"))];
+        store.insert_chunks(&chunks).unwrap();
+
+        let unembedded = store.get_unembedded_chunks().unwrap();
+        assert_eq!(unembedded.len(), 1);
+        let chunk_id = unembedded[0].0;
+
+        let embedding = vec![0.1f32, 0.2, 0.3];
+        store.update_embedding(chunk_id, &embedding).unwrap();
+
+        let unembedded_after = store.get_unembedded_chunks().unwrap();
+        assert!(unembedded_after.is_empty());
+
+        let status = store.get_status().unwrap();
+        assert!(status.has_embeddings);
+    }
+
+    #[test]
+    fn batch_update_embeddings() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("a.rs", 1, 5, "aaa", Some("rust")),
+            test_chunk("b.rs", 1, 5, "bbb", Some("rust")),
+            test_chunk("c.rs", 1, 5, "ccc", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let unembedded = store.get_unembedded_chunks().unwrap();
+        let updates: Vec<(i32, Vec<f32>)> = unembedded
+            .iter()
+            .map(|(id, _)| (*id, vec![0.1, 0.2, 0.3]))
+            .collect();
+
+        store.update_embeddings(&updates).unwrap();
+        assert!(store.get_unembedded_chunks().unwrap().is_empty());
+        assert_eq!(store.get_status().unwrap().chunk_count, 3);
+        assert!(store.get_status().unwrap().has_embeddings);
+    }
+
+    // ── Semantic search tests ───────────────────────────────────────────
+
+    #[test]
+    fn semantic_search_returns_results_sorted_by_similarity() {
+        let store = in_memory_store();
+        let chunks = vec![
+            test_chunk("close.rs", 1, 5, "very similar content", Some("rust")),
+            test_chunk("far.rs", 1, 5, "completely different", Some("rust")),
+        ];
+        store.insert_chunks(&chunks).unwrap();
+
+        let unembedded = store.get_unembedded_chunks().unwrap();
+        // Give "close.rs" an embedding close to the query, "far.rs" an orthogonal one
+        let close_embedding = vec![1.0f32, 0.0, 0.0];
+        let far_embedding = vec![0.0f32, 1.0, 0.0];
+
+        store.update_embedding(unembedded[0].0, &close_embedding).unwrap();
+        store.update_embedding(unembedded[1].0, &far_embedding).unwrap();
+
+        let query_embedding = vec![1.0f32, 0.0, 0.0]; // identical to close_embedding
+        let results = store.search_semantic(&query_embedding, 10).unwrap();
+
+        assert_eq!(results.len(), 2);
+        assert_eq!(results[0].file_path, "close.rs");
+        assert!((results[0].score - 1.0).abs() < 0.001); // cosine sim = 1.0
+        assert!(results[0].score > results[1].score);
+    }
+
+    #[test]
+    fn semantic_search_respects_max_results() {
+        let store = in_memory_store();
+        let chunks: Vec<ChunkInfo> = (0..5)
+            .map(|i| test_chunk(&format!("f{i}.rs"), 1, 5, &format!("content {i}"), Some("rust")))
+            .collect();
+        store.insert_chunks(&chunks).unwrap();
+
+        let unembedded = store.get_unembedded_chunks().unwrap();
+        for (id, _) in &unembedded {
+            store.update_embedding(*id, &[0.5, 0.5, 0.5]).unwrap();
+        }
+
+        let results = store.search_semantic(&[0.5, 0.5, 0.5], 2).unwrap();
+        assert_eq!(results.len(), 2);
+    }
+
+    #[test]
+    fn semantic_search_empty_index_returns_empty() {
+        let store = in_memory_store();
+        let results = store.search_semantic(&[1.0, 0.0, 0.0], 10).unwrap();
+        assert!(results.is_empty());
+    }
+
+    // ── Pure function tests ─────────────────────────────────────────────
+
+    #[test]
+    fn floats_to_bytes_roundtrip() {
+        let original = vec![1.0f32, -2.5, 3.14159, 0.0, f32::MAX, f32::MIN];
+        let bytes = floats_to_bytes(&original);
+        let recovered = bytes_to_floats(&bytes);
+        assert_eq!(original, recovered);
+    }
+
+    #[test]
+    fn floats_to_bytes_empty() {
+        let bytes = floats_to_bytes(&[]);
+        assert!(bytes.is_empty());
+        let recovered = bytes_to_floats(&bytes);
+        assert!(recovered.is_empty());
+    }
+
+    #[test]
+    fn cosine_similarity_identical_vectors() {
+        let v = vec![1.0f32, 2.0, 3.0];
+        let sim = cosine_similarity(&v, &v);
+        assert!((sim - 1.0).abs() < 1e-6);
+    }
+
+    #[test]
+    fn cosine_similarity_orthogonal_vectors() {
+        let a = vec![1.0f32, 0.0, 0.0];
+        let b = vec![0.0f32, 1.0, 0.0];
+        let sim = cosine_similarity(&a, &b);
+        assert!(sim.abs() < 1e-6);
+    }
+
+    #[test]
+    fn cosine_similarity_opposite_vectors() {
+        let a = vec![1.0f32, 0.0];
+        let b = vec![-1.0f32, 0.0];
+        let sim = cosine_similarity(&a, &b);
+        assert!((sim - (-1.0)).abs() < 1e-6);
+    }
+
+    #[test]
+    fn cosine_similarity_different_lengths_returns_zero() {
+        let a = vec![1.0f32, 2.0];
+        let b = vec![1.0f32, 2.0, 3.0];
+        assert_eq!(cosine_similarity(&a, &b), 0.0);
+    }
+
+    #[test]
+    fn cosine_similarity_empty_returns_zero() {
+        let empty: Vec<f32> = vec![];
+        assert_eq!(cosine_similarity(&empty, &empty), 0.0);
+    }
+
+    #[test]
+    fn cosine_similarity_zero_vectors_returns_zero() {
+        let z = vec![0.0f32, 0.0, 0.0];
+        assert_eq!(cosine_similarity(&z, &z), 0.0);
+    }
+
+    #[test]
+    fn extract_match_context_first_line() {
+        let content = "line one\nline two\nline three\nline four";
+        let ctx = extract_match_context(content, 0, 4); // match at start of line 1
+        // Should include line 1 and line 2 (no line before line 1)
+        assert!(ctx.contains("line one"));
+        assert!(ctx.contains("line two"));
+    }
+
+    #[test]
+    fn extract_match_context_middle_line() {
+        let content = "line one\nline two\nline three\nline four";
+        // "line two" starts at byte 9
+        let ctx = extract_match_context(content, 9, 17);
+        // Should include line 1 (before), line 2 (match), and line 3 (after)
+        assert!(ctx.contains("line one"));
+        assert!(ctx.contains("line two"));
+        assert!(ctx.contains("line three"));
+    }
+
+    #[test]
+    fn extract_match_context_last_line() {
+        let content = "line one\nline two\nline three";
+        // "line three" starts at byte 18
+        let ctx = extract_match_context(content, 18, 28);
+        assert!(ctx.contains("line two"));
+        assert!(ctx.contains("line three"));
+    }
+
+    #[test]
+    fn build_regex_results_empty_rows() {
+        let re = Regex::new("test").unwrap();
+        let results = build_regex_results(vec![], &re, 10).unwrap();
+        assert!(results.is_empty());
+    }
+
+    #[test]
+    fn build_semantic_results_empty_rows() {
+        let results = build_semantic_results(vec![], &[1.0, 0.0, 0.0], 10);
+        assert!(results.is_empty());
+    }
+
+    #[test]
+    fn build_semantic_results_sorts_by_score_descending() {
+        let rows: Vec<EmbeddedChunkRow> = vec![
+            (1, "low.rs".into(), 1, 5, "low score".into(), Some("rust".into()), vec![0.0, 1.0, 0.0]),
+            (2, "high.rs".into(), 1, 5, "high score".into(), Some("rust".into()), vec![1.0, 0.0, 0.0]),
+            (3, "mid.rs".into(), 1, 5, "mid score".into(), Some("rust".into()), vec![0.7, 0.7, 0.0]),
+        ];
+        let query = vec![1.0f32, 0.0, 0.0];
+        let results = build_semantic_results(rows, &query, 10);
+
+        assert_eq!(results.len(), 3);
+        assert_eq!(results[0].file_path, "high.rs");
+        // Scores should be descending
+        for pair in results.windows(2) {
+            assert!(pair[0].score >= pair[1].score);
+        }
+    }
+}
