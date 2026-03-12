@@ -129,8 +129,10 @@ For Claude Code compatibility, create symlinks in `.claude/`:
 3. Copy core rules, agents, and skills
 4. Create CLI symlinks (if Claude Code is detected)
 5. Run `project-inference` to detect project characteristics
-6. Apply appropriate project type preset (e.g., `project-type-software`)
-7. Report what was created and what the user should review
+6. Run `epic-requirement-inference` to recommend `workflow.epics-required` setting
+7. Set `workflow.epics-required` in `project.json` based on recommendation
+8. Apply appropriate project type preset (e.g., `project-type-software`)
+9. Report what was created and what the user should review
 
 ## Critical Rules
 
