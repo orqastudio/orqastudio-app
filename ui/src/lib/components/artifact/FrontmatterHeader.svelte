@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import GateQuestions from "./GateQuestions.svelte";
+	import RelationshipsList from "./RelationshipsList.svelte";
 	import StatusIndicator from "$lib/components/shared/StatusIndicator.svelte";
 	import { Badge } from "$lib/components/ui/badge";
 	import CalendarPlusIcon from "@lucide/svelte/icons/calendar-plus";
@@ -68,6 +69,7 @@
 	const SKIP_FIELDS = new Set([
 		"id", "title", "description", "status", "priority", "scoring",
 		"bodyTemplate", "tools", "created", "updated",
+		"relationships", "enforcement", "rule-overrides",
 	]);
 
 	const DATE_FIELDS = new Set(["created", "updated", "deadline"]);
@@ -80,8 +82,8 @@
 	 * research-refs added here (RES-NNN IDs).
 	 */
 	const LINK_FIELDS = new Set([
-		"milestone", "epic", "pillars", "promoted-to",
-		"promoted-from", "surpassed-by", "supersedes", "superseded-by",
+		"milestone", "epic", "pillars",
+		"surpassed-by", "supersedes", "superseded-by",
 		"depends-on", "blocks", "research-refs",
 		"docs-required", "docs-produced",
 		"assignee", "scope", "skills",
@@ -187,8 +189,13 @@
 		}),
 	);
 
+	/** Relationships array from frontmatter (array of {type, target, rationale, intended?}). */
+	const relationships = $derived(
+		Array.isArray(metadata["relationships"]) ? metadata["relationships"] : [],
+	);
+
 	/** True when the card has content below the header row. */
-	const hasBody = $derived(bodyEntries.length > 0 || appTools.length > 0 || gateQuestions.length > 0);
+	const hasBody = $derived(bodyEntries.length > 0 || appTools.length > 0 || gateQuestions.length > 0 || relationships.length > 0);
 </script>
 
 <!-- Title -->
@@ -354,6 +361,9 @@
 			</div>
 		</div>
 	{/if}
+
+	<!-- Relationships -->
+	<RelationshipsList {relationships} />
 
 	<!-- Gate question(s) — always last -->
 	<GateQuestions questions={gateQuestions} />
