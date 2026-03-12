@@ -5,7 +5,7 @@ description: |
   Address critical code quality issues found by RES-043: eliminate stream_commands.rs
   duplication, add frontend and search test coverage, fix error handling gaps, and
   audit orphaned backend commands.
-status: draft
+status: done
 priority: P1
 created: "2026-03-12"
 updated: "2026-03-12"
