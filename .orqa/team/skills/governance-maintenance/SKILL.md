@@ -35,7 +35,7 @@ Methodology for maintaining a governance framework's internal consistency. This 
 3. **Rule File Currency** — Audit rules for outdated, contradictory, or inapplicable content.
 4. **Reading List Maintenance** — Verify all documents referenced in required reading sections actually exist. Flag stale references.
 5. **Learning Loop Coordination** — Process implementation lessons. When recurrence reaches the promotion threshold, promote to a rule, coding standard, or skill update. Update the lesson's promotion metadata after promotion.
-6. **Cross-Reference Integrity** — Ensure all artifact cross-references (depends-on, promoted-to, supersedes, etc.) point to existing artifacts.
+6. **Cross-Reference Integrity** — Ensure all artifact cross-references (depends-on, supersedes, relationships, etc.) point to existing artifacts.
 
 ## Audit Protocol
 

@@ -65,15 +65,15 @@ Task (TASK-NNN) → Epic (EPIC-NNN) → Milestone (MS-NNN)
                        ↑
                   research-refs → Research (RES-NNN)
 
-Lesson (IMPL-NNN) → Rule (RULE-NNN)
-                       ↑ promoted-from
+Lesson (IMPL-NNN) --grounded-by--> Rule (RULE-NNN)
+Rule (RULE-NNN)   --observes-->    Lesson (IMPL-NNN)
 ```
 
 - **Tasks** always have `epic:` field referencing an existing EPIC-NNN
 - **Epics** always have `milestone:` field referencing an existing MS-NNN
 - **Epics** may have `research-refs:` array linking to RES-NNN documents
 - **Research** documents are investigations, design explorations, and spikes
-- **Rules** may have `promoted-from:` field tracing lineage from IMPL-NNN lessons
+- **All governance artifacts** have a `relationships` array with bidirectional pipeline connections
 - **There is NO "Plan" artifact type** — epics contain implementation design in their body
 
 ### FORBIDDEN
@@ -262,7 +262,13 @@ status: active
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 layer: core | project
-promoted-from: IMPL-NNN        # If promoted from a lesson, null otherwise
+relationships:
+  - type: grounded
+    target: PILLAR-NNN
+    rationale: "Why this rule serves this pillar"
+  - type: observes
+    target: IMPL-NNN
+    rationale: "Lesson that prompted this rule"
 ---
 ```
 
@@ -276,8 +282,12 @@ description: "Brief description of the lesson"
 status: active
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
+maturity: observation | understanding
 recurrence: 0
-promoted-to: null
+relationships:
+  - type: grounded
+    target: AD-NNN
+    rationale: "Decision this lesson informs"
 ---
 ```
 

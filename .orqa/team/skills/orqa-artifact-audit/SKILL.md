@@ -41,13 +41,13 @@ The graph maintains two field categories for cross-reference tracking:
 **SINGLE_REF_FIELDS** — fields that hold a single artifact ID as a string:
 
 ```
-milestone, epic, promoted-to, supersedes, superseded-by, surpassed-by, promoted-from, assignee
+milestone, epic, supersedes, superseded-by, surpassed-by, assignee
 ```
 
 **ARRAY_REF_FIELDS** — fields that hold lists of artifact IDs:
 
 ```
-depends-on, blocks, pillars, research-refs, docs-required, docs-produced, skills
+depends-on, blocks, pillars, research-refs, docs-required, docs-produced, skills, relationships
 ```
 
 For every artifact in `.orqa/`, the graph resolves these fields to their targets and flags any ID that does not resolve to an existing artifact.
@@ -95,7 +95,7 @@ Run these checklists after the graph pass has identified broken ID references. E
 
 ### Ideas
 
-- `promoted-to` references an existing EPIC-NNN if `status` is `promoted`
+- Ideas with `status: promoted` should have a corresponding EPIC-NNN created
 - `pillars` entries exist as PILLAR-NNN files
 - No idea jumps from `captured` directly to `promoted` (research step must be documented)
 
@@ -115,13 +115,14 @@ Run these checklists after the graph pass has identified broken ID references. E
 
 - `status` is `active` or `inactive` (not `surpassed` — that is for research/tasks only)
 - Related Rules section references are all valid RULE-NNN identifiers
-- `promoted-from` references an existing IMPL-NNN lesson if set
+- `relationships` array contains at least one `grounded` relationship to a pillar or decision
 
 ### Lessons
 
-- `promoted-to` references an existing RULE-NNN or skill name if `status` is `promoted`
+- `maturity` is `observation` or `understanding`
+- `relationships` array contains pipeline connections (grounded, informs, etc.)
 - `recurrence` count is accurate — check against known occurrence patterns
-- `status` matches recurrence: `active` (count 0–1), `recurring` (count >= 2 not yet promoted), `promoted` (promoted-to is set)
+- `status` matches recurrence: `active` (count 0–1), `recurring` (count >= 2 not yet promoted), `promoted` (has grounded-by relationships to rules/skills)
 
 ## Cross-Layer Consistency Checks
 

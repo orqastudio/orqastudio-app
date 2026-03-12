@@ -100,7 +100,7 @@ After implementation:
 3. **Process improvements MUST be encoded** (this is non-negotiable):
    - Create IMPL-NNN lessons for each process insight
    - Update relevant rules/skills/agents
-   - Set `promoted-to` on lessons that become enforcement artifacts
+   - Add `grounded-by` relationships on lessons that become enforcement artifacts
 
 ## The Learning Loop
 
