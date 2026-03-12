@@ -43,8 +43,8 @@ Work through these in dependency order. Tasks without dependencies can be parall
 
 | Task | Title | Depends On | Status |
 |------|-------|-----------|--------|
-| TASK-212 | Extract dev server/worktree content to skills or docs | — | todo |
-| TASK-213 | Extract project-specific requirements to graph artifacts | — | todo |
+| TASK-212 | Extract dev server/worktree content to skills or docs | — | done |
+| TASK-213 | Extract project-specific requirements to graph artifacts | — | done |
 
 ### Phase 3: Orchestrator Rewrite
 
@@ -83,7 +83,7 @@ Work through these in dependency order. Tasks without dependencies can be parall
 
 | Task | Title | Depends On | Status |
 |------|-------|-----------|--------|
-| TASK-223 | Create skill for epic-requirement inference during project setup | — | todo |
+| TASK-223 | Create skill for epic-requirement inference during project setup | — | done |
 
 ### Phase 7: Verification
 
