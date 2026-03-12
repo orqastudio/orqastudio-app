@@ -178,3 +178,89 @@ pub fn load_context_messages(state: &AppState, session_id: i64) -> Option<Vec<Co
         Some(context)
     }
 }
+
+/// Load a summary of prior text messages in a session for context injection.
+///
+/// Returns `(message_count, total_chars, messages_json)` where only
+/// `ContentType::Text` messages are included. The message with `exclude_id`
+/// is skipped so the just-persisted user message is not counted.
+pub fn load_context_summary(
+    state: &AppState,
+    session_id: i64,
+    exclude_id: i64,
+) -> Result<(i32, i64, String), OrqaError> {
+    use crate::domain::message::ContentType;
+    use crate::repo::message_repo;
+
+    let db = state
+        .db
+        .lock()
+        .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
+
+    let messages = message_repo::list(&db, session_id, 1000, 0)?;
+
+    let mut message_count: i32 = 0;
+    let mut total_chars: i64 = 0;
+    let mut entries: Vec<serde_json::Value> = Vec::new();
+
+    for msg in messages {
+        if msg.id == exclude_id {
+            continue;
+        }
+        if msg.content_type != ContentType::Text {
+            continue;
+        }
+        if let Some(ref content) = msg.content {
+            let role_str = match msg.role {
+                crate::domain::message::MessageRole::User => "user",
+                crate::domain::message::MessageRole::Assistant => "assistant",
+                crate::domain::message::MessageRole::System => "system",
+            };
+            total_chars += content.len() as i64;
+            message_count += 1;
+            entries.push(serde_json::json!({
+                "role": role_str,
+                "content": content,
+            }));
+        }
+    }
+
+    let messages_json = serde_json::to_string(&entries).map_err(|e| {
+        OrqaError::Serialization(format!("failed to serialize context messages: {e}"))
+    })?;
+
+    Ok((message_count, total_chars, messages_json))
+}
+
+/// Look up the persisted provider session UUID for the given session.
+pub fn lookup_provider_session_id(
+    state: &AppState,
+    session_id: i64,
+) -> Result<Option<String>, OrqaError> {
+    use crate::repo::session_repo;
+
+    let db = state
+        .db
+        .lock()
+        .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
+    Ok(session_repo::get(&db, session_id)
+        .ok()
+        .and_then(|s| s.provider_session_id))
+}
+
+/// Resolve the system prompt from a known project root path.
+///
+/// Returns `Some(prompt)` when the governance prompt can be assembled from
+/// the given root, otherwise `None` (logging a warning on failure).
+pub fn resolve_system_prompt(project_root: &Path) -> Option<String> {
+    match build_system_prompt(project_root) {
+        Ok(prompt) => {
+            tracing::debug!("[stream] system prompt built ({} chars)", prompt.len());
+            Some(prompt)
+        }
+        Err(e) => {
+            tracing::warn!("[stream] failed to build system prompt: {e}");
+            None
+        }
+    }
+}
