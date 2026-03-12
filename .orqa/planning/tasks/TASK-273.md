@@ -2,7 +2,7 @@
 id: TASK-273
 title: "Build AI-assisted backfill and link verification tooling"
 description: "Build tooling that reads artifacts, proposes relationship connections based on content analysis, presents for human review, and batch-updates frontmatter. Includes link verification tooling that scans artifact content for contextual accuracy of cross-references. Reusable for future schema migrations. Usage documented as an injectable skill."
-status: todo
+status: done
 created: "2026-03-12"
 updated: "2026-03-12"
 epic: EPIC-058
