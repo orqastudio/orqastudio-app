@@ -31,17 +31,35 @@ fn build_app_state(
     tracker.register("embedding_model", "Embedding model")?;
 
     Ok(state::AppState {
-        db: std::sync::Mutex::new(conn),
-        sidecar: sidecar::manager::SidecarManager::new(),
-        search: std::sync::Mutex::new(None),
-        startup: Arc::clone(tracker),
-        pending_approvals: std::sync::Mutex::new(std::collections::HashMap::new()),
-        enforcement: std::sync::Mutex::new(None),
-        process_state: std::sync::Mutex::new(domain::process_state::SessionProcessState::default()),
-        workflow_tracker: std::sync::Mutex::new(domain::workflow_tracker::WorkflowTracker::new()),
-        artifact_watcher: std::sync::Arc::new(std::sync::Mutex::new(None)),
-        artifact_graph: std::sync::Mutex::new(None),
-        skill_injector: std::sync::Mutex::new(None),
+        db: state::DbState {
+            conn: std::sync::Mutex::new(conn),
+        },
+        sidecar: state::SidecarState {
+            manager: sidecar::manager::SidecarManager::new(),
+            pending_approvals: std::sync::Mutex::new(std::collections::HashMap::new()),
+        },
+        search: state::SearchState {
+            engine: std::sync::Mutex::new(None),
+        },
+        startup: state::StartupState {
+            tracker: Arc::clone(tracker),
+        },
+        enforcement: state::EnforcementState {
+            engine: std::sync::Mutex::new(None),
+        },
+        session: state::SessionState {
+            process_state: std::sync::Mutex::new(
+                domain::process_state::SessionProcessState::default(),
+            ),
+            workflow_tracker: std::sync::Mutex::new(
+                domain::workflow_tracker::WorkflowTracker::new(),
+            ),
+        },
+        artifacts: state::ArtifactState {
+            watcher: std::sync::Arc::new(std::sync::Mutex::new(None)),
+            graph: std::sync::Mutex::new(None),
+            skill_injector: std::sync::Mutex::new(None),
+        },
     })
 }
 

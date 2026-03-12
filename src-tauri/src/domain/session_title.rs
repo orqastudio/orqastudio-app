@@ -14,7 +14,7 @@ pub fn maybe_auto_title(
 ) {
     use crate::repo::{message_repo, session_repo};
 
-    let needs_title = match state.db.lock() {
+    let needs_title = match state.db.conn.lock() {
         Ok(db) => match session_repo::get(&db, session_id) {
             Ok(session) => session.title.is_none() && !session.title_manually_set,
             Err(_) => false,
@@ -26,7 +26,7 @@ pub fn maybe_auto_title(
         return;
     }
 
-    let messages = match state.db.lock() {
+    let messages = match state.db.conn.lock() {
         Ok(db) => match message_repo::list(&db, session_id, 10, 0) {
             Ok(msgs) => msgs,
             Err(_) => return,
@@ -59,18 +59,18 @@ pub fn maybe_auto_title(
         session_id,
         messages: message_summaries,
     };
-    if state.sidecar.send(&request).is_err() {
+    if state.sidecar.manager.send(&request).is_err() {
         tracing::warn!("[stream] failed to send GenerateSummary request");
         return;
     }
 
-    match state.sidecar.read_line() {
+    match state.sidecar.manager.read_line() {
         Ok(Some(SidecarResponse::SummaryResult { summary, .. })) => {
             let title = summary.trim().to_string();
             if title.is_empty() {
                 return;
             }
-            if let Ok(db) = state.db.lock() {
+            if let Ok(db) = state.db.conn.lock() {
                 if let Ok(true) = session_repo::auto_update_title(&db, session_id, &title) {
                     let _ = on_event.send(StreamEvent::SessionTitleUpdated { session_id, title });
                 }

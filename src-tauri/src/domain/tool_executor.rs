@@ -44,7 +44,7 @@ pub fn truncate_tool_output(output: String) -> String {
 /// Resolve the active project's root path for use as working directory.
 pub fn project_root(state: &tauri::State<'_, AppState>) -> Result<PathBuf, String> {
     use crate::repo::project_repo;
-    let conn = state.db.lock().map_err(|e| format!("db lock: {e}"))?;
+    let conn = state.db.conn.lock().map_err(|e| format!("db lock: {e}"))?;
     let project = project_repo::get_active(&conn)
         .map_err(|e| format!("db query: {e}"))?
         .ok_or_else(|| "no active project".to_string())?;
@@ -147,7 +147,7 @@ fn collect_injected_skills(
         return None;
     }
 
-    let mut tracker = match state.workflow_tracker.lock() {
+    let mut tracker = match state.session.workflow_tracker.lock() {
         Ok(t) => t,
         Err(e) => {
             tracing::warn!("[enforcement] workflow_tracker lock poisoned: {e}");
@@ -193,7 +193,7 @@ pub fn enforce_file(
     state: &tauri::State<'_, AppState>,
     project_dir: &Path,
 ) -> EnforcementResult {
-    let guard = match state.enforcement.lock() {
+    let guard = match state.enforcement.engine.lock() {
         Ok(g) => g,
         Err(e) => {
             tracing::warn!("[enforcement] lock poisoned: {e}");
@@ -268,7 +268,7 @@ pub fn enforce_bash(
     state: &tauri::State<'_, AppState>,
     project_dir: &Path,
 ) -> EnforcementResult {
-    let guard = match state.enforcement.lock() {
+    let guard = match state.enforcement.engine.lock() {
         Ok(g) => g,
         Err(e) => {
             tracing::warn!("[enforcement] lock poisoned: {e}");
@@ -811,7 +811,7 @@ pub fn tool_search_regex(
         .map(|n| n as u32)
         .unwrap_or(20);
 
-    let search_guard = match state.search.lock() {
+    let search_guard = match state.search.engine.lock() {
         Ok(g) => g,
         Err(e) => return (format!("search lock error: {e}"), true),
     };
@@ -845,7 +845,7 @@ pub fn tool_search_semantic(
         .map(|n| n as u32)
         .unwrap_or(10);
 
-    let mut search_guard = match state.search.lock() {
+    let mut search_guard = match state.search.engine.lock() {
         Ok(g) => g,
         Err(e) => return (format!("search lock error: {e}"), true),
     };
@@ -888,7 +888,7 @@ pub fn tool_code_research(
 
     // Semantic results (best for natural language queries)
     {
-        let mut search_guard = match state.search.lock() {
+        let mut search_guard = match state.search.engine.lock() {
             Ok(g) => g,
             Err(e) => return (format!("search lock error: {e}"), true),
         };
@@ -910,7 +910,7 @@ pub fn tool_code_research(
 
     // Regex results (best for exact identifiers)
     {
-        let search_guard = match state.search.lock() {
+        let search_guard = match state.search.engine.lock() {
             Ok(g) => g,
             Err(e) => return (format!("search lock error: {e}"), true),
         };
@@ -980,6 +980,7 @@ pub fn project_root_from_state(state: &AppState) -> Result<PathBuf, OrqaError> {
     use crate::repo::project_repo;
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("db lock: {e}")))?;
     let project = project_repo::get_active(&conn)

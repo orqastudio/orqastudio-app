@@ -17,6 +17,7 @@ use crate::state::AppState;
 fn active_project_path(state: &State<'_, AppState>) -> Result<String, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -35,7 +36,8 @@ fn active_project_path(state: &State<'_, AppState>) -> Result<String, OrqaError>
 fn get_or_build_graph(state: &State<'_, AppState>) -> Result<ArtifactGraph, OrqaError> {
     {
         let guard = state
-            .artifact_graph
+            .artifacts
+            .graph
             .lock()
             .map_err(|e| OrqaError::Database(format!("graph lock poisoned: {e}")))?;
         if let Some(graph) = guard.as_ref() {
@@ -48,7 +50,8 @@ fn get_or_build_graph(state: &State<'_, AppState>) -> Result<ArtifactGraph, Orqa
     let graph = build_artifact_graph(Path::new(&project_path))?;
 
     let mut guard = state
-        .artifact_graph
+        .artifacts
+        .graph
         .lock()
         .map_err(|e| OrqaError::Database(format!("graph lock poisoned: {e}")))?;
     *guard = Some(graph.clone());
@@ -197,7 +200,8 @@ pub fn refresh_artifact_graph(state: State<'_, AppState>) -> Result<(), OrqaErro
     let new_graph = build_artifact_graph(Path::new(&project_path))?;
 
     let mut guard = state
-        .artifact_graph
+        .artifacts
+        .graph
         .lock()
         .map_err(|e| OrqaError::Database(format!("graph lock poisoned: {e}")))?;
     *guard = Some(new_graph);

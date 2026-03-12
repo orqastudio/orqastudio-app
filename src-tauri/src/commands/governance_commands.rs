@@ -41,7 +41,7 @@ pub fn governance_analyze(
     let session_id = create_governance_session(project_id, &state)?;
     let prompt = build_analysis_prompt(&scan_result);
     super::sidecar_commands::ensure_sidecar_running(&state)?;
-    let raw_response = send_and_collect(&state.sidecar, session_id, &prompt)?;
+    let raw_response = send_and_collect(&state.sidecar.manager, session_id, &prompt)?;
     let output = crate::domain::governance_analysis::parse_claude_output(&raw_response)?;
     let now = current_timestamp();
     let analysis = GovernanceAnalysis {
@@ -153,6 +153,7 @@ fn acquire_db<'a>(
 ) -> Result<std::sync::MutexGuard<'a, rusqlite::Connection>, OrqaError> {
     state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))
 }

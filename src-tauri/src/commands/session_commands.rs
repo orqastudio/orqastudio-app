@@ -22,6 +22,7 @@ pub fn session_create(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -58,6 +59,7 @@ pub fn session_list(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -69,6 +71,7 @@ pub fn session_list(
 pub fn session_get(session_id: i64, state: State<'_, AppState>) -> Result<Session, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     session_repo::get(&conn, session_id)
@@ -87,6 +90,7 @@ pub fn session_update_title(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     session_repo::update_title(&conn, session_id, title.trim())
@@ -97,6 +101,7 @@ pub fn session_update_title(
 pub fn session_end(session_id: i64, state: State<'_, AppState>) -> Result<(), OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     session_repo::end_session(&conn, session_id)
@@ -107,6 +112,7 @@ pub fn session_end(session_id: i64, state: State<'_, AppState>) -> Result<(), Or
 pub fn session_delete(session_id: i64, state: State<'_, AppState>) -> Result<(), OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     session_repo::delete(&conn, session_id)

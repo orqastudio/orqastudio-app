@@ -25,6 +25,7 @@ pub fn settings_get(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -51,6 +52,7 @@ pub fn settings_set(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -69,6 +71,7 @@ pub fn settings_get_all(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 

@@ -68,6 +68,7 @@ pub fn theme_get_project(
 ) -> Result<ResolvedTheme, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -113,6 +114,7 @@ pub fn theme_set_override(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -130,6 +132,7 @@ pub fn theme_set_override(
 pub fn theme_clear_overrides(project_id: i64, state: State<'_, AppState>) -> Result<(), OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 

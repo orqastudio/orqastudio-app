@@ -162,7 +162,7 @@ pub fn handle_tool_execute(
         output,
         is_error,
     };
-    if let Err(e) = state.sidecar.send(&tool_result) {
+    if let Err(e) = state.sidecar.manager.send(&tool_result) {
         let _ = on_event.send(StreamEvent::StreamError {
             code: "tool_result_send_error".to_string(),
             message: format!("failed to send tool result to sidecar: {e}"),
@@ -188,7 +188,7 @@ pub fn send_approval(
         approved,
         reason,
     };
-    if let Err(e) = state.sidecar.send(&approval) {
+    if let Err(e) = state.sidecar.manager.send(&approval) {
         let _ = on_event.send(StreamEvent::StreamError {
             code: "tool_approval_send_error".to_string(),
             message: format!("failed to send tool approval to sidecar: {e}"),
@@ -228,7 +228,7 @@ pub fn handle_tool_approval(
 
     // Register the sender so stream_tool_approval_respond can signal us
     {
-        let Ok(mut map) = state.pending_approvals.lock() else {
+        let Ok(mut map) = state.sidecar.pending_approvals.lock() else {
             tracing::error!("[stream] pending_approvals mutex poisoned");
             return send_approval(
                 tool_call_id,
@@ -250,7 +250,7 @@ pub fn handle_tool_approval(
     if emit_result.is_err() {
         tracing::warn!("[stream] failed to emit ToolApprovalRequest to frontend");
         // Clean up our registration and deny
-        if let Ok(mut map) = state.pending_approvals.lock() {
+        if let Ok(mut map) = state.sidecar.pending_approvals.lock() {
             map.remove(tool_call_id);
         }
         return send_approval(
@@ -290,7 +290,7 @@ pub fn run_stream_loop(
     };
 
     loop {
-        let response = match state.sidecar.read_line() {
+        let response = match state.sidecar.manager.read_line() {
             Ok(Some(resp)) => resp,
             Ok(None) => {
                 let _ = on_event.send(StreamEvent::StreamError {
@@ -318,7 +318,7 @@ pub fn run_stream_loop(
             ref provider_session_id,
         } = response
         {
-            if let Ok(db) = state.db.lock() {
+            if let Ok(db) = state.db.conn.lock() {
                 if let Err(e) =
                     session_repo::update_provider_session_id(&db, session_id, provider_session_id)
                 {
@@ -403,7 +403,7 @@ fn track_process_state(tool_name: &str, input_json: &str, state: &tauri::State<'
         Ok(v) => v,
         Err(_) => return,
     };
-    match state.process_state.lock() {
+    match state.session.process_state.lock() {
         Ok(mut ps) => ps.track_tool_call(tool_name, &input),
         Err(e) => {
             tracing::warn!("[process] process_state mutex poisoned, skipping track: {e}");
@@ -417,7 +417,7 @@ fn track_process_state(tool_name: &str, input_json: &str, state: &tauri::State<'
 /// Gate messages are logged at debug level. Callers that want to surface them
 /// to the agent should read the workflow tracker separately.
 fn track_workflow(tool_name: &str, input: &serde_json::Value, state: &tauri::State<'_, AppState>) {
-    let mut guard = match state.workflow_tracker.lock() {
+    let mut guard = match state.session.workflow_tracker.lock() {
         Ok(g) => g,
         Err(e) => {
             tracing::warn!("[workflow] workflow_tracker mutex poisoned, skipping track: {e}");
@@ -466,7 +466,7 @@ fn track_workflow(tool_name: &str, input: &serde_json::Value, state: &tauri::Sta
 ///
 /// Called at `TurnComplete`. Gate messages are logged at debug level.
 pub fn evaluate_stop_gates(state: &tauri::State<'_, AppState>) {
-    let mut guard = match state.workflow_tracker.lock() {
+    let mut guard = match state.session.workflow_tracker.lock() {
         Ok(g) => g,
         Err(e) => {
             tracing::warn!("[workflow] workflow_tracker mutex poisoned, skipping stop gates: {e}");

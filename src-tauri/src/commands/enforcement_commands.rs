@@ -19,6 +19,7 @@ pub fn enforcement_rules_list(
 ) -> Result<Vec<EnforcementRule>, OrqaError> {
     let guard = state
         .enforcement
+        .engine
         .lock()
         .map_err(|e| OrqaError::Database(format!("enforcement lock poisoned: {e}")))?;
 
@@ -40,6 +41,7 @@ pub fn enforcement_rules_reload(state: State<'_, AppState>) -> Result<usize, Orq
     if !rules_dir.exists() {
         let mut guard = state
             .enforcement
+            .engine
             .lock()
             .map_err(|e| OrqaError::Database(format!("enforcement lock poisoned: {e}")))?;
         *guard = None;
@@ -52,6 +54,7 @@ pub fn enforcement_rules_reload(state: State<'_, AppState>) -> Result<usize, Orq
 
     let mut guard = state
         .enforcement
+        .engine
         .lock()
         .map_err(|e| OrqaError::Database(format!("enforcement lock poisoned: {e}")))?;
     *guard = Some(engine);
@@ -79,6 +82,7 @@ pub fn enforcement_scan_governance(
 
     let guard = state
         .enforcement
+        .engine
         .lock()
         .map_err(|e| OrqaError::Database(format!("enforcement lock poisoned: {e}")))?;
 
@@ -92,6 +96,7 @@ pub fn enforcement_scan_governance(
 fn resolve_active_project_path(state: &State<'_, AppState>) -> Result<String, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("db lock poisoned: {e}")))?;
 

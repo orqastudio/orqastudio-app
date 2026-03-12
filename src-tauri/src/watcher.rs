@@ -98,7 +98,7 @@ pub fn start<R: Runtime>(
 
             // Invalidate the cached artifact graph so the next query rebuilds it.
             if let Some(state) = app.try_state::<crate::state::AppState>() {
-                if let Ok(mut graph) = state.artifact_graph.lock() {
+                if let Ok(mut graph) = state.artifacts.graph.lock() {
                     *graph = None;
                 }
             }

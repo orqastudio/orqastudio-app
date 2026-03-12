@@ -44,7 +44,7 @@ fn sidecar_args() -> Vec<String> {
 ///
 /// Returns Ok(()) if the sidecar is already connected or was successfully spawned.
 pub fn ensure_sidecar_running(state: &AppState) -> Result<(), OrqaError> {
-    if state.sidecar.is_connected() {
+    if state.sidecar.manager.is_connected() {
         return Ok(());
     }
 
@@ -52,6 +52,7 @@ pub fn ensure_sidecar_running(state: &AppState) -> Result<(), OrqaError> {
     let arg_refs: Vec<&str> = args.iter().map(|s| s.as_str()).collect();
     state
         .sidecar
+        .manager
         .spawn(SIDECAR_COMMAND, &arg_refs)
         .map_err(|e| {
             OrqaError::Sidecar(format!(
@@ -67,7 +68,7 @@ pub fn ensure_sidecar_running(state: &AppState) -> Result<(), OrqaError> {
 /// and connection state.
 #[tauri::command]
 pub fn sidecar_status(state: tauri::State<'_, AppState>) -> Result<SidecarStatus, OrqaError> {
-    Ok(state.sidecar.status())
+    Ok(state.sidecar.manager.status())
 }
 
 /// Restart the sidecar process.
@@ -77,7 +78,7 @@ pub fn sidecar_status(state: tauri::State<'_, AppState>) -> Result<SidecarStatus
 pub fn sidecar_restart(state: tauri::State<'_, AppState>) -> Result<SidecarStatus, OrqaError> {
     let args = sidecar_args();
     let arg_refs: Vec<&str> = args.iter().map(|s| s.as_str()).collect();
-    state.sidecar.restart(SIDECAR_COMMAND, &arg_refs)
+    state.sidecar.manager.restart(SIDECAR_COMMAND, &arg_refs)
 }
 
 #[cfg(test)]

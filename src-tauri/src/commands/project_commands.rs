@@ -20,6 +20,7 @@ pub fn project_open(path: String, state: State<'_, AppState>) -> Result<Project,
     let canonical = validate_directory_path(&path)?;
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -76,7 +77,7 @@ fn load_enforcement_engine(state: &State<'_, AppState>, project_path: &str) {
         None
     };
 
-    match state.enforcement.lock() {
+    match state.enforcement.engine.lock() {
         Ok(mut guard) => *guard = engine,
         Err(e) => tracing::warn!("[enforcement] failed to acquire enforcement lock: {e}"),
     }
@@ -144,6 +145,7 @@ pub fn project_create(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -155,6 +157,7 @@ pub fn project_create(
 pub fn project_get(project_id: i64, state: State<'_, AppState>) -> Result<Project, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     project_repo::get(&conn, project_id)
@@ -165,6 +168,7 @@ pub fn project_get(project_id: i64, state: State<'_, AppState>) -> Result<Projec
 pub fn project_get_active(state: State<'_, AppState>) -> Result<Option<Project>, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     project_repo::get_active(&conn)
@@ -175,6 +179,7 @@ pub fn project_get_active(state: State<'_, AppState>) -> Result<Option<Project>,
 pub fn project_list(state: State<'_, AppState>) -> Result<Vec<ProjectSummary>, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
     project_repo::list(&conn)

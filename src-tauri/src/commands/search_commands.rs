@@ -27,6 +27,7 @@ pub async fn index_codebase(
 
     let mut search_guard = state
         .search
+        .engine
         .lock()
         .map_err(|e| OrqaError::Search(e.to_string()))?;
 
@@ -54,6 +55,7 @@ pub async fn search_regex(
 ) -> Result<Vec<SearchResult>, OrqaError> {
     let search_guard = state
         .search
+        .engine
         .lock()
         .map_err(|e| OrqaError::Search(e.to_string()))?;
     let engine = search_guard.as_ref().ok_or_else(|| {
@@ -74,6 +76,7 @@ pub async fn search_semantic(
 ) -> Result<Vec<SearchResult>, OrqaError> {
     let mut search_guard = state
         .search
+        .engine
         .lock()
         .map_err(|e| OrqaError::Search(e.to_string()))?;
     let engine = search_guard.as_mut().ok_or_else(|| {
@@ -93,6 +96,7 @@ pub async fn get_index_status(
 ) -> Result<IndexStatus, OrqaError> {
     let search_guard = state
         .search
+        .engine
         .lock()
         .map_err(|e| OrqaError::Search(e.to_string()))?;
 
@@ -108,6 +112,7 @@ pub async fn get_index_status(
         drop(search_guard);
         let mut search_guard = state
             .search
+            .engine
             .lock()
             .map_err(|e| OrqaError::Search(e.to_string()))?;
         let engine = SearchEngine::new(&db_path)?;
@@ -148,6 +153,7 @@ pub async fn init_embedder(state: State<'_, AppState>, model_dir: String) -> Res
     // Now load the model into the search engine
     let mut search_guard = state
         .search
+        .engine
         .lock()
         .map_err(|e| OrqaError::Search(e.to_string()))?;
     if let Some(engine) = search_guard.as_mut() {
@@ -165,6 +171,7 @@ pub async fn init_embedder(state: State<'_, AppState>, model_dir: String) -> Res
 pub async fn get_startup_status(state: State<'_, AppState>) -> Result<StartupSnapshot, OrqaError> {
     state
         .startup
+        .tracker
         .snapshot()
         .map_err(|e| OrqaError::Search(e.to_string()))
 }

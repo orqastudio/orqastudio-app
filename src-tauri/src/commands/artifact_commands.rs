@@ -28,6 +28,7 @@ pub fn artifact_list(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -39,6 +40,7 @@ pub fn artifact_list(
 pub fn artifact_get(artifact_id: i64, state: State<'_, AppState>) -> Result<Artifact, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -70,6 +72,7 @@ pub fn artifact_get_by_path(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -106,6 +109,7 @@ pub fn artifact_create(
 
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -132,6 +136,7 @@ pub fn artifact_update(
 ) -> Result<Artifact, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -168,6 +173,7 @@ pub fn artifact_update(
 pub fn artifact_delete(artifact_id: i64, state: State<'_, AppState>) -> Result<(), OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -232,6 +238,7 @@ pub fn artifact_scan_tree(state: State<'_, AppState>) -> Result<NavTree, OrqaErr
 fn active_project_path(state: &State<'_, AppState>) -> Result<String, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -264,7 +271,7 @@ pub fn artifact_watch_start<R: Runtime>(
     state: State<'_, AppState>,
     project_path: String,
 ) -> Result<(), OrqaError> {
-    watcher::start(app, PathBuf::from(&project_path), &state.artifact_watcher)
+    watcher::start(app, PathBuf::from(&project_path), &state.artifacts.watcher)
         .map_err(OrqaError::FileSystem)
 }
 

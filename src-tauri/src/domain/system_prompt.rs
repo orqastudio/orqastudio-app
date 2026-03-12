@@ -146,7 +146,7 @@ pub fn load_context_messages(state: &AppState, session_id: i64) -> Option<Vec<Co
     use crate::domain::message::{ContentType, MessageRole};
     use crate::repo::message_repo;
 
-    let db = state.db.lock().ok()?;
+    let db = state.db.conn.lock().ok()?;
     // Load a generous window; we'll slice from the end below.
     let messages = message_repo::list(&db, session_id, 200, 0).ok()?;
 
@@ -194,6 +194,7 @@ pub fn load_context_summary(
 
     let db = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
 
@@ -241,6 +242,7 @@ pub fn lookup_provider_session_id(
 
     let db = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
     Ok(session_repo::get(&db, session_id)

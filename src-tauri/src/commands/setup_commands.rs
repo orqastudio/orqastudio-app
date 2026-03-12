@@ -52,6 +52,7 @@ fn default_steps() -> Vec<SetupStepStatus> {
 pub fn get_setup_status(state: tauri::State<'_, AppState>) -> Result<SetupStatus, OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
@@ -133,6 +134,7 @@ pub fn check_embedding_model(app_handle: tauri::AppHandle) -> Result<SetupStepSt
 pub fn complete_setup(state: tauri::State<'_, AppState>) -> Result<(), OrqaError> {
     let conn = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 

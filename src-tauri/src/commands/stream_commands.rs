@@ -19,6 +19,7 @@ fn persist_user_message(
 ) -> Result<(i64, i64), OrqaError> {
     let db = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
 
@@ -46,6 +47,7 @@ fn persist_assistant_message(
 ) -> Result<(), OrqaError> {
     let db = state
         .db
+        .conn
         .lock()
         .map_err(|e| OrqaError::Database(format!("failed to acquire db lock: {e}")))?;
 
@@ -85,7 +87,7 @@ fn persist_assistant_message(
 
 /// Reset session process state when a new session begins.
 fn reset_process_state_if_new_session(state: &tauri::State<'_, AppState>, session_id: i64) {
-    match state.process_state.lock() {
+    match state.session.process_state.lock() {
         Ok(mut ps) => {
             if ps.session_id != Some(session_id) {
                 ps.reset(session_id);
@@ -101,7 +103,7 @@ fn reset_process_state_if_new_session(state: &tauri::State<'_, AppState>, sessio
 /// Reset the workflow tracker to a clean state for a new session.
 fn reset_workflow_tracker(state: &tauri::State<'_, AppState>) {
     use crate::domain::workflow_tracker::WorkflowTracker;
-    match state.workflow_tracker.lock() {
+    match state.session.workflow_tracker.lock() {
         Ok(mut wt) => {
             *wt = WorkflowTracker::new();
         }
@@ -116,7 +118,7 @@ fn emit_process_violations(
     state: &tauri::State<'_, AppState>,
     on_event: &tauri::ipc::Channel<StreamEvent>,
 ) {
-    let violations = match state.process_state.lock() {
+    let violations = match state.session.process_state.lock() {
         Ok(ps) => ps.check_violations(),
         Err(e) => {
             tracing::warn!("[process] process_state mutex poisoned, skipping violation check: {e}");
@@ -193,7 +195,7 @@ pub fn stream_send_message(
         provider_session_id,
         enable_thinking: false,
     };
-    state.sidecar.send(&request)?;
+    state.sidecar.manager.send(&request)?;
 
     let acc = run_stream_loop(&state, &on_event);
     persist_assistant_message(&state, session_id, turn_index, &acc)?;
@@ -207,6 +209,7 @@ pub fn stream_send_message(
 pub fn stream_stop(session_id: i64, state: tauri::State<'_, AppState>) -> Result<(), OrqaError> {
     state
         .sidecar
+        .manager
         .send(&SidecarRequest::CancelStream { session_id })
 }
 
@@ -218,6 +221,7 @@ pub fn stream_tool_approval_respond(
     state: tauri::State<'_, AppState>,
 ) -> Result<(), OrqaError> {
     let sender = state
+        .sidecar
         .pending_approvals
         .lock()
         .map_err(|_| OrqaError::Sidecar("pending_approvals mutex poisoned".to_string()))?
