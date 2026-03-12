@@ -14,7 +14,6 @@
 	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
 	import ProjectSetupWizard from "$lib/components/settings/ProjectSetupWizard.svelte";
 	import SetupWizard from "$lib/components/setup/SetupWizard.svelte";
-	import GovernanceBootstrapWizard from "$lib/components/governance/GovernanceBootstrapWizard.svelte";
 	import ArtifactSearchOverlay from "$lib/components/navigation/ArtifactSearchOverlay.svelte";
 	import ErrorToast from "$lib/components/shared/ErrorToast.svelte";
 	import { errorStore } from "$lib/stores/errors.svelte";
@@ -28,7 +27,6 @@
 	import { artifactStore } from "$lib/stores/artifact.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { setupStore } from "$lib/stores/setup.svelte";
-	import { governanceStore } from "$lib/stores/governance.svelte";
 	import { enforcementStore } from "$lib/stores/enforcement.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 
@@ -124,24 +122,6 @@
 		}
 	});
 
-	// Auto-trigger governance scan when a project is fully loaded
-	$effect(() => {
-		const project = projectStore.activeProject;
-		if (!project || needsSetup) return;
-		const projectId = project.id;
-		(async () => {
-			await governanceStore.scan(projectId);
-			await governanceStore.checkExistingAnalysis(projectId);
-			if (
-				governanceStore.scanResult !== null &&
-				governanceStore.scanResult.coverage_ratio < 3 / 7 &&
-				governanceStore.analysis === null
-			) {
-				governanceStore.showWizard();
-			}
-		})();
-	});
-
 	// Auto-load artifact content when the selected artifact path changes
 	$effect(() => {
 		const path = navigationStore.selectedArtifactPath;
@@ -233,10 +213,6 @@
 				</Resizable.PaneGroup>
 			{/if}
 
-			<!-- Governance bootstrap wizard overlay -->
-			{#if governanceStore.wizardVisible && projectStore.activeProject}
-				<GovernanceBootstrapWizard projectId={projectStore.activeProject.id} />
-			{/if}
 		{:else}
 			<!-- No project loaded — welcome screen, no sidebar -->
 			<div class="flex flex-1 overflow-hidden">

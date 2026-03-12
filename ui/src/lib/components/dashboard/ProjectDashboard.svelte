@@ -14,10 +14,8 @@
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import CoverageIndicator from "$lib/components/governance/CoverageIndicator.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { governanceStore } from "$lib/stores/governance.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { ARTIFACT_TYPES } from "$lib/types/artifact-graph";
 	import type { Component } from "svelte";
@@ -140,50 +138,6 @@
 					</Card.Content>
 				</Card.Root>
 			{/if}
-
-			<!-- Governance health -->
-			<Card.Root class="mb-4">
-				<Card.Header class="pb-3">
-					<div class="flex items-center justify-between">
-						<Card.Title class="text-base">
-							<div class="flex items-center gap-2">
-								<ShieldIcon class="h-4 w-4" />
-								Governance Health
-							</div>
-						</Card.Title>
-						<Button
-							variant="ghost"
-							size="sm"
-							onclick={() => governanceStore.showWizard()}
-						>
-							<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
-							Re-analyze Governance
-						</Button>
-					</div>
-				</Card.Header>
-				<Card.Content>
-					{#if governanceStore.loading}
-						<div class="flex items-center justify-center py-4">
-							<LoadingSpinner />
-						</div>
-					{:else if governanceStore.error}
-						<ErrorDisplay
-							message={governanceStore.error}
-							onRetry={() => {
-								const p = projectStore.activeProject;
-								if (p) governanceStore.scan(p.id);
-							}}
-						/>
-					{:else if governanceStore.scanResult}
-						<CoverageIndicator
-							areas={governanceStore.scanResult.areas}
-							coverageRatio={governanceStore.scanResult.coverage_ratio}
-						/>
-					{:else}
-						<p class="text-sm text-muted-foreground">Scan not yet run</p>
-					{/if}
-				</Card.Content>
-			</Card.Root>
 
 			<!-- Artifact Graph Insights -->
 			<Card.Root class="mb-4">

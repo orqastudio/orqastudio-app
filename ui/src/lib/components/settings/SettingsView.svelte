@@ -12,13 +12,11 @@
 	import ProjectSetupWizard from "./ProjectSetupWizard.svelte";
 	import ProjectGeneralSettings from "./ProjectGeneralSettings.svelte";
 	import ProjectScanningSettings from "./ProjectScanningSettings.svelte";
-	import ProjectGovernanceSettings from "./ProjectGovernanceSettings.svelte";
 
 	const project = $derived(projectStore.activeProject);
 	const isProjectSection = $derived(
 		settingsStore.activeSection === "project-general" ||
-		settingsStore.activeSection === "project-scanning" ||
-		settingsStore.activeSection === "project-governance",
+		settingsStore.activeSection === "project-scanning",
 	);
 </script>
 
@@ -72,10 +70,6 @@
 						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
 						onRescan={() => projectStore.scanProject(project.path, projectStore.projectSettings?.excluded_paths)}
 						rescanning={projectStore.scanning}
-					/>
-				{:else if settingsStore.activeSection === "project-governance"}
-					<ProjectGovernanceSettings
-						governance={projectStore.projectSettings.governance}
 					/>
 				{/if}
 			{:else}

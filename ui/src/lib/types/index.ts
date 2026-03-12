@@ -59,16 +59,6 @@ export type {
 } from "./setup";
 
 export type {
-	GovernanceScanResult,
-	GovernanceArea,
-	GovernanceFile,
-	GovernanceAnalysis,
-	RecommendationPriority,
-	RecommendationStatus,
-	Recommendation,
-} from "./governance";
-
-export type {
 	EnforcementRule,
 	EnforcementEntry,
 	Condition,

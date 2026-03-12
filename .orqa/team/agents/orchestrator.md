@@ -139,6 +139,7 @@ These constraints are always in effect. No exceptions.
 - **Tauri `invoke()`** is the ONLY frontend-backend interface
 - **Documentation before code** — update docs first if implementation changes target state
 - **Honest reporting** — partial work reported as complete is worse than reported as incomplete
+- **No deferred deliverables** — if a deliverable is in scope, it ships NOW. Never defer to a future epic without explicit user approval. Read acceptance criteria literally.
 
 ## Artifact Lifecycle
 

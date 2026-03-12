@@ -4,7 +4,6 @@
 	import BrainIcon from "@lucide/svelte/icons/brain";
 	import SettingsIcon from "@lucide/svelte/icons/settings";
 	import ScanSearchIcon from "@lucide/svelte/icons/scan-search";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import KeyboardIcon from "@lucide/svelte/icons/keyboard";
 	import { settingsStore } from "$lib/stores/settings.svelte";
@@ -62,12 +61,6 @@
 			label: "Model & Scanning",
 			icon: ScanSearchIcon,
 			description: "Model, paths, stack detection",
-		},
-		{
-			id: "project-governance",
-			label: "Governance",
-			icon: ShieldIcon,
-			description: "Agents, rules, skills, hooks",
 		},
 	];
 
