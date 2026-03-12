@@ -2,7 +2,7 @@
 id: TASK-272
 title: "Implement rule-overrides in pre-commit hook"
 description: "Pre-commit hook checks if the commit references a task with rule-overrides that suspend a failing validation rule. If so, warn but don't block."
-status: todo
+status: done
 created: "2026-03-12"
 updated: "2026-03-12"
 epic: EPIC-058

@@ -69,11 +69,20 @@ function loadSchema(artifactPath) {
   }
 }
 
-// Main
-const files = process.argv.slice(2);
+// Parse args: files and optional --warn-rules=RULE-032,RULE-004
+const args = process.argv.slice(2);
+const warnRulesArg = args.find((a) => a.startsWith("--warn-rules="));
+const warnRules = warnRulesArg
+  ? new Set(warnRulesArg.split("=")[1].split(","))
+  : new Set();
+const files = args.filter((a) => !a.startsWith("--warn-rules="));
+
 if (files.length === 0) {
   process.exit(0);
 }
+
+// When RULE-032 is in warn-rules, schema validation failures become warnings
+const schemaWarnOnly = warnRules.has("RULE-032");
 
 const config = JSON.parse(readFileSync(CONFIG_PATH, "utf-8"));
 const artifactPaths = collectPaths(config.artifacts);
@@ -85,6 +94,18 @@ addFormats(ajv);
 const validators = new Map();
 
 let errors = 0;
+let warnings = 0;
+
+// Helper: report as error or warning depending on RULE-032 suspension
+function reportIssue(msg) {
+  if (schemaWarnOnly) {
+    console.error(`WARNING (RULE-032 suspended): ${msg}`);
+    warnings++;
+  } else {
+    console.error(`ERROR: ${msg}`);
+    errors++;
+  }
+}
 
 for (const file of files) {
   // Skip READMEs and non-md files
@@ -137,9 +158,8 @@ for (const file of files) {
       } else if (err.keyword === "enum") {
         msg = `${msg} (${err.params.allowedValues.join(", ")})`;
       }
-      console.error(`ERROR: ${file} ${path} — ${msg}`);
+      reportIssue(`${file} ${path} — ${msg}`);
     }
-    errors += validate.errors.length;
   }
 
   // Body template validation: check required sections exist in the markdown body
@@ -168,8 +188,7 @@ for (const file of files) {
         // Match ## Heading (case-sensitive, at start of line)
         const pattern = new RegExp(`^## ${heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*$`, "m");
         if (!pattern.test(body)) {
-          console.error(`ERROR: ${file} — missing required section "## ${heading}"`);
-          errors++;
+          reportIssue(`${file} — missing required section "## ${heading}"`);
         }
       }
     }
@@ -183,12 +202,15 @@ for (const file of files) {
     const fileKeysInSchema = fileKeys.filter((k) => canonicalOrder.includes(k));
     const expectedOrder = canonicalOrder.filter((k) => fileKeysInSchema.includes(k));
     if (JSON.stringify(fileKeysInSchema) !== JSON.stringify(expectedOrder)) {
-      console.error(`ERROR: ${file} — field order does not match schema propertyOrder`);
-      console.error(`  expected: ${expectedOrder.join(", ")}`);
-      console.error(`  actual:   ${fileKeysInSchema.join(", ")}`);
-      errors++;
+      reportIssue(`${file} — field order does not match schema propertyOrder\n  expected: ${expectedOrder.join(", ")}\n  actual:   ${fileKeysInSchema.join(", ")}`);
     }
   }
+}
+
+if (warnings > 0) {
+  console.error(
+    `\nSchema validation: ${warnings} warning(s) (RULE-032 suspended — not blocking).`
+  );
 }
 
 if (errors > 0) {
