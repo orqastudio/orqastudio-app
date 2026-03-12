@@ -124,7 +124,7 @@
     .controls button.start { border-color: #4ecca3; }
     .controls button.start:hover:not(:disabled) { background: #4ecca3; color: #1a1a2e; }
 
-    .controls .separator { width: 1px; height: 20px; background: #0f3460; margin: 0 4px; }
+    .controls .separator { width: 1px; height: 20px; background: #0f3460; margin: 0 4px; flex-shrink: 0; }
 
     .controls [title] { position: relative; }
     .controls [title]:hover::after {
@@ -148,7 +148,6 @@
     .filter-group {
       display: flex;
       gap: 4px;
-      margin-left: auto;
     }
 
     .filter-btn {
@@ -294,7 +293,7 @@
       <svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
     </button>
 
-    <div class="separator"></div>
+    <div class="separator" style="margin-left: auto"></div>
 
     <div class="filter-group">
       <!-- Source filters: colored circle icons -->
