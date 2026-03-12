@@ -4,43 +4,43 @@ title: No Stubs or Placeholders
 description: No hardcoded fake data, TODO functions, or scaffolded implementations in production code.
 status: active
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-12"
 layer: core
 scope: [AGENT-002, AGENT-006]
 enforcement:
   - event: file
     pattern: "TODO|FIXME|HACK|XXX"
-    paths: ["src-tauri/src/**/*.rs", "ui/**/*.ts", "ui/**/*.svelte", "sidecar/src/**/*.ts"]
+    paths: ["src/**/*"]
     action: warn
-    message: "TODO/FIXME/HACK comments are forbidden in production code (RULE-020). Track in TODO.md instead."
+    message: "TODO/FIXME/HACK comments are forbidden in production code (RULE-020). Track in .orqa/planning/tasks/ instead."
 ---
 ## What Counts as a Stub
 
 - Hardcoded return values pretending to be real data (e.g., `status: "connected"`, `latency: 42`)
-- Default arrays/objects with fake data that should come from the backend (e.g., hardcoded scanner results)
-- Functions that log "TODO" or do nothing (e.g., `save_session()` that only prints a message)
-- `test_connection()` that always returns `Ok(())` without actually testing anything
-- "No-op" event handlers that `console.log` instead of performing the action
+- Default arrays/objects with fake data that should come from a real source
+- Functions that log "TODO" or do nothing
+- Test functions that always return success without actually testing anything
+- "No-op" event handlers that log instead of performing the action
 - Async functions with TODO comments in their implementation bodies
-- Rust functions that return `Ok(Default::default())` instead of doing real work
-- Any function that claims to persist data but only modifies local/in-memory state without writing to SQLite or disk
-- `#[tauri::command]` functions that return hardcoded data instead of computing real results
-- TypeScript `invoke()` calls wrapped in try/catch that silently return fake fallback data on error
+- Functions that return default values instead of doing real work
+- Any function that claims to persist data but only modifies in-memory state
+- API handler functions that return hardcoded data instead of computing real results
+- Client calls wrapped in try/catch that silently return fake fallback data on error
 
 ## Verification Before Commit
 
-For EVERY new UI component or Tauri command:
+For EVERY new feature endpoint or UI component:
 
-1. Does the Svelte component call a real Tauri command via `invoke()`? If not, it's a stub
-2. Does the Rust command perform real work and return real data? If it returns hardcoded defaults, it's a stub
-3. Does the data displayed come from the Rust backend? If it uses hardcoded defaults as the primary source, it's a stub
+1. Does the UI call a real backend endpoint or command? If not, it's a stub
+2. Does the backend function perform real work and return real data? If it returns hardcoded defaults, it's a stub
+3. Does the data displayed come from the backend? If it uses hardcoded defaults as the primary source, it's a stub
 4. Does error handling show real errors? If it always returns success, it's a stub
 
 ## When Backend Doesn't Exist Yet
 
-If a Rust command doesn't exist, you MUST either:
+If a backend function doesn't exist yet, you MUST either:
 
-- Create the Rust command FIRST, then wire the frontend
+- Create the backend function FIRST, then wire the frontend
 - Show an explicit "Not configured" / "Not available" state in the UI
 - NEVER show fake success data to make it look like it works
 
@@ -54,9 +54,9 @@ A stub scanner should be part of the CI/quality checks. It scans all production 
 
 **If the scanner finds stubs, the build fails.** Legitimate exceptions (e.g., known incomplete features tracked in `.orqa/planning/tasks/`) can be added to an allowlist with a documented reason.
 
-## ChunkHound Integration
+## Code Search Integration
 
-Use `search_regex` for the command name (e.g. `"get_hardware_info"`) to instantly verify a Tauri command exists in both the Rust backend and the frontend invoke calls.
+Use `search_regex` for a function name to instantly verify it exists in both the backend and the frontend call sites.
 
 ## Agent Completion Reports (MANDATORY)
 
@@ -88,5 +88,5 @@ Every agent completing implementation work MUST include these sections in its fi
 ## Related Rules
 
 - [RULE-010](RULE-010) (end-to-end-completeness) — the full chain that must exist
-- [RULE-012](RULE-012) (error-ownership) — if the command doesn't exist, create it
+- [RULE-012](RULE-012) (error-ownership) — if the function doesn't exist, create it
 - [RULE-005](RULE-005) (chunkhound-usage) — tools for verifying implementations exist

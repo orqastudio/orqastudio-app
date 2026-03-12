@@ -2,7 +2,7 @@
 id: TASK-232
 title: "Split 8 core rules with project-specific content"
 description: "RULE-008,012,018,020,022,025,026,031 embed Tauri/Svelte/Rust in core rules. Extract to project companions."
-status: todo
+status: done
 created: "2026-03-12"
 updated: "2026-03-12"
 epic: EPIC-054

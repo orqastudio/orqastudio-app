@@ -4,7 +4,7 @@ title: Documentation-First Implementation
 description: Documentation is the source of truth. Verify docs exist before writing code; update docs before changing code.
 status: active
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-12"
 layer: core
 scope: [AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007]
 ---
@@ -14,13 +14,11 @@ Documentation is the source of truth. Before writing ANY implementation code, ve
 
 ## Before ANY Code Changes (MANDATORY)
 
-1. Check `.orqa/documentation/ui/` for existing designs related to the task
+1. Check `.orqa/documentation/` for existing designs related to the task
 2. Check `.orqa/documentation/architecture/` for relevant architecture decisions
-3. Check `.orqa/documentation/development/coding-standards.md` for implementation patterns
-4. Check the relevant `EPIC-NNN.md` task list in `.orqa/planning/epics/` for phase requirements and constraints
-5. Check `.orqa/documentation/product/roadmap.md` to verify work is prioritized
-6. Check the relevant `EPIC-NNN.md` in `.orqa/planning/epics/` — verify `docs-required` gate is satisfied
-7. Check `.orqa/documentation/product/artifact-framework.md` if working with `.orqa/` artifacts
+3. Check the relevant `EPIC-NNN.md` in `.orqa/planning/epics/` for phase requirements and constraints
+4. Verify the epic's `docs-required` gate is satisfied before starting implementation
+5. Check `.orqa/documentation/product/artifact-framework.md` if working with `.orqa/` artifacts
 
 **Documentation priorities ALWAYS come before implementation priorities.** Never reorder to put code changes ahead of documentation corrections.
 
@@ -28,17 +26,10 @@ Documentation is the source of truth. Before writing ANY implementation code, ve
 
 ## For New Features
 
-1. Read `.orqa/documentation/product/vision.md` — verify feature serves Pillar 1 or Pillar 2
+1. Read `.orqa/documentation/product/vision.md` — verify feature serves at least one active pillar
 2. Read `.orqa/documentation/product/governance.md` — verify feature passes governance criteria
 3. Verify the feature has an artifact trail — an `IDEA-NNN` that was shaped and promoted to an `EPIC-NNN`, or an `EPIC-NNN` created directly with user approval
 4. Verify the epic's `docs-required` gate is satisfied before starting implementation
-
-## Architectural Principles (verify compliance on EVERY change)
-
-- **Immutability** — Rust domain types should be immutable by default. No global mutable state outside of explicitly managed stores.
-- **Error propagation** — All Rust functions return `Result` types. No `unwrap()` in production code. `thiserror` for typed errors.
-- **IPC boundary** — Tauri commands are the ONLY interface between frontend and backend. No direct FFI calls, no side-channel communication.
-- **Component purity** — Svelte display components receive props only. Data fetching happens in pages and containers, not in reusable components.
 
 ## During Implementation
 
@@ -54,7 +45,7 @@ Documentation is the source of truth. Before writing ANY implementation code, ve
 
 ## No Deprecated Documentation (NON-NEGOTIABLE)
 
-This project is in alpha. Documentation describes the **active target state only**. There is no audience for migration guides, deprecation notices, or historical redirects.
+Documentation describes the **active target state only**. There is no audience for migration guides, deprecation notices, or historical redirects.
 
 **Rules:**
 

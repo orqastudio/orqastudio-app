@@ -5,7 +5,7 @@ description: |
   Comprehensive audit and cleanup of all .orqa/ artifacts to align with graph-based
   knowledge injection principles, correct layer classifications, fix data integrity
   issues, and eliminate sources of context confusion.
-status: draft
+status: done
 priority: P1
 created: "2026-03-12"
 updated: "2026-03-12"

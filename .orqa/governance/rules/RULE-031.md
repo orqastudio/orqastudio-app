@@ -4,7 +4,7 @@ title: Vision Alignment
 description: Every feature must serve at least one active pillar defined in .orqa/planning/pillars/.
 status: active
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-12"
 layer: core
 scope: [AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007]
 ---
@@ -63,11 +63,11 @@ UX-first does NOT mean ignoring architectural constraints. It means the UI defin
 The following are **foundational principles** that can ONLY be changed with explicit user direction and approval:
 
 - The pillar framework (active pillars defined in `.orqa/planning/pillars/`)
-- The Tauri v2 + Svelte 5 + Rust + SQLite technology stack
-- The IPC boundary design (Tauri commands as the only frontend-backend interface)
+- The project's technology stack as defined in architecture decisions
+- The service boundary design (defined in architecture decisions)
 - The UX-first design principle
 - The documentation-first workflow
-- Error propagation via Result types (no unwrap in production)
+- Error propagation via result types (no silent failures in production)
 
 **No agent may modify, weaken, or work around these principles without the user explicitly directing the change.** If an implementation seems to require violating a foundational principle, STOP and ask the user before proceeding.
 
@@ -83,20 +83,6 @@ If the user gives an instruction that appears to conflict with a foundational pr
    - Update this rule file ([RULE-031](RULE-031) (vision-alignment)) to reflect the new principle
    - Update all affected agent definitions in `.orqa/team/agents/`
 4. **Never silently comply** — If an instruction contradicts a principle, do NOT just implement it without flagging the conflict first
-
-**Examples of instructions that should be questioned:**
-
-- "Skip the SQLite layer and just use localStorage" -> Conflicts with the persistence architecture (SQLite for conversation data, file-based artifacts for governance — [AD-032](AD-032))
-- "Add a web server so OrqaStudio can be used in the browser" -> Conflicts with the desktop-app scope (Tauri)
-- "Let components call invoke() directly instead of going through stores" -> Conflicts with component purity principle
-- "Just use unwrap() here, it'll never panic" -> Conflicts with error propagation principle
-- "Add a feature that has nothing to do with clarity or learning" -> Conflicts with pillar alignment
-
-**Examples of instructions that do NOT need questioning:**
-
-- "Add a metrics chart to the scanner dashboard" -> Serves both pillars (visibility + learning trends)
-- "Create a rule editor component" -> Serves Pillar 1 (governance made visible and editable)
-- "Add session history search" -> Serves Pillar 2 (knowledge accumulation across sessions)
 
 ## Related Rules
 

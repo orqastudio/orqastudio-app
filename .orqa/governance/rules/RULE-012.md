@@ -4,7 +4,7 @@ title: Error Ownership
 description: All errors are your responsibility. Pre-existing errors must be fixed. Never skip or ignore failures.
 status: active
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-12"
 layer: core
 scope: [AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007]
 ---
@@ -17,16 +17,14 @@ scope: [AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-
 - Do NOT commit with failing checks
 - Pre-existing errors: Fix them as part of your commit
 - Lint errors in files you did not write: Still your responsibility if they block the commit
-- A broken ESLint/clippy config: Fix the config, don't skip the check
+- A broken linter config: Fix the config, don't skip the check
 
-**"Not related to my changes" is NEVER an excuse.** If `make check` fails, you fix it — regardless of who introduced the failure. The codebase must be clean after every commit.
+**"Not related to my changes" is NEVER an excuse.** If quality checks fail, you fix them — regardless of who introduced the failure. The codebase must be clean after every commit.
 
 ## Pre-Commit Hook Enforcement
 
-A git pre-commit hook (`.githooks/pre-commit`) runs the relevant subset of quality checks based on which files are staged. This hook:
+A git pre-commit hook (`.githooks/pre-commit`) runs quality checks based on which files are staged.
 
-- Runs Rust checks (fmt, clippy, tests) when `.rs` or `Cargo.*` files are staged
-- Runs frontend checks (svelte-check, ESLint, Vitest) when `.svelte`, `.ts`, `.js`, `.css`, or `.html` files are staged
 - **MUST NOT be bypassed** with `git commit --no-verify`
 - If the hook fails, the commit is rejected — fix the errors and retry
 
@@ -38,11 +36,11 @@ Before calling ANY existing function or API:
 
 1. **Read the source** — Check actual function signature
 2. **Check the types** — Verify parameter names and types
-3. **Run checks** — `make clippy` for Rust, `make check-frontend` for TypeScript — catch mismatches immediately
+3. **Run checks** — Run the project's linter and type-checker to catch mismatches immediately
 
-**NO backwards compatibility shims.** Fix ALL callers in same commit.
+**NO backwards compatibility shims.** Fix ALL callers in the same commit.
 
-## ChunkHound Integration
+## Code Search Integration
 
 Use `search_regex` to find function definitions before calling them — faster and more thorough than manual file reading. Use `search_semantic` for "how does X work" questions.
 

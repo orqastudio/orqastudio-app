@@ -2,23 +2,22 @@
 id: SKILL-008
 title: Composability
 description: |
-  OrqaStudio's composability philosophy: building systems from small, pure, swappable units.
+  Universal composability philosophy: building systems from small, pure, swappable units.
   Shapes how agents think about code structure at both the function level and the feature level.
   Use when: Writing any new code, reviewing architecture, planning features, or refactoring
   existing modules. This is the meta-skill — it informs all other patterns.
 status: active
 created: "2026-03-01"
-updated: "2026-03-10"
+updated: "2026-03-12"
 layer: core
 scope: [AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007]
 version: 1.0.0
 user-invocable: true
 ---
 
+Software is built from small, composable units at every level: functions, modules, features, and integrations. This skill teaches the composability philosophy that shapes all code in a well-structured project.
 
-OrqaStudio is built from small, composable units at every level: functions, modules, features, and integrations. This skill teaches the composability philosophy that shapes all code in the project, grounded in [AD-017](AD-017) (Composability Principle).
-
-Composability is not just a coding pattern — it is a platform principle. Every software project initialized with OrqaStudio should be composable by default, because composable systems are dramatically easier to pivot, extend, and maintain as requirements change.
+Composability is not just a coding pattern — it is a platform principle. Every project should be composable by default, because composable systems are dramatically easier to pivot, extend, and maintain as requirements change.
 
 ## The Core Idea
 
@@ -29,403 +28,180 @@ Every piece of the system should be:
 3. **Typed enough to compose safely**
 4. **Swappable enough to replace without cascading changes**
 
-This applies at every scale: individual functions, modules, features, integrations, and even the app itself. OrqaStudio eats its own cooking — the app is built with the same composability principles it enforces on projects it manages.
+This applies at every scale: individual functions, modules, features, integrations, and even the app itself.
 
 ## Principle 1: Pure Over Stateful
 
 Functions take inputs and return outputs. No hidden side effects, no global mutation, no reading from distant state.
 
-### Rust: Pure Domain Functions
+Pure functions:
+- Can be tested without a database, filesystem, or network
+- Have no hidden dependencies
+- Produce the same output for the same input every time
+- Can be composed freely with other pure functions
 
-The enforcement engine is built entirely from pure functions. Each function takes explicit inputs and returns a value — no reading from `self`, no database, no filesystem hidden behind the call.
+Where side effects are necessary (database writes, API calls, filesystem access), isolate them at the boundary layer. Domain logic stays pure; adapters handle the outside world.
 
-```rust
-// src/domain/engine.rs
+### Generic Composition Pattern
 
-/// Pure function: takes a string, returns a string. No side effects.
-fn prose_excerpt(prose: &str) -> String {
-    let trimmed = prose.trim();
-    if trimmed.len() <= 200 {
-        trimmed.to_string()
-    } else {
-        format!("{}…", &trimmed[..200])
-    }
-}
+Design generic functions that work with any compatible type, then create typed entry points that compose the generic function with specific types:
 
-/// Pure function: takes an entry + index, returns a compiled entry or None.
-/// The Option return type replaces exceptions — the caller decides what to do.
-fn compile_entry(
-    entry: &RuleEntry,
-    rule_index: usize,
-    rule_name: &str,
-) -> Option<CompiledEntry> {
-    let compiled_conditions = entry
-        .conditions
-        .iter()
-        .filter_map(|c| match Regex::new(&c.pattern) {
-            Ok(re) => Some((c.field.clone(), re)),
-            Err(e) => {
-                tracing::warn!("invalid regex '{}' in rule '{rule_name}': {e}", c.pattern);
-                None
-            }
-        })
-        .collect::<Vec<_>>();
-
-    if compiled_conditions.len() != entry.conditions.len() {
-        return None;
-    }
-    // ... build and return CompiledEntry
-}
+```
+parse_document<T>(content) -> (T, body)   // generic core
+parse_rule(content) -> (RuleFrontmatter, body)  // typed entry point
+parse_task(content) -> (TaskFrontmatter, body)  // typed entry point
 ```
 
-### Rust: Generic Composition
-
-The `parse_frontmatter` function demonstrates generic composition — one function that works with any deserializable type:
-
-```rust
-// src/domain/document.rs
-
-/// Parse YAML frontmatter into any deserializable type.
-/// Pure function — no filesystem access.
-pub fn parse_frontmatter<T: serde::de::DeserializeOwned + Default>(content: &str) -> (T, String) {
-    let (fm_text, body) = extract_frontmatter(content);
-    let frontmatter = fm_text
-        .and_then(|text| serde_yaml::from_str::<T>(&text).ok())
-        .unwrap_or_default();
-    (frontmatter, body)
-}
-
-/// Typed entry points compose the generic function with specific types:
-pub fn parse_page_frontmatter(content: &str) -> (PageFrontmatter, String) {
-    parse_frontmatter::<PageFrontmatter>(content)
-}
-pub fn parse_record_frontmatter(content: &str) -> (RecordFrontmatter, String) {
-    parse_frontmatter::<RecordFrontmatter>(content)
-}
-```
-
-One generic core. Multiple typed entry points. Each frontmatter type is a separate struct, but they all compose through the same parsing pipeline.
-
-### Svelte: Prop-Driven Components
-
-```svelte
-<!-- src/components/shared/EmptyState.svelte -->
-<script lang="ts">
-    import type { Component } from "svelte";
-
-    let {
-        icon: Icon,
-        title,
-        description,
-        action,
-    }: {
-        icon?: Component;
-        title: string;
-        description?: string;
-        action?: { label: string; onclick: () => void };
-    } = $props();
-</script>
-
-<div class="flex flex-col items-center justify-center py-12 text-center">
-    {#if Icon}<Icon class="mb-4 h-12 w-12 text-muted-foreground" />{/if}
-    <h3 class="text-lg font-semibold">{title}</h3>
-    {#if description}<p class="mt-1 text-sm text-muted-foreground">{description}</p>{/if}
-    {#if action}<button class="..." onclick={action.onclick}>{action.label}</button>{/if}
-</div>
-```
-
-This component is infinitely reusable — it works for empty session lists, empty artifact browsers, empty search results — because it has no knowledge of what it is being used for.
+One generic core. Multiple typed entry points. Each type is independently defined but all compose through the same pipeline.
 
 ## Principle 2: Small Composable Units
 
 Prefer 5 small functions over 1 large one. Each function has a single job.
 
-### Rust: Enforcement Engine Decomposition
+Guidelines:
+- Domain functions: 20–30 lines
+- Service/command functions: 30–50 lines
+- Utilities: 10–20 lines
 
-| Function | Lines | Single Responsibility |
-|----------|------:|----------------------|
-| `compile_entry` | 48 | Compile one rule entry into regex objects |
-| `prose_excerpt` | 7 | Truncate prose for display |
-| `collect_glob_paths` | 19 | Expand a glob pattern to file paths |
-| `scan_file` | 32 | Check one file against one compiled entry |
-| `evaluate_file` | 30 | Check all file entries against one event |
-| `evaluate_bash` | 25 | Check all bash entries against one command |
-| `scan` | 31 | Orchestrate full project scan |
+The top-level orchestrating function composes the small units and reads like a table of contents:
 
-The `scan` method composes these small units:
-
-```rust
-// src/domain/engine.rs
-pub fn scan(&self, project_path: &Path) -> Result<Vec<ScanFinding>, AppError> {
-    let mut findings = Vec::new();
-    for ce in &self.compiled {
-        if ce.event != EventType::Scan { continue; }
-        let scope = match &ce.scope {
-            Some(s) => s,
-            None => { tracing::warn!("..."); continue; }
-        };
-        let glob_pattern = project_path.join(scope);
-        let paths = collect_glob_paths(&glob_pattern.to_string_lossy())?;
-        for file_path in paths {
-            let file_findings = scan_file(&file_path, ce, &self.rules[ce.rule_index])?;
-            findings.extend(file_findings);
-        }
-    }
-    Ok(findings)
-}
+```
+scan():
+  for each rule:
+    paths = collect_glob_paths(rule.scope)
+    for each path:
+      findings = scan_file(path, rule)
+      collect(findings)
 ```
 
 Reading `scan` tells you *what* happens without drowning in *how*.
 
-### Rust: Command Decomposition
-
-```rust
-// src/commands/analysis_commands.rs
-pub fn run_analysis(...) -> Result<AnalysisResult, AppError> {
-    let session_id = create_analysis_session(project_id, &state)?;
-    let prompt = build_analysis_prompt(&scan_result);
-    super::provider_commands::ensure_provider_running(&state)?;
-    let raw_response = send_and_collect(&state, session_id, &prompt)?;
-    let output = parse_provider_output(&raw_response)?;
-    let now = current_timestamp();
-    persist_analysis_and_recommendations(project_id, &analysis, &output, &now, &state)
-}
-```
-
-Each helper is independently testable — `parse_provider_output`, `build_analysis_prompt`, etc. all have dedicated unit tests.
-
-## Principle 3: Trait Boundaries and Interfaces
+## Principle 3: Type Boundaries and Interfaces
 
 Define what something *does*, not what it *is*.
 
-### Rust: Error Composition via From Traits
+- Use traits (Rust), interfaces (TypeScript/Go), or protocols (Python) to define contracts
+- Consumers depend on the interface, not the concrete implementation
+- This enables swapping implementations without changing consumers
 
-```rust
-// src/error.rs
-impl From<std::io::Error> for AppError {
-    fn from(err: std::io::Error) -> Self { Self::FileSystem(err.to_string()) }
-}
-impl From<rusqlite::Error> for AppError {
-    fn from(err: rusqlite::Error) -> Self { Self::Database(err.to_string()) }
-}
-impl From<serde_json::Error> for AppError {
-    fn from(err: serde_json::Error) -> Self { Self::Serialization(err.to_string()) }
-}
+**Error composition:** Define a single error type for a layer. Implement conversions from dependency error types into your error type. This enables transparent error propagation with `?` (Rust), `await` with typed errors, or consistent exception hierarchies.
+
+**Discriminated unions / tagged types:** When a value can be one of several variants, use a tagged type:
 ```
-
-This enables `?` propagation everywhere. A function that reads a file, parses JSON, and queries SQLite can use `?` on all three — the `From` implementations compose the error types automatically.
-
-### TypeScript: Discriminated Unions
-
-```typescript
-// src/stores/session.svelte.ts
-export type ContextEntry =
-    | { type: "system_prompt_sent"; customPrompt: string | null; basePrompt: string; totalChars: number; }
-    | { type: "context_injected"; messageCount: number; totalChars: number; messages: string; };
+type Event =
+  | { type: "stream_start" }
+  | { type: "text_delta"; content: string }
+  | { type: "tool_use"; tool_id: string; name: string }
 ```
-
-The `type` discriminant lets consumers `switch` on the variant with full type narrowing — the TypeScript equivalent of Rust's tagged enums.
+Consumers switch on the tag with full type narrowing — no runtime ambiguity.
 
 ## Principle 4: Pluggable by Default
 
-Every integration point is swappable. The system defines *what* it needs, and providers implement *how*.
+Every integration point is swappable. The system defines *what* it needs; providers implement *how*.
 
-### Sidecar: Provider-Agnostic Interface
+Design the interface first, then implement it:
 
-```typescript
-// sidecar/src/provider.ts
-type ResponseSender = (response: ProviderResponse) => void;
-
-export async function streamMessage(
-    sessionId: number,
-    content: string,
-    model: string | null,
-    systemPrompt: string | null,
-    sendResponse: ResponseSender,
-    sdkSessionId: string | null = null,
-    enableThinking: boolean = false,
-): Promise<void> { /* ... */ }
 ```
+interface MessageProvider {
+  stream(prompt, onDelta): Promise<void>
+}
 
-The `ResponseSender` type is the contract. The Rust backend reads NDJSON lines from stdout — it does not care what generated them. Per [AD-017](AD-017), adding a new AI provider means implementing a new sidecar that speaks the same NDJSON protocol. Zero changes to Rust or Svelte.
-
-### Tool Server as MCP
-
-```typescript
-// sidecar/src/provider.ts
-function createAppToolServer(sendResponse: ResponseSender) {
-    return createSdkMcpServer({
-        name: 'app-tools',
-        tools: [
-            tool('read_file', 'Read a file', { path: z.string() },
-                async (args) => executeToolViaRust('read_file', args, sendResponse)),
-            tool('write_file', 'Write a file', { path: z.string(), content: z.string() },
-                async (args) => executeToolViaRust('write_file', args, sendResponse)),
-            // ... same pattern for all tools
-        ],
-    });
+interface FileStore {
+  read(path): Promise<string>
+  write(path, content): Promise<void>
 }
 ```
 
-Adding a new tool is one entry in the array. The tool execution goes through the NDJSON protocol to Rust, so the sidecar never touches the filesystem directly.
+Replacing the AI provider, storage backend, or search engine means implementing the interface — zero changes to domain logic.
 
 ## Principle 5: Pipeline Composition
 
 Complex operations are chains of simple transforms, not monolithic functions.
 
-### Rust: Functional Pipelines
-
-```rust
-// src/commands/analysis_commands.rs
-fn format_file_list(scan: &ScanResult) -> String {
-    scan.areas.iter()
-        .filter(|a| a.covered)
-        .flat_map(|a| a.files.iter().map(|f|
-            format!("### {} ({})\n```\n{}\n```\n", f.path, a.name, f.content_preview)))
-        .collect::<Vec<_>>()
-        .join("\n")
-}
+```
+results =
+  items
+  .filter(is_relevant)
+  .map(transform)
+  .collect()
 ```
 
-Data flows through `iter() -> filter() -> flat_map() -> collect()`. No intermediate mutable variables.
-
-### Svelte: Event Pipeline in Store
-
-```typescript
-// src/stores/conversation.svelte.ts
-private handleStreamEvent(event: StreamEvent) {
-    switch (event.type) {
-        case "stream_start":
-            this.isStreaming = true;
-            this.streamingContent = "";
-            break;
-        case "text_delta":
-            this.streamingContent += event.data.content;
-            break;
-        case "tool_use_start": {
-            const newMap = new SvelteMap(this.activeToolCalls);
-            newMap.set(event.data.tool_call_id, { /* ... */ });
-            this.activeToolCalls = newMap;
-            break;
-        }
-    }
-}
-```
-
-Each `case` is a self-contained state transition. Adding a new event type means adding one case block.
+Data flows through stages. No intermediate mutable variables. Each stage is independently testable.
 
 ## Principle 6: Feature as Module
 
-A feature is a self-contained unit: domain logic + command handler + IPC type + store + component. Features can be added or removed without touching other features.
+A feature is a self-contained unit: domain logic + service handler + types + state + UI component. Features can be added or removed without touching other features.
 
-### The Four-Layer Feature Structure
+Each feature owns:
+- Its domain logic (pure functions, types)
+- Its service handler (thin layer connecting domain to the outside world)
+- Its type definitions (shared with any consumers)
+- Its state management (subscribable reactive state)
+- Its UI components (receive data via props, emit events)
 
-```
-src/domain/<feature>.rs              -- Pure domain logic and types
-src/commands/<feature>_commands.rs   -- Thin #[tauri::command] wrappers
-src/types/<feature>.ts               -- TypeScript interfaces matching Rust types
-src/stores/<feature>.svelte.ts       -- Runes-based store calling invoke()
-src/components/<feature>/            -- Svelte components receiving props
-```
-
-The domain module knows nothing about Tauri. The command module knows nothing about the UI. The store knows nothing about the components. Dependency direction is strictly one-way: component -> store -> IPC -> command -> domain.
+Dependency direction is strictly one-way: UI component → state → service → domain.
 
 ## Principle 7: Functional Paradigm
 
-Prefer `map`/`filter`/`collect` in Rust, derived state in Svelte, and data transformations over mutations.
+Prefer `map`/`filter`/`collect` over loops with mutations. Prefer derived state over imperative updates. Prefer data transformations over mutations.
 
-```rust
-// src/commands/analysis_commands.rs
-fn build_recommendations(project_id: i64, analysis_id: i64, output: &AnalysisOutput, now: &str) -> Vec<Recommendation> {
-    output.recommendations.iter()
-        .map(|raw| {
-            let priority = RecommendationPriority::parse(&raw.priority)
-                .unwrap_or(RecommendationPriority::Recommended);
-            Recommendation { id: 0, project_id, analysis_id, category: raw.category.clone(), priority, title: raw.title.clone(), /* ... */ }
-        })
-        .collect()
-}
+```
+build_items(raw_data) =
+  raw_data
+  .map(item -> normalize(item))
+  .filter(item -> item.is_valid)
+  .collect()
 ```
 
 No mutations. No loop variables. Input data in, transformed data out.
 
 ## Anti-Patterns
 
-### God Components
+### God Components / God Functions
 
-```svelte
-<!-- WRONG: component that fetches data, manages state, AND renders UI -->
-<script lang="ts">
-  import { invoke } from '@tauri-apps/api/core';
-  let items = $state([]);
-  let details = $state([]);
-  let related = $state([]);
-  // 200 lines of data fetching, error handling, state management...
-</script>
-```
+A single component or function that fetches data, manages state, AND renders/processes it.
 
-**Fix:** Split into three features. Each has its own store, components, commands. The page composes them.
+**Fix:** Split into smaller units. Each has its own responsibility. A page or handler composes them.
 
 ### Thick Command Handlers
 
-```rust
-// WRONG: business logic inside a #[tauri::command]
-#[tauri::command]
-pub fn analyze_project(...) -> Result<Analysis, AppError> {
-    // 150 lines of scanning, parsing, scoring...
-}
-```
+Business logic inside the outermost service handler (controller, command, route handler).
 
-**Fix:** Move the logic to `domain/analysis.rs`. The command becomes a two-line delegation.
+**Fix:** Move logic into domain functions. The handler becomes a thin delegation layer.
 
-### Store-to-Store Circular Dependencies
+### Circular Dependencies
 
-```typescript
-// FORBIDDEN: store A imports store B, store B imports store A
-```
+Module A imports module B; module B imports module A.
 
-**Fix:** Coordinate via a parent component's `$effect` blocks.
+**Fix:** Extract shared state or logic into a third module that neither depends on the other. Coordinate via a parent layer.
 
 ### Tightly Coupled Features
 
-```rust
-// WRONG: document module directly calls scanner module
-pub fn create_document(...) -> Result<Document, AppError> {
-    document_scanner.evaluate_file(&doc.path, &doc.content)?; // tight coupling
-    Ok(doc)
-}
-```
+Feature A calls directly into Feature B's internals.
 
-**Fix:** The command handler is the composition point. Each domain module stays independent.
+**Fix:** Features communicate through public interfaces, not internal functions. The handler layer is the composition point.
 
 ## Composability Checklist
 
 Before writing or reviewing code, verify:
 
 - [ ] **Pure functions:** Can each function be tested without a database, filesystem, or network?
-- [ ] **Small units:** Is every function under 50 lines? Under 30 for domain logic?
+- [ ] **Small units:** Is every function within the project's size guidelines?
 - [ ] **Single responsibility:** Does each function do exactly one thing?
-- [ ] **Typed boundaries:** Are interfaces defined as traits (Rust) or TypeScript types, not concrete implementations?
-- [ ] **Swappable integrations:** Could the AI provider, database, or tool executor be replaced without changing the domain?
+- [ ] **Typed boundaries:** Are interfaces defined by contracts (traits, interfaces), not concrete implementations?
+- [ ] **Swappable integrations:** Could external dependencies (AI provider, database, search) be replaced without changing domain logic?
 - [ ] **Pipeline flow:** Are complex operations expressed as chains of transforms, not nested conditionals?
 - [ ] **Feature isolation:** Could this feature be removed without breaking other features?
-- [ ] **Unidirectional dependencies:** Do stores and modules flow in one direction (component -> store -> command -> domain)?
+- [ ] **Unidirectional dependencies:** Do modules flow in one direction (UI → state → service → domain)?
 
 ## Platform Principle
 
-Composability is not just for OrqaStudio's own codebase — it is a principle the platform promotes for every project it manages. When OrqaStudio initializes a new project, the governance framework, agent definitions, and coding standards should guide developers toward composable architecture by default. In a world of ever-changing demands, composable software is dramatically easier to pivot and extend. This skill encodes that belief into the development process.
-
-## See Also
-
-- [AD-017](AD-017) — defines the composability principle
-- `src/domain/engine.rs` — canonical example of pure function composition
-- `src/error.rs` — canonical example of error composition via From traits
-- `sidecar/src/provider.ts` — canonical example of a pluggable integration boundary
+Composability is a principle that every project managed by OrqaStudio should follow. When OrqaStudio initializes a new project, the governance framework, agent definitions, and coding standards guide developers toward composable architecture by default. In a world of ever-changing demands, composable software is dramatically easier to pivot and extend. This skill encodes that belief into the development process.
 
 ## Related Skills
 
-- **orqa-domain-services** — how domain services compose without framework deps
-- **orqa-repository-pattern** — how persistence composes via consistent repo interfaces
-- **orqa-store-orchestration** — how frontend stores coordinate without coupling
-- **orqa-error-composition** — how errors compose across layers via From traits
-- **orqa-ipc-patterns** — the four-layer feature structure and IPC contracts
+- **orqa-domain-services** — how domain services compose without framework deps (project-layer skill)
+- **orqa-repository-pattern** — how persistence composes via consistent repo interfaces (project-layer skill)
+- **orqa-store-orchestration** — how frontend stores coordinate without coupling (project-layer skill)
+- **orqa-error-composition** — how errors compose across layers (project-layer skill)
+- **orqa-ipc-patterns** — the feature structure and service contracts (project-layer skill)

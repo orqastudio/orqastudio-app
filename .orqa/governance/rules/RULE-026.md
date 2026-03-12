@@ -4,7 +4,7 @@ title: Skill Enforcement
 description: "Three-tier skill loading: agent portable skills, orchestrator-injected project skills, and context-resolving wrappers."
 status: active
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-12"
 layer: core
 scope: [AGENT-001, AGENT-002, AGENT-003, AGENT-004, AGENT-005, AGENT-006, AGENT-007]
 ---
@@ -14,8 +14,8 @@ Every agent MUST have a `skills:` list in its YAML frontmatter. Agent tool acces
 
 | Tier | What | Where Declared | Loaded By |
 |------|------|---------------|-----------|
-| **Tier 1** | Portable language/framework skills + wrappers | Agent YAML `skills:` frontmatter | Loaded on task start (by agent, plugin, or app) |
-| **Tier 2** | Project-specific `orqa-*` skills | Orchestrator injection table | Orchestrator adds to delegation prompt |
+| **Tier 1** | Portable skills + wrappers | Agent YAML `skills:` frontmatter | Loaded on task start (by agent, plugin, or app) |
+| **Tier 2** | Project-specific skills | Orchestrator injection table | Orchestrator adds to delegation prompt |
 | **Tier 3** | Context resolution (CLI vs App) | Wrapper skill logic | Wrapper skill auto-resolves |
 
 ## Skill Loading Order
@@ -42,45 +42,18 @@ Every skill carries a `layer` field in its SKILL.md frontmatter:
 | `community` | Community-contributed skill — reviewed but not 1st-party | Loaded same as core; treat with appropriate trust level |
 | `user` | Personal workflow skill — user's own private patterns | Loaded same as core; not shared or published |
 
-Agent `scope` declares which agents should use a skill, using agent IDs:
-| `governance` | When governance work is needed |
-
 ## Universal Skills (Tier 1)
 
 These MUST appear in every agent's `skills:` YAML frontmatter:
 
-- `orqa-code-search` — Context-aware search wrapper. Resolves to `chunkhound` (CLI) or `orqa-native-search` (App) at Tier 3.
+- `orqa-code-search` — Context-aware search wrapper. Resolves to the appropriate search implementation at Tier 3.
 - `composability` — Meta-skill that shapes how all code is structured. Universal across all agents.
 
 The orchestrator loads `orqa-code-search`, `composability`, and `planning` on every session.
 
 ## Project Skills (Tier 2 — Orchestrator-Injected)
 
-These are NOT on agent YAML frontmatter. The orchestrator injects them based on task scope:
-
-| Skill | Domain | Injected When Task Touches |
-|-------|--------|---------------------------|
-| `backend-best-practices` | Composability, coding standards, error handling umbrella | `src-tauri/`, `sidecar/` (any backend work) |
-| `rust-async-patterns` | Rust async/await, error handling | `src-tauri/` (any Rust backend work) |
-| `tauri-v2` | Tauri commands, plugins, security | `src-tauri/` (any Rust backend work) |
-| `orqa-ipc-patterns` | Tauri IPC, Channel<T>, command registration | `src-tauri/src/commands/` |
-| `orqa-domain-services` | Domain service anatomy, composition | `src-tauri/src/domain/` |
-| `orqa-repository-pattern` | SQLite repos, migrations, queries | `src-tauri/src/repo/`, `db.rs` |
-| `orqa-error-composition` | OrqaError flow, From impls | `src-tauri/src/commands/`, `src-tauri/src/domain/` |
-| `orqa-search-architecture` | Search engine internals: DuckDB, ONNX, chunker, embedder | `src-tauri/src/search/` |
-| `orqa-streaming` | Agent SDK → sidecar → Rust → Svelte pipeline | `sidecar/src/`, streaming code |
-| `frontend-best-practices` | Composability, coding standards, component conventions umbrella | `ui/` (any frontend work) |
-| `svelte5-best-practices` | Svelte 5 runes, components | `ui/` (any frontend work) |
-| `typescript-advanced-types` | Strict TypeScript patterns | `ui/` (any frontend work) |
-| `tailwind-design-system` | Tailwind CSS utilities | `ui/` (styling work) |
-| `component-extraction` | Shared component detection and extraction | `ui/lib/components/` |
-| `orqa-store-patterns` | Svelte 5 rune stores, reactive data flow | `ui/lib/stores/` |
-| `orqa-store-orchestration` | Multi-store coordination, $effect wiring | `ui/lib/stores/` |
-| `orqa-governance` | Artifacts, scanning, lessons, rules | `.orqa/` |
-| `orqa-documentation` | Internal link format, cross-referencing, content structure | `.orqa/` |
-| `orqa-artifact-audit` | Artifact reference integrity and codebase alignment | `.orqa/` (auditing work) |
-| `orqa-schema-compliance` | Schema validation and frontmatter compliance | `.orqa/` (auditing work) |
-| `orqa-testing` | Test commands, patterns, mock boundaries | Test-related work |
+These are NOT on agent YAML frontmatter. The orchestrator injects them based on task scope. The injection table lives in the orchestrator's agent definition.
 
 When delegating, the orchestrator includes: "Load these project skills before starting: [list]"
 
@@ -90,8 +63,8 @@ The `orqa-code-search` wrapper skill detects the runtime context and resolves to
 
 | Available Tools | Context | Resolved Skill |
 |----------------|---------|---------------|
-| `mcp__chunkhound__*` | CLI (Claude Code) | `chunkhound` |
-| `search_regex`, `search_semantic`, `code_research` as Tauri commands | App (OrqaStudio) | `orqa-native-search` |
+| `mcp__chunkhound__*` tools available | CLI (Claude Code) | `chunkhound` |
+| Native search commands available | App (OrqaStudio) | `orqa-native-search` |
 | Neither | Fallback | Use Grep/Glob, note in task summary |
 
 ## Portable Skills (Tier 1 — Agent-Declared)
@@ -126,7 +99,7 @@ The orchestrator and all agents MUST check rule status before applying enforceme
 ## Audit
 
 - The orchestrator periodically audits that agent Tier 1 skill lists contain only core/plugin/community/user portable skills + universal wrappers
-- No `orqa-*` skills (except `composability`) should appear in agent YAML frontmatter
+- No project-specific skills should appear in agent YAML frontmatter
 - The injection table in the orchestrator is the single source of truth for Tier 2 loading
 - All skill changes are documented in `.orqa/documentation/process/skills-log.md`
 
