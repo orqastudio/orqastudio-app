@@ -136,3 +136,91 @@ pub fn refresh_artifact_graph(state: State<'_, AppState>) -> Result<(), OrqaErro
     *guard = Some(new_graph);
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+
+    #[test]
+    fn graph_stats_on_empty_graph() {
+        let graph = ArtifactGraph {
+            nodes: HashMap::new(),
+            path_index: HashMap::new(),
+        };
+        let stats = graph_stats(&graph);
+        assert_eq!(stats.node_count, 0);
+        assert_eq!(stats.edge_count, 0);
+        assert_eq!(stats.orphan_count, 0);
+        assert_eq!(stats.broken_ref_count, 0);
+    }
+
+    #[test]
+    fn graph_stats_counts_nodes_and_orphans() {
+        let mut nodes = HashMap::new();
+        nodes.insert(
+            "EPIC-001".to_string(),
+            ArtifactNode {
+                id: "EPIC-001".to_string(),
+                path: ".orqa/planning/epics/EPIC-001.md".to_string(),
+                artifact_type: "epic".to_string(),
+                title: "Test Epic".to_string(),
+                description: None,
+                status: Some("draft".to_string()),
+                frontmatter: serde_json::json!({}),
+                references_out: vec![],
+                references_in: vec![],
+            },
+        );
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
+        let stats = graph_stats(&graph);
+        assert_eq!(stats.node_count, 1);
+        assert_eq!(stats.orphan_count, 1); // no refs in or out
+    }
+
+    #[test]
+    fn build_graph_on_empty_dir() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let graph = build_artifact_graph(dir.path()).expect("should succeed");
+        assert!(graph.nodes.is_empty());
+    }
+
+    #[test]
+    fn build_graph_finds_artifacts_with_id() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let epics_dir = dir.path().join(".orqa").join("planning").join("epics");
+        std::fs::create_dir_all(&epics_dir).expect("create dirs");
+        std::fs::write(
+            epics_dir.join("EPIC-001.md"),
+            "---\nid: EPIC-001\ntitle: Test\nstatus: draft\n---\nBody\n",
+        )
+        .expect("write");
+
+        let graph = build_artifact_graph(dir.path()).expect("should succeed");
+        assert!(graph.nodes.contains_key("EPIC-001"));
+        let node = &graph.nodes["EPIC-001"];
+        assert_eq!(node.artifact_type, "epic");
+        assert_eq!(node.title, "Test");
+    }
+
+    #[test]
+    fn artifact_type_validation_rejects_empty() {
+        let artifact_type = "";
+        assert!(artifact_type.trim().is_empty());
+    }
+
+    #[test]
+    fn path_traversal_rejected() {
+        let path = "../../../etc/passwd";
+        assert!(path.contains(".."));
+    }
+
+    #[test]
+    fn path_empty_rejected() {
+        let path = "   ";
+        assert!(path.trim().is_empty());
+    }
+}

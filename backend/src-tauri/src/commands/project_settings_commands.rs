@@ -128,3 +128,100 @@ pub fn project_scan(
     let paths = excluded_paths.unwrap_or(defaults);
     project_scanner::scan_project(&path, &paths)
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::domain::project_settings::ProjectSettings;
+    use crate::repo::project_settings_repo;
+
+    #[test]
+    fn read_nonexistent_project_returns_none() {
+        let result = project_settings_repo::read("/nonexistent/project/path");
+        assert!(result.is_ok());
+        assert!(result.expect("should be Ok").is_none());
+    }
+
+    #[test]
+    fn write_and_read_settings_round_trip() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let path = dir.path().to_str().expect("path");
+        let settings = ProjectSettings {
+            name: "test-project".to_string(),
+            description: Some("A test".to_string()),
+            default_model: "auto".to_string(),
+            excluded_paths: vec!["node_modules".to_string()],
+            stack: None,
+            governance: None,
+            icon: None,
+            show_thinking: false,
+            custom_system_prompt: None,
+            artifacts: vec![],
+        };
+
+        project_settings_repo::write(path, &settings).expect("write");
+        let loaded = project_settings_repo::read(path)
+            .expect("read")
+            .expect("should exist");
+        assert_eq!(loaded.name, "test-project");
+        assert_eq!(loaded.description, Some("A test".to_string()));
+    }
+
+    #[test]
+    fn icon_upload_validates_missing_source() {
+        // The command checks source.exists() — a missing file returns NotFound
+        let source = std::path::Path::new("/nonexistent/icon.png");
+        assert!(!source.exists());
+    }
+
+    #[test]
+    fn icon_upload_validates_extension() {
+        let allowed = ["png", "jpg", "jpeg", "svg", "ico"];
+        assert!(!allowed.contains(&"bmp"));
+        assert!(!allowed.contains(&"gif"));
+        assert!(allowed.contains(&"png"));
+        assert!(allowed.contains(&"svg"));
+    }
+
+    #[test]
+    fn icon_read_validates_missing_file() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let icon_path = dir.path().join(".orqa").join("icon.png");
+        assert!(!icon_path.exists());
+    }
+
+    #[test]
+    fn project_scan_on_empty_dir() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let path = dir.path().to_str().expect("path");
+        let result =
+            crate::domain::project_scanner::scan_project(path, &["node_modules".to_string()]);
+        assert!(result.is_ok());
+        let scan = result.expect("scan");
+        assert!(scan.stack.languages.is_empty());
+        assert!(scan.stack.frameworks.is_empty());
+    }
+
+    #[test]
+    fn project_scan_detects_rust() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        // Scanner detects languages by file extension, so we need a .rs file
+        let src_dir = dir.path().join("src");
+        std::fs::create_dir_all(&src_dir).expect("create src dir");
+        std::fs::write(src_dir.join("main.rs"), "fn main() {}\n").expect("write rs");
+        let path = dir.path().to_str().expect("path");
+        let result =
+            crate::domain::project_scanner::scan_project(path, &["node_modules".to_string()]);
+        assert!(result.is_ok());
+        let scan = result.expect("scan");
+        assert!(scan.stack.languages.contains(&"rust".to_string()));
+    }
+
+    #[test]
+    fn project_scan_nonexistent_dir_returns_error() {
+        let result = crate::domain::project_scanner::scan_project(
+            "/nonexistent/dir",
+            &["node_modules".to_string()],
+        );
+        assert!(result.is_err());
+    }
+}

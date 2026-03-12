@@ -2,7 +2,7 @@
 id: TASK-267
 title: "Document plugin architecture and SDK extraction plan"
 description: "Document the plugin system architecture and plan for component library / SDK extraction."
-status: todo
+status: done
 created: "2026-03-12"
 updated: "2026-03-12"
 epic: EPIC-057

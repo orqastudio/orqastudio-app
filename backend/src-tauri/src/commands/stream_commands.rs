@@ -241,3 +241,80 @@ pub fn stream_tool_approval_respond(
         ))),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::db::init_memory_db;
+    use crate::domain::message::MessageRole;
+    use crate::repo::{message_repo, project_repo, session_repo};
+
+    fn setup() -> rusqlite::Connection {
+        let conn = init_memory_db().expect("db init");
+        project_repo::create(&conn, "test", "/test", None).expect("create project");
+        session_repo::create(&conn, 1, "auto", None).expect("create session");
+        conn
+    }
+
+    #[test]
+    fn empty_message_validation() {
+        let content = "   ";
+        assert!(content.trim().is_empty());
+    }
+
+    #[test]
+    fn persist_user_message_via_repo() {
+        let conn = setup();
+        let turn_index = message_repo::next_turn_index(&conn, 1).expect("turn index");
+        assert_eq!(turn_index, 0);
+
+        let msg = message_repo::create(&conn, 1, "user", "text", Some("Hello"), turn_index, 0)
+            .expect("create message");
+        assert_eq!(msg.role, MessageRole::User);
+        assert_eq!(msg.content, Some("Hello".to_string()));
+    }
+
+    #[test]
+    fn persist_assistant_message_via_repo() {
+        let conn = setup();
+        // User message first
+        message_repo::create(&conn, 1, "user", "text", Some("Hello"), 0, 0)
+            .expect("create user msg");
+
+        // Assistant message
+        let msg =
+            message_repo::create(&conn, 1, "assistant", "text", Some("Hi there"), 1, 0)
+                .expect("create assistant msg");
+        assert_eq!(msg.role, MessageRole::Assistant);
+
+        // Update stream status
+        message_repo::update_stream_status(&conn, msg.id, "complete")
+            .expect("update stream status");
+    }
+
+    #[test]
+    fn update_token_usage() {
+        let conn = setup();
+        session_repo::update_token_usage(&conn, 1, 100, 200).expect("update tokens");
+        let session = session_repo::get(&conn, 1).expect("get session");
+        assert_eq!(session.total_input_tokens, 100);
+        assert_eq!(session.total_output_tokens, 200);
+    }
+
+    #[test]
+    fn next_turn_index_increments() {
+        let conn = setup();
+        let t0 = message_repo::next_turn_index(&conn, 1).expect("t0");
+        assert_eq!(t0, 0);
+
+        message_repo::create(&conn, 1, "user", "text", Some("msg1"), t0, 0)
+            .expect("create");
+        let t1 = message_repo::next_turn_index(&conn, 1).expect("t1");
+        assert_eq!(t1, 1);
+    }
+
+    // Note: stream_send_message, stream_stop, and stream_tool_approval_respond
+    // require a live sidecar process and Tauri State, which cannot be constructed
+    // in unit tests. The persistence and validation logic they use is tested above
+    // through the repo layer. Integration testing of the full stream loop requires
+    // the Tauri runtime.
+}

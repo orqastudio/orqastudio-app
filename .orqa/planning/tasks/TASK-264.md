@@ -2,7 +2,7 @@
 id: TASK-264
 title: "Create component test infrastructure"
 description: "Set up Svelte component testing with @testing-library/svelte and write template tests for key shared components."
-status: todo
+status: done
 created: "2026-03-12"
 updated: "2026-03-12"
 epic: EPIC-057

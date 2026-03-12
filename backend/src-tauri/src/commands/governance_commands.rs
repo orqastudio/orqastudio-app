@@ -191,3 +191,111 @@ fn persist_analysis_and_recommendations(
     governance_repo::get_latest_analysis(&conn, project_id)?
         .ok_or_else(|| OrqaError::Database("analysis not found after save".to_string()))
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::db::init_memory_db;
+    use crate::domain::governance::{
+        GovernanceAnalysis, GovernanceScanResult, RecommendationStatus,
+    };
+    use crate::domain::governance_scanner::scan_governance;
+    use crate::repo::{governance_repo, project_repo};
+
+    fn setup() -> rusqlite::Connection {
+        let conn = init_memory_db().expect("db init");
+        project_repo::create(&conn, "test", "/tmp/test-project", None).expect("create project");
+        conn
+    }
+
+    #[test]
+    fn get_latest_analysis_returns_none_when_no_analysis() {
+        let conn = setup();
+        let result = governance_repo::get_latest_analysis(&conn, 1).expect("should succeed");
+        assert!(result.is_none());
+    }
+
+    #[test]
+    fn save_and_get_analysis_round_trip() {
+        let conn = setup();
+        let analysis = GovernanceAnalysis {
+            id: 0,
+            project_id: 1,
+            scan_data: GovernanceScanResult {
+                areas: vec![],
+                coverage_ratio: 0.5,
+            },
+            summary: "Good governance".to_string(),
+            strengths: vec!["Has rules".to_string()],
+            gaps: vec!["No hooks".to_string()],
+            session_id: None,
+            created_at: "2026-01-01T00:00:00Z".to_string(),
+        };
+
+        governance_repo::save_analysis(&conn, &analysis).expect("save");
+        let loaded = governance_repo::get_latest_analysis(&conn, 1)
+            .expect("get")
+            .expect("should exist");
+
+        assert_eq!(loaded.project_id, 1);
+        assert_eq!(loaded.summary, "Good governance");
+        assert_eq!(loaded.strengths, vec!["Has rules".to_string()]);
+        assert_eq!(loaded.gaps, vec!["No hooks".to_string()]);
+    }
+
+    #[test]
+    fn recommendation_status_parse_valid() {
+        assert_eq!(
+            RecommendationStatus::parse("pending"),
+            Some(RecommendationStatus::Pending)
+        );
+        assert_eq!(
+            RecommendationStatus::parse("approved"),
+            Some(RecommendationStatus::Approved)
+        );
+        assert_eq!(
+            RecommendationStatus::parse("rejected"),
+            Some(RecommendationStatus::Rejected)
+        );
+        assert_eq!(
+            RecommendationStatus::parse("applied"),
+            Some(RecommendationStatus::Applied)
+        );
+    }
+
+    #[test]
+    fn recommendation_status_parse_invalid() {
+        assert!(RecommendationStatus::parse("invalid").is_none());
+        assert!(RecommendationStatus::parse("").is_none());
+        assert!(RecommendationStatus::parse("PENDING").is_none());
+    }
+
+    #[test]
+    fn scan_governance_on_empty_dir() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let result = scan_governance(dir.path()).expect("should succeed");
+        assert_eq!(result.coverage_ratio, 0.0);
+    }
+
+    #[test]
+    fn scan_governance_on_nonexistent_dir() {
+        let result = scan_governance(std::path::Path::new("/nonexistent/path"));
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn scan_governance_detects_rules_area() {
+        let dir = tempfile::tempdir().expect("tempdir");
+        let rules_dir = dir.path().join(".orqa").join("governance").join("rules");
+        std::fs::create_dir_all(&rules_dir).expect("create rules dir");
+        std::fs::write(rules_dir.join("RULE-001.md"), "# Test Rule\n").expect("write rule");
+
+        let result = scan_governance(dir.path()).expect("should succeed");
+        assert!(result.coverage_ratio > 0.0, "should detect rules area");
+        let rules_area = result.areas.iter().find(|a| a.name == "rules");
+        assert!(rules_area.is_some(), "should find rules area");
+        assert!(
+            rules_area.expect("rules").covered,
+            "rules area should be covered"
+        );
+    }
+}

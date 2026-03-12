@@ -336,6 +336,34 @@ npm run test
 
 ---
 
+### `make coverage-rust`
+
+Run Rust library tests with LLVM source-based code coverage via `cargo-llvm-cov`. Prints a per-file coverage summary (regions, functions, lines) to the terminal. Uses `--lib` to skip the Tauri binary entry point which requires a frontend build to compile.
+
+**Underlying command:**
+
+```bash
+cargo llvm-cov --manifest-path backend/src-tauri/Cargo.toml --lib
+```
+
+**When to use:** To check current Rust backend test coverage. Target is 80% per module. Requires `cargo-llvm-cov` (`cargo install cargo-llvm-cov`) and the `llvm-tools-preview` rustup component (`rustup component add llvm-tools-preview`). A minimal `ui/build/index.html` must exist for Tauri's `generate_context!()` macro to compile.
+
+---
+
+### `make coverage-frontend`
+
+Run frontend Vitest tests with v8 code coverage reporting. Prints a coverage summary to the terminal showing line, function, branch, and statement coverage per file.
+
+**Underlying command:**
+
+```bash
+npm run test:coverage
+```
+
+**When to use:** To check current frontend test coverage. Target is 80% per module. Thresholds are not yet enforced — the report is informational until coverage reaches the target.
+
+---
+
 ### `make test-watch`
 
 Run Vitest in watch mode. Re-runs affected tests on file save.

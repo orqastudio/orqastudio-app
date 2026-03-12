@@ -8,7 +8,7 @@ CARGO_MANIFEST := backend/src-tauri/Cargo.toml
         dev start dev-frontend stop kill restart-tauri restart-vite restart status \
         build build-frontend build-sidecar \
         check format format-check lint lint-backend lint-frontend typecheck \
-        test test-rust test-frontend test-watch test-e2e \
+        test test-rust test-frontend coverage-rust coverage-frontend test-watch test-e2e \
         index reindex calibrate \
         skills-list skills-update \
         clean help
@@ -93,6 +93,12 @@ test-rust: ## Run Rust tests only
 
 test-frontend: ## Run frontend tests (Vitest)
 	cd ui && npm run test
+
+coverage-rust: ## Run Rust tests with coverage report (cargo-llvm-cov)
+	cargo llvm-cov --manifest-path $(CARGO_MANIFEST) --lib
+
+coverage-frontend: ## Run frontend tests with coverage report
+	cd ui && npm run test:coverage
 
 test-watch: ## Run frontend tests in watch mode
 	cd ui && npm run test:watch

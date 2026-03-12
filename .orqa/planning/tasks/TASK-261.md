@@ -2,7 +2,7 @@
 id: TASK-261
 title: "Set up Rust coverage tooling"
 description: "Configure cargo-tarpaulin or llvm-cov for Rust coverage measurement."
-status: todo
+status: done
 created: "2026-03-12"
 updated: "2026-03-12"
 epic: EPIC-057
