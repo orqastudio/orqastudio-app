@@ -220,14 +220,6 @@ pub fn run() {
             commands::lesson_commands::lessons_list,
             commands::lesson_commands::lessons_create,
             commands::lesson_commands::lesson_increment_recurrence,
-            // Governance commands
-            commands::governance_commands::governance_scan,
-            commands::governance_commands::governance_analyze,
-            commands::governance_commands::governance_analysis_get,
-            commands::governance_commands::recommendations_list,
-            commands::governance_commands::recommendation_update,
-            commands::governance_commands::recommendation_apply,
-            commands::governance_commands::recommendations_apply_all,
             // Enforcement commands
             commands::enforcement_commands::enforcement_rules_list,
             commands::enforcement_commands::enforcement_rules_reload,

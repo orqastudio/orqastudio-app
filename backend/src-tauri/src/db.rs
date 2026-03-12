@@ -23,6 +23,7 @@ pub fn init_db(path: &str) -> Result<Connection, OrqaError> {
     run_migration_004(&conn)?;
     run_migration_005(&conn)?;
     run_migration_006(&conn)?;
+    conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
 
     Ok(conn)
 }
@@ -38,6 +39,7 @@ pub fn init_memory_db() -> Result<Connection, OrqaError> {
     run_migration_004(&conn)?;
     run_migration_005(&conn)?;
     run_migration_006(&conn)?;
+    conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
 
     Ok(conn)
 }
