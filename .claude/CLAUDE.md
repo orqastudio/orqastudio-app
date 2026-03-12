@@ -50,7 +50,7 @@ Work through these in dependency order. Tasks without dependencies can be parall
 
 | Task | Title | Depends On | Status |
 |------|-------|-----------|--------|
-| TASK-211 | Write graph-based orchestrator prompt (~200 lines) | TASK-208, 209, 210 | todo |
+| TASK-211 | Write graph-based orchestrator prompt (~200 lines) | TASK-208, 209, 210 | done |
 
 ### Phase 4: Plugin Graph Integration
 
