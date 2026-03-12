@@ -3,7 +3,7 @@
   "title": "Skill",
   "description": "Domain knowledge or methodology loaded into agents",
   "type": "object",
-  "required": ["id", "title", "description", "status", "layer"],
+  "required": ["id", "title", "description", "status", "layer", "category", "relationships"],
   "additionalProperties": false,
   "propertyOrder": [
     "id", "title", "description", "status",

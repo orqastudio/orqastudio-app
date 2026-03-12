@@ -12,19 +12,16 @@ scope:
 enforcement:
   - event: "file"
     action: "warn"
-    conditions:
-      - field: "file_path"
-        pattern: "\\.orqa/"
-      - field: "new_text"
-        pattern: "(?i)(deferred to|will be (wired|handled|done|implemented) (in|by) EPIC|out of scope.*handled by|future epic|separate epic will)"
+    paths:
+      - ".orqa/**"
+    pattern: "(?i)(deferred to|will be (wired|handled|done|implemented) (in|by) EPIC|out of scope.*handled by|future epic|separate epic will)"
     message: "Deferral language detected. RULE-019: if a deliverable is in scope, it ships NOW. Never defer to a future epic without explicit user approval."
   - event: "file"
     action: "warn"
-    conditions:
-      - field: "file_path"
-        pattern: "\\.orqa/planning/(tasks|epics)/"
-      - field: "new_text"
-        pattern: "status:\\s*done"
+    paths:
+      - ".orqa/planning/tasks/**"
+      - ".orqa/planning/epics/**"
+    pattern: "status:\\s*done"
     message: "Task/epic being marked done. RULE-019: verify ALL acceptance criteria are met and no deliverables were silently deferred."
 relationships:
   - target: "PILLAR-001"

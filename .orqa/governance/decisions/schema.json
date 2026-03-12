@@ -3,7 +3,7 @@
   "title": "Decision",
   "description": "Architecture decision record",
   "type": "object",
-  "required": ["id", "title", "description", "status", "created", "updated"],
+  "required": ["id", "title", "description", "status", "created", "updated", "relationships"],
   "additionalProperties": false,
   "propertyOrder": [
     "id", "title", "description", "status",

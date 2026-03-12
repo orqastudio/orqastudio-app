@@ -3,7 +3,7 @@
   "title": "Rule",
   "description": "Constraint that must be followed",
   "type": "object",
-  "required": ["id", "title", "description", "status", "created", "updated", "layer", "scope"],
+  "required": ["id", "title", "description", "status", "created", "updated", "layer", "scope", "relationships"],
   "additionalProperties": false,
   "propertyOrder": [
     "id", "title", "description", "status",
