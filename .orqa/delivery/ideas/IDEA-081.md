@@ -67,3 +67,7 @@ When not available:
 ```
 
 The orchestrator treats this as advisory — high-confidence suggestions are loaded automatically, low-confidence ones are logged but not acted on.
+
+## Open Questions
+
+- **Should this be a plugin?** The intent model could be packaged as an OrqaStudio plugin rather than a core feature. This would make it opt-in, keep the core lightweight, and allow different intent models to compete (official vs community). The plugin would hook into `UserPromptSubmit` and inject graph traversal hints — same mechanism as the current prompt-injector but with ML-based intent classification instead of regex.
