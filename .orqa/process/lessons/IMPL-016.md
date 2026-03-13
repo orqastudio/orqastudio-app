@@ -11,6 +11,9 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "Scope integrity prevents structural gaps in deliverables"
+  - target: "RULE-019"
+    type: "informs"
+    rationale: "Lesson documents a concrete compliance failure of RULE-019 (no deferred deliverables)"
 ---
 
 ## Pattern

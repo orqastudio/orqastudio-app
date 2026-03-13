@@ -15,22 +15,22 @@ relationships:
     rationale: Dogfood mode enforces awareness of self-modifying systems
   - target: RULE-028
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Dogfood mode heightens systems-thinking urgency when editing the app you run inside
   - target: RULE-007
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Dogfood mode specifies which make restart commands agents must use in each context
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: General coding standards apply regardless of dogfood mode
   - type: informed-by
     target: RULE-013
-    rationale: Inverse of informs relationship from RULE-013
+    rationale: Git workflow intersects with dogfood restart protocol and session-ending commit discipline
   - type: informed-by
     target: RULE-028
-    rationale: Inverse of informs relationship from RULE-028
+    rationale: Systems thinking is the foundation that dogfood mode heightens with operational specifics
   - type: informed-by
     target: RULE-044
-    rationale: Inverse of informs relationship from RULE-044
+    rationale: Core graph protection has a dogfood exception allowing core artifact edits
 ---
 # Dogfood Mode (CONDITIONAL — only when `dogfood: true`)
 

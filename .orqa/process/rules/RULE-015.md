@@ -20,37 +20,37 @@ relationships:
     rationale: Honest reporting enables accurate reflection on work quality
   - target: RULE-020
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Honest reporting defines what counts as a stub and the mandatory output structure
   - target: RULE-019
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Deferring scoped deliverables is a form of dishonest reporting
   - target: RULE-022
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Verification gate protocol requires evidence-backed pass/fail verdicts, not vague claims
   - target: RULE-012
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: All errors are your responsibility — honest reporting includes pre-existing failures
   - target: RULE-017
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Review completion reports must include lesson documentation status
   - type: informed-by
     target: RULE-001
-    rationale: Inverse of informs relationship from RULE-001
+    rationale: Delegation requires honest status reporting from agents back to the orchestrator
   - type: informed-by
     target: RULE-004
-    rationale: Inverse of informs relationship from RULE-004
+    rationale: Artifact status must reflect reality — lifecycle transitions depend on honest state
   - type: informed-by
     target: RULE-017
-    rationale: Inverse of informs relationship from RULE-017
+    rationale: Lesson logging in review reports enforces the learning loop through honest documentation
   - type: informed-by
     target: RULE-019
-    rationale: Inverse of informs relationship from RULE-019
+    rationale: No-deferred-deliverables makes incomplete scope visible rather than hidden in "done" status
   - type: informed-by
     target: RULE-027
-    rationale: Inverse of informs relationship from RULE-027
+    rationale: Structure before work prevents ambiguous completion claims by requiring acceptance criteria upfront
   - type: informed-by
     target: RULE-030
-    rationale: Inverse of informs relationship from RULE-030
+    rationale: UAT process requires findings to be reported accurately before grouping into systemic tasks
 ---
 ## The Core Rule
 

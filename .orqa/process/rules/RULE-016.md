@@ -20,13 +20,13 @@ relationships:
     rationale: Artifact ID semantics prevents confusion between identity and priority
   - target: RULE-004
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Priority scoring and status transitions depend on ID semantics being identifiers not rankings
   - target: RULE-031
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Pillar alignment drives priority; ID sequence must not be mistaken for priority order
   - type: informed-by
     target: RULE-004
-    rationale: Inverse of informs relationship from RULE-004
+    rationale: Artifact lifecycle defines how IDs are assigned and how priority is separately scored
 ---
 Artifact IDs ([EPIC-045](EPIC-045), [TASK-051](TASK-051), [AD-029](AD-029), etc.) are sequential identifiers for uniqueness and reference. They carry NO information about priority, importance, or execution order.
 

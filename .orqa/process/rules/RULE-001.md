@@ -14,31 +14,31 @@ relationships:
     rationale: Agent delegation provides clarity through structured roles and boundaries
   - target: RULE-026
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Delegation requires agents to load skills before starting work
   - target: RULE-023
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Delegation requires agents to read governing docs before implementation
   - target: RULE-015
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Agents receiving delegated tasks must report status honestly to the orchestrator
   - target: RULE-037
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Role boundaries in delegation are enforced by restricting tool access per role
   - target: RULE-040
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Delegation protocol requires resolving agent capabilities to concrete tool names
   - type: informed-by
     target: RULE-026
-    rationale: Inverse of informs relationship from RULE-026
+    rationale: Skill enforcement enables the delegation model by ensuring agents are equipped for their tasks
   - type: informed-by
     target: RULE-036
-    rationale: Inverse of informs relationship from RULE-036
+    rationale: Context window management supports delegation by keeping orchestrator context lean
   - type: informed-by
     target: RULE-037
-    rationale: Inverse of informs relationship from RULE-037
+    rationale: Tool access restrictions implement the role boundaries that delegation depends on
   - type: informed-by
     target: RULE-040
-    rationale: Inverse of informs relationship from RULE-040
+    rationale: Capability-to-tool mapping makes delegation provider-agnostic
 ---
 The orchestrator coordinates. It does NOT implement. Every implementation task is delegated to a universal role with the appropriate skills loaded.
 

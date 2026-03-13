@@ -20,10 +20,10 @@ relationships:
     rationale: "Document lifecycle distinguishes current state docs from historical records"
   - target: "RULE-008"
     type: "informs"
-    rationale: "Listed in Related Rules section"
+    rationale: "Documentation-first applies to docs (delete when outdated); research is preserved differently"
   - target: "RULE-004"
     type: "informs"
-    rationale: "Listed in Related Rules section"
+    rationale: "Status transitions define when research becomes surpassed and ideas become archived"
 ---
 
 ## Two Categories of Written Artifacts

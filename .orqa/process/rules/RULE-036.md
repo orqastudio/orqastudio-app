@@ -47,4 +47,4 @@ The orchestrator's context window is a finite resource. Filling it with implemen
 ## Related Rules
 
 - [RULE-001](RULE-001) (agent-delegation) — orchestrator delegates, doesn't implement
-- [RULE-005](RULE-005) (chunkhound-usage) — use search tools instead of reading files
+- [RULE-005](RULE-005) (code-search-usage) — use search tools instead of reading files

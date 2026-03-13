@@ -20,31 +20,31 @@ relationships:
     rationale: Error ownership ensures problems are resolved, not deferred
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Error ownership defines when to verify — always, before every function call
   - target: RULE-005
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Use search_regex to find function signatures before calling them
   - target: RULE-010
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: The full chain must be verified — not just the code but the runtime connection
   - type: informed-by
     target: RULE-006
-    rationale: Inverse of informs relationship from RULE-006
+    rationale: Coding standards define what must be verified and fixed before committing
   - type: informed-by
     target: RULE-013
-    rationale: Inverse of informs relationship from RULE-013
+    rationale: Pre-commit hook enforcement implements error ownership at commit time
   - type: informed-by
     target: RULE-015
-    rationale: Inverse of informs relationship from RULE-015
+    rationale: Honest reporting requires acknowledging all errors regardless of origin
   - type: informed-by
     target: RULE-018
-    rationale: Inverse of informs relationship from RULE-018
+    rationale: Type mismatches are errors you own — fix at the source, not with workarounds
   - type: informed-by
     target: RULE-020
-    rationale: Inverse of informs relationship from RULE-020
+    rationale: No-stubs extends error ownership to runtime behaviour — stubs hide real errors
   - type: informed-by
     target: RULE-043
-    rationale: Inverse of informs relationship from RULE-043
+    rationale: Tooling ecosystem channels error ownership through configured linters and hooks
 ---
 ## Rule (NON-NEGOTIABLE)
 
@@ -85,5 +85,5 @@ Use `search_regex` to find function definitions before calling them — faster a
 ## Related Rules
 
 - [RULE-006](RULE-006) (coding-standards) — defines *what* to verify (specific checks and patterns)
-- [RULE-005](RULE-005) (chunkhound-usage) — tools for finding and verifying code before modifying it
+- [RULE-005](RULE-005) (code-search-usage) — tools for finding and verifying code before modifying it
 - [RULE-010](RULE-010) (end-to-end-completeness) — the full chain that must be verified

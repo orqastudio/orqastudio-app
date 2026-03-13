@@ -2,7 +2,7 @@
 id: TASK-282
 title: "Add make verify targets"
 description: "Add make targets for full .orqa/ link verification and pipeline integrity checking."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

@@ -157,7 +157,7 @@ In OrqaStudio, skills are loaded via the `load_skill` tool and managed by the ap
 ## Related Rules
 
 - [RULE-023](RULE-023) (required-reading) — docs that agents must load (complementary to skills)
-- [RULE-005](RULE-005) (chunkhound-usage) — code search usage and context detection
+- [RULE-005](RULE-005) (code-search-usage) — code search usage and context detection
 - [RULE-001](RULE-001) (agent-delegation) — orchestrator must delegate to agents, not implement directly
 - [RULE-037](RULE-037) (tool-access-restrictions) — constrains which tools each role may use
 - [RULE-038](RULE-038) (user-invocable-skills) — user-invocable skill field semantics

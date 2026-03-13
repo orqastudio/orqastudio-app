@@ -15,22 +15,22 @@ relationships:
     rationale: Lessons learned is the core mechanism for learning through reflection
   - target: RULE-015
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Review completion reports must include lesson documentation status
   - target: RULE-022
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Verification gates trigger lesson logging when findings reveal recurring patterns
   - type: informed-by
     target: RULE-004
-    rationale: Inverse of informs relationship from RULE-004
+    rationale: Artifact lifecycle defines the lesson lifecycle (create, recurrence tracking, promotion)
   - type: informed-by
     target: RULE-011
-    rationale: Inverse of informs relationship from RULE-011
+    rationale: Enforcement before code requires lessons to be created before the fix cycle begins
   - type: informed-by
     target: RULE-015
-    rationale: Inverse of informs relationship from RULE-015
+    rationale: Honest reporting requires review agents to document lessons as part of their output
   - type: informed-by
     target: RULE-030
-    rationale: Inverse of informs relationship from RULE-030
+    rationale: UAT rounds must produce lessons alongside bug fixes to exercise the learning loop
 ---
 The team maintains two learning loops to prevent mistakes from recurring across sessions. Both loops are mandatory — they are not guidelines.
 

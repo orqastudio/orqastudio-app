@@ -2,7 +2,7 @@
 id: TASK-289
 title: "Move pillars to process/ and rename planning to delivery"
 description: "Move pillars from planning/ to process/. Rename planning/ to delivery/. Update project.json, all path references."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

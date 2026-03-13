@@ -20,13 +20,13 @@ relationships:
     rationale: "Root directory discipline maintains structural clarity at project level"
   - target: "RULE-003"
     type: "informs"
-    rationale: "Listed in Related Rules section"
+    rationale: "Root discipline keeps project.json config paths predictable and resolvable"
   - target: "RULE-007"
     type: "informs"
-    rationale: "Listed in Related Rules section"
+    rationale: "Build commands in make targets reference root-level config files governed by this rule"
   - target: "RULE-013"
     type: "informs"
-    rationale: "Listed in Related Rules section"
+    rationale: "tmp/ is gitignored; .gitignore and .gitattributes belong in root per this rule"
 ---
 The project root must stay lean. Every file in root must have a justification.
 

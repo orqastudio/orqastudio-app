@@ -58,4 +58,4 @@ Project skills (`layer: project`) MUST:
 ## Related Rules
 
 - [RULE-026](RULE-026) (skill-enforcement) — skill loading and tier model
-- [RULE-005](RULE-005) (chunkhound-usage) — search skills as an example of context-resolved portability
+- [RULE-005](RULE-005) (code-search-usage) — search skills as an example of context-resolved portability

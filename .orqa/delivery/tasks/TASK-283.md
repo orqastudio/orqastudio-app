@@ -2,7 +2,7 @@
 id: TASK-283
 title: "Fix all broken links and frontmatter refs"
 description: "Run verify-links.mjs across all .orqa/ artifacts, fix every broken reference. Commit in batches by artifact type."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

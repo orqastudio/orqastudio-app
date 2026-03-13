@@ -37,31 +37,31 @@ relationships:
     rationale: Git workflow creates structured, traceable version control practices
   - target: RULE-007
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Git commands remain raw — make does not wrap version control operations
   - target: RULE-012
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Pre-commit hooks enforce error ownership — bypassing with --no-verify is forbidden
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Pre-commit hook runs coding standard checks that must pass before every commit
   - target: RULE-009
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Restart protocol and session-ending commit discipline intersect in dogfood mode
   - target: IMPL-015
     type: observes
-    rationale: Rule promoted from lesson IMPL-015
+    rationale: Rule promoted from lesson IMPL-015 (worktree cleanup discipline)
   - type: informed-by
     target: RULE-007
-    rationale: Inverse of informs relationship from RULE-007
+    rationale: Make targets define the dev server commands that git workflow interacts with
   - type: informed-by
     target: RULE-025
-    rationale: Inverse of informs relationship from RULE-025
+    rationale: Root directory cleanliness governs tmp/ directory usage during git operations
   - type: informed-by
     target: RULE-039
-    rationale: Inverse of informs relationship from RULE-039
+    rationale: Session management requires clean git state at session boundaries
   - type: grounded
     target: IMPL-015
-    rationale: Inverse of grounded-by relationship from IMPL-015
+    rationale: Worktree cleanup lesson grounds the mandatory cleanup constraint
 ---
 **Source of Truth:** `.orqa/documentation/process/workflow.md`
 

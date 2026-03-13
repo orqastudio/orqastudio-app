@@ -16,16 +16,16 @@ relationships:
     rationale: Reusable components enforce structural consistency in the UI layer
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Component size limits and variant patterns are part of the shared library standards
   - target: RULE-005
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Use semantic search to find existing implementations before creating new components
   - type: informed-by
     target: RULE-006
-    rationale: Inverse of informs relationship from RULE-006
+    rationale: Coding standards mandate using the shared component library
   - type: informed-by
     target: RULE-033
-    rationale: Inverse of informs relationship from RULE-033
+    rationale: Tooltip usage rule is a specific shared component pattern covered by this rule
 ---
 ## Shared Component Library
 
@@ -92,4 +92,4 @@ Use `search_semantic` to find similar components across the *entire* frontend, n
 ## Related Rules
 
 - [RULE-006](RULE-006) (coding-standards) — component size limits and variant patterns
-- [RULE-005](RULE-005) (chunkhound-usage) — semantic search for finding existing implementations
+- [RULE-005](RULE-005) (code-search-usage) — semantic search for finding existing implementations

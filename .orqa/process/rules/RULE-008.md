@@ -20,46 +20,46 @@ relationships:
     rationale: Documentation-first ensures knowledge is captured before implementation
   - target: RULE-004
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Documentation gates on epics enforce the docs-required and docs-produced workflow
   - target: RULE-022
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plans must read and comply with existing documentation before implementation
   - target: RULE-005
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Use code_research to discover existing documentation before implementing
   - target: RULE-031
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Documentation must be checked for pillar alignment before new features are implemented
   - target: RULE-002
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Architecture decisions are documentation and must be consulted before writing code
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Coding standards document is the source of truth that must be read before writing code
   - type: informed-by
     target: RULE-002
-    rationale: Inverse of informs relationship from RULE-002
+    rationale: Architecture decisions define the specific documentation agents must check before coding
   - type: informed-by
     target: RULE-003
-    rationale: Inverse of informs relationship from RULE-003
+    rationale: Config integrity requires documenting the config schema before implementing the scanner
   - type: informed-by
     target: RULE-004
-    rationale: Inverse of informs relationship from RULE-004
+    rationale: Artifact lifecycle gates require documentation to exist at specific transition points
   - type: informed-by
     target: RULE-011
-    rationale: Inverse of informs relationship from RULE-011
+    rationale: Enforcement before code extends documentation-first to include enforcement artifacts
   - type: informed-by
     target: RULE-014
-    rationale: Inverse of informs relationship from RULE-014
+    rationale: Historical preservation defines which docs are deleted (active state) vs preserved (research)
   - type: informed-by
     target: RULE-021
-    rationale: Inverse of informs relationship from RULE-021
+    rationale: Pillar alignment in docs requires every feature documentation page to serve a pillar
   - type: informed-by
     target: RULE-023
-    rationale: Inverse of informs relationship from RULE-023
+    rationale: Required reading formalises which documentation agents must load before starting work
   - type: informed-by
     target: RULE-027
-    rationale: Inverse of informs relationship from RULE-027
+    rationale: Structure before work requires artifact documentation to exist before implementation begins
 ---
 ## Principle
 
@@ -140,7 +140,7 @@ See [RULE-004](RULE-004) (artifact-lifecycle) for enforcement details and `.orqa
 
 - [RULE-004](RULE-004) (artifact-lifecycle) — artifact creation, status transitions, documentation gates
 - [RULE-022](RULE-022) (plan-mode-compliance) — plan structure requirements
-- [RULE-005](RULE-005) (chunkhound-usage) — using code_research for documentation discovery
+- [RULE-005](RULE-005) (code-search-usage) — using code_research for documentation discovery
 - [RULE-031](RULE-031) (vision-alignment) — pillar alignment and governance
 - [RULE-002](RULE-002) (architecture-decisions) — architecture decision compliance
 - [RULE-006](RULE-006) (coding-standards) — function size, typing, coverage requirements

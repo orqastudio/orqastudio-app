@@ -14,30 +14,39 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: End-to-end completeness ensures every feature is fully structured across all layers
+  - target: RULE-020
+    type: informs
+    rationale: All four layers must return real data — commands must not be stubs
+  - target: RULE-012
+    type: informs
+    rationale: The full chain must be verified before marking a feature complete
+  - type: informed-by
+    target: RULE-005
+    rationale: Code search tools are used to verify the full request chain exists across all layers
   - type: informed-by
     target: RULE-002
-    rationale: Inverse of informs relationship from RULE-002
+    rationale: Architecture decisions define the IPC boundary and component purity requirements enforced here
   - type: informed-by
     target: RULE-003
-    rationale: Inverse of informs relationship from RULE-003
+    rationale: Config integrity requires all layers to stay in sync when paths change
   - type: informed-by
     target: RULE-012
-    rationale: Inverse of informs relationship from RULE-012
+    rationale: Error ownership requires verifying the full chain works before claiming completion
   - type: informed-by
     target: RULE-018
-    rationale: Inverse of informs relationship from RULE-018
+    rationale: No-aliases ensures type consistency is maintained across all layers in the same commit
   - type: informed-by
     target: RULE-020
-    rationale: Inverse of informs relationship from RULE-020
+    rationale: No-stubs requires all four layers to do real work, not return placeholder data
   - type: informed-by
     target: RULE-022
-    rationale: Inverse of informs relationship from RULE-022
+    rationale: Plan compliance requires every feature to include all layers in its implementation design
   - type: informed-by
     target: RULE-028
-    rationale: Inverse of informs relationship from RULE-028
+    rationale: Systems thinking applied to the four-layer structure is the foundation of this rule
   - type: informed-by
     target: RULE-041
-    rationale: Inverse of informs relationship from RULE-041
+    rationale: Persistence boundaries must be consistent across all layers in the same commit
 ---
 Every feature MUST be implemented across ALL layers in the same commit. Partial implementations that work in isolation but fail at runtime due to missing layers are forbidden.
 
@@ -125,4 +134,4 @@ Use `code_research` to map the full request chain (component -> store -> invoke 
 
 - [RULE-020](RULE-020) (no-stubs) — commands must return real data, not fake responses
 - [RULE-012](RULE-012) (error-ownership) — verify the full chain works, don't assume
-- [RULE-005](RULE-005) (chunkhound-usage) — tools for verifying the chain exists
+- [RULE-005](RULE-005) (code-search-usage) — tools for verifying the chain exists

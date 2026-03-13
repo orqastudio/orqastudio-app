@@ -20,19 +20,19 @@ relationships:
     rationale: Enforcement before code captures patterns as they emerge, enabling learning
   - target: RULE-008
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Enforcement artifacts extend documentation-first to include rules, skills, and lessons
   - target: RULE-017
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Lessons are one type of enforcement artifact that must be created before the fix cycle
   - target: RULE-026
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Skills are enforcement artifacts that must exist before agents implement a pattern
   - type: informed-by
     target: RULE-003
-    rationale: Inverse of informs relationship from RULE-003
+    rationale: Artifact config integrity requires enforcement via config registration before implementation
   - type: informed-by
     target: RULE-027
-    rationale: Inverse of informs relationship from RULE-027
+    rationale: Structure before work requires enforcement artifacts to exist alongside implementation artifacts
 ---
 # Enforcement Before Code (NON-NEGOTIABLE)
 

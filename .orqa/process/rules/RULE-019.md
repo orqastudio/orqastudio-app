@@ -29,22 +29,22 @@ relationships:
     rationale: No deferred deliverables ensures scope clarity and completion integrity
   - target: RULE-015
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Deferring scoped deliverables is a form of dishonest reporting
   - target: RULE-022
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plans must reconcile with roadmap scope before implementation begins
   - target: RULE-020
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Scaffolded implementations that defer wiring are not deliverables — they are stubs
   - target: RULE-004
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Epic status transitions require all deliverables to be complete before marking done
   - type: informed-by
     target: RULE-015
-    rationale: Inverse of informs relationship from RULE-015
+    rationale: Honest reporting requires scope reductions to be user decisions, not agent decisions
   - type: informed-by
     target: RULE-027
-    rationale: Inverse of informs relationship from RULE-027
+    rationale: Structure before work defines acceptance criteria that prevent silent scope reduction
 ---
 ## The Rule
 

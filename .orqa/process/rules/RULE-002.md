@@ -20,28 +20,28 @@ relationships:
     rationale: Architecture decisions document structural choices that create clarity
   - target: RULE-022
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plans must include an architectural compliance section verifying all decisions
   - target: RULE-008
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Architecture decisions ARE documentation and define the source of truth for compliance
   - target: RULE-031
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Decisions implement the foundational principles and must be aligned with pillars
   - target: RULE-010
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Decisions define the layer requirements (IPC boundary, component purity, type safety) for every feature
   - type: informed-by
     target: RULE-008
-    rationale: Inverse of informs relationship from RULE-008
+    rationale: Documentation-first ensures decisions are documented before code depends on them
   - type: informed-by
     target: RULE-022
-    rationale: Inverse of informs relationship from RULE-022
+    rationale: Plan compliance requires verifying architectural decisions before implementation starts
   - type: informed-by
     target: RULE-023
-    rationale: Inverse of informs relationship from RULE-023
+    rationale: Required reading ensures agents load relevant decisions before writing code
   - type: informed-by
     target: RULE-031
-    rationale: Inverse of informs relationship from RULE-031
+    rationale: Vision alignment requires all decisions to trace back to active pillars
 ---
 **Source of Truth:** `.orqa/process/decisions/` — individual `AD-NNN.md` artifacts. Decisions are first-class artifacts browsable in the app's artifact navigation.
 

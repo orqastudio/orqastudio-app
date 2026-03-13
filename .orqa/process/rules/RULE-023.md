@@ -20,19 +20,19 @@ relationships:
     rationale: Required reading ensures agents have governing context loaded before work
   - target: RULE-008
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Documentation is the specification; required reading ensures agents load it before coding
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Coding standards document is required reading before any implementation work
   - target: RULE-002
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Architecture decisions are required reading before any code that touches the IPC boundary
   - type: informed-by
     target: RULE-001
-    rationale: Inverse of informs relationship from RULE-001
+    rationale: Delegation protocol requires agents to read governing docs before starting work
   - type: informed-by
     target: RULE-026
-    rationale: Inverse of informs relationship from RULE-026
+    rationale: Skill enforcement loads skills before work; required reading loads docs before work
 ---
 Every agent MUST read its Required Reading documentation before any implementation work begins. The Required Reading section in each agent definition lists the specific documentation pages that agent needs loaded into context.
 

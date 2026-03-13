@@ -2,7 +2,7 @@
 id: TASK-285
 title: "Create data integrity rule (RULE-045)"
 description: "Codify data integrity requirements: all cross-references must resolve, pipeline relationships must have bidirectional inverses, pre-commit enforces both, make verify is the manual full-scan."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

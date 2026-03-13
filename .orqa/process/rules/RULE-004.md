@@ -14,49 +14,49 @@ relationships:
     rationale: Artifact lifecycle enforces structured progression from idea to completion
   - target: RULE-008
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Artifact lifecycle enforces documentation gates before and after implementation
   - target: RULE-016
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: IDs are identifiers not rankings — priority comes from scoring, not creation order
   - target: RULE-031
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Pillar alignment is required for all artifacts as part of lifecycle validation
   - target: RULE-017
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Lesson lifecycle (create, track recurrence, promote) is part of the artifact lifecycle
   - target: RULE-021
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Documentation gates require pillar alignment sections in produced docs
   - target: RULE-015
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Artifact status must reflect reality — honest reporting is required for lifecycle transitions
   - type: informed-by
     target: RULE-008
-    rationale: Inverse of informs relationship from RULE-008
+    rationale: Documentation-first defines the docs-required and docs-produced gates this rule enforces
   - type: informed-by
     target: RULE-014
-    rationale: Inverse of informs relationship from RULE-014
+    rationale: Historical preservation rules define which artifact types are deleted vs preserved
   - type: informed-by
     target: RULE-016
-    rationale: Inverse of informs relationship from RULE-016
+    rationale: ID semantics inform how IDs are assigned and interpreted in the lifecycle
   - type: informed-by
     target: RULE-019
-    rationale: Inverse of informs relationship from RULE-019
+    rationale: No-deferred-deliverables enforces completion before epic status transitions to done
   - type: informed-by
     target: RULE-021
-    rationale: Inverse of informs relationship from RULE-021
+    rationale: Pillar alignment docs rules apply at the docs-produced gate
   - type: informed-by
     target: RULE-022
-    rationale: Inverse of informs relationship from RULE-022
+    rationale: Plan compliance verification gates align with lifecycle transition requirements
   - type: informed-by
     target: RULE-027
-    rationale: Inverse of informs relationship from RULE-027
+    rationale: Structure-before-work requires artifacts to exist before implementation begins
   - type: informed-by
     target: RULE-031
-    rationale: Inverse of informs relationship from RULE-031
+    rationale: Vision alignment requirements apply at artifact creation and promotion gates
   - type: informed-by
     target: RULE-032
-    rationale: Inverse of informs relationship from RULE-032
+    rationale: Schema validation enforces required field completeness at each lifecycle stage
   - type: enforces
     target: AD-040
     rationale: Inverse of enforced-by relationship from AD-040

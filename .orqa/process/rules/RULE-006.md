@@ -57,49 +57,49 @@ relationships:
     rationale: Coding standards create structural consistency across the codebase
   - target: RULE-012
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Coding standards define what must be verified before every function call
   - target: RULE-024
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Coding standards mandate which shared component library to use
   - target: RULE-029
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Coding standards set the 80% coverage floor that testing must satisfy
   - target: RULE-005
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Coding standards mandate semantic search before creating new code
   - type: informed-by
     target: RULE-007
-    rationale: Inverse of informs relationship from RULE-007
+    rationale: Make targets enforce the command invocations that apply coding standards
   - type: informed-by
     target: RULE-008
-    rationale: Inverse of informs relationship from RULE-008
+    rationale: Documentation-first requires reading the source-of-truth coding standards doc before implementing
   - type: informed-by
     target: RULE-009
-    rationale: Inverse of informs relationship from RULE-009
+    rationale: Dogfood mode applies these coding standards regardless of self-modification context
   - type: informed-by
     target: RULE-012
-    rationale: Inverse of informs relationship from RULE-012
+    rationale: Error ownership requires fixing coding standard violations even in unmodified files
   - type: informed-by
     target: RULE-013
-    rationale: Inverse of informs relationship from RULE-013
+    rationale: Git workflow enforces coding standards via pre-commit hooks
   - type: informed-by
     target: RULE-022
-    rationale: Inverse of informs relationship from RULE-022
+    rationale: Plan compliance requires implementations to meet coding standards
   - type: informed-by
     target: RULE-023
-    rationale: Inverse of informs relationship from RULE-023
+    rationale: Required reading includes coding standards before any implementation work
   - type: informed-by
     target: RULE-024
-    rationale: Inverse of informs relationship from RULE-024
+    rationale: Reusable components rule applies the component usage standards defined here
   - type: informed-by
     target: RULE-033
-    rationale: Inverse of informs relationship from RULE-033
+    rationale: Tooltip rule is a specific component standard within the broader coding standards
   - type: informed-by
     target: RULE-042
-    rationale: Inverse of informs relationship from RULE-042
+    rationale: Skill injection automates loading of coding-standard knowledge at write time
   - type: informed-by
     target: RULE-043
-    rationale: Inverse of informs relationship from RULE-043
+    rationale: Tooling ecosystem maps these standards to linter configurations
 ---
 **Source of Truth:** `.orqa/documentation/development/coding-standards.md`
 
@@ -176,4 +176,4 @@ Coding standards MUST be reflected in automated linting rules. If a standard exi
 - [RULE-012](RULE-012) (error-ownership) — *when* to verify (always, before every call)
 - [RULE-024](RULE-024) (reusable-components) — *which* components to use (shared library)
 - [RULE-029](RULE-029) (testing-standards) — testing patterns and coverage requirements
-- [RULE-005](RULE-005) (chunkhound-usage) — use semantic search before creating new code
+- [RULE-005](RULE-005) (code-search-usage) — use semantic search before creating new code

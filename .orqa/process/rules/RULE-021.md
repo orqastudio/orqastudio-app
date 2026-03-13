@@ -16,19 +16,19 @@ relationships:
     rationale: Pillar alignment in docs ensures documentation serves the product vision
   - target: RULE-031
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Pillar alignment in docs extends vision alignment from features to documentation pages
   - target: RULE-008
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Documentation is the source of truth and must trace to active pillars
   - target: RULE-004
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Docs-produced gate requires produced documentation pages to include pillar alignment sections
   - type: informed-by
     target: RULE-004
-    rationale: Inverse of informs relationship from RULE-004
+    rationale: Docs-produced verification at epic completion triggers pillar alignment checks
   - type: informed-by
     target: RULE-031
-    rationale: Inverse of informs relationship from RULE-031
+    rationale: Vision alignment for features requires the same pillar tracing as documentation pages
 ---
 Every documentation page that describes a feature, component, workflow, integration, or capability MUST include a "Pillar Alignment" section. This ensures all documented work traces back to the product vision and prevents scope creep from accumulating silently in the docs.
 

@@ -2,7 +2,7 @@
 id: TASK-298
 title: "Create AD for standards distribution pattern (AD-044)"
 description: "Formalize how operational standards flow through the pipeline: Observation → Understanding → Principle → Practice → Enforcement → Verification."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

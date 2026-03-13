@@ -2,7 +2,7 @@
 id: TASK-288
 title: "Move team artifacts to process/"
 description: "Move skills and agents from .orqa/process/ to .orqa/process/. Update project.json, all path references, .claude/ symlinks."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

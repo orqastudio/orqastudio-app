@@ -15,43 +15,43 @@ relationships:
     rationale: Config integrity ensures artifact structure is reliable and predictable
   - target: RULE-010
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Config changes must be reflected across all layers to maintain end-to-end integrity
   - target: RULE-018
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: No alias paths or fallback resolution — config paths must be canonical
   - target: RULE-008
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Config schema must be documented before implementing scanner behaviour
   - target: RULE-011
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: New artifact types require config registration as an enforcement artifact before implementation
   - target: IMPL-005
     type: observes
-    rationale: Rule promoted from lesson IMPL-005
+    rationale: Rule promoted from lesson IMPL-005 (config paths must match disk structure)
   - target: IMPL-006
     type: observes
-    rationale: Rule promoted from lesson IMPL-006
+    rationale: Rule promoted from lesson IMPL-006 (scanner must recurse into subdirectories)
   - type: informed-by
     target: RULE-025
-    rationale: Inverse of informs relationship from RULE-025
+    rationale: Root directory discipline relies on config-driven path definitions
   - type: informed-by
     target: RULE-032
-    rationale: Inverse of informs relationship from RULE-032
+    rationale: Schema validation depends on config correctly mapping artifact directories to schemas
   - type: informed-by
     target: RULE-034
-    rationale: Inverse of informs relationship from RULE-034
+    rationale: Artifact link format requires config integrity to resolve link targets
   - type: informed-by
     target: RULE-041
-    rationale: Inverse of informs relationship from RULE-041
+    rationale: Persistence boundaries require file-based artifacts to be correctly configured
   - type: informed-by
     target: RULE-044
-    rationale: Inverse of informs relationship from RULE-044
+    rationale: Core graph protection requires knowing which directories hold protected artifacts
   - type: grounded
     target: IMPL-005
-    rationale: Inverse of grounded-by relationship from IMPL-005
+    rationale: Config-path matching lesson grounds the config integrity constraint
   - type: grounded
     target: IMPL-006
-    rationale: Inverse of grounded-by relationship from IMPL-006
+    rationale: Recursive scanning lesson grounds the directory traversal requirement
 ---
 # Artifact Config Integrity (NON-NEGOTIABLE)
 

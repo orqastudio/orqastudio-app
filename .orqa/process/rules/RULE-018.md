@@ -16,19 +16,19 @@ relationships:
     rationale: No aliases ensures structural consistency across type boundaries
   - target: RULE-010
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Type consistency must hold across all layers — mismatches must be fixed at the source layer
   - target: RULE-012
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: A type mismatch is an error you own — fix it at the root, not with a workaround
   - target: RULE-020
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Alias entries are a form of fake data hiding real gaps between layers
   - target: RULE-005
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Use search_regex to find all usages of an identifier before renaming or removing it
   - type: informed-by
     target: RULE-003
-    rationale: Inverse of informs relationship from RULE-003
+    rationale: Config integrity requires canonical paths with no alias fallback resolution
 ---
 When a value or type mismatch exists between layers, fix the root cause. Never paper over it with aliases, shims, or duplicate mappings.
 
@@ -72,4 +72,4 @@ If the same concept has two identifiers in any layer, that is a bug — not a fe
 - [RULE-010](RULE-010) (end-to-end-completeness) — type consistency must hold across all layers in the same commit
 - [RULE-012](RULE-012) (error-ownership) — a type mismatch is an error you own; fix it, don't work around it
 - [RULE-020](RULE-020) (no-stubs) — alias entries are a form of fake data hiding real gaps
-- [RULE-005](RULE-005) (chunkhound-usage) — use `search_regex` to find all usages of an identifier before renaming or removing it
+- [RULE-005](RULE-005) (code-search-usage) — use `search_regex` to find all usages of an identifier before renaming or removing it

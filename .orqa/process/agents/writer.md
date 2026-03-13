@@ -17,6 +17,8 @@ capabilities:
   - code_search_regex
   - code_search_semantic
   - code_research
+  - web_fetch
+  - web_search
 skills:
   - SKILL-005
   - SKILL-008
@@ -58,7 +60,7 @@ You may run in two contexts. Both are permanent and first-class.
 
 The `chunkhound` skill teaches query patterns that work in both contexts.
 
-**Dogfood mode:** If `.orqa/project.json` has `"dogfood": true`, apply enhanced caution — see `.orqa/process/rules/[RULE-009](RULE-009).md`.
+**Dogfood mode:** If `.orqa/project.json` has `"dogfood": true`, apply enhanced caution — see [RULE-009](RULE-009).
 
 ## Documentation Types
 
@@ -87,7 +89,7 @@ updated: 2026-01-01
 
 ## Pillar Alignment Section
 
-Every feature documentation page MUST include a Pillar Alignment section near the bottom. See `.orqa/process/rules/[RULE-021](RULE-021).md` for details.
+Every feature documentation page MUST include a Pillar Alignment section near the bottom. See [RULE-021](RULE-021) for details.
 
 ## Writing Standards
 

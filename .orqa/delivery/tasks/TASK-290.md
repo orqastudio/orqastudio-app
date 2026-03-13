@@ -2,7 +2,7 @@
 id: TASK-290
 title: "Create verification artifact type"
 description: "Create the VER-NNN artifact type under delivery/verification/ with schema, README, and project.json registration."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

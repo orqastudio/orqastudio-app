@@ -18,33 +18,48 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Semantic search enables structured knowledge discovery
+  - target: RULE-026
+    type: informs
+    rationale: Search skills are universal and required for every agent
+  - target: RULE-012
+    type: informs
+    rationale: Use search_regex to find function signatures before calling them
+  - target: RULE-024
+    type: informs
+    rationale: Use search_semantic to find similar components before creating new ones
+  - target: RULE-010
+    type: informs
+    rationale: Use code_research to map the full request chain across all layers
+  - target: RULE-020
+    type: informs
+    rationale: Use search_regex to verify implementations exist before marking work done
   - type: informed-by
     target: RULE-006
-    rationale: Inverse of informs relationship from RULE-006
+    rationale: Coding standards mandate semantic search to discover existing code before writing new code
   - type: informed-by
     target: RULE-008
-    rationale: Inverse of informs relationship from RULE-008
+    rationale: Documentation-first requires searching docs for existing designs before implementing
   - type: informed-by
     target: RULE-012
-    rationale: Inverse of informs relationship from RULE-012
+    rationale: Error ownership requires verifying function signatures exist before calling them
   - type: informed-by
     target: RULE-018
-    rationale: Inverse of informs relationship from RULE-018
+    rationale: No-aliases rule requires searching all usages of an identifier before renaming
   - type: informed-by
     target: RULE-020
-    rationale: Inverse of informs relationship from RULE-020
+    rationale: No-stubs rule requires searching to verify implementations exist end-to-end
   - type: informed-by
     target: RULE-024
-    rationale: Inverse of informs relationship from RULE-024
+    rationale: Reusable components rule requires searching for existing implementations first
   - type: informed-by
     target: RULE-026
-    rationale: Inverse of informs relationship from RULE-026
+    rationale: Skill enforcement declares search skills as universal requirements for every agent
   - type: informed-by
     target: RULE-036
-    rationale: Inverse of informs relationship from RULE-036
+    rationale: Context window management requires using search instead of reading many files directly
   - type: informed-by
     target: RULE-040
-    rationale: Inverse of informs relationship from RULE-040
+    rationale: Provider-agnostic capabilities maps code search capabilities to context-specific tool names
 ---
 **Prefer semantic search over Grep/Glob for any search that spans more than one file or directory.**
 

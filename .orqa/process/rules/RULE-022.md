@@ -15,37 +15,37 @@ relationships:
     rationale: Plan compliance creates structured verification before and during implementation
   - target: RULE-004
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plan structure feeds directly into artifact lifecycle gates (docs-required, docs-produced)
   - target: RULE-031
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plans must serve the pillar framework — architectural compliance section verifies this
   - target: RULE-002
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plans must include an architectural compliance section verifying all relevant decisions
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Implementations must meet coding standards defined in the plan's compliance section
   - target: RULE-010
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Plans must specify all four layers in the implementation design
   - type: informed-by
     target: RULE-002
-    rationale: Inverse of informs relationship from RULE-002
+    rationale: Architecture decisions define what the compliance section must verify
   - type: informed-by
     target: RULE-008
-    rationale: Inverse of informs relationship from RULE-008
+    rationale: Documentation-first requires plans to read existing docs before proposing implementation
   - type: informed-by
     target: RULE-015
-    rationale: Inverse of informs relationship from RULE-015
+    rationale: Verification gates require evidence-backed verdicts, not vague completion claims
   - type: informed-by
     target: RULE-017
-    rationale: Inverse of informs relationship from RULE-017
+    rationale: Verification gates trigger lesson logging when patterns emerge
   - type: informed-by
     target: RULE-019
-    rationale: Inverse of informs relationship from RULE-019
+    rationale: Roadmap reconciliation ensures plan scope matches epic deliverables
   - type: informed-by
     target: RULE-028
-    rationale: Inverse of informs relationship from RULE-028
+    rationale: Systems Architecture Checklist operationalises systems thinking in every plan
 ---
 Every implementation plan — whether captured in an epic, a task, or proposed in conversation — MUST satisfy two mandatory requirements before implementation begins.
 

@@ -29,25 +29,25 @@ relationships:
     rationale: Make targets provide a single structured interface for development commands
   - target: RULE-006
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Make targets are the required way to invoke coding standard checks (make check)
   - target: RULE-029
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Make targets are the required way to run all test variants
   - target: RULE-013
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Git commands remain raw — make does not wrap version control operations
   - type: informed-by
     target: RULE-009
-    rationale: Inverse of informs relationship from RULE-009
+    rationale: Dogfood mode specifies which restart commands agents must use
   - type: informed-by
     target: RULE-013
-    rationale: Inverse of informs relationship from RULE-013
+    rationale: Git workflow relies on make targets for dev environment management
   - type: informed-by
     target: RULE-025
-    rationale: Inverse of informs relationship from RULE-025
+    rationale: Root directory discipline governs where build config files that make targets reference must live
   - type: informed-by
     target: RULE-039
-    rationale: Inverse of informs relationship from RULE-039
+    rationale: Session management uses make targets for dev server lifecycle control
 ---
 All development commands MUST be invoked via `make` targets. Raw `cargo` and `npm run` commands are forbidden for tasks that have a `make` equivalent.
 

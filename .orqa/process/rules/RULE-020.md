@@ -22,25 +22,25 @@ relationships:
     rationale: No stubs ensures real implementations create genuine structural value
   - target: RULE-010
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: All four layers must return real data — no layer may be a stub
   - target: RULE-012
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: If a function doesn't exist, create it — don't work around the gap
   - target: RULE-005
     type: informs
-    rationale: Listed in Related Rules section
+    rationale: Use search_regex to verify implementations exist before marking features done
   - type: informed-by
     target: RULE-015
-    rationale: Inverse of informs relationship from RULE-015
+    rationale: Honest reporting defines what counts as a stub and the mandatory completion report structure
   - type: informed-by
     target: RULE-018
-    rationale: Inverse of informs relationship from RULE-018
+    rationale: Alias entries are a form of stub hiding real type mismatches
   - type: informed-by
     target: RULE-019
-    rationale: Inverse of informs relationship from RULE-019
+    rationale: Scaffolded implementations that defer real wiring are a deferral violation
   - type: informed-by
     target: RULE-031
-    rationale: Inverse of informs relationship from RULE-031
+    rationale: Real implementations are required — fake demos do not serve any pillar
 ---
 ## What Counts as a Stub
 
@@ -117,4 +117,4 @@ Every agent completing implementation work MUST include these sections in its fi
 
 - [RULE-010](RULE-010) (end-to-end-completeness) — the full chain that must exist
 - [RULE-012](RULE-012) (error-ownership) — if the function doesn't exist, create it
-- [RULE-005](RULE-005) (chunkhound-usage) — tools for verifying implementations exist
+- [RULE-005](RULE-005) (code-search-usage) — tools for verifying implementations exist
