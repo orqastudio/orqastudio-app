@@ -3,8 +3,8 @@ use std::path::Path;
 use tauri::State;
 
 use crate::domain::artifact_graph::{
-    build_artifact_graph, check_integrity, graph_stats, ArtifactGraph, ArtifactNode, GraphStats,
-    IntegrityCheck,
+    apply_fixes, build_artifact_graph, check_integrity, graph_stats, ArtifactGraph, ArtifactNode,
+    AppliedFix, GraphStats, IntegrityCheck,
 };
 use crate::error::OrqaError;
 use crate::repo::project_repo;
@@ -143,6 +143,31 @@ pub fn refresh_artifact_graph(state: State<'_, AppState>) -> Result<(), OrqaErro
 pub fn run_integrity_scan(state: State<'_, AppState>) -> Result<Vec<IntegrityCheck>, OrqaError> {
     let graph = get_or_build_graph(&state)?;
     Ok(check_integrity(&graph))
+}
+
+/// Apply auto-fixable integrity checks and return the list of applied fixes.
+///
+/// Runs the integrity scan first, then applies all auto-fixable findings.
+/// Refreshes the graph cache after applying fixes.
+#[tauri::command]
+pub fn apply_auto_fixes(state: State<'_, AppState>) -> Result<Vec<AppliedFix>, OrqaError> {
+    let graph = get_or_build_graph(&state)?;
+    let checks = check_integrity(&graph);
+    let project_path = active_project_path(&state)?;
+    let applied = apply_fixes(&graph, &checks, Path::new(&project_path))?;
+
+    // Refresh the graph if any fixes were applied.
+    if !applied.is_empty() {
+        let new_graph = build_artifact_graph(Path::new(&project_path))?;
+        let mut guard = state
+            .artifacts
+            .graph
+            .lock()
+            .map_err(|e| OrqaError::Database(format!("graph lock poisoned: {e}")))?;
+        *guard = Some(new_graph);
+    }
+
+    Ok(applied)
 }
 
 #[cfg(test)]

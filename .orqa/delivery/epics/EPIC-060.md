@@ -144,8 +144,8 @@ Each issue row: artifact ID (clickable → navigates to artifact), message, seve
 | [TASK-389](TASK-389) | Add traverse/pipelineChain/missingInverses to graph SDK | 0 | [TASK-388](TASK-388) |
 | TASK-TBD-0c | Migrate components from invoke() to SDK lookups | 0 | [TASK-389](TASK-389) |
 | [TASK-390](TASK-390) | Native integrity checks in artifact_graph.rs | 1 | [TASK-389](TASK-389) |
-| TASK-TBD-2 | Auto-fix engine for deterministic integrity issues | 1 | TASK-TBD-1 |
-| TASK-TBD-3 | IPC commands for integrity scan, auto-fix, and agent delegation | 1 | TASK-TBD-1, TASK-TBD-2 |
+| [TASK-392](TASK-392) | Auto-fix engine for deterministic integrity issues | 1 | [TASK-390](TASK-390) |
+| ~~TASK-TBD-3~~ | ~~IPC commands~~ (merged into [TASK-390](TASK-390) + [TASK-392](TASK-392)) | — | — |
 | [TASK-391](TASK-391) | Dashboard integrity widget — health score and issue list | 2 | [TASK-390](TASK-390) |
 | TASK-TBD-5 | Fix flow — auto-fix application and agent delegation UI | 2 | TASK-TBD-3, TASK-TBD-4 |
 | TASK-TBD-6 | Pipeline thread visualization | 3 | TASK-TBD-3 |

@@ -364,6 +364,14 @@ pub struct IntegrityCheck {
     pub fix_description: Option<String>,
 }
 
+/// A fix that was applied to resolve an integrity issue.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AppliedFix {
+    pub artifact_id: String,
+    pub description: String,
+    pub file_path: String,
+}
+
 /// Run integrity checks on the artifact graph and return all findings.
 pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
     let mut checks = Vec::new();
@@ -447,6 +455,174 @@ pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
     }
 
     checks
+}
+
+// ---------------------------------------------------------------------------
+// Auto-fix engine
+// ---------------------------------------------------------------------------
+
+/// Apply auto-fixable integrity checks by modifying artifact files on disk.
+///
+/// Currently supports:
+/// - `MissingInverse`: adds the inverse relationship entry to the target artifact's
+///   frontmatter `relationships` array.
+///
+/// Returns a list of fixes that were successfully applied.
+pub fn apply_fixes(
+    graph: &ArtifactGraph,
+    checks: &[IntegrityCheck],
+    project_path: &Path,
+) -> Result<Vec<AppliedFix>, OrqaError> {
+    let mut applied = Vec::new();
+
+    for check in checks {
+        if !check.auto_fixable {
+            continue;
+        }
+
+        match check.category {
+            IntegrityCategory::MissingInverse => {
+                if let Some(fix) = apply_missing_inverse_fix(graph, check, project_path)? {
+                    applied.push(fix);
+                }
+            }
+            _ => {}
+        }
+    }
+
+    Ok(applied)
+}
+
+/// Fix a missing inverse relationship by adding the inverse entry to the target file.
+fn apply_missing_inverse_fix(
+    graph: &ArtifactGraph,
+    check: &IntegrityCheck,
+    project_path: &Path,
+) -> Result<Option<AppliedFix>, OrqaError> {
+    // Parse the message to extract source_id, target_id, and inverse_type.
+    // Format: "RULE-001 --enforces--> AD-001 but AD-001 has no enforced-by edge back to RULE-001"
+    let message = &check.message;
+
+    let parts: Vec<&str> = message.split(" --").collect();
+    if parts.len() < 2 {
+        return Ok(None);
+    }
+    let source_id = parts[0].trim();
+
+    let rest = parts[1];
+    let arrow_parts: Vec<&str> = rest.split("--> ").collect();
+    if arrow_parts.len() < 2 {
+        return Ok(None);
+    }
+
+    let after_arrow = arrow_parts[1];
+    // "AD-001 but AD-001 has no enforced-by edge back to RULE-001"
+    let but_parts: Vec<&str> = after_arrow.split(" but ").collect();
+    if but_parts.len() < 2 {
+        return Ok(None);
+    }
+    let target_id = but_parts[0].trim();
+
+    // Extract inverse type: "AD-001 has no enforced-by edge back to RULE-001"
+    let has_no_parts: Vec<&str> = but_parts[1].split(" has no ").collect();
+    if has_no_parts.len() < 2 {
+        return Ok(None);
+    }
+    let edge_parts: Vec<&str> = has_no_parts[1].split(" edge back to ").collect();
+    if edge_parts.is_empty() {
+        return Ok(None);
+    }
+    let inverse_type = edge_parts[0].trim();
+
+    // Find the target node's file path.
+    let target_node = match graph.nodes.get(target_id) {
+        Some(n) => n,
+        None => return Ok(None),
+    };
+
+    let file_path = project_path.join(&target_node.path);
+    if !file_path.exists() {
+        return Ok(None);
+    }
+
+    let content = std::fs::read_to_string(&file_path)?;
+    let (fm_text, body) = crate::domain::artifact::extract_frontmatter(&content);
+    let Some(fm_text) = fm_text else {
+        return Ok(None);
+    };
+
+    // Parse the YAML to check if the inverse relationship already exists.
+    let yaml_value: serde_yaml::Value = serde_yaml::from_str(&fm_text)
+        .map_err(|e| OrqaError::Validation(format!("YAML parse error in {}: {e}", target_node.path)))?;
+
+    if let Some(rels) = yaml_value.get("relationships").and_then(|v| v.as_sequence()) {
+        for rel in rels {
+            let existing_target = rel.get("target").and_then(|v| v.as_str());
+            let existing_type = rel.get("type").and_then(|v| v.as_str());
+            if existing_target == Some(source_id) && existing_type == Some(inverse_type) {
+                // Already exists — skip.
+                return Ok(None);
+            }
+        }
+    }
+
+    // Build the new relationship entry to append.
+    let new_entry = format!(
+        "  - target: {}\n    type: {}\n    rationale: \"Auto-generated inverse of {} relationship from {}\"",
+        source_id, inverse_type, inverse_type, check.artifact_id
+    );
+
+    // Reconstruct the file content with the new relationship added.
+    let new_content = if fm_text.contains("relationships:") {
+        // Append to existing relationships array.
+        let lines: Vec<&str> = fm_text.lines().collect();
+        let mut insert_pos = None;
+        let mut in_relationships = false;
+
+        for (i, line) in lines.iter().enumerate() {
+            if line.trim_start().starts_with("relationships:") {
+                in_relationships = true;
+                continue;
+            }
+            if in_relationships {
+                if line.starts_with("  - ") || line.starts_with("    ") {
+                    insert_pos = Some(i + 1);
+                } else if !line.trim().is_empty() {
+                    break;
+                }
+            }
+        }
+
+        if let Some(pos) = insert_pos {
+            let entry_lines: Vec<&str> = new_entry.lines().collect();
+            let mut new_lines = lines.clone();
+            for (j, entry_line) in entry_lines.iter().enumerate() {
+                new_lines.insert(pos + j, entry_line);
+            }
+            format!("---\n{}\n---\n{}", new_lines.join("\n"), body)
+        } else {
+            // relationships key exists but is empty — add after it.
+            let new_fm = fm_text.replace(
+                "relationships:",
+                &format!("relationships:\n{new_entry}"),
+            );
+            format!("---\n{new_fm}\n---\n{body}")
+        }
+    } else {
+        // No relationships key — add one at the end of frontmatter.
+        let new_fm = format!("{}\nrelationships:\n{new_entry}", fm_text.trim_end());
+        format!("---\n{new_fm}\n---\n{body}")
+    };
+
+    std::fs::write(&file_path, new_content)?;
+
+    Ok(Some(AppliedFix {
+        artifact_id: target_id.to_string(),
+        description: format!(
+            "Added {{ target: \"{source_id}\", type: \"{inverse_type}\" }} to relationships"
+        ),
+        file_path: target_node.path.clone(),
+    }))
 }
 
 // ---------------------------------------------------------------------------
@@ -792,6 +968,109 @@ mod tests {
             .filter(|c| matches!(c.category, IntegrityCategory::MissingInverse))
             .collect::<Vec<_>>();
         assert_eq!(missing.len(), 0);
+    }
+
+    #[test]
+    fn apply_fixes_adds_missing_inverse() {
+        let tmp = make_project();
+        let rules_dir = tmp.path().join(".orqa/process/rules");
+        let decisions_dir = tmp.path().join(".orqa/process/decisions");
+        write_artifact(
+            &rules_dir,
+            "RULE-001.md",
+            "---\nid: RULE-001\ntitle: Rule\nrelationships:\n  - target: AD-001\n    type: enforces\n    rationale: Test\n---\nBody\n",
+        );
+        write_artifact(
+            &decisions_dir,
+            "AD-001.md",
+            "---\nid: AD-001\ntitle: Decision\n---\nBody\n",
+        );
+
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let checks = check_integrity(&graph);
+
+        let missing: Vec<_> = checks
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::MissingInverse))
+            .collect();
+        assert!(!missing.is_empty(), "should find missing inverse");
+
+        let applied = apply_fixes(&graph, &checks, tmp.path()).expect("apply");
+        assert_eq!(applied.len(), 1);
+        assert_eq!(applied[0].artifact_id, "AD-001");
+
+        // Verify the file was updated
+        let updated_content =
+            fs::read_to_string(decisions_dir.join("AD-001.md")).expect("read");
+        assert!(
+            updated_content.contains("enforced-by"),
+            "should contain inverse relationship type"
+        );
+        assert!(
+            updated_content.contains("RULE-001"),
+            "should reference source artifact"
+        );
+
+        // Rebuild graph and verify no more missing inverses
+        let graph2 = build_artifact_graph(tmp.path()).expect("rebuild");
+        let checks2 = check_integrity(&graph2);
+        let missing2: Vec<_> = checks2
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::MissingInverse))
+            .collect();
+        assert!(
+            missing2.is_empty(),
+            "should have no missing inverses after fix"
+        );
+    }
+
+    #[test]
+    fn apply_fixes_skips_existing_inverse() {
+        let tmp = make_project();
+        let rules_dir = tmp.path().join(".orqa/process/rules");
+        let decisions_dir = tmp.path().join(".orqa/process/decisions");
+        write_artifact(
+            &rules_dir,
+            "RULE-001.md",
+            "---\nid: RULE-001\ntitle: Rule\nrelationships:\n  - target: AD-001\n    type: enforces\n    rationale: Test\n---\nBody\n",
+        );
+        write_artifact(
+            &decisions_dir,
+            "AD-001.md",
+            "---\nid: AD-001\ntitle: Decision\nrelationships:\n  - target: RULE-001\n    type: enforced-by\n    rationale: Already there\n---\nBody\n",
+        );
+
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let checks = check_integrity(&graph);
+        let applied = apply_fixes(&graph, &checks, tmp.path()).expect("apply");
+        assert!(applied.is_empty(), "should not add duplicate inverse");
+    }
+
+    #[test]
+    fn apply_fixes_adds_relationships_key_when_missing() {
+        let tmp = make_project();
+        let rules_dir = tmp.path().join(".orqa/process/rules");
+        let pillars_dir = tmp.path().join(".orqa/process/pillars");
+        write_artifact(
+            &rules_dir,
+            "RULE-001.md",
+            "---\nid: RULE-001\ntitle: Rule\nrelationships:\n  - target: PILLAR-001\n    type: grounded\n    rationale: Test\n---\nBody\n",
+        );
+        write_artifact(
+            &pillars_dir,
+            "PILLAR-001.md",
+            "---\nid: PILLAR-001\ntitle: Pillar\n---\nBody\n",
+        );
+
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let checks = check_integrity(&graph);
+        let applied = apply_fixes(&graph, &checks, tmp.path()).expect("apply");
+        assert_eq!(applied.len(), 1);
+
+        let updated = fs::read_to_string(pillars_dir.join("PILLAR-001.md")).expect("read");
+        assert!(updated.contains("relationships:"), "should have relationships key");
+        assert!(updated.contains("grounded-by"), "should have inverse type");
+        assert!(updated.contains("RULE-001"), "should reference source");
     }
 
     #[test]
