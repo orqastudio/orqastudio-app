@@ -42,6 +42,9 @@ relationships:
   - type: informed-by
     target: RULE-031
     rationale: Vision alignment requires all decisions to trace back to active pillars
+  - type: enforces
+    target: AD-032
+    rationale: This rule enforces SQLite scoping by requiring compliance with AD-032's conversation-only persistence boundary
 ---
 **Source of Truth:** `.orqa/process/decisions/` — individual `AD-NNN.md` artifacts. Decisions are first-class artifacts browsable in the app's artifact navigation.
 

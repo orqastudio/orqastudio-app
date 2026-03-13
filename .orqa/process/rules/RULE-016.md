@@ -27,6 +27,9 @@ relationships:
   - type: informed-by
     target: RULE-004
     rationale: Artifact lifecycle defines how IDs are assigned and how priority is separately scored
+  - type: enforces
+    target: AD-029
+    rationale: This rule enforces the ID semantics principle from the universal roles decision — IDs are identifiers not rankings
 ---
 Artifact IDs ([EPIC-045](EPIC-045), [TASK-051](TASK-051), [AD-029](AD-029), etc.) are sequential identifiers for uniqueness and reference. They carry NO information about priority, importance, or execution order.
 

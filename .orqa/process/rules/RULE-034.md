@@ -22,6 +22,9 @@ relationships:
   - type: "enforces"
     target: "AD-036"
     rationale: "This rule enforces cross-linking as default — it mandates the [ID](ID) format and uses autolink-artifacts.mjs to auto-convert bare IDs to links at commit time"
+  - type: "enforces"
+    target: "AD-029"
+    rationale: "This rule enforces cross-reference format consistency for the universal roles and artifact ID system"
 ---
 
 All artifact cross-references MUST use the format `[Display Text](ARTIFACT-ID)` where the artifact ID matches the pattern `PREFIX-NNN`. The display text is typically the artifact ID itself: `[EPIC-001](EPIC-001)`.
