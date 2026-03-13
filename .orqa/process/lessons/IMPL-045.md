@@ -14,6 +14,9 @@ relationships:
   - target: IDEA-077
     type: informed-by
     rationale: "Emerged during the IDEA-077 promotion workflow when the user noted multiple observations that had to be manually triggered"
+  - target: IDEA-077
+    type: grounded-by
+    rationale: "Promoted to IDEA-077 Phase 0 for implementation as a prompt-submit hook"
 ---
 
 ## Pattern

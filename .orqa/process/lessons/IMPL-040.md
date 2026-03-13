@@ -20,6 +20,9 @@ relationships:
   - target: TASK-310
     type: enforces
     rationale: "TASK-310 implemented memory-based AD injection ensuring decisions persist across context compaction"
+  - target: TASK-310
+    type: grounded-by
+    rationale: "Promoted to this task which implemented memory-based AD injection for decision persistence"
 ---
 
 ## Pattern

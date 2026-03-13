@@ -17,6 +17,9 @@ relationships:
   - target: TASK-308
     type: enforces
     rationale: "TASK-308 updated the task schema with the mandatory Lessons body section that addresses this lesson"
+  - target: TASK-308
+    type: grounded-by
+    rationale: "Promoted to this task which updated the task schema with the mandatory Lessons body section"
 ---
 
 ## Pattern

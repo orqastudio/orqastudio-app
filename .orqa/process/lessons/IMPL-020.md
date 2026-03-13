@@ -20,6 +20,9 @@ relationships:
   - target: IDEA-071
     type: informs
     rationale: "Lesson informs IDEA-071 — implementation of context-scoped plugin activation"
+  - target: IDEA-071
+    type: grounded-by
+    rationale: "Promoted to this idea for implementation of context-scoped plugin activation"
 ---
 
 ## Pattern
