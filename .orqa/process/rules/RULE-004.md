@@ -82,6 +82,7 @@ Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enf
 | An epic needs investigation work before implementation | Research file | Create in `.orqa/delivery/research/`; reference from epic `research-refs` field. Implementation design goes in the epic body. |
 | An epic is approved and scoped for implementation | Update `EPIC-NNN` | Set `status: ready` (requires `docs-required` gate satisfied) |
 | A task within an epic needs detailed tracking | `TASK-NNN` | Create in `.orqa/delivery/tasks/` with `epic:` reference |
+| An epic is created or moves to `ready` | Reconciliation `TASK-NNN` | Auto-create a standing reconciliation task for the epic (see Epic Reconciliation Task below) |
 | A strategic goal is defined | `MS-NNN` | Create in `.orqa/delivery/milestones/` |
 | An implementation reveals a reusable pattern | `IMPL-NNN` | Create in `.orqa/process/lessons/` (see [RULE-017](RULE-017) (lessons-learned)) |
 | A question needs investigation before a decision | Research file | Create in `.orqa/delivery/research/` |
@@ -122,6 +123,38 @@ draft ──> ready ──> in-progress ──> review ──> done
 - `review → done`: **Human gate (NON-NEGOTIABLE)** — the orchestrator presents a completion summary to the user and receives explicit approval. The summary must include: tasks completed, docs-produced verification, lessons logged during implementation, and any scope changes. The orchestrator MUST NOT mark an epic as done without user confirmation. All verification gates must also have passed (code-reviewer, qa-tester, ux-reviewer), and all `docs-produced` items verified as created/updated
 
 The epic body contains the implementation design — data model, IPC contracts, component breakdown, and approach. For investigation-heavy work, the epic may carry a `research-refs` field listing research documents in `.orqa/delivery/research/` that informed the design.
+
+### Epic Reconciliation Task (NON-NEGOTIABLE)
+
+Every epic MUST have a standing reconciliation task created when the epic is created or moves to `ready`. This task enforces ongoing epic body maintenance throughout the epic lifecycle — not just at closure.
+
+**Creation:** When an epic is created, the orchestrator auto-creates a task:
+
+```
+TASK-NNN: "Reconcile EPIC-NNN"
+epic: EPIC-NNN
+status: in-progress (active for the duration of the epic)
+acceptance:
+  - "Epic task table lists ALL tasks created during the epic"
+  - "Epic pillars array reflects all pillars served"
+  - "Epic docs-produced list matches actual documentation created/updated"
+  - "Epic scope section accurately reflects what was in/out of scope"
+  - "No tasks exist for this epic that are missing from the epic body"
+```
+
+**Lifecycle:**
+- Starts as `in-progress` when the epic begins
+- The orchestrator updates the epic body whenever tasks are added, pillars change, or scope evolves
+- Cannot be marked `done` until all other epic tasks are done and the epic body is verified accurate
+- Is always the **last task** completed before the epic moves to `review → done`
+
+**What it checks:**
+1. Task table completeness — every TASK-NNN with `epic: EPIC-NNN` appears in the epic body
+2. Pillar accuracy — pillars array reflects all pillars the work actually serves
+3. Docs-produced accuracy — listed docs were actually created/updated
+4. Scope accuracy — out-of-scope section reflects actual decisions made during implementation
+
+**Why this exists:** Epic bodies drift as work evolves mid-epic. Tasks get added, pillars change, scope shifts — but nobody updates the epic body until closure. This task makes maintenance the AI's responsibility throughout the epic, not a human cleanup at the end.
 
 ### Task
 
@@ -359,6 +392,9 @@ The orchestrator SHOULD periodically verify:
 - Using process words (UAT, Phase, Sprint, Round, Audit) in epic titles unless they describe the actual deliverable content — epic titles describe what is achieved, not how work is organised
 - Marking an epic as `done` without explicit user approval (human gate violation)
 - Closing an epic with untriaged observations — every IMPL entry created during the epic must have a forward path
+- Creating an epic without a corresponding reconciliation task
+- Marking an epic as done when the reconciliation task is not done
+- Adding tasks to an epic without updating the epic body's task table
 
 ---
 
