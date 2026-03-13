@@ -11,6 +11,10 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-202
+acceptance:
+  - "No enforcement entries regex-match patterns already caught by linters"
+  - "bash enforcement entries for git safety remain unchanged"
+  - "make check still catches all documented violations"
 ---
 
 ## What

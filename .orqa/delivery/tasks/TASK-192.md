@@ -10,6 +10,9 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-191
+acceptance:
+  - "Plugin README.md has installation instructions"
+  - "All plugin components (hooks, skills) are listed in README"
 ---
 
 ## What

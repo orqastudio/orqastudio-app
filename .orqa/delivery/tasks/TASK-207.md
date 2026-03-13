@@ -17,6 +17,12 @@ depends-on:
   - TASK-201
   - TASK-203
   - TASK-206
+acceptance:
+  - "Process gates fire at correct moments in both CLI and app contexts"
+  - "Skill injection works for path-based triggers with deduplication"
+  - "Linter delegation documented and functional via make check"
+  - "All new rules validate against schema"
+  - "No regression in existing enforcement"
 ---
 
 

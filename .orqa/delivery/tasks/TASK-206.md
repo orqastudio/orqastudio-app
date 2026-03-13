@@ -11,6 +11,10 @@ epic: EPIC-052
 depends-on:
   - TASK-193
   - TASK-194
+acceptance:
+  - "RULE-041, RULE-042, RULE-043 created with valid frontmatter"
+  - "All three rules pass schema validation"
+  - "Rules reference each other and related rules appropriately"
 ---
 
 ## What

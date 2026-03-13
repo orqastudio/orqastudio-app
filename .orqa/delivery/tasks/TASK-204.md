@@ -10,6 +10,10 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-199
+acceptance:
+  - "UserPromptSubmit hook classifies user intent and injects relevant skills"
+  - "Skills returned as systemMessage"
+  - "Skills not re-injected if already loaded in session"
 ---
 
 ## What

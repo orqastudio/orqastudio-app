@@ -10,6 +10,9 @@ created: "2026-03-11"
 updated: "2026-03-12"
 epic: EPIC-052
 depends-on: []
+acceptance:
+  - "lint event type added to enforcement schema and validates"
+  - "Enforcement entries with event: lint pass schema validation"
 ---
 
 ## What

@@ -11,6 +11,11 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-193
+acceptance:
+  - "WorkflowTracker struct exists in backend domain module"
+  - "Record methods for read, write, search, and command events"
+  - "Query methods for has_read_docs, has_searched, has_loaded_skills"
+  - "Unit tests pass for event recording and querying"
 ---
 
 

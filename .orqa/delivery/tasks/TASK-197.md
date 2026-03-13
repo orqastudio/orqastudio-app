@@ -10,6 +10,10 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-195
+acceptance:
+  - "plan-before-build gate fires on code write without prior epic/task reads"
+  - "structure-before-code gate fires on code write without .orqa/delivery/ reads"
+  - "Gates fire only once per session"
 ---
 
 ## What

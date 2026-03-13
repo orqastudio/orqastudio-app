@@ -11,6 +11,10 @@ epic: EPIC-052
 depends-on:
   - TASK-193
   - TASK-195
+acceptance:
+  - "Rust enforcement engine handles Inject action variant"
+  - "Skill content returned in enforcement results"
+  - "Deduplication works across calls within a session"
 ---
 
 ## What

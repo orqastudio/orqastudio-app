@@ -10,6 +10,11 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-200
+acceptance:
+  - "Skill embeddings computed and stored at project load"
+  - "User prompts matched against skill descriptions by cosine similarity"
+  - "Top-N threshold prevents over-injection"
+  - "Dedup against skills already in context"
 ---
 
 ## What

@@ -10,6 +10,10 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-195
+acceptance:
+  - "evidence-before-done gate fires at Stop when code was written but no make check/test ran"
+  - "learn-after-doing gate fires at Stop when significant work done but no lessons checked"
+  - "Gates return systemMessage reminders"
 ---
 
 ## What

@@ -10,6 +10,10 @@ created: "2026-03-11"
 updated: "2026-03-12"
 epic: EPIC-052
 depends-on: []
+acceptance:
+  - "Every RULE-006 standard has a corresponding linter rule or agent discipline note"
+  - "lint enforcement entries added and validate against schema"
+  - "Skills reference correct linter configs"
 ---
 
 ## What

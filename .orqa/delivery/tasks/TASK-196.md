@@ -10,6 +10,11 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-195
+acceptance:
+  - "understand-first gate fires on first code write with no prior reads/searches"
+  - "docs-before-code gate fires on code write without prior .orqa/documentation/ reads"
+  - "Gates fire only once per session"
+  - "Gates return systemMessage, not block"
 ---
 
 

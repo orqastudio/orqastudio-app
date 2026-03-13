@@ -11,6 +11,10 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-199
+acceptance:
+  - "Enforcement entries with action:inject added to relevant rules"
+  - "Each path-to-skill mapping references an existing skill"
+  - "Writing to a mapped path triggers skill injection"
 ---
 
 ## What

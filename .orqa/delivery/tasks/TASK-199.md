@@ -10,6 +10,11 @@ updated: "2026-03-12"
 epic: EPIC-052
 depends-on:
   - TASK-193
+acceptance:
+  - "Plugin rule-engine.mjs reads SKILL.md files for inject actions"
+  - "Skill content returned as systemMessage"
+  - "Duplicate skill injection suppressed within same session"
+  - "Missing skill files silently skipped"
 ---
 
 ## What
