@@ -55,6 +55,9 @@ pub struct ArtifactRef {
     pub field: String,
     /// ID of the artifact that declares this reference (the link source).
     pub source_id: String,
+    /// Semantic relationship type (e.g. "enforced-by", "grounded", "practices").
+    /// Only populated for refs from the `relationships` frontmatter array.
+    pub relationship_type: Option<String>,
 }
 
 /// Summary statistics about the artifact graph.
@@ -253,6 +256,7 @@ fn collect_forward_refs(yaml_value: &serde_yaml::Value, source_id: &str) -> Vec<
                     target_id,
                     field: field.to_owned(),
                     source_id: source_id.to_owned(),
+                    relationship_type: None,
                 });
             }
         }
@@ -268,8 +272,33 @@ fn collect_forward_refs(yaml_value: &serde_yaml::Value, source_id: &str) -> Vec<
                             target_id,
                             field: field.to_owned(),
                             source_id: source_id.to_owned(),
+                            relationship_type: None,
                         });
                     }
+                }
+            }
+        }
+    }
+
+    // Process `relationships` array — typed semantic edges.
+    if let Some(seq) = yaml_value.get("relationships").and_then(|v| v.as_sequence()) {
+        for item in seq {
+            let target = item
+                .get("target")
+                .and_then(|v| v.as_str())
+                .map(|s| s.trim().to_owned());
+            let rel_type = item
+                .get("type")
+                .and_then(|v| v.as_str())
+                .map(|s| s.trim().to_owned());
+            if let Some(target_id) = target {
+                if !target_id.is_empty() {
+                    refs.push(ArtifactRef {
+                        target_id,
+                        field: "relationships".to_owned(),
+                        source_id: source_id.to_owned(),
+                        relationship_type: rel_type,
+                    });
                 }
             }
         }
@@ -549,6 +578,38 @@ mod tests {
         let graph = build_artifact_graph(tmp.path()).expect("build");
         let stats = graph_stats(&graph);
         assert_eq!(stats.orphan_count, 1);
+    }
+
+    #[test]
+    fn relationships_array_creates_typed_refs() {
+        let tmp = make_project();
+        let rules_dir = tmp.path().join(".orqa/process/rules");
+        write_artifact(
+            &rules_dir,
+            "RULE-001.md",
+            "---\nid: RULE-001\ntitle: Agent Delegation\nrelationships:\n  - target: AD-001\n    type: enforces\n    rationale: Enforces the agent delegation principle\n  - target: PILLAR-001\n    type: grounded\n    rationale: Grounded in clarity pillar\n---\n",
+        );
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let node = graph.nodes.get("RULE-001").expect("node");
+
+        let rel_refs: Vec<_> = node
+            .references_out
+            .iter()
+            .filter(|r| r.field == "relationships")
+            .collect();
+        assert_eq!(rel_refs.len(), 2);
+
+        let enforces = rel_refs
+            .iter()
+            .find(|r| r.target_id == "AD-001")
+            .expect("AD-001 ref");
+        assert_eq!(enforces.relationship_type.as_deref(), Some("enforces"));
+
+        let grounded = rel_refs
+            .iter()
+            .find(|r| r.target_id == "PILLAR-001")
+            .expect("PILLAR-001 ref");
+        assert_eq!(grounded.relationship_type.as_deref(), Some("grounded"));
     }
 
     #[test]

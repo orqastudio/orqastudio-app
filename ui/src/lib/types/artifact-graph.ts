@@ -36,6 +36,8 @@ export interface ArtifactRef {
     field: string;
     /** ID of the artifact that declares this reference (the link source). */
     source_id: string;
+    /** Semantic relationship type (e.g. "enforced-by", "grounded"). Only set for refs from the relationships array. */
+    relationship_type: string | null;
 }
 
 /** Summary statistics about the artifact graph. */
