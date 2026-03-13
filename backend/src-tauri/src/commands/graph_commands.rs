@@ -3,7 +3,8 @@ use std::path::Path;
 use tauri::State;
 
 use crate::domain::artifact_graph::{
-    build_artifact_graph, graph_stats, ArtifactGraph, ArtifactNode, GraphStats,
+    build_artifact_graph, check_integrity, graph_stats, ArtifactGraph, ArtifactNode, GraphStats,
+    IntegrityCheck,
 };
 use crate::error::OrqaError;
 use crate::repo::project_repo;
@@ -135,6 +136,13 @@ pub fn refresh_artifact_graph(state: State<'_, AppState>) -> Result<(), OrqaErro
         .map_err(|e| OrqaError::Database(format!("graph lock poisoned: {e}")))?;
     *guard = Some(new_graph);
     Ok(())
+}
+
+/// Run integrity checks on the artifact graph and return all findings.
+#[tauri::command]
+pub fn run_integrity_scan(state: State<'_, AppState>) -> Result<Vec<IntegrityCheck>, OrqaError> {
+    let graph = get_or_build_graph(&state)?;
+    Ok(check_integrity(&graph))
 }
 
 #[cfg(test)]

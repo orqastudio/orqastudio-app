@@ -228,6 +228,7 @@ pub fn run() {
             commands::graph_commands::read_artifact_content,
             commands::graph_commands::get_graph_stats,
             commands::graph_commands::refresh_artifact_graph,
+            commands::graph_commands::run_integrity_scan,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

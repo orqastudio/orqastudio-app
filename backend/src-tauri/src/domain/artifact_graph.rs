@@ -335,6 +335,121 @@ pub fn graph_stats(graph: &ArtifactGraph) -> GraphStats {
 }
 
 // ---------------------------------------------------------------------------
+// Integrity checks
+// ---------------------------------------------------------------------------
+
+/// Category of integrity issue found in the artifact graph.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum IntegrityCategory {
+    BrokenLink,
+    MissingInverse,
+    NullTarget,
+}
+
+/// Severity of an integrity finding.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum IntegritySeverity {
+    Error,
+    Warning,
+}
+
+/// A single integrity finding from the graph.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct IntegrityCheck {
+    pub category: IntegrityCategory,
+    pub severity: IntegritySeverity,
+    pub artifact_id: String,
+    pub message: String,
+    pub auto_fixable: bool,
+    pub fix_description: Option<String>,
+}
+
+/// Run integrity checks on the artifact graph and return all findings.
+pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
+    let mut checks = Vec::new();
+
+    // 1. Broken references — target_id doesn't exist in the graph
+    for node in graph.nodes.values() {
+        for ref_entry in &node.references_out {
+            if !graph.nodes.contains_key(&ref_entry.target_id) {
+                checks.push(IntegrityCheck {
+                    category: IntegrityCategory::BrokenLink,
+                    severity: IntegritySeverity::Error,
+                    artifact_id: node.id.clone(),
+                    message: format!(
+                        "Reference to {} (field: {}) does not resolve to any artifact",
+                        ref_entry.target_id, ref_entry.field
+                    ),
+                    auto_fixable: false,
+                    fix_description: None,
+                });
+            }
+        }
+    }
+
+    // 2. Missing bidirectional inverses for relationship edges
+    let inverse_map: &[(&str, &str)] = &[
+        ("observes", "observed-by"),
+        ("observed-by", "observes"),
+        ("grounded", "grounded-by"),
+        ("grounded-by", "grounded"),
+        ("practices", "practiced-by"),
+        ("practiced-by", "practices"),
+        ("enforces", "enforced-by"),
+        ("enforced-by", "enforces"),
+        ("verifies", "verified-by"),
+        ("verified-by", "verifies"),
+        ("informs", "informed-by"),
+        ("informed-by", "informs"),
+    ];
+
+    for node in graph.nodes.values() {
+        for ref_entry in &node.references_out {
+            let rel_type = match &ref_entry.relationship_type {
+                Some(t) => t.as_str(),
+                None => continue,
+            };
+
+            let expected_inverse = match inverse_map.iter().find(|(t, _)| *t == rel_type) {
+                Some((_, inv)) => *inv,
+                None => continue,
+            };
+
+            // Check if target has the inverse pointing back
+            let target = match graph.nodes.get(&ref_entry.target_id) {
+                Some(t) => t,
+                None => continue, // broken ref, already caught above
+            };
+
+            let has_inverse = target.references_out.iter().any(|r| {
+                r.relationship_type.as_deref() == Some(expected_inverse)
+                    && r.target_id == node.id
+            });
+
+            if !has_inverse {
+                checks.push(IntegrityCheck {
+                    category: IntegrityCategory::MissingInverse,
+                    severity: IntegritySeverity::Warning,
+                    artifact_id: node.id.clone(),
+                    message: format!(
+                        "{} --{}--> {} but {} has no {} edge back to {}",
+                        node.id, rel_type, ref_entry.target_id,
+                        ref_entry.target_id, expected_inverse, node.id
+                    ),
+                    auto_fixable: true,
+                    fix_description: Some(format!(
+                        "Add {{ target: \"{}\", type: \"{}\" }} to {}'s relationships array",
+                        node.id, expected_inverse, ref_entry.target_id
+                    )),
+                });
+            }
+        }
+    }
+
+    checks
+}
+
+// ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
@@ -610,6 +725,73 @@ mod tests {
             .find(|r| r.target_id == "PILLAR-001")
             .expect("PILLAR-001 ref");
         assert_eq!(grounded.relationship_type.as_deref(), Some("grounded"));
+    }
+
+    #[test]
+    fn check_integrity_finds_broken_refs() {
+        let tmp = make_project();
+        let tasks_dir = tmp.path().join(".orqa/delivery/tasks");
+        write_artifact(
+            &tasks_dir,
+            "TASK-001.md",
+            "---\nid: TASK-001\ntitle: Task\nepic: EPIC-MISSING\n---\n",
+        );
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let checks = check_integrity(&graph);
+        assert_eq!(checks.len(), 1);
+        assert!(matches!(checks[0].category, IntegrityCategory::BrokenLink));
+        assert!(matches!(checks[0].severity, IntegritySeverity::Error));
+        assert_eq!(checks[0].artifact_id, "TASK-001");
+    }
+
+    #[test]
+    fn check_integrity_finds_missing_inverses() {
+        let tmp = make_project();
+        let rules_dir = tmp.path().join(".orqa/process/rules");
+        let decisions_dir = tmp.path().join(".orqa/process/decisions");
+        write_artifact(
+            &rules_dir,
+            "RULE-001.md",
+            "---\nid: RULE-001\ntitle: Rule\nrelationships:\n  - target: AD-001\n    type: enforces\n---\n",
+        );
+        write_artifact(
+            &decisions_dir,
+            "AD-001.md",
+            "---\nid: AD-001\ntitle: Decision\n---\n",
+        );
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let checks = check_integrity(&graph);
+        let missing = checks
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::MissingInverse))
+            .collect::<Vec<_>>();
+        assert_eq!(missing.len(), 1);
+        assert!(missing[0].auto_fixable);
+        assert!(missing[0].message.contains("enforced-by"));
+    }
+
+    #[test]
+    fn check_integrity_clean_with_matching_inverses() {
+        let tmp = make_project();
+        let rules_dir = tmp.path().join(".orqa/process/rules");
+        let decisions_dir = tmp.path().join(".orqa/process/decisions");
+        write_artifact(
+            &rules_dir,
+            "RULE-001.md",
+            "---\nid: RULE-001\ntitle: Rule\nrelationships:\n  - target: AD-001\n    type: enforces\n---\n",
+        );
+        write_artifact(
+            &decisions_dir,
+            "AD-001.md",
+            "---\nid: AD-001\ntitle: Decision\nrelationships:\n  - target: RULE-001\n    type: enforced-by\n---\n",
+        );
+        let graph = build_artifact_graph(tmp.path()).expect("build");
+        let checks = check_integrity(&graph);
+        let missing = checks
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::MissingInverse))
+            .collect::<Vec<_>>();
+        assert_eq!(missing.len(), 0);
     }
 
     #[test]
