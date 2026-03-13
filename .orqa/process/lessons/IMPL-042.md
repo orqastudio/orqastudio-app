@@ -2,18 +2,18 @@
 id: IMPL-042
 title: "Epic body drifts from actual work — no standing mechanism to maintain consistency"
 description: "When tasks are added, pillars updated, or scope evolves mid-epic, the epic body (task table, pillars array, docs-produced) isn't updated in sync. This causes incomplete epic bodies at closure that need manual reconciliation. A standing reconciliation task per epic would force ongoing maintenance."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
-maturity: observation
+maturity: understanding
 recurrence: 1
 relationships:
   - target: RULE-004
     type: observes
     rationale: "RULE-004 governs epic lifecycle but doesn't enforce epic body maintenance during the epic"
-  - target: null
-    type: observes
-    rationale: "Observed in EPIC-059 — TASK-310 and PILLAR-003 were completed but not reflected in epic body until closure"
+  - target: RULE-004
+    type: promoted-to
+    rationale: "Epic reconciliation task requirement added to RULE-004 after observing drift in EPIC-059 (TASK-310 and PILLAR-003 not reflected in epic body)"
 ---
 
 ## Pattern

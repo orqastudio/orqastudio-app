@@ -35,7 +35,7 @@
           },
           "target": {
             "type": ["string", "null"],
-            "pattern": "^(IMPL|AD|RULE|SKILL|PILLAR|RES|VER)-\\d+$"
+            "pattern": "^(IMPL|AD|RULE|SKILL|PILLAR|RES|VER|IDEA|EPIC|TASK|MS)-\\d+$"
           },
           "rationale": {
             "type": "string",

@@ -11,10 +11,9 @@ relationships:
   - target: RULE-003
     type: observes
     rationale: "Plugin config integrity — a plugin that requires a specific sidecar has an implicit dependency that is not expressed in any config"
-  - target: null
+  - target: IDEA-071
     type: enforces
-    rationale: "No enforcement artifact exists for plugin-sidecar pairing"
-    intended: false
+    rationale: "Enforcement mechanism designed in TASK-307, implementation tracked by IDEA-071"
   - target: TASK-307
     type: resolved-by
     rationale: "Plugin-sidecar pairing mechanism designed"

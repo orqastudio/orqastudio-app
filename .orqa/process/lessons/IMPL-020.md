@@ -11,10 +11,9 @@ relationships:
   - target: IMPL-019
     type: informed-by
     rationale: "This is the enforcement side of the plugin-sidecar pairing observation — once pairing is declared, the system must enforce it"
-  - target: null
+  - target: IDEA-071
     type: enforces
-    rationale: "No enforcement artifact exists for disabling out-of-context plugins"
-    intended: false
+    rationale: "Context filtering designed in TASK-307, implementation tracked by IDEA-071"
   - target: TASK-307
     type: resolved-by
     rationale: "Plugin context filtering designed as part of sidecar pairing"
