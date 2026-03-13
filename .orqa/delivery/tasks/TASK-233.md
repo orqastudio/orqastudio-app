@@ -13,7 +13,7 @@ acceptance:
 
 ## What
 
-composability SKILL-008 has 37 project references but is core. Split into portable principle and project examples.
+composability [SKILL-008](SKILL-008) has 37 project references but is core. Split into portable principle and project examples.
 
 ## How
 

@@ -22,7 +22,7 @@ rule-overrides: []
 
 ## What
 
-Complete the RES-049 research document investigating how artifacts should present relationships and metadata to users.
+Complete the [RES-049](RES-049) research document investigating how artifacts should present relationships and metadata to users.
 
 ## How
 
@@ -31,10 +31,10 @@ Complete the RES-049 research document investigating how artifacts should presen
 3. Consider pipeline stage visualization approaches
 4. Consider how the three-level structure should influence navigation
 5. Produce design recommendations (textual wireframes, not code)
-6. Update RES-049 with findings
+6. Update [RES-049](RES-049) with findings
 
 ## Verification
 
-- RES-049 status updated to complete
+- [RES-049](RES-049) status updated to complete
 - All six research questions answered
 - Actionable design recommendations documented

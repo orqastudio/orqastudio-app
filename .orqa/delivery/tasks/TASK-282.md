@@ -26,7 +26,7 @@ Add `make verify-links`, `make verify-integrity`, and `make verify` targets to t
 
 1. Add targets to Makefile calling the corresponding tools scripts
 2. Update `.orqa/documentation/development/commands.md` with the new targets
-3. Update RULE-007 command mapping table
+3. Update [RULE-007](RULE-007) command mapping table
 
 ## Verification
 

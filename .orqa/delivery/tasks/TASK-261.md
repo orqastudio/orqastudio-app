@@ -16,7 +16,7 @@ acceptance:
 
 ## What
 
-Add Rust test coverage measurement so we can track the 80% target from RULE-006.
+Add Rust test coverage measurement so we can track the 80% target from [RULE-006](RULE-006).
 
 ## How
 

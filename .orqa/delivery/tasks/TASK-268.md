@@ -16,13 +16,13 @@ acceptance:
 
 ## What
 
-[RES-047](RES-047) found TASK-170 (AI search) marked done but implementation is client-side text search only, not AI-driven. TASK-164 (README audit) was never started.
+[RES-047](RES-047) found [TASK-170](TASK-170) (AI search) marked done but implementation is client-side text search only, not AI-driven. [TASK-164](TASK-164) (README audit) was never started.
 
 ## How
 
-1. Update TASK-170 status to `in-progress`, add note about current state
-2. Verify TASK-164 is `todo`
-3. Update EPIC-005 description to reflect ~65% completion
+1. Update [TASK-170](TASK-170) status to `in-progress`, add note about current state
+2. Verify [TASK-164](TASK-164) is `todo`
+3. Update [EPIC-005](EPIC-005) description to reflect ~65% completion
 
 ## Verification
 

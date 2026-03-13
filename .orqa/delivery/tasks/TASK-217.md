@@ -22,7 +22,7 @@ The `research-methodology` skill (`.orqa/process/skills/research-methodology/SKI
 ## How
 
 1. Add `web_fetch` and `web_search` to Researcher and Planner agent capabilities
-2. Add SKILL-046 (research-methodology) to both agents' skills lists
+2. Add [SKILL-046](SKILL-046) (research-methodology) to both agents' skills lists
 3. Update [RULE-037](RULE-037) tool access matrix with web capabilities
 4. Verify [RULE-040](RULE-040) already has the mappings
 
@@ -30,6 +30,6 @@ The `research-methodology` skill (`.orqa/process/skills/research-methodology/SKI
 
 - Researcher agent definition has web_fetch and web_search capabilities
 - Planner agent definition has web_fetch and web_search capabilities
-- Both agents have SKILL-046 in their skills lists
+- Both agents have [SKILL-046](SKILL-046) in their skills lists
 - [RULE-037](RULE-037) matrix shows web capabilities for appropriate roles
 - [RULE-040](RULE-040) mappings already cover web_fetch and web_search

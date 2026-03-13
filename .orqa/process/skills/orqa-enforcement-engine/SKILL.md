@@ -1,6 +1,6 @@
 ---
 id: "SKILL-049"
-title: "Rule Enforcement (Full Architecture)"
+title: "OrqaStudio Enforcement Engine"
 description: "Understands how OrqaStudio governance rules are mechanically enforced via the
 
   native enforcement engine and CLI companion plugin. Covers all four enforcement

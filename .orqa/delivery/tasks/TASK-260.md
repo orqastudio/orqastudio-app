@@ -16,7 +16,7 @@ acceptance:
 
 ## What
 
-RULE-006 claims clippy pedantic is enabled but it's not explicitly configured. Add it properly.
+[RULE-006](RULE-006) claims clippy pedantic is enabled but it's not explicitly configured. Add it properly.
 
 ## How
 

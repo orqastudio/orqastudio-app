@@ -13,7 +13,7 @@ acceptance:
 
 ## What
 
-Three skills share SKILL-046. Assign unique IDs and update all agent references.
+Three skills share [SKILL-046](SKILL-046). Assign unique IDs and update all agent references.
 
 ## How
 

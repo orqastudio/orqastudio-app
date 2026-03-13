@@ -26,12 +26,12 @@ Content audit of all 7 agent definitions for skill coverage and pipeline alignme
 
 1. Read each agent definition
 2. Check Tier 1 skills list against skill audit results (TASK-294)
-3. Verify capabilities match RULE-037 matrix
+3. Verify capabilities match [RULE-037](RULE-037) matrix
 4. Update orchestrator prompt for pipeline philosophy
 5. Update all path references to new directory structure
 
 ## Verification
 
 - Every agent has complete Tier 1 skills
-- Capabilities are consistent with RULE-037
+- Capabilities are consistent with [RULE-037](RULE-037)
 - Orchestrator prompt references pipeline concepts

@@ -23,9 +23,9 @@ Audit found `governance_analyses`, `governance_recommendations`, and `artifacts`
 
 1. Remove `governance_analyses` and `governance_recommendations` tables from SQLite
 2. Governance scan results should produce research artifacts in `.orqa/delivery/research/` that can be promoted to epics/tasks
-3. Update AD-032 to reflect this decision
+3. Update [AD-032](AD-032) to reflect this decision
 4. Clarify `artifacts` table as a read-through cache (not source of truth) of file-based artifacts
 
 ## Verification
 
-AD-032 accurately describes the actual persistence strategy. No undocumented SQLite tables.
+[AD-032](AD-032) accurately describes the actual persistence strategy. No undocumented SQLite tables.

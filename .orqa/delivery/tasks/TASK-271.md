@@ -31,6 +31,6 @@ Extend the CLI plugin's rule loading to check the active task/epic for `rule-ove
 
 ## Verification
 
-- Create a test task with `rule-overrides` suspending RULE-032
-- Verify that RULE-032 appears in agent context with suspension annotation
+- Create a test task with `rule-overrides` suspending [RULE-032](RULE-032)
+- Verify that [RULE-032](RULE-032) appears in agent context with suspension annotation
 - Verify other rules load normally

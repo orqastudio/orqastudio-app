@@ -19,15 +19,15 @@ rule-overrides: []
 
 ## What
 
-Create RULE-045 codifying the data integrity requirements established in Phase 0.
+Create [RULE-045](RULE-045) codifying the data integrity requirements established in Phase 0.
 
 ## How
 
-1. Create `.orqa/process/rules/RULE-045.md` with frontmatter and body
+1. Create `.orqa/process/rules/[RULE-045](RULE-045).md` with frontmatter and body
 2. Cover all integrity requirements: link resolution, bidirectional inverses, enforcement mechanisms
-3. Reference related rules (RULE-032, RULE-034, RULE-013)
+3. Reference related rules (RULE-032, [RULE-034](RULE-034), RULE-013)
 
 ## Verification
 
-- RULE-045 exists and passes schema validation
-- Rule content accurately reflects the enforcement implemented in TASK-281/282
+- [RULE-045](RULE-045) exists and passes schema validation
+- Rule content accurately reflects the enforcement implemented in [TASK-281](TASK-281)/282

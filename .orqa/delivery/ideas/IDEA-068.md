@@ -29,4 +29,4 @@ The tool would:
 6. Update the artifact's frontmatter with approved relationships
 7. Track what's been processed and what's pending
 
-This is immediately useful for EPIC-058 and becomes a permanent capability for governance maintenance.
+This is immediately useful for [EPIC-058](EPIC-058) and becomes a permanent capability for governance maintenance.

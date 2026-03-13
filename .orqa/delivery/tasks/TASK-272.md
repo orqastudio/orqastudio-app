@@ -32,6 +32,6 @@ Extend the pre-commit hook to be aware of scoped rule suspensions. When a valida
 
 ## Verification
 
-- Stage an artifact that would fail RULE-032 validation
-- Commit with a message referencing a task that suspends RULE-032 — commit succeeds with warning
+- Stage an artifact that would fail [RULE-032](RULE-032) validation
+- Commit with a message referencing a task that suspends [RULE-032](RULE-032) — commit succeeds with warning
 - Commit without task reference — commit blocked as normal

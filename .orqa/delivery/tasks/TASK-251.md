@@ -52,4 +52,4 @@ change needed so that the implementation phase can proceed with confidence.
 - [ ] Watcher configuration is documented (current and proposed)
 - [ ] Migration order is proposed with rationale
 - [ ] Risk assessment covers rollback strategy
-- [ ] RES-044 contains complete findings
+- [ ] [RES-044](RES-044) contains complete findings

@@ -24,12 +24,12 @@ Architecture decision formalizing the standards distribution pattern through the
 
 ## How
 
-1. Create AD-044 documenting the pipeline flow
+1. Create [AD-044](AD-044) documenting the pipeline flow
 2. Map: Observation (IMPL) → Understanding (IMPL) → Principle (AD) → Practice (SKILL) → Enforcement (RULE) → Verification (VER)
 3. Provide concrete examples of standards that have flowed through this pipeline
 4. Document how new standards should enter the pipeline
 
 ## Verification
 
-- AD-044 exists and passes schema validation
+- [AD-044](AD-044) exists and passes schema validation
 - Pipeline flow is clearly documented with examples

@@ -1,6 +1,6 @@
 ---
 id: "SKILL-050"
-title: "Migration and Link Verification Tooling"
+title: "OrqaStudio Migration and Link Verification Tooling"
 description: "How to use the backfill-relationships and verify-links tools for governance
 
   artifact migrations. Covers relationship proposal workflow, link verification,

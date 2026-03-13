@@ -28,7 +28,7 @@ rule-overrides:
 
 ## Context
 
-EPIC-058 gave every governance artifact a `relationships` array and pipeline stage fields. That was the **schema migration**. This epic is the **content migration** — ensuring every artifact's body text, organizational placement, and cross-references actually express the Knowledge Maturity Pipeline philosophy.
+[EPIC-058](EPIC-058) gave every governance artifact a `relationships` array and pipeline stage fields. That was the **schema migration**. This epic is the **content migration** — ensuring every artifact's body text, organizational placement, and cross-references actually express the Knowledge Maturity Pipeline philosophy.
 
 **The schema says "here are the edges." This epic says "are the edges meaningful, are the nodes in the right places, and does the whole structure tell a coherent story?"**
 
@@ -150,4 +150,4 @@ Broken links and missing inverses mean the graph is lying. Nothing else starts u
 - Building pipeline visualization in the app
 - Plugin ecosystem work
 - App UI changes for new directory structure (scanner handles it via config)
-- Implementing any UX changes from RES-049 (that's a future epic)
+- Implementing any UX changes from [RES-049](RES-049) (that's a future epic)

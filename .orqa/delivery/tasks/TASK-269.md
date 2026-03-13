@@ -20,11 +20,11 @@ The orchestrator exception list says `.orqa/delivery/` is orchestrator territory
 
 ## How
 
-1. Update RULE-001 exception list to clarify:
+1. Update [RULE-001](RULE-001) exception list to clarify:
    - Creating task/epic/idea structure = orchestrator
    - Writing research content, documentation pages = delegate to Writer
 2. Keep it concise — add one clarifying sentence, not a new rule
 
 ## Verification
 
-RULE-001 clearly distinguishes structure creation from content authoring.
+[RULE-001](RULE-001) clearly distinguishes structure creation from content authoring.

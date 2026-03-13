@@ -1,6 +1,6 @@
 ---
 id: "SKILL-002"
-title: "Architecture"
+title: "OrqaStudio Architecture"
 description: "OrqaStudio architecture knowledge: ADR patterns, data flow mapping, layer responsibilities,
 
   violation detection, and IPC boundary design for the Tauri+Svelte+Rust stack.

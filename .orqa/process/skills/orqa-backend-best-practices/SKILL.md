@@ -1,6 +1,6 @@
 ---
 id: "SKILL-043"
-title: "Backend Best Practices"
+title: "OrqaStudio Backend Best Practices"
 description: "Umbrella skill for all backend implementation work. Establishes composability,
 
   coding standards, and error handling as always-in-mind principles, then

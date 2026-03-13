@@ -24,11 +24,11 @@ Create an architecture decision documenting the directory reorganization from go
 
 ## How
 
-1. Create `.orqa/process/decisions/AD-043.md`
+1. Create `.orqa/process/decisions/[AD-043](AD-043).md`
 2. Document: current structure, target structure, rationale, migration approach
 3. Define the first-class artifact principle formally
 
 ## Verification
 
-- AD-043 exists and passes schema validation
+- [AD-043](AD-043) exists and passes schema validation
 - Decision clearly maps old paths to new paths

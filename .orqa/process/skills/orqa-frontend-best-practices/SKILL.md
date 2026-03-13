@@ -1,6 +1,6 @@
 ---
 id: "SKILL-042"
-title: "Frontend Best Practices"
+title: "OrqaStudio Frontend Best Practices"
 description: "Umbrella skill for all frontend implementation work. Establishes composability,
 
   coding standards, and component conventions as always-in-mind principles, then

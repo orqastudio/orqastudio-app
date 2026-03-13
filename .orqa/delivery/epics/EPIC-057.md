@@ -43,7 +43,7 @@ Complete end-to-end documentation of the target core application: artifact syste
 
 ### Phase 4: Governance Cleanup
 
-Fix incorrect task statuses on active epics, remove dead `scope` field references from agent-related docs, tighten RULE-001 orchestrator exception list re: content creation vs coordination.
+Fix incorrect task statuses on active epics, remove dead `scope` field references from agent-related docs, tighten [RULE-001](RULE-001) orchestrator exception list re: content creation vs coordination.
 
 ## Tasks
 
@@ -59,9 +59,9 @@ Fix incorrect task statuses on active epics, remove dead `scope` field reference
 | [TASK-265](TASK-265) | Add `errors.svelte.ts` store test | 2 | Write test file for the one untested store |
 | [TASK-266](TASK-266) | Write core architecture documentation | 3 | End-to-end map of artifact system, knowledge graph, prompt injection, enforcement, learning loop |
 | [TASK-267](TASK-267) | Document plugin architecture and SDK extraction plan | 3 | Component library extraction, view registration API, theme tokens, plugin distribution |
-| [TASK-268](TASK-268) | Fix EPIC-005 task statuses | 4 | Revert TASK-170 to in-progress, update TASK-164 |
-| [TASK-269](TASK-269) | Tighten RULE-001 orchestrator content boundary | 4 | Clarify `.orqa/delivery/` exception: structure = orchestrator, content = Writer |
-| [TASK-270](TASK-270) | Resolve AD-032 SQLite scoping violation | 4 | Governance tables in SQLite violate AD-032. Decide: ephemeral cache or file-based. |
+| [TASK-268](TASK-268) | Fix [EPIC-005](EPIC-005) task statuses | 4 | Revert [TASK-170](TASK-170) to in-progress, update [TASK-164](TASK-164) |
+| [TASK-269](TASK-269) | Tighten [RULE-001](RULE-001) orchestrator content boundary | 4 | Clarify `.orqa/delivery/` exception: structure = orchestrator, content = Writer |
+| [TASK-270](TASK-270) | Resolve [AD-032](AD-032) SQLite scoping violation | 4 | Governance tables in SQLite violate [AD-032](AD-032). Decide: ephemeral cache or file-based. |
 
 ## Out of Scope
 

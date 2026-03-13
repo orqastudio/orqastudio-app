@@ -178,7 +178,7 @@ The Artifact Graph SDK is a Svelte 5 rune-based client that maintains an in-memo
 |----------|--------|-------------|
 | **Lifecycle** | `initialize()` | Fetch full graph from backend, register for auto-refresh |
 | **Lifecycle** | `refresh()` | Rebuild graph from disk, re-fetch into cache |
-| **Resolution** | `resolve(id)` | Look up a node by artifact ID (e.g., "EPIC-048") |
+| **Resolution** | `resolve(id)` | Look up a node by artifact ID (e.g., "[EPIC-048](EPIC-048)") |
 | **Resolution** | `resolveByPath(path)` | Look up a node by relative file path |
 | **Relationships** | `referencesFrom(id)` | All outgoing edges from a node |
 | **Relationships** | `referencesTo(id)` | All incoming edges (backlinks) to a node |
