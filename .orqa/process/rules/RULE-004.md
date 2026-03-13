@@ -436,6 +436,40 @@ For each observation, the triage outcome MUST be one of:
 
 ---
 
+## Planning Placement Rule (NON-NEGOTIABLE)
+
+Every planning artifact (idea, epic, task) must be **placed** — either reachable from a milestone or explicitly assigned a planning horizon. Unplaced artifacts are invisible to planning and integrity checks.
+
+### Placement Resolution
+
+An artifact is **placed** if any of these conditions hold:
+
+| Artifact | Direct placement | Indirect placement |
+|----------|-----------------|-------------------|
+| **Epic** | Has `milestone` set | — |
+| **Task** | Has `milestone` set | Has `epic` → that epic has `milestone` |
+| **Idea** | Has `milestone` set | Has `promoted-to` → that epic has `milestone` |
+
+If none of the above → the artifact MUST have a `horizon` field:
+
+| Horizon | Meaning | Integrity behaviour |
+|---------|---------|-------------------|
+| `active` | Actively planned for current work | Surfaced in dashboard planning view |
+| `next` | Think about for the next milestone | Reviewed during milestone transitions |
+| `later` | Worth doing, no timeline yet | Visible in backlog views |
+| `someday` | Parked deliberately, revisit periodically | Lowest visibility, periodic review |
+| `null` / unset | **Untriaged** | Integrity engine flags: "This artifact has no planning placement" |
+
+### Automated Transitions
+
+The integrity engine SHOULD automate these transitions:
+
+1. **Idea delivery**: When an epic reaches `done`, all ideas with `promoted-to` pointing to it transition to `delivered` (if fully covered) or `partially-delivered` (if only partly covered)
+2. **Untriaged flagging**: Any planning artifact with no milestone (direct or indirect) and no horizon is flagged as untriaged
+3. **Milestone transition review**: When a milestone moves to `complete`, all `horizon: next` artifacts are surfaced for triage — should they become `active` for the new milestone?
+
+---
+
 ## Artifact Integrity Checks
 
 The orchestrator SHOULD periodically verify:
@@ -446,12 +480,14 @@ The orchestrator SHOULD periodically verify:
 4. **Frontmatter completeness** — all required fields are present and non-empty
 5. **Research-refs / docs-required consistency** — every `RES-NNN` in `research-refs` either appears in `docs-required` or has a documented reason for omission
 6. **Promotion chain integrity** — every lesson with `promoted-to: RULE-NNN` points to an existing rule, and that rule's `promoted-from` points back to the lesson
+7. **Planning placement** — every idea, epic, and task is either reachable from a milestone or has a horizon set. Unplaced artifacts are flagged as untriaged.
+8. **Idea delivery tracking** — every `promoted` idea whose epic is `done` should be transitioned to `delivered` or `partially-delivered`
 
 ---
 
 ## FORBIDDEN Patterns
 
-- Creating an epic without a milestone reference
+- Creating an epic without either a milestone or a horizon (must be placed)
 - Starting implementation on an epic whose `docs-required` gate is not satisfied
 - Promoting an idea directly to `promoted` from `captured` (skipping research)
 - Marking a milestone complete when P1 epics are not done

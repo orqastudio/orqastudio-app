@@ -5,13 +5,13 @@
   "type": "object",
   "required": [
     "id", "title", "description", "status", "priority",
-    "created", "updated", "milestone", "pillars"
+    "created", "updated", "pillars"
   ],
   "additionalProperties": false,
   "propertyOrder": [
     "id", "title", "description", "status", "priority",
     "created", "updated", "deadline",
-    "milestone", "pillars",
+    "milestone", "horizon", "pillars",
     "depends-on", "blocks", "research-refs",
     "docs-required", "docs-produced", "scoring",
     "rule-overrides"
@@ -25,7 +25,8 @@
     "created": { "type": "string", "format": "date" },
     "updated": { "type": "string", "format": "date" },
     "deadline": { "type": ["string", "null"], "format": "date" },
-    "milestone": { "type": "string", "pattern": "^MS-\\d+$" },
+    "milestone": { "type": ["string", "null"], "pattern": "^MS-\\d+$" },
+    "horizon": { "enum": ["active", "next", "later", "someday", null] },
     "pillars": {
       "type": "array",
       "items": { "type": "string", "pattern": "^PILLAR-\\d+$" }

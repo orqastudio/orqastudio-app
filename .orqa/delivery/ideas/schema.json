@@ -8,7 +8,7 @@
   "propertyOrder": [
     "id", "title", "description", "status",
     "created", "updated",
-    "pillars", "milestone", "research-needed", "promoted-to", "spun-off-from", "relationships"
+    "pillars", "milestone", "horizon", "research-needed", "promoted-to", "spun-off-from", "relationships"
   ],
   "properties": {
     "id": { "type": "string", "pattern": "^IDEA-\\d+$" },
@@ -22,6 +22,7 @@
       "items": { "type": "string", "pattern": "^PILLAR-\\d+$" }
     },
     "milestone": { "type": ["string", "null"], "pattern": "^MS-\\d+$" },
+    "horizon": { "enum": ["active", "next", "later", "someday", null] },
     "research-needed": {
       "type": "array",
       "items": { "type": "string" }

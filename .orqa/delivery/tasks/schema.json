@@ -8,7 +8,8 @@
   "propertyOrder": [
     "id", "title", "description", "status",
     "created", "updated",
-    "epic", "depends-on", "assignee", "docs", "skills",
+    "epic", "milestone", "horizon",
+    "depends-on", "assignee", "docs", "skills",
     "acceptance", "rule-overrides"
   ],
   "properties": {
@@ -18,7 +19,9 @@
     "status": { "enum": ["todo", "in-progress", "done"] },
     "created": { "type": "string", "format": "date" },
     "updated": { "type": "string", "format": "date" },
-    "epic": { "type": "string", "pattern": "^EPIC-\\d+$" },
+    "epic": { "type": ["string", "null"], "pattern": "^EPIC-\\d+$" },
+    "milestone": { "type": ["string", "null"], "pattern": "^MS-\\d+$" },
+    "horizon": { "enum": ["active", "next", "later", "someday", null] },
     "depends-on": {
       "type": "array",
       "items": { "type": "string", "pattern": "^TASK-\\d+$" }
