@@ -3,9 +3,9 @@ id: IDEA-003
 title: Entry Modes & Directed Onboarding
 description: |
   AI-assisted onboarding flows beyond chat guidance, with each mode supporting new projects and existing work adaptation.
-status: promoted
+status: delivered
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
 pillars:
   - PILLAR-001
 research-needed:

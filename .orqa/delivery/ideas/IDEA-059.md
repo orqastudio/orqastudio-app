@@ -2,9 +2,9 @@
 id: IDEA-059
 title: "Component Library SDK for Plugin Views"
 description: "Extract shared components into an importable SDK so plugins can create dynamic views that match the design system."
-status: captured
+status: shaped
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
 pillars: [PILLAR-001]
 research-needed:
   - "Which components should be in the SDK vs remain internal?"

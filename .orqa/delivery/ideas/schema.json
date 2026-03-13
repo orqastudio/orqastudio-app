@@ -8,24 +8,38 @@
   "propertyOrder": [
     "id", "title", "description", "status",
     "created", "updated",
-    "pillars", "research-needed", "promoted-to"
+    "pillars", "milestone", "research-needed", "promoted-to", "spun-off-from", "relationships"
   ],
   "properties": {
     "id": { "type": "string", "pattern": "^IDEA-\\d+$" },
     "title": { "type": "string" },
     "description": { "type": "string" },
-    "status": { "enum": ["captured", "exploring", "shaped", "promoted", "archived"] },
+    "status": { "enum": ["captured", "exploring", "shaped", "promoted", "delivered", "partially-delivered", "discarded", "archived"] },
     "created": { "type": "string", "format": "date" },
     "updated": { "type": "string", "format": "date" },
     "pillars": {
       "type": "array",
       "items": { "type": "string", "pattern": "^PILLAR-\\d+$" }
     },
+    "milestone": { "type": ["string", "null"], "pattern": "^MS-\\d+$" },
     "research-needed": {
       "type": "array",
       "items": { "type": "string" }
     },
-    "promoted-to": { "type": ["string", "null"], "pattern": "^EPIC-\\d+$" }
+    "promoted-to": { "type": ["string", "null"], "pattern": "^EPIC-\\d+$" },
+    "spun-off-from": { "type": ["string", "null"], "pattern": "^IDEA-\\d+$" },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "type"],
+        "properties": {
+          "target": { "type": "string" },
+          "type": { "type": "string" },
+          "rationale": { "type": "string" }
+        }
+      }
+    }
   },
   "bodyTemplate": {
     "description": "Required body sections for idea artifacts",

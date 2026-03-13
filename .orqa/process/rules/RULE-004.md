@@ -231,20 +231,37 @@ draft ──> complete ──> surpassed
 ### Idea
 
 ```
-captured ──> exploring ──> shaped ──> promoted
+captured ──> exploring ──> shaped ──> promoted ──> delivered
+                                  │            └──> partially-delivered
                                   └──> archived
+Any state ──> discarded
+Any state ──> archived
 ```
 
 - `captured → exploring`: User approves investigation. Research begins on `research-needed` items.
 - `exploring → shaped`: All `research-needed` items have been investigated. Research artifacts exist. The idea has a clear scope and proposed approach.
 - `shaped → promoted`: User approves promotion. An `EPIC-NNN` is created. The idea's `promoted-to` field is set to the epic ID.
+- `promoted → delivered`: The epic referenced by `promoted-to` has `status: done` and all scope from the original idea has been implemented. **Automated**: the integrity engine transitions this when the epic is done.
+- `promoted → partially-delivered`: The epic is `done` but only part of the idea's scope was delivered. The user is prompted to either discard the remaining scope or spin off a new idea (`IDEA-NNN`) for the undelivered portion.
 - `shaped → archived`: User decides not to pursue. Reason documented in the idea body.
-- Any state → `archived`: User explicitly archives.
+- Any state → `archived`: User explicitly archives. "Not now, maybe later."
+- Any state → `discarded`: User rejects the idea. "No, this isn't worth pursuing." Reason documented in the idea body.
+
+**Partially-delivered workflow:**
+
+1. Integrity engine detects `promoted` idea whose epic is `done`
+2. Engine compares idea scope against epic deliverables
+3. If fully covered → auto-transition to `delivered`
+4. If partially covered → flag as `partially-delivered`, surface to user
+5. User decides: discard remaining scope, or create a new idea for the undelivered parts
+6. If new idea created, the original idea body documents what was spun off
 
 **FORBIDDEN transitions:**
 
 - `captured → promoted` — skipping research/shaping is not allowed
 - `exploring → promoted` — must be shaped (scoped and validated) before promotion
+- `delivered → any` — delivered is terminal
+- `discarded → any` — discarded is terminal (reopen by creating a new idea instead)
 - Any backward transition without user approval
 
 ### Decision
