@@ -8,11 +8,15 @@
 // 4. Schema validation passes
 // 5. Pipeline flow summary
 //
-// Usage: node tools/verify-pipeline-integrity.mjs
+// Usage: node tools/verify-pipeline-integrity.mjs [--staged]
+//
+// Flags:
+//   --staged    Only check files staged in git (for pre-commit hook)
 
 import { readFileSync, readdirSync, existsSync } from "fs";
 import { resolve, join } from "path";
 import { createRequire } from "module";
+import { execSync } from "child_process";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const require = createRequire(resolve(ROOT, "ui", "package.json"));
@@ -38,6 +42,17 @@ const ARTIFACT_DIRS = {
   skills: { dir: ".orqa/team/skills", prefix: null, stage: "Practice" },
 };
 
+const stagedOnly = process.argv.includes("--staged");
+let stagedFiles = null;
+if (stagedOnly) {
+  stagedFiles = new Set(
+    execSync("git diff --cached --name-only --diff-filter=ACMR", { encoding: "utf-8" })
+      .trim()
+      .split("\n")
+      .filter((f) => f.startsWith(".orqa/") && f.endsWith(".md"))
+  );
+}
+
 let errors = 0;
 let warnings = 0;
 const stats = { total: 0, withRelationships: 0, emptyRelationships: 0, deprecatedFields: 0 };
@@ -61,12 +76,16 @@ for (const [type, config] of Object.entries(ARTIFACT_DIRS)) {
       if (subdir.startsWith("_") || subdir === "README.md" || subdir === "schema.json") continue;
       const skillFile = join(dirPath, subdir, "SKILL.md");
       if (!existsSync(skillFile)) continue;
+      const relPath = join(config.dir, subdir, "SKILL.md");
+      if (stagedFiles && !stagedFiles.has(relPath)) continue;
       checkArtifact(skillFile, subdir, type, config);
     }
   } else {
     for (const file of readdirSync(dirPath).sort()) {
       if (!file.endsWith(".md") || file === "README.md") continue;
       if (config.prefix && !file.startsWith(config.prefix)) continue;
+      const relPath = join(config.dir, file);
+      if (stagedFiles && !stagedFiles.has(relPath)) continue;
       checkArtifact(join(dirPath, file), file.replace(".md", ""), type, config);
     }
   }

@@ -51,6 +51,10 @@ if [ -n "$ORQA_CHANGED" ]; then
   else
     bash .githooks/validate-artifacts.sh $ORQA_CHANGED
   fi
+  echo "--- Artifacts: link verification ---"
+  node tools/verify-links.mjs --staged --check-bidirectional
+  echo "--- Artifacts: pipeline integrity ---"
+  node tools/verify-pipeline-integrity.mjs --staged
 fi
 
 # Stub scanner (only if production code files changed)

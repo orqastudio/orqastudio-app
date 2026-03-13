@@ -12,13 +12,17 @@
 //    - Reports relationship type mismatches
 //
 // Usage:
-//   node tools/verify-links.mjs [--fix-bare-ids] [--check-bidirectional] [--json]
+//   node tools/verify-links.mjs [--fix-bare-ids] [--check-bidirectional] [--json] [--staged]
+//
+// Flags:
+//   --staged    Only check files staged in git (for pre-commit hook)
 //
 // Output: structured report of broken, missing, and suspect links.
 
 import { readFileSync, readdirSync, existsSync } from "fs";
 import { resolve, join, relative } from "path";
 import { createRequire } from "module";
+import { execSync } from "child_process";
 
 const ROOT = resolve(import.meta.dirname, "..");
 const require = createRequire(resolve(ROOT, "ui", "package.json"));
@@ -278,12 +282,23 @@ function findAllMarkdown(dir) {
 const args = process.argv.slice(2);
 const checkBidir = args.includes("--check-bidirectional");
 const jsonOutput = args.includes("--json");
+const stagedOnly = args.includes("--staged");
 
-// Discover all known artifacts
+// Discover all known artifacts (always full scan for target resolution)
 const knownArtifacts = discoverAllArtifacts();
 
-// Scan all .orqa/ markdown files
-const allFiles = findAllMarkdown(".orqa");
+// Determine which files to scan
+let allFiles;
+if (stagedOnly) {
+  // Only check staged .orqa/ markdown files
+  const staged = execSync("git diff --cached --name-only --diff-filter=ACMR", { encoding: "utf-8" })
+    .trim()
+    .split("\n")
+    .filter((f) => f.startsWith(".orqa/") && f.endsWith(".md") && !f.endsWith("README.md"));
+  allFiles = staged;
+} else {
+  allFiles = findAllMarkdown(".orqa");
+}
 const allIssues = [];
 const allArtifactData = new Map();
 

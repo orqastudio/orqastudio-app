@@ -9,6 +9,7 @@ CARGO_MANIFEST := backend/src-tauri/Cargo.toml
         build build-frontend build-sidecar \
         check format format-check lint lint-backend lint-frontend typecheck \
         test test-rust test-frontend coverage-rust coverage-frontend test-watch test-e2e \
+        verify verify-links verify-integrity \
         index reindex calibrate \
         skills-list skills-update \
         clean help
@@ -124,6 +125,16 @@ skills-list: ## List installed skills
 
 skills-update: ## Update all skills
 	cd ui && npx skills update
+
+# ── Verification ─────────────────────────────────────────────────────────────
+
+verify-links: ## Verify all .orqa/ cross-references resolve
+	node tools/verify-links.mjs --check-bidirectional
+
+verify-integrity: ## Check pipeline integrity (relationships, deprecated fields)
+	node tools/verify-pipeline-integrity.mjs
+
+verify: verify-links verify-integrity ## Run all verification checks (links + integrity)
 
 # ── Utilities ────────────────────────────────────────────────────────────────
 
