@@ -48,6 +48,13 @@
 		MissingInverse: "Missing Inverses",
 		NullTarget: "Null Targets",
 		ResearchGap: "Research Gaps",
+		PlanningPlacement: "Untriaged Items",
+		DependencyViolation: "Dependency Violations",
+		CircularDependency: "Circular Dependencies",
+		SupersessionSymmetry: "Supersession Gaps",
+		MilestoneGate: "Milestone Gate Violations",
+		IdeaPromotionValidity: "Promotion Issues",
+		IdeaDeliveryTracking: "Undelivered Ideas",
 	};
 
 	let expandedCategories = $state<Set<IntegrityCategory>>(new Set());

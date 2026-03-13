@@ -54,76 +54,83 @@ pub fn evaluate_process_gates(
     event_type: &str,
     file_path: Option<&str>,
 ) -> Vec<GateResult> {
-    let mut results = Vec::new();
-
     match event_type {
-        "write" => {
-            let writing_code = file_path.is_some_and(is_code_file);
-
-            // Gate: understand-first
-            // Fires once per session, on the first code write, when no research has been done.
-            let uf_fired = writing_code
-                && !tracker.has_done_any_research()
-                && !tracker.first_code_write_gated;
-            if uf_fired {
-                tracker.first_code_write_gated = true;
-            }
-            results.push(gate(
-                "understand-first",
-                uf_fired,
-                "THINK FIRST: What is the system you're modifying? \
-                 What are its boundaries? What depends on this? What could break? \
-                 Read the governing docs and understand the context before writing code.",
-            ));
-
-            // Gate: docs-before-code
-            // Fires on any code write when no docs have been read this session.
-            results.push(gate(
-                "docs-before-code",
-                writing_code && !tracker.has_read_any_docs(),
-                "DOCUMENTATION CHECK: Have you read the documentation that defines \
-                 this area? Check .orqa/documentation/ for specs, patterns, and constraints \
-                 before implementing.",
-            ));
-
-            // Gate: plan-before-build
-            // Fires on any code write when no planning artifacts have been consulted.
-            results.push(gate(
-                "plan-before-build",
-                writing_code && !tracker.has_read_any_planning(),
-                "PLANNING CHECK: Is there an epic or task that defines this work? \
-                 Check .orqa/delivery/ for the scope, acceptance criteria, and \
-                 implementation design.",
-            ));
-        }
-
-        "stop" => {
-            // Gate: evidence-before-done
-            // Fires at turn end when code was written but no verification command was run.
-            results.push(gate(
-                "evidence-before-done",
-                tracker.has_written_code() && !tracker.has_run_verification(),
-                "VERIFICATION CHECK: You wrote code but didn't run make check \
-                 or make test. Show evidence that the work is correct before completing.",
-            ));
-
-            // Gate: learn-after-doing
-            // Fires at turn end when significant code was written but lessons were not checked.
-            results.push(gate(
-                "learn-after-doing",
-                tracker.code_write_count() > 3 && !tracker.has_checked_lessons(),
-                "LEARNING CHECK: Significant work was done this session. \
-                 Check .orqa/process/lessons/ for known patterns and consider \
-                 if anything unexpected should be recorded.",
-            ));
-        }
-
+        "write" => evaluate_write_gates(tracker, file_path),
+        "stop" => evaluate_stop_gates(tracker),
         other => {
             tracing::warn!("[process_gates] unknown event_type: '{other}'");
+            Vec::new()
         }
     }
+}
+
+/// Evaluate gates triggered by a file write event.
+fn evaluate_write_gates(
+    tracker: &mut WorkflowTracker,
+    file_path: Option<&str>,
+) -> Vec<GateResult> {
+    let writing_code = file_path.is_some_and(is_code_file);
+    let mut results = Vec::new();
+
+    // Gate: understand-first
+    // Fires once per session, on the first code write, when no research has been done.
+    let uf_fired =
+        writing_code && !tracker.has_done_any_research() && !tracker.first_code_write_gated;
+    if uf_fired {
+        tracker.first_code_write_gated = true;
+    }
+    results.push(gate(
+        "understand-first",
+        uf_fired,
+        "THINK FIRST: What is the system you're modifying? \
+         What are its boundaries? What depends on this? What could break? \
+         Read the governing docs and understand the context before writing code.",
+    ));
+
+    // Gate: docs-before-code
+    // Fires on any code write when no docs have been read this session.
+    results.push(gate(
+        "docs-before-code",
+        writing_code && !tracker.has_read_any_docs(),
+        "DOCUMENTATION CHECK: Have you read the documentation that defines \
+         this area? Check .orqa/documentation/ for specs, patterns, and constraints \
+         before implementing.",
+    ));
+
+    // Gate: plan-before-build
+    // Fires on any code write when no planning artifacts have been consulted.
+    results.push(gate(
+        "plan-before-build",
+        writing_code && !tracker.has_read_any_planning(),
+        "PLANNING CHECK: Is there an epic or task that defines this work? \
+         Check .orqa/delivery/ for the scope, acceptance criteria, and \
+         implementation design.",
+    ));
 
     results
+}
+
+/// Evaluate gates triggered at turn end (stop event).
+fn evaluate_stop_gates(tracker: &WorkflowTracker) -> Vec<GateResult> {
+    vec![
+        // Gate: evidence-before-done
+        // Fires at turn end when code was written but no verification command was run.
+        gate(
+            "evidence-before-done",
+            tracker.has_written_code() && !tracker.has_run_verification(),
+            "VERIFICATION CHECK: You wrote code but didn't run make check \
+             or make test. Show evidence that the work is correct before completing.",
+        ),
+        // Gate: learn-after-doing
+        // Fires at turn end when significant code was written but lessons were not checked.
+        gate(
+            "learn-after-doing",
+            tracker.code_write_count() > 3 && !tracker.has_checked_lessons(),
+            "LEARNING CHECK: Significant work was done this session. \
+             Check .orqa/process/lessons/ for known patterns and consider \
+             if anything unexpected should be recorded.",
+        ),
+    ]
 }
 
 /// Return only the gates that fired from a full evaluation result.

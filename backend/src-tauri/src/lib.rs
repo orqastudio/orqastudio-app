@@ -129,38 +129,40 @@ fn spawn_model_download(model_dir: std::path::PathBuf, tracker: Arc<startup::Sta
     });
 }
 
-pub fn run() {
-    tauri::Builder::default()
-        .setup(|app| {
-            // Initialise tracing subscriber early — before any tracing macros fire.
-            logging::init_logging(app.handle());
+/// Run the Tauri setup callback: initialise logging, database, sidecar, and model download.
+fn setup_app(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
+    logging::init_logging(app.handle());
 
-            let app_dir = app
-                .path()
-                .app_data_dir()
-                .map_err(|e| format!("failed to resolve app data dir: {e}"))?;
-            std::fs::create_dir_all(&app_dir)
-                .map_err(|e| format!("failed to create app data dir: {e}"))?;
+    let app_dir = app
+        .path()
+        .app_data_dir()
+        .map_err(|e| format!("failed to resolve app data dir: {e}"))?;
+    std::fs::create_dir_all(&app_dir)
+        .map_err(|e| format!("failed to create app data dir: {e}"))?;
 
-            let db_path = app_dir.join("orqa.db");
-            let db_path_str = db_path
-                .to_str()
-                .ok_or_else(|| "app data path is not valid UTF-8".to_string())?;
+    let db_path = app_dir.join("orqa.db");
+    let db_path_str = db_path
+        .to_str()
+        .ok_or_else(|| "app data path is not valid UTF-8".to_string())?;
 
-            let conn = setup_database(db_path_str).map_err(|e| e.to_string())?;
+    let conn = setup_database(db_path_str).map_err(|e| e.to_string())?;
 
-            let tracker = startup::StartupTracker::new();
-            let app_state = build_app_state(conn, &tracker).map_err(|e| e.to_string())?;
+    let tracker = startup::StartupTracker::new();
+    let app_state = build_app_state(conn, &tracker).map_err(|e| e.to_string())?;
 
-            start_sidecar(&app_state, &tracker);
+    start_sidecar(&app_state, &tracker);
 
-            app.manage(app_state);
+    app.manage(app_state);
 
-            let model_dir = app_dir.join("models").join("bge-small-en-v1.5");
-            spawn_model_download(model_dir, Arc::clone(&tracker));
+    let model_dir = app_dir.join("models").join("bge-small-en-v1.5");
+    spawn_model_download(model_dir, Arc::clone(&tracker));
 
-            Ok(())
-        })
+    Ok(())
+}
+
+/// Register all Tauri plugins on the builder.
+fn register_plugins(builder: tauri::Builder<tauri::Wry>) -> tauri::Builder<tauri::Wry> {
+    builder
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_store::Builder::default().build())
@@ -174,65 +176,62 @@ pub fn run() {
         )
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_notification::init())
-        .invoke_handler(tauri::generate_handler![
-            // Sidecar commands
-            commands::sidecar_commands::sidecar_status,
-            commands::sidecar_commands::sidecar_restart,
-            // Stream commands
-            commands::stream_commands::stream_send_message,
-            commands::stream_commands::stream_stop,
-            commands::stream_commands::stream_tool_approval_respond,
-            // Project commands
-            commands::project_commands::project_open,
-            commands::project_commands::project_get_active,
-            commands::project_commands::project_list,
-            // Session commands
-            commands::session_commands::session_create,
-            commands::session_commands::session_list,
-            commands::session_commands::session_get,
-            commands::session_commands::session_update_title,
-            commands::session_commands::session_end,
-            commands::session_commands::session_delete,
-            // Message commands
-            commands::message_commands::message_list,
-            // Artifact commands (filesystem discovery)
-            commands::artifact_commands::artifact_scan_tree,
-            commands::artifact_commands::artifact_watch_start,
-            // Project settings commands (file-based)
-            commands::project_settings_commands::project_settings_read,
-            commands::project_settings_commands::project_settings_write,
-            commands::project_settings_commands::project_scan,
-            commands::project_settings_commands::project_icon_upload,
-            commands::project_settings_commands::project_icon_read,
-            // Settings commands
-            commands::settings_commands::settings_set,
-            commands::settings_commands::settings_get_all,
-            // Startup commands
-            commands::search_commands::get_startup_status,
-            // Setup commands
-            commands::setup_commands::get_setup_status,
-            commands::setup_commands::check_claude_cli,
-            commands::setup_commands::check_claude_auth,
-            commands::setup_commands::check_embedding_model,
-            commands::setup_commands::complete_setup,
-            commands::setup_commands::reauthenticate_claude,
-            // Lesson commands
-            commands::lesson_commands::lessons_list,
-            commands::lesson_commands::lessons_create,
-            commands::lesson_commands::lesson_increment_recurrence,
-            // Enforcement commands
-            commands::enforcement_commands::enforcement_rules_list,
-            commands::enforcement_commands::enforcement_rules_reload,
-            // Graph commands
-            commands::graph_commands::get_artifacts_by_type,
-            commands::graph_commands::read_artifact_content,
-            commands::graph_commands::get_graph_stats,
-            commands::graph_commands::refresh_artifact_graph,
-            commands::graph_commands::run_integrity_scan,
-            commands::graph_commands::apply_auto_fixes,
-            commands::graph_commands::store_health_snapshot,
-            commands::graph_commands::get_health_snapshots,
-        ])
+}
+
+/// Register all Tauri command handlers on the builder.
+fn register_commands(builder: tauri::Builder<tauri::Wry>) -> tauri::Builder<tauri::Wry> {
+    builder.invoke_handler(tauri::generate_handler![
+        commands::sidecar_commands::sidecar_status,
+        commands::sidecar_commands::sidecar_restart,
+        commands::stream_commands::stream_send_message,
+        commands::stream_commands::stream_stop,
+        commands::stream_commands::stream_tool_approval_respond,
+        commands::project_commands::project_open,
+        commands::project_commands::project_get_active,
+        commands::project_commands::project_list,
+        commands::session_commands::session_create,
+        commands::session_commands::session_list,
+        commands::session_commands::session_get,
+        commands::session_commands::session_update_title,
+        commands::session_commands::session_end,
+        commands::session_commands::session_delete,
+        commands::message_commands::message_list,
+        commands::artifact_commands::artifact_scan_tree,
+        commands::artifact_commands::artifact_watch_start,
+        commands::project_settings_commands::project_settings_read,
+        commands::project_settings_commands::project_settings_write,
+        commands::project_settings_commands::project_scan,
+        commands::project_settings_commands::project_icon_upload,
+        commands::project_settings_commands::project_icon_read,
+        commands::settings_commands::settings_set,
+        commands::settings_commands::settings_get_all,
+        commands::search_commands::get_startup_status,
+        commands::setup_commands::get_setup_status,
+        commands::setup_commands::check_claude_cli,
+        commands::setup_commands::check_claude_auth,
+        commands::setup_commands::check_embedding_model,
+        commands::setup_commands::complete_setup,
+        commands::setup_commands::reauthenticate_claude,
+        commands::lesson_commands::lessons_list,
+        commands::lesson_commands::lessons_create,
+        commands::lesson_commands::lesson_increment_recurrence,
+        commands::enforcement_commands::enforcement_rules_list,
+        commands::enforcement_commands::enforcement_rules_reload,
+        commands::graph_commands::get_artifacts_by_type,
+        commands::graph_commands::read_artifact_content,
+        commands::graph_commands::get_graph_stats,
+        commands::graph_commands::refresh_artifact_graph,
+        commands::graph_commands::run_integrity_scan,
+        commands::graph_commands::apply_auto_fixes,
+        commands::graph_commands::store_health_snapshot,
+        commands::graph_commands::get_health_snapshots,
+    ])
+}
+
+pub fn run() {
+    let builder = tauri::Builder::default().setup(setup_app);
+    let builder = register_plugins(builder);
+    register_commands(builder)
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

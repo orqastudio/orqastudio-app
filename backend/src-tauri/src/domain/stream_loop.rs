@@ -36,6 +36,40 @@ pub fn friendly_context_overflow_message(code: &str, message: &str) -> Option<St
 /// that are not part of the streaming conversation flow.
 pub fn translate_response(response: &SidecarResponse) -> Option<StreamEvent> {
     match response {
+        SidecarResponse::StreamStart { .. }
+        | SidecarResponse::TextDelta { .. }
+        | SidecarResponse::ThinkingDelta { .. }
+        | SidecarResponse::ToolUseStart { .. }
+        | SidecarResponse::ToolInputDelta { .. }
+        | SidecarResponse::ToolResult { .. }
+        | SidecarResponse::BlockComplete { .. }
+        | SidecarResponse::TurnComplete { .. } => translate_streaming_data(response),
+        SidecarResponse::StreamError {
+            code,
+            message,
+            recoverable,
+        } => Some(translate_stream_error(code, message, *recoverable)),
+        SidecarResponse::StreamCancelled => Some(StreamEvent::StreamCancelled),
+        SidecarResponse::ToolApprovalRequest {
+            tool_call_id,
+            tool_name,
+            input,
+        } => Some(StreamEvent::ToolApprovalRequest {
+            tool_call_id: tool_call_id.clone(),
+            tool_name: tool_name.clone(),
+            input: input.clone(),
+        }),
+        // Non-streaming responses and synchronous tool execution — not forwarded to frontend
+        SidecarResponse::HealthOk { .. }
+        | SidecarResponse::SummaryResult { .. }
+        | SidecarResponse::SessionInitialized { .. }
+        | SidecarResponse::ToolExecute { .. } => None,
+    }
+}
+
+/// Translate content and lifecycle streaming variants to `StreamEvent`.
+fn translate_content_events(response: &SidecarResponse) -> Option<StreamEvent> {
+    match response {
         SidecarResponse::StreamStart {
             message_id,
             resolved_model,
@@ -49,6 +83,27 @@ pub fn translate_response(response: &SidecarResponse) -> Option<StreamEvent> {
         SidecarResponse::ThinkingDelta { content } => Some(StreamEvent::ThinkingDelta {
             content: content.clone(),
         }),
+        SidecarResponse::BlockComplete {
+            block_index,
+            content_type,
+        } => Some(StreamEvent::BlockComplete {
+            block_index: *block_index,
+            content_type: content_type.clone(),
+        }),
+        SidecarResponse::TurnComplete {
+            input_tokens,
+            output_tokens,
+        } => Some(StreamEvent::TurnComplete {
+            input_tokens: *input_tokens,
+            output_tokens: *output_tokens,
+        }),
+        _ => None,
+    }
+}
+
+/// Translate tool-related streaming variants to `StreamEvent`.
+fn translate_tool_events(response: &SidecarResponse) -> Option<StreamEvent> {
+    match response {
         SidecarResponse::ToolUseStart {
             tool_call_id,
             tool_name,
@@ -74,49 +129,23 @@ pub fn translate_response(response: &SidecarResponse) -> Option<StreamEvent> {
             result: result.clone(),
             is_error: *is_error,
         }),
-        SidecarResponse::BlockComplete {
-            block_index,
-            content_type,
-        } => Some(StreamEvent::BlockComplete {
-            block_index: *block_index,
-            content_type: content_type.clone(),
-        }),
-        SidecarResponse::TurnComplete {
-            input_tokens,
-            output_tokens,
-        } => Some(StreamEvent::TurnComplete {
-            input_tokens: *input_tokens,
-            output_tokens: *output_tokens,
-        }),
-        SidecarResponse::StreamError {
-            code,
-            message,
-            recoverable,
-        } => {
-            let user_message =
-                friendly_context_overflow_message(code, message).unwrap_or_else(|| message.clone());
-            Some(StreamEvent::StreamError {
-                code: code.clone(),
-                message: user_message,
-                recoverable: *recoverable,
-            })
-        }
-        SidecarResponse::StreamCancelled => Some(StreamEvent::StreamCancelled),
-        // Non-streaming responses and synchronous tool execution — not forwarded to frontend
-        SidecarResponse::HealthOk { .. }
-        | SidecarResponse::SummaryResult { .. }
-        | SidecarResponse::SessionInitialized { .. }
-        | SidecarResponse::ToolExecute { .. } => None,
-        // ToolApprovalRequest for write/execute tools is forwarded to the frontend
-        SidecarResponse::ToolApprovalRequest {
-            tool_call_id,
-            tool_name,
-            input,
-        } => Some(StreamEvent::ToolApprovalRequest {
-            tool_call_id: tool_call_id.clone(),
-            tool_name: tool_name.clone(),
-            input: input.clone(),
-        }),
+        _ => None,
+    }
+}
+
+/// Translate streaming data variants that map 1:1 from `SidecarResponse` to `StreamEvent`.
+fn translate_streaming_data(response: &SidecarResponse) -> Option<StreamEvent> {
+    translate_content_events(response).or_else(|| translate_tool_events(response))
+}
+
+/// Translate a stream error, replacing context-overflow messages with user-friendly text.
+fn translate_stream_error(code: &str, message: &str, recoverable: bool) -> StreamEvent {
+    let user_message =
+        friendly_context_overflow_message(code, message).unwrap_or_else(|| message.to_string());
+    StreamEvent::StreamError {
+        code: code.to_string(),
+        message: user_message,
+        recoverable,
     }
 }
 
@@ -273,13 +302,104 @@ pub fn handle_tool_approval(
     send_approval(tool_call_id, approved, reason, state, on_event)
 }
 
+/// Read the next sidecar response, emitting a `StreamError` on failure.
+///
+/// Returns `Some(response)` on success, `None` on EOF or read error.
+fn read_next_response(
+    state: &tauri::State<'_, AppState>,
+    on_event: &tauri::ipc::Channel<StreamEvent>,
+) -> Option<SidecarResponse> {
+    match state.sidecar.manager.read_line() {
+        Ok(Some(resp)) => Some(resp),
+        Ok(None) => {
+            let _ = on_event.send(StreamEvent::StreamError {
+                code: "sidecar_eof".to_string(),
+                message: "sidecar process closed unexpectedly".to_string(),
+                recoverable: false,
+            });
+            None
+        }
+        Err(e) => {
+            let _ = on_event.send(StreamEvent::StreamError {
+                code: "sidecar_read_error".to_string(),
+                message: e.to_string(),
+                recoverable: false,
+            });
+            None
+        }
+    }
+}
+
+/// Persist a provider session UUID when the sidecar sends `SessionInitialized`.
+fn persist_provider_session_id(
+    state: &tauri::State<'_, AppState>,
+    session_id: i64,
+    provider_session_id: &str,
+) {
+    use crate::repo::session_repo;
+
+    if let Ok(db) = state.db.conn.lock() {
+        if let Err(e) =
+            session_repo::update_provider_session_id(&db, session_id, provider_session_id)
+        {
+            tracing::warn!("[stream] failed to persist provider_session_id: {e}");
+        }
+    }
+}
+
+/// Dispatch a single sidecar response within the stream loop.
+///
+/// Returns `Some(true)` to continue the loop, `Some(false)` to break
+/// (terminal event reached), or `None` on a fatal send error.
+fn dispatch_response(
+    response: &SidecarResponse,
+    acc: &mut StreamAccumulator,
+    state: &tauri::State<'_, AppState>,
+    on_event: &tauri::ipc::Channel<StreamEvent>,
+) -> Option<bool> {
+    if let SidecarResponse::SessionInitialized {
+        session_id,
+        ref provider_session_id,
+    } = *response
+    {
+        persist_provider_session_id(state, session_id, provider_session_id);
+        return Some(true);
+    }
+    if let SidecarResponse::ToolExecute {
+        ref tool_call_id, ref tool_name, ref input,
+    } = *response
+    {
+        return if handle_tool_execute(tool_call_id, tool_name, input, state, on_event) {
+            Some(true)
+        } else {
+            None
+        };
+    }
+    if let SidecarResponse::ToolApprovalRequest {
+        ref tool_call_id, ref tool_name, ref input,
+    } = *response
+    {
+        return if handle_tool_approval(tool_call_id, tool_name, input, state, on_event) {
+            Some(true)
+        } else {
+            None
+        };
+    }
+    accumulate_response(response, acc);
+    if matches!(response, SidecarResponse::TurnComplete { .. }) {
+        evaluate_stop_gates(state);
+    }
+    if let Some(event) = translate_response(response) {
+        let _ = on_event.send(event);
+    }
+    Some(!is_terminal(response))
+}
+
 /// Run the sidecar read loop, accumulating results into a `StreamAccumulator`.
 pub fn run_stream_loop(
     state: &tauri::State<'_, AppState>,
     on_event: &tauri::ipc::Channel<StreamEvent>,
 ) -> StreamAccumulator {
-    use crate::repo::session_repo;
-
     let mut acc = StreamAccumulator {
         text: String::new(),
         input_tokens: 0,
@@ -289,82 +409,17 @@ pub fn run_stream_loop(
     };
 
     loop {
-        let response = match state.sidecar.manager.read_line() {
-            Ok(Some(resp)) => resp,
-            Ok(None) => {
-                let _ = on_event.send(StreamEvent::StreamError {
-                    code: "sidecar_eof".to_string(),
-                    message: "sidecar process closed unexpectedly".to_string(),
-                    recoverable: false,
-                });
-                acc.had_error = true;
-                break;
-            }
-            Err(e) => {
-                let _ = on_event.send(StreamEvent::StreamError {
-                    code: "sidecar_read_error".to_string(),
-                    message: e.to_string(),
-                    recoverable: false,
-                });
-                acc.had_error = true;
-                break;
-            }
-        };
-
-        // Persist provider session UUID — not forwarded to frontend
-        if let SidecarResponse::SessionInitialized {
-            session_id,
-            ref provider_session_id,
-        } = response
-        {
-            if let Ok(db) = state.db.conn.lock() {
-                if let Err(e) =
-                    session_repo::update_provider_session_id(&db, session_id, provider_session_id)
-                {
-                    tracing::warn!("[stream] failed to persist provider_session_id: {e}");
-                }
-            }
-            continue;
-        }
-
-        if let SidecarResponse::ToolExecute {
-            ref tool_call_id,
-            ref tool_name,
-            ref input,
-        } = response
-        {
-            if !handle_tool_execute(tool_call_id, tool_name, input, state, on_event) {
-                acc.had_error = true;
-                break;
-            }
-            continue;
-        }
-
-        if let SidecarResponse::ToolApprovalRequest {
-            ref tool_call_id,
-            ref tool_name,
-            ref input,
-        } = response
-        {
-            if !handle_tool_approval(tool_call_id, tool_name, input, state, on_event) {
-                acc.had_error = true;
-                break;
-            }
-            continue;
-        }
-
-        accumulate_response(&response, &mut acc);
-
-        let terminal = is_terminal(&response);
-        // Evaluate stop-event process gates when the turn completes successfully.
-        if matches!(response, SidecarResponse::TurnComplete { .. }) {
-            evaluate_stop_gates(state);
-        }
-        if let Some(event) = translate_response(&response) {
-            let _ = on_event.send(event);
-        }
-        if terminal {
+        let Some(response) = read_next_response(state, on_event) else {
+            acc.had_error = true;
             break;
+        };
+        match dispatch_response(&response, &mut acc, state, on_event) {
+            Some(true) => {}
+            Some(false) => break,
+            None => {
+                acc.had_error = true;
+                break;
+            }
         }
     }
 

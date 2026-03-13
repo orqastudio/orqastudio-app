@@ -281,29 +281,37 @@ fn collect_forward_refs(yaml_value: &serde_yaml::Value, source_id: &str) -> Vec<
     }
 
     // Process `relationships` array — typed semantic edges.
-    if let Some(seq) = yaml_value.get("relationships").and_then(|v| v.as_sequence()) {
-        for item in seq {
-            let target = item
-                .get("target")
-                .and_then(|v| v.as_str())
-                .map(|s| s.trim().to_owned());
-            let rel_type = item
-                .get("type")
-                .and_then(|v| v.as_str())
-                .map(|s| s.trim().to_owned());
-            if let Some(target_id) = target {
-                if !target_id.is_empty() {
-                    refs.push(ArtifactRef {
-                        target_id,
-                        field: "relationships".to_owned(),
-                        source_id: source_id.to_owned(),
-                        relationship_type: rel_type,
-                    });
-                }
+    refs.extend(collect_relationship_refs(yaml_value, source_id));
+
+    refs
+}
+
+/// Extract forward references from the `relationships` YAML array.
+fn collect_relationship_refs(yaml_value: &serde_yaml::Value, source_id: &str) -> Vec<ArtifactRef> {
+    let Some(seq) = yaml_value.get("relationships").and_then(|v| v.as_sequence()) else {
+        return Vec::new();
+    };
+    let mut refs = Vec::new();
+    for item in seq {
+        let target = item
+            .get("target")
+            .and_then(|v| v.as_str())
+            .map(|s| s.trim().to_owned());
+        let rel_type = item
+            .get("type")
+            .and_then(|v| v.as_str())
+            .map(|s| s.trim().to_owned());
+        if let Some(target_id) = target {
+            if !target_id.is_empty() {
+                refs.push(ArtifactRef {
+                    target_id,
+                    field: "relationships".to_owned(),
+                    source_id: source_id.to_owned(),
+                    relationship_type: rel_type,
+                });
             }
         }
     }
-
     refs
 }
 
@@ -345,6 +353,13 @@ pub enum IntegrityCategory {
     MissingInverse,
     NullTarget,
     ResearchGap,
+    PlanningPlacement,
+    DependencyViolation,
+    CircularDependency,
+    SupersessionSymmetry,
+    MilestoneGate,
+    IdeaPromotionValidity,
+    IdeaDeliveryTracking,
 }
 
 /// Severity of an integrity finding.
@@ -377,7 +392,22 @@ pub struct AppliedFix {
 pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
     let mut checks = Vec::new();
 
-    // 1. Broken references — target_id doesn't exist in the graph
+    check_broken_refs(graph, &mut checks);
+    check_missing_inverses(graph, &mut checks);
+    check_research_gaps(graph, &mut checks);
+    check_planning_placement(graph, &mut checks);
+    check_dependency_violations(graph, &mut checks);
+    check_circular_dependencies(graph, &mut checks);
+    check_supersession_symmetry(graph, &mut checks);
+    check_milestone_gate(graph, &mut checks);
+    check_idea_promotion_validity(graph, &mut checks);
+    check_idea_delivery_tracking(graph, &mut checks);
+
+    checks
+}
+
+/// Check for broken references — target_id doesn't exist in the graph.
+fn check_broken_refs(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
     for node in graph.nodes.values() {
         for ref_entry in &node.references_out {
             if !graph.nodes.contains_key(&ref_entry.target_id) {
@@ -395,8 +425,10 @@ pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
             }
         }
     }
+}
 
-    // 2. Missing bidirectional inverses for relationship edges
+/// Check for missing bidirectional inverses on relationship edges.
+fn check_missing_inverses(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
     let inverse_map: &[(&str, &str)] = &[
         ("observes", "observed-by"),
         ("observed-by", "observes"),
@@ -425,9 +457,8 @@ pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
             };
 
             // Check if target has the inverse pointing back
-            let target = match graph.nodes.get(&ref_entry.target_id) {
-                Some(t) => t,
-                None => continue, // broken ref, already caught above
+            let Some(target) = graph.nodes.get(&ref_entry.target_id) else {
+                continue; // broken ref, already caught above
             };
 
             let has_inverse = target.references_out.iter().any(|r| {
@@ -454,11 +485,6 @@ pub fn check_integrity(graph: &ArtifactGraph) -> Vec<IntegrityCheck> {
             }
         }
     }
-
-    // 3. Research gaps — delivered/partially-delivered ideas with unresolved research-needed
-    check_research_gaps(graph, &mut checks);
-
-    checks
 }
 
 /// Check that delivered ideas have their research-needed items tracked as tasks.
@@ -488,8 +514,7 @@ fn check_research_gaps(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) 
             graph
                 .nodes
                 .get(&r.source_id)
-                .map(|n| n.artifact_type == "task")
-                .unwrap_or(false)
+                .is_some_and(|n| n.artifact_type == "task")
         });
 
         if !has_related_tasks {
@@ -510,6 +535,378 @@ fn check_research_gaps(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) 
                      or document answers in the idea body"
                         .to_string(),
                 ),
+            });
+        }
+    }
+}
+
+/// Check if a frontmatter field has a non-null, non-empty string value.
+fn has_non_null_string(node: &ArtifactNode, field: &str) -> bool {
+    matches!(
+        node.frontmatter.get(field),
+        Some(v) if !v.is_null() && v.as_str().is_some_and(|s| !s.is_empty())
+    )
+}
+
+/// Check if an artifact has an indirect milestone through an epic reference.
+fn has_indirect_milestone(graph: &ArtifactGraph, node: &ArtifactNode) -> bool {
+    let field = if node.artifact_type == "task" {
+        "epic"
+    } else if node.artifact_type == "idea" {
+        "promoted-to"
+    } else {
+        return false;
+    };
+    node.frontmatter
+        .get(field)
+        .and_then(|v| v.as_str())
+        .and_then(|epic_id| graph.nodes.get(epic_id))
+        .is_some_and(|epic| has_non_null_string(epic, "milestone"))
+}
+
+/// Check that planning artifacts are placed — reachable from a milestone or have a horizon.
+fn check_planning_placement(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    let planning_types = ["idea", "epic", "task"];
+
+    for node in graph.nodes.values() {
+        if !planning_types.contains(&node.artifact_type.as_str()) {
+            continue;
+        }
+
+        // Skip terminal statuses — delivered/archived/discarded ideas don't need placement
+        if let Some(status) = &node.status {
+            let s = status.as_str();
+            if s == "delivered" || s == "archived" || s == "discarded" || s == "done" {
+                continue;
+            }
+        }
+
+        let has_horizon = matches!(
+            node.frontmatter.get("horizon"),
+            Some(v) if !v.is_null() && v.as_str() != Some("null")
+        );
+        let has_direct_milestone = has_non_null_string(node, "milestone");
+
+        if !has_horizon && !has_direct_milestone && !has_indirect_milestone(graph, node) {
+            checks.push(IntegrityCheck {
+                category: IntegrityCategory::PlanningPlacement,
+                severity: IntegritySeverity::Warning,
+                artifact_id: node.id.clone(),
+                message: format!(
+                    "{} ({}) has no milestone and no planning horizon — untriaged",
+                    node.id, node.artifact_type
+                ),
+                auto_fixable: false,
+                fix_description: Some(
+                    "Set a horizon (active/next/later/someday) or assign a milestone".to_string(),
+                ),
+            });
+        }
+    }
+}
+
+/// Check for in-progress tasks whose dependencies are not done.
+fn check_dependency_violations(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    for node in graph.nodes.values() {
+        if node.artifact_type != "task" {
+            continue;
+        }
+
+        let status = match &node.status {
+            Some(s) if s == "in-progress" => s.clone(),
+            _ => continue,
+        };
+
+        let Some(serde_json::Value::Array(deps)) = node.frontmatter.get("depends-on") else {
+            continue;
+        };
+
+        for dep in deps {
+            let Some(dep_id) = dep.as_str() else {
+                continue;
+            };
+
+            let dep_done = graph
+                .nodes
+                .get(dep_id)
+                .and_then(|n| n.status.as_deref())
+                .is_some_and(|s| s == "done");
+
+            if !dep_done {
+                let dep_status = graph
+                    .nodes
+                    .get(dep_id)
+                    .and_then(|n| n.status.clone())
+                    .unwrap_or_else(|| "unknown".to_string());
+
+                checks.push(IntegrityCheck {
+                    category: IntegrityCategory::DependencyViolation,
+                    severity: IntegritySeverity::Error,
+                    artifact_id: node.id.clone(),
+                    message: format!(
+                        "{} is {} but dependency {} is {} — dependency gate violated",
+                        node.id, status, dep_id, dep_status
+                    ),
+                    auto_fixable: false,
+                    fix_description: Some(format!(
+                        "Complete {} before {} can be in-progress",
+                        dep_id, node.id
+                    )),
+                });
+            }
+        }
+    }
+}
+
+/// Run DFS cycle detection starting from a single node's dependency list.
+fn detect_cycles_from(
+    graph: &ArtifactGraph,
+    start_id: &str,
+    initial_deps: &[serde_json::Value],
+    reported: &mut std::collections::HashSet<String>,
+    checks: &mut Vec<IntegrityCheck>,
+) {
+    let mut visited = std::collections::HashSet::new();
+    let mut stack = Vec::new();
+
+    for dep in initial_deps {
+        if let Some(dep_id) = dep.as_str() {
+            stack.push((dep_id.to_string(), vec![start_id.to_string()]));
+        }
+    }
+
+    while let Some((current_id, path)) = stack.pop() {
+        if current_id == start_id {
+            let mut cycle_parts = path.clone();
+            cycle_parts.sort();
+            let cycle_key = cycle_parts.join(",");
+            if !reported.contains(&cycle_key) {
+                reported.insert(cycle_key);
+                checks.push(IntegrityCheck {
+                    category: IntegrityCategory::CircularDependency,
+                    severity: IntegritySeverity::Error,
+                    artifact_id: start_id.to_string(),
+                    message: format!(
+                        "Circular dependency: {} → {} → {}",
+                        start_id,
+                        path[1..].join(" → "),
+                        start_id
+                    ),
+                    auto_fixable: false,
+                    fix_description: Some(
+                        "Break the dependency cycle by removing one edge".to_string(),
+                    ),
+                });
+            }
+            continue;
+        }
+
+        if !visited.insert(current_id.clone()) {
+            continue;
+        }
+
+        if let Some(dep_node) = graph.nodes.get(&current_id) {
+            if let Some(serde_json::Value::Array(next_deps)) =
+                dep_node.frontmatter.get("depends-on")
+            {
+                for next_dep in next_deps {
+                    if let Some(next_id) = next_dep.as_str() {
+                        let mut new_path = path.clone();
+                        new_path.push(current_id.clone());
+                        stack.push((next_id.to_string(), new_path));
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Detect circular dependencies in depends-on chains.
+fn check_circular_dependencies(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    let mut reported = std::collections::HashSet::new();
+
+    for node in graph.nodes.values() {
+        let deps = match node.frontmatter.get("depends-on") {
+            Some(serde_json::Value::Array(arr)) if !arr.is_empty() => arr,
+            _ => continue,
+        };
+
+        detect_cycles_from(graph, &node.id, deps, &mut reported, checks);
+    }
+}
+
+/// Check one direction of a supersession relationship and report if the back-reference is missing.
+fn check_one_supersession_direction(
+    node: &ArtifactNode,
+    graph: &ArtifactGraph,
+    forward_field: &str,
+    backward_field: &str,
+    checks: &mut Vec<IntegrityCheck>,
+) {
+    if let Some(target_id) = node.frontmatter.get(forward_field).and_then(|v| v.as_str()) {
+        if let Some(target) = graph.nodes.get(target_id) {
+            let has_back_ref = target
+                .frontmatter
+                .get(backward_field)
+                .and_then(|v| v.as_str())
+                .is_some_and(|s| s == node.id);
+            if !has_back_ref {
+                checks.push(IntegrityCheck {
+                    category: IntegrityCategory::SupersessionSymmetry,
+                    severity: IntegritySeverity::Error,
+                    artifact_id: node.id.clone(),
+                    message: format!(
+                        "{} {} {} but {} does not have {}: {}",
+                        node.id, forward_field, target_id, target_id, backward_field, node.id
+                    ),
+                    auto_fixable: false,
+                    fix_description: Some(format!(
+                        "Add {}: {} to {}'s frontmatter",
+                        backward_field, node.id, target_id
+                    )),
+                });
+            }
+        }
+    }
+}
+
+/// Check decision supersession symmetry — both sides must be updated.
+fn check_supersession_symmetry(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    for node in graph.nodes.values() {
+        if node.artifact_type != "decision" {
+            continue;
+        }
+
+        check_one_supersession_direction(node, graph, "supersedes", "superseded-by", checks);
+        check_one_supersession_direction(node, graph, "superseded-by", "supersedes", checks);
+    }
+}
+
+/// Check milestone gates — active milestones should not have incomplete P1 epics marked done.
+fn check_milestone_gate(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    for node in graph.nodes.values() {
+        if node.artifact_type != "milestone" {
+            continue;
+        }
+
+        let status = match &node.status {
+            Some(s) if s == "complete" => s.as_str(),
+            _ => continue,
+        };
+
+        // Find all epics that reference this milestone
+        let incomplete_p1: Vec<&str> = graph
+            .nodes
+            .values()
+            .filter(|n| {
+                n.artifact_type == "epic"
+                    && n.frontmatter
+                        .get("milestone")
+                        .and_then(|v| v.as_str())
+                        .is_some_and(|m| m == node.id)
+                    && n.frontmatter
+                        .get("priority")
+                        .and_then(|v| v.as_str())
+                        .is_some_and(|p| p == "P1")
+                    && n.status.as_deref() != Some("done")
+            })
+            .map(|n| n.id.as_str())
+            .collect();
+
+        if !incomplete_p1.is_empty() {
+            checks.push(IntegrityCheck {
+                category: IntegrityCategory::MilestoneGate,
+                severity: IntegritySeverity::Error,
+                artifact_id: node.id.clone(),
+                message: format!(
+                    "{} is {} but has {} incomplete P1 epic(s): {}",
+                    node.id,
+                    status,
+                    incomplete_p1.len(),
+                    incomplete_p1.join(", ")
+                ),
+                auto_fixable: false,
+                fix_description: Some(
+                    "Complete all P1 epics before marking milestone as complete".to_string(),
+                ),
+            });
+        }
+    }
+}
+
+/// Check that promoted ideas were shaped before promotion.
+fn check_idea_promotion_validity(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    for node in graph.nodes.values() {
+        if node.artifact_type != "idea" {
+            continue;
+        }
+
+        let status = match &node.status {
+            Some(s) if s == "promoted" => s.as_str(),
+            _ => continue,
+        };
+
+        // A promoted idea should have promoted-to set
+        let has_promoted_to = node
+            .frontmatter
+            .get("promoted-to")
+            .and_then(|v| v.as_str())
+            .is_some_and(|s| !s.is_empty());
+
+        if !has_promoted_to {
+            checks.push(IntegrityCheck {
+                category: IntegrityCategory::IdeaPromotionValidity,
+                severity: IntegritySeverity::Error,
+                artifact_id: node.id.clone(),
+                message: format!(
+                    "{} has status {} but promoted-to is not set",
+                    node.id, status
+                ),
+                auto_fixable: false,
+                fix_description: Some(
+                    "Set promoted-to to the epic ID, or revert status to shaped".to_string(),
+                ),
+            });
+        }
+    }
+}
+
+/// Check for promoted ideas whose epics are done but idea is still promoted (not delivered).
+fn check_idea_delivery_tracking(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) {
+    for node in graph.nodes.values() {
+        if node.artifact_type != "idea" {
+            continue;
+        }
+
+        if node.status.as_deref() != Some("promoted") {
+            continue;
+        }
+
+        let epic_id = match node.frontmatter.get("promoted-to").and_then(|v| v.as_str()) {
+            Some(id) if !id.is_empty() => id,
+            _ => continue,
+        };
+
+        let epic_done = graph
+            .nodes
+            .get(epic_id)
+            .and_then(|n| n.status.as_deref())
+            .is_some_and(|s| s == "done");
+
+        if epic_done {
+            checks.push(IntegrityCheck {
+                category: IntegrityCategory::IdeaDeliveryTracking,
+                severity: IntegritySeverity::Warning,
+                artifact_id: node.id.clone(),
+                message: format!(
+                    "{} is promoted to {} which is done — idea should be delivered or partially-delivered",
+                    node.id, epic_id
+                ),
+                auto_fixable: false,
+                fix_description: Some(format!(
+                    "Update {} status to delivered (if fully covered) or partially-delivered",
+                    node.id
+                )),
             });
         }
     }
@@ -538,101 +935,53 @@ pub fn apply_fixes(
             continue;
         }
 
-        match check.category {
-            IntegrityCategory::MissingInverse => {
-                if let Some(fix) = apply_missing_inverse_fix(graph, check, project_path)? {
-                    applied.push(fix);
-                }
+        if matches!(check.category, IntegrityCategory::MissingInverse) {
+            if let Some(fix) = apply_missing_inverse_fix(graph, check, project_path)? {
+                applied.push(fix);
             }
-            _ => {}
         }
     }
 
     Ok(applied)
 }
 
-/// Fix a missing inverse relationship by adding the inverse entry to the target file.
-fn apply_missing_inverse_fix(
-    graph: &ArtifactGraph,
-    check: &IntegrityCheck,
-    project_path: &Path,
-) -> Result<Option<AppliedFix>, OrqaError> {
-    // Parse the message to extract source_id, target_id, and inverse_type.
-    // Format: "RULE-001 --enforces--> AD-001 but AD-001 has no enforced-by edge back to RULE-001"
-    let message = &check.message;
-
+/// Parse the missing-inverse check message to extract source_id, target_id, and inverse_type.
+///
+/// Expected format: "RULE-001 --enforces--> AD-001 but AD-001 has no enforced-by edge back to RULE-001"
+fn parse_missing_inverse_message(message: &str) -> Option<(&str, &str, &str)> {
     let parts: Vec<&str> = message.split(" --").collect();
     if parts.len() < 2 {
-        return Ok(None);
+        return None;
     }
     let source_id = parts[0].trim();
 
-    let rest = parts[1];
-    let arrow_parts: Vec<&str> = rest.split("--> ").collect();
+    let arrow_parts: Vec<&str> = parts[1].split("--> ").collect();
     if arrow_parts.len() < 2 {
-        return Ok(None);
+        return None;
     }
 
-    let after_arrow = arrow_parts[1];
-    // "AD-001 but AD-001 has no enforced-by edge back to RULE-001"
-    let but_parts: Vec<&str> = after_arrow.split(" but ").collect();
+    let but_parts: Vec<&str> = arrow_parts[1].split(" but ").collect();
     if but_parts.len() < 2 {
-        return Ok(None);
+        return None;
     }
     let target_id = but_parts[0].trim();
 
-    // Extract inverse type: "AD-001 has no enforced-by edge back to RULE-001"
     let has_no_parts: Vec<&str> = but_parts[1].split(" has no ").collect();
     if has_no_parts.len() < 2 {
-        return Ok(None);
+        return None;
     }
     let edge_parts: Vec<&str> = has_no_parts[1].split(" edge back to ").collect();
     if edge_parts.is_empty() {
-        return Ok(None);
+        return None;
     }
     let inverse_type = edge_parts[0].trim();
 
-    // Find the target node's file path.
-    let target_node = match graph.nodes.get(target_id) {
-        Some(n) => n,
-        None => return Ok(None),
-    };
+    Some((source_id, target_id, inverse_type))
+}
 
-    let file_path = project_path.join(&target_node.path);
-    if !file_path.exists() {
-        return Ok(None);
-    }
-
-    let content = std::fs::read_to_string(&file_path)?;
-    let (fm_text, body) = crate::domain::artifact::extract_frontmatter(&content);
-    let Some(fm_text) = fm_text else {
-        return Ok(None);
-    };
-
-    // Parse the YAML to check if the inverse relationship already exists.
-    let yaml_value: serde_yaml::Value = serde_yaml::from_str(&fm_text)
-        .map_err(|e| OrqaError::Validation(format!("YAML parse error in {}: {e}", target_node.path)))?;
-
-    if let Some(rels) = yaml_value.get("relationships").and_then(|v| v.as_sequence()) {
-        for rel in rels {
-            let existing_target = rel.get("target").and_then(|v| v.as_str());
-            let existing_type = rel.get("type").and_then(|v| v.as_str());
-            if existing_target == Some(source_id) && existing_type == Some(inverse_type) {
-                // Already exists — skip.
-                return Ok(None);
-            }
-        }
-    }
-
-    // Build the new relationship entry to append.
-    let new_entry = format!(
-        "  - target: {}\n    type: {}\n    rationale: \"Auto-generated inverse of {} relationship from {}\"",
-        source_id, inverse_type, inverse_type, check.artifact_id
-    );
-
-    // Reconstruct the file content with the new relationship added.
-    let new_content = if fm_text.contains("relationships:") {
-        // Append to existing relationships array.
+/// Insert a new relationship entry into frontmatter text, returning the full reconstructed file.
+fn insert_relationship_entry(fm_text: &str, body: &str, new_entry: &str) -> String {
+    if fm_text.contains("relationships:") {
         let lines: Vec<&str> = fm_text.lines().collect();
         let mut insert_pos = None;
         let mut in_relationships = false;
@@ -659,7 +1008,6 @@ fn apply_missing_inverse_fix(
             }
             format!("---\n{}\n---\n{}", new_lines.join("\n"), body)
         } else {
-            // relationships key exists but is empty — add after it.
             let new_fm = fm_text.replace(
                 "relationships:",
                 &format!("relationships:\n{new_entry}"),
@@ -667,11 +1015,57 @@ fn apply_missing_inverse_fix(
             format!("---\n{new_fm}\n---\n{body}")
         }
     } else {
-        // No relationships key — add one at the end of frontmatter.
         let new_fm = format!("{}\nrelationships:\n{new_entry}", fm_text.trim_end());
         format!("---\n{new_fm}\n---\n{body}")
+    }
+}
+
+/// Fix a missing inverse relationship by adding the inverse entry to the target file.
+fn apply_missing_inverse_fix(
+    graph: &ArtifactGraph,
+    check: &IntegrityCheck,
+    project_path: &Path,
+) -> Result<Option<AppliedFix>, OrqaError> {
+    let Some((source_id, target_id, inverse_type)) =
+        parse_missing_inverse_message(&check.message)
+    else {
+        return Ok(None);
     };
 
+    let Some(target_node) = graph.nodes.get(target_id) else {
+        return Ok(None);
+    };
+
+    let file_path = project_path.join(&target_node.path);
+    if !file_path.exists() {
+        return Ok(None);
+    }
+
+    let content = std::fs::read_to_string(&file_path)?;
+    let (fm_text, body) = crate::domain::artifact::extract_frontmatter(&content);
+    let Some(fm_text) = fm_text else {
+        return Ok(None);
+    };
+
+    let yaml_value: serde_yaml::Value = serde_yaml::from_str(&fm_text)
+        .map_err(|e| OrqaError::Validation(format!("YAML parse error in {}: {e}", target_node.path)))?;
+
+    if let Some(rels) = yaml_value.get("relationships").and_then(|v| v.as_sequence()) {
+        for rel in rels {
+            let existing_target = rel.get("target").and_then(|v| v.as_str());
+            let existing_type = rel.get("type").and_then(|v| v.as_str());
+            if existing_target == Some(source_id) && existing_type == Some(inverse_type) {
+                return Ok(None);
+            }
+        }
+    }
+
+    let new_entry = format!(
+        "  - target: {}\n    type: {}\n    rationale: \"Auto-generated inverse of {} relationship from {}\"",
+        source_id, inverse_type, inverse_type, check.artifact_id
+    );
+
+    let new_content = insert_relationship_entry(&fm_text, &body, &new_entry);
     std::fs::write(&file_path, new_content)?;
 
     Ok(Some(AppliedFix {
@@ -972,10 +1366,13 @@ mod tests {
         );
         let graph = build_artifact_graph(tmp.path()).expect("build");
         let checks = check_integrity(&graph);
-        assert_eq!(checks.len(), 1);
-        assert!(matches!(checks[0].category, IntegrityCategory::BrokenLink));
-        assert!(matches!(checks[0].severity, IntegritySeverity::Error));
-        assert_eq!(checks[0].artifact_id, "TASK-001");
+        let broken: Vec<_> = checks
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::BrokenLink))
+            .collect();
+        assert_eq!(broken.len(), 1);
+        assert!(matches!(broken[0].severity, IntegritySeverity::Error));
+        assert_eq!(broken[0].artifact_id, "TASK-001");
     }
 
     #[test]

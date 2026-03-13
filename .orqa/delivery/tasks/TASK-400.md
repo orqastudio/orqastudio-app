@@ -2,7 +2,7 @@
 id: TASK-400
 title: "Integrity check: delivered ideas must have all research-needed items resolved"
 description: "Add an integrity check that flags ideas transitioning to delivered/partially-delivered when their research-needed items haven't been answered in the body or tracked as tasks. Prevents research questions from falling through the cracks when ideas are absorbed organically without formal promotion."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-060

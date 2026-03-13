@@ -1,39 +1,51 @@
 ---
 id: EPIC-009
-title: Frontend Test Suite
-description: Establish a frontend test suite using Vitest for Svelte stores and components, covering the gap left by zero frontend tests.
+title: Codebase Test Coverage
+description: Achieve comprehensive test coverage across the entire codebase — frontend (Vitest), backend (cargo test + tarpaulin), and IPC contract verification. Close the frontend test gap (zero tests vs 465 Rust tests) and establish coverage measurement and enforcement.
 status: draft
 priority: P2
 created: 2026-03-07
-updated: 2026-03-07
+updated: 2026-03-13
 milestone: MS-001
 pillars:
   - PILLAR-001
+  - PILLAR-002
 research-refs: []
 docs-required: []
 docs-produced: []
 scoring:
   pillar: 3
-  impact: 3
+  impact: 4
   dependency: 1
-  effort: 3
-  score: 5
+  effort: 4
+  score: 6
 ---
+
 ## Why P2
 
-465 Rust tests exist but zero frontend tests. Changes to stores break components silently. This is a learning gap — without tests, regression patterns can't be detected.
+465 Rust tests exist but zero frontend tests. Changes to stores break components silently. Backend coverage is unmeasured — we have tests but no coverage metrics. This is a learning gap — without tests and coverage tracking, regression patterns can't be detected and the integrity engine can't enforce quality gates.
 
 ## Tasks
+
+### Frontend (zero tests → baseline)
 
 - [ ] Vitest setup for Svelte component and store testing
 - [ ] Store unit tests (conversation, session, project, settings — state transitions, reactive updates)
 - [ ] Component tests for critical UI (ConversationView, ToolApprovalDialog, SessionDropdown)
 - [ ] IPC contract tests — verify invoke calls match actual Tauri commands
 
-## Context
+### Backend (465 tests → measured coverage)
 
-This epic addresses a need identified during project development.
+- [ ] Set up cargo tarpaulin for coverage measurement
+- [ ] Identify and fill coverage gaps in untested command modules (per EPIC-057 findings)
+- [ ] Add integration tests for cross-module flows (artifact graph, search, streaming)
+
+### Coverage infrastructure
+
+- [ ] Coverage reporting in CI (tarpaulin JSON + Vitest JSON output)
+- [ ] Coverage threshold enforcement in pre-commit or make targets
+- [ ] Document coverage targets and measurement approach
 
 ## Implementation Design
 
-Implementation approach to be defined during planning.
+Implementation approach to be defined during planning. See [IDEA-086](IDEA-086) for the longer-term vision of coverage enforcement as a plugin/integrity check.

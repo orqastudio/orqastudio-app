@@ -12,18 +12,9 @@ pub fn maybe_auto_title(
     session_id: i64,
     on_event: &tauri::ipc::Channel<StreamEvent>,
 ) {
-    use crate::domain::message::MessageRole;
-    use crate::repo::{message_repo, session_repo};
+    use crate::repo::message_repo;
 
-    let needs_title = match state.db.conn.lock() {
-        Ok(db) => match session_repo::get(&db, session_id) {
-            Ok(session) => session.title.is_none() && !session.title_manually_set,
-            Err(_) => false,
-        },
-        Err(_) => false,
-    };
-
-    if !needs_title {
+    if !session_needs_title(state, session_id) {
         return;
     }
 
@@ -35,7 +26,43 @@ pub fn maybe_auto_title(
         Err(_) => return,
     };
 
-    let message_summaries: Vec<crate::sidecar::types::MessageSummary> = messages
+    let summaries = build_message_summaries(&messages);
+    if summaries.is_empty() {
+        return;
+    }
+
+    let request = SidecarRequest::GenerateSummary {
+        session_id,
+        messages: summaries,
+    };
+    if state.sidecar.manager.send(&request).is_err() {
+        tracing::warn!("[stream] failed to send GenerateSummary request");
+        return;
+    }
+
+    handle_summary_response(state, session_id, on_event);
+}
+
+/// Check whether a session needs an auto-generated title.
+fn session_needs_title(state: &tauri::State<'_, AppState>, session_id: i64) -> bool {
+    use crate::repo::session_repo;
+
+    match state.db.conn.lock() {
+        Ok(db) => match session_repo::get(&db, session_id) {
+            Ok(session) => session.title.is_none() && !session.title_manually_set,
+            Err(_) => false,
+        },
+        Err(_) => false,
+    }
+}
+
+/// Convert stored messages into sidecar `MessageSummary` values.
+fn build_message_summaries(
+    messages: &[crate::domain::message::Message],
+) -> Vec<crate::sidecar::types::MessageSummary> {
+    use crate::domain::message::MessageRole;
+
+    messages
         .iter()
         .filter_map(|m| {
             m.content
@@ -49,20 +76,16 @@ pub fn maybe_auto_title(
                     content: c.clone(),
                 })
         })
-        .collect();
+        .collect()
+}
 
-    if message_summaries.is_empty() {
-        return;
-    }
-
-    let request = SidecarRequest::GenerateSummary {
-        session_id,
-        messages: message_summaries,
-    };
-    if state.sidecar.manager.send(&request).is_err() {
-        tracing::warn!("[stream] failed to send GenerateSummary request");
-        return;
-    }
+/// Read and apply the sidecar summary response.
+fn handle_summary_response(
+    state: &tauri::State<'_, AppState>,
+    session_id: i64,
+    on_event: &tauri::ipc::Channel<StreamEvent>,
+) {
+    use crate::repo::session_repo;
 
     match state.sidecar.manager.read_line() {
         Ok(Some(SidecarResponse::SummaryResult { summary, .. })) => {

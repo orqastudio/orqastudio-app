@@ -354,47 +354,13 @@ fn scan_recursive_nodes(dir: &Path, current_path: &str) -> Result<Vec<DocNode>, 
         let entry_path = entry.path();
 
         if entry_path.is_file() {
-            if !name.ends_with(".md") {
-                continue;
+            if let Some(node) = build_file_node(&entry_path, &name, current_path) {
+                file_nodes.push(node);
             }
-            let content = std::fs::read_to_string(&entry_path).unwrap_or_default();
-            let (_, title, status, description) = extract_basic_frontmatter(&content);
-            let stem = name.trim_end_matches(".md");
-            let label = title.unwrap_or_else(|| humanize_name(stem));
-            let frontmatter = extract_full_frontmatter(&content);
-            file_nodes.push(DocNode {
-                label,
-                path: Some(format!("{current_path}/{stem}.md")),
-                children: None,
-                frontmatter,
-                status,
-                description,
-                icon: None,
-            });
         } else if entry_path.is_dir() {
-            let child_path = format!("{current_path}/{name}");
-            let children = scan_recursive_nodes(&entry_path, &child_path)?;
-            if children.is_empty() {
-                // Skip directories with no .md content anywhere inside.
-                continue;
+            if let Some(node) = build_dir_node(&entry_path, &name, current_path)? {
+                dir_nodes.push(node);
             }
-            // Enrich the directory node with README frontmatter if present.
-            let dir_readme = read_readme_frontmatter(&entry_path);
-            let dir_label = dir_readme
-                .as_ref()
-                .and_then(|fm| fm.label.clone())
-                .unwrap_or_else(|| humanize_name(&name));
-            let dir_description = dir_readme.as_ref().and_then(|fm| fm.description.clone());
-            let dir_icon = dir_readme.as_ref().and_then(|fm| fm.icon.clone());
-            dir_nodes.push(DocNode {
-                label: dir_label,
-                path: None,
-                children: Some(children),
-                frontmatter: None,
-                status: None,
-                description: dir_description,
-                icon: dir_icon,
-            });
         }
     }
 
@@ -405,6 +371,56 @@ fn scan_recursive_nodes(dir: &Path, current_path: &str) -> Result<Vec<DocNode>, 
     let mut nodes = dir_nodes;
     nodes.extend(file_nodes);
     Ok(nodes)
+}
+
+/// Build a `DocNode` for a markdown file entry, returning `None` for non-`.md` files.
+fn build_file_node(entry_path: &Path, name: &str, current_path: &str) -> Option<DocNode> {
+    if !name.to_ascii_lowercase().ends_with(".md") {
+        return None;
+    }
+    let content = std::fs::read_to_string(entry_path).unwrap_or_default();
+    let (_, title, status, description) = extract_basic_frontmatter(&content);
+    let stem = name.trim_end_matches(".md");
+    let label = title.unwrap_or_else(|| humanize_name(stem));
+    let frontmatter = extract_full_frontmatter(&content);
+    Some(DocNode {
+        label,
+        path: Some(format!("{current_path}/{stem}.md")),
+        children: None,
+        frontmatter,
+        status,
+        description,
+        icon: None,
+    })
+}
+
+/// Build a `DocNode` for a subdirectory, returning `None` if it has no `.md` content.
+fn build_dir_node(
+    entry_path: &Path,
+    name: &str,
+    current_path: &str,
+) -> Result<Option<DocNode>, OrqaError> {
+    let child_path = format!("{current_path}/{name}");
+    let children = scan_recursive_nodes(entry_path, &child_path)?;
+    if children.is_empty() {
+        return Ok(None);
+    }
+    let dir_readme = read_readme_frontmatter(entry_path);
+    let dir_label = dir_readme
+        .as_ref()
+        .and_then(|fm| fm.label.clone())
+        .unwrap_or_else(|| humanize_name(name));
+    let dir_description = dir_readme.as_ref().and_then(|fm| fm.description.clone());
+    let dir_icon = dir_readme.as_ref().and_then(|fm| fm.icon.clone());
+    Ok(Some(DocNode {
+        label: dir_label,
+        path: None,
+        children: Some(children),
+        frontmatter: None,
+        status: None,
+        description: dir_description,
+        icon: dir_icon,
+    }))
 }
 
 // ---------------------------------------------------------------------------

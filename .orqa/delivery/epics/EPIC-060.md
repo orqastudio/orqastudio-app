@@ -152,6 +152,7 @@ Each issue row: artifact ID (clickable → navigates to artifact), message, seve
 | [TASK-395](TASK-395) | Graph health snapshot storage and trend sparklines | 4 | [TASK-390](TASK-390) |
 | [TASK-400](TASK-400) | Integrity check: delivered ideas must have research-needed resolved | 1 | [TASK-390](TASK-390) |
 | [TASK-401](TASK-401) | Audit integrity checking system for coverage gaps | 1 | [TASK-400](TASK-400) |
+| [TASK-402](TASK-402) | Implement 7 high-priority integrity checks from audit | 1 | [TASK-401](TASK-401) |
 | [TASK-397](TASK-397) | Reconcile [EPIC-060](EPIC-060) | — | all above |
 
 ## Out of Scope

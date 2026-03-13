@@ -68,8 +68,37 @@ pub fn start<R: Runtime>(
         ));
     }
 
-    let orqa_dir_for_closure = orqa_dir.clone();
-    let mut debouncer = new_debouncer(
+    let mut debouncer = create_debouncer(app, &orqa_dir)?;
+
+    // Watch recursively so nested directories (planning/, governance/, …) are covered.
+    debouncer
+        .watch(&orqa_dir, RecursiveMode::Recursive)
+        .map_err(|e| format!("failed to watch {}: {e}", orqa_dir.display()))?;
+
+    let mut guard = shared
+        .lock()
+        .map_err(|e| format!("watcher lock poisoned: {e}"))?;
+
+    // Dropping the previous handle stops the old watcher automatically.
+    *guard = Some(WatcherHandle {
+        _debouncer: debouncer,
+    });
+
+    tracing::info!("[watcher] watching {} for changes", orqa_dir.display());
+
+    Ok(())
+}
+
+/// Create a debounced file watcher that emits Tauri events on relevant `.orqa/` changes.
+fn create_debouncer<R: Runtime>(
+    app: AppHandle<R>,
+    orqa_dir: &Path,
+) -> Result<
+    notify_debouncer_full::Debouncer<notify::RecommendedWatcher, notify_debouncer_full::RecommendedCache>,
+    String,
+> {
+    let orqa_dir_for_closure = orqa_dir.to_path_buf();
+    new_debouncer(
         Duration::from_millis(500),
         None,
         move |result: Result<Vec<notify_debouncer_full::DebouncedEvent>, Vec<notify::Error>>| {
@@ -83,9 +112,6 @@ pub fn start<R: Runtime>(
                 }
             };
 
-            // Only react when at least one event involves a .md file that is
-            // not inside a hidden sub-directory of `.orqa/` (i.e. a path
-            // component *inside* `.orqa/` starting with `.` or `_`).
             let has_relevant_change = events.iter().any(|evt| {
                 evt.paths
                     .iter()
@@ -96,44 +122,26 @@ pub fn start<R: Runtime>(
                 return;
             }
 
-            // Invalidate the cached artifact graph so the next query rebuilds it.
-            if let Some(state) = app.try_state::<crate::state::AppState>() {
-                if let Ok(mut graph) = state.artifacts.graph.lock() {
-                    *graph = None;
-                }
-            }
-
-            // Emit signals — one for the nav-tree, one for the Artifact Graph SDK.
-            if let Err(e) = app.emit(ARTIFACT_CHANGED_EVENT, ()) {
-                tracing::warn!("[watcher] failed to emit artifact-changed event: {e}");
-            }
-            if let Err(e) = app.emit(ARTIFACT_GRAPH_UPDATED_EVENT, ()) {
-                tracing::warn!("[watcher] failed to emit artifact-graph-updated event: {e}");
-            }
+            invalidate_and_emit(&app);
         },
     )
-    .map_err(|e| format!("failed to create debouncer: {e}"))?;
+    .map_err(|e| format!("failed to create debouncer: {e}"))
+}
 
-    // Watch recursively so nested directories (planning/, governance/, …) are covered.
-    // `Debouncer` itself implements `Watcher` in notify-debouncer-full 0.6+.
-    debouncer
-        .watch(&orqa_dir, RecursiveMode::Recursive)
-        .map_err(|e| format!("failed to watch {}: {e}", orqa_dir.display()))?;
+/// Invalidate the cached artifact graph and emit change events to all windows.
+fn invalidate_and_emit<R: Runtime>(app: &AppHandle<R>) {
+    if let Some(state) = app.try_state::<crate::state::AppState>() {
+        if let Ok(mut graph) = state.artifacts.graph.lock() {
+            *graph = None;
+        }
+    }
 
-    let handle = WatcherHandle {
-        _debouncer: debouncer,
-    };
-
-    let mut guard = shared
-        .lock()
-        .map_err(|e| format!("watcher lock poisoned: {e}"))?;
-
-    // Dropping the previous handle stops the old watcher automatically.
-    *guard = Some(handle);
-
-    tracing::info!("[watcher] watching {} for changes", orqa_dir.display());
-
-    Ok(())
+    if let Err(e) = app.emit(ARTIFACT_CHANGED_EVENT, ()) {
+        tracing::warn!("[watcher] failed to emit artifact-changed event: {e}");
+    }
+    if let Err(e) = app.emit(ARTIFACT_GRAPH_UPDATED_EVENT, ()) {
+        tracing::warn!("[watcher] failed to emit artifact-graph-updated event: {e}");
+    }
 }
 
 /// Stop the active watcher, if any.

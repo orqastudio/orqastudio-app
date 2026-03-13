@@ -183,6 +183,79 @@ fn collect_injected_skills(
     }
 }
 
+/// Process enforcement verdicts and return a block message or collected injection skills.
+///
+/// Returns `Ok(skills_to_inject)` if no block occurred, or `Err(EnforcementResult)` with
+/// the block message if a verdict blocks execution.
+fn process_verdicts(
+    verdicts: &[crate::domain::enforcement::Verdict],
+    tool_label: &str,
+    context_label: &str,
+) -> Result<Vec<String>, EnforcementResult> {
+    let mut all_inject_skills: Vec<String> = Vec::new();
+    for verdict in verdicts {
+        match verdict.action {
+            RuleAction::Block => {
+                tracing::debug!(
+                    "[enforcement] BLOCK tool={tool_label} rule='{}' {context_label}",
+                    verdict.rule_name
+                );
+                return Err(EnforcementResult {
+                    block_message: Some(format!(
+                        "Rule '{}' blocked this tool call.\n\n{}",
+                        verdict.rule_name, verdict.message
+                    )),
+                    injected_content: None,
+                });
+            }
+            RuleAction::Warn => {
+                tracing::warn!(
+                    "[enforcement] WARN tool={tool_label} rule='{}' {context_label}",
+                    verdict.rule_name
+                );
+            }
+            RuleAction::Inject => {
+                tracing::debug!(
+                    "[enforcement] INJECT tool={tool_label} rule='{}' {context_label} skills={:?}",
+                    verdict.rule_name, verdict.skills
+                );
+                all_inject_skills.extend(verdict.skills.clone());
+            }
+        }
+    }
+    Ok(all_inject_skills)
+}
+
+/// Acquire the enforcement engine lock and return the guard.
+///
+/// Returns `None` (with a default `EnforcementResult`) if the lock is poisoned
+/// or the engine is not initialised.
+fn lock_enforcement_engine<'a>(
+    state: &'a tauri::State<'a, AppState>,
+) -> Option<std::sync::MutexGuard<'a, Option<crate::domain::enforcement_engine::EnforcementEngine>>> {
+    match state.enforcement.engine.lock() {
+        Ok(g) if g.is_some() => Some(g),
+        Ok(_) => None,
+        Err(e) => {
+            tracing::warn!("[enforcement] lock poisoned: {e}");
+            None
+        }
+    }
+}
+
+/// Build an `EnforcementResult` from collected skills, injecting content from disk.
+fn build_enforcement_result(
+    skills: Vec<String>,
+    state: &tauri::State<'_, AppState>,
+    project_dir: &Path,
+) -> EnforcementResult {
+    let injected_content = collect_injected_skills(&skills, state, project_dir);
+    EnforcementResult {
+        block_message: None,
+        injected_content,
+    }
+}
+
 /// Run enforcement checks for a file write/edit tool call.
 ///
 /// Returns an `EnforcementResult` with an optional block message and/or
@@ -194,67 +267,20 @@ pub fn enforce_file(
     state: &tauri::State<'_, AppState>,
     project_dir: &Path,
 ) -> EnforcementResult {
-    let guard = match state.enforcement.engine.lock() {
-        Ok(g) => g,
-        Err(e) => {
-            tracing::warn!("[enforcement] lock poisoned: {e}");
-            return EnforcementResult {
-                block_message: None,
-                injected_content: None,
-            };
-        }
+    let Some(guard) = lock_enforcement_engine(state) else {
+        return EnforcementResult { block_message: None, injected_content: None };
     };
-
     let Some(engine) = guard.as_ref() else {
-        return EnforcementResult {
-            block_message: None,
-            injected_content: None,
-        };
+        return EnforcementResult { block_message: None, injected_content: None };
     };
-
     let verdicts = engine.evaluate_file(file_path, new_text);
-    let mut all_inject_skills: Vec<String> = Vec::new();
-
-    for verdict in &verdicts {
-        match verdict.action {
-            RuleAction::Block => {
-                tracing::debug!(
-                    "[enforcement] BLOCK tool={tool_name} rule='{}' file='{file_path}'",
-                    verdict.rule_name
-                );
-                return EnforcementResult {
-                    block_message: Some(format!(
-                        "Rule '{}' blocked this tool call.\n\n{}",
-                        verdict.rule_name, verdict.message
-                    )),
-                    injected_content: None,
-                };
-            }
-            RuleAction::Warn => {
-                tracing::warn!(
-                    "[enforcement] WARN tool={tool_name} rule='{}' file='{file_path}'",
-                    verdict.rule_name
-                );
-            }
-            RuleAction::Inject => {
-                tracing::debug!(
-                    "[enforcement] INJECT tool={tool_name} rule='{}' file='{file_path}' skills={:?}",
-                    verdict.rule_name, verdict.skills
-                );
-                all_inject_skills.extend(verdict.skills.clone());
-            }
-        }
-    }
-
-    // Drop the enforcement lock before acquiring the workflow_tracker lock.
+    let context = format!("file='{file_path}'");
+    let skills = match process_verdicts(&verdicts, tool_name, &context) {
+        Ok(s) => s,
+        Err(result) => return result,
+    };
     drop(guard);
-
-    let injected_content = collect_injected_skills(&all_inject_skills, state, project_dir);
-
-    EnforcementResult {
-        block_message: None,
-        injected_content,
-    }
+    build_enforcement_result(skills, state, project_dir)
 }
 
 /// Run enforcement checks for a bash tool call.
@@ -266,68 +292,84 @@ pub fn enforce_bash(
     state: &tauri::State<'_, AppState>,
     project_dir: &Path,
 ) -> EnforcementResult {
-    let guard = match state.enforcement.engine.lock() {
-        Ok(g) => g,
-        Err(e) => {
-            tracing::warn!("[enforcement] lock poisoned: {e}");
-            return EnforcementResult {
-                block_message: None,
-                injected_content: None,
-            };
-        }
+    let Some(guard) = lock_enforcement_engine(state) else {
+        return EnforcementResult { block_message: None, injected_content: None };
     };
-
     let Some(engine) = guard.as_ref() else {
-        return EnforcementResult {
+        return EnforcementResult { block_message: None, injected_content: None };
+    };
+    let verdicts = engine.evaluate_bash(command);
+    let context = format!("command='{command}'");
+    let skills = match process_verdicts(&verdicts, "bash", &context) {
+        Ok(s) => s,
+        Err(result) => return result,
+    };
+    drop(guard);
+    build_enforcement_result(skills, state, project_dir)
+}
+
+/// Run enforcement checks for the given tool and input.
+///
+/// Returns the enforcement result for write/edit/bash tools, or
+/// a no-op result for all other tools.
+fn run_enforcement_for_tool(
+    tool_name: &str,
+    input: &serde_json::Value,
+    state: &tauri::State<'_, AppState>,
+    root: &Path,
+) -> EnforcementResult {
+    match tool_name {
+        "write_file" => {
+            let file_path = input["path"].as_str().unwrap_or("");
+            let new_text = input["content"].as_str().unwrap_or("");
+            enforce_file(tool_name, file_path, new_text, state, root)
+        }
+        "edit_file" => {
+            let file_path = input["path"].as_str().unwrap_or("");
+            let new_text = input["new_string"].as_str().unwrap_or("");
+            enforce_file(tool_name, file_path, new_text, state, root)
+        }
+        "bash" => {
+            let command = input["command"].as_str().unwrap_or("");
+            enforce_bash(command, state, root)
+        }
+        _ => EnforcementResult {
             block_message: None,
             injected_content: None,
-        };
-    };
-
-    let verdicts = engine.evaluate_bash(command);
-    let mut all_inject_skills: Vec<String> = Vec::new();
-
-    for verdict in &verdicts {
-        match verdict.action {
-            RuleAction::Block => {
-                tracing::debug!(
-                    "[enforcement] BLOCK tool=bash rule='{}' command='{command}'",
-                    verdict.rule_name
-                );
-                return EnforcementResult {
-                    block_message: Some(format!(
-                        "Rule '{}' blocked this bash command.\n\n{}",
-                        verdict.rule_name, verdict.message
-                    )),
-                    injected_content: None,
-                };
-            }
-            RuleAction::Warn => {
-                tracing::warn!(
-                    "[enforcement] WARN tool=bash rule='{}' command='{command}'",
-                    verdict.rule_name
-                );
-            }
-            RuleAction::Inject => {
-                tracing::debug!(
-                    "[enforcement] INJECT tool=bash rule='{}' command='{command}' skills={:?}",
-                    verdict.rule_name,
-                    verdict.skills
-                );
-                all_inject_skills.extend(verdict.skills.clone());
-            }
-        }
+        },
     }
+}
 
-    // Drop the enforcement lock before acquiring the workflow_tracker lock.
-    drop(guard);
-
-    let injected_content = collect_injected_skills(&all_inject_skills, state, project_dir);
-
-    EnforcementResult {
-        block_message: None,
-        injected_content,
+/// Route a tool call to the appropriate handler function.
+fn dispatch_tool(
+    tool_name: &str,
+    input: &serde_json::Value,
+    state: &tauri::State<'_, AppState>,
+    root: &Path,
+) -> (String, bool) {
+    match tool_name {
+        "read_file" => tool_read_file(input, root),
+        "write_file" => tool_write_file(input, root),
+        "edit_file" => tool_edit_file(input, root),
+        "bash" => tool_bash(input, root),
+        "glob" => tool_glob(input, root),
+        "grep" => tool_grep(input, root),
+        "search_regex" => tool_search_regex(input, state),
+        "search_semantic" => tool_search_semantic(input, state),
+        "code_research" => tool_code_research(input, state),
+        "load_skill" => tool_load_skill(input, root),
+        _ => (format!("unknown tool: {tool_name}"), true),
     }
+}
+
+/// Prepend injected skill content to a tool output string.
+fn prepend_injected_content(output: &mut String, content: String) {
+    *output = format!(
+        "[Enforcement: the following skills have been loaded for context]\n\n\
+         {content}\n\n\
+         [End of injected skills]\n\n\
+         {output}"
+    );
 }
 
 /// Dispatch a tool call to the appropriate handler.
@@ -358,55 +400,15 @@ pub fn execute_tool(
         }
     };
 
-    // Run enforcement checks before executing write/bash tools
-    let enforcement = match tool_name {
-        "write_file" => {
-            let file_path = input["path"].as_str().unwrap_or("");
-            let new_text = input["content"].as_str().unwrap_or("");
-            enforce_file(tool_name, file_path, new_text, state, &root)
-        }
-        "edit_file" => {
-            let file_path = input["path"].as_str().unwrap_or("");
-            let new_text = input["new_string"].as_str().unwrap_or("");
-            enforce_file(tool_name, file_path, new_text, state, &root)
-        }
-        "bash" => {
-            let command = input["command"].as_str().unwrap_or("");
-            enforce_bash(command, state, &root)
-        }
-        _ => EnforcementResult {
-            block_message: None,
-            injected_content: None,
-        },
-    };
-
+    let enforcement = run_enforcement_for_tool(tool_name, &input, state, &root);
     if let Some(msg) = enforcement.block_message {
         return (msg, true);
     }
 
-    let (mut output, is_error) = match tool_name {
-        "read_file" => tool_read_file(&input, &root),
-        "write_file" => tool_write_file(&input, &root),
-        "edit_file" => tool_edit_file(&input, &root),
-        "bash" => tool_bash(&input, &root),
-        "glob" => tool_glob(&input, &root),
-        "grep" => tool_grep(&input, &root),
-        "search_regex" => tool_search_regex(&input, state),
-        "search_semantic" => tool_search_semantic(&input, state),
-        "code_research" => tool_code_research(&input, state),
-        "load_skill" => tool_load_skill(&input, &root),
-        _ => (format!("unknown tool: {tool_name}"), true),
-    };
+    let (mut output, is_error) = dispatch_tool(tool_name, &input, state, &root);
 
-    // Prepend injected skill content to the tool output so the agent
-    // receives the relevant skill knowledge alongside the tool result.
     if let Some(content) = enforcement.injected_content {
-        output = format!(
-            "[Enforcement: the following skills have been loaded for context]\n\n\
-             {content}\n\n\
-             [End of injected skills]\n\n\
-             {output}"
-        );
+        prepend_injected_content(&mut output, content);
     }
 
     tracing::debug!(
@@ -569,16 +571,62 @@ fn kill_process_tree(pid: u32) {
     }
 }
 
+/// Maximum time a bash command is allowed to run before being killed.
+const BASH_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(120);
+
+/// Maximum bytes to read from stdout/stderr each to prevent OOM.
+const MAX_PIPE_BYTES: usize = 512_000;
+
+/// Spawn a background thread that reads from a pipe into a string (capped).
+fn spawn_pipe_reader(
+    pipe: Option<std::process::ChildStdout>,
+) -> std::thread::JoinHandle<String> {
+    use std::io::Read;
+    std::thread::spawn(move || {
+        let mut buf = String::new();
+        if let Some(p) = pipe {
+            let _ = p.take(MAX_PIPE_BYTES as u64).read_to_string(&mut buf);
+        }
+        buf
+    })
+}
+
+/// Spawn a background thread that reads from a stderr pipe into a string (capped).
+fn spawn_stderr_reader(
+    pipe: Option<std::process::ChildStderr>,
+) -> std::thread::JoinHandle<String> {
+    use std::io::Read;
+    std::thread::spawn(move || {
+        let mut buf = String::new();
+        if let Some(p) = pipe {
+            let _ = p.take(MAX_PIPE_BYTES as u64).read_to_string(&mut buf);
+        }
+        buf
+    })
+}
+
+/// Combine stdout and stderr into a single result string.
+fn assemble_bash_output(stdout: String, stderr: String) -> String {
+    let mut result = String::new();
+    if !stdout.is_empty() {
+        result.push_str(&stdout);
+    }
+    if !stderr.is_empty() {
+        if !result.is_empty() {
+            result.push('\n');
+        }
+        result.push_str("STDERR:\n");
+        result.push_str(&stderr);
+    }
+    if result.is_empty() {
+        result.push_str("(no output)");
+    }
+    result
+}
+
 /// Execute a bash command in the project root.
 pub fn tool_bash(input: &serde_json::Value, root: &Path) -> (String, bool) {
-    use std::io::Read;
     use std::process::Stdio;
-
-    /// Maximum time a bash command is allowed to run before being killed.
-    const BASH_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(120);
-
-    /// Maximum bytes to read from stdout/stderr each to prevent OOM.
-    const MAX_PIPE_BYTES: usize = 512_000;
 
     let Some(command) = input["command"].as_str() else {
         return ("missing 'command' parameter".to_string(), true);
@@ -596,65 +644,24 @@ pub fn tool_bash(input: &serde_json::Value, root: &Path) -> (String, bool) {
         Err(e) => return (format!("failed to execute bash: {e}"), true),
     };
 
-    // Take stdout/stderr handles BEFORE waiting — reading the pipes
-    // concurrently with the child process prevents pipe-buffer deadlocks
-    // (child blocks writing when the OS pipe buffer is full).
-    let stdout_pipe = child.stdout.take();
-    let stderr_pipe = child.stderr.take();
+    let stdout_handle = spawn_pipe_reader(child.stdout.take());
+    let stderr_handle = spawn_stderr_reader(child.stderr.take());
     let child_id = child.id();
 
-    // Read stdout in a background thread (capped to prevent OOM)
-    let stdout_handle = std::thread::spawn(move || {
-        let mut buf = String::new();
-        if let Some(pipe) = stdout_pipe {
-            let _ = pipe.take(MAX_PIPE_BYTES as u64).read_to_string(&mut buf);
-        }
-        buf
-    });
-
-    // Read stderr in a background thread (capped to prevent OOM)
-    let stderr_handle = std::thread::spawn(move || {
-        let mut buf = String::new();
-        if let Some(pipe) = stderr_pipe {
-            let _ = pipe.take(MAX_PIPE_BYTES as u64).read_to_string(&mut buf);
-        }
-        buf
-    });
-
-    // Wait for the child with timeout
     let (tx, rx) = mpsc::channel();
     std::thread::spawn(move || {
-        let result = child.wait();
-        let _ = tx.send(result);
+        let _ = tx.send(child.wait());
     });
 
     match rx.recv_timeout(BASH_TIMEOUT) {
         Ok(Ok(status)) => {
             let stdout = stdout_handle.join().unwrap_or_default();
             let stderr = stderr_handle.join().unwrap_or_default();
-
-            let mut result = String::new();
-            if !stdout.is_empty() {
-                result.push_str(&stdout);
-            }
-            if !stderr.is_empty() {
-                if !result.is_empty() {
-                    result.push('\n');
-                }
-                result.push_str("STDERR:\n");
-                result.push_str(&stderr);
-            }
-            if result.is_empty() {
-                result.push_str("(no output)");
-            }
-            let is_error = !status.success();
-            (result, is_error)
+            (assemble_bash_output(stdout, stderr), !status.success())
         }
         Ok(Err(e)) => (format!("failed to wait on bash process: {e}"), true),
         Err(_) => {
-            // Timed out — kill the process tree
             kill_process_tree(child_id);
-            // Join the reader threads so they don't leak
             let _ = stdout_handle.join();
             let _ = stderr_handle.join();
             (
@@ -841,6 +848,66 @@ pub fn tool_search_semantic(
     }
 }
 
+/// Run semantic search and append results to the output buffer.
+///
+/// Returns `Err` with the error tuple if the search lock cannot be acquired.
+fn append_semantic_results(
+    query: &str,
+    max_results: u32,
+    state: &tauri::State<'_, AppState>,
+    out: &mut String,
+) -> Result<(), (String, bool)> {
+    let mut guard = state
+        .search
+        .engine
+        .lock()
+        .map_err(|e| (format!("search lock error: {e}"), true))?;
+    if let Some(engine) = guard.as_mut() {
+        match engine.search_semantic(query, max_results) {
+            Ok(results) if !results.is_empty() => {
+                out.push_str("## Semantic Matches\n\n");
+                out.push_str(&format_search_results(&results));
+                out.push('\n');
+            }
+            Ok(_) => {}
+            Err(e) => {
+                let _ = write!(out, "(semantic search unavailable: {e})\n\n");
+            }
+        }
+    }
+    Ok(())
+}
+
+/// Run regex search and append results to the output buffer.
+///
+/// Returns `Err` with the error tuple if the search lock cannot be acquired.
+fn append_regex_results(
+    query: &str,
+    max_results: u32,
+    state: &tauri::State<'_, AppState>,
+    out: &mut String,
+) -> Result<(), (String, bool)> {
+    let guard = state
+        .search
+        .engine
+        .lock()
+        .map_err(|e| (format!("search lock error: {e}"), true))?;
+    if let Some(engine) = guard.as_ref() {
+        let escaped = regex::escape(query);
+        match engine.search_regex(&escaped, None, max_results) {
+            Ok(results) if !results.is_empty() => {
+                out.push_str("## Regex Matches\n\n");
+                out.push_str(&format_search_results(&results));
+            }
+            Ok(_) => {}
+            Err(e) => {
+                let _ = write!(out, "(regex search unavailable: {e})\n\n");
+            }
+        }
+    }
+    Ok(())
+}
+
 /// Combined code research: runs both regex and semantic search, merging results.
 ///
 /// Accepts a `query` string and optional `max_results`. The query is used as-is
@@ -856,59 +923,18 @@ pub fn tool_code_research(
     let max_results = input["max_results"]
         .as_u64()
         .map_or(10, |n| n as u32);
-
     let half = max_results / 2 + 1;
     let mut out = String::new();
 
-    // Semantic results (best for natural language queries)
-    {
-        let mut search_guard = match state.search.engine.lock() {
-            Ok(g) => g,
-            Err(e) => return (format!("search lock error: {e}"), true),
-        };
-        if let Some(engine) = search_guard.as_mut() {
-            match engine.search_semantic(query, half) {
-                Ok(results) => {
-                    if !results.is_empty() {
-                        out.push_str("## Semantic Matches\n\n");
-                        out.push_str(&format_search_results(&results));
-                        out.push('\n');
-                    }
-                }
-                Err(e) => {
-                    let _ = write!(out, "(semantic search unavailable: {e})\n\n");
-                }
-            }
-        }
+    if let Err(e) = append_semantic_results(query, half, state, &mut out) {
+        return e;
     }
-
-    // Regex results (best for exact identifiers)
-    {
-        let search_guard = match state.search.engine.lock() {
-            Ok(g) => g,
-            Err(e) => return (format!("search lock error: {e}"), true),
-        };
-        if let Some(engine) = search_guard.as_ref() {
-            let escaped = regex::escape(query);
-            match engine.search_regex(&escaped, None, half) {
-                Ok(results) => {
-                    if !results.is_empty() {
-                        out.push_str("## Regex Matches\n\n");
-                        out.push_str(&format_search_results(&results));
-                    }
-                }
-                Err(e) => {
-                    let _ = write!(out, "(regex search unavailable: {e})\n\n");
-                }
-            }
-        }
+    if let Err(e) = append_regex_results(query, half, state, &mut out) {
+        return e;
     }
 
     if out.is_empty() {
-        (
-            "search index not initialized — index the codebase first".to_string(),
-            true,
-        )
+        ("search index not initialized — index the codebase first".to_string(), true)
     } else if out.trim().is_empty() || (out.contains("unavailable") && !out.contains("Matches")) {
         ("no results found".to_string(), false)
     } else {
