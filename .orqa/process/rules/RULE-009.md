@@ -123,6 +123,21 @@ In CLI context, frontend changes have no effect on the CLI session.
 - Dogfood projects cannot preview themselves (you can't render yourself inside yourself)
 - When preview tooling is added in the future, it should be disabled for dogfood projects
 
+## Enforcement Gap Priority (NON-NEGOTIABLE)
+
+When `dogfood: true`, the product enforces structured thinking through governance artifacts, rules, and pipeline automation. If the product's own governance has enforcement gaps, the product is not credible.
+
+**Any discovered enforcement gap is immediately CRITICAL.** It is never deferred, never scoped out, never "addressed in a future epic." When a gap is spotted — a rule with no mechanical enforcement, an AD with no enforcement chain, a pillar gate question with no tooling — it becomes an immediate task.
+
+This applies to:
+- Rules that exist but nothing mechanically checks them
+- Architecture decisions that are accepted but no rule enforces them
+- Pillar gate questions that can't be answered by current tooling
+- Lessons that recur but haven't been promoted to enforcement
+- Pipeline stage transitions that have no automation
+
+The orchestrator must not wait for the next planning cycle to address enforcement gaps. When spotted during any work, they are captured as CRITICAL tasks and prioritized above feature work.
+
 ## Detection
 
 Check `.orqa/project.json` for `"dogfood": true` at task start. **Context detection**: if the system prompt contains dogfood injection text, you are in app context. Otherwise you are in CLI context. When in doubt, assume CLI.

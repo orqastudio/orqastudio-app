@@ -2,7 +2,7 @@
 id: IDEA-064
 title: "Pipeline dashboard — thread visualization and flow analysis"
 description: "Dashboard rendering emergent threads by traversing relationships, showing bottleneck detection (stuck observations, disconnected enforcement), flow direction analysis (forwards vs backwards pipeline), and verification audit trails."
-status: captured
+status: promoted
 created: "2026-03-12"
 updated: "2026-03-12"
 pillars: [PILLAR-001, PILLAR-002]
@@ -11,7 +11,7 @@ research-needed:
   - "Bottleneck detection signals — what queries surface stuck/disconnected/backwards flow"
   - "Dashboard UX design — how to make pipeline health visible at a glance"
   - "Unresolved tension display (null targets with intended=false)"
-promoted-to: null
+promoted-to: EPIC-060
 ---
 
 ## Motivation

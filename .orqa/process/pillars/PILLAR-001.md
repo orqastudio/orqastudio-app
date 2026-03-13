@@ -10,6 +10,7 @@ gate:
   - Does it produce structured knowledge (plans, decisions, rules)?
   - Does it enforce a workflow that ensures understanding precedes action?
   - Does it surface what would otherwise be hidden in files, terminal output, or people's heads?
+  - Does the system mechanically enforce its own structural rules?
 relationships:
   - type: grounded-by
     target: RULE-001

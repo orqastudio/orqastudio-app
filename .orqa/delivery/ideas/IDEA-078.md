@@ -2,7 +2,7 @@
 id: IDEA-078
 title: "Auto-fix null relationship targets by scanning for tracking artifacts"
 description: "When the integrity tool finds null relationship targets, it should scan for related IDEAs/TASKs/EPICs that could be the intended target and either auto-fix or suggest linkages. Currently null targets are only reported as warnings requiring manual resolution."
-status: captured
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 pillars:
@@ -12,7 +12,7 @@ research-needed:
   - "What heuristics reliably match a null-target relationship to its tracking artifact? (keyword matching on rationale text, shared relationship edges, same epic scope?)"
   - "Should the tool auto-fix with a confirmation prompt, or just suggest candidates?"
   - "Should this extend to other integrity issues (broken links, missing inverses) or only null targets?"
-promoted-to: null
+promoted-to: EPIC-060
 ---
 
 ## Motivation

@@ -10,6 +10,7 @@ gate:
   - Does it track metrics or outcomes that show improvement (or regression)?
   - Does it feed retrospectives back into the governance framework?
   - Does it accumulate knowledge across sessions so each cycle starts from a better position?
+  - Are discovered enforcement gaps acted on immediately, not deferred?
 relationships:
   - type: grounded-by
     target: RULE-009
