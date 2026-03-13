@@ -4,7 +4,8 @@ title: Unified Search Tool with Flexible Parameters
 description: Combine the app's three search tools (search_regex, search_semantic, code_research) into a single flexible Search tool that accepts different parameters to control search mode, scope, and output format.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

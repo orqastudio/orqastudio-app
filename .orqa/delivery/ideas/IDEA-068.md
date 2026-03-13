@@ -5,6 +5,8 @@ description: "Tooling that reads artifacts, analyses content against other artif
 status: shaped
 created: "2026-03-12"
 updated: "2026-03-13"
+horizon: active
+milestone: MS-001
 pillars: [PILLAR-001]
 research-needed:
   - "Should this be a CLI skill, a script, or an app feature?"

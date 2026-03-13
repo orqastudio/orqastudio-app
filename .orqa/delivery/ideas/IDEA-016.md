@@ -5,7 +5,8 @@ description: |
   Active structured reflection support with AI-facilitated retrospectives, assumption challenges, and PILLAR-002 cycle detection.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-002
 research-needed:

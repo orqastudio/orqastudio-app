@@ -5,6 +5,7 @@ description: "Implement the plugin type taxonomy, AI provider schema, capability
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: later
 pillars: [PILLAR-001, PILLAR-002]
 research-needed:
   - "Detailed plugin.json schema with type array, requires shape per type, default-capabilities"

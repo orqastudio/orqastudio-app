@@ -4,7 +4,8 @@ title: Tool-Linked Skills — Documentation Per Tool with UI Integration
 description: Every tool in OrqaStudio should have a companion skill that documents how to use it effectively. The UI tool list should link directly to the tool's skill, making tool documentation discoverable and actionable.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
   - PILLAR-002

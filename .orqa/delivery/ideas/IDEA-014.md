@@ -5,7 +5,8 @@ description: |
   Dedicated workflows for transforming unstructured situations into structured understanding through brain-dump flows and AI-driven triage.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

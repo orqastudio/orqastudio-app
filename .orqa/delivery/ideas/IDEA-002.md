@@ -5,7 +5,8 @@ description: |
   Move governance from .claude/-specific format to generic .orqa/process/ with environment-specific adapters.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

@@ -4,7 +4,8 @@ title: Security Audit — Prompt Injection and Encoded Asset Protection
 description: Comprehensive security audit covering prompt injection attack vectors, encoded asset vulnerabilities, and defense mechanisms. Protect against malicious content in governance artifacts, tool outputs, and user inputs that could manipulate AI agent behavior.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

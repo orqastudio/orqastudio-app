@@ -5,7 +5,8 @@ description: |
   Make the epic scoring/prioritisation system configurable per project — custom dimensions, formulas, and priority bands — with the ability to disable scoring entirely for projects that don't need it.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

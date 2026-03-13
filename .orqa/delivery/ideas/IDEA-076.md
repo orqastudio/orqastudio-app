@@ -5,6 +5,8 @@ description: "Bugs and UI tweaks often don't relate to any epic but still need t
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
   - PILLAR-003

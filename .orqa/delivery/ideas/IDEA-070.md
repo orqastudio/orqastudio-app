@@ -5,6 +5,7 @@ description: "Show users whether lesson creation is trending up or down over tim
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: later
 pillars: [PILLAR-002]
 research-needed:
   - "What metrics best represent learning pipeline health? (lessons/epic, lessons/week, recurrence velocity)"

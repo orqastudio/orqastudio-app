@@ -5,6 +5,8 @@ description: "A structured protocol for design discussions that enforces: sequen
 status: shaped
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: active
+milestone: MS-001
 pillars: [PILLAR-001, PILLAR-002]
 research-needed:
   - "Should this be a skill (protocol the orchestrator loads), a mode (like plan mode), or an automatic behaviour?"

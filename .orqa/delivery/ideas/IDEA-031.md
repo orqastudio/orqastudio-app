@@ -5,7 +5,9 @@ description: |
   Watch the .orqa/ directory for file changes and automatically invalidate the artifact navigation tree and viewer cache so the UI stays current without requiring a hard refresh.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
 research-needed:

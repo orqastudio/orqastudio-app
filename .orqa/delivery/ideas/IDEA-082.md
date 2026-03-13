@@ -5,6 +5,8 @@ description: "Move session state from tmp/session-state.md into the .orqa/ direc
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-003
   - PILLAR-001

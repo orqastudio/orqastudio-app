@@ -4,7 +4,8 @@ title: Artifact Relationships Tab Panel
 description: Add a relationships tab to the artifact detail view that visualises how the current artifact connects to other artifacts — showing inbound and outbound references as an interactive graph or structured list, powered by the Artifact Graph SDK.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

@@ -4,7 +4,8 @@ title: "Reframing as a product feature"
 description: "The AI should offer alternative perspectives when users are making decisions — like a therapist reframing questions. Encode this as an AI behaviour and domain-specific skills."
 status: captured
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
+horizon: someday
 pillars: [PILLAR-002]
 research-needed:
   - "When should the AI offer to reframe vs just answer the question?"

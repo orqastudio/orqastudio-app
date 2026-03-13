@@ -5,7 +5,8 @@ description: |
   Allow users to open artifacts in separate tabs within the app window, so multiple artifacts can be viewed and compared without losing context. The chat session remains pinned and global — tabs only affect the navigation and viewer panes.
 status: captured
 created: "2026-03-10"
-updated: "2026-03-10"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

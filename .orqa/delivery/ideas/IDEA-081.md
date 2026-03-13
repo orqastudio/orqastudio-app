@@ -5,6 +5,7 @@ description: "Small local-run ONNX fine-tuned LLM that pre-processes user prompt
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-003
   - PILLAR-002

@@ -5,6 +5,8 @@ description: A persistent Node process that owns the entire dev lifecycle — sp
 status: exploring
 created: 2026-03-10
 updated: 2026-03-11
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
   - PILLAR-002

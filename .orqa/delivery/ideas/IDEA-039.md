@@ -4,7 +4,8 @@ title: Local Model Support and Democratised AI Development
 description: Explore running OrqaStudio with cheaper local models once the structured thinking foundation is mature enough, reducing dependency on expensive cloud subscriptions and democratising AI-assisted development.
 status: captured
 created: "2026-03-10"
-updated: "2026-03-10"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
   - PILLAR-002

@@ -5,7 +5,8 @@ description: |
   Make AI conversations smarter over time with summarisation, context-aware suggestions, session branching, and proactive PILLAR-002.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-002
 research-needed:

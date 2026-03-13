@@ -4,7 +4,8 @@ title: "Project initialization — tooling detection and plugin suggestion"
 description: "During project setup, detect existing tooling (automated scan + user interview), suggest verification plugins, recommend options if none exist. Mature plugin system could offer to generate plugins automatically."
 status: captured
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
+horizon: later
 pillars: [PILLAR-001]
 research-needed:
   - "Extend project-inference skill to detect linters, monitoring tools, CI/CD"

@@ -5,6 +5,8 @@ description: "Clicking save in the OrqaStudio app UI can overwrite a valid proje
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
 research-needed:

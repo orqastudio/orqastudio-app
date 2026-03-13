@@ -5,6 +5,8 @@ description: "A session-level scratchpad that tracks things the agent knows it n
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars: [PILLAR-001, PILLAR-002]
 research-needed:
   - "What belongs in the session tasklist — pending artifact creation, outstanding epic tasks, or both?"

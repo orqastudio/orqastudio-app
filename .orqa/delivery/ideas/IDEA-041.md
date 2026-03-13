@@ -4,7 +4,9 @@ title: Centralised error surfacing to the frontend
 description: Ensure all backend errors, failed invokes, and silent promise rejections are surfaced visibly to the user. No error should be silently swallowed — every failure should either appear in a toast, status indicator, or error panel.
 status: captured
 created: "2026-03-10"
-updated: "2026-03-10"
+updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
   - PILLAR-002

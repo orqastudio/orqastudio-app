@@ -5,6 +5,8 @@ description: "The frontend should hold the full artifact graph in a Svelte store
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
   - PILLAR-002

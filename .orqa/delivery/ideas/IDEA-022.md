@@ -5,7 +5,8 @@ description: |
   Expand beyond desktop with web companion, mobile companion, API access, and CLI companion.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

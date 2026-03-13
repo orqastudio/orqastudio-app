@@ -6,6 +6,8 @@ description: |
 status: shaped
 created: "2026-03-09"
 updated: "2026-03-13"
+horizon: active
+milestone: MS-001
 pillars:
   - PILLAR-001
   - PILLAR-002

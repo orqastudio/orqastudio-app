@@ -4,7 +4,8 @@ title: Plugin-Based Tool Architecture
 description: Redesign the tool system so tools are implemented as plugins rather than hardcoded Rust functions — enabling user-created tools, community tool packs, and dynamic tool registration without app rebuilds.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

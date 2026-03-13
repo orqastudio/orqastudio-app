@@ -4,7 +4,8 @@ title: "Plugin architecture for verification data collection"
 description: "Plugins that provide skill + hooks + data collection for enforcement tooling. Each plugin closes the enforcement-verification loop: the same plugin that enforces also provides metrics for automated verification."
 status: captured
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
+horizon: later
 pillars: [PILLAR-001, PILLAR-002]
 research-needed:
   - "Plugin data collection API design — how plugins expose metrics endpoints"

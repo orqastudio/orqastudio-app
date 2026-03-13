@@ -5,7 +5,8 @@ description: |
   Redesign the chat input area so the textarea fills the entire chat footer region. Action buttons, character count, model indicator, and other metadata are absolutely positioned over or around the input, reducing visual clutter and making the input feel spacious rather than cramped.
 status: captured
 created: "2026-03-10"
-updated: "2026-03-10"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

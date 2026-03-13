@@ -4,7 +4,9 @@ title: "OrqaDev Companion App + In-App Debug Overlay"
 description: "Replace the dev dashboard HTML page with a pure SSE endpoint, build a dedicated OrqaDev companion app that consumes the feed, and add an optional in-app debug overlay that subscribes to the same stream."
 status: captured
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-001
 research-needed:

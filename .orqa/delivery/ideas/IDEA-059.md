@@ -5,6 +5,8 @@ description: "Extract shared components into an importable SDK so plugins can cr
 status: shaped
 created: "2026-03-12"
 updated: "2026-03-13"
+horizon: active
+milestone: MS-001
 pillars: [PILLAR-001]
 research-needed:
   - "Which components should be in the SDK vs remain internal?"

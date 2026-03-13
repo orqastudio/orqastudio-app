@@ -5,6 +5,7 @@ description: An official plugins repository under the GitHub org that embeds eac
 status: shaped
 created: "2026-03-10"
 updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

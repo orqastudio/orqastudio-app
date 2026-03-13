@@ -4,7 +4,9 @@ title: Identifiable app processes in task manager
 description: Make OrqaStudio's spawned processes (Tauri app, Vite dev server, sidecar, cargo builds) easily identifiable in the OS task manager so developers can quickly find and kill them when needed.
 status: captured
 created: "2026-03-10"
-updated: "2026-03-10"
+updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars:
   - PILLAR-002
 research-needed:

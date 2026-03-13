@@ -5,7 +5,8 @@ description: |
   New artifact generation modules for different domains including service design, policy development, and research planning.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

@@ -5,7 +5,8 @@ description: |
   Multi-user support for the PILLAR-001 engine with shared projects, role-based access, and structured handoff protocols.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

@@ -5,6 +5,7 @@ description: "Create a logger library for each language (Rust, TypeScript/Svelte
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-002
   - PILLAR-003

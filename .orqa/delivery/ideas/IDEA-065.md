@@ -4,7 +4,8 @@ title: "Friction is the feature — evaluate as foundational principle or pillar
 description: "The purposeful friction of mandatory relationships (forcing connection to purpose before creation) may be significant enough to become a pillar. AI makes the friction nearly free, but the friction itself is non-negotiable."
 status: captured
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
+horizon: someday
 pillars: [PILLAR-001, PILLAR-002]
 research-needed:
   - "Does this stand as its own pillar or is it a property of the existing two?"

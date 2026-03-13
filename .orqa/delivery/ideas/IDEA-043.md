@@ -4,7 +4,8 @@ title: Rich Popovers on Artifact Links
 description: When hovering over an ArtifactLink chip (e.g. EPIC-001, TASK-045, AGENT-002), show a rich popover with the artifact's title, status, description, and key metadata — without navigating away from the current view.
 status: captured
 created: "2026-03-10"
-updated: "2026-03-10"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
 research-needed:

@@ -4,7 +4,8 @@ title: "Open-Source Licensing and IP Protection"
 description: "Choose licensing strategy that protects OrqaStudio from big tech absorption while enabling open-source community participation."
 status: shaped
 created: "2026-03-12"
-updated: "2026-03-12"
+updated: "2026-03-13"
+horizon: later
 pillars: [PILLAR-001, PILLAR-002]
 research-needed:
   - "FSL vs AGPL vs BSL — which fits best?"

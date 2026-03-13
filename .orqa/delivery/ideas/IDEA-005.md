@@ -5,7 +5,8 @@ description: |
   Make the accumulated knowledge base actively useful through semantic search, knowledge graphs, and staleness detection.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-002
 research-needed:

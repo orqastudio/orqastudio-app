@@ -4,7 +4,8 @@ title: Web Search Skill for Agent Research
 description: A skill that teaches agents how to effectively use web search and web fetch tools for external research — query formulation, source evaluation, result synthesis, and citation practices.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: later
 pillars:
   - PILLAR-001
   - PILLAR-002

@@ -4,7 +4,8 @@ title: Multi-Provider Model Routing
 description: Route different agent roles to different AI providers/models based on task type. Planning done by one model (potentially local/fine-tuned), implementation by another (cloud provider like Claude). Enables cost optimization, latency reduction, and specialized model selection per role.
 status: captured
 created: "2026-03-11"
-updated: "2026-03-11"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

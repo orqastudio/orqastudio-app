@@ -5,6 +5,8 @@ description: "The app's favicons and titlebar icon need updating from defaults, 
 status: captured
 created: "2026-03-13"
 updated: "2026-03-13"
+horizon: next
+milestone: MS-001
 pillars: [PILLAR-001]
 research-needed:
   - "Inventory all placeholder/default icons (favicon, titlebar, taskbar)"

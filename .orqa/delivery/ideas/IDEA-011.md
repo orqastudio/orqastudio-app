@@ -5,7 +5,8 @@ description: |
   Make understanding accessible to non-users through executive dashboards, shareable links, and formatted report exports.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-001
 research-needed:

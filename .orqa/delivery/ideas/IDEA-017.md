@@ -5,7 +5,8 @@ description: |
   Long-term knowledge preservation with project evolution maps, organisational PILLAR-002 records, and strategic timeline visualisations.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-002
 research-needed:

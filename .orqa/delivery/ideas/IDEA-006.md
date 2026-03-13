@@ -5,7 +5,8 @@ description: |
   Enable PILLAR-002 that transfers between projects through shared templates, cross-project patterns, and accumulated insights.
 status: captured
 created: "2026-03-07"
-updated: "2026-03-07"
+updated: "2026-03-13"
+horizon: someday
 pillars:
   - PILLAR-002
 research-needed:
