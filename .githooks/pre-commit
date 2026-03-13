@@ -80,6 +80,11 @@ PROD_CODE_CHANGED=$(git diff --cached --name-only --diff-filter=ACMR -- '*.rs' '
 if [ -n "$PROD_CODE_CHANGED" ]; then
   echo "--- Code: stub scanner ---"
   bash .githooks/scan-stubs.sh
+  echo "--- Code: lint suppression audit (AD-047) ---"
+  STAGED_SOURCE=$(git diff --cached --name-only --diff-filter=ACMR -- '*.rs' '*.ts' '*.js' '*.svelte' '*.tsx' '*.jsx')
+  if [ -n "$STAGED_SOURCE" ]; then
+    node .githooks/validate-lint-suppressions.mjs $STAGED_SOURCE
+  fi
 fi
 
 # Task dependency gate (only if task files changed)
