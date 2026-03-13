@@ -10,6 +10,9 @@
 	}
 
 	const { open, onClose }: Props = $props();
+
+	/** Local section state so the dialog doesn't interfere with the inline project settings view. */
+	let dialogSection = $state("provider");
 </script>
 
 <Dialog.Root
@@ -29,10 +32,10 @@
 		</div>
 		<div class="flex flex-1 overflow-hidden">
 			<div class="w-56 shrink-0 border-r border-border">
-				<SettingsCategoryNav mode="app" />
+				<SettingsCategoryNav mode="app" activeSection={dialogSection} onSectionChange={(s) => { dialogSection = s; }} />
 			</div>
 			<div class="flex-1 overflow-hidden">
-				<SettingsView />
+				<SettingsView activeSection={dialogSection} />
 			</div>
 		</div>
 	</Dialog.Content>

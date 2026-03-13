@@ -18,6 +18,10 @@
 	import CodeIcon from "@lucide/svelte/icons/code";
 	import LayoutIcon from "@lucide/svelte/icons/layout";
 	import PaletteIcon from "@lucide/svelte/icons/palette";
+	import BrainIcon from "@lucide/svelte/icons/brain";
+	import PackageIcon from "@lucide/svelte/icons/package";
+	import FlagIcon from "@lucide/svelte/icons/flag";
+	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
@@ -48,6 +52,10 @@
 		code: CodeIcon,
 		layout: LayoutIcon,
 		palette: PaletteIcon,
+		brain: BrainIcon,
+		package: PackageIcon,
+		flag: FlagIcon,
+		"shield-check": ShieldCheckIcon,
 	};
 
 	function resolveIcon(iconName: string | undefined): Component {

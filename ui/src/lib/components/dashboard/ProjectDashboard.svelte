@@ -3,11 +3,6 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import { Button } from "$lib/components/ui/button";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
-	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import BotIcon from "@lucide/svelte/icons/bot";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import ZapIcon from "@lucide/svelte/icons/zap";
-	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
 	import LayersIcon from "@lucide/svelte/icons/layers";
 	import NetworkIcon from "@lucide/svelte/icons/network";
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
@@ -18,61 +13,118 @@
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { ARTIFACT_TYPES } from "$lib/types/artifact-graph";
+	import type { ArtifactGraphType } from "$lib/types/artifact-graph";
 	import IntegrityWidget from "./IntegrityWidget.svelte";
 	import PipelineWidget from "./PipelineWidget.svelte";
 	import HealthTrendWidget from "./HealthTrendWidget.svelte";
-	import type { Component } from "svelte";
-	import { SvelteMap } from "svelte/reactivity";
 
 	const project = $derived(projectStore.activeProject);
 	const projectName = $derived(
 		projectStore.projectSettings?.name ?? project?.name ?? "",
 	);
 
-	interface ArtifactCategory {
-		icon: Component;
-		label: string;
-		activity: "docs" | "agents" | "rules" | "skills" | "hooks";
-	}
-
-	const artifactCategories: ArtifactCategory[] = [
-		{ icon: FileTextIcon, label: "Docs", activity: "docs" },
-		{ icon: BotIcon, label: "Agents", activity: "agents" },
-		{ icon: ShieldIcon, label: "Rules", activity: "rules" },
-		{ icon: ZapIcon, label: "Skills", activity: "skills" },
-		{ icon: GitBranchIcon, label: "Hooks", activity: "hooks" },
-	];
-
-	function navigateToCategory(activity: "docs" | "agents" | "rules" | "skills" | "hooks") {
-		navigationStore.setActivity(activity);
-	}
-
 	// Derived graph data for the insights card.
 	const graphStats = $derived(artifactGraphSDK.stats);
 	const graphLoading = $derived(artifactGraphSDK.loading);
 	const graphError = $derived(artifactGraphSDK.error);
 
-	/** Count of nodes per artifact type — computed from the in-memory graph. */
-	const typeCounts = $derived.by(() => {
-		const counts: { type: string; count: number }[] = [];
+	/** Humanize an artifact type string (e.g. "epic" → "Epics"). */
+	function humanizeType(t: string): string {
+		const singular = t.charAt(0).toUpperCase() + t.slice(1);
+		// Pluralize
+		if (singular.endsWith("s") || singular.endsWith("ch")) return singular + "es";
+		return singular + "s";
+	}
+
+	/**
+	 * Map artifact graph type to navigation activity key.
+	 * The navigation keys are plural (e.g. "epics", "tasks") while
+	 * graph types are singular (e.g. "epic", "task").
+	 */
+	function typeToNavKey(t: ArtifactGraphType): string | null {
+		const mapping: Record<string, string> = {
+			epic: "epics",
+			task: "tasks",
+			milestone: "milestones",
+			idea: "ideas",
+			decision: "decisions",
+			research: "research",
+			lesson: "lessons",
+			rule: "rules",
+			agent: "agents",
+			skill: "skills",
+			hook: "hooks",
+			pillar: "pillars",
+			doc: "docs",
+		};
+		return mapping[t] ?? null;
+	}
+
+	/** Per-type card data with status breakdown. */
+	const typeCards = $derived.by(() => {
+		const cards: {
+			type: ArtifactGraphType;
+			label: string;
+			count: number;
+			statuses: { status: string; count: number; dotClass: string }[];
+		}[] = [];
 		for (const t of ARTIFACT_TYPES) {
-			const count = artifactGraphSDK.byType(t).length;
-			if (count > 0) counts.push({ type: t, count });
+			const nodes = artifactGraphSDK.byType(t);
+			if (nodes.length === 0) continue;
+
+			// Compute status breakdown
+			const statusMap = new Map<string, number>();
+			for (const node of nodes) {
+				const s = node.status ?? "(none)";
+				statusMap.set(s, (statusMap.get(s) ?? 0) + 1);
+			}
+			const statuses = [...statusMap.entries()]
+				.map(([status, count]) => ({
+					status,
+					count,
+					dotClass: statusDotClass(status),
+				}))
+				.sort((a, b) => b.count - a.count);
+
+			cards.push({ type: t, label: humanizeType(t), count: nodes.length, statuses });
 		}
-		return counts.sort((a, b) => b.count - a.count);
+		return cards.sort((a, b) => b.count - a.count);
 	});
 
-	/** Count of nodes per status value — computed from the in-memory graph. */
-	const statusCounts = $derived.by(() => {
-		const map = new SvelteMap<string, number>();
-		for (const node of artifactGraphSDK.graph.values()) {
-			const s = node.status ?? "(none)";
-			map.set(s, (map.get(s) ?? 0) + 1);
+	/** Map status to a dot color class. */
+	function statusDotClass(status: string): string {
+		const map: Record<string, string> = {
+			active: "bg-blue-500",
+			"in-progress": "bg-blue-500",
+			exploring: "bg-blue-500",
+			ready: "bg-blue-500",
+			done: "bg-emerald-500",
+			complete: "bg-emerald-500",
+			accepted: "bg-emerald-500",
+			shaped: "bg-emerald-500",
+			draft: "bg-zinc-400",
+			captured: "bg-zinc-400",
+			todo: "bg-zinc-400",
+			proposed: "bg-zinc-400",
+			planning: "bg-zinc-400",
+			review: "bg-amber-500",
+			recurring: "bg-amber-500",
+			promoted: "bg-purple-500",
+			inactive: "bg-zinc-500/60",
+			superseded: "bg-zinc-500/60",
+			deprecated: "bg-zinc-500/60",
+			archived: "bg-zinc-500/60",
+			surpassed: "bg-zinc-500/60",
+		};
+		return map[status] ?? "bg-zinc-400";
+	}
+
+	function navigateToType(t: ArtifactGraphType) {
+		const key = typeToNavKey(t);
+		if (key) {
+			navigationStore.setActivity(key);
 		}
-		return [...map.entries()]
-			.map(([status, count]) => ({ status, count }))
-			.sort((a, b) => b.count - a.count);
-	});
+	}
 
 	const hasGraphData = $derived(artifactGraphSDK.graph.size > 0);
 </script>
@@ -142,14 +194,14 @@
 				</Card.Root>
 			{/if}
 
-			<!-- Artifact Graph Insights -->
+			<!-- Artifacts -->
 			<Card.Root class="mb-4">
 				<Card.Header class="pb-3">
 					<div class="flex items-center justify-between">
 						<Card.Title class="text-base">
 							<div class="flex items-center gap-2">
 								<NetworkIcon class="h-4 w-4" />
-								Artifact Graph
+								Artifacts
 							</div>
 						</Card.Title>
 						<Button
@@ -200,35 +252,31 @@
 							</div>
 						{/if}
 
-						<!-- By type -->
-						{#if typeCounts.length > 0}
-							<div class="mb-3">
-								<p class="mb-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wide">By Type</p>
-								<div class="flex flex-wrap gap-x-4 gap-y-1">
-									{#each typeCounts as { type, count } (type)}
-										<span class="text-sm">
-											<span class="font-medium capitalize">{type}</span>
-											<span class="ml-1 text-muted-foreground tabular-nums">({count})</span>
-										</span>
-									{/each}
-								</div>
-							</div>
-						{/if}
-
-						<!-- By status -->
-						{#if statusCounts.length > 0}
-							<div>
-								<p class="mb-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wide">By Status</p>
-								<div class="flex flex-wrap gap-x-4 gap-y-1">
-									{#each statusCounts as { status, count } (status)}
-										<span class="text-sm">
-											<span class="font-medium">{status}</span>
-											<span class="ml-1 text-muted-foreground tabular-nums">({count})</span>
-										</span>
-									{/each}
-								</div>
-							</div>
-						{/if}
+						<!-- Per-type cards -->
+						<div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+							{#each typeCards as card (card.type)}
+								<button
+									class="flex flex-col gap-1.5 rounded-lg border border-border p-3 text-left transition-colors hover:bg-accent/50"
+									onclick={() => navigateToType(card.type)}
+								>
+									<div class="flex items-baseline justify-between">
+										<span class="text-sm font-medium">{card.label}</span>
+										<span class="text-xs tabular-nums text-muted-foreground">{card.count}</span>
+									</div>
+									{#if card.statuses.length > 0}
+										<div class="flex flex-wrap gap-1">
+											{#each card.statuses as s (s.status)}
+												<span class="flex items-center gap-1 text-[10px] text-muted-foreground">
+													<span class="inline-block h-1.5 w-1.5 rounded-full {s.dotClass}"></span>
+													{s.status}
+													<span class="tabular-nums">({s.count})</span>
+												</span>
+											{/each}
+										</div>
+									{/if}
+								</button>
+							{/each}
+						</div>
 					{/if}
 				</Card.Content>
 			</Card.Root>
@@ -241,29 +289,6 @@
 
 			<!-- Health Trends -->
 			<HealthTrendWidget />
-
-			<!-- Governance artifacts -->
-			<Card.Root class="mb-4">
-				<Card.Header class="pb-3">
-					<Card.Title class="text-base">Governance Artifacts</Card.Title>
-					<Card.Description>Click a category to browse its artifacts</Card.Description>
-				</Card.Header>
-				<Card.Content>
-					<div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
-						{#each artifactCategories as cat (cat.activity)}
-							{@const Icon = cat.icon}
-							<button
-								class="flex flex-col items-center gap-1.5 rounded-lg border border-border p-3 transition-colors hover:bg-accent/50"
-								onclick={() => navigateToCategory(cat.activity)}
-							>
-								<Icon class="h-5 w-5 text-muted-foreground" />
-								<span class="text-sm font-medium">{cat.label}</span>
-							</button>
-						{/each}
-					</div>
-				</Card.Content>
-			</Card.Root>
-
 		{/if}
 	</div>
 </ScrollArea.Root>

@@ -4,7 +4,6 @@
 	import { getVersion, getName } from "@tauri-apps/api/app";
 	import logoStatic from "$lib/assets/logo-static.svg";
 	import { projectStore } from "$lib/stores/project.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
 	import WindowControls from "./WindowControls.svelte";
 	import AboutDialog from "./AboutDialog.svelte";
 	import NewProjectDialog from "./NewProjectDialog.svelte";
@@ -62,7 +61,6 @@
 	}
 
 	function handleSettings(): void {
-		settingsStore.setActiveSection("provider");
 		settingsOpen = true;
 	}
 

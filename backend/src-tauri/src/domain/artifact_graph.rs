@@ -324,7 +324,11 @@ pub fn graph_stats(graph: &ArtifactGraph) -> GraphStats {
     let orphan_count = graph
         .nodes
         .values()
-        .filter(|n| n.references_out.is_empty() && n.references_in.is_empty())
+        .filter(|n| {
+            n.artifact_type != "doc"
+                && n.references_out.is_empty()
+                && n.references_in.is_empty()
+        })
         .count();
 
     let broken_ref_count: usize = graph

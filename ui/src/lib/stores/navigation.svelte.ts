@@ -216,6 +216,8 @@ class NavigationStore {
 			this.explorerView = "project-dashboard";
 			this.navPanelCollapsed = true;
 		} else if (view === "settings" || view === "configure") {
+			this.activeGroup = null;
+			this.activeSubCategory = null;
 			this.explorerView = "settings";
 			if (this.navPanelCollapsed) {
 				this.navPanelCollapsed = false;

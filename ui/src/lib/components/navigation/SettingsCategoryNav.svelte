@@ -18,9 +18,20 @@
 
 	interface Props {
 		mode: "app" | "project";
+		activeSection?: string;
+		onSectionChange?: (section: string) => void;
 	}
 
-	const { mode }: Props = $props();
+	const { mode, activeSection, onSectionChange }: Props = $props();
+
+	const currentSection = $derived(activeSection ?? settingsStore.activeSection);
+	function handleSectionChange(id: string) {
+		if (onSectionChange) {
+			onSectionChange(id);
+		} else {
+			settingsStore.setActiveSection(id);
+		}
+	}
 
 	const appCategories: SettingsCategory[] = [
 		{
@@ -73,9 +84,9 @@
 			{@const Icon = cat.icon}
 			<button
 				class="flex w-full items-center gap-2 rounded px-2 py-2 text-left transition-colors hover:bg-accent/50"
-				class:bg-accent={settingsStore.activeSection === cat.id}
-				class:text-accent-foreground={settingsStore.activeSection === cat.id}
-				onclick={() => settingsStore.setActiveSection(cat.id)}
+				class:bg-accent={currentSection === cat.id}
+				class:text-accent-foreground={currentSection === cat.id}
+				onclick={() => handleSectionChange(cat.id)}
 			>
 				<Icon class="h-4 w-4 shrink-0 text-muted-foreground" />
 				<div class="min-w-0">

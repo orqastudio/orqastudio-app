@@ -13,28 +13,35 @@
 	import ProjectGeneralSettings from "./ProjectGeneralSettings.svelte";
 	import ProjectScanningSettings from "./ProjectScanningSettings.svelte";
 
+	interface Props {
+		activeSection?: string;
+	}
+
+	const { activeSection }: Props = $props();
+
+	const section = $derived(activeSection ?? settingsStore.activeSection);
 	const project = $derived(projectStore.activeProject);
 	const isProjectSection = $derived(
-		settingsStore.activeSection === "project-general" ||
-		settingsStore.activeSection === "project-scanning",
+		section === "project-general" ||
+		section === "project-scanning",
 	);
 </script>
 
 <ScrollArea.Root class="h-full">
 	<div class="space-y-6 p-6">
-		{#if settingsStore.activeSection === "provider"}
+		{#if section === "provider"}
 			<ProviderSettings />
 		{/if}
 
-		{#if settingsStore.activeSection === "model"}
+		{#if section === "model"}
 			<ModelSettings />
 		{/if}
 
-		{#if settingsStore.activeSection === "appearance"}
+		{#if section === "appearance"}
 			<AppearanceSettings />
 		{/if}
 
-		{#if settingsStore.activeSection === "shortcuts"}
+		{#if section === "shortcuts"}
 			<ShortcutsSettings />
 		{/if}
 
@@ -56,7 +63,7 @@
 					</Card.Content>
 				</Card.Root>
 			{:else if projectStore.hasSettings && projectStore.projectSettings}
-				{#if settingsStore.activeSection === "project-general"}
+				{#if section === "project-general"}
 					<ProjectGeneralSettings
 						settings={projectStore.projectSettings}
 						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
@@ -64,7 +71,7 @@
 						onUploadIcon={(sourcePath) => projectStore.uploadIcon(sourcePath)}
 						onRemoveIcon={() => projectStore.removeIcon()}
 					/>
-				{:else if settingsStore.activeSection === "project-scanning"}
+				{:else if section === "project-scanning"}
 					<ProjectScanningSettings
 						settings={projectStore.projectSettings}
 						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}

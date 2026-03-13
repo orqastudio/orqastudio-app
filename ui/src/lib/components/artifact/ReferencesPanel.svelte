@@ -48,7 +48,7 @@
 						<div>
 							<span class="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Referenced by</span>
 							<div class="flex flex-wrap gap-1 pt-0.5">
-								{#each incomingRefs as ref (ref.source_id + ref.field)}
+								{#each incomingRefs as ref ("in:" + ref.source_id + ref.field)}
 									<ArtifactLink id={ref.source_id} />
 								{/each}
 							</div>
@@ -59,7 +59,7 @@
 						<div>
 							<span class="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">References</span>
 							<div class="flex flex-wrap gap-1 pt-0.5">
-								{#each outgoingRefs as ref (ref.target_id + ref.field)}
+								{#each outgoingRefs as ref ("out:" + ref.target_id + ref.field)}
 									<ArtifactLink id={ref.target_id} />
 								{/each}
 							</div>

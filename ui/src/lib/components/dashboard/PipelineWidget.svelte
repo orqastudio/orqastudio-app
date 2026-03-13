@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
+	import * as Tooltip from "$lib/components/ui/tooltip";
 	import EyeIcon from "@lucide/svelte/icons/eye";
 	import BookOpenIcon from "@lucide/svelte/icons/book-open";
 	import ScaleIcon from "@lucide/svelte/icons/scale";
@@ -18,9 +19,15 @@
 	interface PipelineStage {
 		key: string;
 		label: string;
+		/** Plural noun for display in reason text (e.g. "lessons", "decisions"). */
+		artifactNoun: string;
 		artifactType: string | null;
 		icon: Component;
-		/** Relationship types that flow FROM this stage to the next. */
+		/**
+		 * Relationship types that indicate flow FROM this stage to the next.
+		 * We include both directions of each pair so that we catch edges
+		 * regardless of which end authored the relationship.
+		 */
 		outboundRelationships: string[];
 	}
 
@@ -28,41 +35,70 @@
 		{
 			key: "observation",
 			label: "Observation",
+			artifactNoun: "lessons",
 			artifactType: "lesson",
 			icon: EyeIcon,
-			outboundRelationships: ["observes", "observed-by"],
+			// Lessons flow forward via: informs/informed-by (to research),
+			// grounded/grounded-by (to decisions/research)
+			outboundRelationships: [
+				"informs",
+				"informed-by",
+				"grounded",
+				"grounded-by",
+			],
 		},
 		{
 			key: "understanding",
 			label: "Understanding",
+			artifactNoun: "research docs",
 			artifactType: "research",
 			icon: BookOpenIcon,
-			outboundRelationships: ["grounded", "grounded-by"],
+			// Research flows forward via: grounded/grounded-by (to decisions)
+			outboundRelationships: [
+				"grounded",
+				"grounded-by",
+				"informs",
+				"informed-by",
+			],
 		},
 		{
 			key: "principle",
 			label: "Principle",
+			artifactNoun: "decisions",
 			artifactType: "decision",
 			icon: ScaleIcon,
-			outboundRelationships: ["practices", "practiced-by"],
+			// Decisions flow forward via: practiced-by/practices (to skills)
+			outboundRelationships: [
+				"practices",
+				"practiced-by",
+			],
 		},
 		{
 			key: "practice",
 			label: "Practice",
+			artifactNoun: "skills",
 			artifactType: "skill",
 			icon: WrenchIcon,
-			outboundRelationships: ["enforces", "enforced-by"],
+			// Skills flow forward via: enforces/enforced-by (to rules)
+			outboundRelationships: [
+				"enforces",
+				"enforced-by",
+			],
 		},
 		{
 			key: "enforcement",
 			label: "Enforcement",
+			artifactNoun: "rules",
 			artifactType: "rule",
 			icon: ShieldIcon,
+			// Rules flow forward via: verifies/verified-by (to verification)
+			// Terminal stage for now — verification has no artifact type.
 			outboundRelationships: ["verifies", "verified-by"],
 		},
 		{
 			key: "verification",
 			label: "Verification",
+			artifactNoun: "checks",
 			artifactType: null,
 			icon: CheckCircle2Icon,
 			outboundRelationships: [],
@@ -83,6 +119,10 @@
 		flowRate: number;
 		/** Bottleneck status based on flow rate. */
 		status: "healthy" | "bottleneck" | "stuck";
+		/** Human-readable reason for stuck/bottleneck status. */
+		reason: string | null;
+		/** Suggested action to improve flow. */
+		suggestion: string | null;
 	}
 
 	interface EdgeData {
@@ -92,7 +132,7 @@
 	}
 
 	/**
-	 * Check whether a reference connects to an artifact in the next stage's type.
+	 * Check whether a reference connects to an artifact in the target type.
 	 */
 	function refConnectsToType(ref: ArtifactRef, targetType: string | null): boolean {
 		if (targetType === null) return false;
@@ -122,6 +162,23 @@
 			}
 		}
 		return count;
+	}
+
+	/** Map from next-stage artifact type to a human-readable action target. */
+	const NEXT_STAGE_LABELS: Record<string, string> = {
+		research: "research",
+		decision: "decisions",
+		skill: "skills",
+		rule: "rules",
+	};
+
+	function buildSuggestion(
+		stageName: string,
+		artifactNoun: string,
+		nextType: string | null,
+	): string {
+		const target = nextType !== null ? NEXT_STAGE_LABELS[nextType] ?? nextType : "the next stage";
+		return `Review unlinked ${artifactNoun} and connect them to ${target}`;
 	}
 
 	const stageDataList = $derived.by((): StageData[] => {
@@ -154,15 +211,24 @@
 			const flowRate = count > 0 ? connectedCount / count : 1;
 
 			let status: StageData["status"] = "healthy";
+			let reason: string | null = null;
+			let suggestion: string | null = null;
+
 			if (!isLastStage && count > 0) {
+				const unlinkedCount = count - connectedCount;
+
 				if (flowRate === 0) {
 					status = "stuck";
+					reason = `${unlinkedCount} of ${count} ${stage.artifactNoun} have no downstream link`;
+					suggestion = buildSuggestion(stage.key, stage.artifactNoun, nextType);
 				} else if (flowRate < 0.3) {
 					status = "bottleneck";
+					reason = `${unlinkedCount} of ${count} ${stage.artifactNoun} have no downstream link`;
+					suggestion = buildSuggestion(stage.key, stage.artifactNoun, nextType);
 				}
 			}
 
-			return { stage, artifacts, count, connectedCount, flowRate, status };
+			return { stage, artifacts, count, connectedCount, flowRate, status, reason, suggestion };
 		});
 	});
 
@@ -246,35 +312,64 @@
 			</Card.Title>
 		</Card.Header>
 		<Card.Content>
-			<div class="flex items-center gap-1 overflow-x-auto pb-2">
+			<div class="flex items-stretch gap-1 pb-2">
 				{#each stageDataList as data, i (data.stage.key)}
 					<!-- Stage box -->
-					<div
-						class="flex min-w-[100px] flex-col items-center gap-1.5 rounded-lg border px-3 py-3 {statusBorderClass(data.status)} {statusBgClass(data.status)}"
-					>
-						<data.stage.icon
-							class="h-5 w-5 {statusIconClass(data.status)}"
-						/>
-						<span class="text-xs font-medium text-foreground">
-							{data.stage.label}
-						</span>
-						<span class="text-lg font-semibold tabular-nums text-foreground">
-							{data.count}
-						</span>
-						{#if data.status === "stuck"}
-							<span class="text-[10px] font-medium text-red-500">
-								stuck
+					{#if data.reason !== null}
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								{#snippet child({ props })}
+									<div
+										{...props}
+										class="flex min-w-[80px] flex-1 flex-col items-center gap-1.5 rounded-lg border px-3 py-3 {statusBorderClass(data.status)} {statusBgClass(data.status)}"
+									>
+										<data.stage.icon
+											class="h-5 w-5 {statusIconClass(data.status)}"
+										/>
+										<span class="text-xs font-medium text-foreground">
+											{data.stage.label}
+										</span>
+										<span class="text-lg font-semibold tabular-nums text-foreground">
+											{data.count}
+										</span>
+										{#if data.status === "stuck"}
+											<span class="text-[10px] font-medium text-red-500">
+												stuck
+											</span>
+										{:else if data.status === "bottleneck"}
+											<span class="text-[10px] font-medium text-amber-500">
+												bottleneck
+											</span>
+										{/if}
+									</div>
+								{/snippet}
+							</Tooltip.Trigger>
+							<Tooltip.Content side="bottom" class="max-w-[240px]">
+								<p class="text-xs font-medium">{data.reason}</p>
+								{#if data.suggestion !== null}
+									<p class="mt-1 text-xs text-muted-foreground">{data.suggestion}</p>
+								{/if}
+							</Tooltip.Content>
+						</Tooltip.Root>
+					{:else}
+						<div
+							class="flex min-w-[80px] flex-1 flex-col items-center gap-1.5 rounded-lg border px-3 py-3 {statusBorderClass(data.status)} {statusBgClass(data.status)}"
+						>
+							<data.stage.icon
+								class="h-5 w-5 {statusIconClass(data.status)}"
+							/>
+							<span class="text-xs font-medium text-foreground">
+								{data.stage.label}
 							</span>
-						{:else if data.status === "bottleneck"}
-							<span class="text-[10px] font-medium text-amber-500">
-								bottleneck
+							<span class="text-lg font-semibold tabular-nums text-foreground">
+								{data.count}
 							</span>
-						{/if}
-					</div>
+						</div>
+					{/if}
 
 					<!-- Connecting arrow between stages -->
 					{#if i < stageDataList.length - 1}
-						<div class="flex flex-col items-center gap-0.5 px-1">
+						<div class="flex flex-shrink-0 flex-col items-center justify-center gap-0.5 px-1">
 							<svg
 								width="32"
 								height="16"

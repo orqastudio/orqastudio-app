@@ -1,19 +1,18 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
-	import * as Collapsible from "$lib/components/ui/collapsible";
 	import { Button } from "$lib/components/ui/button";
 	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
 	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
+	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import type { IntegrityCheck, IntegrityCategory, AppliedFix } from "$lib/types/artifact-graph";
+	import type { IntegrityCheck, IntegrityCategory, IntegritySeverity, AppliedFix } from "$lib/types/artifact-graph";
 
 	let checks = $state<IntegrityCheck[]>([]);
 	let loading = $state(false);
@@ -21,6 +20,15 @@
 	let scanned = $state(false);
 	let error = $state<string | null>(null);
 	let appliedFixes = $state<AppliedFix[]>([]);
+
+	// Filter state
+	let severityFilter = $state<"all" | "Error" | "Warning">("all");
+	let categoryFilter = $state<IntegrityCategory | "all">("all");
+
+	// Sort state
+	type SortColumn = "severity" | "category" | "artifact" | "message";
+	let sortColumn = $state<SortColumn>("severity");
+	let sortAsc = $state(true);
 
 	const errorCount = $derived(checks.filter((c) => c.severity === "Error").length);
 	const warningCount = $derived(checks.filter((c) => c.severity === "Warning").length);
@@ -31,16 +39,6 @@
 		if (errorCount > 0) return "text-destructive";
 		if (warningCount > 0) return "text-warning";
 		return "text-green-500";
-	});
-
-	const grouped = $derived.by(() => {
-		const map = new Map<IntegrityCategory, IntegrityCheck[]>();
-		for (const check of checks) {
-			const existing = map.get(check.category) ?? [];
-			existing.push(check);
-			map.set(check.category, existing);
-		}
-		return map;
 	});
 
 	const categoryLabels: Record<IntegrityCategory, string> = {
@@ -57,17 +55,64 @@
 		IdeaDeliveryTracking: "Undelivered Ideas",
 	};
 
-	let expandedCategories = $state<Set<IntegrityCategory>>(new Set());
+	/** Unique categories present in current checks, for the filter dropdown. */
+	const presentCategories = $derived.by(() => {
+		const cats = new Set<IntegrityCategory>();
+		for (const c of checks) cats.add(c.category);
+		return [...cats].sort();
+	});
 
-	function toggleCategory(cat: IntegrityCategory) {
-		const next = new Set(expandedCategories);
-		if (next.has(cat)) {
-			next.delete(cat);
-		} else {
-			next.add(cat);
+	/** Filtered and sorted checks for the table. */
+	const tableChecks = $derived.by(() => {
+		let filtered = checks;
+		if (severityFilter !== "all") {
+			filtered = filtered.filter((c) => c.severity === severityFilter);
 		}
-		expandedCategories = next;
+		if (categoryFilter !== "all") {
+			filtered = filtered.filter((c) => c.category === categoryFilter);
+		}
+		const sorted = [...filtered].sort((a, b) => {
+			let cmp = 0;
+			switch (sortColumn) {
+				case "severity":
+					cmp = severityRank(a.severity) - severityRank(b.severity);
+					break;
+				case "category":
+					cmp = (categoryLabels[a.category] ?? a.category).localeCompare(
+						categoryLabels[b.category] ?? b.category,
+					);
+					break;
+				case "artifact":
+					cmp = a.artifact_id.localeCompare(b.artifact_id);
+					break;
+				case "message":
+					cmp = a.message.localeCompare(b.message);
+					break;
+			}
+			return sortAsc ? cmp : -cmp;
+		});
+		return sorted;
+	});
+
+	function severityRank(s: IntegritySeverity): number {
+		return s === "Error" ? 0 : 1;
 	}
+
+	function toggleSort(col: SortColumn) {
+		if (sortColumn === col) {
+			sortAsc = !sortAsc;
+		} else {
+			sortColumn = col;
+			sortAsc = true;
+		}
+	}
+
+	// Auto-scan when the graph is ready
+	$effect(() => {
+		if (artifactGraphSDK.graph.size > 0 && !scanned && !loading) {
+			void scan();
+		}
+	});
 
 	async function scan() {
 		loading = true;
@@ -76,7 +121,6 @@
 		try {
 			checks = await artifactGraphSDK.runIntegrityScan();
 			scanned = true;
-			// Store a health snapshot after each scan
 			const errors = checks.filter((c) => c.severity === "Error").length;
 			const warnings = checks.filter((c) => c.severity === "Warning").length;
 			await artifactGraphSDK.storeHealthSnapshot(errors, warnings).catch(() => {
@@ -145,22 +189,22 @@
 					{:else}
 						<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
 					{/if}
-					Scan
+					Rescan
 				</Button>
 			</div>
 		</div>
 	</Card.Header>
 	<Card.Content>
-		{#if !scanned && !loading}
-			<p class="text-sm text-muted-foreground">
-				Click Scan to check pipeline integrity.
-			</p>
-		{:else if loading && !scanned}
+		{#if !scanned && loading}
 			<div class="flex items-center justify-center py-4">
 				<LoadingSpinner />
 			</div>
 		{:else if error}
 			<p class="text-sm text-destructive">{error}</p>
+		{:else if !scanned}
+			<p class="text-sm text-muted-foreground">
+				Waiting for artifact graph...
+			</p>
 		{:else}
 			<!-- Applied fixes banner -->
 			{#if appliedFixes.length > 0}
@@ -204,42 +248,107 @@
 					{/if}
 				</div>
 
-				<!-- Grouped issues -->
-				<div class="space-y-1">
-					{#each [...grouped.entries()] as [category, categoryChecks] (category)}
-						<Collapsible.Root open={expandedCategories.has(category)}>
-							<Collapsible.Trigger
-								class="flex w-full items-center gap-1.5 rounded px-1 py-0.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors"
-								onclick={() => toggleCategory(category)}
-							>
-								<ChevronRightIcon
-									class="h-3 w-3 transition-transform {expandedCategories.has(category) ? 'rotate-90' : ''}"
-								/>
-								{categoryLabels[category]}
-								<span class="text-[10px] tabular-nums">({categoryChecks.length})</span>
-							</Collapsible.Trigger>
-							<Collapsible.Content>
-								<div class="space-y-1 pl-5 pt-1">
-									{#each categoryChecks as check (check.artifact_id + check.message)}
-										<div class="flex items-start gap-2 text-xs">
-											{#if check.severity === "Error"}
-												<CircleAlertIcon class="mt-0.5 h-3 w-3 shrink-0 text-destructive" />
-											{:else}
-												<TriangleAlertIcon class="mt-0.5 h-3 w-3 shrink-0 text-warning" />
-											{/if}
-											<div class="min-w-0">
-												<ArtifactLink id={check.artifact_id} />
-												<span class="text-muted-foreground ml-1">{check.message}</span>
-												{#if check.auto_fixable}
-													<span class="ml-1 text-[10px] text-green-600 dark:text-green-400">(auto-fixable)</span>
-												{/if}
-											</div>
-										</div>
-									{/each}
-								</div>
-							</Collapsible.Content>
-						</Collapsible.Root>
-					{/each}
+				<!-- Filters -->
+				<div class="mb-3 flex items-center gap-3">
+					<select
+						class="h-7 rounded border border-border bg-background px-2 text-xs"
+						bind:value={categoryFilter}
+					>
+						<option value="all">All categories</option>
+						{#each presentCategories as cat (cat)}
+							<option value={cat}>{categoryLabels[cat]}</option>
+						{/each}
+					</select>
+					<div class="flex items-center gap-1">
+						<button
+							class="rounded px-2 py-0.5 text-xs transition-colors {severityFilter === 'all' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}"
+							onclick={() => (severityFilter = "all")}
+						>All</button>
+						<button
+							class="rounded px-2 py-0.5 text-xs transition-colors {severityFilter === 'Error' ? 'bg-destructive/20 text-destructive' : 'text-muted-foreground hover:text-foreground'}"
+							onclick={() => (severityFilter = "Error")}
+						>Errors</button>
+						<button
+							class="rounded px-2 py-0.5 text-xs transition-colors {severityFilter === 'Warning' ? 'bg-warning/20 text-warning' : 'text-muted-foreground hover:text-foreground'}"
+							onclick={() => (severityFilter = "Warning")}
+						>Warnings</button>
+					</div>
+				</div>
+
+				<!-- Data table -->
+				<div class="max-h-64 overflow-auto rounded border border-border">
+					<table class="w-full text-xs">
+						<thead class="sticky top-0 bg-muted/80 backdrop-blur">
+							<tr>
+								<th class="w-8 px-2 py-1.5 text-left">
+									<button
+										class="flex items-center gap-0.5 text-muted-foreground hover:text-foreground"
+										onclick={() => toggleSort("severity")}
+									>
+										<ArrowUpDownIcon class="h-3 w-3" />
+									</button>
+								</th>
+								<th class="px-2 py-1.5 text-left">
+									<button
+										class="flex items-center gap-0.5 text-muted-foreground hover:text-foreground"
+										onclick={() => toggleSort("category")}
+									>
+										Category
+										{#if sortColumn === "category"}
+											<ArrowUpDownIcon class="h-3 w-3" />
+										{/if}
+									</button>
+								</th>
+								<th class="px-2 py-1.5 text-left">
+									<button
+										class="flex items-center gap-0.5 text-muted-foreground hover:text-foreground"
+										onclick={() => toggleSort("artifact")}
+									>
+										Artifact
+										{#if sortColumn === "artifact"}
+											<ArrowUpDownIcon class="h-3 w-3" />
+										{/if}
+									</button>
+								</th>
+								<th class="px-2 py-1.5 text-left">
+									<button
+										class="flex items-center gap-0.5 text-muted-foreground hover:text-foreground"
+										onclick={() => toggleSort("message")}
+									>
+										Message
+										{#if sortColumn === "message"}
+											<ArrowUpDownIcon class="h-3 w-3" />
+										{/if}
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-border">
+							{#each tableChecks as check (check.artifact_id + check.category + check.message)}
+								<tr class="hover:bg-accent/30">
+									<td class="px-2 py-1.5">
+										{#if check.severity === "Error"}
+											<CircleAlertIcon class="h-3.5 w-3.5 text-destructive" />
+										{:else}
+											<TriangleAlertIcon class="h-3.5 w-3.5 text-warning" />
+										{/if}
+									</td>
+									<td class="whitespace-nowrap px-2 py-1.5 text-muted-foreground">
+										{categoryLabels[check.category]}
+									</td>
+									<td class="px-2 py-1.5">
+										<ArtifactLink id={check.artifact_id} />
+									</td>
+									<td class="px-2 py-1.5 text-muted-foreground">
+										{check.message}
+										{#if check.auto_fixable}
+											<span class="ml-1 text-[10px] text-green-600 dark:text-green-400">(auto-fixable)</span>
+										{/if}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
 				</div>
 			{/if}
 		{/if}
