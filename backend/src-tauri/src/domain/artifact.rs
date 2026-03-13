@@ -237,7 +237,7 @@ pub struct NavGroup {
     pub icon: String,
     /// Numeric sort order (lower = first).
     pub sort: i64,
-    /// Relative path to the group folder (e.g. ".orqa/planning").
+    /// Relative path to the group folder (e.g. ".orqa/delivery").
     pub path: String,
     /// Raw content of the group's README.md.
     pub readme_content: String,

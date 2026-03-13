@@ -2,7 +2,7 @@
 id: TASK-292
 title: "Update project.json, READMEs, and symlinks for app layout"
 description: "After directory moves, update project.json artifacts array, all directory README frontmatter (icon, label, description, sort), and .claude/ symlinks so the app scanner renders the new three-level structure correctly."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

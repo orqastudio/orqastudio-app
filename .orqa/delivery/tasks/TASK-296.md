@@ -2,7 +2,7 @@
 id: TASK-296
 title: "Lessons maturity review (16 lessons)"
 description: "Evaluate all 16 lessons for elevation potential. Verify promoted lessons have grounded-by relationships. Ensure meaningful rationales on all edges."
-status: todo
+status: done
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: EPIC-059

@@ -761,10 +761,10 @@ mod tests {
         fs::create_dir_all(&ideas_dir).expect("ideas dir");
         fs::create_dir_all(&epics_dir).expect("epics dir");
         // Write README with frontmatter for the group directory.
-        let planning_dir = tmp.path().join(".orqa/planning");
+        let delivery_dir = tmp.path().join(".orqa/delivery");
         fs::write(
-            planning_dir.join("README.md"),
-            "---\nlabel: Planning\nicon: target\n---\n",
+            delivery_dir.join("README.md"),
+            "---\nlabel: Delivery\nicon: target\n---\n",
         )
         .expect("group readme");
         fs::write(ideas_dir.join("IDEA-001.md"), "---\ntitle: My Idea\n---\n").expect("idea");
@@ -774,7 +774,7 @@ mod tests {
         fs::write(epics_dir.join("README.md"), "---\nlabel: Epics\n---\n").expect("epics readme");
 
         let entries = vec![ArtifactEntry::Group {
-            key: "planning".to_string(),
+            key: "delivery".to_string(),
             label: None,
             icon: None,
             children: vec![
