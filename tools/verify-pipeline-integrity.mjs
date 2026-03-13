@@ -5,8 +5,12 @@
 // 1. Every governance artifact has a non-empty relationships array
 // 2. No null targets without intended:true
 // 3. No deprecated fields remain
-// 4. Schema validation passes
-// 5. Pipeline flow summary
+// 4. Enforcement chain integrity:
+//    a. Accepted ADs without enforced-by/practiced-by relationships
+//    b. Promoted lessons without grounded-by relationships
+//    c. Rules referencing ADs in body without enforces relationships
+// 5. Epic reconciliation task presence
+// 6. Pipeline flow summary
 //
 // Usage: node tools/verify-pipeline-integrity.mjs [--staged]
 //
@@ -165,6 +169,115 @@ function checkArtifact(filePath, id, type, config) {
   }
 }
 
+// ── Enforcement chain checks ──────────────────────────────────────────────
+
+// Collect all parsed artifacts for cross-referencing
+const allArtifacts = new Map(); // id -> { fm, filePath, type }
+
+// Re-scan to build the full artifact map
+for (const [type, config] of Object.entries(ARTIFACT_DIRS)) {
+  const dirPath = resolve(ROOT, config.dir);
+  if (!existsSync(dirPath)) continue;
+
+  if (type === "skills") {
+    for (const subdir of readdirSync(dirPath).sort()) {
+      if (subdir.startsWith("_") || subdir === "README.md" || subdir === "schema.json") continue;
+      const skillFile = join(dirPath, subdir, "SKILL.md");
+      if (!existsSync(skillFile)) continue;
+      const content = readFileSync(skillFile, "utf-8");
+      const fm = parseFrontmatter(content);
+      if (fm && fm.id) allArtifacts.set(fm.id, { fm, filePath: skillFile, type, content });
+    }
+  } else {
+    for (const file of readdirSync(dirPath).sort()) {
+      if (!file.endsWith(".md") || file === "README.md") continue;
+      if (config.prefix && !file.startsWith(config.prefix)) continue;
+      const filePath = join(dirPath, file);
+      const content = readFileSync(filePath, "utf-8");
+      const fm = parseFrontmatter(content);
+      if (fm && fm.id) allArtifacts.set(fm.id, { fm, filePath, type, content });
+    }
+  }
+}
+
+const enforcementStats = { adsWithoutEnforcement: 0, lessonsWithoutPromotion: 0, rulesWithoutEnforces: 0 };
+
+console.log("\n=== ENFORCEMENT CHAIN CHECKS ===");
+
+// Check 1: Accepted ADs without enforced-by or practiced-by relationships
+for (const [id, artifact] of allArtifacts) {
+  if (artifact.type !== "decisions") continue;
+  const fm = artifact.fm;
+  if (fm.status !== "accepted") continue;
+
+  const rels = fm.relationships || [];
+  const hasEnforcement = rels.some(
+    (r) => r.type === "enforced-by" || r.type === "practiced-by"
+  );
+
+  if (!hasEnforcement) {
+    // Check if any relationship has intended:true (strategy decisions that don't need enforcement)
+    const hasIntended = rels.some((r) => r.intended === true);
+    if (hasIntended) continue;
+
+    warn(`${id}: accepted AD without enforced-by or practiced-by relationship — no enforcement chain`);
+    enforcementStats.adsWithoutEnforcement++;
+  }
+}
+
+// Check 2: Promoted lessons without grounded-by relationships
+for (const [id, artifact] of allArtifacts) {
+  if (artifact.type !== "lessons") continue;
+  const fm = artifact.fm;
+  if (fm.status !== "promoted") continue;
+
+  const rels = fm.relationships || [];
+  const hasGroundedBy = rels.some((r) => r.type === "grounded-by");
+
+  if (!hasGroundedBy) {
+    error(`${id}: promoted lesson without grounded-by relationship — promotion target not traceable`);
+    enforcementStats.lessonsWithoutPromotion++;
+  }
+}
+
+// Check 3: Rules referencing ADs in body text without enforces relationships
+const adRefPattern = /\bAD-\d+\b/g;
+for (const [id, artifact] of allArtifacts) {
+  if (artifact.type !== "rules") continue;
+  const fm = artifact.fm;
+  if (fm.status === "inactive") continue;
+
+  // Extract AD references from body text (after frontmatter)
+  const bodyStart = artifact.content.indexOf("---", artifact.content.indexOf("---") + 3);
+  if (bodyStart === -1) continue;
+  const body = artifact.content.slice(bodyStart + 3);
+
+  const adRefs = new Set();
+  let match;
+  while ((match = adRefPattern.exec(body)) !== null) {
+    adRefs.add(match[0]);
+  }
+
+  if (adRefs.size === 0) continue;
+
+  // Check which ADs this rule has enforces relationships for
+  const rels = fm.relationships || [];
+  const enforcesTargets = new Set(
+    rels.filter((r) => r.type === "enforces").map((r) => r.target)
+  );
+
+  for (const adRef of adRefs) {
+    if (!enforcesTargets.has(adRef)) {
+      // Only warn if the AD is an accepted decision that could be enforced
+      const adArtifact = allArtifacts.get(adRef);
+      if (adArtifact && adArtifact.fm.status === "accepted") {
+        warn(`${id}: references ${adRef} in body but no enforces relationship exists`);
+        enforcementStats.rulesWithoutEnforces++;
+      }
+    }
+  }
+}
+
 // ── Epic reconciliation ────────────────────────────────────────────────────
 
 const EPIC_DIR = ".orqa/delivery/epics";
@@ -246,6 +359,11 @@ console.log(`\nArtifacts scanned: ${stats.total}`);
 console.log(`  With relationships: ${stats.withRelationships}`);
 console.log(`  Empty relationships: ${stats.emptyRelationships}`);
 console.log(`  Deprecated fields found: ${stats.deprecatedFields}`);
+
+console.log(`\nEnforcement chains:`);
+console.log(`  Accepted ADs without enforcement: ${enforcementStats.adsWithoutEnforcement}`);
+console.log(`  Promoted lessons without grounded-by: ${enforcementStats.lessonsWithoutPromotion}`);
+console.log(`  Rule→AD body refs without enforces: ${enforcementStats.rulesWithoutEnforces}`);
 
 console.log(`\nEpic reconciliation:`);
 console.log(`  Epics scanned: ${epicStats.scanned}`);
