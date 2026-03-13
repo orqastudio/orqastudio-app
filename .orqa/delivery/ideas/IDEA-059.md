@@ -2,7 +2,7 @@
 id: IDEA-059
 title: "Component Library SDK for Plugin Views"
 description: "Extract shared components into an importable SDK so plugins can create dynamic views that match the design system."
-status: shaped
+status: promoted
 created: "2026-03-12"
 updated: "2026-03-13"
 horizon: active
@@ -13,7 +13,7 @@ research-needed:
   - "How should the view registration API work?"
   - "How do plugins access theme tokens?"
   - "What's the distribution mechanism (npm package, bundled, git submodule)?"
-promoted-to: null
+promoted-to: EPIC-062
 ---
 
 ## Description

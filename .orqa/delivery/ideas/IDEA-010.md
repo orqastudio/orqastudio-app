@@ -5,7 +5,7 @@ description: Extend OrqaStudio beyond software development to other domains — 
 status: captured
 created: "2026-03-07"
 updated: "2026-03-13"
-horizon: someday
+horizon: null
 pillars:
   - PILLAR-001
   - PILLAR-002
