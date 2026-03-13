@@ -101,6 +101,19 @@ for (const file of readdirSync(EPIC_DIR).sort()) {
     }
   }
 
+  // If epic is done or review, check for unresolved TBD references
+  if (fm.status === "done" || fm.status === "review") {
+    const bodyForTbd = content.slice(content.indexOf("---", content.indexOf("---") + 3) + 3);
+    const tbdMatches = [...bodyForTbd.matchAll(/\b(?:TASK|EPIC|AD|RULE|IDEA|IMPL|RES|VER|MS|PILLAR)-TBD(?:-\d+)?\b/g)];
+    if (tbdMatches.length > 0) {
+      const unique = [...new Set(tbdMatches.map(m => m[0]))];
+      for (const tbd of unique) {
+        console.error(`  DRIFT: ${fm.id} is ${fm.status} but contains unresolved ${tbd}`);
+        driftCount++;
+      }
+    }
+  }
+
   // Extract task IDs mentioned in the epic body's task table
   const bodyStart = content.indexOf("---", content.indexOf("---") + 3);
   if (bodyStart !== -1) {
@@ -116,6 +129,26 @@ for (const file of readdirSync(EPIC_DIR).sort()) {
         console.error(`  DRIFT: ${ref} referenced in epic body but no task file exists`);
         driftCount++;
       }
+    }
+  }
+}
+
+// Check done tasks for unresolved TBD references
+for (const file of readdirSync(TASK_DIR).sort()) {
+  if (!file.endsWith(".md") || !file.startsWith("TASK-")) continue;
+  const content = readFileSync(join(TASK_DIR, file), "utf-8");
+  const fm = parseFrontmatter(content);
+  if (!fm || fm.status !== "done") continue;
+
+  const bodyStart = content.indexOf("---", content.indexOf("---") + 3);
+  if (bodyStart === -1) continue;
+  const body = content.slice(bodyStart + 3);
+  const tbdMatches = [...body.matchAll(/\b(?:TASK|EPIC|AD|RULE|IDEA|IMPL|RES|VER|MS|PILLAR)-TBD(?:-\d+)?\b/g)];
+  if (tbdMatches.length > 0) {
+    const unique = [...new Set(tbdMatches.map(m => m[0]))];
+    for (const tbd of unique) {
+      console.error(`  DRIFT: ${fm.id} is done but contains unresolved ${tbd}`);
+      driftCount++;
     }
   }
 }
