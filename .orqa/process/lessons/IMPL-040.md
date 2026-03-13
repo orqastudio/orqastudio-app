@@ -2,10 +2,10 @@
 id: IMPL-040
 title: "Decisions scrolled out of view by automated work must be resurfaced"
 description: "When the orchestrator presents a decision to the user and then launches background agents whose output scrolls the decision out of view, the user loses context. The orchestrator must re-present pending decisions after automated work completes, not assume the user remembers what was asked."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
-maturity: observation
+maturity: understanding
 recurrence: 1
 relationships:
   - target: IMPL-026
@@ -17,6 +17,9 @@ relationships:
   - target: RULE-004
     type: observes
     rationale: "The human gate on epic completion requires user attention — decisions that scroll away undermine this gate"
+  - target: TASK-310
+    type: resolved-by
+    rationale: "Memory-based AD injection ensures decisions persist across context compaction"
 ---
 
 ## Pattern
@@ -30,3 +33,7 @@ Not yet determined. Possible approaches:
 2. Design discussion skill (IDEA-072) maintains a "pending decisions" queue
 3. Pin important questions in the UI so they don't scroll away
 4. Session tasklist (IDEA-074) could track pending decisions as a category
+
+## Triage
+
+Resolved by TASK-310 — unimplemented ADs maintained as memory entries, surviving context compaction. Decisions no longer lost when scrolled out of view.

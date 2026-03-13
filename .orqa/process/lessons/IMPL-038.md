@@ -2,10 +2,10 @@
 id: IMPL-038
 title: "Recording observations is not scope creep — scope decisions happen at triage"
 description: "The orchestrator sometimes hesitates to record observations because it perceives them as scope creep. But observations are just capture — whether to include them in the current epic's scope is a triage decision made at task completion or epic closure, per the three-tier observation logging discipline. Capture should never be gatekept."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
-maturity: observation
+maturity: understanding
 recurrence: 1
 relationships:
   - target: IMPL-023
@@ -17,6 +17,9 @@ relationships:
   - target: RULE-004
     type: observes
     rationale: "Observation triage section in RULE-004 separates capture from scoping — this lesson reinforces that separation"
+  - target: RULE-004
+    type: promoted-to
+    rationale: "Recording observations is mandatory — scope decisions happen at triage per RULE-004 observation triage protocol"
 ---
 
 ## Pattern
@@ -26,3 +29,7 @@ The orchestrator sometimes avoids recording observations because it perceives th
 ## Fix
 
 Observation: capture should be automatic and ungatekept. Scope decisions are made at triage (task completion or epic closure). The three-tier discipline ([IMPL-023](IMPL-023)) and observation triage ([RULE-004](RULE-004)) already define this separation — this lesson reinforces it.
+
+## Triage
+
+Promoted — encoded in RULE-004 observation triage protocol. Recording is never scope creep. Triage determines disposition.

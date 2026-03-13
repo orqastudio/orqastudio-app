@@ -2,7 +2,7 @@
 id: IMPL-025
 title: "Lessons must flow forward — a review task should exist whenever observations accumulate"
 description: "Observations logged during an epic must not sit idle. A lesson review task should be added to the epic to triage each observation: implement now (if needed to complete the epic), promote to rule/skill, or defer to a future idea. Lessons without a forward path are dead weight in the system."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding
@@ -17,6 +17,9 @@ relationships:
   - target: RULE-017
     type: observes
     rationale: "Lessons-learned rule defines the promotion pipeline but has no mechanism for ensuring observations are triaged during the epic that created them"
+  - target: RULE-004
+    type: promoted-to
+    rationale: "Observation triage task auto-created when observations accumulate"
 ---
 
 ## Pattern
@@ -41,3 +44,7 @@ Auto-created triage task (user-approved via RES-052). When the first observation
 3. **Defer to idea** — valid but out of scope, create IDEA-NNN with relationship edge
 
 "Leave it sitting" is not a valid triage outcome.
+
+## Triage
+
+Promoted — RULE-004 observation triage protocol ensures a triage task exists when observations accumulate during an epic.

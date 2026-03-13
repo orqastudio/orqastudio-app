@@ -2,7 +2,7 @@
 id: IMPL-018
 title: "Hardcoded .orqa/ paths in source code should be project-configurable"
 description: "Source code references to .orqa/ subdirectories are hardcoded constants. If a project requires a different directory structure, the code breaks. These required paths should come from project config so the system adapts to different project layouts."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding
@@ -14,6 +14,9 @@ relationships:
   - target: RULE-003
     type: observes
     rationale: "Artifact config integrity says paths come from config, not hardcoded — but source code (paths.rs, project_scanner.rs, artifact_fs.rs) still uses constants"
+  - target: TASK-306
+    type: resolved-by
+    rationale: "ProjectPaths struct replaced hardcoded constants"
 ---
 
 ## Pattern
@@ -27,3 +30,7 @@ If a project needs a different directory structure (e.g., no `process/` level, o
 ## Fix
 
 Option C from RES-052: Runtime config cache. Load `project.json` once at startup, build a `ProjectPaths` struct, pass through the call chain. Remove `paths.rs` constants (keep only `ORQA_DIR` and `SETTINGS_FILE` as bootstrap constants needed to find the config file itself). User-approved decision.
+
+## Triage
+
+Resolved by TASK-306 — ProjectPaths runtime config cache replaced all hardcoded path constants.

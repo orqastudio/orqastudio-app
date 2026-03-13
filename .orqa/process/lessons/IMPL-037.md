@@ -5,12 +5,15 @@ description: "Clicking save in the OrqaStudio app UI overwrote a valid project.j
 status: active
 created: "2026-03-13"
 updated: "2026-03-13"
-maturity: observation
+maturity: understanding
 recurrence: 1
 relationships:
   - target: RULE-003
     type: observes
     rationale: "RULE-003 requires artifact config integrity — this incident violated it by blanking the artifacts array and other required config fields"
+  - target: IDEA-075
+    type: deferred-to
+    rationale: "App bug — out of scope for EPIC-059, tracked as idea"
 ---
 
 ## Pattern
@@ -24,3 +27,7 @@ Not yet determined. Possible approaches:
 2. Dirty-checking — only save fields the user actually modified
 3. Backup before overwrite — create .bak before saving
 4. Schema validation on write — project.json should validate against a schema before being written to disk
+
+## Triage
+
+Deferred to IDEA-075 — app bug requiring validation before save. Out of scope for EPIC-059 (philosophy alignment epic, not app bug fix).

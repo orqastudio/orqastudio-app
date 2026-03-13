@@ -2,7 +2,7 @@
 id: IMPL-021
 title: "Open items discovered during implementation are not tracked as tasks"
 description: "When work reveals open items (dead code, cleanup needed, research questions, follow-up fixes), these get reported in conversation but are not formalized as tasks in the artifact system. When the session ends, they exist only in conversation history and Claude memory — both lossy stores. The epic gets marked done while untracked work remains."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding
@@ -17,6 +17,9 @@ relationships:
   - target: RULE-004
     type: observes
     rationale: "Artifact lifecycle — the epic completion gate should verify no untracked open items remain"
+  - target: RULE-004
+    type: promoted-to
+    rationale: "Observation triage protocol added to RULE-004"
 ---
 
 ## Pattern
@@ -40,3 +43,7 @@ Three mechanisms (user-approved via RES-052):
 1. Every open item becomes a task immediately — no threshold, no batching
 2. Epic completion requires human approval — orchestrator presents completed tasks, remaining todos, observations, and asks user
 3. Auto-surface epics where all tasks are done but epic not yet verified by user — prevents limbo
+
+## Triage
+
+Promoted — observation triage protocol in RULE-004 ensures open items are tracked and triaged.

@@ -2,7 +2,7 @@
 id: IMPL-019
 title: "Plugins and sidecars are paired — no requirement mechanism exists"
 description: "The orqastudio-claude-plugin is designed for Claude Code CLI. If a different sidecar is used (Cursor, Copilot), this plugin should not be active. Currently there is no mechanism for a plugin to declare which sidecar it requires, or for the system to enforce that pairing."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding
@@ -15,6 +15,12 @@ relationships:
     type: enforces
     rationale: "No enforcement artifact exists for plugin-sidecar pairing"
     intended: false
+  - target: TASK-307
+    type: resolved-by
+    rationale: "Plugin-sidecar pairing mechanism designed"
+  - target: IDEA-071
+    type: deferred-to
+    rationale: "Implementation deferred to IDEA-071"
 ---
 
 ## Pattern
@@ -38,3 +44,7 @@ Design is in progress via RES-052. Key decisions made:
 - Capability fulfilment is user-configurable per-project (native vs app-MCP), with plugin-provided defaults
 - Plugin installation wires capabilities, skills, and agent updates as a complete package
 - Provider-side plugin requirements are a pragmatic bridge until IDEA-069 (sidecar-as-plugin)
+
+## Triage
+
+Design completed in TASK-307. Implementation deferred to IDEA-071.

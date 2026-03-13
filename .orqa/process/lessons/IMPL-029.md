@@ -2,15 +2,18 @@
 id: IMPL-029
 title: "Orchestrator writes governance artifacts directly instead of delegating to Writer"
 description: "The orchestrator is creating IMPL, IDEA, and TASK artifacts itself rather than delegating to a Writer agent. This violates RULE-001 in spirit — while governance artifacts are in the orchestrator's exception list, the volume of artifact creation during this session is implementation work that could be parallelised. Delegating artifact writes to a Writer agent would free the orchestrator to continue the design discussion without blocking on file creation."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
-maturity: observation
+maturity: understanding
 recurrence: 2
 relationships:
   - target: RULE-001
     type: observes
     rationale: "RULE-001 permits orchestrator to write governance artifacts, but the intent is lightweight coordination — not sustained artifact creation that blocks the conversation"
+  - target: RULE-001
+    type: promoted-to
+    rationale: "RULE-001 already enforces delegation — this observation confirms the boundary. Batch artifact creation should be delegated to Writer agents."
 ---
 
 ## Pattern
@@ -26,3 +29,7 @@ When multiple artifacts need creating during a design discussion:
 2. Delegate to a Writer agent running in background
 3. Continue the conversation while artifacts are written
 4. Verify artifacts on completion
+
+## Triage
+
+Promoted — RULE-001 already enforces this. At recurrence 2, the pattern is confirmed: when creating multiple artifacts during a design session, delegate to a background Writer agent.

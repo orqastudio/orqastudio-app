@@ -2,10 +2,10 @@
 id: IMPL-039
 title: "Observation creation should be delegated to background agents"
 description: "When the orchestrator identifies something that needs to be recorded as an observation, it should delegate the creation to a background Writer agent rather than doing it inline. This keeps the orchestrator focused on coordination and prevents observation logging from blocking the primary work flow."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
-maturity: observation
+maturity: understanding
 recurrence: 1
 relationships:
   - target: IMPL-029
@@ -17,6 +17,9 @@ relationships:
   - target: RULE-001
     type: observes
     rationale: "Agent delegation rule — the orchestrator coordinates, it does not implement. Artifact creation is implementation even for governance artifacts when it can be parallelized"
+  - target: RULE-001
+    type: promoted-to
+    rationale: "Extends delegation rule to observation creation — background Writer agents handle artifact writes"
 ---
 
 ## Pattern
@@ -28,3 +31,7 @@ This pattern was demonstrated in the current session: the user pointed out that 
 ## Fix
 
 Observation: when an observation needs recording, the orchestrator should launch a background Writer agent with the details. The orchestrator continues its primary work. The agent creates the IMPL file. This should be verified against the learning loop implementation (TASK-308) to ensure the delegation model is compatible with the three-tier logging discipline.
+
+## Triage
+
+Promoted — extends RULE-001 delegation principle. Observation creation delegated to background Writer agents to keep orchestrator focused on coordination.

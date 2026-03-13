@@ -2,7 +2,7 @@
 id: IMPL-023
 title: "Observation logging and recurrence tracking should be automated, not manual"
 description: "Agents and orchestrators encounter 'why did that happen?' moments during implementation but don't automatically log observations or increment recurrence on existing lessons. The learning loop depends on manual discipline which breaks under cognitive load. Automation would make the loop self-sustaining."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding
@@ -14,6 +14,9 @@ relationships:
   - target: RULE-017
     type: observes
     rationale: "Lessons-learned rule requires agents to check and update lessons, but enforcement is purely procedural — agents forget under task pressure"
+  - target: RULE-017
+    type: promoted-to
+    rationale: "Three-tier logging discipline encoded in lessons-learned rule"
 ---
 
 ## Pattern
@@ -36,3 +39,7 @@ Three-tier logging discipline (user-approved via RES-052):
 3. **Borderline** — orchestrator asks user preference (block vs continue with caveat). Decision and rationale recorded on the task. Context-dependent: overnight autonomous work favours continue, supervised work favours block.
 
 Learning checkpoint at task completion: orchestrator asks "what observations were logged?" before accepting done. If task involved debugging/workarounds/user corrections and answer is "none", orchestrator prompts for lesson review.
+
+## Triage
+
+Promoted — three-tier observation logging discipline (blocking/non-blocking/borderline) promoted to RULE-017 update. Learning checkpoint at task completion encoded as process requirement.

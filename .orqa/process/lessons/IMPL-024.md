@@ -2,7 +2,7 @@
 id: IMPL-024
 title: "Lessons learned should be recorded on task completion artifacts"
 description: "When a task is completed, any observations logged or recurrence incremented during that task should be recorded in the task artifact itself. This makes the learning visible to the user as part of the completion statement, not buried in conversation history."
-status: active
+status: promoted
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding
@@ -14,6 +14,9 @@ relationships:
   - target: RULE-015
     type: observes
     rationale: "Honest reporting requires completion reports to include lesson documentation status — this extends that to the task artifact itself, not just conversation output"
+  - target: TASK-308
+    type: resolved-by
+    rationale: "Task schema updated with mandatory Lessons body section"
 ---
 
 ## Pattern
@@ -37,3 +40,7 @@ Required "Lessons" body section on task artifacts (user-approved via RES-052). A
 ```
 
 "None — straightforward" is valid. Decreasing lesson frequency over time is a signal the pipeline is working.
+
+## Triage
+
+Promoted — task schema now requires a Lessons section in every task body. Ensures lessons are recorded at task completion.
