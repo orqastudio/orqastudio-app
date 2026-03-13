@@ -13,58 +13,58 @@ gate:
 relationships:
   - type: grounded-by
     target: RULE-009
-    rationale: Inverse of grounded relationship from RULE-009
+    rationale: Dogfood mode creates a feedback loop where using the app reveals improvements needed in the app itself
   - type: grounded-by
     target: RULE-011
-    rationale: Inverse of grounded relationship from RULE-011
+    rationale: Enforcement before code ensures lessons from recurring mistakes are encoded as rules or skills before the fix
   - type: grounded-by
     target: RULE-015
-    rationale: Inverse of grounded relationship from RULE-015
+    rationale: Honest reporting requires review agents to document lessons and recurrence tracking in their output
   - type: grounded-by
     target: RULE-017
-    rationale: Inverse of grounded relationship from RULE-017
+    rationale: Lessons learned rule defines the full learning loop from lesson capture through promotion to enforcement
   - type: grounded-by
     target: RULE-029
-    rationale: Inverse of grounded relationship from RULE-029
+    rationale: Testing standards create measurable quality baselines that track improvement or regression over time
   - type: grounded-by
     target: RULE-030
-    rationale: Inverse of grounded relationship from RULE-030
+    rationale: UAT process requires systemic analysis of findings and encoding process improvements as lessons
   - type: grounded-by
     target: AD-016
-    rationale: Inverse of grounded relationship from AD-016
+    rationale: Onboarding strategy captures learning from new user experiences to improve the setup workflow
   - type: grounded-by
     target: AD-027
-    rationale: Inverse of grounded relationship from AD-027
+    rationale: Domain-agnostic vision positions the product as a clarity engine that learns and improves across domains
   - type: grounded-by
     target: AD-042
-    rationale: Inverse of grounded relationship from AD-042
+    rationale: Knowledge maturity pipeline formalises governance as a learning loop from observation through enforcement
   - type: grounded-by
     target: IMPL-011
-    rationale: Inverse of grounded relationship from IMPL-011
+    rationale: Lesson on systemic investigation captures the pattern of analysing root causes before fixing symptoms
   - type: grounded-by
     target: IMPL-012
-    rationale: Inverse of grounded relationship from IMPL-012
+    rationale: Lesson on encoding improvements ensures process learnings are captured in governance artifacts, not lost
   - type: grounded-by
     target: SKILL-004
-    rationale: Inverse of grounded relationship from SKILL-004
+    rationale: Code quality review skill includes lesson documentation as a mandatory part of review output
   - type: grounded-by
     target: SKILL-006
-    rationale: Inverse of grounded relationship from SKILL-006
+    rationale: Diagnostic methodology captures root cause analysis patterns that accumulate debugging knowledge
   - type: grounded-by
     target: SKILL-018
-    rationale: Inverse of grounded relationship from SKILL-018
+    rationale: Testing patterns skill captures test engineering knowledge that improves quality verification over time
   - type: grounded-by
     target: SKILL-025
-    rationale: Inverse of grounded relationship from SKILL-025
+    rationale: QA verification skill captures functional testing patterns that feed back into quality improvement
   - type: grounded-by
     target: SKILL-048
-    rationale: Inverse of grounded relationship from SKILL-048
+    rationale: Research methodology skill captures investigation patterns that improve how the team gathers knowledge
   - type: grounded-by
     target: SKILL-033
-    rationale: Inverse of grounded relationship from SKILL-033
+    rationale: Test engineering skill captures testing methodology that tracks coverage and quality trends
   - type: grounded-by
     target: SKILL-035
-    rationale: Inverse of grounded relationship from SKILL-035
+    rationale: UAT process skill captures the structured testing methodology that produces both fixes and process improvements
 ---
 ## What This Pillar Means
 
@@ -100,4 +100,3 @@ This pillar complements Pillar 1 (Clarity Through Structure). The learning loop 
 ## Conflict Resolution
 
 Pillars are equal in importance. When this pillar appears to conflict with Pillar 1 (Clarity Through Structure), the conflict should be flagged to the user for resolution rather than one pillar automatically winning. Agents do not prioritise one pillar over another unilaterally.
-
