@@ -13,6 +13,13 @@ research-needed:
   - Domain-agnostic template design
   - Mode detection accuracy testing
 promoted-to: EPIC-035
+relationships:
+  - target: RES-013
+    type: informed-by
+    rationale: "Tool display research informed entry mode UX design"
+  - target: RES-012
+    type: informed-by
+    rationale: "First-run setup wizard research informed onboarding flow design"
 ---
 ## Candidate Items
 

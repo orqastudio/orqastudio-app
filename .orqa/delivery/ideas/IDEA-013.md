@@ -13,6 +13,10 @@ research-needed:
   - Confidence indicator calibration
   - Decision log UX design
 promoted-to: EPIC-001
+relationships:
+  - target: RES-026
+    type: informed-by
+    rationale: "AI transparency wiring research informed reasoning transparency design"
 ---
 ## Candidate Items
 

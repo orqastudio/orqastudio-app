@@ -14,6 +14,13 @@ research-needed:
   - UX for provider switching and selection
   - Local LLM viability (Ollama, air-gapped use)
 promoted-to: EPIC-040
+relationships:
+  - target: RES-009
+    type: informed-by
+    rationale: "Provider architecture research informed multi-provider ecosystem design"
+  - target: RES-027
+    type: informed-by
+    rationale: "Provider abstraction layer research informed sidecar refactoring approach"
 ---
 ## Candidate Items
 
