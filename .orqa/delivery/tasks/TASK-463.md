@@ -2,7 +2,7 @@
 id: TASK-463
 title: "Create grounding documents for all agent roles"
 description: "Create 5 concise grounding documents distilled from restructured documentation. Each answers: why this role exists, what good looks like, what goes wrong under pressure. Designed for agent injection, not human browsing."
-status: todo
+status: done
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

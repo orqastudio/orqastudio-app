@@ -100,20 +100,23 @@ The orchestrator coordinates. It does NOT implement. Every implementation task i
 | **Reviewer** | Check quality, compliance, correctness | After implementation, before merge |
 | **Writer** | Create documentation, specifications | Before and alongside implementation |
 | **Designer** | Design experiences, interfaces, structures | When UI/UX work is needed |
+| **Governance Steward** | Create and maintain `.orqa/` artifacts with graph integrity | When any governance artifact needs creating or updating |
 
 ## What the Orchestrator May Do Directly
 
 - Read files for planning and coordination
-- Create and update artifact structure (frontmatter, status, references) in `.orqa/`
-- Create and update governance files (rules, agents, skills, hooks)
-- Single-line fixes, typo corrections, config file edits
-- Coordinate across agents, report status, manage worktrees
+- Coordinate across agents, report status to the user
+- Write session state (`tmp/session-state.md`)
+
+**If the orchestrator is writing anything other than coordination output, the system has failed to delegate.** See the delegation reference (DOC-069) for the full work-type-to-role mapping.
 
 ## What the Orchestrator MUST Delegate
 
 - Any change to `backend/src-tauri/` (Rust backend code) — delegate to Implementer with backend skills
 - Any change to `ui/` (Svelte frontend code) — delegate to Implementer with frontend skills, or Designer
 - Any change to `sidecar/` (Agent SDK sidecar) — delegate to Implementer with backend skills
+- Any change to `.orqa/` artifacts — delegate to Governance Steward
+- Any documentation content — delegate to Writer
 - Running and interpreting test suites — delegate to Reviewer with test-engineering skills
 - Code review and compliance checks — delegate to Reviewer with code-quality-review skills
 - UX compliance reviews — delegate to Reviewer with ux-compliance-review skills
@@ -185,6 +188,7 @@ Parallel agents sharing a worktree can exhaust system resources. Rust compilatio
 | Reviewer + test-engineering | High (cargo test) | Nothing — run alone |
 | Implementer + diagnostic-methodology | Medium (may compile) | Frontend-only agents |
 | Researcher, Planner, Writer | None | Any agent |
+| Governance Steward | None | Any agent |
 
 ## Why This Exists
 

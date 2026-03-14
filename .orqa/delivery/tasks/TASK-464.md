@@ -2,7 +2,7 @@
 id: TASK-464
 title: "Create delegation reference document"
 description: "Create the orchestrator's single source of truth for delegation — a lookup table mapping every work type to agent role, required skills, and grounding document. Makes delegation a lookup, not a judgement call."
-status: todo
+status: done
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
