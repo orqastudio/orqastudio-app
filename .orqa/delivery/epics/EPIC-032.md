@@ -1,4 +1,6 @@
 ---
+
+
 id: EPIC-032
 title: Artifact System Migration
 description: "Make the artifact system self-sustaining: correct default creation, historical content linkage, and framework coverage for all 8 types."
@@ -27,6 +29,13 @@ scoring:
   scope: 3
   dependency-risk: 2
   score: 4.1
+relationships:
+  - target: RES-025
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-025"
+  - target: RES-028
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-028"
 ---
 ## Workstreams
 

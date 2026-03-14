@@ -1,4 +1,9 @@
 ---
+
+
+
+
+
 id: IMPL-023
 title: "Observation logging and recurrence tracking should be automated, not manual"
 description: "Agents and orchestrators encounter 'why did that happen?' moments during implementation but don't automatically log observations or increment recurrence on existing lessons. The learning loop depends on manual discipline which breaks under cognitive load. Automation would make the loop self-sustaining."
@@ -20,8 +25,22 @@ relationships:
   - target: RULE-017
     type: observed-by
     rationale: "RULE-017 codified the three-tier logging discipline (blocking/non-blocking/borderline) first observed in this lesson"
+  - target: IMPL-025
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-025"
+  - target: IMPL-024
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-024"
+  - target: IMPL-033
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-033"
+  - target: IMPL-039
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-039"
+  - target: IMPL-038
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-038"
 ---
-
 ## Pattern
 
 The Knowledge Maturity Pipeline has an automated observation-to-enforcement path on paper, but in practice:

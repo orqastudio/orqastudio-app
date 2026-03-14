@@ -1,4 +1,7 @@
 ---
+
+
+
 id: EPIC-049
 title: Agent, Skill, and Enforcement Artifact Audit
 description: Comprehensive audit of all agent definitions, skill definitions, and enforcement artifacts (rules, hooks) to verify accuracy against the current codebase, fix stale references, remove deprecated content, and ensure internal consistency.
@@ -22,6 +25,16 @@ scoring:
   foundation: 5
   complexity: 3
   score: 4.0
+relationships:
+  - target: RES-035
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-035"
+  - target: RES-037
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-037"
+  - target: RES-036
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-036"
 ---
 ## Context
 

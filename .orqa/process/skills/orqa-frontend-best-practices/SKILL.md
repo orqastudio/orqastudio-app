@@ -1,4 +1,6 @@
 ---
+
+
 id: "SKILL-042"
 title: "OrqaStudio Frontend Best Practices"
 description: "Umbrella skill for all frontend implementation work. Establishes composability,
@@ -23,8 +25,13 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "Umbrella conventions for component purity, store patterns, and Svelte 5 runes ensure UI code follows visible, enforceable standards"
+  - target: AD-013
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-013"
+  - target: AD-019
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-019"
 ---
-
 This skill ensures every frontend agent has the right mental model before writing code. It does not duplicate content from deeper skills — it establishes principles and points to the right references.
 
 ## Always In Mind

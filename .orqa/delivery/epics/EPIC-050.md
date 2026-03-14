@@ -1,4 +1,6 @@
 ---
+
+
 id: EPIC-050
 title: Rule Enforcement Engine with Claude Code Companion Plugin
 description: |
@@ -26,6 +28,12 @@ relationships:
   - target: RES-056
     type: informed-by
     rationale: "Research analyzing what this epic built vs. what remains incomplete"
+  - target: EPIC-064
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-064"
+  - target: TASK-415
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from TASK-415"
 docs-required: []
 docs-produced: []
 scoring:
@@ -35,8 +43,6 @@ scoring:
   complexity: 4
   score: 4.5
 ---
-
-
 ## Context
 
 OrqaStudio has 39 rules in `.orqa/process/rules/` with structured frontmatter

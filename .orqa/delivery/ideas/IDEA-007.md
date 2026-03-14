@@ -1,4 +1,5 @@
 ---
+
 id: IDEA-007
 title: Spaces & Organisational Structure
 description: |
@@ -14,6 +15,10 @@ research-needed:
   - Space-level governance inheritance
   - Multi-project aggregation UX
 promoted-to: null
+relationships:
+  - target: IDEA-085
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from IDEA-085"
 ---
 ## Candidate Items
 

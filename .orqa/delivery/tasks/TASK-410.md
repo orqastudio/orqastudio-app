@@ -2,7 +2,7 @@
 id: TASK-410
 title: "Investigate and suppress tao event loop warnings"
 description: "Investigate tao framework event loop warnings flooding the dev controller output. Determine if they indicate a real issue or can be safely filtered."
-status: todo
+status: done
 priority: P3
 created: "2026-03-13"
 updated: "2026-03-13"

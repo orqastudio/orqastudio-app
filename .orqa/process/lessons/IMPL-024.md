@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-024
 title: "Lessons learned should be recorded on task completion artifacts"
 description: "When a task is completed, any observations logged or recurrence incremented during that task should be recorded in the task artifact itself. This makes the learning visible to the user as part of the completion statement, not buried in conversation history."
@@ -20,8 +21,10 @@ relationships:
   - target: TASK-308
     type: grounded-by
     rationale: "Promoted to this task which updated the task schema with the mandatory Lessons body section"
+  - target: IMPL-025
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-025"
 ---
-
 ## Pattern
 
 Currently, task artifacts have three body sections: What, How, Verification. When a task is completed, the agent updates `status: done` but doesn't record what was learned during implementation.

@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-056
 title: "Repository Directory Reorganisation"
 description: |
@@ -25,8 +26,11 @@ scoring:
   dogfood-value: 5
   user-facing: 1
   foundation: 5
+relationships:
+  - target: RES-044
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-044"
 ---
-
 ## Context
 
 Both Vite and Rust file watchers currently watch the entire repository root. This causes

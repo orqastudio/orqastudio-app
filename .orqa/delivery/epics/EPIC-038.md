@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-038
 title: UX Polish Sprint
 description: "UX improvements identified during early dogfooding: streaming fix, output truncation, tool call grouping, auto-naming sessions, custom titlebar."
@@ -21,6 +22,10 @@ scoring:
   effort: 3
   risk: 2
   score: 15
+relationships:
+  - target: RES-023
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-023"
 ---
 ## Implementation Design
 

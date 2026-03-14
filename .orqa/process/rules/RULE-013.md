@@ -1,4 +1,5 @@
 ---
+
 id: RULE-013
 title: Git Workflow
 description: Worktree-based workflow with mandatory cleanup, stash policy, and data loss prevention rules.
@@ -62,6 +63,9 @@ relationships:
   - type: grounded
     target: IMPL-015
     rationale: Worktree cleanup lesson grounds the mandatory cleanup constraint
+  - target: RULE-045
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RULE-045"
 ---
 **Source of Truth:** `.orqa/documentation/process/workflow.md`
 

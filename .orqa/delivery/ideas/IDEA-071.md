@@ -1,4 +1,10 @@
 ---
+
+
+
+
+
+
 id: IDEA-071
 title: "Plugin ecosystem: type system, provider integration, capability routing"
 description: "Implement the plugin type taxonomy, AI provider schema, capability fulfilment model, and plugin installation wiring designed in RES-052. Covers plugin.json schema extension, .orqa/providers/ definitions, per-project capability routing, and load-time plugin filtering."
@@ -15,8 +21,26 @@ research-needed:
   - "Load-time filtering implementation for non-matching plugins"
   - "App MCP server baseline capabilities manifest"
 promoted-to: null
+relationships:
+  - target: IMPL-020
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-020"
+  - target: IMPL-020
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from IMPL-020"
+  - target: IMPL-020
+    type: grounded
+    rationale: "Auto-generated inverse of grounded relationship from IMPL-020"
+  - target: IMPL-019
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-019"
+  - target: IMPL-019
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from IMPL-019"
+  - target: IMPL-019
+    type: grounded
+    rationale: "Auto-generated inverse of grounded relationship from IMPL-019"
 ---
-
 ## Motivation
 
 [RES-052](RES-052) established the design decisions for plugin-provider pairing, capability fulfilment, and plugin type taxonomy. These decisions need implementation:

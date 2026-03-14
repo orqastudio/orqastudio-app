@@ -1,4 +1,6 @@
 ---
+
+
 id: EPIC-040
 title: Provider Abstraction Layer
 description: Refactor sidecar from Claude-specific to provider-agnostic architecture. Provider interface, Claude adapter, sdk_session_id → provider_session_id rename across 13+ files including SQLite migration.
@@ -23,6 +25,13 @@ scoring:
   effort: 4
   risk: 3
   score: 20
+relationships:
+  - target: RES-009
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-009"
+  - target: RES-027
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-027"
 ---
 ## Implementation Design
 

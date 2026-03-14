@@ -1,4 +1,6 @@
 ---
+
+
 id: IMPL-050
 title: "Enforcement gaps are always CRITICAL on a product that enforces its own principles"
 description: "On OrqaStudio specifically, any discovered gap between a declared principle and its mechanical enforcement is a CRITICAL issue addressed immediately — not deferred, not scoped out. We can't dogfood our own product until the underlying enforcement structure is in place. This is a project-level priority principle that should be encoded in the pillar framework and priority system."
@@ -23,8 +25,13 @@ relationships:
   - target: AD-048
     type: informs
     rationale: "This lesson's principle (enforcement gaps are critical) informed the decision that rule promotion requires enforcement"
+  - target: RULE-046
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from RULE-046"
+  - target: IMPL-054
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-054"
 ---
-
 ## Pattern
 
 OrqaStudio is a product that helps people enforce structured thinking through governance artifacts, rules, and pipeline automation. If the product's own governance has enforcement gaps, the product is not credible — we're shipping a system that doesn't follow its own principles.

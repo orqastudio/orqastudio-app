@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-020
 title: "Plugins from other sidecars should be disabled when not in their sidecar context"
 description: "When multiple sidecar-specific plugins are installed, only the plugin matching the active sidecar should be loaded. Plugins from other sidecars should be disabled or scoped to prevent cross-context interference (wrong hooks firing, incompatible tool references)."
@@ -23,8 +24,10 @@ relationships:
   - target: IDEA-071
     type: grounded-by
     rationale: "Promoted to this idea for implementation of context-scoped plugin activation"
+  - target: IMPL-027
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-027"
 ---
-
 ## Pattern
 
 Consider a project with two sidecar-specific plugins installed:

@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-031
 title: "Capability configuration is per-project with plugin-provided defaults"
 description: "Capability routing (native vs app-MCP) is configured per-project because plugin selection is per-project. Provider integration plugins should ship sane defaults for their capability mappings. Plugins can also ADD capabilities to the system that the app doesn't natively support, extending the capability vocabulary when a provider offers something new."
@@ -14,8 +15,10 @@ relationships:
   - target: IMPL-027
     type: informed-by
     rationale: "Plugin type system — ai-provider-integration plugins are the source of capability defaults"
+  - target: IMPL-032
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-032"
 ---
-
 ## Pattern
 
 Three layers of capability configuration:

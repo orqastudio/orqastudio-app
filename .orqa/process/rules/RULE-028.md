@@ -1,4 +1,5 @@
 ---
+
 id: RULE-028
 title: Systems Thinking First
 description: Every change must be evaluated as part of the whole system, not as an isolated fix. This is the foundational discipline that OrqaStudio exists to enable — it applies to every project the app manages.
@@ -33,6 +34,9 @@ relationships:
   - type: informed-by
     target: RULE-030
     rationale: UAT systemic analysis phase is systems thinking applied to quality assurance
+  - target: IMPL-034
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-034"
 ---
 # Systems Thinking First (NON-NEGOTIABLE)
 

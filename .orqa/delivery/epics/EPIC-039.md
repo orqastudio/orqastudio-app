@@ -1,4 +1,6 @@
 ---
+
+
 id: EPIC-039
 title: Composability Refactoring
 description: Major refactoring sprint establishing the domain service extraction pattern. Decomposed monolithic command files, decoupled stores, extracted utilities, added semantic design tokens, and established the thin-command → domain service → repository pattern.
@@ -23,6 +25,13 @@ scoring:
   effort: 5
   risk: 3
   score: 22
+relationships:
+  - target: RES-020
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-020"
+  - target: RES-021
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-021"
 ---
 ## Implementation Design
 

@@ -1,4 +1,6 @@
 ---
+
+
 id: RULE-022
 title: Plan Mode Compliance
 description: Every implementation plan must have architectural compliance verification and UX-first design.
@@ -46,6 +48,12 @@ relationships:
   - type: informed-by
     target: RULE-028
     rationale: Systems Architecture Checklist operationalises systems thinking in every plan
+  - target: IMPL-035
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-035"
+  - target: IMPL-048
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-048"
 ---
 Every implementation plan — whether captured in an epic, a task, or proposed in conversation — MUST satisfy two mandatory requirements before implementation begins.
 

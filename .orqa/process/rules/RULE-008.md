@@ -1,4 +1,5 @@
 ---
+
 id: RULE-008
 title: Documentation-First Implementation
 description: Documentation is the source of truth. Verify docs exist before writing code; update docs before changing code.
@@ -60,6 +61,9 @@ relationships:
   - type: informed-by
     target: RULE-027
     rationale: Structure before work requires artifact documentation to exist before implementation begins
+  - target: IMPL-047
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-047"
 ---
 ## Principle
 

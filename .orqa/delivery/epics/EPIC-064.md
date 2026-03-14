@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-064
 title: "Close enforcement bootstrapping gap"
 description: "The enforcement system is half-complete across all layers — rules declare enforcement entries but critical event types (stop) and actions (skill content injection) are not consumed by the plugin, and the Rust engine is disconnected from agent execution. This epic closes every gap so the system can enforce itself during its own development."
@@ -42,8 +43,10 @@ relationships:
   - target: IMPL-055
     type: informed-by
     rationale: "Missing graph integrity at write-time — symptom this epic prevents"
+  - target: EPIC-050
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-050"
 ---
-
 ## Context
 
 OrqaStudio's enforcement system (EPIC-050) built the infrastructure: a Claude Code plugin with rule-engine.mjs handling file/bash events, a Rust EnforcementEngine with full pattern matching, and process gates tracking workflow state. But critical gaps remain:

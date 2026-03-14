@@ -1,4 +1,6 @@
 ---
+
+
 id: EPIC-005
 title: Artifact Browser — Sort, Filter, Search
 description: Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and a references panel.
@@ -21,8 +23,14 @@ scoring:
   dependency: 3
   effort: 4
   score: 8.8
+relationships:
+  - target: RES-029
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-029"
+  - target: RES-038
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-038"
 ---
-
 ## Why P1
 
 The core app's job is to let users **navigate and search** artifacts ([AD-033](AD-033)). Navigation and cross-linking are built. What's missing is the ability to sort/group/filter the artifact list, search across all artifacts semantically, and surface cross-references. Editing is tracked separately in [EPIC-004](EPIC-004).

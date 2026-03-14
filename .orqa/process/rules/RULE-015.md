@@ -1,4 +1,7 @@
 ---
+
+
+
 id: RULE-015
 title: Honest Reporting
 description: Report status accurately. Partial work reported as complete is worse than reporting it as incomplete.
@@ -51,6 +54,15 @@ relationships:
   - type: informed-by
     target: RULE-030
     rationale: UAT process requires findings to be reported accurately before grouping into systemic tasks
+  - target: IMPL-024
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-024"
+  - target: IMPL-021
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-021"
+  - target: IMPL-026
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-026"
 ---
 ## The Core Rule
 

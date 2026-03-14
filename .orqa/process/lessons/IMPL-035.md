@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-035
 title: "Design discussions need a structured mode with built-in checkpoints"
 description: "Extended design discussions produce decisions, observations, ideas, and scope changes without structured checkpoints. The orchestrator should have a 'design discussion mode' that enforces: one decision at a time, periodic zoom-outs, automatic observation logging, and a wrap-up protocol that captures all outcomes before transitioning to implementation."
@@ -17,8 +18,10 @@ relationships:
   - target: RULE-022
     type: observes
     rationale: "Plan compliance governs implementation plans — design discussions are a precursor that has no equivalent governance"
+  - target: IMPL-036
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-036"
 ---
-
 ## Pattern
 
 This session's design discussion produced 18 observations, 3 ideas, a research document, design decisions across 4 themes, and scope changes. The orchestrator had no structured protocol for managing this. Problems that emerged:

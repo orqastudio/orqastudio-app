@@ -1,4 +1,6 @@
 ---
+
+
 id: PILLAR-003
 title: Purpose Through Continuity
 description: The system actively maintains coherence between intention and action. It prevents drift between what the user set out to do and what is actually being done, ensuring purpose is never lost during implementation.
@@ -18,6 +20,12 @@ relationships:
   - type: informed-by
     target: PILLAR-002
     rationale: The learning loop feeds back into ongoing purpose maintenance — lessons and retrospectives help the system detect when execution has drifted from intention
+  - target: RULE-046
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from RULE-046"
+  - target: IMPL-050
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-050"
 ---
 ## What This Pillar Means
 

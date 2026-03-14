@@ -1,4 +1,6 @@
 ---
+
+
 id: TASK-307
 title: "Design plugin-sidecar pairing mechanism (IMPL-019, IMPL-020)"
 description: "Design the plugin type taxonomy, AI provider schema, and capability fulfilment model schemas. Design only — implementation is deferred to IDEA-071. Covers plugin.json schema extension, provider definition schema, and capability routing configuration shape."
@@ -14,8 +16,14 @@ acceptance:
   - "Capability routing config shape designed for project.json"
   - "All schemas documented, user-approved"
   - "IDEA-071 created to track implementation"
+relationships:
+  - target: IMPL-020
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-020"
+  - target: IMPL-019
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-019"
 ---
-
 ## What
 
 Design how plugins declare which sidecar they require and how the system enforces that pairing. This covers [IMPL-019](IMPL-019) (declaration) and [IMPL-020](IMPL-020) (enforcement) as two sides of the same design.

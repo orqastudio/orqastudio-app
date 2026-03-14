@@ -1,4 +1,7 @@
 ---
+
+
+
 id: IMPL-052
 title: "Orchestrator stops to ask permission when not blocked — breaks flow"
 description: "After completing Phase 1 of EPIC-061, the orchestrator asked 'shall I continue?' instead of just continuing. It was not blocked — no dependency gate, no user decision needed, no ambiguity. Asking permission when unblocked wastes the user's time and breaks momentum."
@@ -15,8 +18,16 @@ relationships:
   - target: IMPL-049
     type: informed-by
     rationale: "Same pattern of unnecessary user interaction — the orchestrator defers when it should act"
+  - target: RULE-001
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from RULE-001"
+  - target: RULE-001
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from RULE-001"
+  - target: IMPL-054
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-054"
 ---
-
 ## Pattern
 
 After completing a task, the orchestrator asks "shall I continue?" or "ready for the next phase?" when there is no blocking dependency, no ambiguity, and no user decision needed. This breaks flow and forces the user to type "yes" for no reason. The user already approved the epic scope — the orchestrator has standing authorization to execute the plan.

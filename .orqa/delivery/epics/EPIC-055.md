@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-055
 title: "Codebase Quality and Composability Alignment"
 description: |
@@ -24,8 +25,11 @@ scoring:
   dogfood-value: 5
   user-facing: 2
   foundation: 5
+relationships:
+  - target: RES-043
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-043"
 ---
-
 ## Context
 
 [RES-043](RES-043) audited the entire codebase (23k lines Rust, 15k lines Svelte/TS, 4k lines

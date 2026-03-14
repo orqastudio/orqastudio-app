@@ -1,4 +1,5 @@
 ---
+
 id: IDEA-004
 title: Structured Thinking Tools
 description: |
@@ -15,6 +16,10 @@ research-needed:
   - UX research for interactive decision matrices
   - Integration with artifact layer
 promoted-to: null
+relationships:
+  - target: IDEA-086
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from IDEA-086"
 ---
 ## Candidate Items
 

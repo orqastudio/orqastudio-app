@@ -1,4 +1,6 @@
 ---
+
+
 id: TASK-310
 title: "Plugin: maintain memory entries for unimplemented ADs"
 description: "Use Claude Code's memory system to surface unimplemented architecture decisions. Session-start hook creates/updates concise memory entries for accepted ADs lacking enforced-by/practiced-by edges. Hook also cleans up memory entries when ADs mature. Leverages provider-native memory for compaction-resistant context."
@@ -15,8 +17,14 @@ acceptance:
   - "Memory files removed when ADs gain enforced-by or practiced-by edges"
   - "Existing session-start functionality unchanged"
   - "Stdout AD injection block replaced with memory-based approach"
+relationships:
+  - target: IMPL-040
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-040"
+  - target: IMPL-040
+    type: grounded
+    rationale: "Auto-generated inverse of grounded relationship from IMPL-040"
 ---
-
 ## What
 
 Use Claude Code's native memory system to surface architecture decisions that haven't yet matured into enforcement artifacts (rules/skills). The session-start hook manages memory files — creating entries for unimplemented ADs, removing them when ADs mature. This leverages provider capabilities rather than reinventing context injection, and survives context compaction.

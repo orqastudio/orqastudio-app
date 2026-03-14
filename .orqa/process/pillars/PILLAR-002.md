@@ -1,4 +1,11 @@
 ---
+
+
+
+
+
+
+
 id: PILLAR-002
 title: Learning Through Reflection
 description: The system and its users improve over time through structured retrospection.
@@ -66,6 +73,27 @@ relationships:
   - type: grounded-by
     target: SKILL-035
     rationale: UAT process skill captures the structured testing methodology that produces both fixes and process improvements
+  - target: AD-043
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from AD-043"
+  - target: IMPL-041
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-041"
+  - target: AD-044
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from AD-044"
+  - target: RULE-046
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from RULE-046"
+  - target: IMPL-048
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-048"
+  - target: PILLAR-003
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from PILLAR-003"
+  - target: IMPL-050
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-050"
 ---
 ## What This Pillar Means
 

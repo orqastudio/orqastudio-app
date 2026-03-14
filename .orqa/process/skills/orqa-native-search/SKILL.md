@@ -1,4 +1,6 @@
 ---
+
+
 id: "SKILL-013"
 title: "Orqa Native Search"
 description: "How to use Orqa's embedded search tools in the app context: tool names,
@@ -25,8 +27,13 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "Embedded ONNX+DuckDB search lets in-app agents discover code relationships and documentation without external tools"
+  - target: AD-024
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-024"
+  - target: AD-037
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-037"
 ---
-
 Orqa provides three search tools accessible from within the app. This skill covers
 how to USE them — for implementation details of the engine itself, see `orqa-search-architecture`.
 

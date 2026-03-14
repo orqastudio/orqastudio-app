@@ -1,4 +1,5 @@
 ---
+
 id: "SKILL-012"
 title: "Orqa IPC Patterns"
 description: "OrqaStudio IPC patterns: Tauri invoke() calls, #[tauri::command] handlers,
@@ -24,9 +25,10 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "Tauri invoke() contracts with matching Rust and TypeScript types make the frontend-backend boundary explicit and type-safe"
+  - target: AD-010
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-010"
 ---
-
-
 OrqaStudio uses Tauri v2's `invoke()` as the ONLY interface between the Svelte frontend and the Rust backend. There are no HTTP servers, no direct FFI calls, and no side channels.
 
 ## The Full Request Chain

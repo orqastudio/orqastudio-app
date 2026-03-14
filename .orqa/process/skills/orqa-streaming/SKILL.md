@@ -1,4 +1,6 @@
 ---
+
+
 id: "SKILL-017"
 title: "Orqa Streaming Pipeline"
 description: "OrqaStudio streaming pipeline: Agent SDK → sidecar (Bun) → NDJSON → Rust Channel<T> → Svelte.
@@ -24,9 +26,13 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "NDJSON protocol with typed ProviderEvent/StreamEvent makes every stage of the LLM-to-UI pipeline observable and debuggable"
+  - target: AD-009
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-009"
+  - target: AD-007
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-007"
 ---
-
-
 OrqaStudio streams Claude conversations through a multi-layer pipeline. Understanding this pipeline is critical for anyone touching streaming, tool execution, or the sidecar.
 
 ## Pipeline Overview

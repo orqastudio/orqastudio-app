@@ -1,4 +1,16 @@
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 id: RULE-004
 title: Artifact Lifecycle
 description: Enforces creation standards, status transitions, promotion gates, and documentation gates for all .orqa/ artifacts.
@@ -102,6 +114,42 @@ relationships:
   - type: grounded
     target: IMPL-044
     rationale: Lesson IMPL-044 identified that idea promotion should include a related-ideas scan step
+  - target: IMPL-044
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-044"
+  - target: IMPL-051
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-051"
+  - target: AD-044
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-044"
+  - target: IMPL-042
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-042"
+  - target: IMPL-043
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-043"
+  - target: IMPL-040
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-040"
+  - target: IMPL-022
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-022"
+  - target: IMPL-046
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-046"
+  - target: IMPL-038
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-038"
+  - target: IMPL-021
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-021"
+  - target: IMPL-052
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-052"
+  - target: AD-023
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-023"
 ---
 Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enforces creation standards, status transitions, promotion gates, documentation gates, and cross-referencing.
 

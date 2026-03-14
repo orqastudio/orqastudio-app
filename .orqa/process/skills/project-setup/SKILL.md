@@ -1,4 +1,6 @@
 ---
+
+
 id: "SKILL-023"
 title: "Project Setup"
 description: "Universal project scaffolding: creates the .orqa/ directory structure,
@@ -23,8 +25,13 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "Scaffolding .orqa/ with core rules, skills, and project.json gives a new project a visible governance baseline from day one"
+  - target: AD-030
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-030"
+  - target: AD-016
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-016"
 ---
-
 > **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.
 
 Creates the base governance structure for any project. This skill is domain-agnostic — it sets up the infrastructure that all project types share. Domain-specific rules and skills are added by project type presets (e.g., `project-type-software`).

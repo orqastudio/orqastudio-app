@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-036
 title: "Rebrand: Forge → OrqaStudio"
 description: "Product rebrand from \"Forge\" to \"Orqa Studio\": name, directory structure (src/ → ui/), brand assets, documentation, and build configuration updates."
@@ -21,6 +22,10 @@ scoring:
   effort: 3
   risk: 2
   score: 16
+relationships:
+  - target: RES-015
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-015"
 ---
 ## Implementation Design
 

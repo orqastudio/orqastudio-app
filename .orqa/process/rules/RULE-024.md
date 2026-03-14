@@ -1,4 +1,5 @@
 ---
+
 id: RULE-024
 title: Reusable Components
 description: Check shared component library before creating new UI elements. Use EmptyState, LoadingSpinner, ErrorDisplay, etc.
@@ -26,6 +27,9 @@ relationships:
   - type: informed-by
     target: RULE-033
     rationale: Tooltip usage rule is a specific shared component pattern covered by this rule
+  - target: RULE-005
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RULE-005"
 ---
 ## Shared Component Library
 

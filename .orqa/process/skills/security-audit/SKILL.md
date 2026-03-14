@@ -1,4 +1,5 @@
 ---
+
 id: "SKILL-028"
 title: "Security Audit"
 description: "Security auditing methodology: secret management, capability/permission systems,
@@ -23,9 +24,10 @@ relationships:
   - target: "PILLAR-001"
     type: "grounded"
     rationale: "Systematic permission, secret, and dependency audits surface hidden risks as documented findings with severity classifications"
+  - target: AD-011
+    type: practices
+    rationale: "Auto-generated inverse of practices relationship from AD-011"
 ---
-
-
 Security auditing methodology for applications. This skill teaches *what to check and how* — the specific security mechanisms (e.g., Tauri capabilities, keyring APIs) come from the project's technology skills.
 
 ## Security Domains

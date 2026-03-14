@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-045
 title: "User prompt input should infer intent and auto-record observations"
 description: "When a user submits a prompt, the system should infer intent — if the prompt contains an observation worth recording, the system should automatically capture it as an IMPL entry without requiring the user to explicitly say 'observation:' or ask for it to be recorded."
@@ -17,8 +18,10 @@ relationships:
   - target: IDEA-077
     type: grounded-by
     rationale: "Promoted to IDEA-077 Phase 0 for implementation as a prompt-submit hook"
+  - target: IMPL-047
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-047"
 ---
-
 ## Pattern
 
 Users naturally embed observations, feedback, and process insights within their prompts. Currently the orchestrator only records these when the user explicitly prefixes with "observation:" or asks for it. The system should infer when a prompt contains a recordable observation and capture it automatically — the user's suggestion of a "prompt input hook" points to this being a pre-processing step on every user message.

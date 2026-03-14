@@ -1,4 +1,7 @@
 ---
+
+
+
 id: RULE-005
 title: Code Search Usage
 description: Prefer semantic search over Grep/Glob for multi-file searches. Load the correct search skill for your context.
@@ -60,6 +63,15 @@ relationships:
   - type: informed-by
     target: RULE-040
     rationale: Provider-agnostic capabilities maps code search capabilities to context-specific tool names
+  - target: RULE-035
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RULE-035"
+  - target: AD-024
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-024"
+  - target: AD-037
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-037"
 ---
 **Prefer semantic search over Grep/Glob for any search that spans more than one file or directory.**
 

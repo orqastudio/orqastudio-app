@@ -1,4 +1,8 @@
 ---
+
+
+
+
 id: EPIC-033
 title: Vision Alignment & Schema Simplification
 description: "Align all documentation, governance rules, agent definitions, and code with the evolved vision: .orqa/ as sole source of truth, provider-agnostic AI integration, three-layer architecture (Canon/Project/Plugin), and simplified artifact schema where plans are merged into research and tasks trace cleanly to epics to milestones."
@@ -24,6 +28,19 @@ scoring:
   scope: 4
   dependency-risk: 3
   score: 4.3
+relationships:
+  - target: RES-014
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-014"
+  - target: RES-017
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-017"
+  - target: RES-011
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-011"
+  - target: RES-031
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-031"
 ---
 ## Implementation Design
 

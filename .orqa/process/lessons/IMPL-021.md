@@ -1,4 +1,6 @@
 ---
+
+
 id: IMPL-021
 title: "Open items discovered during implementation are not tracked as tasks"
 description: "When work reveals open items (dead code, cleanup needed, research questions, follow-up fixes), these get reported in conversation but are not formalized as tasks in the artifact system. When the session ends, they exist only in conversation history and Claude memory — both lossy stores. The epic gets marked done while untracked work remains."
@@ -23,8 +25,13 @@ relationships:
   - target: RULE-004
     type: observed-by
     rationale: "RULE-004 codified the open-item tracking and triage protocol first observed in this lesson"
+  - target: IMPL-022
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-022"
+  - target: IMPL-023
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-023"
 ---
-
 ## Pattern
 
 During [EPIC-059](EPIC-059) implementation, several items were identified but never formalized as tasks:

@@ -1,4 +1,7 @@
 ---
+
+
+
 id: IMPL-049
 title: "Out of Scope sections created without user verification — RULE-019 violated"
 description: "The orchestrator wrote Out of Scope sections on epics without presenting them to the user for approval. RULE-019 requires every scope reduction to be a user decision. This is a self-compliance-only rule (no mechanical enforcement) and was violated twice in the same session — first on EPIC-060, then on EPIC-061."
@@ -17,8 +20,16 @@ relationships:
   - target: EPIC-061
     type: informed-by
     rationale: "Discovered when user asked why Out of Scope wasn't verified during epic creation"
+  - target: IMPL-051
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-051"
+  - target: IMPL-052
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-052"
+  - target: IMPL-050
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-050"
 ---
-
 ## Pattern
 
 When creating epics, the orchestrator decides what is "out of scope" and writes it into the epic without asking the user. This violates [RULE-019](RULE-019)'s principle that scope reductions are user decisions. The rule exists but is self-compliance only — no tooling flags when an Out of Scope section is created without an approval step.

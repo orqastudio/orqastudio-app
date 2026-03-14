@@ -1,4 +1,6 @@
 ---
+
+
 id: IMPL-034
 title: "The orchestrator should periodically zoom out and sanity-check scope"
 description: "During extended design discussions, the orchestrator can lose sight of the bigger picture — accumulating decisions, observations, and tasks without pausing to verify the whole still makes sense. A periodic zoom-out sanity check should be automatic, not user-prompted."
@@ -14,8 +16,13 @@ relationships:
   - target: IMPL-026
     type: informed-by
     rationale: "Same pattern as batching decisions — accumulating without pausing to assess"
+  - target: IMPL-035
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-035"
+  - target: IMPL-040
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-040"
 ---
-
 ## Pattern
 
 This session has produced 17 observations (IMPL-018 through IMPL-034), 2 ideas (IDEA-069, 070), 8 tasks, a research document, and numerous design decisions. At no point did the orchestrator pause unprompted to ask: "Are we still on track? Has the scope drifted? Is the epic still coherent?"

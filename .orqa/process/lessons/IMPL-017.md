@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-017
 title: "Directory reorganizations leave stale paths in source code"
 description: "When .orqa/ directories are moved, hardcoded path references in Rust, TypeScript, and test fixtures are not caught by verify-links because it only scans markdown artifacts. Requires a maintained path manifest and source code scanning."
@@ -14,8 +15,10 @@ relationships:
   - target: RULE-010
     type: observes
     rationale: "End-to-end completeness means all layers updated together — stale paths in Rust while config is correct is a partial update"
+  - target: IMPL-018
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-018"
 ---
-
 ## Pattern
 
 When directory structure changes (e.g., `.orqa/governance/` → `.orqa/process/`, `.orqa/planning/` → `.orqa/delivery/`), the following get updated:

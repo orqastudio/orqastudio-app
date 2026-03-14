@@ -1,4 +1,7 @@
 ---
+
+
+
 id: RULE-001
 title: Agent Delegation
 description: The orchestrator coordinates but does not implement. All implementation is delegated to universal roles with appropriate skills.
@@ -63,6 +66,15 @@ relationships:
   - type: enforced-by
     target: AD-048
     rationale: AD-048 requires enforcement to accompany any lesson promotion to a rule — this rule's autonomous continuation section is the promotion target
+  - target: TASK-411
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from TASK-411"
+  - target: IMPL-039
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-039"
+  - target: IMPL-029
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-029"
 enforcement:
   - event: stop
     action: warn

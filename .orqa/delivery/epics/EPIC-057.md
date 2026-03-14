@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-057
 title: "Codebase Audit and Architecture Documentation"
 description: "Thorough code review ensuring artifact accuracy, documenting undiscovered implementation patterns, removing dead/outdated code, assessing test coverage, aligning linting with coding standards, and producing complete architecture documentation for the target core application."
@@ -20,8 +21,11 @@ scoring:
   architectural-impact: 5
   complexity: 3
   risk: 2
+relationships:
+  - target: RES-047
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-047"
 ---
-
 ## Context
 
 [RES-047](RES-047) identified significant gaps: 8 untested command modules, zero integration tests, zero component tests, documentation path drift post-restructure, clippy pedantic not explicitly configured, no coverage measurement tooling, and several active epic tasks marked done incorrectly.

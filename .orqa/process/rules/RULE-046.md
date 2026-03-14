@@ -1,4 +1,5 @@
 ---
+
 id: RULE-046
 title: Behavioral Rule Enforcement Plan
 description: "Defines enforcement strategies for rules that cannot be mechanically checked by linters, hooks, or tooling. Every behavioral rule has a defined enforcement mechanism: prompt injection, output validation, skill injection, or session hooks."
@@ -18,8 +19,10 @@ relationships:
   - type: informed-by
     target: IMPL-050
     rationale: Lesson that enforcement gaps are CRITICAL on self-enforcing products drove this rule's creation
+  - target: RES-056
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from RES-056"
 ---
-
 Rules that cannot be enforced by linters, hooks, or automated tooling still need a defined enforcement mechanism. Every behavioral rule maps to one of four strategies, and each strategy has a concrete implementation path.
 
 ## Enforcement Strategies

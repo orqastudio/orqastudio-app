@@ -1,4 +1,6 @@
 ---
+
+
 id: RULE-012
 title: Error Ownership
 description: All errors are your responsibility. Pre-existing errors must be fixed. Never skip or ignore failures.
@@ -48,6 +50,12 @@ relationships:
   - type: informed-by
     target: RULE-043
     rationale: Tooling ecosystem channels error ownership through configured linters and hooks
+  - target: RULE-010
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RULE-010"
+  - target: RULE-005
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RULE-005"
 ---
 ## Rule (NON-NEGOTIABLE)
 

@@ -1,4 +1,8 @@
 ---
+
+
+
+
 id: EPIC-060
 title: "Pipeline health dashboard"
 description: "Surface pipeline integrity on the app dashboard with scan/fix actions, add pipeline visualization and temporal analytics."
@@ -25,8 +29,20 @@ scoring:
   pipeline-visibility: 10
   implementation-complexity: 7
 rule-overrides: []
+relationships:
+  - target: IDEA-091
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IDEA-091"
+  - target: EPIC-063
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from EPIC-063"
+  - target: EPIC-065
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from EPIC-065"
+  - target: RES-055
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-055"
 ---
-
 ## Context
 
 Pipeline integrity checks (`make verify`) only run from the CLI or pre-commit hook. The artifact graph already computes orphans and broken refs during its two-pass build, and the dashboard already shows GraphStats (nodes, edges, orphans, broken refs) — but there's no way to run targeted integrity checks on-demand, see categorised issues, or fix them from the UI.

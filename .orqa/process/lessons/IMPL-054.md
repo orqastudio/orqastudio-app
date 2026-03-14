@@ -1,4 +1,7 @@
 ---
+
+
+
 id: IMPL-054
 title: "Orchestrator bypassed OrqaStudio's enforcement system in favor of raw platform hooks"
 description: "When adding enforcement for RULE-001, the orchestrator created a raw Claude Code Stop hook in .claude/hooks/ instead of using the artifact graph enforcement system. This bypasses the very system we're building."
@@ -22,8 +25,16 @@ relationships:
   - target: AD-048
     type: informs
     rationale: "This lesson directly triggered the decision that rule promotion requires enforcement through the artifact graph"
+  - target: RES-056
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from RES-056"
+  - target: EPIC-064
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-064"
+  - target: IMPL-055
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-055"
 ---
-
 ## Pattern
 
 When promoting IMPL-052 (permission-seeking) to RULE-001, the orchestrator needed to add enforcement. Instead of working through the artifact graph's enforcement system (enforcement entries on rules, consumed by the plugin and app), it created a raw `.claude/hooks/block-permission-seeking.sh` — a platform-specific hook that bypasses the entire governance system.

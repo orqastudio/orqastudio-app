@@ -1,4 +1,6 @@
 ---
+
+
 id: RULE-045
 title: Data Integrity
 description: All artifact cross-references must resolve, pipeline relationships must have bidirectional inverses, and integrity checks run on every commit.
@@ -43,8 +45,13 @@ relationships:
   - type: observed-by
     target: IMPL-055
     rationale: IMPL-055 identified that commit-time-only enforcement is too late — write-time enforcement added as a result
+  - target: RES-056
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from RES-056"
+  - target: TASK-413
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from TASK-413"
 ---
-
 All artifact cross-references must resolve to existing artifacts. Pipeline relationships must have bidirectional inverses. These constraints are enforced at commit time and can be verified manually.
 
 ## Link Resolution (NON-NEGOTIABLE)

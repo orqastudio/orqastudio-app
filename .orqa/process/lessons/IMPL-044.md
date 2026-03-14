@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-044
 title: "Idea promotion should automatically surface related ideas for bundling"
 description: "When promoting an idea to an epic, the orchestrator should automatically scan all other ideas for thematic overlap and ask the user whether to bundle them into the same epic. Currently this requires manual prompting — the user had to explicitly ask 'see if there are any other ideas relevant to the dashboard'."
@@ -20,8 +21,10 @@ relationships:
   - target: IDEA-077
     type: informed-by
     rationale: "Observed during IDEA-077 promotion when user manually asked to check for related dashboard ideas"
+  - target: IMPL-045
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-045"
 ---
-
 ## Pattern
 
 During idea promotion (shaped → promoted), the orchestrator creates the epic from a single idea without checking whether other ideas address the same domain or could be bundled. The user has to manually ask "see if there are any other ideas relevant to the dashboard." This is exactly the kind of graph traversal the system should do automatically.

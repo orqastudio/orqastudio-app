@@ -1,4 +1,8 @@
 ---
+
+
+
+
 id: IDEA-077
 title: "Pipeline health dashboard — integrity surfacing, visualization, and process automation"
 description: "Surface pipeline integrity checks on the app dashboard with scan/fix actions, add pipeline thread visualization, temporal trend analysis, and automate two process improvements: related idea surfacing during promotion and intent-based observation capture from user prompts."
@@ -15,8 +19,20 @@ research-needed:
   - "Should the Rust backend call the existing Node scripts or reimplement the checks natively? → Native Rust implementation using the existing ArtifactGraph — the graph already tracks orphans and broken refs"
   - "How does this interact with the pre-commit hook — are they the same checks presented differently? → Same logical checks, different presentation. Hook blocks commits, dashboard shows current state."
 promoted-to: EPIC-060
+relationships:
+  - target: IMPL-044
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-044"
+  - target: IMPL-046
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-046"
+  - target: IMPL-045
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-045"
+  - target: IMPL-045
+    type: grounded
+    rationale: "Auto-generated inverse of grounded relationship from IMPL-045"
 ---
-
 ## Motivation
 
 Pipeline integrity checks (`make verify`) currently only run from the CLI or pre-commit hook. Issues like missing reconciliation tasks, broken cross-references, or empty relationship arrays are invisible until someone runs the tool manually. Surfacing these on the app dashboard makes the artifact graph's health a first-class concern — visible at a glance, not hidden behind a terminal command.

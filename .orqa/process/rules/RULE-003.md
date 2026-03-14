@@ -1,4 +1,10 @@
 ---
+
+
+
+
+
+
 id: RULE-003
 title: Artifact Config Integrity
 description: Every path in project.json artifacts must resolve to an actual directory on disk. Config-driven scanning with no hardcoded paths.
@@ -70,6 +76,24 @@ relationships:
   - type: enforces
     target: AD-043
     rationale: Three-level directory structure requires config paths to accurately reflect the process/delivery/documentation layout on disk
+  - target: IMPL-018
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-018"
+  - target: IMPL-037
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-037"
+  - target: AD-035
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-035"
+  - target: IMPL-019
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-019"
+  - target: IMPL-017
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-017"
+  - target: AD-041
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-041"
 ---
 # Artifact Config Integrity (NON-NEGOTIABLE)
 

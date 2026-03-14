@@ -1,4 +1,5 @@
 ---
+
 id: IDEA-038
 title: Plugin Distribution via Git Submodules
 description: An official plugins repository under the GitHub org that embeds each plugin as a git submodule. The app reads the repository catalogue, pulls plugins based on user selection, and manages versioning/updates. Each plugin is its own repo with independent releases.
@@ -16,6 +17,10 @@ research-needed:
   - Plugin isolation — how to prevent a broken plugin from affecting the app
   - Plugin signing/trust — how to verify plugins from the official repo vs third-party
 promoted-to: null
+relationships:
+  - target: IDEA-085
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from IDEA-085"
 ---
 ## Motivation
 

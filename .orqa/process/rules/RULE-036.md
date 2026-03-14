@@ -1,4 +1,6 @@
 ---
+
+
 id: "RULE-036"
 title: "Context Window Management"
 description: "The orchestrator must protect its context window by delegating, minimizing output, summarizing results, and using session state files."
@@ -24,8 +26,13 @@ relationships:
   - target: "RULE-005"
     type: "informs"
     rationale: "Semantic search tools reduce context consumption by returning targeted results instead of requiring full file reads"
+  - target: AD-046
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-046"
+  - target: AD-041
+    type: enforces
+    rationale: "Auto-generated inverse of enforces relationship from AD-041"
 ---
-
 The orchestrator's context window is a finite resource. Filling it with implementation details, full file contents, or raw agent output degrades coordination quality. These constraints are mandatory.
 
 ## Constraints

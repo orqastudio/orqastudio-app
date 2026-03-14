@@ -1,4 +1,7 @@
 ---
+
+
+
 id: EPIC-054
 title: "Artifact Graph Alignment Audit"
 description: |
@@ -29,8 +32,17 @@ scoring:
   foundation: 5
   complexity: 4
   score: 4.25
+relationships:
+  - target: RES-042
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-042"
+  - target: RES-041
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-041"
+  - target: RES-040
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-040"
 ---
-
 ## Governing Principles
 
 These are the architectural principles established in recent sessions that this epic

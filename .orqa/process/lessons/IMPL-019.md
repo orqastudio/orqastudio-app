@@ -1,4 +1,8 @@
 ---
+
+
+
+
 id: IMPL-019
 title: "Plugins and sidecars are paired — no requirement mechanism exists"
 description: "The orqastudio-claude-plugin is designed for Claude Code CLI. If a different sidecar is used (Cursor, Copilot), this plugin should not be active. Currently there is no mechanism for a plugin to declare which sidecar it requires, or for the system to enforce that pairing."
@@ -23,8 +27,19 @@ relationships:
   - target: IDEA-071
     type: grounded-by
     rationale: "Promoted to this idea for implementation of the plugin-sidecar pairing mechanism"
+  - target: IMPL-027
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-027"
+  - target: IMPL-043
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-043"
+  - target: IMPL-028
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-028"
+  - target: IMPL-020
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-020"
 ---
-
 ## Pattern
 
 The companion plugin (`orqastudio-claude-plugin`) contains hooks, rules, skills, and agents designed specifically for the Claude Code CLI sidecar. These artifacts assume:

@@ -1,4 +1,7 @@
 ---
+
+
+
 id: EPIC-061
 title: "Principle enforcement foundations"
 description: "Close all gaps between declared principles and mechanical enforcement. Backfill the relationship graph, mechanically enforce all enforceable rules, automate the learning loop, build Pillar 3 tooling, establish a behavioral rule enforcement plan, define priority dimensions, and build the gap audit into repeatable tooling. The system enforces itself going forward."
@@ -26,8 +29,17 @@ scoring:
   process-gap: 10
   dogfood-value: 9
 rule-overrides: []
+relationships:
+  - target: IMPL-048
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-048"
+  - target: IMPL-049
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-049"
+  - target: RES-054
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-054"
 ---
-
 ## Context
 
 [RES-054](RES-054) audited the entire governance framework and found six gap patterns:

@@ -1,4 +1,6 @@
 ---
+
+
 id: IMPL-027
 title: "Plugin requirements are shaped by plugin type, not universal"
 description: "Not all plugins integrate with AI providers. A plugin could be a frontend visualisation, a data transformer, or a governance extension. The requires object in plugin.json should be determined by the plugin's type — different types have different requirement shapes. 'sidecar' is an implementation term; 'ai-providers' or similar is more human-readable."
@@ -14,8 +16,13 @@ relationships:
   - target: IMPL-020
     type: informed-by
     rationale: "Plugin scoping is type-dependent, not universal"
+  - target: IMPL-031
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-031"
+  - target: IMPL-028
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-028"
 ---
-
 ## Pattern
 
 The initial design assumed `requires.sidecar` as a universal plugin field. But plugins have different types:

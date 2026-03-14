@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-025
 title: "Lessons must flow forward — a review task should exist whenever observations accumulate"
 description: "Observations logged during an epic must not sit idle. A lesson review task should be added to the epic to triage each observation: implement now (if needed to complete the epic), promote to rule/skill, or defer to a future idea. Lessons without a forward path are dead weight in the system."
@@ -23,8 +24,10 @@ relationships:
   - target: RULE-004
     type: observed-by
     rationale: "RULE-004 codified the observation triage task requirement first observed in this lesson"
+  - target: IMPL-038
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-038"
 ---
-
 ## Pattern
 
 [EPIC-059](EPIC-059) has accumulated 8 observations (IMPL-018 through IMPL-025) during implementation. None of them have been triaged. Some may need implementation within this epic to complete the work (e.g., [IMPL-021](IMPL-021) about tracking open items — that process gap is actively causing problems right now). Others could be deferred to future ideas (e.g., [IMPL-018](IMPL-018) about configurable paths is a non-trivial refactor).

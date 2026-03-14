@@ -1,4 +1,6 @@
 ---
+
+
 id: TASK-308
 title: "Establish learning loop and completion discipline (IMPL-021, 022, 023, 024)"
 description: "Create enforcement for: tracking open items during implementation, human-gated epic completion, automated observation logging by agents, and recording lessons on task completion artifacts."
@@ -14,8 +16,14 @@ acceptance:
   - "Epic readiness surfacing approach documented (UI feature or tool output)"
   - "Learning checkpoint defined for task completion"
   - "Task body template updated with Lessons section"
+relationships:
+  - target: IMPL-024
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-024"
+  - target: IMPL-024
+    type: grounded
+    rationale: "Auto-generated inverse of grounded relationship from IMPL-024"
 ---
-
 ## What
 
 Address four related process gaps:

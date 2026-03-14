@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-062
 title: "Artifact Graph SDK extraction research"
 description: "Research extracting the artifactGraphSDK into a standalone npm package that plugins can import, enabling the plugin architecture's data layer."
@@ -22,8 +23,11 @@ scoring:
   plugin-enablement: 9
   implementation-complexity: 5
 rule-overrides: []
+relationships:
+  - target: RES-046
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-046"
 ---
-
 ## Context
 
 The `artifactGraphSDK` in `ui/src/lib/sdk/artifact-graph.svelte.ts` is the single abstraction layer between the Tauri backend and the frontend. It manages:

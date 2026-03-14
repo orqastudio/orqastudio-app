@@ -1,4 +1,5 @@
 ---
+
 id: EPIC-058
 title: "Knowledge Maturity Pipeline — Full Migration"
 description: "Migrate all governance artifacts to the AD-042 knowledge maturity pipeline: rule-overrides mechanism, relationship backfill on ~150 artifacts, schema enforcement, deprecated field removal. Done in one pass to avoid mid-migration drift."
@@ -25,8 +26,11 @@ rule-overrides:
     reason: "Schema fields are being migrated — frontmatter will temporarily have new optional fields not yet required"
   - rule: RULE-004
     reason: "Artifact lifecycle fields are being restructured — old fields coexist with new during migration"
+relationships:
+  - target: RES-048
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-048"
 ---
-
 ## Context
 
 [AD-042](AD-042) defines the Knowledge Maturity Pipeline — restructuring governance artifacts around a six-stage learning lifecycle with mandatory bidirectional relationships. The design is complete. This epic is the full migration.

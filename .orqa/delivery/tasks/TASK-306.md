@@ -1,4 +1,5 @@
 ---
+
 id: TASK-306
 title: "Replace hardcoded path constants with runtime config cache (IMPL-018)"
 description: "Remove paths.rs constants and all hardcoded .orqa/ paths. Load project.json once at startup, build a ProjectPaths struct, pass it through the call chain. Decision: Option C from RES-052, approved by user."
@@ -14,8 +15,11 @@ acceptance:
   - "project_scanner.rs, artifact_fs.rs, and delivery workflow code all read from config"
   - "make lint-backend && make test-rust pass"
   - "IMPL-018 maturity updated to understanding"
+relationships:
+  - target: IMPL-018
+    type: enforced-by
+    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-018"
 ---
-
 ## What
 
 Eliminate the constant/config duality by making `project.json` the single source of truth for all `.orqa/` paths at runtime. Load config once, cache in a struct, pass through the call chain.

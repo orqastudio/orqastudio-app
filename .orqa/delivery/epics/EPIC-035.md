@@ -1,4 +1,6 @@
 ---
+
+
 id: EPIC-035
 title: Native Tool UX & First-Run Setup
 description: "Two related UX improvements: (1) friendly tool call display with names, icons, and grouping; (2) first-run setup wizard for project creation and AI provider configuration."
@@ -22,6 +24,13 @@ scoring:
   effort: 3
   risk: 2
   score: 16
+relationships:
+  - target: RES-012
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-012"
+  - target: RES-013
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-013"
 ---
 ## Implementation Design
 

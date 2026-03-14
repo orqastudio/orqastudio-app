@@ -1,4 +1,7 @@
 ---
+
+
+
 id: EPIC-059
 title: "Philosophy Alignment & Data Integrity"
 description: "Content migration and directory reorganization to express the Knowledge Maturity Pipeline philosophy. Moves artifacts to process/delivery/documentation structure, audits all content, integrates integrity checks, and ensures app layout picks up the new structure."
@@ -25,8 +28,17 @@ rule-overrides:
     reason: "Artifact config paths are being restructured — project.json will be updated as directories move but intermediate states will have path mismatches"
   - rule: RULE-032
     reason: "Schema files are being moved between directories — validation paths temporarily mismatched"
+relationships:
+  - target: RES-049
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-049"
+  - target: RES-048
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-048"
+  - target: RES-052
+    type: informed-by
+    rationale: "Auto-generated inverse of informed-by relationship from RES-052"
 ---
-
 ## Context
 
 [EPIC-058](EPIC-058) gave every governance artifact a `relationships` array and pipeline stage fields. That was the **schema migration**. This epic is the **content migration** — ensuring every artifact's body text, organizational placement, and cross-references actually express the Knowledge Maturity Pipeline philosophy.

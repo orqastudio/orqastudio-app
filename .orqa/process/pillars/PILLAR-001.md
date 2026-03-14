@@ -1,4 +1,11 @@
 ---
+
+
+
+
+
+
+
 id: PILLAR-001
 title: Clarity Through Structure
 description: Making thinking, standards, and decisions visible and structured.
@@ -405,6 +412,27 @@ relationships:
   - type: grounded-by
     target: SKILL-036
     rationale: UX compliance review skill makes the methodology for verifying UI against specs visible
+  - target: AD-043
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from AD-043"
+  - target: RULE-045
+    type: grounded-by
+    rationale: "Auto-generated inverse of grounded-by relationship from RULE-045"
+  - target: PILLAR-003
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from PILLAR-003"
+  - target: AD-046
+    type: grounded
+    rationale: "Auto-generated inverse of grounded relationship from AD-046"
+  - target: IMPL-046
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-046"
+  - target: IMPL-050
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-050"
+  - target: IMPL-026
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-026"
 ---
 ## What This Pillar Means
 

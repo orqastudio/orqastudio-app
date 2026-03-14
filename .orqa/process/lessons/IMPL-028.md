@@ -1,4 +1,5 @@
 ---
+
 id: IMPL-028
 title: "AI provider requirements are bidirectional — providers need plugins too"
 description: "Plugin-to-provider is only half the relationship. When a user selects an AI provider, the system should know which plugins are required to enable that provider to work correctly. This means AI providers themselves need a schema that declares their plugin requirements. The relationship is bidirectional: plugins declare which providers they support, providers declare which plugins they need."
@@ -14,8 +15,10 @@ relationships:
   - target: IMPL-019
     type: informed-by
     rationale: "The original pairing observation was one-directional (plugin→provider). This completes the bidirectional picture."
+  - target: IMPL-030
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IMPL-030"
 ---
-
 ## Pattern
 
 The plugin-provider relationship was initially framed as one-directional: plugins declare `requires.ai-providers` to say which providers they work with. But the inverse is equally important:
