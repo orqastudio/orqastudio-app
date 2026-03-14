@@ -4,6 +4,8 @@
 	import { Badge } from "$lib/components/ui/badge";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
+	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 
 	interface Relationship {
 		type: string;
@@ -13,6 +15,9 @@
 	}
 
 	let { relationships }: { relationships: Relationship[] } = $props();
+
+	/** Per-type expanded state for overflow toggle. */
+	const expandedTypes = $state<SvelteMap<string, boolean>>(new SvelteMap());
 
 	/** Humanize a relationship type for display (e.g. "grounded-by" → "Grounded By"). */
 	function humanizeType(type: string): string {
@@ -34,6 +39,28 @@
 		}
 		return groups;
 	});
+
+	function isExpanded(type: string): boolean {
+		return expandedTypes.get(type) ?? false;
+	}
+
+	function toggleExpanded(type: string): void {
+		expandedTypes.set(type, !isExpanded(type));
+	}
+
+	/** Resolve status dot color for a target artifact ID. */
+	function getStatusDotClass(targetId: string | null): string | null {
+		if (!targetId) return null;
+		const node = artifactGraphSDK.resolve(targetId);
+		if (!node?.status) return null;
+		return statusColor(node.status);
+	}
+
+	/** Get visible items for a type (respecting overflow toggle). */
+	function visibleRels(type: string, rels: Relationship[]): Relationship[] {
+		if (rels.length <= 3 || isExpanded(type)) return rels;
+		return rels.slice(0, 3);
+	}
 </script>
 
 {#if relationships.length > 0}
@@ -41,17 +68,21 @@
 		<span class="text-xs font-medium text-muted-foreground">Relationships</span>
 		<div class="space-y-1">
 			{#each [...grouped] as [type, rels] (type)}
-				<div class="flex items-baseline gap-2">
-					<Badge variant="outline" class="shrink-0 text-[10px] font-medium capitalize">
+				<div class="grid grid-cols-2 items-baseline gap-2">
+					<Badge variant="outline" class="justify-self-start text-[10px] font-medium capitalize">
 						{humanizeType(type)}
 					</Badge>
-					<div class="flex min-w-0 flex-1 flex-wrap items-center gap-1">
-						{#each rels as rel, i (i)}
+					<div class="flex min-w-0 flex-wrap items-center gap-1">
+						{#each visibleRels(type, rels) as rel, i (i)}
 							{#if rel.target}
+								{@const dotClass = getStatusDotClass(rel.target)}
 								<Tooltip.Root>
 									<Tooltip.Trigger>
 										{#snippet child({ props })}
-											<span {...props}>
+											<span {...props} class="inline-flex items-center gap-1">
+												{#if dotClass}
+													<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
+												{/if}
 												<ArtifactLink id={rel.target ?? undefined} />
 											</span>
 										{/snippet}
@@ -81,6 +112,14 @@
 								</Tooltip.Root>
 							{/if}
 						{/each}
+						{#if rels.length > 3}
+							<button
+								class="rounded px-1 py-0.5 text-[10px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+								onclick={() => toggleExpanded(type)}
+							>
+								{isExpanded(type) ? "hide" : `\u2026 +${rels.length - 3}`}
+							</button>
+						{/if}
 					</div>
 				</div>
 			{/each}

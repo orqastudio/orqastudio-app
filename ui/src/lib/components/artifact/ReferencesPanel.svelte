@@ -7,6 +7,7 @@
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import { SvelteMap } from "svelte/reactivity";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import type { ArtifactRef } from "$lib/types/artifact-graph";
 
@@ -55,6 +56,31 @@
 	const outgoingGrouped = $derived(groupRefs(outgoingRefs));
 
 	let panelOpen = $state(false);
+
+	/** Per-group expanded state for overflow toggle. */
+	const expandedGroups = $state<SvelteMap<string, boolean>>(new SvelteMap());
+
+	function isExpanded(key: string): boolean {
+		return expandedGroups.get(key) ?? false;
+	}
+
+	function toggleExpanded(key: string): void {
+		expandedGroups.set(key, !isExpanded(key));
+	}
+
+	/** Resolve status dot color class for an artifact ID. */
+	function getStatusDotClass(targetId: string): string | null {
+		const node = artifactGraphSDK.resolve(targetId);
+		if (!node?.status) return null;
+		return statusColor(node.status);
+	}
+
+	/** Get visible refs for a group (respecting overflow toggle). */
+	function visibleRefs(groupKey: string, direction: string, refs: ArtifactRef[]): ArtifactRef[] {
+		const key = `${direction}:${groupKey}`;
+		if (refs.length <= 3 || isExpanded(key)) return refs;
+		return refs.slice(0, 3);
+	}
 </script>
 
 {#if totalRefs > 0}
@@ -75,14 +101,29 @@
 						<div class="space-y-1.5">
 							<span class="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Referenced by</span>
 							{#each [...incomingGrouped] as [groupKey, refs] (groupKey)}
-								<div class="flex items-baseline gap-2">
-									<span class="shrink-0 rounded border border-muted-foreground/20 bg-muted px-1.5 py-0.5 text-[10px] font-medium capitalize text-muted-foreground">
+								{@const dirKey = `in:${groupKey}`}
+								<div class="grid grid-cols-2 items-baseline gap-2">
+									<span class="justify-self-start rounded border border-muted-foreground/20 bg-muted px-1.5 py-0.5 text-[10px] font-medium capitalize text-muted-foreground">
 										{humanizeLabel(groupKey)}
 									</span>
-									<div class="flex flex-wrap gap-1">
-										{#each refs as ref ("in:" + ref.source_id + ref.field)}
-											<ArtifactLink id={ref.source_id} />
+									<div class="flex min-w-0 flex-wrap items-center gap-1">
+										{#each visibleRefs(groupKey, "in", refs) as ref ("in:" + ref.source_id + ref.field)}
+											{@const dotClass = getStatusDotClass(ref.source_id)}
+											<span class="inline-flex items-center gap-1">
+												{#if dotClass}
+													<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
+												{/if}
+												<ArtifactLink id={ref.source_id} />
+											</span>
 										{/each}
+										{#if refs.length > 3}
+											<button
+												class="rounded px-1 py-0.5 text-[10px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+												onclick={() => toggleExpanded(dirKey)}
+											>
+												{isExpanded(dirKey) ? "hide" : `\u2026 +${refs.length - 3}`}
+											</button>
+										{/if}
 									</div>
 								</div>
 							{/each}
@@ -93,14 +134,29 @@
 						<div class="space-y-1.5">
 							<span class="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">References</span>
 							{#each [...outgoingGrouped] as [groupKey, refs] (groupKey)}
-								<div class="flex items-baseline gap-2">
-									<span class="shrink-0 rounded border border-muted-foreground/20 bg-muted px-1.5 py-0.5 text-[10px] font-medium capitalize text-muted-foreground">
+								{@const dirKey = `out:${groupKey}`}
+								<div class="grid grid-cols-2 items-baseline gap-2">
+									<span class="justify-self-start rounded border border-muted-foreground/20 bg-muted px-1.5 py-0.5 text-[10px] font-medium capitalize text-muted-foreground">
 										{humanizeLabel(groupKey)}
 									</span>
-									<div class="flex flex-wrap gap-1">
-										{#each refs as ref ("out:" + ref.target_id + ref.field)}
-											<ArtifactLink id={ref.target_id} />
+									<div class="flex min-w-0 flex-wrap items-center gap-1">
+										{#each visibleRefs(groupKey, "out", refs) as ref ("out:" + ref.target_id + ref.field)}
+											{@const dotClass = getStatusDotClass(ref.target_id)}
+											<span class="inline-flex items-center gap-1">
+												{#if dotClass}
+													<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
+												{/if}
+												<ArtifactLink id={ref.target_id} />
+											</span>
 										{/each}
+										{#if refs.length > 3}
+											<button
+												class="rounded px-1 py-0.5 text-[10px] font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+												onclick={() => toggleExpanded(dirKey)}
+											>
+												{isExpanded(dirKey) ? "hide" : `\u2026 +${refs.length - 3}`}
+											</button>
+										{/if}
 									</div>
 								</div>
 							{/each}
