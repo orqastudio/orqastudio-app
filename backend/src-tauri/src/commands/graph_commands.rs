@@ -254,6 +254,7 @@ mod tests {
                 title: "Test Epic".to_string(),
                 description: None,
                 status: Some("draft".to_string()),
+                priority: None,
                 frontmatter: serde_json::json!({}),
                 references_out: vec![],
                 references_in: vec![],

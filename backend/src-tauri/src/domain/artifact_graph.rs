@@ -38,6 +38,8 @@ pub struct ArtifactNode {
     pub description: Option<String>,
     /// Frontmatter `status` field.
     pub status: Option<String>,
+    /// Frontmatter `priority` field (e.g. "P1", "P2", "P3").
+    pub priority: Option<String>,
     /// Full YAML frontmatter parsed into JSON for generic access.
     pub frontmatter: serde_json::Value,
     /// Forward references declared in this node's frontmatter.
@@ -218,6 +220,11 @@ fn collect_node(
         .and_then(|v| v.as_str())
         .map(str::to_owned);
 
+    let priority = yaml_value
+        .get("priority")
+        .and_then(|v| v.as_str())
+        .map(str::to_owned);
+
     let artifact_type = infer_artifact_type(&rel_path);
 
     // Convert frontmatter to serde_json::Value for generic storage.
@@ -233,6 +240,7 @@ fn collect_node(
         title,
         description,
         status,
+        priority,
         frontmatter: frontmatter_json,
         references_out,
         references_in: Vec::new(),
