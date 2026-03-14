@@ -89,3 +89,7 @@ Wire orqa-studio main app to import from the packages instead of local files. Up
 - [TASK-422](TASK-422): Extract stores into SDK — enforcement, lessons, setup, settings, errors
 - [TASK-423](TASK-423): Wire orqa-studio to import from packages + update pre-commit/make verify
 - [TASK-424](TASK-424): Create @orqastudio/test-config — shared vitest + testing utilities
+- [TASK-425](TASK-425): Fix CI workflows for independent builds (no file: references)
+- [TASK-426](TASK-426): Initial publish of tier-0 packages to GitHub Packages
+- [TASK-427](TASK-427): Switch tier-1 packages from file: to published deps + publish
+- [TASK-428](TASK-428): Switch orqa-studio from file: to published package versions
