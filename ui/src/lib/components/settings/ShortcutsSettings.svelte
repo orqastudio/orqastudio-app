@@ -3,6 +3,7 @@
 	import { Badge } from "$lib/components/ui/badge";
 
 	const shortcuts: { key: string; action: string }[] = [
+		{ key: "Ctrl+Space", action: "Search" },
 		{ key: "Ctrl+B", action: "Toggle Nav Sub-Panel" },
 		{ key: "Ctrl+N", action: "New session" },
 		{ key: "Ctrl+1-5", action: "Switch activity view" },

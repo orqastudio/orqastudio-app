@@ -45,12 +45,12 @@
 </script>
 
 {#if toastStore.toasts.length > 0}
-	<div class="fixed bottom-12 right-4 z-50 flex max-w-sm flex-col gap-2">
+	<div class="fixed top-4 left-1/2 z-50 flex -translate-x-1/2 flex-col gap-2">
 		{#each toastStore.toasts as entry (entry.id)}
 			{@const styles = styleMap[entry.type]}
 			{@const Icon = iconMap[entry.type]}
 			<div
-				class="flex items-start gap-3 rounded-md border {styles.border} bg-background/95 px-4 py-3 shadow-lg backdrop-blur-sm animate-in slide-in-from-right-5 fade-in duration-200"
+				class="flex min-w-[300px] items-start gap-3 rounded-md border {styles.border} bg-background/95 px-4 py-3 shadow-lg backdrop-blur-sm animate-in slide-in-from-top-3 fade-in duration-200"
 				role="status"
 				aria-live="polite"
 			>

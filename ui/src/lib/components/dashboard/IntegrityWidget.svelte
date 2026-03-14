@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { SvelteSet } from "svelte/reactivity";
 	import * as Card from "$lib/components/ui/card";
+	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import { Button } from "$lib/components/ui/button";
+	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
 	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
 	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
@@ -223,33 +225,41 @@
 
 				<!-- Filters -->
 				<div class="mb-3 flex items-center gap-3">
-					<select
-						class="h-7 rounded border border-border bg-background px-2 text-xs"
-						bind:value={categoryFilter}
-					>
-						<option value="all">All categories</option>
-						{#each presentCategories as cat (cat)}
-							<option value={cat}>{categoryLabels[cat]}</option>
-						{/each}
-					</select>
+					<SelectMenu
+						items={[
+							{ value: "all", label: "All categories" },
+							...presentCategories.map((cat) => ({ value: cat, label: categoryLabels[cat] })),
+						]}
+						selected={categoryFilter}
+						onSelect={(v) => (categoryFilter = v as typeof categoryFilter)}
+						triggerLabel={categoryFilter === "all" ? "All categories" : categoryLabels[categoryFilter as IntegrityCategory]}
+						triggerSize="sm"
+						align="start"
+					/>
 					<div class="flex items-center gap-1">
-						<button
-							class="rounded px-2 py-0.5 text-xs transition-colors {severityFilter === 'all' ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:text-foreground'}"
+						<Button
+							variant={severityFilter === "all" ? "secondary" : "ghost"}
+							size="sm"
+							class="h-7 px-2 text-xs"
 							onclick={() => (severityFilter = "all")}
-						>All</button>
-						<button
-							class="rounded px-2 py-0.5 text-xs transition-colors {severityFilter === 'Error' ? 'bg-destructive/20 text-destructive' : 'text-muted-foreground hover:text-foreground'}"
+						>All</Button>
+						<Button
+							variant={severityFilter === "Error" ? "secondary" : "ghost"}
+							size="sm"
+							class="h-7 px-2 text-xs {severityFilter === 'Error' ? 'text-destructive' : ''}"
 							onclick={() => (severityFilter = "Error")}
-						>Errors</button>
-						<button
-							class="rounded px-2 py-0.5 text-xs transition-colors {severityFilter === 'Warning' ? 'bg-warning/20 text-warning' : 'text-muted-foreground hover:text-foreground'}"
+						>Errors</Button>
+						<Button
+							variant={severityFilter === "Warning" ? "secondary" : "ghost"}
+							size="sm"
+							class="h-7 px-2 text-xs {severityFilter === 'Warning' ? 'text-warning' : ''}"
 							onclick={() => (severityFilter = "Warning")}
-						>Warnings</button>
+						>Warnings</Button>
 					</div>
 				</div>
 
 				<!-- Data table -->
-				<div class="max-h-64 overflow-auto rounded border border-border">
+				<ScrollArea.Root class="h-64 rounded border border-border">
 					<table class="w-full text-xs">
 						<thead class="sticky top-0 bg-muted/80 backdrop-blur">
 							<tr>
@@ -322,7 +332,7 @@
 							{/each}
 						</tbody>
 					</table>
-				</div>
+				</ScrollArea.Root>
 		{/if}
 	</Card.Content>
 </Card.Root>
