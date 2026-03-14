@@ -96,3 +96,4 @@ relationships:
 6. **Forgetting `$bindable()`** - Required for `bind:` to work
 7. **Setting module-level state in SSR** - Causes cross-request leaks
 8. **Sequential awaits in load functions** - Use `Promise.all` for parallel requests
+9. **Duplicate keys in keyed `{#each}` blocks** - Concatenating data fields as keys (e.g. `item.id + item.name`) crashes when two items produce the same string. Always include the loop index as a suffix: `{#each items as item, i (item.id + item.name + i)}`, or use a guaranteed-unique ID field

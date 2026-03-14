@@ -213,7 +213,7 @@
 						{appliedFixes.length} fix{appliedFixes.length !== 1 ? "es" : ""} applied
 					</p>
 					<ul class="space-y-0.5">
-						{#each appliedFixes as appliedFix (appliedFix.artifact_id + appliedFix.description)}
+						{#each appliedFixes as appliedFix, i (appliedFix.artifact_id + appliedFix.description + i)}
 							<li class="flex items-start gap-1.5 text-xs text-green-600 dark:text-green-400">
 								<CheckCircle2Icon class="mt-0.5 h-3 w-3 shrink-0" />
 								<span>
@@ -324,7 +324,7 @@
 							</tr>
 						</thead>
 						<tbody class="divide-y divide-border">
-							{#each tableChecks as check (check.artifact_id + check.category + check.message)}
+							{#each tableChecks as check, i (check.artifact_id + check.category + check.message + i)}
 								<tr class="hover:bg-accent/30">
 									<td class="px-2 py-1.5">
 										{#if check.severity === "Error"}
