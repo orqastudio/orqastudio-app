@@ -24,6 +24,9 @@ relationships:
   - target: EPIC-060
     type: informs
     rationale: "UAT findings from EPIC-060 review drive this epic's scope"
+  - target: EPIC-065
+    type: informs
+    rationale: "Theme D findings extracted into dedicated artifact viewer epic"
 ---
 
 ## UAT Findings Summary
