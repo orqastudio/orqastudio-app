@@ -137,6 +137,53 @@
 		parsedContent ? String(parsedContent.metadata["status"] ?? "") : "",
 	);
 
+	/** Lifecycle stages per artifact type — built as {key, label} for PipelineStepper. */
+	const LIFECYCLE_STAGES: Record<string, Array<{ key: string; label: string }>> = {
+		task: [
+			{ key: "todo", label: "To Do" },
+			{ key: "in-progress", label: "In Progress" },
+			{ key: "done", label: "Done" },
+		],
+		epic: [
+			{ key: "draft", label: "Draft" },
+			{ key: "ready", label: "Ready" },
+			{ key: "in-progress", label: "In Progress" },
+			{ key: "review", label: "Review" },
+			{ key: "done", label: "Done" },
+		],
+		idea: [
+			{ key: "captured", label: "Captured" },
+			{ key: "exploring", label: "Exploring" },
+			{ key: "shaped", label: "Shaped" },
+			{ key: "promoted", label: "Promoted" },
+		],
+		milestone: [
+			{ key: "planning", label: "Planning" },
+			{ key: "active", label: "Active" },
+			{ key: "complete", label: "Complete" },
+		],
+		decision: [
+			{ key: "proposed", label: "Proposed" },
+			{ key: "accepted", label: "Accepted" },
+			{ key: "superseded", label: "Superseded" },
+		],
+		lesson: [
+			{ key: "active", label: "Active" },
+			{ key: "recurring", label: "Recurring" },
+			{ key: "promoted", label: "Promoted" },
+		],
+		research: [
+			{ key: "draft", label: "Draft" },
+			{ key: "complete", label: "Complete" },
+			{ key: "surpassed", label: "Surpassed" },
+		],
+	};
+
+	/** Resolved stages for the current artifact type. */
+	const pipelineStages = $derived(
+		LIFECYCLE_STAGES[artifactType?.toLowerCase()] ?? [],
+	);
+
 	/** Acceptance criteria array for tasks. */
 	const acceptanceCriteria = $derived.by((): string[] => {
 		if (!parsedContent) return [];
@@ -212,13 +259,13 @@
 					<HookViewer {content} />
 				{:else if parsedContent}
 					{#if hasMetadataFields}
+						{#if artifactStatus && pipelineStages.length > 0}
+							<PipelineStepper stages={pipelineStages} status={artifactStatus} />
+						{/if}
 						<FrontmatterHeader
 							metadata={parsedContent.metadata}
 							{artifactType}
 						/>
-						{#if artifactStatus}
-							<PipelineStepper {artifactType} status={artifactStatus} />
-						{/if}
 						<ActionsNeeded {artifactType} metadata={parsedContent.metadata} />
 					{:else if hasFrontmatterTitle}
 						<!-- Title + description only, no metadata card -->
