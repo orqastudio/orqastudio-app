@@ -131,8 +131,8 @@ skills-update: ## Update all skills
 verify-links: ## Verify all .orqa/ cross-references and source code paths resolve
 	node tools/verify-links.mjs --check-bidirectional --check-paths
 
-verify-integrity: ## Check pipeline integrity (relationships, deprecated fields)
-	node tools/verify-pipeline-integrity.mjs
+verify-integrity: ## Check artifact graph integrity (links, inverses, dependencies, gates)
+	cd ui && npx orqa-integrity ..
 
 verify-schema: ## Validate all .orqa/ artifact schemas
 	@echo "--- Schema validation ---"
