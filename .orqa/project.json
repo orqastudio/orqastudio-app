@@ -44,27 +44,20 @@
     "overrides": {}
   },
   "artifacts": [
-    { "key": "process",
-      "children": [
-        { "key": "pillars", "path": ".orqa/process/pillars" },
-        { "key": "lessons", "path": ".orqa/process/lessons" },
-        { "key": "decisions", "path": ".orqa/process/decisions" },
-        { "key": "rules", "path": ".orqa/process/rules" },
-        { "key": "skills", "path": ".orqa/process/skills" },
-        { "key": "agents", "path": ".orqa/process/agents" }
-      ]
-    },
-    { "key": "delivery",
+    { "key": "exploring", "label": "Exploring", "icon": "compass",
       "children": [
         { "key": "ideas", "path": ".orqa/delivery/ideas" },
-        { "key": "research", "path": ".orqa/delivery/research" },
-        { "key": "milestones", "path": ".orqa/delivery/milestones" },
-        { "key": "epics", "path": ".orqa/delivery/epics" },
-        { "key": "tasks", "path": ".orqa/delivery/tasks" },
-        { "key": "verification", "path": ".orqa/delivery/verification" }
+        { "key": "research", "path": ".orqa/delivery/research" }
       ]
     },
-    { "key": "docs",
+    { "key": "delivery", "label": "Delivery", "icon": "rocket",
+      "children": [
+        { "key": "milestones", "path": ".orqa/delivery/milestones" },
+        { "key": "epics", "path": ".orqa/delivery/epics" },
+        { "key": "tasks", "path": ".orqa/delivery/tasks" }
+      ]
+    },
+    { "key": "docs", "label": "Documentation", "icon": "book-open",
       "children": [
         { "key": "guide", "path": ".orqa/documentation/guide" },
         { "key": "product", "path": ".orqa/documentation/product" },
@@ -73,6 +66,16 @@
         { "key": "process", "path": ".orqa/documentation/process" },
         { "key": "ui", "path": ".orqa/documentation/ui" },
         { "key": "wireframes", "path": ".orqa/documentation/wireframes" }
+      ]
+    },
+    { "key": "process", "label": "Process", "icon": "workflow",
+      "children": [
+        { "key": "pillars", "path": ".orqa/process/pillars" },
+        { "key": "lessons", "path": ".orqa/process/lessons" },
+        { "key": "decisions", "path": ".orqa/process/decisions" },
+        { "key": "rules", "path": ".orqa/process/rules" },
+        { "key": "skills", "path": ".orqa/process/skills" },
+        { "key": "agents", "path": ".orqa/process/agents" }
       ]
     }
   ]

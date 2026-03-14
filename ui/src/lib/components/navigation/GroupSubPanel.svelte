@@ -22,6 +22,8 @@
 	import PackageIcon from "@lucide/svelte/icons/package";
 	import FlagIcon from "@lucide/svelte/icons/flag";
 	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
+	import RocketIcon from "@lucide/svelte/icons/rocket";
+	import WorkflowIcon from "@lucide/svelte/icons/workflow";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
@@ -56,6 +58,8 @@
 		package: PackageIcon,
 		flag: FlagIcon,
 		"shield-check": ShieldCheckIcon,
+		rocket: RocketIcon,
+		workflow: WorkflowIcon,
 	};
 
 	function resolveIcon(iconName: string | undefined): Component {
