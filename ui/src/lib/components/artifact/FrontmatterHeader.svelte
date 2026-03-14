@@ -7,6 +7,8 @@
 	import { getCapabilityLabel } from "$lib/utils/tool-display";
 	import CalendarPlusIcon from "@lucide/svelte/icons/calendar-plus";
 	import CalendarCheckIcon from "@lucide/svelte/icons/calendar-check";
+	import CheckIcon from "@lucide/svelte/icons/check";
+	import XIcon from "@lucide/svelte/icons/x";
 
 	let {
 		metadata,
@@ -94,19 +96,23 @@
 	/**
 	 * CHIP_FIELDS: rendered as styled chips but NOT clickable links.
 	 */
-	const CHIP_FIELDS = new Set<string>(["layer", "model", "recurrence", "horizon"]);
+	const CHIP_FIELDS = new Set<string>(["layer", "model", "maturity", "recurrence", "category", "version", "horizon"]);
 
 	/** CODE_FIELDS: rendered as monospace inline code badges (e.g. file paths). */
 	const CODE_FIELDS = new Set<string>([]);
 
+	/** BOOLEAN_FIELDS: rendered as check/x icons instead of "true"/"false" text. */
+	const BOOLEAN_FIELDS = new Set<string>(["user-invocable"]);
+
 	/** Classify a field key into its render type. */
-	type FieldType = "date" | "file-list" | "link" | "code" | "chip" | "generic";
+	type FieldType = "date" | "file-list" | "link" | "code" | "chip" | "boolean" | "generic";
 
 	function fieldType(key: string, value: unknown): FieldType {
 		if (DATE_FIELDS.has(key)) return "date";
 		if (FILE_LIST_FIELDS.has(key)) return "file-list";
 		if (LINK_FIELDS.has(key)) return "link";
 		if (CODE_FIELDS.has(key) && Array.isArray(value)) return "code";
+		if (BOOLEAN_FIELDS.has(key)) return "boolean";
 		if (CHIP_FIELDS.has(key)) return "chip";
 		return "generic";
 	}
@@ -168,20 +174,41 @@
 	});
 
 	/**
+	 * Explicit field display order. Fields listed here are sorted to the
+	 * front in the given order; unlisted fields appear after them in their
+	 * original YAML source order.
+	 */
+	const FIELD_ORDER: string[] = [
+		"layer", "maturity", "recurrence", "category", "version", "horizon",
+		"milestone", "epic", "pillars", "depends-on", "blocks",
+	];
+
+	/**
 	 * The ordered body entries from the metadata object, skipping:
 	 * - Fixed header fields (SKIP_FIELDS)
 	 * - Progress fields (rendered as a combined row)
 	 * - Gate field (rendered separately at the end)
 	 * - Entries without a present value
 	 */
-	const bodyEntries = $derived(
-		Object.entries(metadata).filter(([key, value]) => {
+	const bodyEntries = $derived.by(() => {
+		const filtered = Object.entries(metadata).filter(([key, value]) => {
 			if (SKIP_FIELDS.has(key)) return false;
 			if (key === "gate") return false;
 			if (!isPresent(value)) return false;
 			return true;
-		}),
-	);
+		});
+		return filtered.sort(([a], [b]) => {
+			const ai = FIELD_ORDER.indexOf(a);
+			const bi = FIELD_ORDER.indexOf(b);
+			// Both in order list: sort by position
+			if (ai !== -1 && bi !== -1) return ai - bi;
+			// Only one in order list: it comes first
+			if (ai !== -1) return -1;
+			if (bi !== -1) return 1;
+			// Neither: preserve original order (stable sort)
+			return 0;
+		});
+	});
 
 	/** Relationships array from frontmatter (array of {type, target, rationale, intended?}). */
 	const relationships = $derived(
@@ -314,6 +341,18 @@
 					</div>
 				</div>
 			{/if}
+
+		{:else if type === "boolean"}
+			<div class="flex items-center gap-2">
+				<span class="w-[7rem] shrink-0 text-xs font-medium capitalize text-muted-foreground">
+					{humanizeKey(key)}
+				</span>
+				{#if value}
+					<CheckIcon class="h-4 w-4 text-green-500" />
+				{:else}
+					<XIcon class="h-4 w-4 text-muted-foreground" />
+				{/if}
+			</div>
 
 		{:else}
 			<!-- generic -->
