@@ -2,7 +2,7 @@
 id: TASK-405
 title: "Improve pipeline visualization responsiveness and actionability"
 description: "Make knowledge pipeline responsive to fill card width. Add reasoning and suggested actions to stuck/bottleneck labels. Audit pipeline stage health calculations for accuracy."
-status: todo
+status: done
 priority: P1
 created: "2026-03-13"
 updated: "2026-03-13"

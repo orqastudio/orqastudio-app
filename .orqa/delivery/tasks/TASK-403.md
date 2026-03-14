@@ -2,7 +2,7 @@
 id: TASK-403
 title: "Fix navigation and layout bugs"
 description: "Fix 6 navigation/layout bugs: missing sidebar icons, duplicate key error in ReferencesPanel, settings secondary nav not rendering, and config modal double-rendering."
-status: todo
+status: done
 priority: P1
 created: "2026-03-13"
 updated: "2026-03-13"

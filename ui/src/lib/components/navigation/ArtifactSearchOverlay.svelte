@@ -106,12 +106,12 @@
 			<div class="rounded-lg border border-border bg-popover shadow-2xl">
 				<!-- Search input -->
 				<div class="flex items-center gap-2 border-b border-border px-3">
-					<SearchIcon class="h-4 w-4 shrink-0 text-muted-foreground" />
+					<SearchIcon class="h-4 w-4 shrink-0 text-foreground" />
 					<input
 						bind:this={inputEl}
 						bind:value={query}
 						placeholder="Search artifacts..."
-						class="h-12 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+						class="h-12 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
 					/>
 					{#if query}
 						<Button
@@ -184,6 +184,9 @@
 					class="flex items-center justify-between border-t border-border px-3 py-1.5 text-[10px] text-muted-foreground"
 				>
 					<span>↑↓ Navigate</span>
+					{#if query.trim() && results.length > 0}
+						<span>{results.length}{results.length >= 50 ? "+" : ""} results</span>
+					{/if}
 					<span>↵ Open</span>
 					<span>Esc Close</span>
 				</div>

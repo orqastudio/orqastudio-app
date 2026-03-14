@@ -2,7 +2,7 @@
 id: TASK-404
 title: "Redesign dashboard widgets for actionable artifact insight"
 description: "Merge artifact graph and governance widgets into per-type cards with count and status breakdown. Exclude documentation from orphan detection. Auto-scan integrity on navigation. Replace collapsible categories with sortable/filterable data table."
-status: todo
+status: done
 priority: P1
 created: "2026-03-13"
 updated: "2026-03-13"

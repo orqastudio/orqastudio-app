@@ -2,7 +2,7 @@
 id: TASK-407
 title: "Enhance artifact search with semantic capability and UI fixes"
 description: "Integrate semantic/AI search for artifact discovery. Fix search results overflow and improve input contrast against modal overlay."
-status: todo
+status: in-progress
 priority: P2
 created: "2026-03-13"
 updated: "2026-03-13"
