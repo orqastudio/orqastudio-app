@@ -1,4 +1,6 @@
 ---
+
+
 id: RULE-026
 title: Skill Enforcement
 description: "Three-tier skill loading: agent portable skills, orchestrator-injected project skills, and context-resolving wrappers."
@@ -88,6 +90,12 @@ relationships:
   - target: DOC-030
     type: documented-by
     rationale: Referenced in documentation page Orchestration
+  - target: DOC-072
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-072"
+  - target: DOC-071
+    type: documented-by
+    rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
 ---
 Every agent MUST have a `skills:` list in its YAML frontmatter. Agent tool access is declared via `capabilities:` and resolved per provider context — see [RULE-040](RULE-040). Skills load in three tiers [AD-028](AD-028).
 

@@ -1,4 +1,16 @@
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 id: EPIC-075
 title: "Documentation reorganisation — book-chapter structure with how-to guides"
 description: "Reorganise .orqa/documentation/ from ad-hoc sections (architecture/, product/, process/, ui/, wireframes/) into book chapters (about/, guide/, development/, how-to/, reference/, grounding/). Write missing how-to guides for plugin SDK, testing, and linting. Migrate relationships and project.json paths."
@@ -38,8 +50,43 @@ relationships:
   - target: MS-001
     type: belongs-to
     rationale: Epic belongs to this milestone
+  - target: TASK-484
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-484"
+  - target: TASK-484
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-484"
+  - target: TASK-488
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-488"
+  - target: TASK-488
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-488"
+  - target: TASK-489
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-489"
+  - target: TASK-489
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-489"
+  - target: TASK-485
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-485"
+  - target: TASK-485
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-485"
+  - target: TASK-486
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-486"
+  - target: TASK-486
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-486"
+  - target: TASK-487
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-487"
+  - target: TASK-487
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-487"
 ---
-
 ## Context
 
 RES-063 produced a complete migration inventory: 58 files mapped, 46 need moving. The architecture/ and process/ directories dissolve. product/ becomes about/. ui/ and wireframes/ consolidate into reference/. A new how-to/ chapter needs 10 guides written (3 P1).

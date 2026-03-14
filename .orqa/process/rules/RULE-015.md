@@ -1,4 +1,5 @@
 ---
+
 id: RULE-015
 title: Honest Reporting
 description: Report status accurately. Partial work reported as complete is worse than reporting it as incomplete.
@@ -73,6 +74,9 @@ relationships:
   - type: scoped-to
     target: AGENT-007
     rationale: Migrated from scope field
+  - target: IMPL-066
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-066"
 ---
 ## The Core Rule
 

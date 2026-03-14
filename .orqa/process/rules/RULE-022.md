@@ -1,4 +1,5 @@
 ---
+
 id: RULE-022
 title: Plan Mode Compliance
 description: Every implementation plan must have architectural compliance verification and UX-first design.
@@ -55,6 +56,9 @@ relationships:
   - type: scoped-to
     target: AGENT-004
     rationale: Migrated from scope field
+  - target: IMPL-066
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-066"
 ---
 Every implementation plan — whether captured in an epic, a task, or proposed in conversation — MUST satisfy two mandatory requirements before implementation begins.
 

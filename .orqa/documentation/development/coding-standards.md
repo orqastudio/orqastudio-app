@@ -1,4 +1,6 @@
 ---
+
+
 id: DOC-021
 title: Coding Standards
 description: Coding standards for Rust and TypeScript/Svelte covering formatting, linting, error handling, and component patterns.
@@ -17,8 +19,13 @@ relationships:
   - target: DOC-065
     type: informs
     rationale: Coding standards are distilled into the code-principles grounding document — inverse of informed-by on DOC-065
+  - target: DOC-074
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-074"
+  - target: DOC-073
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-073"
 ---
-
 ## Purpose
 
 Good code in this project is code that a future agent or contributor can read, trust, and extend without fear. That requires three things: explicit structure, honest error paths, and testable units.

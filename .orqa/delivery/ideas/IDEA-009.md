@@ -1,4 +1,5 @@
 ---
+
 id: IDEA-009
 title: Integration Ecosystem
 description: |
@@ -14,6 +15,10 @@ research-needed:
   - Bidirectional sync architecture
   - Import format support
 promoted-to: null
+relationships:
+  - target: DOC-071
+    type: documented-by
+    rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
 ---
 ## Candidate Items
 

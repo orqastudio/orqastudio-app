@@ -1,4 +1,6 @@
 ---
+
+
 id: RULE-006
 title: Coding Standards
 description: "Rust and TypeScript coding standards: formatting, linting, error handling, component patterns, and coverage requirements."
@@ -135,6 +137,12 @@ relationships:
   - target: DOC-021
     type: documented-by
     rationale: coding-standards.md is the source-of-truth document this rule references and enforces
+  - target: DOC-074
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-074"
+  - target: DOC-073
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-073"
 ---
 **Source of Truth:** `.orqa/documentation/development/coding-standards.md`
 

@@ -3,6 +3,9 @@
 
 
 
+
+
+
 id: PILLAR-003
 title: Purpose Through Continuity
 description: The system actively maintains coherence between intention and action. It prevents drift between what the user set out to do and what is actually being done, ensuring purpose is never lost during implementation.
@@ -43,6 +46,15 @@ relationships:
   - target: IDEA-096
     type: informs
     rationale: "Auto-generated inverse of informs relationship from IDEA-096"
+  - target: IMPL-066
+    type: observed-by
+    rationale: "Auto-generated inverse of observed-by relationship from IMPL-066"
+  - target: RES-064
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from RES-064"
+  - target: IDEA-095
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IDEA-095"
 ---
 ## What This Pillar Means
 

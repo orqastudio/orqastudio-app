@@ -1,4 +1,12 @@
 ---
+
+
+
+
+
+
+
+
 id: EPIC-074
 title: "Dashboard redesign — narrative flow layout grounded in pillars"
 description: "Replace the current metrics-dump dashboard with a narrative flow layout: milestone context at top, three pillar-aligned columns (clarity/learning/purpose), collapsible power user section. The dashboard answers what matters, not what exists."
@@ -36,8 +44,31 @@ relationships:
   - target: MS-001
     type: belongs-to
     rationale: Epic belongs to this milestone
+  - target: TASK-483
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-483"
+  - target: TASK-483
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-483"
+  - target: TASK-479
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-479"
+  - target: TASK-479
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-479"
+  - target: TASK-482
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-482"
+  - target: TASK-482
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-482"
+  - target: TASK-481
+    type: delivered-by
+    rationale: "Auto-generated inverse of delivered-by relationship from TASK-481"
+  - target: TASK-481
+    type: contains
+    rationale: "Auto-generated inverse of contains relationship from TASK-481"
 ---
-
 ## Context
 
 The current dashboard is existing data cards in a grid. RES-064 research recommends a Narrative Flow layout that answers three questions mapping to the pillars:

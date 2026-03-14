@@ -1,4 +1,5 @@
 ---
+
 id: IDEA-059
 title: "Component Library SDK for Plugin Views"
 description: "Extract shared components into an importable SDK so plugins can create dynamic views that match the design system."
@@ -14,8 +15,11 @@ research-needed:
   - "How do plugins access theme tokens?"
   - "What's the distribution mechanism (npm package, bundled, git submodule)?"
 promoted-to: EPIC-062
+relationships:
+  - target: DOC-071
+    type: documented-by
+    rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
 ---
-
 ## Description
 
 OrqaStudio's plugin architecture needs a way for plugins to create custom views. Currently, shared components live in `$lib/components/shared/` but are only available to the core app. Plugins need:

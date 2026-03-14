@@ -279,7 +279,7 @@
 						{/if}
 					{/if}
 					{#if acceptanceCriteria.length > 0}
-						<AcceptanceCriteria criteria={acceptanceCriteria} />
+						<AcceptanceCriteria criteria={acceptanceCriteria} status={parsedContent?.metadata["status"] as string ?? ""} />
 						<div class="mt-4"></div>
 					{/if}
 					<MarkdownRenderer content={bodyToRender ?? parsedContent.body} />

@@ -1,4 +1,5 @@
 ---
+
 id: RULE-043
 title: Tooling Ecosystem Management
 description: OrqaStudio manages linter configuration to match documented standards. Code quality enforcement belongs in linters, not in regex matching.
@@ -52,6 +53,9 @@ relationships:
   - type: scoped-to
     target: AGENT-006
     rationale: Migrated from scope field
+  - target: DOC-072
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-072"
 ---
 OrqaStudio delegates code quality enforcement to the appropriate linting tools. The
 enforcement engine does NOT regex-match patterns that linters already catch. Instead,

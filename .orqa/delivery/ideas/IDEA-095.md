@@ -1,4 +1,7 @@
 ---
+
+
+
 id: IDEA-095
 title: "Documentation as graph-connected knowledge — restructure docs for agent grounding and graph traversal"
 description: "Documentation is currently isolated from the artifact graph. Docs exist as browsable pages but lack relationships to the skills, rules, decisions, and agents that reference them. This means agents can't traverse from a skill to its deeper documentation, grounding documents can't be systematically injected, and documentation quality is uneven because there's no structural standard for what a doc should contain or how it connects to the system."
@@ -34,8 +37,16 @@ relationships:
   - type: informs
     target: EPIC-064
     rationale: The enforcement bootstrapping epic should incorporate documentation restructuring to properly ground agents
+  - target: RES-063
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from RES-063"
+  - target: RES-062
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from RES-062"
+  - target: EPIC-075
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-075"
 ---
-
 ## Motivation
 
 During a heavy implementation session (31 tasks across 6 epics), the orchestrator lost awareness of the project's core principles. Investigation revealed the root cause is structural: the orchestrator prompt is 100% procedural with no grounding in purpose, and the enforcement system can't inject grounding because documentation is isolated from the artifact graph.

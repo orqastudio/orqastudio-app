@@ -1,4 +1,6 @@
 ---
+
+
 id: RULE-029
 title: Testing Standards
 description: Test organisation, coverage requirements, mock boundaries, and isolation rules.
@@ -31,6 +33,12 @@ relationships:
   - type: scoped-to
     target: AGENT-006
     rationale: Migrated from scope field
+  - target: DOC-074
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-074"
+  - target: DOC-073
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from DOC-073"
 ---
 **Source of Truth:** This file defines testing patterns. `.orqa/documentation/development/coding-standards.md` defines coverage requirements.
 

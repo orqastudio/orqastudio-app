@@ -1,4 +1,5 @@
 ---
+
 id: PILLAR-002
 title: Learning Through Reflection
 description: The system and its users improve over time through structured retrospection.
@@ -96,6 +97,9 @@ relationships:
   - target: DOC-064
     type: informs
     rationale: Learning Through Reflection pillar is distilled into the product-purpose grounding document — inverse of informed-by on DOC-064
+  - target: IDEA-095
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IDEA-095"
 ---
 ## What This Pillar Means
 

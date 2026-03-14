@@ -1,4 +1,5 @@
 ---
+
 id: IDEA-096
 title: "Exploration whiteboard — visual canvas for organising ideas and research before they enter the pipeline"
 description: "The Exploring section of Delivery has ideas and research but no spatial/visual way to organise and relate them. A whiteboard-style view (like the roadmap kanban is for the pipeline) could give users a canvas to collect, group, and connect ideas and research before they're shaped into epics. Exact interaction model TBD."
@@ -22,8 +23,10 @@ relationships:
   - type: informed-by
     target: PILLAR-003
     rationale: Preventing ideas from being lost between capture and shaping
+  - target: EPIC-073
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-073"
 ---
-
 ## Motivation
 
 The Exploring section (ideas, research) currently shows flat lists. There's no spatial way to organise pre-pipeline thinking — grouping related ideas, connecting research to the ideas it validates, seeing the landscape of what's being explored. A whiteboard/canvas view would be the exploration equivalent of what the roadmap kanban is for the delivery pipeline.

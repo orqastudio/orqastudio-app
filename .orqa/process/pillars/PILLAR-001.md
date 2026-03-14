@@ -1,5 +1,7 @@
 ---
 
+
+
 id: PILLAR-001
 title: Clarity Through Structure
 description: Making thinking, standards, and decisions visible and structured.
@@ -445,6 +447,12 @@ relationships:
   - target: IDEA-096
     type: informs
     rationale: "Auto-generated inverse of informs relationship from IDEA-096"
+  - target: RES-064
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from RES-064"
+  - target: IDEA-095
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from IDEA-095"
 ---
 ## What This Pillar Means
 

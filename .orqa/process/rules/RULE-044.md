@@ -1,5 +1,6 @@
 ---
 
+
 id: RULE-044
 title: Core Graph Firmware Protection
 description: Core graph artifacts (schemas, orchestrator, core skills, role definitions) are firmware — non-editable by agents or users except through the update system or in dogfood mode.
@@ -51,6 +52,9 @@ relationships:
   - target: AD-045
     type: enforces
     rationale: "Auto-generated inverse of enforces relationship from AD-045"
+  - target: DOC-071
+    type: documented-by
+    rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
 ---
 Core graph artifacts define how the artifact graph works, how agents traverse it, and how the structured thinking process operates. They are **firmware** — they ship with OrqaStudio and are not modified during normal project use.
 

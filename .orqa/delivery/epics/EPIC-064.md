@@ -5,6 +5,8 @@
 
 
 
+
+
 id: EPIC-064
 title: Close enforcement bootstrapping gap
 description: "The enforcement system can't enforce the project's principles because: (1) documentation is isolated from the artifact graph — agents can't traverse to the knowledge they need, (2) no grounding mechanism exists — agents lose purpose under implementation pressure, (3) the orchestrator has no delegation reference — work types aren't mapped to roles and skills, and (4) mechanical enforcement gaps remain — stop events, skill injection, and write-time integrity aren't wired. This epic closes all four gaps so the system can enforce itself during its own development."
@@ -157,6 +159,12 @@ relationships:
   - target: RES-062
     type: informed-by
     rationale: Documentation audit findings shaped the restructuring plan
+  - target: EPIC-073
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-073"
+  - target: EPIC-075
+    type: informs
+    rationale: "Auto-generated inverse of informs relationship from EPIC-075"
 ---
 ## Context
 
