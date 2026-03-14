@@ -163,8 +163,8 @@
 										class="text-muted-foreground/20"
 									/>
 									<!-- Area fill under the sparkline -->
-									{@const pathD = sparklinePath(chronological, config.key, SPARKLINE_WIDTH, SPARKLINE_HEIGHT)}
-									{#if pathD}
+									{#if sparklinePath(chronological, config.key, SPARKLINE_WIDTH, SPARKLINE_HEIGHT)}
+										{@const pathD = sparklinePath(chronological, config.key, SPARKLINE_WIDTH, SPARKLINE_HEIGHT)}
 										<path
 											d="{pathD} L{SPARKLINE_WIDTH},{SPARKLINE_HEIGHT - 4} L0,{SPARKLINE_HEIGHT - 4} Z"
 											fill={config.strokeColor}
