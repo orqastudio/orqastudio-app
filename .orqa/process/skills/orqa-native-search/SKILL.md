@@ -1,38 +1,56 @@
 ---
-
-
-id: "SKILL-013"
-title: "Orqa Native Search"
-description: "How to use Orqa's embedded search tools in the app context: tool names,
-
+id: SKILL-013
+title: Orqa Native Search
+description: |
+  How to use Orqa's embedded search tools in the app context: tool names,
   query patterns, tool selection guide, and fallback behavior.
-
-  Use when: Any agent needs to search code or artifacts from within the OrqaStudio app.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-12"
-layer: "project"
+  Use when: Any agent needs to search code or artifacts from within the OrqaStudio app.
+status: active
+created: 2026-03-01
+updated: 2026-03-12
+layer: project
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-  - "AGENT-003"
-  - "AGENT-004"
-  - "AGENT-005"
-  - "AGENT-006"
-  - "AGENT-007"
-category: "tool"
-version: "2.0.0"
+  - AGENT-001
+  - AGENT-002
+  - AGENT-003
+  - AGENT-004
+  - AGENT-005
+  - AGENT-006
+  - AGENT-007
+category: tool
+version: 2.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Embedded ONNX+DuckDB search lets in-app agents discover code relationships and documentation without external tools"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Embedded ONNX+DuckDB search lets in-app agents discover code relationships and documentation without external tools
   - target: AD-024
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-024"
+    rationale: Auto-generated inverse of practices relationship from AD-024
   - target: AD-037
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-037"
+    rationale: Auto-generated inverse of practices relationship from AD-037
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 Orqa provides three search tools accessible from within the app. This skill covers
 how to USE them — for implementation details of the engine itself, see `orqa-search-architecture`.

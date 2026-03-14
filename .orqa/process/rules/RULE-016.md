@@ -30,6 +30,27 @@ relationships:
   - type: enforces
     target: AD-029
     rationale: This rule enforces the ID semantics principle from the universal roles decision — IDs are identifiers not rankings
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 Artifact IDs ([EPIC-045](EPIC-045), [TASK-051](TASK-051), [AD-029](AD-029), etc.) are sequential identifiers for uniqueness and reference. They carry NO information about priority, importance, or execution order.
 

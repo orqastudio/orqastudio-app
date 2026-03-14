@@ -1,5 +1,4 @@
 ---
-
 id: RULE-031
 title: Vision Alignment
 description: Every feature must serve at least one active pillar defined in .orqa/process/pillars/.
@@ -63,7 +62,28 @@ relationships:
     rationale: Reading pillars by artifact ID depends on pillars being first-class artifacts — this rule implements the pillar alignment requirement that AD-031 enables
   - target: IMPL-041
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-041"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-041
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 Every feature, command, and UI element must serve the project's guiding principles. These principles are defined as **pillar artifacts** in `.orqa/process/pillars/`. Read the active pillars before implementing any new capability.
 

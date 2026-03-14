@@ -1,29 +1,33 @@
 ---
-id: "SKILL-016"
-title: "Orqa Store Patterns"
-description: "OrqaStudio Svelte 5 rune store patterns: class-based stores with $state/$derived,
-
+id: SKILL-016
+title: Orqa Store Patterns
+description: |
+  OrqaStudio Svelte 5 rune store patterns: class-based stores with $state/$derived,
   store-to-component data flow, and reactive state management.
-
   Use when: Creating or modifying Svelte stores, wiring stores to components,
-
-  managing loading/error/empty states, or debugging reactivity issues.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "project"
+  managing loading/error/empty states, or debugging reactivity issues.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-002"
-  - "AGENT-006"
-category: "domain"
+  - AGENT-002
+  - AGENT-006
+category: domain
 file-patterns:
-  - "ui/src/lib/stores/**"
-version: "1.0.0"
+  - ui/src/lib/stores/**
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Class-based rune stores with explicit loading/error/empty states make frontend data flow predictable and inspectable"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Class-based rune stores with explicit loading/error/empty states make frontend data flow predictable and inspectable
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 
 

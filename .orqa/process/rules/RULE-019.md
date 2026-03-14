@@ -1,6 +1,4 @@
 ---
-
-
 id: RULE-019
 title: No Deferred Deliverables
 description: If a deliverable is in scope, it ships with the epic. Deferring scoped deliverables is forbidden.
@@ -49,10 +47,16 @@ relationships:
     rationale: Structure before work defines acceptance criteria that prevent silent scope reduction
   - target: IMPL-016
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-016"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-016
   - target: IMPL-049
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-049"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-049
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 ## The Rule
 

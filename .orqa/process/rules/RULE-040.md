@@ -1,6 +1,4 @@
 ---
-
-
 id: RULE-040
 title: Provider-Agnostic Tool Capabilities
 description: Agent definitions declare abstract capabilities. A provider mapping table resolves capabilities to concrete tool names per context.
@@ -43,13 +41,34 @@ relationships:
     rationale: Provider-agnostic capability declarations generalise the AI provider-agnosticism decision to all agent tooling — no agent binds to provider-specific tool names
   - target: IMPL-030
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-030"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-030
   - target: IMPL-032
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-032"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-032
   - target: IDEA-057
     type: informs
-    rationale: "All 4 research questions from IDEA-057 resolved directly into this rule"
+    rationale: All 4 research questions from IDEA-057 resolved directly into this rule
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 Agent definitions declare **capabilities** (what they can do), not **tools** (how they
 do it). The mapping from capabilities to provider-specific tool names is defined in this

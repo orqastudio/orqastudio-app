@@ -1,29 +1,50 @@
 ---
-id: "RULE-014"
-title: "Historical Artifact Preservation"
-description: "Documentation is deleted when outdated. Research and tasks are preserved and marked as surpassed for historical traceability."
-status: "active"
-created: "2026-03-07"
-updated: "2026-03-07"
-layer: "core"
+id: RULE-014
+title: Historical Artifact Preservation
+description: Documentation is deleted when outdated. Research and tasks are preserved and marked as surpassed for historical traceability.
+status: active
+created: 2026-03-07
+updated: 2026-03-07
+layer: core
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-  - "AGENT-003"
-  - "AGENT-004"
-  - "AGENT-005"
-  - "AGENT-006"
-  - "AGENT-007"
+  - AGENT-001
+  - AGENT-002
+  - AGENT-003
+  - AGENT-004
+  - AGENT-005
+  - AGENT-006
+  - AGENT-007
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Document lifecycle distinguishes current state docs from historical records"
-  - target: "RULE-008"
-    type: "informs"
-    rationale: "Documentation-first applies to docs (delete when outdated); research is preserved differently"
-  - target: "RULE-004"
-    type: "informs"
-    rationale: "Status transitions define when research becomes surpassed and ideas become archived"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Document lifecycle distinguishes current state docs from historical records
+  - target: RULE-008
+    type: informs
+    rationale: Documentation-first applies to docs (delete when outdated); research is preserved differently
+  - target: RULE-004
+    type: informs
+    rationale: Status transitions define when research becomes surpassed and ideas become archived
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 
 ## Two Categories of Written Artifacts

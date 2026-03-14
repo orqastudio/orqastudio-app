@@ -1,7 +1,4 @@
 ---
-
-
-
 id: RULE-010
 title: End-to-End Completeness
 description: Every feature must be implemented across all layers (Rust command, IPC type, Svelte component, store) in the same commit.
@@ -58,13 +55,22 @@ relationships:
     rationale: Requiring invoke() as the only frontend-backend interface enforces the IPC boundary decision
   - target: AD-017
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-017"
+    rationale: Auto-generated inverse of enforces relationship from AD-017
   - target: AD-009
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-009"
+    rationale: Auto-generated inverse of enforces relationship from AD-009
   - target: IMPL-017
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-017"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-017
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 Every feature MUST be implemented across ALL layers in the same commit. Partial implementations that work in isolation but fail at runtime due to missing layers are forbidden.
 

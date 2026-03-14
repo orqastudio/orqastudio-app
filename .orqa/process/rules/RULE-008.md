@@ -1,5 +1,4 @@
 ---
-
 id: RULE-008
 title: Documentation-First Implementation
 description: Documentation is the source of truth. Verify docs exist before writing code; update docs before changing code.
@@ -63,7 +62,28 @@ relationships:
     rationale: Structure before work requires artifact documentation to exist before implementation begins
   - target: IMPL-047
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-047"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-047
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 ## Principle
 

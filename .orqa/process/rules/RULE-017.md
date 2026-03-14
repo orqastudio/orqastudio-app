@@ -1,7 +1,4 @@
 ---
-
-
-
 id: RULE-017
 title: Lessons Learned
 description: "Two learning loops: implementation lessons in .orqa/process/lessons/ and process retrospectives. Both are mandatory."
@@ -45,13 +42,19 @@ relationships:
     rationale: AD-048 requires enforcement to accompany any lesson promotion — strengthens the promotion pipeline
   - target: AD-044
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-044"
+    rationale: Auto-generated inverse of enforces relationship from AD-044
   - target: IMPL-025
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-025"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-025
   - target: IMPL-023
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-023"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-023
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 The team maintains two learning loops to prevent mistakes from recurring across sessions. Both loops are mandatory — they are not guidelines.
 

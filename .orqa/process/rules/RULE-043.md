@@ -1,5 +1,4 @@
 ---
-
 id: RULE-043
 title: Tooling Ecosystem Management
 description: OrqaStudio manages linter configuration to match documented standards. Code quality enforcement belongs in linters, not in regex matching.
@@ -49,7 +48,13 @@ relationships:
     rationale: Skill injection defines the knowledge layer that complements the linter enforcement managed here
   - target: AD-047
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from AD-047"
+    rationale: Auto-generated inverse of enforced-by relationship from AD-047
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 OrqaStudio delegates code quality enforcement to the appropriate linting tools. The
 enforcement engine does NOT regex-match patterns that linters already catch. Instead,

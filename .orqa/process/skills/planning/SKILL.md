@@ -1,25 +1,30 @@
 ---
-id: "SKILL-019"
-title: "Planning"
-description: "Enforces documentation-first planning for all implementation tasks.
-
+id: SKILL-019
+title: Planning
+description: |
+  Enforces documentation-first planning for all implementation tasks.
   Plans must start with documentation, get user approval, then implement with
-
-  mandatory verification gates. Prevents documentation drift across sessions.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "core"
+  mandatory verification gates. Prevents documentation drift across sessions.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: core
 scope:
-  - "AGENT-003"
-  - "AGENT-004"
-category: "methodology"
+  - AGENT-003
+  - AGENT-004
+category: methodology
 user-invocable: false
-allowed-tools: "Read, Glob, Grep"
+allowed-tools: Read, Glob, Grep
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Documentation-first workflow with approval gates ensures designs are explicit and reviewed before code exists"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Documentation-first workflow with approval gates ensures designs are explicit and reviewed before code exists
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
 ---
 
 

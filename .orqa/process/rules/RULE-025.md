@@ -1,32 +1,53 @@
 ---
-id: "RULE-025"
-title: "Root Directory Cleanliness"
-description: "The project root must stay lean. Every file in root must have a justification."
-status: "active"
-created: "2026-03-07"
-updated: "2026-03-12"
-layer: "core"
+id: RULE-025
+title: Root Directory Cleanliness
+description: The project root must stay lean. Every file in root must have a justification.
+status: active
+created: 2026-03-07
+updated: 2026-03-12
+layer: core
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-  - "AGENT-003"
-  - "AGENT-004"
-  - "AGENT-005"
-  - "AGENT-006"
-  - "AGENT-007"
+  - AGENT-001
+  - AGENT-002
+  - AGENT-003
+  - AGENT-004
+  - AGENT-005
+  - AGENT-006
+  - AGENT-007
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Root directory discipline maintains structural clarity at project level"
-  - target: "RULE-003"
-    type: "informs"
-    rationale: "Root discipline keeps project.json config paths predictable and resolvable"
-  - target: "RULE-007"
-    type: "informs"
-    rationale: "Build commands in make targets reference root-level config files governed by this rule"
-  - target: "RULE-013"
-    type: "informs"
-    rationale: "tmp/ is gitignored; .gitignore and .gitattributes belong in root per this rule"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Root directory discipline maintains structural clarity at project level
+  - target: RULE-003
+    type: informs
+    rationale: Root discipline keeps project.json config paths predictable and resolvable
+  - target: RULE-007
+    type: informs
+    rationale: Build commands in make targets reference root-level config files governed by this rule
+  - target: RULE-013
+    type: informs
+    rationale: tmp/ is gitignored; .gitignore and .gitattributes belong in root per this rule
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 The project root must stay lean. Every file in root must have a justification.
 

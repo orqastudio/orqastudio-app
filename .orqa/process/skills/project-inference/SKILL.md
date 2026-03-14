@@ -1,28 +1,28 @@
 ---
-id: "SKILL-021"
-title: "Project Inference"
-description: "Reads a project's folder structure and files to infer its characteristics:
-
+id: SKILL-021
+title: Project Inference
+description: |
+  Reads a project's folder structure and files to infer its characteristics:
   languages, frameworks, build tools, existing governance, and project type.
-
   Produces a structured project profile that drives setup decisions.
-
   Use when: Setting up OrqaStudio on an existing project, or detecting
-
-  project characteristics for skill/rule selection.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "setup"
+  project characteristics for skill/rule selection.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: setup
 scope:
-  - "AGENT-003"
-category: "tool"
-version: "1.0.0"
+  - AGENT-003
+category: tool
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Automated detection of languages, frameworks, and build tools produces an explicit project profile that drives governance decisions"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Automated detection of languages, frameworks, and build tools produces an explicit project profile that drives governance decisions
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 
 > **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.

@@ -1,33 +1,36 @@
 ---
-
-id: "SKILL-012"
-title: "Orqa IPC Patterns"
-description: "OrqaStudio IPC patterns: Tauri invoke() calls, #[tauri::command] handlers,
-
+id: SKILL-012
+title: Orqa IPC Patterns
+description: |
+  OrqaStudio IPC patterns: Tauri invoke() calls, #[tauri::command] handlers,
   Channel<T> streaming, command registration, and IPC type contracts.
-
   Use when: Adding or modifying Tauri commands, wiring frontend to backend,
-
-  implementing streaming features, or debugging IPC boundary issues.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "project"
+  implementing streaming features, or debugging IPC boundary issues.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-002"
-  - "AGENT-006"
-category: "domain"
+  - AGENT-002
+  - AGENT-006
+category: domain
 file-patterns:
-  - "backend/src-tauri/src/commands/**"
-version: "1.0.0"
+  - backend/src-tauri/src/commands/**
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Tauri invoke() contracts with matching Rust and TypeScript types make the frontend-backend boundary explicit and type-safe"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Tauri invoke() contracts with matching Rust and TypeScript types make the frontend-backend boundary explicit and type-safe
   - target: AD-010
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-010"
+    rationale: Auto-generated inverse of practices relationship from AD-010
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 OrqaStudio uses Tauri v2's `invoke()` as the ONLY interface between the Svelte frontend and the Rust backend. There are no HTTP servers, no direct FFI calls, and no side channels.
 

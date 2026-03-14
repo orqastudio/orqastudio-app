@@ -1,8 +1,4 @@
 ---
-
-
-
-
 id: RULE-006
 title: Coding Standards
 description: "Rust and TypeScript coding standards: formatting, linting, error handling, component patterns, and coverage requirements."
@@ -118,16 +114,25 @@ relationships:
     rationale: Function size limits (clippy::too_many_lines, <=50 lines) mechanically prevent command handlers from becoming monolithic — forcing domain service extraction
   - target: AD-013
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-013"
+    rationale: Auto-generated inverse of enforces relationship from AD-013
   - target: RULE-029
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RULE-029"
+    rationale: Auto-generated inverse of informed-by relationship from RULE-029
   - target: IMPL-056
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-056"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-056
   - target: AD-047
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from AD-047"
+    rationale: Auto-generated inverse of enforced-by relationship from AD-047
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 **Source of Truth:** `.orqa/documentation/development/coding-standards.md`
 

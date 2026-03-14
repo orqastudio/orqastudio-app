@@ -1,29 +1,33 @@
 ---
-
-id: "SKILL-044"
-title: "Orqa Search Architecture"
-description: "Implementation details of OrqaStudio's embedded search engine: DuckDB storage,
-
+id: SKILL-044
+title: Orqa Search Architecture
+description: |
+  Implementation details of OrqaStudio's embedded search engine: DuckDB storage,
   ONNX Runtime embeddings, DirectML acceleration, chunker design, and module layout.
-
-  Use when: Modifying or extending the search engine in backend/src-tauri/src/search/.\n"
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "project"
+  Use when: Modifying or extending the search engine in backend/src-tauri/src/search/.
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: project
 scope:
-  - "AGENT-002"
-  - "AGENT-006"
-category: "domain"
-version: "1.0.0"
+  - AGENT-002
+  - AGENT-006
+category: domain
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "DuckDB + ONNX embedding pipeline indexes the codebase so architectural relationships are queryable, not just file-browsable"
+  - target: PILLAR-001
+    type: grounded
+    rationale: DuckDB + ONNX embedding pipeline indexes the codebase so architectural relationships are queryable, not just file-browsable
   - target: AD-024
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-024"
+    rationale: Auto-generated inverse of practices relationship from AD-024
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 This skill covers the implementation architecture of OrqaStudio's native search engine.
 For how to USE the search tools, see `orqa-native-search`.

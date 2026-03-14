@@ -1,28 +1,34 @@
 ---
-id: "RULE-041"
-title: "Data Persistence Boundaries"
-description: "Defines which data belongs in SQLite, which in file-based artifacts, and which is ephemeral. Prevents misplaced persistence."
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-13"
-layer: "project"
+id: RULE-041
+title: Data Persistence Boundaries
+description: Defines which data belongs in SQLite, which in file-based artifacts, and which is ephemeral. Prevents misplaced persistence.
+status: active
+created: 2026-03-11
+updated: 2026-03-13
+layer: project
 scope:
-  - "AGENT-002"
-  - "AGENT-006"
+  - AGENT-002
+  - AGENT-006
 enforcement: []
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Data persistence boundaries create clear structural separation of concerns"
-  - target: "RULE-003"
-    type: "informs"
-    rationale: "File-based artifact scanning depends on correct config paths — persistence boundaries define which data lives in scanned .orqa/ files vs SQLite"
-  - target: "RULE-010"
-    type: "informs"
-    rationale: "End-to-end completeness requires all layers to agree on which persistence channel stores each type of data"
-  - type: "enforces"
-    target: "AD-032"
-    rationale: "This rule implements AD-032 — it defines the three channels, explicitly scopes SQLite to conversations, and forbids storing governance data in SQLite"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Data persistence boundaries create clear structural separation of concerns
+  - target: RULE-003
+    type: informs
+    rationale: File-based artifact scanning depends on correct config paths — persistence boundaries define which data lives in scanned .orqa/ files vs SQLite
+  - target: RULE-010
+    type: informs
+    rationale: End-to-end completeness requires all layers to agree on which persistence channel stores each type of data
+  - type: enforces
+    target: AD-032
+    rationale: This rule implements AD-032 — it defines the three channels, explicitly scopes SQLite to conversations, and forbids storing governance data in SQLite
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 
 Data persistence in OrqaStudio follows three channels, each with clear boundaries.

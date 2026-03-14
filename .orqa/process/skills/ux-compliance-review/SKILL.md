@@ -1,29 +1,32 @@
 ---
-id: "SKILL-036"
-title: "UX Compliance Review"
-description: "UX compliance review methodology: label auditing, state coverage verification,
-
+id: SKILL-036
+title: UX Compliance Review
+description: |
+  UX compliance review methodology: label auditing, state coverage verification,
   shared component usage checks, layout and accessibility auditing, and structured
-
   UX review output format.
-
   Use when: Reviewing UI implementations against specifications, auditing accessibility,
-
-  checking design system compliance, or verifying state coverage.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "core"
+  checking design system compliance, or verifying state coverage.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: core
 scope:
-  - "AGENT-001"
-  - "AGENT-006"
-category: "methodology"
-version: "1.0.0"
+  - AGENT-001
+  - AGENT-006
+category: methodology
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Label auditing, state coverage checks, and shared component usage verification make UX standards enforceable against documented specs"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Label auditing, state coverage checks, and shared component usage verification make UX standards enforceable against documented specs
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 
 

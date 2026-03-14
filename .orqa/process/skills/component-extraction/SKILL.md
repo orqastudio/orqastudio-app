@@ -1,22 +1,28 @@
 ---
-id: "SKILL-041"
-title: "Component Extraction"
-description: "Methodology for identifying repeated UI patterns and extracting them into shared components. Covers detection heuristics, extraction criteria, prop design, and placement conventions."
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "core"
+id: SKILL-041
+title: Component Extraction
+description: Methodology for identifying repeated UI patterns and extracting them into shared components. Covers detection heuristics, extraction criteria, prop design, and placement conventions.
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: core
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-category: "methodology"
+  - AGENT-001
+  - AGENT-002
+category: methodology
 file-patterns:
-  - "ui/src/lib/components/**"
+  - ui/src/lib/components/**
 user-invocable: false
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Extracting repeated UI patterns into shared components makes design decisions explicit and consistent across pages"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Extracting repeated UI patterns into shared components makes design decisions explicit and consistent across pages
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
 ---
 
 # Component Extraction

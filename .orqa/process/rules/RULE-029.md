@@ -28,6 +28,12 @@ relationships:
   - type: informed-by
     target: RULE-007
     rationale: Make targets are the required way to run all test variants
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 **Source of Truth:** This file defines testing patterns. `.orqa/documentation/development/coding-standards.md` defines coverage requirements.
 

@@ -1,28 +1,28 @@
 ---
-id: "SKILL-006"
-title: "Diagnostic Methodology"
-description: "Root cause analysis methodology: capture, reproduce, isolate, fix, verify.
-
+id: SKILL-006
+title: Diagnostic Methodology
+description: |
+  Root cause analysis methodology: capture, reproduce, isolate, fix, verify.
   Covers debug process, common issue categories, root cause classification,
-
   and the discipline of fixing causes not symptoms.
-
   Use when: Debugging failures, diagnosing unexpected behavior, tracing
-
-  data flow through multi-layer systems, or investigating production issues.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "core"
+  data flow through multi-layer systems, or investigating production issues.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: core
 scope:
-  - "AGENT-002"
-category: "methodology"
-version: "1.0.0"
+  - AGENT-002
+category: methodology
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-002"
-    type: "grounded"
-    rationale: "Root cause analysis captures failure patterns as reusable knowledge, turning each bug into a lesson that prevents recurrence"
+  - target: PILLAR-002
+    type: grounded
+    rationale: Root cause analysis captures failure patterns as reusable knowledge, turning each bug into a lesson that prevents recurrence
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
 ---
 
 

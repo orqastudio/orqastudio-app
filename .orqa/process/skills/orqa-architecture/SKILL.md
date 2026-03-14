@@ -1,29 +1,32 @@
 ---
-id: "SKILL-002"
-title: "OrqaStudio Architecture"
-description: "OrqaStudio architecture knowledge: ADR patterns, data flow mapping, layer responsibilities,
-
+id: SKILL-002
+title: OrqaStudio Architecture
+description: |
+  OrqaStudio architecture knowledge: ADR patterns, data flow mapping, layer responsibilities,
   violation detection, and IPC boundary design for the Tauri+Svelte+Rust stack.
-
   Use when: Planning features that cross layer boundaries, evaluating whether a change is
-
   architecturally significant, reviewing implementation plans for architectural compliance,
-
-  documenting architecture decisions.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "project"
+  documenting architecture decisions.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-004"
-  - "AGENT-006"
-category: "methodology"
-version: "1.0.0"
+  - AGENT-004
+  - AGENT-006
+category: methodology
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "ADR patterns and layer responsibility mapping make design decisions explicit and traceable rather than implicit"
+  - target: PILLAR-001
+    type: grounded
+    rationale: ADR patterns and layer responsibility mapping make design decisions explicit and traceable rather than implicit
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 
 

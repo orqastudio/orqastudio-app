@@ -1,24 +1,30 @@
 ---
-id: "RULE-033"
-title: "Tooltips over title attributes"
-description: "Use shadcn Tooltip components for hover hints instead of native HTML title attributes. Tooltips provide consistent styling, positioning, and accessibility."
-status: "active"
-created: "2026-03-10"
-updated: "2026-03-10"
-layer: "project"
+id: RULE-033
+title: Tooltips over title attributes
+description: Use shadcn Tooltip components for hover hints instead of native HTML title attributes. Tooltips provide consistent styling, positioning, and accessibility.
+status: active
+created: 2026-03-10
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
+  - AGENT-001
+  - AGENT-002
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Tooltip consistency enforces structural UI patterns"
-  - target: "RULE-006"
-    type: "informs"
-    rationale: "Tooltip usage is a specific component standard within the broader coding standards"
-  - target: "RULE-024"
-    type: "informs"
-    rationale: "shadcn Tooltip is a shared component — use it consistently rather than reinventing hover hints"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Tooltip consistency enforces structural UI patterns
+  - target: RULE-006
+    type: informs
+    rationale: Tooltip usage is a specific component standard within the broader coding standards
+  - target: RULE-024
+    type: informs
+    rationale: shadcn Tooltip is a shared component — use it consistently rather than reinventing hover hints
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
 ---
 
 All interactive elements that need hover hints MUST use the shadcn `Tooltip` component (`$lib/components/ui/tooltip`) instead of the native HTML `title` attribute.

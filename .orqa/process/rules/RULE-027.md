@@ -1,6 +1,4 @@
 ---
-
-
 id: RULE-027
 title: Structure Before Work
 description: No implementation work may begin without the full artifact structure in place first.
@@ -41,10 +39,16 @@ relationships:
     rationale: AD-040 established the structure-before-work principle that this rule implements as a non-negotiable gate
   - target: IMPL-021
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-021"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-021
   - target: IMPL-047
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-047"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-047
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 ## The Rule (NON-NEGOTIABLE)
 

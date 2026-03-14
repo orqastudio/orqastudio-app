@@ -1,37 +1,39 @@
 ---
-
-
-id: "SKILL-017"
-title: "Orqa Streaming Pipeline"
-description: "OrqaStudio streaming pipeline: Agent SDK → sidecar (Bun) → NDJSON → Rust Channel<T> → Svelte.
-
+id: SKILL-017
+title: Orqa Streaming Pipeline
+description: |
+  OrqaStudio streaming pipeline: Agent SDK → sidecar (Bun) → NDJSON → Rust Channel<T> → Svelte.
   Covers ProviderEvent types, StreamEvent types, sidecar protocol, error handling, and tool approval.
-
   Use when: Modifying the streaming pipeline, adding new event types, debugging streaming issues,
-
-  or working with the sidecar.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "project"
+  or working with the sidecar.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-002"
-  - "AGENT-006"
-category: "domain"
+  - AGENT-002
+  - AGENT-006
+category: domain
 file-patterns:
-  - "sidecar/src/**"
-version: "1.0.0"
+  - sidecar/src/**
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "NDJSON protocol with typed ProviderEvent/StreamEvent makes every stage of the LLM-to-UI pipeline observable and debuggable"
+  - target: PILLAR-001
+    type: grounded
+    rationale: NDJSON protocol with typed ProviderEvent/StreamEvent makes every stage of the LLM-to-UI pipeline observable and debuggable
   - target: AD-009
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-009"
+    rationale: Auto-generated inverse of practices relationship from AD-009
   - target: AD-007
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-007"
+    rationale: Auto-generated inverse of practices relationship from AD-007
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 OrqaStudio streams Claude conversations through a multi-layer pipeline. Understanding this pipeline is critical for anyone touching streaming, tool execution, or the sidecar.
 

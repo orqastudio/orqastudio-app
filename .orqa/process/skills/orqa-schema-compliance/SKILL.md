@@ -1,27 +1,31 @@
 ---
-id: "SKILL-039"
-title: "Schema Compliance"
-description: "Schema compliance validation methodology: schema discovery, common violation
-
+id: SKILL-039
+title: Schema Compliance
+description: |
+  Schema compliance validation methodology: schema discovery, common violation
   patterns, remediation, and on-demand scanning tools.
-
   Use when: Creating or modifying .orqa/ artifacts, running compliance audits,
-
-  fixing schema validation errors, or batch-editing frontmatter.\n"
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "project"
+  fixing schema validation errors, or batch-editing frontmatter.
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: project
 scope:
-  - "AGENT-003"
-  - "AGENT-006"
-category: "methodology"
-version: "1.0.0"
+  - AGENT-003
+  - AGENT-006
+category: methodology
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "JSON Schema validation of frontmatter ensures every artifact conforms to its type contract, preventing malformed graph edges"
+  - target: PILLAR-001
+    type: grounded
+    rationale: JSON Schema validation of frontmatter ensures every artifact conforms to its type contract, preventing malformed graph edges
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 
 How to create valid `.orqa/` artifacts and fix schema validation failures. Enforced by [RULE-032](RULE-032) via the pre-commit hook at `.githooks/validate-schema.mjs`.

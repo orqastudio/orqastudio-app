@@ -1,36 +1,34 @@
 ---
-
-
-id: "SKILL-023"
-title: "Project Setup"
-description: "Universal project scaffolding: creates the .orqa/ directory structure,
-
+id: SKILL-023
+title: Project Setup
+description: |
+  Universal project scaffolding: creates the .orqa/ directory structure,
   copies core rules and skills, initialises project.json, and sets up
-
   CLI symlinks. This is the base setup — project type presets layer on top.
-
   Use when: Initialising a new project with OrqaStudio governance, or
-
-  repairing a broken .orqa/ structure.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "setup"
+  repairing a broken .orqa/ structure.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: setup
 scope:
-  - "AGENT-003"
-category: "tool"
-version: "1.0.0"
+  - AGENT-003
+category: tool
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Scaffolding .orqa/ with core rules, skills, and project.json gives a new project a visible governance baseline from day one"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Scaffolding .orqa/ with core rules, skills, and project.json gives a new project a visible governance baseline from day one
   - target: AD-030
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-030"
+    rationale: Auto-generated inverse of practices relationship from AD-030
   - target: AD-016
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-016"
+    rationale: Auto-generated inverse of practices relationship from AD-016
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 > **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.
 

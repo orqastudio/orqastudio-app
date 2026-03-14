@@ -1,26 +1,27 @@
 ---
-id: "SKILL-020"
-title: "Plugin Development"
-description: "OrqaStudio plugin development: creating plugins in standalone projects with seed data,
-
+id: SKILL-020
+title: Plugin Development
+description: |
+  OrqaStudio plugin development: creating plugins in standalone projects with seed data,
   using the Artifact Graph SDK, and the four-layer plugin model (built-in, official,
-
   community, user). Use when: Building new plugins, helping users create custom views,
-
-  or extending OrqaStudio with additional artifact visualisations.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "project"
+  or extending OrqaStudio with additional artifact visualisations.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-002"
-category: "domain"
-version: "1.0.0"
+  - AGENT-002
+category: domain
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Plugin architecture with the Artifact Graph SDK makes governance extensible while keeping the core framework stable"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Plugin architecture with the Artifact Graph SDK makes governance extensible while keeping the core framework stable
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
 ---
 
 > **Forward-looking:** This skill will be activated when the plugin system is implemented. See [IDEA-038](IDEA-038) for context.

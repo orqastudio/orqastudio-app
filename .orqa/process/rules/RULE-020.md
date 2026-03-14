@@ -1,6 +1,4 @@
 ---
-
-
 id: RULE-020
 title: No Stubs or Placeholders
 description: No hardcoded fake data, TODO functions, or scaffolded implementations in production code.
@@ -48,10 +46,16 @@ relationships:
     rationale: Real implementations are required — fake demos do not serve any pillar
   - target: RULE-010
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RULE-010"
+    rationale: Auto-generated inverse of informed-by relationship from RULE-010
   - target: RULE-005
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RULE-005"
+    rationale: Auto-generated inverse of informed-by relationship from RULE-005
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 ## What Counts as a Stub
 

@@ -1,36 +1,41 @@
 ---
-
-
-id: "SKILL-042"
-title: "OrqaStudio Frontend Best Practices"
-description: "Umbrella skill for all frontend implementation work. Establishes composability,
-
+id: SKILL-042
+title: OrqaStudio Frontend Best Practices
+description: |
+  Umbrella skill for all frontend implementation work. Establishes composability,
   coding standards, and component conventions as always-in-mind principles, then
-
   references deeper skills for Svelte 5, TypeScript, and Tailwind specifics.
-
-  Use when: Any agent is about to write or modify frontend code (ui/, components, stores).\n"
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "project"
+  Use when: Any agent is about to write or modify frontend code (ui/, components, stores).
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: project
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-  - "AGENT-006"
-category: "domain"
-version: "1.0.0"
+  - AGENT-001
+  - AGENT-002
+  - AGENT-006
+category: domain
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Umbrella conventions for component purity, store patterns, and Svelte 5 runes ensure UI code follows visible, enforceable standards"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Umbrella conventions for component purity, store patterns, and Svelte 5 runes ensure UI code follows visible, enforceable standards
   - target: AD-013
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-013"
+    rationale: Auto-generated inverse of practices relationship from AD-013
   - target: AD-019
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-019"
+    rationale: Auto-generated inverse of practices relationship from AD-019
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 This skill ensures every frontend agent has the right mental model before writing code. It does not duplicate content from deeper skills — it establishes principles and points to the right references.
 

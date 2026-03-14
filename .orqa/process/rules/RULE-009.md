@@ -31,6 +31,12 @@ relationships:
   - type: informed-by
     target: RULE-044
     rationale: Core graph protection has a dogfood exception allowing core artifact edits
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 # Dogfood Mode (CONDITIONAL — only when `dogfood: true`)
 

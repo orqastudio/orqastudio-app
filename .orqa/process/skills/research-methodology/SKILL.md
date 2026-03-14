@@ -1,23 +1,31 @@
 ---
-id: "SKILL-048"
-title: "Research Methodology"
-description: "Research best practices for agents investigating external sources: source
-
+id: SKILL-048
+title: Research Methodology
+description: |
+  Research best practices for agents investigating external sources: source
   verification, credibility assessment, cross-referencing, and structured
-
-  documentation of findings with confidence levels.\n"
-status: "active"
-layer: "core"
+  documentation of findings with confidence levels.
+status: active
+layer: core
 scope:
-  - "AGENT-005"
-  - "AGENT-004"
-  - "AGENT-001"
-category: "methodology"
+  - AGENT-005
+  - AGENT-004
+  - AGENT-001
+category: methodology
 user-invocable: true
 relationships:
-  - target: "PILLAR-002"
-    type: "grounded"
-    rationale: "Source verification and confidence-leveled findings turn ad-hoc investigation into reusable knowledge that compounds across sessions"
+  - target: PILLAR-002
+    type: grounded
+    rationale: Source verification and confidence-leveled findings turn ad-hoc investigation into reusable knowledge that compounds across sessions
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
 ---
 
 # Research Methodology

@@ -1,8 +1,4 @@
 ---
-
-
-
-
 id: RULE-042
 title: Automated Skill Injection
 description: When agents touch specific code areas, relevant domain skills are auto-injected. Enforcement entries map file paths to skill names.
@@ -33,16 +29,19 @@ relationships:
     rationale: Linter delegation defines which enforcement belongs in tooling vs skill injection, preventing duplication
   - target: TASK-412
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from TASK-412"
+    rationale: Auto-generated inverse of enforced-by relationship from TASK-412
   - target: AD-045
     type: practiced-by
-    rationale: "Auto-generated inverse of practiced-by relationship from AD-045"
+    rationale: Auto-generated inverse of practiced-by relationship from AD-045
   - target: AD-048
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from AD-048"
+    rationale: Auto-generated inverse of enforced-by relationship from AD-048
   - target: RES-056
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from RES-056"
+    rationale: Auto-generated inverse of observed-by relationship from RES-056
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 enforcement:
   - event: file
     paths:

@@ -1,29 +1,33 @@
 ---
-id: "SKILL-037"
-title: "Orqa Documentation Authoring"
-description: "OrqaStudio documentation authoring conventions: internal link format, cross-referencing
-
+id: SKILL-037
+title: Orqa Documentation Authoring
+description: |
+  OrqaStudio documentation authoring conventions: internal link format, cross-referencing
   between artifacts, markdown rendering pipeline, and content structure patterns.
-
   Use when: Writing or editing any markdown content in .orqa/ — documentation pages,
-
-  artifact body text, research documents, epic designs, rule descriptions, README files.\n"
-status: "active"
-created: "2026-03-10"
-updated: "2026-03-10"
-layer: "project"
+  artifact body text, research documents, epic designs, rule descriptions, README files.
+status: active
+created: 2026-03-10
+updated: 2026-03-10
+layer: project
 scope:
-  - "AGENT-003"
-  - "AGENT-007"
-category: "domain"
+  - AGENT-003
+  - AGENT-007
+category: domain
 file-patterns:
-  - ".orqa/**"
-version: "1.0.0"
+  - .orqa/**
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Consistent link formats and cross-referencing conventions make artifact relationships navigable and machine-parseable"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Consistent link formats and cross-referencing conventions make artifact relationships navigable and machine-parseable
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 
 How to write documentation and artifact content in OrqaStudio. Covers the internal link format, cross-referencing conventions, markdown rendering pipeline, and content structure patterns.

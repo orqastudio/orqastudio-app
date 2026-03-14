@@ -1,26 +1,27 @@
 ---
-id: "SKILL-035"
-title: "UAT Process"
-description: "Structured user acceptance testing methodology. Collect all findings first,
-
+id: SKILL-035
+title: UAT Process
+description: |
+  Structured user acceptance testing methodology. Collect all findings first,
   group by systemic root cause, investigate architecture before proposing fixes,
-
   create tasks at the system level, and encode process improvements as lessons.
-
-  Use when: Running UAT rounds, triaging user-reported issues, planning fix sprints.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "core"
+  Use when: Running UAT rounds, triaging user-reported issues, planning fix sprints.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: core
 scope:
-  - "AGENT-003"
-category: "methodology"
-version: "1.0.0"
+  - AGENT-003
+category: methodology
+version: 1.0.0
 user-invocable: false
 relationships:
-  - target: "PILLAR-002"
-    type: "grounded"
-    rationale: "Collecting all findings before fixing, then grouping by root cause, turns user feedback into systemic lessons rather than one-off patches"
+  - target: PILLAR-002
+    type: grounded
+    rationale: Collecting all findings before fixing, then grouping by root cause, turns user feedback into systemic lessons rather than one-off patches
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 
 Structured UAT methodology for the orchestrator and QA agents. Prevents premature fixing

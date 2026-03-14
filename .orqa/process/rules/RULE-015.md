@@ -1,7 +1,4 @@
 ---
-
-
-
 id: RULE-015
 title: Honest Reporting
 description: Report status accurately. Partial work reported as complete is worse than reporting it as incomplete.
@@ -56,13 +53,34 @@ relationships:
     rationale: UAT process requires findings to be reported accurately before grouping into systemic tasks
   - target: IMPL-024
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-024"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-024
   - target: IMPL-021
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-021"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-021
   - target: IMPL-026
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-026"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-026
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 ## The Core Rule
 

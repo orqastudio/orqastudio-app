@@ -1,32 +1,35 @@
 ---
-
-
-
-id: "SKILL-032"
-title: "Tauri v2 Development"
-description: "Tauri v2 cross-platform app development with Rust backend. Use when configuring tauri.conf.json, implementing Rust commands (#[tauri::command]), setting up IPC patterns (invoke, emit, channels), configuring permissions/capabilities, troubleshooting build issues, or deploying desktop/mobile apps. Triggers on Tauri, src-tauri, invoke, emit, capabilities.json."
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "core"
+id: SKILL-032
+title: Tauri v2 Development
+description: Tauri v2 cross-platform app development with Rust backend. Use when configuring tauri.conf.json, implementing Rust commands (#[tauri::command]), setting up IPC patterns (invoke, emit, channels), configuring permissions/capabilities, troubleshooting build issues, or deploying desktop/mobile apps. Triggers on Tauri, src-tauri, invoke, emit, capabilities.json.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: core
 scope:
-  - "AGENT-002"
-  - "AGENT-006"
-category: "domain"
+  - AGENT-002
+  - AGENT-006
+category: domain
 user-invocable: false
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Tauri command patterns, permission capabilities, and IPC channels define explicit boundaries between frontend and backend layers"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Tauri command patterns, permission capabilities, and IPC channels define explicit boundaries between frontend and backend layers
   - target: AD-011
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-011"
+    rationale: Auto-generated inverse of practices relationship from AD-011
   - target: AD-007
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-007"
+    rationale: Auto-generated inverse of practices relationship from AD-007
   - target: AD-012
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-012"
+    rationale: Auto-generated inverse of practices relationship from AD-012
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 > Build cross-platform desktop and mobile apps with web frontends and Rust backends.
 

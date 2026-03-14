@@ -1,7 +1,4 @@
 ---
-
-
-
 id: RULE-032
 title: Artifact Schema Compliance
 description: Every artifact's YAML frontmatter must validate against the JSON Schema defined in its artifact directory's schema.json file.
@@ -37,13 +34,22 @@ relationships:
     rationale: Pillar schema validation ensures pillar artifacts conform to their schema — validating the structured fields that AD-031 establishes (id, title, description, gate)
   - target: AD-034
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-034"
+    rationale: Auto-generated inverse of enforces relationship from AD-034
   - target: RULE-045
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RULE-045"
+    rationale: Auto-generated inverse of informed-by relationship from RULE-045
   - target: AD-023
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-023"
+    rationale: Auto-generated inverse of enforces relationship from AD-023
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 Every artifact in `.orqa/` must have YAML frontmatter that validates against the JSON Schema in its directory's `schema.json` file. Fields not defined in the schema are rejected. Required fields must be present. Enum fields must use valid values.
 

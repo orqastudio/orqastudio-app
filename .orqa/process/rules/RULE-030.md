@@ -37,6 +37,12 @@ relationships:
   - type: grounded
     target: IMPL-012
     rationale: Lesson IMPL-012 identified that UAT rounds without process improvement encoding fail to exercise the learning loop
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 User acceptance testing follows a structured process that prevents premature fixing and ensures systemic solutions.
 

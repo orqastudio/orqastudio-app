@@ -1,23 +1,26 @@
 ---
-id: "RULE-039"
-title: "Session Management"
-description: "Sessions must be managed with state persistence, clean handoffs, and no unsaved work at session boundaries."
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "core"
+id: RULE-039
+title: Session Management
+description: Sessions must be managed with state persistence, clean handoffs, and no unsaved work at session boundaries.
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: core
 scope:
-  - "AGENT-003"
+  - AGENT-003
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Session management ensures structured handoffs between sessions"
-  - target: "RULE-013"
-    type: "informs"
-    rationale: "Session management requires clean git state — stash policy and commit discipline apply at session boundaries"
-  - target: "RULE-007"
-    type: "informs"
-    rationale: "Session management requires dev server lifecycle control using make targets"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Session management ensures structured handoffs between sessions
+  - target: RULE-013
+    type: informs
+    rationale: Session management requires clean git state — stash policy and commit discipline apply at session boundaries
+  - target: RULE-007
+    type: informs
+    rationale: Session management requires dev server lifecycle control using make targets
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 
 Every session that performs work must leave the codebase in a clean, resumable state. Session state bridges the gap between context windows.

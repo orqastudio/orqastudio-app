@@ -1,37 +1,56 @@
 ---
-
-
-id: "RULE-036"
-title: "Context Window Management"
-description: "The orchestrator must protect its context window by delegating, minimizing output, summarizing results, and using session state files."
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "core"
+id: RULE-036
+title: Context Window Management
+description: The orchestrator must protect its context window by delegating, minimizing output, summarizing results, and using session state files.
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: core
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-  - "AGENT-003"
-  - "AGENT-004"
-  - "AGENT-005"
-  - "AGENT-006"
-  - "AGENT-007"
+  - AGENT-001
+  - AGENT-002
+  - AGENT-003
+  - AGENT-004
+  - AGENT-005
+  - AGENT-006
+  - AGENT-007
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Context window discipline keeps orchestration focused and structured"
-  - target: "RULE-001"
-    type: "informs"
-    rationale: "Delegation is the primary strategy for protecting the orchestrator's context window — implementation belongs in agent contexts"
-  - target: "RULE-005"
-    type: "informs"
-    rationale: "Semantic search tools reduce context consumption by returning targeted results instead of requiring full file reads"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Context window discipline keeps orchestration focused and structured
+  - target: RULE-001
+    type: informs
+    rationale: Delegation is the primary strategy for protecting the orchestrator's context window — implementation belongs in agent contexts
+  - target: RULE-005
+    type: informs
+    rationale: Semantic search tools reduce context consumption by returning targeted results instead of requiring full file reads
   - target: AD-046
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-046"
+    rationale: Auto-generated inverse of enforces relationship from AD-046
   - target: AD-041
     type: enforces
-    rationale: "Auto-generated inverse of enforces relationship from AD-041"
+    rationale: Auto-generated inverse of enforces relationship from AD-041
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 The orchestrator's context window is a finite resource. Filling it with implementation details, full file contents, or raw agent output degrades coordination quality. These constraints are mandatory.
 

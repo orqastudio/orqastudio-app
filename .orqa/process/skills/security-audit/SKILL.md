@@ -1,32 +1,31 @@
 ---
-
-id: "SKILL-028"
-title: "Security Audit"
-description: "Security auditing methodology: secret management, capability/permission systems,
-
+id: SKILL-028
+title: Security Audit
+description: |
+  Security auditing methodology: secret management, capability/permission systems,
   file system scoping, input validation, dependency auditing, and vulnerability
-
   classification. Portable across desktop and web applications.
-
   Use when: Auditing application security, reviewing permissions, checking for
-
-  credential exposure, validating input handling, or assessing dependency risk.\n"
-status: "active"
-created: "2026-03-01"
-updated: "2026-03-10"
-layer: "core"
+  credential exposure, validating input handling, or assessing dependency risk.
+status: active
+created: 2026-03-01
+updated: 2026-03-10
+layer: core
 scope:
-  - "AGENT-006"
-category: "methodology"
-version: "1.0.0"
+  - AGENT-006
+category: methodology
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Systematic permission, secret, and dependency audits surface hidden risks as documented findings with severity classifications"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Systematic permission, secret, and dependency audits surface hidden risks as documented findings with severity classifications
   - target: AD-011
     type: practices
-    rationale: "Auto-generated inverse of practices relationship from AD-011"
+    rationale: Auto-generated inverse of practices relationship from AD-011
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
 ---
 Security auditing methodology for applications. This skill teaches *what to check and how* — the specific security mechanisms (e.g., Tauri capabilities, keyring APIs) come from the project's technology skills.
 

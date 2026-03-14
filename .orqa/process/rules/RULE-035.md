@@ -27,6 +27,9 @@ relationships:
   - type: enforces
     target: AD-001
     rationale: Skill portability ensures skills correctly separate core from project concerns, supporting the thick backend architecture boundary
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 A skill's `layer` field declares its portability scope. Content within the skill MUST be portable within that scope. A core skill that contains project-specific paths is broken — it will give wrong guidance on other projects.
 

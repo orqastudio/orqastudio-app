@@ -1,29 +1,32 @@
 ---
-id: "SKILL-050"
-title: "OrqaStudio Migration and Link Verification Tooling"
-description: "How to use the backfill-relationships and verify-links tools for governance
-
+id: SKILL-050
+title: OrqaStudio Migration and Link Verification Tooling
+description: |
+  How to use the backfill-relationships and verify-links tools for governance
   artifact migrations. Covers relationship proposal workflow, link verification,
-
   bidirectional consistency checks, and safe frontmatter updates.
-
   Use when: Performing schema migrations, backfilling new fields across artifacts,
-
-  auditing cross-references, or verifying bidirectional relationship integrity.\n"
-status: "active"
-created: "2026-03-12"
-updated: "2026-03-12"
-layer: "project"
+  auditing cross-references, or verifying bidirectional relationship integrity.
+status: active
+created: 2026-03-12
+updated: 2026-03-12
+layer: project
 scope:
-  - "AGENT-001"
-  - "AGENT-003"
-category: "tool"
-version: "1.0.0"
+  - AGENT-001
+  - AGENT-003
+category: tool
+version: 1.0.0
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Backfill and verification tools ensure schema changes propagate consistently across all artifacts, keeping frontmatter trustworthy"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Backfill and verification tools ensure schema changes propagate consistently across all artifacts, keeping frontmatter trustworthy
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 
 Tools for governance artifact migrations and link integrity verification. These tools live in `tools/` at the project root and are designed for CLI use by agents or humans.

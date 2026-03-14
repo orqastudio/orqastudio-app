@@ -1,25 +1,46 @@
 ---
-id: "SKILL-040"
-title: "Systems Thinking"
-description: "Practical methodology for applying systems thinking to codebases — identifying systems, mapping boundaries, tracing relationships, finding patterns, and discovering the uniform base."
-status: "active"
-created: "2026-03-11"
-updated: "2026-03-11"
-layer: "core"
+id: SKILL-040
+title: Systems Thinking
+description: Practical methodology for applying systems thinking to codebases — identifying systems, mapping boundaries, tracing relationships, finding patterns, and discovering the uniform base.
+status: active
+created: 2026-03-11
+updated: 2026-03-11
+layer: core
 scope:
-  - "AGENT-001"
-  - "AGENT-002"
-  - "AGENT-003"
-  - "AGENT-004"
-  - "AGENT-005"
-  - "AGENT-006"
-  - "AGENT-007"
-category: "methodology"
+  - AGENT-001
+  - AGENT-002
+  - AGENT-003
+  - AGENT-004
+  - AGENT-005
+  - AGENT-006
+  - AGENT-007
+category: methodology
 user-invocable: true
 relationships:
-  - target: "PILLAR-001"
-    type: "grounded"
-    rationale: "Mapping boundaries, relationships, and the uniform base before changing code prevents special-case proliferation and makes architecture intentional"
+  - target: PILLAR-001
+    type: grounded
+    rationale: Mapping boundaries, relationships, and the uniform base before changing code prevents special-case proliferation and makes architecture intentional
+  - type: scoped-to
+    target: AGENT-001
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-002
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-004
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-005
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-006
+    rationale: Migrated from scope field
+  - type: scoped-to
+    target: AGENT-007
+    rationale: Migrated from scope field
 ---
 
 # Systems Thinking
