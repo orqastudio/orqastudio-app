@@ -60,7 +60,7 @@
     { "key": "docs", "label": "Documentation", "icon": "book-open",
       "children": [
         { "key": "guide", "path": ".orqa/documentation/guide" },
-        { "key": "product", "path": ".orqa/documentation/product" },
+        { "key": "about", "path": ".orqa/documentation/about" },
         { "key": "architecture", "path": ".orqa/documentation/architecture" },
         { "key": "development", "path": ".orqa/documentation/development" },
         { "key": "process", "path": ".orqa/documentation/process" },

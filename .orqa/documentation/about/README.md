@@ -1,12 +1,12 @@
 ---
 role: artifacts
-label: "Product"
+label: "About"
 description: "Vision, governance, roadmap, and product decisions."
 icon: "compass"
 sort: 1
 ---
 
-# Product
+# About
 
 Product documentation defines what OrqaStudio is, what it values, and where it is going. It is the anchor for all feature work — every epic must trace to a pillar defined here, and every delivery must serve the vision articulated here.
 
