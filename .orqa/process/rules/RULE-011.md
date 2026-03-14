@@ -33,6 +33,9 @@ relationships:
   - type: informed-by
     target: RULE-027
     rationale: Structure before work requires enforcement artifacts to exist alongside implementation artifacts
+  - type: enforced-by
+    target: AD-048
+    rationale: AD-048 extends enforcement-before-code to enforcement-before-promotion — lessons cannot become rules without enforcement
 ---
 # Enforcement Before Code (NON-NEGOTIABLE)
 

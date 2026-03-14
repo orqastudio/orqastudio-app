@@ -4,9 +4,23 @@ title: Data Integrity
 description: All artifact cross-references must resolve, pipeline relationships must have bidirectional inverses, and integrity checks run on every commit.
 status: active
 created: "2026-03-13"
-updated: "2026-03-13"
+updated: "2026-03-14"
 layer: core
-scope: []
+scope:
+  - AGENT-003
+enforcement:
+  - event: file
+    paths:
+      - .orqa/**/*.md
+    action: inject
+    message: "GRAPH INTEGRITY: You just modified an artifact. Check that all relationships in the frontmatter have bidirectional inverses on the target artifacts. For every A --type--> B, ensure B --inverse--> A exists. Run 'node tools/verify-links.mjs --check-bidirectional' if modifying multiple artifacts."
+  - event: file
+    paths:
+      - .orqa/**/*.md
+    action: inject
+    skills:
+      - orqa-governance
+    message: "Artifact modified — injecting governance patterns for graph integrity maintenance."
 relationships:
   - type: grounded
     target: PILLAR-001
@@ -26,6 +40,9 @@ relationships:
   - type: enforces
     target: AD-042
     rationale: verify-pipeline-integrity.mjs enforces that knowledge pipeline stage transitions have proper bidirectional relationship edges
+  - type: observed-by
+    target: IMPL-055
+    rationale: IMPL-055 identified that commit-time-only enforcement is too late — write-time enforcement added as a result
 ---
 
 All artifact cross-references must resolve to existing artifacts. Pipeline relationships must have bidirectional inverses. These constraints are enforced at commit time and can be verified manually.
@@ -55,12 +72,22 @@ One-sided relationships indicate a broken graph edge. The pre-commit hook blocks
 
 ## Enforcement
 
+### Write-time (automatic — enforcement engine)
+
+When any `.orqa/**/*.md` file is written or edited, the enforcement engine (consumed by the Claude plugin in CLI context, the Rust app in app context) injects a graph integrity reminder. This catches missing bidirectional inverses at the moment of creation — before more artifacts are built on top of broken edges.
+
+The enforcement entries on this rule declare:
+- `event: file` / `action: inject` — reminds the agent to check bidirectional inverses
+- `event: file` / `action: inject` / `skills: [orqa-governance]` — loads governance patterns
+
 ### Pre-commit (automatic)
 
 The `.githooks/pre-commit` hook runs on every commit that includes `.orqa/` files:
 
 - `tools/verify-links.mjs --staged --check-bidirectional` — checks staged files for broken links and missing inverses
 - `tools/verify-pipeline-integrity.mjs --staged` — checks staged files for pipeline consistency
+
+This is the hard gate — commits with broken links or missing inverses are blocked.
 
 ### Manual (full scan)
 

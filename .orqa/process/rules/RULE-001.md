@@ -4,7 +4,7 @@ title: Agent Delegation
 description: The orchestrator coordinates but does not implement. All implementation is delegated to universal roles with appropriate skills.
 status: active
 created: 2026-03-07
-updated: 2026-03-13
+updated: 2026-03-14
 layer: core
 scope:
   - AGENT-003
@@ -54,6 +54,24 @@ relationships:
   - type: enforces
     target: AD-029
     rationale: This rule defines the seven universal roles and the delegation protocol that prevents the orchestrator from implementing — directly enforcing the universal-roles architecture decision
+  - type: observes
+    target: IMPL-052
+    rationale: Lesson IMPL-052 identified the permission-seeking anti-pattern — orchestrator pausing when not blocked
+  - type: grounded
+    target: IMPL-052
+    rationale: Autonomous continuation section promoted directly from IMPL-052's fix recommendation
+  - type: enforced-by
+    target: AD-048
+    rationale: AD-048 requires enforcement to accompany any lesson promotion to a rule — this rule's autonomous continuation section is the promotion target
+enforcement:
+  - event: stop
+    action: warn
+    message: "AUTONOMOUS CONTINUATION CHECK: Did you ask for permission when not blocked? The orchestrator must continue when tasks are approved and unblocked. Only stop for: dependency gates not met, user decision needed, or work complete."
+  - event: stop
+    action: inject
+    skills:
+      - governance-maintenance
+    message: "Check: did you pause for unnecessary permission at any point during this session? If so, log as IMPL-052 recurrence."
 ---
 The orchestrator coordinates. It does NOT implement. Every implementation task is delegated to a universal role with the appropriate skills loaded.
 
@@ -97,6 +115,23 @@ When delegating to a role:
 4. **Scope the task** — Clear description with acceptance criteria
 5. **Provide context** — File paths, relevant docs, constraints
 6. **Verify the result** — Check the agent's output against acceptance criteria before reporting to the user
+
+## Autonomous Continuation (NON-NEGOTIABLE)
+
+When the orchestrator has approved tasks and no blocker exists, it MUST continue to the next task without asking the user for permission. The user's interrupt capability is the coordination mechanism — not permission-seeking questions.
+
+**The orchestrator MUST only pause when:**
+1. A dependency gate is not met (task depends on incomplete work)
+2. A genuine user decision is needed (scope change, ambiguity, trade-off)
+3. All work is complete (epic done)
+
+**FORBIDDEN:**
+- "Want me to continue?" when tasks are approved and unblocked
+- "Shall I proceed with the next phase?" when no decision is needed
+- "Ready for X?" when X is already planned and unblocked
+- Any variation of asking permission to execute an approved plan
+
+This was promoted from [IMPL-052](IMPL-052) after 3 recurrences.
 
 ## Exceptions
 

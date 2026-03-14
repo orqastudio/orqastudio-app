@@ -4,7 +4,7 @@ title: Lessons Learned
 description: "Two learning loops: implementation lessons in .orqa/process/lessons/ and process retrospectives. Both are mandatory."
 status: active
 created: 2026-03-07
-updated: 2026-03-13
+updated: 2026-03-14
 layer: core
 scope:
   - AGENT-003
@@ -37,6 +37,9 @@ relationships:
   - type: grounded
     target: IMPL-023
     rationale: Lesson IMPL-023 identified the three-tier logging discipline that makes the learning loop self-sustaining
+  - type: enforced-by
+    target: AD-048
+    rationale: AD-048 requires enforcement to accompany any lesson promotion — strengthens the promotion pipeline
 ---
 The team maintains two learning loops to prevent mistakes from recurring across sessions. Both loops are mandatory — they are not guidelines.
 
@@ -63,10 +66,21 @@ Process-level learnings are captured as lessons (`IMPL-NNN`) in `.orqa/process/l
 ## Promotion Pipeline
 
 ```text
-Lesson documented -> recurrence tracked -> promoted at threshold -> enforcement verified -> recurrence re-tracked
+Lesson documented -> recurrence tracked -> promoted at threshold -> enforcement attempted -> promotion completed -> recurrence re-tracked
 ```
 
-If a promoted lesson still sees violations: escalate enforcement (rule -> hook -> scanner -> hard block).
+### Enforcement Gate (NON-NEGOTIABLE — [AD-048](AD-048))
+
+A lesson MUST NOT be promoted to a rule without attempting enforcement. Rules without enforcement are just lessons with a label. Before setting `promoted-to` on a lesson:
+
+1. **Declare enforcement entries** on the target rule (event type, action, paths/patterns)
+2. **Attempt mechanical enforcement** — can a hook, scanner, validator, or gate catch violations?
+3. **If mechanical enforcement isn't possible** — use skill injection via [RULE-042](RULE-042) to inject context at the right moment
+4. **All enforcement flows through the artifact graph** — never create raw platform hooks that bypass the system
+
+Enforcement layers in priority order: artifact graph declaration → Rust application layer → Claude plugin → pre-commit hooks. Not every rule can be enforced at every layer, but at least one layer must be attempted.
+
+If a promoted lesson still sees violations: escalate enforcement (context injection → process gate → scanner → hard block).
 
 ## Review Agent Output Requirements
 

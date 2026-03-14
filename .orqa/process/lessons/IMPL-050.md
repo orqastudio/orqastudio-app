@@ -20,6 +20,9 @@ relationships:
   - target: IMPL-049
     type: informed-by
     rationale: "Emerged from the pattern of scope decisions being made without user input — on THIS project, enforcement gaps are never out of scope"
+  - target: AD-048
+    type: informs
+    rationale: "This lesson's principle (enforcement gaps are critical) informed the decision that rule promotion requires enforcement"
 ---
 
 ## Pattern
