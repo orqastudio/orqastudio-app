@@ -11,8 +11,11 @@ depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Status, title, description, priority accessible as direct fields on ArtifactNode (not just in frontmatter JSON)"
-  - "SDK and frontend can read them without parsing frontmatter"
+  - "ArtifactNode Rust struct has status, title, description, priority as direct fields"
+  - "Rust artifact_graph.rs node builder promotes these fields from frontmatter into first-class struct fields"
+  - "TypeScript ArtifactNode type updated to match Rust struct (status, title, description, priority as direct properties)"
+  - "SDK and frontend can read these fields without parsing frontmatter JSON"
+  - "Existing consumers updated to use direct fields instead of frontmatter parsing"
 relationships:
   - target: EPIC-067
     type: delivers

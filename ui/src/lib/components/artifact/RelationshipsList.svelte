@@ -6,6 +6,7 @@
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
+	import { projectStore } from "$lib/stores/project.svelte";
 
 	interface Relationship {
 		type: string;
@@ -61,6 +62,24 @@
 		if (rels.length <= 3 || isExpanded(type)) return rels;
 		return rels.slice(0, 3);
 	}
+
+	/**
+	 * Resolve the display label for a relationship chip based on project config.
+	 * Uses relationshipDisplay.defaultField ("title" or "id"), with per-type overrides.
+	 * Falls back to ID if title is empty or config says "id".
+	 */
+	function chipLabel(targetId: string): string {
+		const config = projectStore.projectSettings?.relationshipDisplay;
+		const node = artifactGraphSDK.resolve(targetId);
+		const defaultField = config?.defaultField ?? "title";
+		const artifactType = node?.artifact_type ?? "";
+		const displayField = config?.overrides[artifactType] ?? defaultField;
+
+		if (displayField === "title" && node?.title) {
+			return node.title;
+		}
+		return targetId;
+	}
 </script>
 
 {#if relationships.length > 0}
@@ -83,7 +102,12 @@
 												{#if dotClass}
 													<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
 												{/if}
-												<ArtifactLink id={rel.target ?? undefined} />
+												{@const label = chipLabel(rel.target ?? "")}
+												{#if label !== (rel.target ?? "")}
+													<ArtifactLink id={rel.target ?? undefined} displayLabel={label} />
+												{:else}
+													<ArtifactLink id={rel.target ?? undefined} />
+												{/if}
 											</span>
 										{/snippet}
 									</Tooltip.Trigger>

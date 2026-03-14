@@ -5,19 +5,21 @@
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 
-	let { id, path }: { id?: string; path?: string } = $props();
+	let { id, path, displayLabel }: { id?: string; path?: string; displayLabel?: string } = $props();
 
 	/** Resolve the display label and whether this link is navigable. */
 	const resolved = $derived.by(() => {
 		if (id) {
 			const node = artifactGraphSDK.resolve(id);
-			return { label: id, resolvable: node !== undefined, targetId: node ? id : null };
+			const label = displayLabel ?? id;
+			return { label, resolvable: node !== undefined, targetId: node ? id : null };
 		}
 		if (path) {
 			const targetId = artifactGraphSDK.pathIndex.get(path.trim());
-			return { label: path, resolvable: targetId !== undefined, targetId: targetId ?? null };
+			const label = displayLabel ?? path;
+			return { label, resolvable: targetId !== undefined, targetId: targetId ?? null };
 		}
-		return { label: "??", resolvable: false, targetId: null };
+		return { label: displayLabel ?? "??", resolvable: false, targetId: null };
 	});
 
 	function handleClick() {

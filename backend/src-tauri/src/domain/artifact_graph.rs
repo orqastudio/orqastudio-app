@@ -496,6 +496,10 @@ fn check_missing_inverses(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck
         ("scoped-by", "scoped-to"),
         ("documents", "documented-by"),
         ("documented-by", "documents"),
+        ("belongs-to", "contains"),
+        ("contains", "belongs-to"),
+        ("delivers", "delivered-by"),
+        ("delivered-by", "delivers"),
     ];
 
     for node in graph.nodes.values() {

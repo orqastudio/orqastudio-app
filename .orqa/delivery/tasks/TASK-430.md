@@ -13,6 +13,8 @@ assignee: null
 skills: []
 acceptance:
   - "Viewer order is: actions needed → pipeline stepper → title + metadata → acceptance criteria (tasks) → body content → relationships panel"
+  - "ArtifactViewer.svelte renders sections in the specified order for all artifact types"
+  - "Sections that have no data (e.g., no actions needed) are hidden, not rendered empty"
 relationships:
   - target: EPIC-067
     type: delivers

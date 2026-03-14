@@ -2,7 +2,7 @@
 id: TASK-450
 title: "Acceptance criteria audit and backfill"
 description: "Audit all tasks for acceptance criteria completeness and backfill missing criteria based on actual implementation review."
-status: todo
+status: done
 priority: P2
 created: "2026-03-14"
 updated: "2026-03-14"

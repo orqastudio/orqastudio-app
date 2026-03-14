@@ -8,6 +8,7 @@
 	import StatusBar from "./StatusBar.svelte";
 	import WelcomeScreen from "./WelcomeScreen.svelte";
 	import ProjectDashboard from "$lib/components/dashboard/ProjectDashboard.svelte";
+	import RoadmapView from "$lib/components/roadmap/RoadmapView.svelte";
 	import ArtifactViewer from "$lib/components/artifact/ArtifactViewer.svelte";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
@@ -173,6 +174,8 @@
 						<div class="h-full overflow-hidden">
 							{#if navigationStore.activeActivity === "project"}
 								<ProjectDashboard />
+							{:else if navigationStore.activeActivity === "roadmap"}
+								<RoadmapView />
 							{:else if navigationStore.activeActivity === "chat"}
 								<WelcomeScreen />
 							{:else if navigationStore.activeGroup !== null}

@@ -34,6 +34,14 @@ export interface ScanResult {
 	scan_duration_ms: number;
 }
 
+/** Controls how relationship chips display artifact references. */
+export interface RelationshipDisplayConfig {
+	/** Which field to show on chips: "title" or "id". Default: "title". */
+	defaultField: "title" | "id";
+	/** Per-artifact-type overrides (e.g. { "task": "id", "epic": "title" }). */
+	overrides: Record<string, "title" | "id">;
+}
+
 export interface ProjectSettings {
 	name: string;
 	description: string | null;
@@ -45,6 +53,7 @@ export interface ProjectSettings {
 	show_thinking: boolean;
 	custom_system_prompt: string | null;
 	artifacts?: ArtifactEntry[];
+	relationshipDisplay?: RelationshipDisplayConfig;
 }
 
 export interface GovernanceCounts {

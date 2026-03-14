@@ -11,7 +11,10 @@ depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Documentation section in nav shows top-level doc categories (Architecture, Product, Development, etc.) not status values"
+  - "Documentation section in nav shows top-level doc categories (Architecture, Product, Development, Process, UI, Guide, etc.) not status values"
+  - "Navigation component for doc-type artifacts groups by directory structure, not by status field"
+  - "Each category shows its README icon and label if available"
+  - "Clicking a category expands to show the pages within it"
 relationships:
   - target: EPIC-071
     type: delivers

@@ -30,6 +30,7 @@ export type ExplorerView =
 	| "artifact-list"
 	| "artifact-viewer"
 	| "project-dashboard"
+	| "roadmap"
 	| "settings";
 
 /** Sub-category display config */
@@ -214,6 +215,11 @@ class NavigationStore {
 			this.activeGroup = null;
 			this.activeSubCategory = null;
 			this.explorerView = "project-dashboard";
+			this.navPanelCollapsed = true;
+		} else if (view === "roadmap") {
+			this.activeGroup = null;
+			this.activeSubCategory = null;
+			this.explorerView = "roadmap";
 			this.navPanelCollapsed = true;
 		} else if (view === "settings" || view === "configure") {
 			this.activeGroup = null;

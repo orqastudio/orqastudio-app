@@ -12,7 +12,11 @@ depends-on:
 assignee: null
 skills: []
 acceptance:
-  - "Toast notifications working with configurable position, duration, severity levels"
+  - "Toast library installed and configured in the Svelte frontend"
+  - "Toast store or utility function available for triggering notifications programmatically"
+  - "Supports severity levels: info, success, warning, error"
+  - "Position and duration configurable"
+  - "Toasts render correctly in both dark and light themes"
 relationships:
   - target: EPIC-069
     type: delivers

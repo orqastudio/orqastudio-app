@@ -7,6 +7,7 @@
 		label,
 		description,
 		status,
+		badge,
 		actionsNeeded = false,
 		active = false,
 		onclick,
@@ -14,6 +15,7 @@
 		label: string;
 		description?: string;
 		status?: string;
+		badge?: string;
 		actionsNeeded?: boolean;
 		active?: boolean;
 		onclick: () => void;
@@ -30,6 +32,8 @@
 	<span class="flex items-center gap-1.5 truncate text-sm font-medium">
 		{#if status}
 			<StatusIndicator {status} mode="dot" />
+		{:else if badge}
+			<span class="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] font-normal text-muted-foreground">{badge}</span>
 		{/if}
 		{#if actionsNeeded}
 			<CircleAlertIcon class="h-3.5 w-3.5 shrink-0 text-amber-500" />

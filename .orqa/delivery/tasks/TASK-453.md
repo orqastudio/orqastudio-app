@@ -12,6 +12,9 @@ assignee: null
 skills: []
 acceptance:
   - "Documentation within each category ordered for structured reading — fundamentals first, specifics later"
+  - "Sort fields in README frontmatter updated to reflect reading order"
+  - "Each category reviewed: overview/intro pages sort before detailed reference pages"
+  - "Ordering consistent across all documentation categories"
 relationships:
   - target: EPIC-071
     type: delivers

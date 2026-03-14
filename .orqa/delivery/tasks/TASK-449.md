@@ -11,7 +11,12 @@ depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Research document covering persona schema, lifecycle, relationship types, directory placement, and whether it adds value"
+  - "Research document created in .orqa/delivery/research/"
+  - "Proposed persona YAML schema defined with required and optional fields"
+  - "Lifecycle states proposed (if applicable)"
+  - "Relationship types to other artifacts identified (e.g., persona-for/persona-of)"
+  - "Directory placement within .orqa/ proposed"
+  - "Value assessment: clear recommendation on whether personas warrant first-class status with rationale"
 relationships:
   - target: EPIC-070
     type: delivers

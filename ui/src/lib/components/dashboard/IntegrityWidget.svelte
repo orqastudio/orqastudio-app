@@ -7,19 +7,18 @@
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
-	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
 	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import type { IntegrityCheck, IntegrityCategory, IntegritySeverity, AppliedFix } from "$lib/types/artifact-graph";
+	import { toast } from "$lib/stores/toast.svelte";
+	import type { IntegrityCheck, IntegrityCategory, IntegritySeverity } from "$lib/types/artifact-graph";
 
 	let checks = $state<IntegrityCheck[]>([]);
 	let loading = $state(false);
 	let fixing = $state(false);
 	let scanned = $state(false);
 	let error = $state<string | null>(null);
-	let appliedFixes = $state<AppliedFix[]>([]);
 
 	// Filter state
 	let severityFilter = $state<"all" | "Error" | "Warning">("all");
@@ -117,7 +116,6 @@
 	async function scan() {
 		loading = true;
 		error = null;
-		appliedFixes = [];
 		try {
 			// Refresh the graph from disk before scanning to avoid stale results
 			await artifactGraphSDK.refresh();
@@ -140,7 +138,8 @@
 		error = null;
 		try {
 			const fixableChecks = checks.filter((c) => c.auto_fixable);
-			appliedFixes = await artifactGraphSDK.applyAutoFixes(fixableChecks);
+			const appliedFixes = await artifactGraphSDK.applyAutoFixes(fixableChecks);
+			toast.success(`${appliedFixes.length} fix${appliedFixes.length !== 1 ? "es" : ""} applied`);
 			// Refresh graph after fixes wrote to disk, then re-scan
 			await artifactGraphSDK.refresh();
 			checks = await artifactGraphSDK.runIntegrityScan();

@@ -11,7 +11,11 @@ depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Research document produced covering toast library choice, desktop notification API, in-app panel design, event-to-channel mapping"
+  - "Research document created in .orqa/delivery/research/ covering toast library options for Svelte 5"
+  - "Desktop notification API (Tauri) evaluated with pros/cons"
+  - "In-app notification panel design patterns documented"
+  - "Event-to-channel mapping defined (which app events trigger which notification type)"
+  - "Recommendation for library choice with rationale"
 relationships:
   - target: EPIC-069
     type: delivers

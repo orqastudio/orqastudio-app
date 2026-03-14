@@ -1,5 +1,6 @@
 <script lang="ts">
 	import LayoutDashboardIcon from "@lucide/svelte/icons/layout-dashboard";
+	import KanbanIcon from "@lucide/svelte/icons/kanban";
 	import SearchIcon from "@lucide/svelte/icons/search";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
 	import ClipboardListIcon from "@lucide/svelte/icons/clipboard-list";
@@ -120,6 +121,14 @@
 		label="Project Dashboard"
 		active={navigationStore.activeActivity === "project"}
 		onclick={() => navigationStore.setActivity("project")}
+	/>
+
+	<!-- Roadmap Kanban -->
+	<ActivityBarItem
+		icon={KanbanIcon}
+		label="Roadmap"
+		active={navigationStore.activeActivity === "roadmap"}
+		onclick={() => navigationStore.setActivity("roadmap")}
 	/>
 
 	{#if artifactConfig.length > 0}
