@@ -3,7 +3,6 @@ id: IDEA-095
 title: "Documentation as graph-connected knowledge — restructure docs for agent grounding and graph traversal"
 description: "Documentation is currently isolated from the artifact graph. Docs exist as browsable pages but lack relationships to the skills, rules, decisions, and agents that reference them. This means agents can't traverse from a skill to its deeper documentation, grounding documents can't be systematically injected, and documentation quality is uneven because there's no structural standard for what a doc should contain or how it connects to the system."
 status: promoted
-promoted-to: EPIC-064
 created: 2026-03-14
 updated: 2026-03-14
 pillars:
@@ -17,7 +16,7 @@ research-needed:
   - "Define documentation structure standards — what a well-formed doc looks like for agent injection"
   - "Map which skills need accompanying documentation and which docs are orphaned"
   - "Design the relationship pattern between docs, skills, agents, and grounding"
-promoted-to: null
+promoted-to: EPIC-064
 spun-off-from: null
 relationships:
   - type: informed-by
