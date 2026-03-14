@@ -82,6 +82,7 @@ mod tests {
                     path: ".orqa/process/lessons".to_string(),
                 }],
             }],
+            artifact_links: Default::default(),
         };
         ProjectPaths::from_settings(tmp.path(), &settings)
     }

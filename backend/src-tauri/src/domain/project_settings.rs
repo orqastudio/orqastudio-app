@@ -39,6 +39,28 @@ pub enum ArtifactEntry {
     Type(ArtifactTypeConfig),
 }
 
+/// Display mode for artifact link chips.
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
+#[serde(rename_all = "lowercase")]
+pub enum ArtifactLinkDisplayMode {
+    /// Show the artifact's ID (e.g. "EPIC-001").
+    #[default]
+    Id,
+    /// Show the artifact's title (e.g. "My Epic Title").
+    Title,
+}
+
+/// Per-type colour and display settings for artifact link chips.
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+pub struct ArtifactLinksConfig {
+    /// Whether chips show the artifact ID or its resolved title.
+    #[serde(default)]
+    pub display_mode: ArtifactLinkDisplayMode,
+    /// Optional per-type prefix hex colour override (e.g. `{ "EPIC": "#3b82f6" }`).
+    #[serde(default)]
+    pub colors: std::collections::HashMap<String, String>,
+}
+
 /// Governance artifact counts for a project.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GovernanceCounts {
@@ -82,6 +104,9 @@ pub struct ProjectSettings {
     /// When absent, the scanner returns an empty navigation tree.
     #[serde(default)]
     pub artifacts: Vec<ArtifactEntry>,
+    /// Artifact link chip display settings (display mode and per-type colours).
+    #[serde(rename = "artifactLinks", default)]
+    pub artifact_links: ArtifactLinksConfig,
 }
 
 fn default_model() -> String {
@@ -127,6 +152,7 @@ mod tests {
             show_thinking: false,
             custom_system_prompt: None,
             artifacts: vec![],
+            artifact_links: ArtifactLinksConfig::default(),
         }
     }
 

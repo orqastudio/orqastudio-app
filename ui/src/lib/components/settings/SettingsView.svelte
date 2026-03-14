@@ -12,6 +12,7 @@
 	import ProjectSetupWizard from "./ProjectSetupWizard.svelte";
 	import ProjectGeneralSettings from "./ProjectGeneralSettings.svelte";
 	import ProjectScanningSettings from "./ProjectScanningSettings.svelte";
+	import ProjectArtifactLinksSettings from "./ProjectArtifactLinksSettings.svelte";
 
 	interface Props {
 		activeSection?: string;
@@ -23,7 +24,8 @@
 	const project = $derived(projectStore.activeProject);
 	const isProjectSection = $derived(
 		section === "project-general" ||
-		section === "project-scanning",
+		section === "project-scanning" ||
+		section === "project-artifact-links",
 	);
 </script>
 
@@ -77,6 +79,11 @@
 						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
 						onRescan={() => projectStore.scanProject(project.path, projectStore.projectSettings?.excluded_paths)}
 						rescanning={projectStore.scanning}
+					/>
+				{:else if section === "project-artifact-links"}
+					<ProjectArtifactLinksSettings
+						settings={projectStore.projectSettings}
+						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
 					/>
 				{/if}
 			{:else}

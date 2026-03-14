@@ -9,8 +9,10 @@ export type {
 	ArtifactTypeConfig,
 	ArtifactGroupConfig,
 	ArtifactEntry,
+	ArtifactLinkDisplayMode,
+	ArtifactLinksConfig,
 } from "./project";
-export { isArtifactGroup } from "./project";
+export { isArtifactGroup, DEFAULT_ARTIFACT_LINK_COLORS } from "./project";
 
 export type {
 	Session,

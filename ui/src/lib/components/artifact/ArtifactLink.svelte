@@ -5,6 +5,8 @@
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
+	import { projectStore } from "$lib/stores/project.svelte";
+	import { DEFAULT_ARTIFACT_LINK_COLORS } from "$lib/types";
 
 	let { id, path, displayLabel }: { id?: string; path?: string; displayLabel?: string } = $props();
 
@@ -24,9 +26,43 @@
 		return { label: displayLabel ?? "??", resolvable: false, targetId: null, node: null };
 	});
 
-	/** Whether the label differs from the raw ID (i.e. we're showing a title). */
+	/** Effective display mode from project settings (default: "id"). */
+	const displayMode = $derived(
+		projectStore.projectSettings?.artifactLinks?.displayMode ?? "id",
+	);
+
+	/** The type prefix of the resolved artifact (e.g. "EPIC" from "EPIC-001"). */
+	const typePrefix = $derived.by((): string | null => {
+		const targetId = resolved.targetId;
+		if (!targetId) return null;
+		const match = /^([A-Z]+)-\d+$/.exec(targetId);
+		return match ? match[1] : null;
+	});
+
+	/** Per-type chip colour from project settings, with default fallback. */
+	const chipColor = $derived.by((): string | null => {
+		if (!typePrefix) return null;
+		const colors = projectStore.projectSettings?.artifactLinks?.colors ?? {};
+		return colors[typePrefix] ?? DEFAULT_ARTIFACT_LINK_COLORS[typePrefix] ?? null;
+	});
+
+	/**
+	 * The label to display on the chip.
+	 * - If displayLabel is explicitly provided, always use it.
+	 * - Otherwise: in "title" mode show the resolved title when available, fall back to ID.
+	 * - In "id" mode (default) always show the raw ID.
+	 */
+	const chipLabel = $derived.by((): string => {
+		if (displayLabel) return displayLabel;
+		if (displayMode === "title" && resolved.node?.title && resolved.node.title !== resolved.targetId) {
+			return resolved.node.title;
+		}
+		return resolved.label;
+	});
+
+	/** Whether the chip label is a title (not the raw ID). */
 	const showingTitle = $derived(
-		resolved.node !== null && resolved.label !== resolved.targetId,
+		resolved.node !== null && chipLabel !== resolved.targetId,
 	);
 
 	/** Status dot colour class for the resolved node, or null if no status. */
@@ -55,18 +91,21 @@
 			{#snippet child({ props })}
 				<button
 					{...props}
-					class="inline-flex items-center gap-1 whitespace-nowrap rounded border border-cyan-500/30 bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[11px] font-medium text-cyan-400 transition-all hover:border-cyan-400 hover:bg-cyan-500/20"
+					class="inline-flex items-center gap-1 whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[11px] font-medium transition-all"
+					style={chipColor
+						? `background-color: color-mix(in srgb, ${chipColor} 15%, transparent); border-color: color-mix(in srgb, ${chipColor} 40%, transparent); color: ${chipColor};`
+						: "background-color: rgb(6 182 212 / 0.1); border-color: rgb(6 182 212 / 0.3); color: rgb(34 211 238);"}
 					onclick={handleClick}
 				>
 					{#if dotClass}
 						<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
 					{/if}
 					{#if showingTitle}
-						<span class="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">{resolved.label}</span>
+						<span class="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">{chipLabel}</span>
 					{:else}
-						{resolved.label}
+						{chipLabel}
 					{/if}
-					<ExternalLinkIcon class="h-3 w-3 shrink-0 text-cyan-500/60" />
+					<ExternalLinkIcon class="h-3 w-3 shrink-0 opacity-60" />
 				</button>
 			{/snippet}
 		</Tooltip.Trigger>

@@ -156,6 +156,7 @@ mod tests {
             show_thinking: false,
             custom_system_prompt: None,
             artifacts: vec![],
+            artifact_links: Default::default(),
         };
 
         project_settings_repo::write(path, &settings).expect("write");

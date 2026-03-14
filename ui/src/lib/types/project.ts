@@ -42,6 +42,33 @@ export interface RelationshipDisplayConfig {
 	overrides: Record<string, "title" | "id">;
 }
 
+/** Whether artifact link chips display the ID or the resolved title. */
+export type ArtifactLinkDisplayMode = "id" | "title";
+
+/** Per-type colour and display settings for artifact link chips. */
+export interface ArtifactLinksConfig {
+	/** Whether chips show the artifact ID or its resolved title. Default: "id". */
+	displayMode: ArtifactLinkDisplayMode;
+	/** Optional per-type prefix hex colour (e.g. { "EPIC": "#3b82f6" }). */
+	colors: Record<string, string>;
+}
+
+/** Default per-type colours for artifact link chips. */
+export const DEFAULT_ARTIFACT_LINK_COLORS: Record<string, string> = {
+	EPIC: "#3b82f6",
+	TASK: "#22c55e",
+	RULE: "#f59e0b",
+	AD: "#8b5cf6",
+	IDEA: "#ec4899",
+	IMPL: "#06b6d4",
+	SKILL: "#14b8a6",
+	PILLAR: "#f97316",
+	RES: "#6366f1",
+	MS: "#84cc16",
+	DOC: "#64748b",
+	AGENT: "#e11d48",
+};
+
 export interface ProjectSettings {
 	name: string;
 	description: string | null;
@@ -54,6 +81,7 @@ export interface ProjectSettings {
 	custom_system_prompt: string | null;
 	artifacts?: ArtifactEntry[];
 	relationshipDisplay?: RelationshipDisplayConfig;
+	artifactLinks?: ArtifactLinksConfig;
 }
 
 export interface GovernanceCounts {
