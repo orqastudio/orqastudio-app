@@ -739,6 +739,25 @@ fn check_circular_dependencies(graph: &ArtifactGraph, checks: &mut Vec<Integrity
     }
 }
 
+/// Extract supersession target IDs from a frontmatter field (handles both string and array).
+fn extract_supersession_targets(
+    frontmatter: &serde_json::Value,
+    field: &str,
+) -> Vec<String> {
+    match frontmatter.get(field) {
+        Some(serde_json::Value::String(s)) => {
+            let trimmed = s.trim();
+            if trimmed.is_empty() { vec![] } else { vec![trimmed.to_owned()] }
+        }
+        Some(serde_json::Value::Array(arr)) => arr
+            .iter()
+            .filter_map(|v| v.as_str().map(|s| s.trim().to_owned()))
+            .filter(|s| !s.is_empty())
+            .collect(),
+        _ => vec![],
+    }
+}
+
 /// Check one direction of a supersession relationship and report if the back-reference is missing.
 fn check_one_supersession_direction(
     node: &ArtifactNode,
@@ -747,14 +766,11 @@ fn check_one_supersession_direction(
     backward_field: &str,
     checks: &mut Vec<IntegrityCheck>,
 ) {
-    if let Some(target_id) = node.frontmatter.get(forward_field).and_then(|v| v.as_str()) {
-        if let Some(target) = graph.nodes.get(target_id) {
-            let has_back_ref = target
-                .frontmatter
-                .get(backward_field)
-                .and_then(|v| v.as_str())
-                .is_some_and(|s| s == node.id);
-            if !has_back_ref {
+    let target_ids = extract_supersession_targets(&node.frontmatter, forward_field);
+    for target_id in target_ids {
+        if let Some(target) = graph.nodes.get(&target_id) {
+            let back_targets = extract_supersession_targets(&target.frontmatter, backward_field);
+            if !back_targets.iter().any(|s| s == &node.id) {
                 checks.push(IntegrityCheck {
                     category: IntegrityCategory::SupersessionSymmetry,
                     severity: IntegritySeverity::Error,
