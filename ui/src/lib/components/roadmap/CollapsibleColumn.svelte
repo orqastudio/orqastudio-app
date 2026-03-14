@@ -2,6 +2,7 @@
 	import type { Snippet } from "svelte";
 	import { untrack } from "svelte";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import { cn } from "$lib/utils";
 
 	let {
@@ -126,8 +127,10 @@
 		</div>
 
 		<!-- Column content -->
-		<div class="flex flex-1 flex-col gap-2 p-2 overflow-y-auto">
-			{@render children()}
-		</div>
+		<ScrollArea.Root class="flex-1" orientation="vertical">
+			<div class="flex flex-col gap-2 p-2">
+				{@render children()}
+			</div>
+		</ScrollArea.Root>
 	</div>
 {/if}

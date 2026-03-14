@@ -5,6 +5,7 @@
 	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LayersIcon from "@lucide/svelte/icons/layers";
+	import * as ScrollArea from "$lib/components/ui/scroll-area";
 
 	type ColumnDef = {
 		key: string;
@@ -102,7 +103,8 @@
 	</div>
 
 	<!-- Kanban columns -->
-	<div class="flex flex-1 gap-3 overflow-x-auto pb-2">
+	<ScrollArea.Root class="flex-1" orientation="horizontal">
+	<div class="flex gap-3 pb-2">
 		{#if totalNodes === 0}
 			<div class="flex flex-1 items-center justify-center">
 				<EmptyState
@@ -141,4 +143,5 @@
 			{/each}
 		{/if}
 	</div>
+	</ScrollArea.Root>
 </div>

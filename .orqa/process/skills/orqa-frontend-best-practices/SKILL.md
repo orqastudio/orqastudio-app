@@ -73,6 +73,32 @@ The boundary between containers and display components is strict:
 
 Before creating ANY new UI element, check `$lib/components/shared/` for existing components. Use `EmptyState`, `LoadingSpinner`, `ErrorDisplay`, `StatusBadge`, `CodeBlock`, `MarkdownRenderer`, and others before building custom alternatives.
 
+### Scrollable Containers
+
+**All scrollable containers MUST use the shadcn ScrollArea component (`$lib/components/ui/scroll-area`). Never use native `overflow-auto` or `overflow-y-auto` (or `overflow-x-auto`) on content area elements.**
+
+```svelte
+<script lang="ts">
+  import * as ScrollArea from "$lib/components/ui/scroll-area";
+</script>
+
+<!-- Vertical scroll -->
+<ScrollArea.Root class="flex-1" orientation="vertical">
+  <div class="flex flex-col gap-2 p-2">
+    <!-- content -->
+  </div>
+</ScrollArea.Root>
+
+<!-- Horizontal scroll (e.g. kanban board) -->
+<ScrollArea.Root class="h-full" orientation="horizontal">
+  <div class="flex h-full gap-4 pb-4">
+    <!-- columns -->
+  </div>
+</ScrollArea.Root>
+```
+
+Native `overflow-*` classes on content divs produce unstyled browser scrollbars that are inconsistent across platforms. ScrollArea renders theme-aware scrollbars that match the design system.
+
 ### State Handling
 
 Every component that displays data MUST handle all states:
