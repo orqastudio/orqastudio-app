@@ -344,6 +344,84 @@ File-system changes, sidecar lifecycle, and scan-complete notifications use Taur
 
 ---
 
+## shadcn-svelte Components (Library)
+
+Components used directly from the shadcn-svelte library. No custom code needed beyond standard usage.
+
+### Core UI
+
+| Component | Usage |
+|-----------|-------|
+| **Button** | Send message, new session, save, cancel, create artifact |
+| **Input** | Search filters, session search, artifact search, settings fields |
+| **Textarea** | Message input (multi-line) |
+| **Label** | Form labels in settings |
+| **Checkbox** | Settings toggles |
+| **Select** | Model selector, theme mode (light/dark/system) |
+| **Separator** | Visual dividers between sections |
+
+### Layout
+
+| Component | Usage |
+|-----------|-------|
+| **Resizable** (PaneForge) | Three-zone resizable layout within PaneForge |
+| **ScrollArea** | Message stream, artifact list, session list |
+| **Collapsible** | Tool call cards (collapsed/expanded), settings sections |
+
+### Data Display
+
+| Component | Usage |
+|-----------|-------|
+| **Badge** | Tool call status, artifact type, connection status |
+| **Card** | Message bubbles, tool call cards, KPI cards, artifact summary cards |
+| **Table** | Keyboard shortcuts reference, settings display |
+| **Tooltip** | Truncated text hover, icon descriptions, shortcut hints |
+
+### Overlay
+
+| Component | Usage |
+|-----------|-------|
+| **Dialog** | Confirmation dialogs (delete artifact, discard changes), project creation |
+| **Popover** | Project switcher, model info |
+| **Sheet** | Mobile/narrow responsive alternative to collapsed panels |
+| **Command** | Global search (`Ctrl+K`) with result list |
+| **DropdownMenu** | Context menus, session actions, artifact actions |
+
+### Feedback
+
+| Component | Usage |
+|-----------|-------|
+| **Alert** | Error messages, warnings, first-run guidance |
+| **Sonner** (Toast) | Save confirmation, copy-to-clipboard, connection status changes |
+
+---
+
+## Custom Markdown Rendering Blocks
+
+Extensions to the markdown renderer for OrqaStudio-specific content types.
+
+| Block | Syntax | Rendering |
+|-------|--------|-----------|
+| **Wireframe image** | `![wireframe](orqa://wireframe/core-layout?theme=dark)` | Serves cached wireframe image from local store. Selects light/dark/brand variant based on active theme. |
+| **UX flow navigation** | `<!-- orqa:ux-flow screens="screen1,screen2,screen3" -->` | Renders clickable wireframe sequence with forward/back navigation. |
+| **Artifact link** | `[agent:backend-engineer]` | Renders as a styled badge/chip linking to the artifact in the viewer. |
+| **Tool call reference** | `[tool:Read src/main.rs]` | Renders as a tool call summary card (collapsed). |
+
+---
+
+## Third-Party Libraries
+
+| Library | Purpose | Component Usage |
+|---------|---------|----------------|
+| `@humanspeak/svelte-markdown` | Markdown rendering | MarkdownRenderer |
+| `svelte-codemirror-editor` | Code/markdown editing (Svelte 5 runes) | MarkdownEditor, ArtifactEditor |
+| `svelte-highlight` | Syntax highlighting in rendered markdown | CodeBlock |
+| `mode-watcher` | Dark/light/system mode management | ThemeToggle |
+| `lucide-svelte` | Icon library | All components with icons |
+| `paneforge` | Resizable panel layout | AppLayout |
+
+---
+
 ## Related Documents
 
 - Information Architecture — Layout model and navigation

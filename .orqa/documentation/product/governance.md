@@ -227,6 +227,59 @@ Plugins are how OrqaStudio adapts to different domains without forking the produ
 
 The core framework — structured thinking, agile learning loop, lesson capture, quality enforcement — applies to all of them. The plugin layer is what makes the experience feel native to each domain.
 
+## Governance Hub (Multi-Tool Projects)
+
+When a project uses multiple AI tools (Claude Code, Cursor, Copilot, Aider, etc.), each tool has its own configuration format for instructions, rules, and context. Without coordination, these configurations drift apart — rules added in one tool are missing in another, leading to inconsistent behaviour.
+
+OrqaStudio can act as a **governance hub** for such projects: a single source of truth for rules, agent instructions, and process standards that distributes governance to each tool in its native format.
+
+**This is a capability, not the product's identity.** OrqaStudio is a clarity engine for structured thinking. The governance hub activates when a project's context calls for it — when multiple AI tools need to share the same standards.
+
+### How It Works
+
+```
+.orqa/process/rules/       ← Single source of truth
+    │
+    ├── .claude/rules/        ← Symlinks (Claude Code reads these)
+    ├── .cursorrules          ← Generated (Cursor reads this)
+    ├── .github/copilot-*.md  ← Generated (Copilot reads this)
+    └── .aider.conf.yml       ← Generated (Aider reads this)
+```
+
+1. **Rules live in `.orqa/`** — One canonical set of governance artifacts
+2. **Tool-specific configs are derived** — Either symlinked or generated from the canonical set
+3. **Changes flow outward** — Edit in `.orqa/`, tool configs update automatically
+4. **Each tool reads its native format** — No tool needs to know about `.orqa/`
+
+### Coexistence Model
+
+| Tool | Native Config | Integration Method |
+|------|-------------|-------------------|
+| **Claude Code** | `.claude/`, `CLAUDE.md`, `AGENTS.md` | Symlinks: `.claude/` → `.orqa/` |
+| **Cursor** | `.cursorrules`, `.cursor/rules/` | Generated from `.orqa/process/rules/` |
+| **GitHub Copilot** | `.github/copilot-instructions.md` | Generated from `.orqa/process/rules/` |
+| **Aider** | `.aider.conf.yml`, `CONVENTIONS.md` | Generated from `.orqa/process/rules/` |
+
+Claude Code is the deepest integration because both tools use the same markdown-based governance format — symlinks mean both read the same files with no generation step needed. For other tools, OrqaStudio generates their native config from `.orqa/` content.
+
+### Drift Reconciliation
+
+When governance changes in `.orqa/`, derived configs may be stale. OrqaStudio handles this through:
+
+1. **Manual sync** — User triggers regeneration from the OrqaStudio UI
+2. **File watcher** (future) — Detects changes in `.orqa/` and regenerates affected configs
+3. **Commit hook** (future) — Regenerates configs as part of the pre-commit check
+
+### Setup Flow
+
+When OrqaStudio is added to a project that already uses AI tools:
+
+1. **Detect** — `project-inference` skill scans for existing tool configurations
+2. **Import** — `project-migration` skill reads existing configs and maps them to `.orqa/` artifacts
+3. **Deduplicate** — Existing governance that matches core rules is linked, not duplicated
+4. **Link** — Symlinks and generation configs are set up
+5. **Verify** — User reviews the imported governance and confirms
+
 ## Decision Process
 
 1. Feature request received

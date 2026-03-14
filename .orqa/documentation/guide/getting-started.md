@@ -67,6 +67,6 @@ Every OrqaStudio project has an `.orqa/` directory at its root:
 
 ## Next Steps
 
-- Read [Artifact Types](artifact-types.md) to understand what each artifact type is for
+- Read [Artifact Framework](../product/artifact-framework.md) to understand what each artifact type is for
 - Read [Workflow](workflow.md) to understand how the governance workflow operates
 - Explore the dashboard to see your project's artifact graph and pipeline health

@@ -296,6 +296,21 @@ Research ──promote──> Decision (AD-NNN)
 Decision ──supersedes──> Decision (when updated)
 ```
 
+### Relationship Types
+
+Artifacts connect through typed relationships. Each relationship has a required bidirectional inverse. The integrity engine validates that all relationships are bidirectional and that targets resolve to existing artifacts.
+
+| Type | Inverse | Usage |
+|------|---------|-------|
+| `delivers` | `delivered-by` | Task/epic delivers a milestone/epic |
+| `depends-on` | `depended-on-by` | Task depends on another task |
+| `informs` | `informed-by` | Research informs a decision or epic |
+| `enforces` | `enforced-by` | Rule enforces a decision or standard |
+| `documents` | `documented-by` | Documentation page describes an artifact |
+| `observes` | `observed-by` | Lesson observes a pattern |
+| `supersedes` | `superseded-by` | Decision replaces another |
+| `scoped-to` | `scoped-by` | Rule/skill scoped to an agent |
+
 ---
 
 ## Schemas
