@@ -330,8 +330,8 @@ pub struct AnalysisOutput {
 
 ## Related Documents
 
-- Roadmap — Phase 2b
-- Setup Wizard (Phase 2a)
+- Roadmap
+- Setup Wizard
 - SQLite Schema
 - IPC Commands
 - Streaming Pipeline

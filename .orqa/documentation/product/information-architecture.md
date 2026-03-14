@@ -110,7 +110,7 @@ A 48px fixed-width vertical icon rail on the far left. Provides direct navigatio
 
 **Separator**
 
-**Group 2 — Dashboards (Phase 3-5):**
+**Group 2 — Dashboards (post-MVP):**
 
 | Icon | Label | Lucide Icon |
 |------|-------|-------------|
@@ -245,7 +245,7 @@ Shown when the Project Dashboard Activity Bar icon is active. Nav Sub-Panel is h
 |---------|-------------|
 | Project info | Detected stack (languages, frameworks), project root path. |
 | Governance summary | Counts of artifacts: N agents, N rules, N skills, N hooks. Click any category to activate it in the Activity Bar. |
-| Quick links | Scanner status, metrics, learning — Phase 3-5. |
+| Quick links | Scanner status, metrics, learning — post-MVP features. |
 | Recent sessions | Last 5 sessions with quick-resume links. |
 
 ### Settings View
@@ -259,7 +259,7 @@ Application and project settings, shown when the Settings icon is active in the 
 | Appearance | Theme (light/dark/system), font size, panel defaults. Per-project theming toggle. |
 | Keyboard shortcuts | Reference card for all keyboard shortcuts. |
 
-### Scanner Dashboard (Phase 3+)
+### Scanner Dashboard (post-MVP)
 
 | Element | Description |
 |---------|-------------|
@@ -267,7 +267,7 @@ Application and project settings, shown when the Settings icon is active in the 
 | Trend chart | Pass/fail rate over time (LayerChart). |
 | Violation details | Expandable list of current violations with file location and description. |
 
-### Metrics Dashboard (Phase 5)
+### Metrics Dashboard (post-MVP)
 
 | Element | Description |
 |---------|-------------|
@@ -313,7 +313,7 @@ This keeps sessions focused on a single concern and makes session history a mean
 | Content blocks | Each message contains typed content blocks: text (rendered markdown), code (syntax-highlighted), tool call cards, tool result cards, error blocks. |
 | Tool call cards | Collapsible. Summary shows: tool name, input summary, result summary, duration. Expanded shows: full input, full output, diff view (for edits). Badge indicates status: pending, approved, denied, completed. |
 | Streaming indicator | When the AI is responding: typing indicator + streaming tokens appear character by character in the current message. |
-| Input area | Bottom of panel. Multi-line text input with markdown support. `Enter` to send, `Shift+Enter` for newline. Attachment button for files (Phase 2+). |
+| Input area | Bottom of panel. Multi-line text input with markdown support. `Enter` to send, `Shift+Enter` for newline. Attachment button for files (post-MVP). |
 
 ---
 
@@ -442,7 +442,7 @@ Every view has a meaningful empty state that guides the user toward the next act
 
 ---
 
-## Phase 1 Scope
+## MVP Scope
 
 The MVP includes only the views and elements needed for the core journeys:
 
@@ -459,11 +459,11 @@ The MVP includes only the views and elements needed for the core journeys:
 - Keyboard shortcuts for core actions
 
 **Deferred:**
-- Scanners / Metrics / Learning Activity Bar icons (Phase 3-5)
-- Global search (Phase 2 — FTS5 infrastructure exists but UI deferred)
-- Tool inspector (Phase 2)
-- Tool approval controls (Phase 2)
-- Auto-session on plan mode (Phase 2 — requires sidecar plan-mode detection)
+- Scanners / Metrics / Learning Activity Bar icons (post-MVP)
+- Global search (post-MVP — FTS5 infrastructure exists but UI deferred)
+- Tool inspector (post-MVP)
+- Tool approval controls (post-MVP)
+- Auto-session on plan mode (post-MVP — requires sidecar plan-mode detection)
 
 ---
 
@@ -492,7 +492,7 @@ This design means the AI provider status shown in the status bar is meaningful c
 
 - User Journeys — Workflows that this architecture supports
 - User Personas — Who navigates this UI
-- MVP Feature Specification — What's included in Phase 1
+- MVP Feature Specification — What the MVP includes
 - [AD-013](AD-013): Frontend library selections — shadcn-svelte, PaneForge, CodeMirror 6
 - [AD-019](AD-019): Three-zone + Nav Sub-Panel layout — layout architecture decision
 - [AD-014](AD-014): Persistence architecture — SQLite for session/artifact storage

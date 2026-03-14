@@ -10,7 +10,7 @@ updated: "2026-03-08"
 
 End-to-end workflows for key scenarios in OrqaStudio™. Each journey describes what the user does, what OrqaStudio does in response, and what the user sees at each step. Journeys are organized by scenario, not by persona — all personas follow the same workflows, but emphasis and entry points differ.
 
-These journeys inform UI design (Phase 0d) and the MVP feature specification.
+These journeys inform UI design and the MVP feature specification.
 
 ---
 
@@ -18,7 +18,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** User launches OrqaStudio for the first time.
 **Persona emphasis:** Jordan (needs instant value), Alex (wants to configure immediately).
-**MVP scope:** Yes — core path for Phase 1.
+**MVP scope:** Yes — core path for the MVP.
 
 ### Steps
 
@@ -60,7 +60,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** User wants to establish or modify their project's governance framework.
 **Persona emphasis:** Alex (defines standards upfront), Jordan (builds gradually).
-**MVP scope:** Partial — browse and edit existing artifacts in Phase 1. Conversational creation in Phase 4.
+**MVP scope:** Partial — browse and edit existing artifacts in the MVP. Conversational creation is post-MVP.
 
 ### Steps
 
@@ -72,7 +72,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 4. **Create a new artifact** — User clicks "New Agent" (or Rule, Skill, etc.). OrqaStudio creates a template file in the appropriate `.orqa/` subdirectory with standard frontmatter. The editor opens immediately.
 
-5. **Conversational governance (Phase 4)** — User describes what they want in conversation: "I need a rule that prevents agents from using unwrap in Rust code." The AI generates the rule file, the user reviews and approves it, and OrqaStudio writes it to `.orqa/rules/`. For pattern-matchable violations (e.g., specific strings or regex patterns in file edits or bash commands), the user can also create hookify rules — OrqaStudio generates an `.orqa/process/hooks/hookify.*.local.md` file with the appropriate `event`, `action`, and `conditions` fields.
+5. **Conversational governance (post-MVP)** — User describes what they want in conversation: "I need a rule that prevents agents from using unwrap in Rust code." The AI generates the rule file, the user reviews and approves it, and OrqaStudio writes it to `.orqa/rules/`. For pattern-matchable violations (e.g., specific strings or regex patterns in file edits or bash commands), the user can also create hookify rules — OrqaStudio generates an `.orqa/process/hooks/hookify.*.local.md` file with the appropriate `event`, `action`, and `conditions` fields.
 
 6. **File watcher sync** — Any changes made to `.claude/` files outside OrqaStudio (e.g., in a text editor, via git pull, or via a Claude Code CLI session) are detected by the file watcher and reflected in the artifact browser within 500ms. This means artifacts edited in OrqaStudio are immediately available to Claude Code CLI sessions, and vice versa.
 
@@ -89,7 +89,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** User has a task to implement (feature, bug fix, refactor).
 **Persona emphasis:** Alex (manages the cycle), Sam (executes within it), Jordan (runs the full cycle solo).
-**MVP scope:** Yes — core conversation + streaming in Phase 1. Tool approval in Phase 2.
+**MVP scope:** Yes — core conversation + streaming in the MVP. Tool approval is post-MVP.
 
 ### Steps
 
@@ -114,7 +114,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
    - Watch streaming token output
    - Expand tool call cards to inspect details
    - Interrupt to ask questions or redirect
-   - In Phase 2: approve/deny individual tool calls before execution
+   - Post-MVP: approve/deny individual tool calls before execution
 
 6. **AI reports completion** — The AI summarizes what was done: files changed, tests run, issues encountered. The user reviews the summary.
 
@@ -135,7 +135,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** AI has completed implementation and the user needs to review.
 **Persona emphasis:** Alex (reviews at a strategic level), Sam (reviews at code level).
-**MVP scope:** Partial — tool call display in Phase 1. Approval flow in Phase 2.
+**MVP scope:** Partial — tool call display in the MVP. Approval flow is post-MVP.
 
 ### Steps
 
@@ -155,7 +155,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 4. **Request changes** — If the user isn't satisfied: "Revert the change to config.rs and use the original approach." The AI adjusts. This loops back to the implementation cycle.
 
-5. **Approve** — User confirms the implementation is acceptable. In Phase 2+, this triggers the formal review gate (scanner run, compliance check). In Phase 1, approval is conversational.
+5. **Approve** — User confirms the implementation is acceptable. In the MVP, approval is conversational. Post-MVP, this will trigger the formal review gate (scanner run, compliance check).
 
 ### Success Criteria
 
@@ -170,7 +170,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** A mistake is made, a pattern is discovered, or the user wants to improve the process.
 **Persona emphasis:** Alex (strategic improvement), Sam (tactical improvement), Jordan (safety net).
-**MVP scope:** No — Phase 5. Designed here to inform information architecture.
+**MVP scope:** No — post-MVP. Designed here to inform information architecture.
 
 ### Steps
 
@@ -202,7 +202,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** User opens a project that has code but incomplete or no governance framework. This is a key scenario for projects that already have `.claude/` artifacts created through Claude Code CLI sessions.
 **Persona emphasis:** Jordan (most common entry point), Sam (existing CLI user discovering OrqaStudio), Alex (systematic approach).
-**MVP scope:** Partial — codebase scan in Phase 1. Conversational backfill in Phase 4.
+**MVP scope:** Partial — codebase scan in the MVP. Conversational backfill is post-MVP.
 
 ### Steps
 
@@ -216,7 +216,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 3. **Governance gap analysis** — OrqaStudio identifies what governance artifacts exist and what's missing. Display: "Found: 3 rules, 1 agent. Missing: architecture decisions, skills, documentation." For projects with existing `.claude/` artifacts from CLI usage, this is the moment where previously invisible governance becomes visible for the first time in OrqaStudio's UI.
 
-4. **Conversational backfill (Phase 4)** — OrqaStudio initiates a guided conversation:
+4. **Conversational backfill (post-MVP)** — OrqaStudio initiates a guided conversation:
    - "I see this is a TypeScript project using Next.js and Prisma. What are your coding standards?"
    - "Who typically reviews code? What do they check for?"
    - "What architectural decisions should agents respect?"
@@ -239,7 +239,7 @@ These journeys inform UI design (Phase 0d) and the MVP feature specification.
 
 **Trigger:** User wants to start a brand new project from scratch using OrqaStudio.
 **Persona emphasis:** Jordan (starting a new product), Alex (setting up governance for a new initiative).
-**MVP scope:** Yes — core path for Phase 1.
+**MVP scope:** Yes — core path for the MVP.
 
 ### Steps
 
@@ -353,16 +353,16 @@ Journey 1 (First-Time Setup)
 
 ## MVP Journey Coverage
 
-| Journey | Phase 1 Coverage | Full Coverage |
-|---------|-----------------|---------------|
-| 1. First-Time Setup | Full (scan + conversation) | Phase 1 |
-| 2. Define Governance | Browse + edit existing artifacts | Phase 4 (conversational creation) |
-| 3. Implementation Cycle | Conversation + streaming + tool display | Phase 2 (tool approval) |
-| 4. Review and Approve | Tool call display (read-only) | Phase 2 (approval flow) |
-| 5. Learning Loop | Not in MVP | Phase 5 |
-| 6. Onboard Existing | Codebase scan only | Phase 4 (conversational backfill) |
-| 7. New Project | Directory creation + .orqa/ scaffold + project discovery conversation | Phase 1 (full discovery flow) |
-| 8. CLI User Discovers OrqaStudio | Full (artifact detection + display) | Phase 1 |
+| Journey | MVP Coverage | Full Coverage |
+|---------|-------------|---------------|
+| 1. First-Time Setup | Full (scan + conversation) | MVP |
+| 2. Define Governance | Browse + edit existing artifacts | Post-MVP (conversational creation) |
+| 3. Implementation Cycle | Conversation + streaming + tool display | Post-MVP (tool approval) |
+| 4. Review and Approve | Tool call display (read-only) | Post-MVP (approval flow) |
+| 5. Learning Loop | Not in MVP | Post-MVP |
+| 6. Onboard Existing | Codebase scan only | Post-MVP (conversational backfill) |
+| 7. New Project | Directory creation + .orqa/ scaffold + project discovery conversation | MVP (full discovery flow) |
+| 8. CLI User Discovers OrqaStudio | Full (artifact detection + display) | MVP |
 
 ---
 
@@ -378,5 +378,5 @@ Journey 1 (First-Time Setup)
 ## Related Documents
 
 - User Personas — Who follows these journeys
-- MVP Feature Specification — What Phase 1 delivers
+- MVP Feature Specification — What the MVP delivers
 - Information Architecture — UI structure that supports these journeys

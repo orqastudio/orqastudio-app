@@ -16,7 +16,7 @@ relationships:
     rationale: Documentation page references RES-004
 ---
 
-**Date:** 2026-03-02 | **Status:** Phase 0d specification
+**Date:** 2026-03-02
 
 The authoritative design system specification for OrqaStudio™'s UI. Consolidates decisions from [design-tokens research](RES-003), [branding research](RES-001), [frontend research](RES-004), and brand identity guidelines into an implementation-ready reference.
 
@@ -326,7 +326,7 @@ On Linux, Tauri's WebView does not reliably propagate `prefers-color-scheme`. Th
 </script>
 ```
 
-### Core Components (Phase 1)
+### Core Components (MVP)
 
 | Category | Components |
 |----------|-----------|
@@ -338,7 +338,7 @@ On Linux, Tauri's WebView does not reliably propagate `prefers-color-scheme`. Th
 | **Overlay** | Dialog, Popover, Sheet, Command |
 | **Navigation** | Sidebar |
 
-### Custom Components (Phase 1)
+### Custom Components (MVP)
 
 These are not provided by shadcn-svelte and must be built:
 

@@ -158,7 +158,7 @@ CREATE INDEX IF NOT EXISTS idx_artifacts_hook_kind ON artifacts(project_id, hook
     WHERE hook_kind IS NOT NULL;
 ```
 
-### scanner_results (NOT YET CREATED — Phase 3+)
+### scanner_results (NOT YET CREATED — post-MVP)
 
 > This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when scanner features are implemented.
 
@@ -177,7 +177,7 @@ CREATE TABLE scanner_results (
 );
 ```
 
-### metrics (NOT YET CREATED — Phase 5)
+### metrics (NOT YET CREATED — post-MVP)
 
 > This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when metrics features are implemented.
 
@@ -194,7 +194,7 @@ CREATE TABLE metrics (
 );
 ```
 
-### tasks (NOT YET CREATED — Phase 1+)
+### tasks (NOT YET CREATED — post-MVP)
 
 > This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when task tracking features are implemented.
 
@@ -217,7 +217,7 @@ CREATE TABLE tasks (
 );
 ```
 
-### lessons (NOT YET CREATED — Phase 5)
+### lessons (NOT YET CREATED — post-MVP)
 
 > This table is planned but does **not** exist in `001_initial_schema.sql`. It will be added in a future migration when self-learning loop features are implemented.
 
@@ -565,7 +565,7 @@ WHERE pt.project_id = ? AND pt.is_active = 1;
 ---
 
 
-## Global Store (Phase 5)
+## Global Store (post-MVP)
 
 Cross-project learning requires app-level storage outside any per-project `orqa.db` database. A global SQLite database (e.g., `~/.orqa/global.db`) would store:
 
@@ -576,7 +576,7 @@ Cross-project learning requires app-level storage outside any per-project `orqa.
 
 This database is separate from per-project `orqa.db` files. Global lessons reference their origin project but are not owned by it — deleting a project does not remove its contributed global lessons.
 
-Schema design for `global.db` will be specified when Phase 5 implementation begins. The key constraint is that per-project databases remain self-contained; the global store is additive.
+Schema design for `global.db` will be specified when cross-project learning features are implemented. The key constraint is that per-project databases remain self-contained; the global store is additive.
 
 ---
 

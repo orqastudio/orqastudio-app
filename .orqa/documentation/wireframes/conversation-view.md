@@ -236,7 +236,7 @@ Detail view showing the two states of tool call cards.
 | **Tool icon** | Varies by tool type. `magnifying-glass` for Read/Grep, `pencil` for Write/Edit, `terminal` for Bash, `list` for Glob. |
 | **Tool name** | Bold label: Read, Write, Edit, Bash, Glob, Grep. |
 | **Input summary** | Truncated to one line. For file tools: the file path. For Bash: the command. For Grep: the pattern + path. For Glob: the pattern. |
-| **Status badge** | Badge component with color coding. **Completed** (green): tool finished successfully. **Error** (red): tool returned an error. **Pending** (yellow): tool call awaiting execution (Phase 2 approval flow). **Approved** (blue): approved by user, executing (Phase 2). **Denied** (gray): user denied the tool call (Phase 2). Phase 1 only shows Completed and Error. |
+| **Status badge** | Badge component with color coding. **Completed** (green): tool finished successfully. **Error** (red): tool returned an error. **Pending** (yellow): tool call awaiting execution (post-MVP approval flow). **Approved** (blue): approved by user, executing (post-MVP). **Denied** (gray): user denied the tool call (post-MVP). MVP only shows Completed and Error. |
 | **Collapse toggle** | Click anywhere on the summary row to toggle expand/collapse. Chevron icon rotates. Uses shadcn-svelte `Collapsible` component. |
 | **Expanded: Input** | Full input parameters displayed as key-value pairs. Monospace for code values. |
 | **Expanded: Result** | Full output. For Edit/Write: diff view with red deletions, green additions. For Bash: monospace command output. For Read: file contents (truncated with "Show more" if > 50 lines). For Glob/Grep: list of matching files/lines. |

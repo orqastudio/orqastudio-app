@@ -13,7 +13,17 @@ relationships:
     rationale: Documentation page references RULE-020
 ---
 
-**Date:** 2026-03-02
+## Purpose
+
+Good code in this project is code that a future agent or contributor can read, trust, and extend without fear. That requires three things: explicit structure, honest error paths, and testable units.
+
+The standards below exist not to impose bureaucracy but to enforce the principles that make code trustworthy at speed. When code is small, typed, and returns explicit results, it is safe to compose. When it silently swallows errors or grows past 50 lines, it becomes opaque — the next agent can't reason about it, and neither can you.
+
+These standards serve **Clarity Through Structure** directly: a codebase that conforms to them is one where the expected form of every construct is checkable by machine, not negotiable by opinion. They serve **Purpose Through Continuity** because consistent standards allow agents across many sessions to work in the same codebase without re-learning local customs.
+
+The standards are enforced by `make check`. The principles behind them are governed by [RULE-006](RULE-006). This document is the reference for what those standards are — read [RULE-006](RULE-006) for why each one exists.
+
+---
 
 ## Rust Standards
 
@@ -110,3 +120,4 @@ make check
 |--------|-----------|
 | Clarity Through Structure | Coding standards make the expected form of all code explicit and checkable — removing ambiguity about what "correct" looks like and making compliance visible through automated linting. |
 | Learning Through Reflection | N/A |
+| Purpose Through Continuity | Consistent standards allow agents across many sessions to work in the same codebase without re-learning local customs — continuity through convention. |

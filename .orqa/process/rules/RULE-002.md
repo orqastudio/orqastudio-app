@@ -69,9 +69,6 @@ relationships:
   - target: DOC-036
     type: documented-by
     rationale: Referenced in documentation page Artifact Framework
-  - target: DOC-045
-    type: documented-by
-    rationale: Referenced in documentation page System vs Project Artifacts
 ---
 **Source of Truth:** `.orqa/process/decisions/` — individual `AD-NNN.md` artifacts. Decisions are first-class artifacts browsable in the app's artifact navigation.
 

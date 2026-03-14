@@ -45,7 +45,7 @@ relationships:
 
 **Date:** 2026-03-02
 
-Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped to the minimum needed for dogfooding — OrqaStudio™ must be able to manage its own development after this phase. In the current implementation, OrqaStudio uses the Claude Code CLI as the AI provider; it supplements the CLI with a visual governance management layer.
+The MVP feature specification with acceptance criteria for each feature. Scoped to the minimum needed for dogfooding — OrqaStudio™ must be able to manage its own development after the MVP ships. In the current implementation, OrqaStudio uses the Claude Code CLI as the AI provider; it supplements the CLI with a visual governance management layer.
 
 **Guiding principle:** Ship the smallest thing that lets us supplement the CLI-based bootstrap process with OrqaStudio's visual governance UI. Every feature below serves the dogfooding milestone. Features that would be nice but aren't needed for dogfooding are listed under "Explicitly Deferred."
 
@@ -164,7 +164,7 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 - [ ] Edit/Write tool calls show a diff view when expanded (additions green, deletions red)
 - [ ] Command tool calls show the command and output with monospace formatting
 - [ ] Tool result errors are visually distinct (error styling)
-- [ ] Cards are read-only in Phase 1 (no approval/denial controls)
+- [ ] Cards are read-only in the MVP (no approval/denial controls)
 
 **Architecture References:** [AD-010](AD-010) (tool implementation as MCP), [AD-013](AD-013) (frontend libraries)
 
@@ -294,12 +294,12 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 
 ### F-011: SQLite Infrastructure
 
-**Description:** SQLite database with schema, migrations, and the core tables needed for Phase 1.
+**Description:** SQLite database with schema, migrations, and the core tables needed for the MVP.
 
 **Acceptance Criteria:**
 - [ ] Database file is created in the Tauri app data directory
 - [ ] Schema is applied via migrations (tauri-plugin-sql)
-- [ ] Phase 1 tables exist: projects, sessions, messages, message_blocks, artifacts, feature_gates
+- [ ] MVP tables exist: projects, sessions, messages, message_blocks, artifacts, feature_gates
 - [ ] FTS5 virtual table exists for session message search (infrastructure ready, UI deferred)
 - [ ] WAL mode is enabled for concurrent read/write
 - [ ] Database operations use `rusqlite` on the Rust side
@@ -363,29 +363,29 @@ Exactly what Phase 1 delivers, with acceptance criteria for each feature. Scoped
 
 ---
 
-## Explicitly Deferred (Not in Phase 1)
+## Explicitly Deferred (Not in the MVP)
 
 These features are valuable but not needed for the dogfooding milestone:
 
-| Feature | Reason for Deferral | Target Phase |
-|---------|-------------------|--------------|
-| Tool call approval flow | Read-only tool display sufficient for dogfooding | Phase 2 |
-| Global search UI | FTS5 infrastructure exists, UI can wait | Phase 2 |
-| Project file tree panel | Can browse files through conversation tool calls | Phase 2 |
-| Scanner dashboard | No scanners to run yet | Phase 3 |
-| Metrics dashboard | No metrics data yet | Phase 5 |
-| Learning loop (IMPL capture, promotion) | Process benefit, not blocking dogfooding | Phase 5 |
-| Conversational governance backfill | Can manually create/edit artifacts in Phase 1 | Phase 4 |
-| Multi-project switching | Single project sufficient for dogfooding | Phase 2 |
-| API key provider | Max subscription is primary path | Future |
-| Cross-session search UI | FTS5 ready, UI deferred | Phase 2 |
-| Multi-user collaborative access | Single-user desktop app first; schema includes nullable user_id for future expansion | Future |
+| Feature | Reason for Deferral |
+|---------|-------------------|
+| Tool call approval flow | Read-only tool display sufficient for dogfooding |
+| Global search UI | FTS5 infrastructure exists, UI can wait |
+| Project file tree panel | Can browse files through conversation tool calls |
+| Scanner dashboard | No scanners to run yet |
+| Metrics dashboard | No metrics data yet |
+| Learning loop (IMPL capture, promotion) | Process benefit, not blocking dogfooding |
+| Conversational governance backfill | Can manually create/edit artifacts in the MVP |
+| Multi-project switching | Single project sufficient for dogfooding |
+| API key provider | Max subscription is primary path |
+| Cross-session search UI | FTS5 ready, UI deferred |
+| Multi-user collaborative access | Single-user desktop app first; schema includes nullable user_id for future expansion |
 
 ---
 
 ## Dogfooding Validation Checklist
 
-After Phase 1 is complete, OrqaStudio must pass these checks to transition from the CLI bootstrap process:
+After the MVP is complete, OrqaStudio must pass these checks to transition from the CLI bootstrap process:
 
 - [ ] **Can browse governance artifacts**: Open OrqaStudio, navigate to artifact browser, see agents/rules/skills/hooks listed (from `.orqa/`), view their content rendered as markdown
 - [ ] **Can edit governance artifacts**: Edit an agent file, save, verify change persists on disk in `.orqa/` and in the UI
@@ -401,5 +401,5 @@ After Phase 1 is complete, OrqaStudio must pass these checks to transition from 
 
 - User Journeys — Workflows that these features support
 - Information Architecture — UI structure for these features
-- Roadmap — Phase 1 in the context of all phases
+- Roadmap — The MVP in the context of all planned work
 - Product Governance — Transition Criteria — Dogfooding milestone

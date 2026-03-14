@@ -392,7 +392,7 @@ Note: The settings gear is removed from the toolbar. Settings is now accessible 
 |---------|----------|
 | **Project Dashboard icon** | Top of Activity Bar. Click switches Explorer Panel to project dashboard. Nav Sub-Panel hidden. `Ctrl+0`. |
 | **Artifact category icons** | Artifact categories are defined by the `artifacts` array in `.orqa/project.json` (default: Docs, Agents, Rules, Skills, Hooks). Click switches the Explorer Panel to that category's artifact list. Active icon has a 2px left border indicator + highlighted background. The Hooks icon surfaces both lifecycle hooks (`.orqa/process/hooks/`) and enforcement rules (`.orqa/process/rules/`). |
-| **Dashboard icons** | Scanners, Metrics, Learning (Phase 3-5). Click switches the Explorer Panel to the corresponding dashboard. |
+| **Dashboard icons** | Scanners, Metrics, Learning (post-MVP). Click switches the Explorer Panel to the corresponding dashboard. |
 | **Settings icon** | Bottom-aligned. Click switches the Explorer Panel to the settings view. `Ctrl+,`. |
 | **Tooltips** | Each icon shows a tooltip on hover with the zone name and keyboard shortcut. |
 | **Keyboard shortcuts** | `Ctrl+0` for Project Dashboard. `Ctrl+1` through `Ctrl+5` for artifact categories. `Ctrl+,` for settings. |

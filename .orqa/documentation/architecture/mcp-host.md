@@ -20,7 +20,7 @@ relationships:
 ---
 
 
-**Date:** 2026-03-02 | **Status:** Phase 0e specification
+**Date:** 2026-03-02
 
 How OrqaStudio™ discovers, connects to, and manages MCP servers. OrqaStudio plays two MCP roles simultaneously: it is an **MCP server** (exposing its native tools to the Agent SDK sidecar) and an **MCP host** (connecting to external user-installed MCP servers and aggregating their tools for the sidecar).
 

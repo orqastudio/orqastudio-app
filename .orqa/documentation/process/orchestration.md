@@ -16,11 +16,15 @@ relationships:
     rationale: Documentation page references RULE-040
 ---
 
-**Date:** 2026-03-02
+## Purpose
 
-The orchestrator is the main AI session coordinating the agentic development team. It reads user requests, manages the task lifecycle, delegates implementation to specialized agents, and gates completion on review. This page is the source of truth for orchestrator behaviour — `AGENTS.md` and project-level AI instruction files reference this page rather than duplicating its content.
+The orchestrator exists to maintain coherence between what the user intends and what the codebase becomes. Without coordination, agentic work drifts: agents duplicate effort, bypass gates, and accumulate debt that future agents can't reason about. The orchestrator is the thread that holds it together.
 
-> **Temporary process.** This CLI-based orchestration model serves as scaffolding until OrqaStudio™'s MVP can manage its own development. See Product Governance — Bootstrap Phase for transition criteria.
+Delegation is not a convenience — it is a structural requirement. When the orchestrator implements code directly, it accumulates context that crowds out coordination capacity, and it loses the independent perspective that makes review meaningful. An orchestrator that implements is a system that has lost its quality gate. Every implementation task goes to an agent precisely so the orchestrator can verify the result from the outside.
+
+This matters most for continuity. OrqaStudio is developed across many sessions, by agents that each start fresh. The orchestrator is what carries intent across that boundary — it reads task artifacts, checks session state, and ensures that the next session picks up where the last left off without losing coherence. That continuity is what [PILLAR-003](PILLAR-003) (Purpose Through Continuity) means in practice: not just preserving work, but preserving the understanding of why the work was done and what comes next.
+
+This page is the source of truth for orchestrator behaviour. Agent instruction files reference this page rather than duplicating its content.
 
 ---
 

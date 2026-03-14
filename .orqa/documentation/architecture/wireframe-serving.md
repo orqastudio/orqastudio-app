@@ -11,7 +11,7 @@ relationships:
 ---
 
 
-**Date:** 2026-03-02 | **Status:** Phase 0e specification
+**Date:** 2026-03-02
 **References:** [Wireframing Research](RES-008) (Q1 verdict: PlantUML Salt), SQLite Schema, Design System
 
 How OrqaStudio™ stores, renders, caches, and serves PlantUML Salt wireframes as themed images within its Tauri WebView.

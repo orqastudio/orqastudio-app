@@ -156,7 +156,7 @@ Everything being developed in this bootstrap phase is destined to become the cor
 
 ### The Dogfooding Milestone
 
-Once the MVP delivers a working conversation UI with basic Claude integration (Phase 1 complete), **OrqaStudio's UI becomes the primary way to manage governance for its own development.** The CLI remains available for all development tasks. This means:
+Once the MVP delivers a working conversation UI with basic Claude integration, **OrqaStudio's UI becomes the primary way to manage governance for its own development.** The CLI remains available for all development tasks. This means:
 
 1. **Process artifacts become visible** — Agents, rules, skills, and docs are browsed and edited in OrqaStudio's UI, supplementing the raw file access that the CLI provides
 2. **Learning loops are active** — Lessons and retrospective entries are captured through OrqaStudio's interface, not manual markdown editing

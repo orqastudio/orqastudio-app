@@ -13,9 +13,9 @@ relationships:
 
 **Date:** 2026-03-02 | **Informed by:** Information Architecture, [Frontend Research](RES-004)
 
-Dashboard views appear in the Explorer Panel and provide operational visibility into scanning, metrics, and the learning loop. These are Phase 3-5 features designed early to validate the information architecture and panel system.
+Dashboard views appear in the Explorer Panel and provide operational visibility into scanning, metrics, and the learning loop. These are post-MVP features designed early to validate the information architecture and panel system.
 
-> **Note:** These wireframes represent future-phase features (Scanner Dashboard: Phase 3+, Metrics Dashboard: Phase 5, Learning Loop: Phase 5). They are designed now to ensure the panel system and data model accommodate these views without rework.
+> **Note:** These wireframes represent future features (Scanner Dashboard, Metrics Dashboard, Learning Loop). They are designed now to ensure the panel system and data model accommodate these views without rework.
 
 ### How to Navigate to Dashboards
 

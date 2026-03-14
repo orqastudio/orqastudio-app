@@ -61,7 +61,7 @@ If the sidecar emits an error event mid-stream:
 
 ## 2. Tool Call Flow
 
-### Phase 1: Read-Only Display
+### MVP: Read-Only Display
 
 Tool calls are displayed but not interactive. Claude executes tools automatically via the sidecar.
 
@@ -72,7 +72,7 @@ Tool calls are displayed but not interactive. Claude executes tools automaticall
 | Tool call completes | Badge changes to "Completed" (green). Output stored. |
 | Tool call errors | Badge changes to "Error" (red). Error message in output. |
 
-### Phase 2: Approval Flow
+### Post-MVP: Approval Flow
 
 User approval required before tool execution.
 
@@ -93,7 +93,7 @@ Tool call received → Card appears with "Pending" badge (amber)
 
 - **Collapsed** (default): Single line showing tool icon + name + file path/summary + status badge
 - **Click to expand**: Full input parameters + full output + diff view (for edits)
-- **Click tool name**: Opens tool inspector in Explorer Panel (Phase 2+)
+- **Click tool name**: Opens tool inspector in Explorer Panel (post-MVP)
 - **Copy button**: Copies tool output to clipboard
 
 ### Visual Hierarchy for Tool Types

@@ -32,7 +32,7 @@ The setup wizard uses a version-gated approach to avoid re-running completed ste
 
 **Future expansion:**
 
-To add new setup requirements in a future build (e.g., "configure MCP servers" in Phase 3), increment `CURRENT_SETUP_VERSION` to `2` and add the new steps to the version 2 step list. Users who already completed version 1 will only see the new steps.
+To add new setup requirements in a future build (e.g., "configure MCP servers"), increment `CURRENT_SETUP_VERSION` to `2` and add the new steps to the version 2 step list. Users who already completed version 1 will only see the new steps.
 
 ## Setup Steps (v1)
 
@@ -69,7 +69,7 @@ Ensure the ONNX embedding model is downloaded and ready for semantic search.
 
 - **Detection:** Check for model files at `app_data_dir/models/bge-small-en-v1.5/`
 - **If present:** Display "Model ready", auto-advance
-- **If not present:** Display "Downloading embedding model..." with a progress bar. Uses the existing model download infrastructure from Phase 1
+- **If not present:** Display "Downloading embedding model..." with a progress bar. Uses the model download infrastructure built into the app scaffold.
 - **Stored data:** `embedding_model_status` in app settings
 
 ### Step 5: Setup Complete
@@ -218,7 +218,7 @@ This reuses the data collected during setup. The Settings view calls the same `c
 
 ## Related Documents
 
-- Roadmap — Phase 2a
+- Roadmap
 - Streaming Pipeline
 - IPC Commands
 - Settings & Onboarding Wireframes

@@ -64,9 +64,9 @@ OrqaStudio aims to help them **turn messy thinking into structured, evolving sys
 
 ---
 
-## Launch Phases
+## Launch Strategy
 
-### Phase 1 — Private Exploration
+### Stage 1 — Private Exploration
 
 Before public release, the system should be shared with a small number of trusted individuals.
 
@@ -86,7 +86,7 @@ This phase helps ensure the idea resonates before broader exposure.
 
 ---
 
-### Phase 2 — Public Technical Introduction
+### Stage 2 — Public Technical Introduction
 
 The first public exposure should focus on the **idea and system**, rather than the personal story behind it.
 
@@ -112,7 +112,7 @@ The goal is **curiosity and thoughtful feedback**, not hype.
 
 ---
 
-### Phase 3 — Community and Individual Adoption
+### Stage 3 — Community and Individual Adoption
 
 As people begin experimenting with the system, early adoption is likely to come from individuals rather than organisations.
 
@@ -127,7 +127,7 @@ These users help refine the platform's capabilities through real-world usage.
 
 ---
 
-### Phase 4 — Organisational Conversations
+### Stage 4 — Organisational Conversations
 
 Only after the platform has proven useful for individuals should it be introduced to organisations.
 

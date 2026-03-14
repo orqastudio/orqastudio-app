@@ -220,7 +220,7 @@ SQLite's full-text search extension. OrqaStudio uses two FTS5 virtual tables: on
 
 ### Handoff Notes
 
-Session continuity data that summarizes what happened in a session and what the next session should know. Rule-based in Phase 1, Claude-generated in Phase 2. Enables context transfer across sessions.
+Session continuity data that summarizes what happened in a session and what the next session should know. Enables context transfer across sessions.
 
 ---
 
@@ -264,7 +264,7 @@ The real-time rendering of AI response tokens as they arrive. Tokens flow throug
 
 ### Tool Call Card
 
-A UI component that displays a tool invocation within a conversation: the tool name, input parameters, and result. Tool call cards are collapsible and will support approval/denial flows in Phase 2.
+A UI component that displays a tool invocation within a conversation: the tool name, input parameters, and result. Tool call cards are collapsible and will support approval/denial flows in a future build.
 
 ### Feature Gate
 
