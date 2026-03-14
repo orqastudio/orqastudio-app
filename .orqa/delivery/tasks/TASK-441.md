@@ -2,7 +2,7 @@
 id: TASK-441
 title: "Dashboard grid layout system"
 description: "Replace the vertical card stack dashboard with a CSS grid layout that supports future drag-drop and plugin widgets."
-status: todo
+status: done
 priority: P1
 created: "2026-03-14"
 updated: "2026-03-14"

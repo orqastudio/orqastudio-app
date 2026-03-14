@@ -2,7 +2,7 @@
 id: TASK-454
 title: "Mermaid and PlantUML rendering in markdown"
 description: "Render mermaid and plantuml code blocks as diagrams in the markdown renderer, styled to match the app theme."
-status: todo
+status: done
 priority: P2
 created: "2026-03-14"
 updated: "2026-03-14"
