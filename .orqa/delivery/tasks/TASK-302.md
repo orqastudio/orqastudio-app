@@ -1,16 +1,20 @@
 ---
 id: TASK-302
 title: "Complete RES-051: behavioral directives research"
-description: "RES-051 (Agent Memory, User Directives, and the Knowledge Pipeline) is in draft status. Complete the research and discuss findings with user to determine where behavioral directives fit in the pipeline."
+description: RES-051 (Agent Memory, User Directives, and the Knowledge Pipeline) is in draft status. Complete the research and discuss findings with user to determine where behavioral directives fit in the pipeline.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 acceptance:
-  - "RES-051 status is complete"
-  - "Research conclusions identify whether a new artifact type is needed or existing types cover the gap"
-  - "User has reviewed and approved the findings"
+  - RES-051 status is complete
+  - Research conclusions identify whether a new artifact type is needed or existing types cover the gap
+  - User has reviewed and approved the findings
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

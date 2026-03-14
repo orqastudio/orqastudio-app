@@ -3,8 +3,8 @@ id: TASK-185
 title: Test plugin against OrqaStudio governance artifacts
 description: Integration testing of the plugin against the real .orqa/ directory in orqa-studio.
 status: todo
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-050
 depends-on:
   - TASK-178
@@ -26,6 +26,10 @@ acceptance:
   - SessionStart injects orchestrator context
   - Slash commands return accurate governance data
   - No errors or crashes during normal Claude Code usage
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

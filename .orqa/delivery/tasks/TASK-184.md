@@ -3,8 +3,8 @@ id: TASK-184
 title: Implement /orqa, /orqa:rules, /orqa:status commands
 description: Plugin slash commands for governance interaction in Claude Code.
 status: todo
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-050
 depends-on:
   - TASK-178
@@ -18,6 +18,10 @@ acceptance:
   - /orqa:rules lists all active rules with enforcement status
   - /orqa:status shows governance health (rule coverage, broken refs, schema compliance)
   - Commands are discoverable via Claude Code skill system
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

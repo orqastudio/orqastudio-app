@@ -1,17 +1,34 @@
 ---
 id: TASK-347
-title: "Reconcile EPIC-057"
+title: Reconcile EPIC-057
 description: "Standing reconciliation task — verify epic body accuracy: task table, pillars, docs-produced, scope."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-057
-depends-on: ["TASK-258", "TASK-259", "TASK-260", "TASK-261", "TASK-262", "TASK-263", "TASK-264", "TASK-265", "TASK-266", "TASK-267", "TASK-268", "TASK-269", "TASK-270"]
+depends-on:
+  - TASK-258
+  - TASK-259
+  - TASK-260
+  - TASK-261
+  - TASK-262
+  - TASK-263
+  - TASK-264
+  - TASK-265
+  - TASK-266
+  - TASK-267
+  - TASK-268
+  - TASK-269
+  - TASK-270
 acceptance:
-  - "Epic task table lists ALL tasks created during the epic"
-  - "Epic pillars array reflects all pillars served"
-  - "Epic docs-produced list matches actual documentation created/updated"
-  - "Epic scope section accurately reflects what was in/out of scope"
+  - Epic task table lists ALL tasks created during the epic
+  - Epic pillars array reflects all pillars served
+  - Epic docs-produced list matches actual documentation created/updated
+  - Epic scope section accurately reflects what was in/out of scope
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

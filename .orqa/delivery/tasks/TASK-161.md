@@ -3,8 +3,8 @@ id: TASK-161
 title: Unify scrollbar styling across all panels
 description: Make scrollbar appearance consistent across all panels — use the viewer panel scrollbar as the reference style.
 status: todo
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-010
 depends-on: []
 docs:
@@ -16,6 +16,10 @@ acceptance:
   - All panels use the same scrollbar styling as the viewer panel
   - Scrollbar width, track colour, thumb colour, and border radius are consistent
   - No panel-specific scrollbar overrides remain unless intentionally different
+relationships:
+  - target: EPIC-010
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

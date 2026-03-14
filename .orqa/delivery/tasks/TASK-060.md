@@ -3,8 +3,8 @@ id: TASK-060
 title: Update rules to reference pillar artifacts generically
 description: Update rules to reference pillar artifacts generically
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-046
 depends-on:
   - TASK-058
@@ -17,6 +17,10 @@ acceptance:
   - pillar-alignment-docs.md reads pillar titles from artifacts directory
   - Rules enforce "serve at least one active pillar" generically
   - No hardcoded pillar names remain in enforcement rules
+relationships:
+  - target: EPIC-046
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

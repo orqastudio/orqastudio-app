@@ -1,14 +1,18 @@
 ---
 id: TASK-364
 title: "Clippy/custom check: function size limits"
-description: "Add clippy or custom check to enforce function size limits in Rust code"
+description: Add clippy or custom check to enforce function size limits in Rust code
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on: []
 acceptance:
-  - "Functions exceeding 50 lines are flagged by clippy or a custom check during make lint-backend"
+  - Functions exceeding 50 lines are flagged by clippy or a custom check during make lint-backend
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

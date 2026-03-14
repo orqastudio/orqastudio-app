@@ -1,5 +1,4 @@
 ---
-
 id: EPIC-001
 title: AI Transparency Wiring
 description: Wire the emission logic that connects existing AI transparency types, components, and store handling into a working end-to-end pipeline.
@@ -24,7 +23,22 @@ scoring:
 relationships:
   - target: RES-026
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-026"
+    rationale: Auto-generated inverse of informed-by relationship from RES-026
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-001
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-002
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-003
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-311
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

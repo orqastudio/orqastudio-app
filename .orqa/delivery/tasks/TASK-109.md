@@ -1,16 +1,20 @@
 ---
 id: TASK-109
-title: "Design core layout wireframes"
-description: "Created wireframes for the four-zone desktop layout with toolbar, sidebar, main content area, and status bar."
+title: Design core layout wireframes
+description: Created wireframes for the four-zone desktop layout with toolbar, sidebar, main content area, and status bar.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-028
 depends-on: []
 acceptance:
   - Layout wireframe covers all four zones
   - Panel resize behaviour is specified
   - Layout works at minimum supported window size
+relationships:
+  - target: EPIC-028
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

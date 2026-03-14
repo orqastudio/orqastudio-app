@@ -1,16 +1,20 @@
 ---
 id: TASK-103
-title: "Define product glossary"
-description: "Established canonical terminology used throughout OrqaStudio's product documentation, governance, and UI."
+title: Define product glossary
+description: Established canonical terminology used throughout OrqaStudio's product documentation, governance, and UI.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-027
 depends-on: []
 acceptance:
   - Glossary covers all domain-specific terms
   - Terms are unambiguous and internally consistent
   - Glossary is referenced from other product docs
+relationships:
+  - target: EPIC-027
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

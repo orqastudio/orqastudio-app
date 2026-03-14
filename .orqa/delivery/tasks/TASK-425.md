@@ -1,12 +1,11 @@
 ---
-
 id: TASK-425
 title: "Fix CI workflows for independent builds (no file: references)"
 description: "CI workflows fail because packages reference each other via file: paths that don't exist in CI. Update each package's CI to either use npm pack from a checkout or publish tier-0 packages first."
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-066
 depends-on: []
 assignee: null
@@ -14,18 +13,21 @@ skills:
   - SKILL-034
 acceptance:
   - "types CI builds and tests independently (no file: deps)"
-  - "eslint-config CI builds independently"
-  - "test-config CI builds independently"
-  - "integrity-validator CI builds and tests with types from GitHub Packages"
-  - "SDK CI builds and tests with types from GitHub Packages"
-  - "All CI workflows pass on GitHub Actions"
+  - eslint-config CI builds independently
+  - test-config CI builds independently
+  - integrity-validator CI builds and tests with types from GitHub Packages
+  - SDK CI builds and tests with types from GitHub Packages
+  - All CI workflows pass on GitHub Actions
 relationships:
   - target: EPIC-066
     type: delivers
-    rationale: "CI must work for packages to be publishable"
+    rationale: CI must work for packages to be publishable
   - target: TASK-426
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from TASK-426"
+    rationale: Auto-generated inverse of informs relationship from TASK-426
+  - target: EPIC-066
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Scope
 

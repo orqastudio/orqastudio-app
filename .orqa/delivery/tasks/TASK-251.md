@@ -1,19 +1,23 @@
 ---
 id: TASK-251
 title: "Research: cross-cutting concerns of directory restructure"
-description: "Audit every config, import, and path reference affected by the proposed repository reorganisation into backend/, ui/src/, sidecars/, and debugger/ directories."
+description: Audit every config, import, and path reference affected by the proposed repository reorganisation into backend/, ui/src/, sidecars/, and debugger/ directories.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-056
 depends-on: []
 acceptance:
-  - "Complete inventory of files containing paths to src-tauri/, ui/, sidecar/, scripts/"
-  - "Per-file list of exact changes needed"
-  - "Watcher configuration analysis (current vs proposed)"
-  - "Proposed migration order with verification steps between each move"
-  - "Risk assessment with rollback strategy"
-  - "Findings written to RES-044"
+  - Complete inventory of files containing paths to src-tauri/, ui/, sidecar/, scripts/
+  - Per-file list of exact changes needed
+  - Watcher configuration analysis (current vs proposed)
+  - Proposed migration order with verification steps between each move
+  - Risk assessment with rollback strategy
+  - Findings written to RES-044
+relationships:
+  - target: EPIC-056
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

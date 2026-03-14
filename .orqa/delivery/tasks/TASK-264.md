@@ -1,18 +1,23 @@
 ---
 id: TASK-264
-title: "Create component test infrastructure"
-description: "Set up Svelte component testing with @testing-library/svelte and write template tests for key shared components."
+title: Create component test infrastructure
+description: Set up Svelte component testing with @testing-library/svelte and write template tests for key shared components.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
-depends-on: [TASK-262]
+depends-on:
+  - TASK-262
 assignee: AGENT-002
 acceptance:
   - "@testing-library/svelte installed and configured"
-  - "At least 5 shared components have test files"
-  - "Test files demonstrate render, props, and interaction patterns"
-  - "make test-frontend passes with component tests included"
+  - At least 5 shared components have test files
+  - Test files demonstrate render, props, and interaction patterns
+  - make test-frontend passes with component tests included
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

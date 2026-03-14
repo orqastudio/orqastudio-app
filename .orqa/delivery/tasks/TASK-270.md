@@ -1,18 +1,22 @@
 ---
 id: TASK-270
-title: "Resolve AD-032 SQLite scoping violation"
-description: "Governance scan results should produce research artifacts (.orqa/ files), not SQLite rows. Migrate governance tables out of SQLite."
+title: Resolve AD-032 SQLite scoping violation
+description: Governance scan results should produce research artifacts (.orqa/ files), not SQLite rows. Migrate governance tables out of SQLite.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
 depends-on: []
 assignee: AGENT-003
 acceptance:
-  - "governance_analyses and governance_recommendations tables removed from SQLite"
-  - "Governance scan results produce research artifacts in .orqa/ that can be translated into epics/tasks"
-  - "AD-032 updated to reflect the decision"
-  - "artifacts table clarified as read-through cache of file-based artifacts"
+  - governance_analyses and governance_recommendations tables removed from SQLite
+  - Governance scan results produce research artifacts in .orqa/ that can be translated into epics/tasks
+  - AD-032 updated to reflect the decision
+  - artifacts table clarified as read-through cache of file-based artifacts
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

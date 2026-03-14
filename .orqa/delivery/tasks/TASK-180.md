@@ -3,8 +3,8 @@ id: TASK-180
 title: Implement PreToolUse hook (file + bash event enforcement)
 description: Plugin PreToolUse hook evaluates active rules against tool calls and blocks/warns on violations.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-050
 depends-on:
   - TASK-178
@@ -20,6 +20,10 @@ acceptance:
   - Bash events match against command field
   - Violations return block with message or warn with additionalContext
   - Non-violations allow the tool call to proceed
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

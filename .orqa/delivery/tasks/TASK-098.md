@@ -1,16 +1,20 @@
 ---
 id: TASK-098
-title: "Onboarding strategy definition"
-description: "Defined the approach for first-run project setup and Claude API authentication flow."
+title: Onboarding strategy definition
+description: Defined the approach for first-run project setup and Claude API authentication flow.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-025
 depends-on: []
 acceptance:
   - Onboarding flow documented
   - API key configuration approach decided
   - Project initialization sequence defined
+relationships:
+  - target: EPIC-025
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

@@ -1,14 +1,18 @@
 ---
 id: TASK-350
-title: "Backfill AD → Rule enforcement relationships (37 ADs)"
-description: "Add enforcement relationship edges between accepted architecture decisions and the rules that enforce them"
+title: Backfill AD → Rule enforcement relationships (37 ADs)
+description: Add enforcement relationship edges between accepted architecture decisions and the rules that enforce them
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on: []
 acceptance:
-  - "All 37 accepted ADs have enforcement, practice, or intended-true relationships populated"
+  - All 37 accepted ADs have enforcement, practice, or intended-true relationships populated
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

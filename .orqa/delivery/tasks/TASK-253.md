@@ -1,19 +1,23 @@
 ---
 id: TASK-253
-title: "Move sidecar to sidecars/claude-agentsdk-sidecar/"
-description: "Relocate sidecar/ to sidecars/claude-agentsdk-sidecar/ and update all references in Makefile and Rust source."
+title: Move sidecar to sidecars/claude-agentsdk-sidecar/
+description: Relocate sidecar/ to sidecars/claude-agentsdk-sidecar/ and update all references in Makefile and Rust source.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-056
 depends-on:
   - TASK-252
 acceptance:
-  - "sidecar/ moved to sidecars/claude-agentsdk-sidecar/"
-  - "Makefile sidecar targets updated"
-  - "sidecar_commands.rs path references updated (5 paths)"
-  - "make lint-backend passes"
-  - "make test-rust passes"
+  - sidecar/ moved to sidecars/claude-agentsdk-sidecar/
+  - Makefile sidecar targets updated
+  - sidecar_commands.rs path references updated (5 paths)
+  - make lint-backend passes
+  - make test-rust passes
+relationships:
+  - target: EPIC-056
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

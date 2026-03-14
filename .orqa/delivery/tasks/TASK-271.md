@@ -1,21 +1,25 @@
 ---
 id: TASK-271
-title: "Implement rule-overrides in CLI plugin prompt injection"
-description: "When loading rules into agent context for a task, read the task's rule-overrides (falling back to epic's if task has none). Suspended rules are loaded but annotated with the suspension reason."
+title: Implement rule-overrides in CLI plugin prompt injection
+description: When loading rules into agent context for a task, read the task's rule-overrides (falling back to epic's if task has none). Suspended rules are loaded but annotated with the suspension reason.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-058
 depends-on: []
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "Plugin reads rule-overrides from active task frontmatter"
-  - "Falls back to epic rule-overrides if task has none"
-  - "Suspended rules are included in context but annotated as suspended with reason"
-  - "Non-suspended rules load normally"
+  - Plugin reads rule-overrides from active task frontmatter
+  - Falls back to epic rule-overrides if task has none
+  - Suspended rules are included in context but annotated as suspended with reason
+  - Non-suspended rules load normally
 rule-overrides: []
+relationships:
+  - target: EPIC-058
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

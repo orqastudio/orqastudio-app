@@ -3,8 +3,8 @@ id: TASK-216
 title: Plugin extends graph on artifact creation
 description: Add PostToolUse logic that detects when new artifacts are created and prompts for proper graph relationships (docs, skills, epic, depends-on fields).
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-053
 depends-on: []
 docs:
@@ -17,6 +17,10 @@ acceptance:
   - Warnings suggest specific relationships to add
   - Does not block — advisory only
   - Helps maintain graph integrity passively
+relationships:
+  - target: EPIC-053
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

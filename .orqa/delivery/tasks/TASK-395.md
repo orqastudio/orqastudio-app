@@ -1,19 +1,23 @@
 ---
 id: TASK-395
-title: "Graph health snapshot storage and trend sparklines"
-description: "Store graph health snapshots on each integrity scan and display trend sparklines on the dashboard showing how graph health metrics change over time."
+title: Graph health snapshot storage and trend sparklines
+description: Store graph health snapshots on each integrity scan and display trend sparklines on the dashboard showing how graph health metrics change over time.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-390
 acceptance:
-  - "Tauri command stores a health snapshot (node count, edge count, orphans, broken refs, error count, warning count) with timestamp"
-  - "Tauri command retrieves recent snapshots for trend display"
-  - "SVG sparklines show trends for key metrics on the dashboard"
-  - "Snapshots stored in SQLite metrics table"
-  - "make typecheck passes (no new errors)"
+  - Tauri command stores a health snapshot (node count, edge count, orphans, broken refs, error count, warning count) with timestamp
+  - Tauri command retrieves recent snapshots for trend display
+  - SVG sparklines show trends for key metrics on the dashboard
+  - Snapshots stored in SQLite metrics table
+  - make typecheck passes (no new errors)
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

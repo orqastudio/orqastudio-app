@@ -1,16 +1,20 @@
 ---
 id: TASK-138
-title: "Wire governance end-to-end integration"
-description: "Connected the full governance pipeline from scanner through analysis to recommendations and dashboard."
+title: Wire governance end-to-end integration
+description: Connected the full governance pipeline from scanner through analysis to recommendations and dashboard.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-031
 depends-on: []
 acceptance:
   - Triggering a scan produces analysis and recommendations
   - Dashboard widget updates with fresh data after each scan
   - All IPC commands in the governance pipeline return real data
+relationships:
+  - target: EPIC-031
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

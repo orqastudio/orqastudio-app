@@ -1,26 +1,31 @@
 ---
 id: TASK-274
-title: "Backfill rules with relationships"
-description: "Use backfill tooling to add grounded relationships to all 44 rules, connecting each to the decision or pillar it enforces."
+title: Backfill rules with relationships
+description: Use backfill tooling to add grounded relationships to all 44 rules, connecting each to the decision or pillar it enforces.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-058
-depends-on: [TASK-273]
+depends-on:
+  - TASK-273
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "All 44 rules have a relationships array"
-  - "Each rule has at least one grounded relationship (to a decision or pillar)"
-  - "Null targets have rationale and intended field"
-  - "All relationships have rationale explaining why the connection exists"
-  - "Human reviewed and approved all proposals"
+  - All 44 rules have a relationships array
+  - Each rule has at least one grounded relationship (to a decision or pillar)
+  - Null targets have rationale and intended field
+  - All relationships have rationale explaining why the connection exists
+  - Human reviewed and approved all proposals
 rule-overrides:
   - rule: RULE-032
-    reason: "Adding new optional relationships field to rule frontmatter during migration"
+    reason: Adding new optional relationships field to rule frontmatter during migration
   - rule: RULE-004
-    reason: "Rule frontmatter is being extended with new fields"
+    reason: Rule frontmatter is being extended with new fields
+relationships:
+  - target: EPIC-058
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

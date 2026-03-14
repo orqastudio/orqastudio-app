@@ -1,24 +1,27 @@
 ---
 id: TASK-459
-title: "Surface prioritisation criteria and require justification on epics/tasks"
-description: "Prioritisation criteria should be visible in the UI. Every epic and task with a priority value must have justification against the defined criteria as part of its content."
+title: Surface prioritisation criteria and require justification on epics/tasks
+description: Prioritisation criteria should be visible in the UI. Every epic and task with a priority value must have justification against the defined criteria as part of its content.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-067
 depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Prioritisation criteria from DOC-062 surfaced in the artifact viewer when viewing epics/tasks"
-  - "Epics and tasks with priority values show their justification (scoring field or dedicated section)"
-  - "Missing justification flagged as action needed"
-  - "Integrity validator warns on priority without justification"
+  - Prioritisation criteria from DOC-062 surfaced in the artifact viewer when viewing epics/tasks
+  - Epics and tasks with priority values show their justification (scoring field or dedicated section)
+  - Missing justification flagged as action needed
+  - Integrity validator warns on priority without justification
 relationships:
   - target: EPIC-067
     type: delivers
-    rationale: "Artifact viewer should surface priority reasoning"
+    rationale: Artifact viewer should surface priority reasoning
+  - target: EPIC-067
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

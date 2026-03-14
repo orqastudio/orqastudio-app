@@ -1,17 +1,21 @@
 ---
 id: TASK-260
-title: "Enable clippy pedantic in Cargo.toml"
-description: "Explicitly configure clippy pedantic lints in Cargo.toml and fix resulting warnings."
+title: Enable clippy pedantic in Cargo.toml
+description: Explicitly configure clippy pedantic lints in Cargo.toml and fix resulting warnings.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
 depends-on: []
 assignee: AGENT-002
 acceptance:
   - "[lints.clippy] section exists in Cargo.toml with pedantic enabled"
-  - "make lint-backend passes with zero warnings"
+  - make lint-backend passes with zero warnings
   - "Any necessary #[allow] annotations have documented justification"
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

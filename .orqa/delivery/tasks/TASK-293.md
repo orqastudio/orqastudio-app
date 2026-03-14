@@ -1,22 +1,27 @@
 ---
 id: TASK-293
-title: "Rules content audit (44 rules)"
+title: Rules content audit (44 rules)
 description: "Audit all 44 rules: fix deprecated references, ensure rules state constraints not methodology, review relationship rationales, ensure Related Rules sections match relationships arrays, absorb operational standards."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
-depends-on: [TASK-285]
+depends-on:
+  - TASK-285
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "All rules have accurate body text aligned with pipeline philosophy"
-  - "No deprecated references (promoted-to, promoted-from) in body text"
-  - "Related Rules sections match relationships arrays"
-  - "Rules state constraints, not methodology (methodology belongs in skills)"
-  - "Operational standards (DoD, DoR, coding standards) absorbed where appropriate"
+  - All rules have accurate body text aligned with pipeline philosophy
+  - No deprecated references (promoted-to, promoted-from) in body text
+  - Related Rules sections match relationships arrays
+  - Rules state constraints, not methodology (methodology belongs in skills)
+  - Operational standards (DoD, DoR, coding standards) absorbed where appropriate
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

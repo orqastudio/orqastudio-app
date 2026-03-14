@@ -1,19 +1,23 @@
 ---
 id: TASK-257
-title: "Full integration test of reorganised repository"
-description: "Run all quality gates, dev lifecycle, and production build to verify the reorganisation is complete and correct."
+title: Full integration test of reorganised repository
+description: Run all quality gates, dev lifecycle, and production build to verify the reorganisation is complete and correct.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-056
 depends-on:
   - TASK-256
 acceptance:
-  - "make check passes (all quality gates)"
-  - "make dev starts and runs correctly"
-  - "make build produces a production build"
-  - "No stale path references remain in codebase"
-  - "Watcher scoping verified (Vite only reloads on ui/src/ changes)"
+  - make check passes (all quality gates)
+  - make dev starts and runs correctly
+  - make build produces a production build
+  - No stale path references remain in codebase
+  - Watcher scoping verified (Vite only reloads on ui/src/ changes)
+relationships:
+  - target: EPIC-056
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

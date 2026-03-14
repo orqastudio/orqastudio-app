@@ -1,16 +1,20 @@
 ---
 id: TASK-097
-title: "SQLite persistence design"
-description: "Evaluated SQLite via rusqlite for structured local storage of conversation data, sessions, and messages."
+title: SQLite persistence design
+description: Evaluated SQLite via rusqlite for structured local storage of conversation data, sessions, and messages.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-025
 depends-on: []
 acceptance:
   - SQLite selected for conversation persistence with documented rationale
   - Scope boundary established
   - rusqlite selected as the access library
+relationships:
+  - target: EPIC-025
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

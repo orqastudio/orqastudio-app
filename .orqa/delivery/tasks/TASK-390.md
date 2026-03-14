@@ -1,21 +1,25 @@
 ---
 id: TASK-390
-title: "Native integrity checks in artifact_graph.rs"
-description: "Add integrity check methods to the artifact graph that detect broken links, missing relationship inverses, and pipeline gaps. Returns Vec<IntegrityCheck> with categorised findings, severity levels, and auto-fix indicators."
+title: Native integrity checks in artifact_graph.rs
+description: Add integrity check methods to the artifact graph that detect broken links, missing relationship inverses, and pipeline gaps. Returns Vec<IntegrityCheck> with categorised findings, severity levels, and auto-fix indicators.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-389
 acceptance:
-  - "IntegrityCheck struct defined with category, severity, artifact_id, message, auto_fixable fields"
-  - "check_integrity() method returns all findings from the graph"
+  - IntegrityCheck struct defined with category, severity, artifact_id, message, auto_fixable fields
+  - check_integrity() method returns all findings from the graph
   - "Detects: broken refs, missing bidirectional inverses, null relationship targets"
   - "Severity levels: Error for broken refs, Warning for missing inverses"
-  - "auto_fixable flag set for deterministic fixes (missing inverses)"
-  - "Tauri command run_integrity_scan returns Vec<IntegrityCheck>"
-  - "make check passes"
+  - auto_fixable flag set for deterministic fixes (missing inverses)
+  - Tauri command run_integrity_scan returns Vec<IntegrityCheck>
+  - make check passes
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

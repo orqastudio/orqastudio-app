@@ -1,6 +1,4 @@
 ---
-
-
 id: EPIC-032
 title: Artifact System Migration
 description: "Make the artifact system self-sustaining: correct default creation, historical content linkage, and framework coverage for all 8 types."
@@ -32,10 +30,25 @@ scoring:
 relationships:
   - target: RES-025
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-025"
+    rationale: Auto-generated inverse of informed-by relationship from RES-025
   - target: RES-028
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-028"
+    rationale: Auto-generated inverse of informed-by relationship from RES-028
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-090
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-091
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-092
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-322
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Workstreams
 

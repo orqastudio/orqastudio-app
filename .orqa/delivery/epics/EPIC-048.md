@@ -1,7 +1,4 @@
 ---
-
-
-
 id: EPIC-048
 title: Artifact Graph SDK and Structural Integrity
 description: Build a bidirectional artifact node graph with a typed frontend SDK, body template enforcement, markdown cross-linking, file watcher for live refresh, and plugin-ready subscription API — establishing the foundation for the plugin architecture.
@@ -34,13 +31,61 @@ scoring:
 relationships:
   - target: RES-034
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-034"
+    rationale: Auto-generated inverse of informed-by relationship from RES-034
   - target: RES-032
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-032"
+    rationale: Auto-generated inverse of informed-by relationship from RES-032
   - target: RES-033
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-033"
+    rationale: Auto-generated inverse of informed-by relationship from RES-033
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-070
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-071
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-072
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-073
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-074
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-075
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-076
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-077
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-078
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-079
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-080
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-081
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-082
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-083
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-338
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

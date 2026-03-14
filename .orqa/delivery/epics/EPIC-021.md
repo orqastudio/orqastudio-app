@@ -22,6 +22,10 @@ scoring:
   dependency: 1
   effort: 3
   score: 8.7
+relationships:
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
 ---
 ## Tasks
 

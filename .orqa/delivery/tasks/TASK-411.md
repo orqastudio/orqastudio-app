@@ -1,11 +1,11 @@
 ---
 id: TASK-411
-title: "Add stop event handling to rule-engine.mjs"
+title: Add stop event handling to rule-engine.mjs
 description: "Extend the plugin's rule engine to evaluate enforcement entries with event: stop. Currently only file/bash events are processed. Stop events need different context (session-level, no file path) and must fire when the Stop hook runs."
 status: todo
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-064
 depends-on: []
 assignee: null
@@ -13,19 +13,22 @@ skills:
   - SKILL-011
   - SKILL-020
 acceptance:
-  - "rule-engine.mjs accepts and evaluates stop event context"
-  - "Hard filter on line 199 expanded to include stop events"
-  - "Stop hook (hooks.json) calls rule-engine.mjs in addition to stop-checklist.sh"
-  - "RULE-001 stop enforcement entries (warn + inject) fire during Stop hook"
-  - "RULE-044 stop enforcement entries fire during Stop hook"
-  - "Stop event context shape documented (no file_path, session-level only)"
+  - rule-engine.mjs accepts and evaluates stop event context
+  - Hard filter on line 199 expanded to include stop events
+  - Stop hook (hooks.json) calls rule-engine.mjs in addition to stop-checklist.sh
+  - RULE-001 stop enforcement entries (warn + inject) fire during Stop hook
+  - RULE-044 stop enforcement entries fire during Stop hook
+  - Stop event context shape documented (no file_path, session-level only)
 relationships:
   - target: EPIC-064
     type: delivers
-    rationale: "Core task — enables stop event enforcement in CLI context"
+    rationale: Core task — enables stop event enforcement in CLI context
   - target: RULE-001
     type: enforces
-    rationale: "RULE-001's permission-seeking enforcement entries depend on stop event support"
+    rationale: RULE-001's permission-seeking enforcement entries depend on stop event support
+  - target: EPIC-064
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

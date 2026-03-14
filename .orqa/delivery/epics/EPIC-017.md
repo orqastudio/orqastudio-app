@@ -21,6 +21,13 @@ scoring:
   dependency: 2
   effort: 4
   score: 6.8
+relationships:
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-314
+    type: contains
+    rationale: Epic contains this task
 ---
 **Note:** Two deliverables from this epic were deferred:
 - **Visual compliance dashboard** -- not delivered; should be tracked in a future epic when dashboard UI work is prioritised.

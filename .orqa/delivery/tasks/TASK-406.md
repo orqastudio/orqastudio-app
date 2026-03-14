@@ -1,11 +1,11 @@
 ---
 id: TASK-406
-title: "Enhance artifact viewer with unified relationships, actions needed, and pipeline position"
-description: "Move all relationships to the relationships viewer across all artifact types. Add inferred Actions Needed box. Add pipeline position stepper. Auto-embed child artifacts. Display horizon field. Implement acceptance criteria checkboxes."
+title: Enhance artifact viewer with unified relationships, actions needed, and pipeline position
+description: Move all relationships to the relationships viewer across all artifact types. Add inferred Actions Needed box. Add pipeline position stepper. Auto-embed child artifacts. Display horizon field. Implement acceptance criteria checkboxes.
 status: done
 priority: P1
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-065
 depends-on: []
 assignee: null
@@ -14,23 +14,26 @@ skills:
   - SKILL-042
   - SKILL-011
 acceptance:
-  - "ALL relationship data across ALL artifact types renders in the relationships viewer, not the metadata box"
-  - "Relationships viewer organizes relationships by category/type"
-  - "Actions Needed box appears after metadata when actions exist, hidden when empty"
-  - "Actions Needed content is inferred from artifact status and pipeline position"
-  - "Pipeline position stepper shows the artifact's current stage highlighted within its full lifecycle"
-  - "Milestone views auto-embed child epics"
-  - "Epic views auto-embed child tasks"
-  - "Ideas horizon field displayed in artifact view"
-  - "Task acceptance criteria render as checkboxes"
-  - "All acceptance checkboxes must be checked before task status can transition to done"
+  - ALL relationship data across ALL artifact types renders in the relationships viewer, not the metadata box
+  - Relationships viewer organizes relationships by category/type
+  - Actions Needed box appears after metadata when actions exist, hidden when empty
+  - Actions Needed content is inferred from artifact status and pipeline position
+  - Pipeline position stepper shows the artifact's current stage highlighted within its full lifecycle
+  - Milestone views auto-embed child epics
+  - Epic views auto-embed child tasks
+  - Ideas horizon field displayed in artifact view
+  - Task acceptance criteria render as checkboxes
+  - All acceptance checkboxes must be checked before task status can transition to done
 relationships:
   - target: EPIC-065
     type: delivers
-    rationale: "Artifact viewer enhancements — PipelineStepper, ActionsNeeded, AcceptanceCriteria, grouped relationships, horizon display"
+    rationale: Artifact viewer enhancements — PipelineStepper, ActionsNeeded, AcceptanceCriteria, grouped relationships, horizon display
   - target: IDEA-025
     type: informs
-    rationale: "IDEA-025 (agent task ownership) relates to auto-embedded child artifact display"
+    rationale: IDEA-025 (agent task ownership) relates to auto-embedded child artifact display
+  - target: EPIC-065
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

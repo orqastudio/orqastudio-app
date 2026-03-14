@@ -1,12 +1,11 @@
 ---
-
 id: EPIC-038
 title: UX Polish Sprint
 description: "UX improvements identified during early dogfooding: streaming fix, output truncation, tool call grouping, auto-naming sessions, custom titlebar."
 status: done
 priority: P2
-created: "2026-03-06"
-updated: "2026-03-09"
+created: 2026-03-06
+updated: 2026-03-09
 milestone: MS-001
 horizon: null
 pillars:
@@ -25,7 +24,16 @@ scoring:
 relationships:
   - target: RES-023
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-023"
+    rationale: Auto-generated inverse of informed-by relationship from RES-023
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-023
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-328
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Implementation Design
 

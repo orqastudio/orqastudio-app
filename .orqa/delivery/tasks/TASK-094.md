@@ -1,16 +1,20 @@
 ---
 id: TASK-094
-title: "Claude Agent SDK sidecar research"
-description: "Evaluated the Agent SDK sidecar architecture for managing Claude conversations, including process spawning, NDJSON protocol, and streaming capabilities."
+title: Claude Agent SDK sidecar research
+description: Evaluated the Agent SDK sidecar architecture for managing Claude conversations, including process spawning, NDJSON protocol, and streaming capabilities.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-025
 depends-on: []
 acceptance:
   - Research document captures Agent SDK sidecar architecture decision
   - Streaming protocol design is validated as feasible
   - Sidecar process lifecycle is understood
+relationships:
+  - target: EPIC-025
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

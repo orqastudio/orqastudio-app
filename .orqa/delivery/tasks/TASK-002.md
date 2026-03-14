@@ -3,8 +3,8 @@ id: TASK-002
 title: Verify end-to-end AI transparency rendering
 description: "Verify the full AI transparency pipeline works end-to-end: Rust emission to Channel<T> to store accumulation to component rendering."
 status: done
-created: "2026-03-07"
-updated: "2026-03-07"
+created: 2026-03-07
+updated: 2026-03-07
 epic: EPIC-001
 assignee: AGENT-006
 acceptance:
@@ -13,6 +13,10 @@ acceptance:
   - ThinkingBlock renders during streaming if thinking deltas arrive
   - No context entry appears when no project is loaded
   - Conversation streaming works normally in all cases (no regression)
+relationships:
+  - target: EPIC-001
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

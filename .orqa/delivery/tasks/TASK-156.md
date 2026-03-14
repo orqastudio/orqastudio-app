@@ -3,13 +3,17 @@ id: TASK-156
 title: Fix RULE-033 scope field to use valid value
 description: Change RULE-033's scope field from the undocumented value software-engineering to a valid value from the documented set.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
   - RULE-033 scope field uses a documented valid value
   - Value accurately reflects the rule's scope (likely project or domain)
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

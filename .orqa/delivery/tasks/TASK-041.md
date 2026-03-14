@@ -3,8 +3,8 @@ id: TASK-041
 title: Memory leak investigation and fix
 description: Identifies and resolves memory growth during extended artifact browsing sessions by cleaning up orphaned DOM event listeners and adding an eviction policy to the viewer cache.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-043
 assignee: AGENT-002
 skills:
@@ -16,6 +16,10 @@ acceptance:
   - LRU with max size)
   - No observable memory growth after navigating 50+ artifacts in sequence
   - No crash or freeze during extended artifact browsing sessions
+relationships:
+  - target: EPIC-043
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Findings Addressed
 

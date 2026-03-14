@@ -3,8 +3,8 @@ id: TASK-070
 title: Document body templates in artifact-framework.md and schema.json
 description: Add bodyTemplate definitions to each artifact type's schema.json and update artifact-framework.md with the canonical body structure for each type.
 status: done
-created: "2026-03-10"
-updated: "2026-03-10"
+created: 2026-03-10
+updated: 2026-03-10
 epic: EPIC-048
 assignee: AGENT-003
 skills:
@@ -13,6 +13,10 @@ acceptance:
   - Each schema.json (except research) has a bodyTemplate key listing required section headings
   - artifact-framework.md updated with body template documentation for all 9 types
   - Schema bodyTemplate format is machine-parseable (array of heading strings)
+relationships:
+  - target: EPIC-048
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

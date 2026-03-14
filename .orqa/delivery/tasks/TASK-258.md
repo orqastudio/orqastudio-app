@@ -1,17 +1,21 @@
 ---
 id: TASK-258
-title: "Fix post-restructure path references in docs"
-description: "Update all documentation files that reference pre-restructure paths."
+title: Fix post-restructure path references in docs
+description: Update all documentation files that reference pre-restructure paths.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
 depends-on: []
 assignee: AGENT-002
 acceptance:
-  - "No doc file references `src-tauri/` without `backend/` prefix"
-  - "No doc file references `persistence/` directory (should be `repo/`)"
-  - "grep for both patterns returns zero results"
+  - No doc file references `src-tauri/` without `backend/` prefix
+  - No doc file references `persistence/` directory (should be `repo/`)
+  - grep for both patterns returns zero results
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

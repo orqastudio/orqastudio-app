@@ -4,8 +4,8 @@ title: Git Workflow Enforcement Review
 description: Review and strengthen git commit discipline enforcement after discovering 237 files uncommitted across multiple sessions. Update session hooks, git-workflow rule, and create a software project-type skill for commit discipline. Addresses IMPL-015.
 status: done
 priority: P1
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 milestone: MS-001
 horizon: null
 pillars:
@@ -20,6 +20,28 @@ scoring:
   effort: 2
   risk: 1
   score: 15
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-064
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-065
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-066
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-067
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-068
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-337
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

@@ -1,21 +1,25 @@
 ---
 id: TASK-298
-title: "Create AD for standards distribution pattern (AD-044)"
+title: Create AD for standards distribution pattern (AD-044)
 description: "Formalize how operational standards flow through the pipeline: Observation → Understanding → Principle → Practice → Enforcement → Verification."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "AD-044 exists in decisions directory"
-  - "Documents the full pipeline flow for operational standards"
-  - "Explains how each artifact type maps to a pipeline stage"
-  - "Provides examples of standards flowing through the pipeline"
+  - AD-044 exists in decisions directory
+  - Documents the full pipeline flow for operational standards
+  - Explains how each artifact type maps to a pipeline stage
+  - Provides examples of standards flowing through the pipeline
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

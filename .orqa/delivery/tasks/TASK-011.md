@@ -3,8 +3,8 @@ id: TASK-011
 title: Backfill Historical Artifact Metadata
 description: Backfill historical artifact data so the decision history, lesson pipeline, and surpassed artifact workflows have real data to test against when we build the navigation and visualization tooling. Some reconstruction from session history is expected — the goal is representative data, not perfect accuracy. This ensures we're dogfooding the full artifact lifecycle, not just the happy path of "create and leave as accepted."
 status: done
-created: "2026-03-08"
-updated: "2026-03-08"
+created: 2026-03-08
+updated: 2026-03-08
 epic: EPIC-033
 assignee: AGENT-007
 skills:
@@ -20,6 +20,10 @@ acceptance:
   - Enough variety to test filtering, sorting, and chain navigation in future UI
   - "Reference integrity verified: every task has a valid epic, every epic has a valid milestone"
   - No orphaned references (plan:, promoted-to, depends-on all point to existing artifacts)
+relationships:
+  - target: EPIC-033
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

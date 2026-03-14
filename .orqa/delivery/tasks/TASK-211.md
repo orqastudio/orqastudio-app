@@ -3,8 +3,8 @@ id: TASK-211
 title: Write graph-based orchestrator prompt
 description: Rewrite the orchestrator prompt from ~2000 lines of inlined rules/tables to ~200 lines of graph navigation instructions. The prompt teaches agents how to read and extend the artifact graph.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-053
 depends-on:
   - TASK-208
@@ -21,6 +21,10 @@ acceptance:
   - Agents can navigate the graph to find rules, skills, docs
   - Core process and safety constraints are preserved
   - A dogfood session works correctly with the new prompt
+relationships:
+  - target: EPIC-053
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

@@ -3,8 +3,8 @@ id: TASK-008
 title: Update scanner to use config-driven paths
 description: Replace the scanner's folder-guessing logic with config-driven scanning. The scanner reads the artifacts array from project.json and scans exactly those paths. No more inferring groups from README frontmatter.
 status: done
-created: "2026-03-08"
-updated: "2026-03-08"
+created: 2026-03-08
+updated: 2026-03-08
 epic: EPIC-033
 depends-on:
   - TASK-007
@@ -26,6 +26,10 @@ acceptance:
   - README.md files filtered from node lists (they're landing pages)
   - Hidden files (. or _) skipped
   - cargo build and clippy pass
+relationships:
+  - target: EPIC-033
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

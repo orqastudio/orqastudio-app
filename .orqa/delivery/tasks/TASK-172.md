@@ -3,8 +3,8 @@ id: TASK-172
 title: Update agent schema to support capabilities field
 description: Replace the tools field in the agent schema with capabilities. The rule owns the tool mapping, not the agent.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-051
 depends-on:
   - TASK-171
@@ -18,6 +18,10 @@ acceptance:
   - Agent schema includes a capabilities field (array of strings)
   - Schema validates against existing agent definitions (backwards compatible)
   - Schema passes JSON Schema validation
+relationships:
+  - target: EPIC-051
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

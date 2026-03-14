@@ -1,14 +1,18 @@
 ---
 id: TASK-240
-title: "Archive stale ideas and fix IDEA-057"
-description: "IDEA-025,032,045 should be archived. IDEA-057 should be promoted."
+title: Archive stale ideas and fix IDEA-057
+description: IDEA-025,032,045 should be archived. IDEA-057 should be promoted.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-054
 acceptance:
-  - "Stale ideas archived with reason"
-  - "IDEA-057 status is promoted"
+  - Stale ideas archived with reason
+  - IDEA-057 status is promoted
+relationships:
+  - target: EPIC-054
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

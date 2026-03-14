@@ -3,8 +3,8 @@ id: TASK-066
 title: Update git-workflow rule for governance-only work
 description: Update git-workflow rule for governance-only work
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-047
 depends-on: []
 assignee: AGENT-003
@@ -18,6 +18,10 @@ acceptance:
   - Maximum uncommitted file threshold defined
   - Guidance for orchestrator direct-edit sessions included
   - Rule distinguishes worktree workflow (code) from direct-commit workflow (governance)
+relationships:
+  - target: EPIC-047
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

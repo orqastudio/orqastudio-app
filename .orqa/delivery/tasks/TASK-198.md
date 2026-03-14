@@ -5,15 +5,19 @@ description: |
   Process gates that fire at task completion without verification evidence or
   lesson documentation.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-195
 acceptance:
-  - "evidence-before-done gate fires at Stop when code was written but no make check/test ran"
-  - "learn-after-doing gate fires at Stop when significant work done but no lessons checked"
-  - "Gates return systemMessage reminders"
+  - evidence-before-done gate fires at Stop when code was written but no make check/test ran
+  - learn-after-doing gate fires at Stop when significant work done but no lessons checked
+  - Gates return systemMessage reminders
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

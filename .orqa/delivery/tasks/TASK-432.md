@@ -1,24 +1,27 @@
 ---
 id: TASK-432
-title: "Relationships panel — equal columns, overflow toggle, status dots"
-description: "Redesign the relationships panel with equal-width columns, expandable overflow, and status dots from graph node data."
+title: Relationships panel — equal columns, overflow toggle, status dots
+description: Redesign the relationships panel with equal-width columns, expandable overflow, and status dots from graph node data.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-067
 depends-on:
   - TASK-429
 assignee: null
 skills: []
 acceptance:
-  - "Equal width label/value columns"
-  - "One row per relationship type with '...' to expand overflow, 'hide' to collapse"
-  - "Each chip shows status dot from graph node data"
+  - Equal width label/value columns
+  - One row per relationship type with '...' to expand overflow, 'hide' to collapse
+  - Each chip shows status dot from graph node data
 relationships:
   - target: EPIC-067
     type: delivers
-    rationale: "Improved relationships panel provides better artifact context at a glance"
+    rationale: Improved relationships panel provides better artifact context at a glance
+  - target: EPIC-067
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

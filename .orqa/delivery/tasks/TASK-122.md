@@ -1,16 +1,20 @@
 ---
 id: TASK-122
-title: "Define error taxonomy"
-description: "Defined typed errors across the Rust/IPC/TypeScript boundary using thiserror on the Rust side and discriminated unions on the TypeScript side."
+title: Define error taxonomy
+description: Defined typed errors across the Rust/IPC/TypeScript boundary using thiserror on the Rust side and discriminated unions on the TypeScript side.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-029
 depends-on: []
 acceptance:
   - Error taxonomy covers all domain error cases
   - From implementations enable propagation across module boundaries
   - Error serialization produces meaningful messages for the frontend
+relationships:
+  - target: EPIC-029
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

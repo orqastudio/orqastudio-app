@@ -1,18 +1,22 @@
 ---
 id: TASK-401
-title: "Audit integrity checking system for coverage gaps"
-description: "Systematic audit of the integrity engine (artifact_graph.rs check_integrity) to identify what integrity checks are missing. Cross-reference the planning placement rule, idea lifecycle, epic reconciliation, and other RULE-004 integrity requirements against what the engine actually checks."
+title: Audit integrity checking system for coverage gaps
+description: Systematic audit of the integrity engine (artifact_graph.rs check_integrity) to identify what integrity checks are missing. Cross-reference the planning placement rule, idea lifecycle, epic reconciliation, and other RULE-004 integrity requirements against what the engine actually checks.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-400
 acceptance:
-  - "Full inventory of RULE-004 integrity checks vs what check_integrity() implements"
+  - Full inventory of RULE-004 integrity checks vs what check_integrity() implements
   - "Gap list: checks defined in rules but not implemented in the engine"
-  - "Priority assessment for each gap"
-  - "Tasks created for high-priority gaps"
+  - Priority assessment for each gap
+  - Tasks created for high-priority gaps
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

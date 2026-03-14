@@ -1,11 +1,11 @@
 ---
 id: TASK-415
-title: "Wire Rust EnforcementEngine to agent tool approval pipeline"
-description: "Connect the existing EnforcementEngine in the Rust backend to the agent execution pipeline so that enforcement entries are evaluated before tool execution in app context."
+title: Wire Rust EnforcementEngine to agent tool approval pipeline
+description: Connect the existing EnforcementEngine in the Rust backend to the agent execution pipeline so that enforcement entries are evaluated before tool execution in app context.
 status: todo
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-064
 depends-on:
   - TASK-414
@@ -15,19 +15,22 @@ skills:
   - SKILL-009
   - SKILL-012
 acceptance:
-  - "EnforcementEngine.evaluate_file() called before file write operations in agent loop"
-  - "EnforcementEngine.evaluate_bash() called before bash executions in agent loop"
-  - "Block verdicts prevent tool execution and return violation message to agent"
-  - "Warn verdicts allow execution but inject warning into agent context"
-  - "Inject verdicts load skill content and inject into agent context"
-  - "Evaluation adds <10ms latency per tool call"
+  - EnforcementEngine.evaluate_file() called before file write operations in agent loop
+  - EnforcementEngine.evaluate_bash() called before bash executions in agent loop
+  - Block verdicts prevent tool execution and return violation message to agent
+  - Warn verdicts allow execution but inject warning into agent context
+  - Inject verdicts load skill content and inject into agent context
+  - Evaluation adds <10ms latency per tool call
 relationships:
   - target: EPIC-064
     type: delivers
-    rationale: "Phase 2 — app-context enforcement parity with CLI"
+    rationale: Phase 2 — app-context enforcement parity with CLI
   - target: EPIC-050
     type: informed-by
-    rationale: "EPIC-050 built the Rust engine; this task wires it to execution"
+    rationale: EPIC-050 built the Rust engine; this task wires it to execution
+  - target: EPIC-064
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

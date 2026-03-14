@@ -3,8 +3,8 @@ id: TASK-083
 title: "Migrate nav and linking to SDK: ArtifactLink, ArtifactNav, FrontmatterHeader, AppLayout"
 description: Replace ArtifactLink prefix routing, ArtifactNav pendingArtifactId workaround, and AppLayout watch init with SDK-based patterns.
 status: done
-created: "2026-03-10"
-updated: "2026-03-10"
+created: 2026-03-10
+updated: 2026-03-10
 epic: EPIC-048
 depends-on:
   - TASK-076
@@ -18,6 +18,10 @@ acceptance:
   - FrontmatterHeader uses SDK resolve to determine if a value is a valid artifact link
   - AppLayout watcher integration replaced with SDK auto-refresh
   - ARTIFACT_ID_RE regex in FrontmatterHeader removed — SDK determines linkability
+relationships:
+  - target: EPIC-048
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

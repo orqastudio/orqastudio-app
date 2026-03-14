@@ -3,8 +3,8 @@ id: TASK-190
 title: Surface violations in governance UI
 description: Display enforcement violations in the app's governance view with history and filtering.
 status: todo
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-050
 depends-on:
   - TASK-189
@@ -22,6 +22,10 @@ acceptance:
   - Violations are filterable by rule, agent, and time
   - Each violation shows the rule, the blocked action, and the enforcement message
   - Violation count is visible in the governance nav
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

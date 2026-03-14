@@ -1,8 +1,4 @@
 ---
-
-
-
-
 id: EPIC-033
 title: Vision Alignment & Schema Simplification
 description: "Align all documentation, governance rules, agent definitions, and code with the evolved vision: .orqa/ as sole source of truth, provider-agnostic AI integration, three-layer architecture (Canon/Project/Plugin), and simplified artifact schema where plans are merged into research and tasks trace cleanly to epics to milestones."
@@ -31,16 +27,49 @@ scoring:
 relationships:
   - target: RES-014
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-014"
+    rationale: Auto-generated inverse of informed-by relationship from RES-014
   - target: RES-017
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-017"
+    rationale: Auto-generated inverse of informed-by relationship from RES-017
   - target: RES-011
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-011"
+    rationale: Auto-generated inverse of informed-by relationship from RES-011
   - target: RES-031
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-031"
+    rationale: Auto-generated inverse of informed-by relationship from RES-031
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-004
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-005
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-006
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-007
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-008
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-009
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-010
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-011
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-012
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-323
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Implementation Design
 

@@ -1,6 +1,4 @@
 ---
-
-
 id: EPIC-041
 title: Vision & Brand Identity
 description: Evolve OrqaStudio's vision from software development tool to domain-agnostic PILLAR-001 engine. Rename pillars, broaden personas, establish licensing, and align all documentation with canonical strategic vision.
@@ -28,10 +26,22 @@ scoring:
 relationships:
   - target: RES-015
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-015"
+    rationale: Auto-generated inverse of informed-by relationship from RES-015
   - target: RES-001
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-001"
+    rationale: Auto-generated inverse of informed-by relationship from RES-001
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-030
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-031
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-331
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Implementation Design
 

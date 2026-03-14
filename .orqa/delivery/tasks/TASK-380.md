@@ -1,14 +1,18 @@
 ---
 id: TASK-380
 title: "Behavioral enforcement plan: output validation rules"
-description: "Define enforcement mechanisms for behavioral rules enforced via post-hoc output validation"
+description: Define enforcement mechanisms for behavioral rules enforced via post-hoc output validation
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on: []
 acceptance:
-  - "Enforcement plan documented for all output-validation-enforced behavioral rules (RULE-015, RULE-017, RULE-019, RULE-022)"
+  - Enforcement plan documented for all output-validation-enforced behavioral rules (RULE-015, RULE-017, RULE-019, RULE-022)
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

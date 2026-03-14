@@ -6,13 +6,17 @@ description: |
   core skill. Rename the plugin's copy to reflect it's specifically about the
   Claude Code companion plugin setup.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on: []
 acceptance:
   - "rule-enforcement SKILL.md exists as real file in .orqa/process/skills/ with layer: core"
-  - "Plugin skill still exists and is distinct from core skill"
+  - Plugin skill still exists and is distinct from core skill
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

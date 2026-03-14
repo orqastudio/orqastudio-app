@@ -1,16 +1,20 @@
 ---
 id: TASK-108
-title: "Define design system"
-description: "Established the visual design system including typography, colour palette, spacing scale, and iconography conventions."
+title: Define design system
+description: Established the visual design system including typography, colour palette, spacing scale, and iconography conventions.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-028
 depends-on: []
 acceptance:
   - Design system is documented and self-consistent
   - All tokens map to Tailwind configuration
   - Conventions are enforceable by lint rules
+relationships:
+  - target: EPIC-028
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

@@ -4,8 +4,8 @@ title: Architecture Decisions
 description: Formal architecture decision records (AD-007 through AD-017) capturing every significant technical choice made before implementation.
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -35,6 +35,25 @@ scoring:
   dependency: 3
   effort: 1
   score: 34
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-099
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-100
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-101
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-102
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-316
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

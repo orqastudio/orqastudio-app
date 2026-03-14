@@ -3,8 +3,8 @@ id: TASK-010
 title: Add Skills Field to Task Schema
 description: "Add the skills field to the task frontmatter schema in both the tasks README and the artifact-framework documentation. This enables full traceability: plan → task → agent → skills → implementation."
 status: done
-created: "2026-03-08"
-updated: "2026-03-08"
+created: 2026-03-08
+updated: 2026-03-08
 epic: EPIC-033
 assignee: AGENT-007
 skills:
@@ -15,6 +15,10 @@ acceptance:
   - artifact-framework.md task schema updated with skills field
   - Field documented with purpose (traceability from plan to implementation)
   - Example task shown with assignee + skills combination
+relationships:
+  - target: EPIC-033
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

@@ -19,6 +19,10 @@ scoring:
   dependency: 2
   effort: 1
   score: 26
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
 ---
 ## Why P1
 

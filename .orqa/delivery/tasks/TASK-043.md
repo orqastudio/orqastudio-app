@@ -3,8 +3,8 @@ id: TASK-043
 title: Scanner frontmatter extraction
 description: Extends the artifact scanner to extract and expose the status field from YAML frontmatter so sidebar list items display correct titles and status indicators for all artifact types.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-043
 assignee: AGENT-002
 skills:
@@ -19,6 +19,10 @@ acceptance:
   - ideas
   - milestones show status dots in sidebar list
   - TypeScript NavTree types updated to match Rust struct
+relationships:
+  - target: EPIC-043
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Findings Addressed
 

@@ -1,13 +1,11 @@
 ---
-
-
 id: EPIC-064
-title: "Close enforcement bootstrapping gap"
-description: "The enforcement system is half-complete across all layers — rules declare enforcement entries but critical event types (stop) and actions (skill content injection) are not consumed by the plugin, and the Rust engine is disconnected from agent execution. This epic closes every gap so the system can enforce itself during its own development."
+title: Close enforcement bootstrapping gap
+description: The enforcement system is half-complete across all layers — rules declare enforcement entries but critical event types (stop) and actions (skill content injection) are not consumed by the plugin, and the Rust engine is disconnected from agent execution. This epic closes every gap so the system can enforce itself during its own development.
 status: draft
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-002
 horizon: active
@@ -23,36 +21,57 @@ docs-required:
   - RES-056
 docs-produced: []
 scoring:
-  dogfood-value: "5 — OrqaStudio cannot dogfood until the enforcement system enforces itself"
-  user-facing: "4 — enforcement quality directly affects agent output quality"
-  foundation: "5 — closes the circular dependency that undermines all governance"
-  complexity: "3 — most infrastructure exists, this is wiring and extending"
+  dogfood-value: 5 — OrqaStudio cannot dogfood until the enforcement system enforces itself
+  user-facing: 4 — enforcement quality directly affects agent output quality
+  foundation: 5 — closes the circular dependency that undermines all governance
+  complexity: 3 — most infrastructure exists, this is wiring and extending
   score: 4.5
 relationships:
   - target: EPIC-050
     type: informed-by
-    rationale: "EPIC-050 built the enforcement engine; this epic closes the gaps it left"
+    rationale: EPIC-050 built the enforcement engine; this epic closes the gaps it left
   - target: AD-048
     type: enforces
-    rationale: "AD-048 requires enforcement to accompany rule promotion — this epic implements that requirement across all layers"
+    rationale: AD-048 requires enforcement to accompany rule promotion — this epic implements that requirement across all layers
   - target: RES-056
     type: informed-by
-    rationale: "Research document analyzing the bootstrapping gap drives this epic's scope"
+    rationale: Research document analyzing the bootstrapping gap drives this epic's scope
   - target: IMPL-054
     type: informed-by
-    rationale: "Orchestrator bypassing enforcement system — symptom this epic prevents"
+    rationale: Orchestrator bypassing enforcement system — symptom this epic prevents
   - target: IMPL-055
     type: informed-by
-    rationale: "Missing graph integrity at write-time — symptom this epic prevents"
+    rationale: Missing graph integrity at write-time — symptom this epic prevents
   - target: EPIC-050
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-050"
+    rationale: Auto-generated inverse of informs relationship from EPIC-050
   - target: RES-057
     type: informed-by
-    rationale: "Integrity check alignment audit informed enforcement bootstrapping scope"
+    rationale: Integrity check alignment audit informed enforcement bootstrapping scope
   - target: EPIC-066
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from EPIC-066"
+    rationale: Auto-generated inverse of informed-by relationship from EPIC-066
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-411
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-412
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-413
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-414
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-415
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-416
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

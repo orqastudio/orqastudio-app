@@ -1,16 +1,20 @@
 ---
 id: TASK-113
-title: "Define component inventory"
-description: "Catalogued all reusable UI components with their states, variants, and composition patterns."
+title: Define component inventory
+description: Catalogued all reusable UI components with their states, variants, and composition patterns.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-028
 depends-on: []
 acceptance:
   - Component inventory covers all shared components
   - Each component has defined variants and states
   - Composition patterns are documented
+relationships:
+  - target: EPIC-028
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

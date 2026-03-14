@@ -1,16 +1,20 @@
 ---
 id: TASK-117
-title: "Design Rust module architecture"
-description: "Defined domain boundaries, service interfaces, and the repository pattern for the Rust backend."
+title: Design Rust module architecture
+description: Defined domain boundaries, service interfaces, and the repository pattern for the Rust backend.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-029
 depends-on: []
 acceptance:
   - Module boundaries are clear and enforce separation of concerns
   - Repository pattern is defined with trait interfaces
   - Dependency direction flows one way
+relationships:
+  - target: EPIC-029
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

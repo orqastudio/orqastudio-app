@@ -3,8 +3,8 @@ id: TASK-145
 title: Create rule for skill portability constraints
 description: Extract skill portability constraints from the skills-maintenance skill into a new dedicated rule with rule-level enforcement.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -13,6 +13,10 @@ acceptance:
   - Skill references the new rule
   - Rule covers canon vs project vs plugin layer requirements
   - Rule has FORBIDDEN section with concrete violations
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

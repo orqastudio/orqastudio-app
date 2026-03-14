@@ -1,16 +1,20 @@
 ---
 id: TASK-127
-title: "Implement remaining IPC commands across all domains"
-description: "Built the full IPC command surface covering settings, governance, tools, sidecar management, and system information."
+title: Implement remaining IPC commands across all domains
+description: Built the full IPC command surface covering settings, governance, tools, sidecar management, and system information.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-030
 depends-on: []
 acceptance:
   - All commands are registered and callable from the frontend
   - Each command returns typed results
   - Error handling uses OrqaError
+relationships:
+  - target: EPIC-030
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

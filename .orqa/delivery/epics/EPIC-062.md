@@ -1,12 +1,11 @@
 ---
-
 id: EPIC-062
-title: "Artifact Graph SDK extraction research"
-description: "Research extracting the artifactGraphSDK into a standalone npm package that plugins can import, enabling the plugin architecture's data layer."
+title: Artifact Graph SDK extraction research
+description: Research extracting the artifactGraphSDK into a standalone npm package that plugins can import, enabling the plugin architecture's data layer.
 status: draft
 priority: P2
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 deadline: null
 milestone: MS-001
 horizon: next
@@ -26,7 +25,10 @@ rule-overrides: []
 relationships:
   - target: RES-046
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-046"
+    rationale: Auto-generated inverse of informed-by relationship from RES-046
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
 ---
 ## Context
 

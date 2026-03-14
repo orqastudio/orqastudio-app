@@ -3,8 +3,8 @@ id: TASK-046
 title: Epic title naming convention cleanup
 description: Renames all epic titles that use process words instead of describing outcomes, and adds a naming convention to the artifact lifecycle rule to prevent recurrence.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-043
 assignee: AGENT-003
 skills:
@@ -19,6 +19,10 @@ acceptance:
   - Audit) in epic titles unless they describe the actual content
   - artifact-lifecycle.md updated with naming convention for epic titles
   - IMPL-014 lesson referenced
+relationships:
+  - target: EPIC-043
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Findings Addressed
 

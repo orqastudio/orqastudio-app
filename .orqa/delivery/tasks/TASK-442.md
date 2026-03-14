@@ -1,24 +1,27 @@
 ---
 id: TASK-442
-title: "Health trend widget redesign"
-description: "Make health trends more prominent in the dashboard grid with better sparkline rendering."
+title: Health trend widget redesign
+description: Make health trends more prominent in the dashboard grid with better sparkline rendering.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-068
 depends-on:
   - TASK-441
 assignee: null
 skills: []
 acceptance:
-  - "Health trends more prominent in the grid layout"
-  - "Better sparkline rendering"
-  - "Integrated with dashboard grid"
+  - Health trends more prominent in the grid layout
+  - Better sparkline rendering
+  - Integrated with dashboard grid
 relationships:
   - target: EPIC-068
     type: delivers
-    rationale: "Health trends need visual prominence to drive action"
+    rationale: Health trends need visual prominence to drive action
+  - target: EPIC-068
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

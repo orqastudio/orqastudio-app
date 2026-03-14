@@ -1,20 +1,24 @@
 ---
 id: TASK-392
-title: "Auto-fix engine for deterministic integrity issues"
-description: "Add auto-fix logic to the artifact graph that can programmatically fix missing bidirectional inverses by writing the inverse relationship to the target artifact's frontmatter. Returns a list of fixes applied."
+title: Auto-fix engine for deterministic integrity issues
+description: Add auto-fix logic to the artifact graph that can programmatically fix missing bidirectional inverses by writing the inverse relationship to the target artifact's frontmatter. Returns a list of fixes applied.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-390
 acceptance:
-  - "apply_auto_fixes Tauri command accepts Vec<IntegrityCheck> and applies deterministic fixes"
+  - apply_auto_fixes Tauri command accepts Vec<IntegrityCheck> and applies deterministic fixes
   - "Missing inverse fix: reads target file, adds inverse relationship to frontmatter, writes file"
-  - "Returns Vec<AppliedFix> describing what was changed"
-  - "Only auto_fixable checks are processed, others are skipped"
-  - "Graph is refreshed after fixes are applied"
-  - "make check passes"
+  - Returns Vec<AppliedFix> describing what was changed
+  - Only auto_fixable checks are processed, others are skipped
+  - Graph is refreshed after fixes are applied
+  - make check passes
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

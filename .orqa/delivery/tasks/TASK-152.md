@@ -3,8 +3,8 @@ id: TASK-152
 title: Create schema validation pre-commit hook
 description: Pre-commit hook that validates YAML frontmatter of staged .orqa/ markdown files against their directory's schema.json before allowing the commit.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -15,6 +15,10 @@ acceptance:
   - Out-of-order frontmatter fields flagged when schema defines propertyOrder
   - Files outside .orqa/ are not affected
   - Hook runs as part of the existing .githooks/pre-commit chain
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

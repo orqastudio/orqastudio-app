@@ -3,7 +3,7 @@ role: artifacts
 label: "Product"
 description: "Vision, governance, roadmap, and product decisions."
 icon: "compass"
-sort: 2
+sort: 1
 ---
 
 # Product

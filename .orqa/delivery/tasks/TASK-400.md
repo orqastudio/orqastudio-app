@@ -1,20 +1,24 @@
 ---
 id: TASK-400
 title: "Integrity check: delivered ideas must have all research-needed items resolved"
-description: "Add an integrity check that flags ideas transitioning to delivered/partially-delivered when their research-needed items haven't been answered in the body or tracked as tasks. Prevents research questions from falling through the cracks when ideas are absorbed organically without formal promotion."
+description: Add an integrity check that flags ideas transitioning to delivered/partially-delivered when their research-needed items haven't been answered in the body or tracked as tasks. Prevents research questions from falling through the cracks when ideas are absorbed organically without formal promotion.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-390
 acceptance:
-  - "Integrity check exists in artifact_graph.rs that inspects idea artifacts"
-  - "Check fires when an idea has status delivered/partially-delivered and research-needed items"
-  - "Each research-needed item must be either answered in the idea body or tracked as a task"
-  - "Unanswered items produce IntegrityCheck warnings with category ResearchGap"
-  - "IPC returns the warnings via run_integrity_scan"
-  - "IntegrityWidget surfaces the warnings in the dashboard"
+  - Integrity check exists in artifact_graph.rs that inspects idea artifacts
+  - Check fires when an idea has status delivered/partially-delivered and research-needed items
+  - Each research-needed item must be either answered in the idea body or tracked as a task
+  - Unanswered items produce IntegrityCheck warnings with category ResearchGap
+  - IPC returns the warnings via run_integrity_scan
+  - IntegrityWidget surfaces the warnings in the dashboard
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

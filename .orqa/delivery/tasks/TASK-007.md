@@ -3,8 +3,8 @@ id: TASK-007
 title: Add artifacts config to project.json and Rust types
 description: Define the artifacts config schema in project.json and add corresponding Rust types. This is the foundation — the scanner and frontend will read from this config.
 status: done
-created: "2026-03-08"
-updated: "2026-03-08"
+created: 2026-03-08
+updated: 2026-03-08
 epic: EPIC-033
 assignee: AGENT-002
 skills:
@@ -23,6 +23,10 @@ acceptance:
   - Group variant listed before Type in untagged enum (serde ordering)
   - cargo build passes
   - cargo clippy -- -D warnings passes
+relationships:
+  - target: EPIC-033
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

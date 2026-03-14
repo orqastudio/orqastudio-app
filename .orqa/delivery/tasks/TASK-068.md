@@ -3,8 +3,8 @@ id: TASK-068
 title: Promote IMPL-015 to enforcement artifacts
 description: Promote IMPL-015 to enforcement artifacts
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-047
 depends-on:
   - TASK-064
@@ -17,6 +17,10 @@ skills:
 acceptance:
   - IMPL-015 promoted-to field updated with references to updated rule and skill
   - Verification that all root causes identified in IMPL-015 are addressed
+relationships:
+  - target: EPIC-047
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

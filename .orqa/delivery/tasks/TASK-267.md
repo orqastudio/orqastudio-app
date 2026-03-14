@@ -1,17 +1,22 @@
 ---
 id: TASK-267
-title: "Document plugin architecture and SDK extraction plan"
-description: "Document the plugin system architecture and plan for component library / SDK extraction."
+title: Document plugin architecture and SDK extraction plan
+description: Document the plugin system architecture and plan for component library / SDK extraction.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
-depends-on: [TASK-266]
+depends-on:
+  - TASK-266
 assignee: AGENT-007
 acceptance:
   - "Document covers: current plugin capabilities, component library extraction plan, view registration API, theme tokens"
-  - "Built-in vs plugin boundary documented with decision framework"
-  - "Document lives in .orqa/documentation/architecture/"
+  - Built-in vs plugin boundary documented with decision framework
+  - Document lives in .orqa/documentation/architecture/
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

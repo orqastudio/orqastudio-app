@@ -4,8 +4,8 @@ title: "Switch orqa-studio from file: to published package versions"
 description: "Update the main app to consume published @orqastudio packages from GitHub Packages instead of file: references to sibling directories."
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-066
 depends-on:
   - TASK-427
@@ -15,16 +15,19 @@ skills:
   - SKILL-034
 acceptance:
   - "ui/package.json uses versioned @orqastudio/* dependencies (no file: references)"
-  - "ui/.npmrc configures @orqastudio scope to GitHub Packages registry"
-  - "npm install succeeds from registry"
-  - "All 218 existing tests pass"
-  - "svelte-check passes (same error count as before)"
-  - "App builds and runs correctly"
-  - "make verify-integrity works with published integrity-validator"
+  - ui/.npmrc configures @orqastudio scope to GitHub Packages registry
+  - npm install succeeds from registry
+  - All 218 existing tests pass
+  - svelte-check passes (same error count as before)
+  - App builds and runs correctly
+  - make verify-integrity works with published integrity-validator
 relationships:
   - target: EPIC-066
     type: delivers
-    rationale: "Main app fully consuming published packages — the loop is closed"
+    rationale: Main app fully consuming published packages — the loop is closed
+  - target: EPIC-066
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

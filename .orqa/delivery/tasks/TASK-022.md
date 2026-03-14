@@ -3,8 +3,8 @@ id: TASK-022
 title: Session resume and code research tool
 description: Enables conversation continuity across app restarts via session ID persistence, and implements a native code research tool that combines semantic search with LLM analysis.
 status: done
-created: "2026-03-05"
-updated: "2026-03-09"
+created: 2026-03-05
+updated: 2026-03-09
 epic: EPIC-037
 assignee: AGENT-002
 skills:
@@ -14,6 +14,10 @@ acceptance:
   - Sessions resume across app restarts
   - code_research tool implemented natively
   - Process violation hook fixes applied
+relationships:
+  - target: EPIC-037
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

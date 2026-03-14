@@ -1,13 +1,17 @@
 ---
 id: TASK-238
-title: "Remove scope reference from orchestrator prompt"
-description: "CLAUDE.md references task scope field removed from schema. Update."
+title: Remove scope reference from orchestrator prompt
+description: CLAUDE.md references task scope field removed from schema. Update.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-054
 acceptance:
-  - "CLAUDE.md task field list matches schema.json"
+  - CLAUDE.md task field list matches schema.json
+relationships:
+  - target: EPIC-054
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

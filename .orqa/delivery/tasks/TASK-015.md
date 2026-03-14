@@ -3,8 +3,8 @@ id: TASK-015
 title: Model auto-download and startup loading
 description: Automatically downloads the embedding model from Hugging Face on first use and pre-loads it at startup, with download progress visible in the status bar.
 status: done
-created: "2026-03-04"
-updated: "2026-03-09"
+created: 2026-03-04
+updated: 2026-03-09
 epic: EPIC-034
 assignee: AGENT-002
 skills:
@@ -14,6 +14,10 @@ acceptance:
   - Model auto-downloads from Hugging Face on first use
   - Pre-download at app startup with progress tracking
   - Status bar shows indexing progress
+relationships:
+  - target: EPIC-034
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

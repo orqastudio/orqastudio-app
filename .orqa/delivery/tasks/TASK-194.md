@@ -6,13 +6,17 @@ description: |
   enforcement for a pattern is delegated to an external linter tool, not
   handled by the OrqaStudio rule engine directly.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on: []
 acceptance:
-  - "lint event type added to enforcement schema and validates"
+  - lint event type added to enforcement schema and validates
   - "Enforcement entries with event: lint pass schema validation"
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

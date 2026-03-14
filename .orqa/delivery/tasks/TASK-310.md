@@ -1,29 +1,30 @@
 ---
-
-
 id: TASK-310
 title: "Plugin: maintain memory entries for unimplemented ADs"
-description: "Use Claude Code's memory system to surface unimplemented architecture decisions. Session-start hook creates/updates concise memory entries for accepted ADs lacking enforced-by/practiced-by edges. Hook also cleans up memory entries when ADs mature. Leverages provider-native memory for compaction-resistant context."
+description: Use Claude Code's memory system to surface unimplemented architecture decisions. Session-start hook creates/updates concise memory entries for accepted ADs lacking enforced-by/practiced-by edges. Hook also cleans up memory entries when ADs mature. Leverages provider-native memory for compaction-resistant context.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 acceptance:
-  - "Session-start hook scans .orqa/process/decisions/ for accepted ADs"
-  - "ADs with enforced-by or practiced-by relationships are excluded"
-  - "Memory file created per unimplemented AD with concise reference + summary"
-  - "MEMORY.md updated with section listing unimplemented AD memory files"
-  - "Memory files removed when ADs gain enforced-by or practiced-by edges"
-  - "Existing session-start functionality unchanged"
-  - "Stdout AD injection block replaced with memory-based approach"
+  - Session-start hook scans .orqa/process/decisions/ for accepted ADs
+  - ADs with enforced-by or practiced-by relationships are excluded
+  - Memory file created per unimplemented AD with concise reference + summary
+  - MEMORY.md updated with section listing unimplemented AD memory files
+  - Memory files removed when ADs gain enforced-by or practiced-by edges
+  - Existing session-start functionality unchanged
+  - Stdout AD injection block replaced with memory-based approach
 relationships:
   - target: IMPL-040
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-040"
+    rationale: Auto-generated inverse of enforced-by relationship from IMPL-040
   - target: IMPL-040
     type: grounded
-    rationale: "Auto-generated inverse of grounded relationship from IMPL-040"
+    rationale: Auto-generated inverse of grounded relationship from IMPL-040
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

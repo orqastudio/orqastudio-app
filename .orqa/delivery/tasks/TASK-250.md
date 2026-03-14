@@ -1,10 +1,10 @@
 ---
 id: TASK-250
-title: "Unified logging — OrqaDev dashboard + production error surfacing"
+title: Unified logging — OrqaDev dashboard + production error surfacing
 description: "Two-tier logging: (1) in dev mode, stream info-level logs from backend, sidecar, frontend, and file watchers to the existing OrqaDev web dashboard (port 3001); (2) in all modes, surface errors in the app UI."
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-055
 acceptance:
   - "DEV MODE: Rust tracing output (info level and above) streamed to OrqaDev dashboard via SSE"
@@ -17,7 +17,11 @@ acceptance:
   - "ALL MODES: Sidecar errors forwarded and displayed in the app UI"
   - "ALL MODES: Frontend uncaught errors (onerror, unhandledrejection) displayed in the app UI"
   - "ALL MODES: File watcher errors displayed in the app UI"
-  - "Log entries have source tags and severity levels"
+  - Log entries have source tags and severity levels
+relationships:
+  - target: EPIC-055
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

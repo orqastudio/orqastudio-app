@@ -3,8 +3,8 @@ id: TASK-016
 title: Tool call display polish
 description: "Replaces raw tool call JSON with user-friendly presentation: human-readable names, Lucide icons, parameter summaries, and grouping of consecutive same-tool calls."
 status: done
-created: "2026-03-04"
-updated: "2026-03-09"
+created: 2026-03-04
+updated: 2026-03-09
 epic: EPIC-035
 assignee: AGENT-002
 skills:
@@ -15,6 +15,10 @@ acceptance:
   - Each tool type has a Lucide icon
   - Consecutive same-tool calls grouped into summary
   - Collapsible detail view for tool input/output
+relationships:
+  - target: EPIC-035
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

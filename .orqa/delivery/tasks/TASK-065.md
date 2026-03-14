@@ -3,8 +3,8 @@ id: TASK-065
 title: Update pre-commit-reminder hook with commit prompt
 description: Update pre-commit-reminder hook with commit prompt
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-047
 depends-on: []
 assignee: AGENT-003
@@ -15,6 +15,10 @@ acceptance:
   - If uncommitted changes exist
   - prompts to commit before ending session
   - Suggests logical commit groupings based on changed file paths
+relationships:
+  - target: EPIC-047
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

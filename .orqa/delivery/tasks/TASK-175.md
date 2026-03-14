@@ -3,8 +3,8 @@ id: TASK-175
 title: Implement capability resolution in companion plugin SubagentStart hook
 description: The companion plugin resolves agent capabilities to Claude Code tool names when subagents spawn.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-051
 depends-on:
   - TASK-173
@@ -18,6 +18,10 @@ acceptance:
   - Hook resolves capabilities to Claude Code CLI tool names
   - Resolved tools are injected as additionalContext for the subagent
   - Agents without capabilities field fall back to tools field
+relationships:
+  - target: EPIC-051
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

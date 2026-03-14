@@ -3,8 +3,8 @@ id: TASK-020
 title: Enforcement Engine
 description: Implements the core governance enforcement pipeline including the scanner, tool approval workflow, model selection, enforcement dashboard, and inline process violation display.
 status: done
-created: "2026-03-05"
-updated: "2026-03-09"
+created: 2026-03-05
+updated: 2026-03-09
 epic: EPIC-037
 assignee: AGENT-002
 skills:
@@ -17,6 +17,10 @@ acceptance:
   - Model selection in settings
   - Scanner dashboard displays results
   - Process violations detected and displayed
+relationships:
+  - target: EPIC-037
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

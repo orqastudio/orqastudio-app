@@ -1,17 +1,24 @@
 ---
 id: TASK-311
-title: "Reconcile EPIC-001"
+title: Reconcile EPIC-001
 description: "Standing reconciliation task — verify epic body accuracy: task table, pillars, docs-produced, scope."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-001
-depends-on: ["TASK-001", "TASK-002", "TASK-003"]
+depends-on:
+  - TASK-001
+  - TASK-002
+  - TASK-003
 acceptance:
-  - "Epic task table lists ALL tasks created during the epic"
-  - "Epic pillars array reflects all pillars served"
-  - "Epic docs-produced list matches actual documentation created/updated"
-  - "Epic scope section accurately reflects what was in/out of scope"
+  - Epic task table lists ALL tasks created during the epic
+  - Epic pillars array reflects all pillars served
+  - Epic docs-produced list matches actual documentation created/updated
+  - Epic scope section accurately reflects what was in/out of scope
+relationships:
+  - target: EPIC-001
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

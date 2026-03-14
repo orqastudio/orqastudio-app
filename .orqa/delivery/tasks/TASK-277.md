@@ -1,24 +1,29 @@
 ---
 id: TASK-277
-title: "Backfill lessons with maturity and relationships"
-description: "Use backfill tooling to add maturity (observation/understanding) and grounded relationships to all 16 lessons."
+title: Backfill lessons with maturity and relationships
+description: Use backfill tooling to add maturity (observation/understanding) and grounded relationships to all 16 lessons.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-058
-depends-on: [TASK-276]
+depends-on:
+  - TASK-276
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "All 16 lessons have a maturity field (observation or understanding)"
-  - "All 16 lessons have a relationships array"
-  - "Lessons with maturity=understanding have at least one grounded relationship"
-  - "Lessons with maturity=observation may have empty relationships (or informs)"
-  - "Human reviewed and approved all proposals"
+  - All 16 lessons have a maturity field (observation or understanding)
+  - All 16 lessons have a relationships array
+  - Lessons with maturity=understanding have at least one grounded relationship
+  - Lessons with maturity=observation may have empty relationships (or informs)
+  - Human reviewed and approved all proposals
 rule-overrides:
   - rule: RULE-032
-    reason: "Adding new optional fields to lesson frontmatter during migration"
+    reason: Adding new optional fields to lesson frontmatter during migration
+relationships:
+  - target: EPIC-058
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

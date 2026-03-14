@@ -1,6 +1,4 @@
 ---
-
-
 id: EPIC-050
 title: Rule Enforcement Engine with Claude Code Companion Plugin
 description: |
@@ -9,8 +7,8 @@ description: |
   enforcement logic into the OrqaStudio app for dogfooding parity.
 status: in-progress
 priority: P1
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 deadline: null
 milestone: MS-002
 horizon: active
@@ -24,16 +22,64 @@ research-refs:
 relationships:
   - target: EPIC-064
     type: informed-by
-    rationale: "EPIC-064 closes the enforcement gaps this epic left — stop events, skill injection, app pipeline"
+    rationale: EPIC-064 closes the enforcement gaps this epic left — stop events, skill injection, app pipeline
   - target: RES-056
     type: informed-by
-    rationale: "Research analyzing what this epic built vs. what remains incomplete"
+    rationale: Research analyzing what this epic built vs. what remains incomplete
   - target: EPIC-064
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-064"
+    rationale: Auto-generated inverse of informs relationship from EPIC-064
   - target: TASK-415
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from TASK-415"
+    rationale: Auto-generated inverse of informs relationship from TASK-415
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-177
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-178
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-179
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-180
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-181
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-182
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-183
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-184
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-185
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-186
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-187
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-188
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-189
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-190
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-340
+    type: contains
+    rationale: Epic contains this task
 docs-required: []
 docs-produced: []
 scoring:

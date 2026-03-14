@@ -19,6 +19,16 @@ scoring:
   dependency: 1
   effort: 2
   score: 4.5
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-161
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-162
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P3
 

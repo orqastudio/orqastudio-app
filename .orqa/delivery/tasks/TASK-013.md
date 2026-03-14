@@ -3,8 +3,8 @@ id: TASK-013
 title: Code indexer and regex search
 description: Implements the code indexing pipeline using DuckDB to store file chunks, and exposes a regex search command for matching patterns across all indexed content.
 status: done
-created: "2026-03-04"
-updated: "2026-03-09"
+created: 2026-03-04
+updated: 2026-03-09
 epic: EPIC-034
 assignee: AGENT-002
 skills:
@@ -17,6 +17,10 @@ acceptance:
   - and metadata
   - Regex search finds patterns across indexed files
   - IPC command registered and callable from frontend
+relationships:
+  - target: EPIC-034
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

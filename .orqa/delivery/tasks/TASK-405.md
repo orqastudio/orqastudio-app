@@ -1,11 +1,11 @@
 ---
 id: TASK-405
-title: "Improve pipeline visualization responsiveness and actionability"
-description: "Make knowledge pipeline responsive to fill card width. Add reasoning and suggested actions to stuck/bottleneck labels. Audit pipeline stage health calculations for accuracy."
+title: Improve pipeline visualization responsiveness and actionability
+description: Make knowledge pipeline responsive to fill card width. Add reasoning and suggested actions to stuck/bottleneck labels. Audit pipeline stage health calculations for accuracy.
 status: done
 priority: P1
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-063
 depends-on: []
 assignee: null
@@ -13,15 +13,18 @@ skills:
   - SKILL-030
   - SKILL-042
 acceptance:
-  - "Pipeline visualization fills surrounding card width — stages expand responsively"
-  - "Stuck and bottleneck labels include reasoning (e.g., '5 of 12 lessons have no downstream research link')"
-  - "Each stuck/bottleneck stage shows suggested actions to resolve"
-  - "Pipeline stage health calculations audited and documented — thresholds adjusted if needed"
-  - "Relationship types used for flow calculation match actual project usage"
+  - Pipeline visualization fills surrounding card width — stages expand responsively
+  - Stuck and bottleneck labels include reasoning (e.g., '5 of 12 lessons have no downstream research link')
+  - Each stuck/bottleneck stage shows suggested actions to resolve
+  - Pipeline stage health calculations audited and documented — thresholds adjusted if needed
+  - Relationship types used for flow calculation match actual project usage
 relationships:
   - target: EPIC-063
     type: delivers
-    rationale: "Theme C — pipeline visualization improvements from UAT"
+    rationale: Theme C — pipeline visualization improvements from UAT
+  - target: EPIC-063
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

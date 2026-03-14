@@ -1,26 +1,31 @@
 ---
 id: TASK-287
-title: "Move governance artifacts to process/"
-description: "Move lessons, decisions, and rules from .orqa/process/ to .orqa/process/. Remove governance/hooks/ (plugin implementation, not artifacts). Update project.json, pre-commit hook, all path references, .claude/ symlinks."
+title: Move governance artifacts to process/
+description: Move lessons, decisions, and rules from .orqa/process/ to .orqa/process/. Remove governance/hooks/ (plugin implementation, not artifacts). Update project.json, pre-commit hook, all path references, .claude/ symlinks.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
-depends-on: [TASK-286]
+depends-on:
+  - TASK-286
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - ".orqa/process/lessons/ exists with all lesson files"
-  - ".orqa/process/decisions/ exists with all decision files"
-  - ".orqa/process/rules/ exists with all rule files"
-  - ".orqa/process/ directory no longer exists"
-  - "project.json paths updated to process/"
-  - ".claude/rules symlink points to .orqa/process/rules/"
-  - "Pre-commit hook references updated paths"
+  - .orqa/process/lessons/ exists with all lesson files
+  - .orqa/process/decisions/ exists with all decision files
+  - .orqa/process/rules/ exists with all rule files
+  - .orqa/process/ directory no longer exists
+  - project.json paths updated to process/
+  - .claude/rules symlink points to .orqa/process/rules/
+  - Pre-commit hook references updated paths
 rule-overrides:
   - rule: RULE-003
-    reason: "Artifact paths are being reorganized — intermediate state will have mismatches"
+    reason: Artifact paths are being reorganized — intermediate state will have mismatches
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

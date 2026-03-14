@@ -1,14 +1,18 @@
 ---
 id: TASK-237
-title: "Update orchestration.md and workflow.md"
-description: "Both describe pre-graph patterns. Update for graph-based injection architecture."
+title: Update orchestration.md and workflow.md
+description: Both describe pre-graph patterns. Update for graph-based injection architecture.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-054
 acceptance:
-  - "Docs describe current graph-based model"
-  - "No pre-graph pattern references remain"
+  - Docs describe current graph-based model
+  - No pre-graph pattern references remain
+relationships:
+  - target: EPIC-054
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

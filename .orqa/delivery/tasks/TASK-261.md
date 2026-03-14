@@ -1,17 +1,22 @@
 ---
 id: TASK-261
-title: "Set up Rust coverage tooling"
-description: "Configure cargo-tarpaulin or llvm-cov for Rust coverage measurement."
+title: Set up Rust coverage tooling
+description: Configure cargo-tarpaulin or llvm-cov for Rust coverage measurement.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
-depends-on: [TASK-260]
+depends-on:
+  - TASK-260
 assignee: AGENT-002
 acceptance:
-  - "make coverage-rust target exists and produces a coverage report"
-  - "Coverage percentage is visible in terminal output"
-  - "commands.md updated with new target"
+  - make coverage-rust target exists and produces a coverage report
+  - Coverage percentage is visible in terminal output
+  - commands.md updated with new target
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

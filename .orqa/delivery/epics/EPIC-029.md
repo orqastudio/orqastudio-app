@@ -4,8 +4,8 @@ title: Technical Design
 description: "The complete technical blueprint: database schema, IPC commands, Rust modules, streaming pipeline, tool definitions, and error taxonomy."
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -28,6 +28,37 @@ scoring:
   dependency: 3
   effort: 1
   score: 28
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-115
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-116
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-117
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-118
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-119
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-120
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-121
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-122
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-319
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

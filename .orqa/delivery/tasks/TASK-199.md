@@ -5,16 +5,20 @@ description: |
   Extend the plugin rule engine to handle inject actions by reading SKILL.md
   files and returning their content as systemMessage.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-193
 acceptance:
-  - "Plugin rule-engine.mjs reads SKILL.md files for inject actions"
-  - "Skill content returned as systemMessage"
-  - "Duplicate skill injection suppressed within same session"
-  - "Missing skill files silently skipped"
+  - Plugin rule-engine.mjs reads SKILL.md files for inject actions
+  - Skill content returned as systemMessage
+  - Duplicate skill injection suppressed within same session
+  - Missing skill files silently skipped
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

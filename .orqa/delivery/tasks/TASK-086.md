@@ -3,8 +3,8 @@ id: TASK-086
 title: Audit all rules for enforcement accuracy
 description: Verify every rule in .orqa/process/rules/ has accurate enforcement mechanisms, valid cross-references, current code patterns in FORBIDDEN sections, and no stale content.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -12,6 +12,10 @@ acceptance:
   - No rules describe enforcement of patterns that no longer exist
   - All FORBIDDEN code examples reflect actual anti-patterns
   - Rule statuses accurately reflect enforcement state
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

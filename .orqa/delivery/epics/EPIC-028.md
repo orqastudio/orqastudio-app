@@ -4,8 +4,8 @@ title: UX Design
 description: "The complete UX specification: design system, wireframes, component inventory, interaction patterns, and responsive behaviour rules."
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -24,6 +24,34 @@ scoring:
   dependency: 3
   effort: 1
   score: 28
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-108
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-109
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-110
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-111
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-112
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-113
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-114
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-318
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

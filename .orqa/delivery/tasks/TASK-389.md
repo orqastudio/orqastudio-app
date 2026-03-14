@@ -1,20 +1,24 @@
 ---
 id: TASK-389
-title: "Add typed traversal methods to artifactGraphSDK"
-description: "Add traverse(), pipelineChain(), missingInverses(), and relationship-filtered query methods to the artifact graph SDK so components can follow typed edges without parsing frontmatter."
+title: Add typed traversal methods to artifactGraphSDK
+description: Add traverse(), pipelineChain(), missingInverses(), and relationship-filtered query methods to the artifact graph SDK so components can follow typed edges without parsing frontmatter.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-388
 acceptance:
-  - "sdk.traverse(id, 'enforced-by') returns ArtifactNode[] following edges of that relationship type"
-  - "sdk.pipelineChain(id) returns the full upstream/downstream chain following pipeline relationship types"
-  - "sdk.missingInverses() returns ArtifactRef[] where A→B exists but B→A doesn't for relationship edges"
-  - "sdk.relationshipsFrom(id) returns typed relationship edges (relationship_type !== null) as enriched objects with resolved target nodes"
-  - "All methods are synchronous (operate on cached graph data)"
-  - "make check passes"
+  - sdk.traverse(id, 'enforced-by') returns ArtifactNode[] following edges of that relationship type
+  - sdk.pipelineChain(id) returns the full upstream/downstream chain following pipeline relationship types
+  - sdk.missingInverses() returns ArtifactRef[] where A→B exists but B→A doesn't for relationship edges
+  - sdk.relationshipsFrom(id) returns typed relationship edges (relationship_type !== null) as enriched objects with resolved target nodes
+  - All methods are synchronous (operate on cached graph data)
+  - make check passes
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

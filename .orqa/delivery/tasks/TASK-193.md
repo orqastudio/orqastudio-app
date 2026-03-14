@@ -6,15 +6,19 @@ description: |
   rule-engine.mjs, and the Rust enforcement engine. The inject action loads
   skill content and returns it as systemMessage instead of blocking or warning.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on: []
 acceptance:
-  - "inject action type added to enforcement schema and validates"
-  - "skills field added to enforcement entry schema"
-  - "Plugin rule-engine.mjs handles inject action"
-  - "Rust enforcement engine handles Inject variant"
+  - inject action type added to enforcement schema and validates
+  - skills field added to enforcement entry schema
+  - Plugin rule-engine.mjs handles inject action
+  - Rust enforcement engine handles Inject variant
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

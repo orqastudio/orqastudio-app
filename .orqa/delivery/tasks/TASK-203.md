@@ -6,15 +6,19 @@ description: |
   to instead reference the linter configs that enforce them. Remove regex
   enforcement for patterns that linters already cover.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-202
 acceptance:
-  - "No enforcement entries regex-match patterns already caught by linters"
-  - "bash enforcement entries for git safety remain unchanged"
-  - "make check still catches all documented violations"
+  - No enforcement entries regex-match patterns already caught by linters
+  - bash enforcement entries for git safety remain unchanged
+  - make check still catches all documented violations
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

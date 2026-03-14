@@ -4,8 +4,8 @@ title: Dogfood Readiness Verification
 description: First round of user acceptance testing. The user exercises the app end-to-end, testing conversation flow, artifact browsing, governance visibility, settings, and streaming behaviour. Findings are captured as tasks within this epic.
 status: done
 priority: P1
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 milestone: MS-001
 horizon: null
 pillars:
@@ -20,6 +20,43 @@ scoring:
   effort: 3
   risk: 2
   score: 20
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-037
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-038
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-039
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-040
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-041
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-042
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-043
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-044
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-045
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-046
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-333
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Implementation Design
 

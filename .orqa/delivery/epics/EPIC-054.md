@@ -1,17 +1,14 @@
 ---
-
-
-
 id: EPIC-054
-title: "Artifact Graph Alignment Audit"
+title: Artifact Graph Alignment Audit
 description: |
   Comprehensive audit and cleanup of all .orqa/ artifacts to align with graph-based
   knowledge injection principles, correct layer classifications, fix data integrity
   issues, and eliminate sources of context confusion.
 status: done
 priority: P1
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 deadline: null
 milestone: MS-002
 horizon: null
@@ -35,13 +32,76 @@ scoring:
 relationships:
   - target: RES-042
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-042"
+    rationale: Auto-generated inverse of informed-by relationship from RES-042
   - target: RES-041
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-041"
+    rationale: Auto-generated inverse of informed-by relationship from RES-041
   - target: RES-040
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-040"
+    rationale: Auto-generated inverse of informed-by relationship from RES-040
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-224
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-225
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-226
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-227
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-228
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-229
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-230
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-231
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-232
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-233
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-234
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-235
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-236
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-237
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-238
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-239
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-240
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-241
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-242
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-344
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Governing Principles
 

@@ -8,8 +8,8 @@ description: |
   protocol to use the abstraction.
 status: done
 priority: P1
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 deadline: null
 milestone: MS-002
 horizon: null
@@ -27,11 +27,35 @@ scoring:
   user-facing: 3
   foundation: 5
   complexity: 2
-  score: 4.0
+  score: 4
 relationships:
   - target: IDEA-057
     type: informed-by
-    rationale: "Promoted from IDEA-057 — provider-agnostic tool abstraction"
+    rationale: Promoted from IDEA-057 — provider-agnostic tool abstraction
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-171
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-172
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-173
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-174
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-175
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-176
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-341
+    type: contains
+    rationale: Epic contains this task
 ---
 
 ## Context

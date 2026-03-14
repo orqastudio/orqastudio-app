@@ -3,8 +3,8 @@ id: TASK-220
 title: Verify orchestrator prompt works at ~200 lines (dogfood session)
 description: Run a full dogfood session with the simplified graph-based orchestrator prompt and verify agents can navigate the graph to find the context they need.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-053
 depends-on:
   - TASK-211
@@ -17,6 +17,10 @@ acceptance:
   - Agents find rules, skills, and docs via graph navigation
   - No critical context is missing
   - Any gaps identified are documented for iteration
+relationships:
+  - target: EPIC-053
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

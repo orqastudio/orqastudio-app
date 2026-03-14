@@ -3,8 +3,8 @@ id: TASK-001
 title: Emit SystemPromptSent event from stream_commands.rs
 description: In stream_send_message(), emit a SystemPromptSent event via on_event channel after resolve_system_prompt() and before sidecar.send().
 status: done
-created: "2026-03-07"
-updated: "2026-03-07"
+created: 2026-03-07
+updated: 2026-03-07
 epic: EPIC-001
 assignee: AGENT-002
 acceptance:
@@ -14,6 +14,10 @@ acceptance:
   - No event emitted when system prompt is None (no project loaded)
   - Emission failure does not prevent message from being sent
   - No unwrap() or expect() in the new code
+relationships:
+  - target: EPIC-001
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

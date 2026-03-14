@@ -1,13 +1,11 @@
 ---
-
-
 id: EPIC-037
 title: Dogfood Readiness
 description: Multi-phase sprint to make OrqaStudio ready for self-hosted development (dogfooding). Covers governance alignment, frontend audit fixes, documentation alignment, enforcement engine, tool approval, lesson promotion, and SDK session resume.
 status: done
 priority: P1
-created: "2026-03-05"
-updated: "2026-03-09"
+created: 2026-03-05
+updated: 2026-03-09
 milestone: MS-001
 horizon: null
 pillars:
@@ -29,10 +27,28 @@ scoring:
 relationships:
   - target: RES-018
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-018"
+    rationale: Auto-generated inverse of informed-by relationship from RES-018
   - target: RES-019
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-019"
+    rationale: Auto-generated inverse of informed-by relationship from RES-019
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-019
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-020
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-021
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-022
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-327
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Implementation Design
 

@@ -3,14 +3,18 @@ id: TASK-141
 title: Document orphaned skills as forward-looking in their SKILL.md files
 description: Add a forward-looking status note to each of five skills that have no current loading mechanism because their parent features are not yet built.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
   - Each of the 5 skills has a clear note that it is forward-looking
   - Each note references the parent epic/idea it will be activated by
   - No changes to the skill content itself — just status clarity
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

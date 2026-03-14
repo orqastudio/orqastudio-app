@@ -1,17 +1,22 @@
 ---
 id: TASK-259
-title: "Update rust-modules.md module tree"
-description: "Bring the Rust module tree documentation in line with current codebase structure."
+title: Update rust-modules.md module tree
+description: Bring the Rust module tree documentation in line with current codebase structure.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
-depends-on: [TASK-258]
+depends-on:
+  - TASK-258
 assignee: AGENT-007
 acceptance:
-  - "Module tree matches `ls -R backend/src-tauri/src/` output"
-  - "skill_injector.rs listed in domain module section"
-  - "All paths use backend/src-tauri/ prefix"
+  - Module tree matches `ls -R backend/src-tauri/src/` output
+  - skill_injector.rs listed in domain module section
+  - All paths use backend/src-tauri/ prefix
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

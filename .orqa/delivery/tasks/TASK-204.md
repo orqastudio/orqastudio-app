@@ -5,15 +5,19 @@ description: |
   Add UserPromptSubmit hook handling to the plugin that classifies user intent
   from the prompt and injects relevant skills before work begins.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-199
 acceptance:
-  - "UserPromptSubmit hook classifies user intent and injects relevant skills"
-  - "Skills returned as systemMessage"
-  - "Skills not re-injected if already loaded in session"
+  - UserPromptSubmit hook classifies user intent and injects relevant skills
+  - Skills returned as systemMessage
+  - Skills not re-injected if already loaded in session
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

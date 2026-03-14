@@ -1,22 +1,25 @@
 ---
 id: TASK-443
-title: "Knowledge pipeline flow model rethink"
-description: "Revise the pipeline widget algorithm to accurately represent knowledge flow through the artifact graph."
+title: Knowledge pipeline flow model rethink
+description: Revise the pipeline widget algorithm to accurately represent knowledge flow through the artifact graph.
 status: done
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-068
 depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Pipeline widget uses a revised flow model that accurately represents how knowledge moves through the artifact graph"
-  - "Not always showing stuck/bottleneck"
+  - Pipeline widget uses a revised flow model that accurately represents how knowledge moves through the artifact graph
+  - Not always showing stuck/bottleneck
 relationships:
   - target: EPIC-068
     type: delivers
-    rationale: "Accurate pipeline flow model prevents false bottleneck signals"
+    rationale: Accurate pipeline flow model prevents false bottleneck signals
+  - target: EPIC-068
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

@@ -1,20 +1,24 @@
 ---
 id: TASK-254
-title: "Move backend to backend/src-tauri/"
-description: "Relocate src-tauri/ to backend/src-tauri/ and update Makefile, tauri.conf.json, and .gitignore."
+title: Move backend to backend/src-tauri/
+description: Relocate src-tauri/ to backend/src-tauri/ and update Makefile, tauri.conf.json, and .gitignore.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-056
 depends-on:
   - TASK-253
 acceptance:
-  - "src-tauri/ moved to backend/src-tauri/"
-  - "Makefile CARGO_MANIFEST updated"
-  - "tauri.conf.json frontendDist path updated"
-  - ".gitignore target path updated"
-  - "make lint-backend passes"
-  - "make test-rust passes"
+  - src-tauri/ moved to backend/src-tauri/
+  - Makefile CARGO_MANIFEST updated
+  - tauri.conf.json frontendDist path updated
+  - .gitignore target path updated
+  - make lint-backend passes
+  - make test-rust passes
+relationships:
+  - target: EPIC-056
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

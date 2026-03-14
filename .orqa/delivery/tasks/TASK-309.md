@@ -1,18 +1,23 @@
 ---
 id: TASK-309
-title: "Triage EPIC-059 observations (IMPL-018 through IMPL-025)"
+title: Triage EPIC-059 observations (IMPL-018 through IMPL-025)
 description: "Review all 8 observations logged during EPIC-059 implementation. For each: implement now if needed for epic completion, promote to rule/skill if at understanding maturity, or defer to a new IDEA if out of scope. No observation may remain untriaged when the epic closes."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
-depends-on: [TASK-308]
+depends-on:
+  - TASK-308
 acceptance:
-  - "Every IMPL-018 through IMPL-025 has a documented triage outcome"
-  - "Implement-now items have tasks created within EPIC-059"
-  - "Promote items have rule/skill/AD updates completed or tasks created"
-  - "Defer items have IDEA-NNN entries created with relationship back to the observation"
+  - Every IMPL-018 through IMPL-025 has a documented triage outcome
+  - Implement-now items have tasks created within EPIC-059
+  - Promote items have rule/skill/AD updates completed or tasks created
+  - Defer items have IDEA-NNN entries created with relationship back to the observation
   - "No observation left at maturity: observation without a forward path"
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

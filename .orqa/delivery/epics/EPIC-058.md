@@ -1,20 +1,23 @@
 ---
-
 id: EPIC-058
-title: "Knowledge Maturity Pipeline — Full Migration"
+title: Knowledge Maturity Pipeline — Full Migration
 description: "Migrate all governance artifacts to the AD-042 knowledge maturity pipeline: rule-overrides mechanism, relationship backfill on ~150 artifacts, schema enforcement, deprecated field removal. Done in one pass to avoid mid-migration drift."
 status: done
 priority: P1
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 deadline: null
 milestone: MS-001
 horizon: null
-pillars: [PILLAR-001, PILLAR-002]
+pillars:
+  - PILLAR-001
+  - PILLAR-002
 depends-on: []
 blocks: []
-research-refs: [RES-048]
-docs-required: [AD-042]
+research-refs:
+  - RES-048
+docs-required:
+  - AD-042
 docs-produced: []
 scoring:
   clarity: 5
@@ -23,13 +26,49 @@ scoring:
   urgency: 4
 rule-overrides:
   - rule: RULE-032
-    reason: "Schema fields are being migrated — frontmatter will temporarily have new optional fields not yet required"
+    reason: Schema fields are being migrated — frontmatter will temporarily have new optional fields not yet required
   - rule: RULE-004
-    reason: "Artifact lifecycle fields are being restructured — old fields coexist with new during migration"
+    reason: Artifact lifecycle fields are being restructured — old fields coexist with new during migration
 relationships:
   - target: RES-048
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-048"
+    rationale: Auto-generated inverse of informed-by relationship from RES-048
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-271
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-272
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-273
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-274
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-275
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-276
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-277
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-278
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-279
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-280
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-348
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

@@ -4,8 +4,8 @@ title: "Switch tier-1 packages from file: to published deps + publish"
 description: "Update integrity-validator and SDK to depend on published @orqastudio/types instead of file: references. Fix CI, verify, then publish both."
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-066
 depends-on:
   - TASK-426
@@ -13,17 +13,20 @@ assignee: null
 skills:
   - SKILL-034
 acceptance:
-  - "integrity-validator package.json uses @orqastudio/types version (not file:)"
-  - "integrity-validator package.json uses @orqastudio/eslint-config version (not file:)"
-  - "integrity-validator package.json uses @orqastudio/test-config version (not file:)"
-  - "SDK package.json uses @orqastudio/types version (not file:)"
-  - "Both CI workflows pass on GitHub Actions"
+  - integrity-validator package.json uses @orqastudio/types version (not file:)
+  - integrity-validator package.json uses @orqastudio/eslint-config version (not file:)
+  - integrity-validator package.json uses @orqastudio/test-config version (not file:)
+  - SDK package.json uses @orqastudio/types version (not file:)
+  - Both CI workflows pass on GitHub Actions
   - "@orqastudio/integrity-validator v0.1.0 published to GitHub Packages"
   - "@orqastudio/sdk v0.1.0 published to GitHub Packages"
 relationships:
   - target: EPIC-066
     type: delivers
-    rationale: "All packages published and consuming real versions"
+    rationale: All packages published and consuming real versions
+  - target: EPIC-066
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

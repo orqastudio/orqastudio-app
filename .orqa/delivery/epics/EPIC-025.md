@@ -4,8 +4,8 @@ title: Tech Stack Research
 description: Pre-build investigation that determined the technology choices underpinning the entire OrqaStudio platform.
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -25,6 +25,28 @@ scoring:
   dependency: 3
   effort: 1
   score: 28
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-094
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-095
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-096
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-097
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-098
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-315
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

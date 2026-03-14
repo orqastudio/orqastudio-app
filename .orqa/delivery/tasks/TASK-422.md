@@ -1,11 +1,11 @@
 ---
 id: TASK-422
-title: "Extract stores into SDK — enforcement, lessons, setup, settings, errors"
-description: "Move the five secondary stores into @orqastudio/sdk. Fix settingsStore theme application and errorStore browser handlers to be injectable/opt-in."
+title: Extract stores into SDK — enforcement, lessons, setup, settings, errors
+description: Move the five secondary stores into @orqastudio/sdk. Fix settingsStore theme application and errorStore browser handlers to be injectable/opt-in.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-066
 depends-on:
   - TASK-420
@@ -14,19 +14,22 @@ skills:
   - SKILL-030
   - SKILL-016
 acceptance:
-  - "enforcementStore extracted and exported from SDK"
-  - "lessonStore extracted and exported from SDK"
-  - "setupStore extracted and exported from SDK"
-  - "settingsStore extracted — theme application via injectable callback, not direct DOM"
-  - "errorStore extracted — browser event handlers opt-in, not automatic"
-  - "Unit tests for each store"
+  - enforcementStore extracted and exported from SDK
+  - lessonStore extracted and exported from SDK
+  - setupStore extracted and exported from SDK
+  - settingsStore extracted — theme application via injectable callback, not direct DOM
+  - errorStore extracted — browser event handlers opt-in, not automatic
+  - Unit tests for each store
 relationships:
   - target: EPIC-066
     type: delivers
-    rationale: "Secondary stores — enforcement, lessons, setup, settings, errors"
+    rationale: Secondary stores — enforcement, lessons, setup, settings, errors
   - target: RES-058
     type: informed-by
-    rationale: "Research identified the two modifications needed for portability"
+    rationale: Research identified the two modifications needed for portability
+  - target: EPIC-066
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

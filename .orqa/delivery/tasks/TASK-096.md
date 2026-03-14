@@ -1,16 +1,20 @@
 ---
 id: TASK-096
-title: "Frontend library selection"
-description: "Evaluated frontend frameworks and selected Svelte 5 with shadcn-svelte as the component library and Tailwind CSS for styling."
+title: Frontend library selection
+description: Evaluated frontend frameworks and selected Svelte 5 with shadcn-svelte as the component library and Tailwind CSS for styling.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-025
 depends-on: []
 acceptance:
   - Svelte 5 selected with documented rationale
   - shadcn-svelte confirmed as component library
   - Runes-based reactivity validated for the store pattern
+relationships:
+  - target: EPIC-025
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

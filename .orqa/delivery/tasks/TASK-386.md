@@ -1,14 +1,18 @@
 ---
 id: TASK-386
-title: "Mid-cycle orientation tooling"
-description: "Build tooling that periodically re-grounds the agent in the original epic purpose during extended work sessions"
+title: Mid-cycle orientation tooling
+description: Build tooling that periodically re-grounds the agent in the original epic purpose during extended work sessions
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on: []
 acceptance:
-  - "Tooling detects when execution has drifted from the original epic intention and surfaces re-orientation prompts"
+  - Tooling detects when execution has drifted from the original epic intention and surfaces re-orientation prompts
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

@@ -10,8 +10,8 @@ description: |
   linter config to hook trigger.
 status: done
 priority: P1
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 deadline: null
 milestone: MS-002
 horizon: null
@@ -33,6 +33,64 @@ scoring:
   foundation: 5
   complexity: 4
   score: 4.25
+relationships:
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-191
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-192
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-193
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-194
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-195
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-196
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-197
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-198
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-199
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-200
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-201
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-202
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-203
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-204
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-205
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-206
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-207
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-342
+    type: contains
+    rationale: Epic contains this task
 ---
 
 ## Context

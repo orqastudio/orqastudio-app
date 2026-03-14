@@ -1,16 +1,20 @@
 ---
 id: TASK-115
-title: "Design SQLite schema"
-description: "Designed all SQLite tables, columns, indexes, and foreign key constraints for conversation persistence."
+title: Design SQLite schema
+description: Designed all SQLite tables, columns, indexes, and foreign key constraints for conversation persistence.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-029
 depends-on: []
 acceptance:
   - Schema covers all persistence needs for conversations
   - Indexes support the IPC command query patterns
   - Schema is documented with migration strategy
+relationships:
+  - target: EPIC-029
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

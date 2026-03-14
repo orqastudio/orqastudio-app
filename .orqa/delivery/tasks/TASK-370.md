@@ -1,14 +1,18 @@
 ---
 id: TASK-370
 title: "Update RULE-004: related idea surfacing during promotion"
-description: "Add mandatory step to RULE-004 promotion procedure requiring scanning for thematically related ideas before creating an epic"
+description: Add mandatory step to RULE-004 promotion procedure requiring scanning for thematically related ideas before creating an epic
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on: []
 acceptance:
-  - "RULE-004 promotion procedure includes a mandatory step to scan all ideas for thematic overlap before epic creation"
+  - RULE-004 promotion procedure includes a mandatory step to scan all ideas for thematic overlap before epic creation
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

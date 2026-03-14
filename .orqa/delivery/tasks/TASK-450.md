@@ -1,23 +1,26 @@
 ---
 id: TASK-450
-title: "Acceptance criteria audit and backfill"
-description: "Audit all tasks for acceptance criteria completeness and backfill missing criteria based on actual implementation review."
+title: Acceptance criteria audit and backfill
+description: Audit all tasks for acceptance criteria completeness and backfill missing criteria based on actual implementation review.
 status: done
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-070
 depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "All tasks audited for acceptance criteria"
-  - "Missing criteria backfilled based on actual implementation review — not assumed from status"
-  - "Missed functionality documented"
+  - All tasks audited for acceptance criteria
+  - Missing criteria backfilled based on actual implementation review — not assumed from status
+  - Missed functionality documented
 relationships:
   - target: EPIC-070
     type: delivers
-    rationale: "Complete acceptance criteria enable accurate task status assessment"
+    rationale: Complete acceptance criteria enable accurate task status assessment
+  - target: EPIC-070
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

@@ -5,16 +5,20 @@ description: |
   Add inject action handling to the Rust enforcement engine for use in the
   app's native enforcement pipeline.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-193
   - TASK-195
 acceptance:
-  - "Rust enforcement engine handles Inject action variant"
-  - "Skill content returned in enforcement results"
-  - "Deduplication works across calls within a session"
+  - Rust enforcement engine handles Inject action variant
+  - Skill content returned in enforcement results
+  - Deduplication works across calls within a session
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

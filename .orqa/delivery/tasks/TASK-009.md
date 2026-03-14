@@ -3,8 +3,8 @@ id: TASK-009
 title: "Frontend: config-driven navigation and fix app hang"
 description: Replace all hardcoded navigation constants with config-driven derivation. This fixes the app hang (caused by mismatch between scanner output and hardcoded navigation expectations) and enables dynamic artifact types.
 status: done
-created: "2026-03-08"
-updated: "2026-03-08"
+created: 2026-03-08
+updated: 2026-03-08
 epic: EPIC-033
 depends-on:
   - TASK-007
@@ -29,6 +29,10 @@ acceptance:
   - App starts without hanging
   - Navigating to any artifact group shows correct file tree
   - npm run check passes
+relationships:
+  - target: EPIC-033
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

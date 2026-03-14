@@ -1,16 +1,20 @@
 ---
 id: TASK-125
-title: "Implement SQLite database and migrations"
-description: "Set up SQLite database creation, schema initialization, and migration infrastructure for conversation persistence."
+title: Implement SQLite database and migrations
+description: Set up SQLite database creation, schema initialization, and migration infrastructure for conversation persistence.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-030
 depends-on: []
 acceptance:
   - Database is created on first app launch
   - Schema matches the technical design specification
   - Repository pattern is implemented for session and message access
+relationships:
+  - target: EPIC-030
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

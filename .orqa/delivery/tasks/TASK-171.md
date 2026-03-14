@@ -3,8 +3,8 @@ id: TASK-171
 title: Create capability vocabulary rule (RULE-040)
 description: Create a rule defining the abstract capability vocabulary, provider mapping tables, and delegation resolution protocol.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-051
 depends-on: []
 assignee: AGENT-003
@@ -19,6 +19,10 @@ acceptance:
   - Rule specifies the orchestrator delegation protocol for capability resolution
   - Rule includes detection mechanism for determining current context
   - Rule passes schema validation
+relationships:
+  - target: EPIC-051
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

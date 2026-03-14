@@ -5,15 +5,19 @@ description: |
   Process gates that fire when code is written without epic/task context or
   without a plan being referenced.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-195
 acceptance:
-  - "plan-before-build gate fires on code write without prior epic/task reads"
-  - "structure-before-code gate fires on code write without .orqa/delivery/ reads"
-  - "Gates fire only once per session"
+  - plan-before-build gate fires on code write without prior epic/task reads
+  - structure-before-code gate fires on code write without .orqa/delivery/ reads
+  - Gates fire only once per session
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

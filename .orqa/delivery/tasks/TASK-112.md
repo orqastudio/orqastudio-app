@@ -1,16 +1,20 @@
 ---
 id: TASK-112
-title: "Design settings and onboarding wireframes"
-description: "Created wireframes for the settings view and first-run onboarding flow including API key configuration and project setup."
+title: Design settings and onboarding wireframes
+description: Created wireframes for the settings view and first-run onboarding flow including API key configuration and project setup.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-028
 depends-on: []
 acceptance:
   - Settings wireframe covers all configurable options
   - Onboarding flow is clear and sequential
   - Error states for invalid configuration are specified
+relationships:
+  - target: EPIC-028
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

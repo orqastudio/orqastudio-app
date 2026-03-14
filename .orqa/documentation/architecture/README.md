@@ -3,7 +3,7 @@ role: artifacts
 label: "Architecture"
 description: "System design, IPC contracts, and module structure."
 icon: "layers"
-sort: 1
+sort: 2
 ---
 
 # Architecture

@@ -38,8 +38,6 @@
 			artifactNoun: "lessons",
 			artifactType: "lesson",
 			icon: EyeIcon,
-			// Lessons flow forward via: informs/informed-by (to research),
-			// grounded/grounded-by (to decisions/research)
 			outboundRelationships: [
 				"informs",
 				"informed-by",
@@ -53,7 +51,6 @@
 			artifactNoun: "research docs",
 			artifactType: "research",
 			icon: BookOpenIcon,
-			// Research flows forward via: grounded/grounded-by (to decisions)
 			outboundRelationships: [
 				"grounded",
 				"grounded-by",
@@ -67,7 +64,6 @@
 			artifactNoun: "decisions",
 			artifactType: "decision",
 			icon: ScaleIcon,
-			// Decisions flow forward via: practiced-by/practices (to skills)
 			outboundRelationships: [
 				"practices",
 				"practiced-by",
@@ -79,7 +75,6 @@
 			artifactNoun: "skills",
 			artifactType: "skill",
 			icon: WrenchIcon,
-			// Skills flow forward via: enforces/enforced-by (to rules)
 			outboundRelationships: [
 				"enforces",
 				"enforced-by",
@@ -91,8 +86,6 @@
 			artifactNoun: "rules",
 			artifactType: "rule",
 			icon: ShieldIcon,
-			// Rules flow forward via: verifies/verified-by (to verification)
-			// Terminal stage for now — verification has no artifact type.
 			outboundRelationships: ["verifies", "verified-by"],
 		},
 		{
@@ -106,22 +99,22 @@
 	];
 
 	// -------------------------------------------------------------------------
-	// Computed pipeline data
+	// Computed pipeline data — connectivity model
 	// -------------------------------------------------------------------------
 
 	interface StageData {
 		stage: PipelineStage;
 		artifacts: ArtifactNode[];
 		count: number;
-		/** How many artifacts have at least one outgoing edge to the next stage. */
+		/** How many artifacts have at least one relationship of ANY kind. */
 		connectedCount: number;
 		/** Ratio of connected to total (0-1). */
-		flowRate: number;
-		/** Bottleneck status based on flow rate. */
-		status: "healthy" | "bottleneck" | "stuck";
-		/** Human-readable reason for stuck/bottleneck status. */
+		connectivity: number;
+		/** Connectivity status based on percentage with relationships. */
+		status: "healthy" | "attention" | "isolated";
+		/** Human-readable explanation for non-healthy status. */
 		reason: string | null;
-		/** Suggested action to improve flow. */
+		/** Suggested action to improve connectivity. */
 		suggestion: string | null;
 	}
 
@@ -164,71 +157,50 @@
 		return count;
 	}
 
-	/** Map from next-stage artifact type to a human-readable action target. */
-	const NEXT_STAGE_LABELS: Record<string, string> = {
-		research: "research",
-		decision: "decisions",
-		skill: "skills",
-		rule: "rules",
-	};
-
-	function buildSuggestion(
-		stageName: string,
-		artifactNoun: string,
-		nextType: string | null,
-	): string {
-		const target = nextType !== null ? NEXT_STAGE_LABELS[nextType] ?? nextType : "the next stage";
-		return `Review unlinked ${artifactNoun} and connect them to ${target}`;
+	/**
+	 * Check if an artifact has ANY relationship (in or out).
+	 */
+	function hasAnyRelationship(artifact: ArtifactNode): boolean {
+		return artifact.references_out.length > 0 || artifact.references_in.length > 0;
 	}
 
 	const stageDataList = $derived.by((): StageData[] => {
-		return stages.map((stage, index) => {
+		return stages.map((stage) => {
 			const artifacts =
 				stage.artifactType !== null
 					? artifactGraphSDK.byType(stage.artifactType)
 					: [];
 			const count = artifacts.length;
 
-			// For the last stage (Verification) or stages with no artifacts,
-			// flow rate is not applicable
-			const isLastStage = index === stages.length - 1;
-			const nextStage = isLastStage ? null : stages[index + 1];
-			const nextType = nextStage?.artifactType ?? null;
-
+			// Connectivity: what % of artifacts have ANY relationship at all
 			let connectedCount = 0;
-			if (!isLastStage && count > 0) {
+			if (count > 0) {
 				for (const artifact of artifacts) {
-					const hasDownstream = artifact.references_out.some(
-						(ref: ArtifactRef) =>
-							ref.relationship_type !== null &&
-							stage.outboundRelationships.includes(ref.relationship_type) &&
-							refConnectsToType(ref, nextType)
-					);
-					if (hasDownstream) connectedCount++;
+					if (hasAnyRelationship(artifact)) connectedCount++;
 				}
 			}
 
-			const flowRate = count > 0 ? connectedCount / count : 1;
+			const connectivity = count > 0 ? connectedCount / count : 1;
 
 			let status: StageData["status"] = "healthy";
 			let reason: string | null = null;
 			let suggestion: string | null = null;
 
-			if (!isLastStage && count > 0) {
-				const unlinkedCount = count - connectedCount;
+			if (count > 0) {
+				const orphanCount = count - connectedCount;
 
-				if (flowRate === 0) {
-					status = "stuck";
-					reason = `${unlinkedCount} of ${count} ${stage.artifactNoun} have no downstream link`;
-					suggestion = buildSuggestion(stage.key, stage.artifactNoun, nextType);
-				} else if (flowRate < 0.3) {
-					status = "bottleneck";
-					reason = `${unlinkedCount} of ${count} ${stage.artifactNoun} have no downstream link`;
-					suggestion = buildSuggestion(stage.key, stage.artifactNoun, nextType);
+				if (connectivity < 0.3) {
+					status = "isolated";
+					reason = `${orphanCount} of ${count} ${stage.artifactNoun} have no relationships`;
+					suggestion = `Review orphaned ${stage.artifactNoun} and add cross-references`;
+				} else if (connectivity < 0.7) {
+					status = "attention";
+					reason = `${orphanCount} of ${count} ${stage.artifactNoun} have no relationships`;
+					suggestion = `Connect isolated ${stage.artifactNoun} to related artifacts`;
 				}
 			}
 
-			return { stage, artifacts, count, connectedCount, flowRate, status, reason, suggestion };
+			return { stage, artifacts, count, connectedCount, connectivity, status, reason, suggestion };
 		});
 	});
 
@@ -263,9 +235,9 @@
 
 	function statusBorderClass(status: StageData["status"]): string {
 		switch (status) {
-			case "stuck":
+			case "isolated":
 				return "border-red-400 dark:border-red-600";
-			case "bottleneck":
+			case "attention":
 				return "border-amber-400 dark:border-amber-600";
 			default:
 				return "border-border";
@@ -274,9 +246,9 @@
 
 	function statusBgClass(status: StageData["status"]): string {
 		switch (status) {
-			case "stuck":
+			case "isolated":
 				return "bg-red-50 dark:bg-red-950/30";
-			case "bottleneck":
+			case "attention":
 				return "bg-amber-50 dark:bg-amber-950/30";
 			default:
 				return "bg-muted/30";
@@ -285,9 +257,33 @@
 
 	function statusIconClass(status: StageData["status"]): string {
 		switch (status) {
-			case "stuck":
+			case "isolated":
 				return "text-red-500";
-			case "bottleneck":
+			case "attention":
+				return "text-amber-500";
+			default:
+				return "text-muted-foreground";
+		}
+	}
+
+	function statusLabel(data: StageData): string | null {
+		if (data.count === 0) return null;
+		const pct = Math.round(data.connectivity * 100);
+		switch (data.status) {
+			case "isolated":
+				return `${pct}% connected`;
+			case "attention":
+				return `${pct}% connected`;
+			default:
+				return null;
+		}
+	}
+
+	function statusLabelClass(status: StageData["status"]): string {
+		switch (status) {
+			case "isolated":
+				return "text-red-500";
+			case "attention":
 				return "text-amber-500";
 			default:
 				return "text-muted-foreground";
@@ -332,13 +328,10 @@
 										<span class="text-lg font-semibold tabular-nums text-foreground">
 											{data.count}
 										</span>
-										{#if data.status === "stuck"}
-											<span class="text-[10px] font-medium text-red-500">
-												stuck
-											</span>
-										{:else if data.status === "bottleneck"}
-											<span class="text-[10px] font-medium text-amber-500">
-												bottleneck
+										{@const label = statusLabel(data)}
+										{#if label !== null}
+											<span class="text-[10px] font-medium {statusLabelClass(data.status)}">
+												{label}
 											</span>
 										{/if}
 									</div>
@@ -407,11 +400,11 @@
 			<div class="mt-3 flex items-center gap-4 text-[10px] text-muted-foreground">
 				<span class="flex items-center gap-1">
 					<span class="inline-block h-2 w-2 rounded-full bg-red-400"></span>
-					Stuck (0% flow)
+					Isolated (&lt;30% connected)
 				</span>
 				<span class="flex items-center gap-1">
 					<span class="inline-block h-2 w-2 rounded-full bg-amber-400"></span>
-					Bottleneck (&lt;30% flow)
+					Attention (30-70% connected)
 				</span>
 			</div>
 		</Card.Content>

@@ -3,8 +3,8 @@ id: TASK-183
 title: Add enforcement field to rule schema and key rules
 description: Add the enforcement array to the rule schema and add enforcement entries to key mechanically-enforceable rules.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-050
 depends-on: []
 assignee: AGENT-003
@@ -19,6 +19,10 @@ acceptance:
   - At least 5 key rules have enforcement entries added
   - All modified rules pass schema validation
   - Enforcement entries are mechanically testable patterns
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

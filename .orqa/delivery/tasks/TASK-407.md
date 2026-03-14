@@ -1,11 +1,11 @@
 ---
 id: TASK-407
-title: "Enhance artifact search with semantic capability and UI fixes"
-description: "Integrate semantic/AI search for artifact discovery. Fix search results overflow and improve input contrast against modal overlay."
+title: Enhance artifact search with semantic capability and UI fixes
+description: Integrate semantic/AI search for artifact discovery. Fix search results overflow and improve input contrast against modal overlay.
 status: in-progress
 priority: P2
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-063
 depends-on: []
 assignee: null
@@ -14,13 +14,16 @@ skills:
   - SKILL-042
   - SKILL-044
 acceptance:
-  - "Artifact search uses semantic/AI matching, not just substring regex"
-  - "Search results do not overflow their widget container"
-  - "Search input area has clear visual contrast against the modal overlay"
+  - Artifact search uses semantic/AI matching, not just substring regex
+  - Search results do not overflow their widget container
+  - Search input area has clear visual contrast against the modal overlay
 relationships:
   - target: EPIC-063
     type: delivers
-    rationale: "Theme E — search enhancement from UAT"
+    rationale: Theme E — search enhancement from UAT
+  - target: EPIC-063
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

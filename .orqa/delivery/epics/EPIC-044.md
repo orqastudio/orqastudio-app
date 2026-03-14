@@ -20,6 +20,25 @@ scoring:
   effort: 2
   risk: 1
   score: 18
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-047
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-048
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-049
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-050
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-334
+    type: contains
+    rationale: Epic contains this task
 ---
 Note: This epic used 'canon' terminology which has since been renamed to 'core'.
 

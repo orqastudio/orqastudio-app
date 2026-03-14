@@ -3,8 +3,8 @@ id: TASK-044
 title: Artifact type definitions and classification
 description: Adds formal one-paragraph definitions for each artifact type to the framework documentation and reclassifies any misclassified artifacts, flattening the research directory to a relationship-via-YAML-fields model.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-043
 assignee: AGENT-003
 skills:
@@ -18,6 +18,10 @@ acceptance:
   - Research directory flattened — no subfolders, relationships via YAML fields
   - artifact-framework.md updated with type definitions
   - artifact-lifecycle.md updated with classification rules
+relationships:
+  - target: EPIC-043
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Findings Addressed
 

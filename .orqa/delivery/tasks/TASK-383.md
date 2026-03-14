@@ -1,10 +1,10 @@
 ---
 id: TASK-383
-title: "Implement behavioral enforcement mechanisms"
-description: "Implement all behavioral enforcement mechanisms defined in the Phase 5 plans (prompt injection, output validation, skill injection, session hooks)"
+title: Implement behavioral enforcement mechanisms
+description: Implement all behavioral enforcement mechanisms defined in the Phase 5 plans (prompt injection, output validation, skill injection, session hooks)
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on:
   - TASK-379
@@ -12,7 +12,11 @@ depends-on:
   - TASK-381
   - TASK-382
 acceptance:
-  - "All behavioral enforcement mechanisms from the Phase 5 plans are implemented and wired into their trigger points"
+  - All behavioral enforcement mechanisms from the Phase 5 plans are implemented and wired into their trigger points
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

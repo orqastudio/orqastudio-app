@@ -1,10 +1,10 @@
 ---
 id: TASK-402
-title: "Implement 7 high-priority integrity checks + codebase-wide clippy compliance"
-description: "Implement all 7 graph-implementable integrity checks identified in TASK-401 audit. Also fix all clippy too_many_lines violations across the entire backend codebase to achieve zero-warning clippy compliance."
+title: Implement 7 high-priority integrity checks + codebase-wide clippy compliance
+description: Implement all 7 graph-implementable integrity checks identified in TASK-401 audit. Also fix all clippy too_many_lines violations across the entire backend codebase to achieve zero-warning clippy compliance.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-401
@@ -16,10 +16,14 @@ acceptance:
   - "MilestoneGate check: flags active milestones where P1 epics are not all done"
   - "IdeaPromotionValidity check: flags promoted ideas that were never shaped"
   - "IdeaDeliveryTracking check: flags promoted ideas whose epics are done but idea is not delivered"
-  - "All new categories added to IntegrityCategory enum and TypeScript type"
-  - "IntegrityWidget labels updated for all new categories"
-  - "cargo clippy -- -D warnings passes with zero warnings across entire codebase"
-  - "All 610 Rust tests pass"
+  - All new categories added to IntegrityCategory enum and TypeScript type
+  - IntegrityWidget labels updated for all new categories
+  - cargo clippy -- -D warnings passes with zero warnings across entire codebase
+  - All 610 Rust tests pass
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

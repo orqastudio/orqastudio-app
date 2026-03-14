@@ -6,14 +6,18 @@ description: |
   rules/configs that enforce them. Each standard traces to a specific linter
   rule. Each skill describes how to configure the relevant tool.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on: []
 acceptance:
-  - "Every RULE-006 standard has a corresponding linter rule or agent discipline note"
-  - "lint enforcement entries added and validate against schema"
-  - "Skills reference correct linter configs"
+  - Every RULE-006 standard has a corresponding linter rule or agent discipline note
+  - lint enforcement entries added and validate against schema
+  - Skills reference correct linter configs
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

@@ -3,8 +3,8 @@ id: TASK-186
 title: Remove .claude/ symlinks and update RULE-003
 description: Remove the .claude/ symlink architecture and update RULE-003 to describe plugin-based loading.
 status: todo
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-050
 depends-on:
   - TASK-185
@@ -22,6 +22,10 @@ acceptance:
   - .claude/ contains only settings.json and settings.local.json
   - RULE-003 symlink section replaced with plugin loading description
   - Plugin fully replaces all symlink functionality
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

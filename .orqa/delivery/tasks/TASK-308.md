@@ -1,28 +1,29 @@
 ---
-
-
 id: TASK-308
-title: "Establish learning loop and completion discipline (IMPL-021, 022, 023, 024)"
+title: Establish learning loop and completion discipline (IMPL-021, 022, 023, 024)
 description: "Create enforcement for: tracking open items during implementation, human-gated epic completion, automated observation logging by agents, and recording lessons on task completion artifacts."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 acceptance:
-  - "IMPL-021 through IMPL-025 maturity updated to understanding"
-  - "Epic completion gate updated in RULE-004 to require human approval"
-  - "Open-item tracking discipline documented (rule update or new rule)"
-  - "Epic readiness surfacing approach documented (UI feature or tool output)"
-  - "Learning checkpoint defined for task completion"
-  - "Task body template updated with Lessons section"
+  - IMPL-021 through IMPL-025 maturity updated to understanding
+  - Epic completion gate updated in RULE-004 to require human approval
+  - Open-item tracking discipline documented (rule update or new rule)
+  - Epic readiness surfacing approach documented (UI feature or tool output)
+  - Learning checkpoint defined for task completion
+  - Task body template updated with Lessons section
 relationships:
   - target: IMPL-024
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-024"
+    rationale: Auto-generated inverse of enforced-by relationship from IMPL-024
   - target: IMPL-024
     type: grounded
-    rationale: "Auto-generated inverse of grounded relationship from IMPL-024"
+    rationale: Auto-generated inverse of grounded relationship from IMPL-024
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

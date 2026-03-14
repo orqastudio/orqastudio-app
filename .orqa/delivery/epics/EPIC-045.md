@@ -1,5 +1,4 @@
 ---
-
 id: EPIC-045
 title: Portable Governance Framework
 description: Restructure agents from 16 software-specific roles to 7 universal roles, extract domain knowledge into skills, create project setup skills, update product documentation to reflect the PILLAR-001 engine identity and governance hub capability. Implements AD-029 and AD-030.
@@ -27,7 +26,34 @@ scoring:
 relationships:
   - target: RES-010
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-010"
+    rationale: Auto-generated inverse of informed-by relationship from RES-010
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-051
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-052
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-053
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-054
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-055
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-056
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-057
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-335
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

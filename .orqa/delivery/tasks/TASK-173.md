@@ -3,8 +3,8 @@ id: TASK-173
 title: Migrate agent definitions from tools to capabilities
 description: Update all 7 agent definitions to declare capabilities instead of concrete tool names.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-051
 depends-on:
   - TASK-171
@@ -19,6 +19,10 @@ acceptance:
   - Capabilities map correctly to the vocabulary defined in RULE-040
   - Each agent's capability set matches its current tool access
   - All agent definitions pass schema validation
+relationships:
+  - target: EPIC-051
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

@@ -3,8 +3,8 @@ id: TASK-078
 title: Markdown cross-linking in MarkdownRenderer
 description: Auto-detect artifact ID patterns in rendered markdown and wrap them as clickable links that navigate to the referenced artifact.
 status: done
-created: "2026-03-10"
-updated: "2026-03-10"
+created: 2026-03-10
+updated: 2026-03-10
 epic: EPIC-048
 depends-on:
   - TASK-083
@@ -17,6 +17,10 @@ acceptance:
   - Matched IDs wrapped in clickable elements calling navigateToArtifact
   - IDs inside code blocks and pre elements are NOT linked
   - Always-on — no configuration toggle
+relationships:
+  - target: EPIC-048
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

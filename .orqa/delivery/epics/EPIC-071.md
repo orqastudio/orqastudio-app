@@ -1,11 +1,11 @@
 ---
 id: EPIC-071
-title: "Documentation improvements — content, ordering, rendering"
-description: "Fix docs navigation (no status for docs), populate Guide section, audit doc ordering for reading flow, add mermaid/PlantUML rendering, and review doc-to-artifact relationships."
+title: Documentation improvements — content, ordering, rendering
+description: Fix docs navigation (no status for docs), populate Guide section, audit doc ordering for reading flow, add mermaid/PlantUML rendering, and review doc-to-artifact relationships.
 status: draft
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 horizon: next
@@ -19,7 +19,25 @@ docs-produced: []
 relationships:
   - target: EPIC-063
     type: informed-by
-    rationale: "UAT round 2 documentation findings"
+    rationale: UAT round 2 documentation findings
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-451
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-452
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-453
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-454
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-455
+    type: contains
+    rationale: Epic contains this task
 ---
 
 ## Context

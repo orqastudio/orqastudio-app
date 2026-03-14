@@ -4,8 +4,8 @@ title: Product Definition
 description: "The complete product specification: personas, user journeys, information architecture, glossary, and MVP feature set."
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -23,6 +23,28 @@ scoring:
   dependency: 3
   effort: 1
   score: 28
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-103
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-104
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-105
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-106
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-107
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-317
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

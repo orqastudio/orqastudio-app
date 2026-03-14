@@ -3,8 +3,8 @@ id: TASK-139
 title: Audit shared component inventory and update RULE-024
 description: Audit all Svelte components under ui/src/lib/components/ and update RULE-024 to reflect the accurate shared component inventory.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -13,6 +13,10 @@ acceptance:
   - Name mismatches resolved (rule uses actual component names)
   - Components in wrong locations identified with recommended moves
   - Follow-up tasks created for missing-but-useful components
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

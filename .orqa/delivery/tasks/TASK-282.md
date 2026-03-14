@@ -1,21 +1,25 @@
 ---
 id: TASK-282
-title: "Add make verify targets"
-description: "Add make targets for full .orqa/ link verification and pipeline integrity checking."
+title: Add make verify targets
+description: Add make targets for full .orqa/ link verification and pipeline integrity checking.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "make verify-links runs full .orqa/ link verification"
-  - "make verify-integrity runs pipeline integrity check"
-  - "make verify runs both"
-  - "All three targets documented in commands.md"
+  - make verify-links runs full .orqa/ link verification
+  - make verify-integrity runs pipeline integrity check
+  - make verify runs both
+  - All three targets documented in commands.md
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

@@ -3,8 +3,8 @@ id: TASK-142
 title: Replace React examples with Svelte 5 equivalents in tailwind-design-system skill
 description: Replace all React code examples in the tailwind-design-system skill with Svelte 5 equivalents using shadcn-svelte patterns.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -13,6 +13,10 @@ acceptance:
   - Examples use Svelte 5 runes ($props, $derived) not Svelte 4 patterns
   - Design system principles and Tailwind guidance unchanged
   - Skill still works as general Tailwind knowledge (not overly OrqaStudio-specific)
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

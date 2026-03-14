@@ -1,19 +1,23 @@
 ---
 id: TASK-252
-title: "Update documentation paths for directory reorganisation"
-description: "Find-replace all path references in .orqa/ documentation to reflect the new directory structure."
+title: Update documentation paths for directory reorganisation
+description: Find-replace all path references in .orqa/ documentation to reflect the new directory structure.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-056
 depends-on: []
 acceptance:
-  - "All src-tauri/ references updated to backend/src-tauri/"
-  - "All sidecar/ references updated to sidecars/claude-agentsdk-sidecar/"
-  - "All scripts/dev.mjs references updated to debugger/dev.mjs"
-  - "All ui/lib/ references updated to ui/src/lib/"
-  - "All ui/routes/ references updated to ui/src/routes/"
-  - "Spot-checked for correctness"
+  - All src-tauri/ references updated to backend/src-tauri/
+  - All sidecar/ references updated to sidecars/claude-agentsdk-sidecar/
+  - All scripts/dev.mjs references updated to debugger/dev.mjs
+  - All ui/lib/ references updated to ui/src/lib/
+  - All ui/routes/ references updated to ui/src/routes/
+  - Spot-checked for correctness
+relationships:
+  - target: EPIC-056
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

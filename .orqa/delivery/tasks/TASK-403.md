@@ -1,11 +1,11 @@
 ---
 id: TASK-403
-title: "Fix navigation and layout bugs"
+title: Fix navigation and layout bugs
 description: "Fix 6 navigation/layout bugs: missing sidebar icons, duplicate key error in ReferencesPanel, settings secondary nav not rendering, and config modal double-rendering."
 status: done
 priority: P1
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-063
 depends-on: []
 assignee: null
@@ -13,14 +13,17 @@ skills:
   - SKILL-030
   - SKILL-042
 acceptance:
-  - "Process, Delivery, Docs, Milestones, and Verification all show correct icons in sidebar nav"
-  - "No Svelte duplicate key error on any artifact page — ReferencesPanel keys include direction prefix"
-  - "Navigating to Project Settings hides the artifact secondary nav and shows the settings category nav"
-  - "Opening app configuration modal does NOT replace content viewer behind the modal"
+  - Process, Delivery, Docs, Milestones, and Verification all show correct icons in sidebar nav
+  - No Svelte duplicate key error on any artifact page — ReferencesPanel keys include direction prefix
+  - Navigating to Project Settings hides the artifact secondary nav and shows the settings category nav
+  - Opening app configuration modal does NOT replace content viewer behind the modal
 relationships:
   - target: EPIC-063
     type: delivers
-    rationale: "Theme A — navigation and layout bug fixes from UAT"
+    rationale: Theme A — navigation and layout bug fixes from UAT
+  - target: EPIC-063
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

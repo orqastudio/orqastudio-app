@@ -1,15 +1,11 @@
 ---
-
-
-
-
 id: EPIC-060
-title: "Pipeline health dashboard"
-description: "Surface pipeline integrity on the app dashboard with scan/fix actions, add pipeline visualization and temporal analytics."
+title: Pipeline health dashboard
+description: Surface pipeline integrity on the app dashboard with scan/fix actions, add pipeline visualization and temporal analytics.
 status: review
 priority: P1
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 deadline: null
 milestone: MS-001
 horizon: active
@@ -32,16 +28,58 @@ rule-overrides: []
 relationships:
   - target: IDEA-091
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from IDEA-091"
+    rationale: Auto-generated inverse of informs relationship from IDEA-091
   - target: EPIC-063
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from EPIC-063"
+    rationale: Auto-generated inverse of informed-by relationship from EPIC-063
   - target: EPIC-065
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from EPIC-065"
+    rationale: Auto-generated inverse of informed-by relationship from EPIC-065
   - target: RES-055
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-055"
+    rationale: Auto-generated inverse of informed-by relationship from RES-055
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-388
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-389
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-390
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-391
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-392
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-393
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-394
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-395
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-396
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-397
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-400
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-401
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-402
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

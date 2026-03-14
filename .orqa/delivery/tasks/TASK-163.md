@@ -3,8 +3,8 @@ id: TASK-163
 title: Classify artifacts as core vs project-specific and standardise layer taxonomy
 description: Audit every governance artifact to determine whether it is truly core (ships with every project) or OrqaStudio-specific (dogfood). Rename layer values, standardise scope, plan template distribution, and identify user-facing documentation gaps.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -14,6 +14,10 @@ acceptance:
   - Research document RES-037 updated with classification results
   - List of artifacts needing generalisation for core templates produced
   - User-facing documentation plan documented
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

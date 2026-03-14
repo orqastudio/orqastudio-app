@@ -1,24 +1,29 @@
 ---
 id: TASK-275
-title: "Backfill skills with category and relationships"
-description: "Use backfill tooling to add category (methodology/domain/tool) and grounded relationships to all 48 skills."
+title: Backfill skills with category and relationships
+description: Use backfill tooling to add category (methodology/domain/tool) and grounded relationships to all 48 skills.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-058
-depends-on: [TASK-274]
+depends-on:
+  - TASK-274
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "All 48 skills have a category field (methodology, domain, or tool)"
-  - "All 48 skills have a relationships array"
-  - "Each skill has at least one grounded relationship (to a pillar for methodology, to a decision for domain/tool)"
-  - "Null targets have rationale and intended field"
-  - "Human reviewed and approved all proposals"
+  - All 48 skills have a category field (methodology, domain, or tool)
+  - All 48 skills have a relationships array
+  - Each skill has at least one grounded relationship (to a pillar for methodology, to a decision for domain/tool)
+  - Null targets have rationale and intended field
+  - Human reviewed and approved all proposals
 rule-overrides:
   - rule: RULE-032
-    reason: "Adding new optional fields to skill frontmatter during migration"
+    reason: Adding new optional fields to skill frontmatter during migration
+relationships:
+  - target: EPIC-058
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

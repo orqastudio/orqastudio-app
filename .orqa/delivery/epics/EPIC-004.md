@@ -4,8 +4,8 @@ title: AI-Mediated Artifact Editing
 description: Build an AI-mediated editing experience where creates, edits, and deletes are proposals sent to the AI conversation panel. The AI analyses cross-reference implications and suggests cascading updates to keep artifacts in sync.
 status: draft
 priority: P1
-created: "2026-03-07"
-updated: "2026-03-11"
+created: 2026-03-07
+updated: 2026-03-11
 milestone: MS-001
 horizon: next
 pillars:
@@ -20,6 +20,10 @@ scoring:
   dependency: 2
   effort: 3
   score: 10.3
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
 ---
 
 ## Why P1

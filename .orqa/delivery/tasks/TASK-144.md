@@ -3,8 +3,8 @@ id: TASK-144
 title: Create rule for artifact link format constraints
 description: Extract the artifact link format constraint from the orqa-documentation skill into a new dedicated rule with enforcement path.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -13,6 +13,10 @@ acceptance:
   - Skill references the new rule for the constraint
   - Rule includes valid and invalid examples
   - Rule has a FORBIDDEN section with concrete violations
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

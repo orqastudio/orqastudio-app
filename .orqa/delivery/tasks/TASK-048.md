@@ -3,8 +3,8 @@ id: TASK-048
 title: Classify skills with layer field
 description: Adds a layer field to every skill definition, distinguishing portable canon skills from OrqaStudio-specific project skills, and documents the classification in the skill enforcement rule.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-044
 assignee: AGENT-003
 skills:
@@ -14,6 +14,10 @@ acceptance:
   - Canon skills are portable platform skills
   - Project skills are orqa-specific skills
   - Classification documented in skill-enforcement.md
+relationships:
+  - target: EPIC-044
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Classification Plan
 

@@ -3,8 +3,8 @@ id: TASK-221
 title: Pre-commit hook blocks core graph artifact modifications
 description: Add a pre-commit check that warns and blocks commits modifying core graph artifacts (schemas, orchestrator, core skills, role definitions) unless force-overridden. Dogfood mode bypasses.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-053
 depends-on:
   - TASK-211
@@ -18,6 +18,10 @@ acceptance:
   - Setting ORQA_CORE_OVERRIDE=1 allows the commit
   - Dogfood projects skip the check entirely
   - Warning message explains that changing core artifacts risks breaking the system thinking structure
+relationships:
+  - target: EPIC-053
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

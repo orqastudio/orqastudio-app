@@ -3,8 +3,8 @@ id: TASK-089
 title: Create artifact audit skill
 description: Create a reusable skill that captures the methodology, checklists, and patterns for auditing .orqa/ artifacts — enabling future audits to be systematic and repeatable without rediscovering the process each time.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on:
   - TASK-084
@@ -17,6 +17,10 @@ acceptance:
   - Skill covers all artifact types in .orqa/
   - Skill includes verification checklists that an agent can follow
   - Skill is referenced in relevant agent definitions (reviewer, orchestrator)
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

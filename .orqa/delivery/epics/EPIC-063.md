@@ -1,21 +1,11 @@
 ---
-
-
-
-
-
-
-
-
-
-
 id: EPIC-063
-title: "Dashboard & artifact viewer UAT fixes"
-description: "UAT round covering the full dashboard and artifact viewer experience. Fixes navigation bugs, redesigns dashboard widgets for actionable insight, enhances artifact viewer with relationship consolidation and pipeline position, and improves search UX."
+title: Dashboard & artifact viewer UAT fixes
+description: UAT round covering the full dashboard and artifact viewer experience. Fixes navigation bugs, redesigns dashboard widgets for actionable insight, enhances artifact viewer with relationship consolidation and pipeline position, and improves search UX.
 status: in-progress
 priority: P1
-created: "2026-03-13"
-updated: "2026-03-14"
+created: 2026-03-13
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 pillars:
@@ -25,48 +15,72 @@ depends-on:
   - EPIC-060
 horizon: active
 scoring:
-  user-impact: "High — dashboard is the primary entry point; bugs and missing features directly affect daily use"
-  scope: "Medium — 8 task themes spanning frontend components, backend integrity logic, and data backfill"
-  urgency: "High — UAT findings block confidence in EPIC-060 completion"
+  user-impact: High — dashboard is the primary entry point; bugs and missing features directly affect daily use
+  scope: Medium — 8 task themes spanning frontend components, backend integrity logic, and data backfill
+  urgency: High — UAT findings block confidence in EPIC-060 completion
 docs-required: []
 docs-produced: []
 relationships:
   - target: EPIC-060
     type: informs
-    rationale: "UAT findings from EPIC-060 review drive this epic's scope"
+    rationale: UAT findings from EPIC-060 review drive this epic's scope
   - target: EPIC-065
     type: informs
-    rationale: "Theme D findings extracted into dedicated artifact viewer epic"
+    rationale: Theme D findings extracted into dedicated artifact viewer epic
   - target: IMPL-053
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-053"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-053
   - target: IDEA-089
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IDEA-089"
+    rationale: Auto-generated inverse of informed-by relationship from IDEA-089
   - target: IDEA-090
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IDEA-090"
+    rationale: Auto-generated inverse of informed-by relationship from IDEA-090
   - target: IDEA-092
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from IDEA-092"
+    rationale: Auto-generated inverse of informs relationship from IDEA-092
   - target: EPIC-072
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-072"
+    rationale: Auto-generated inverse of informs relationship from EPIC-072
   - target: EPIC-070
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-070"
+    rationale: Auto-generated inverse of informs relationship from EPIC-070
   - target: EPIC-071
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-071"
+    rationale: Auto-generated inverse of informs relationship from EPIC-071
   - target: EPIC-068
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-068"
+    rationale: Auto-generated inverse of informs relationship from EPIC-068
   - target: EPIC-067
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-067"
+    rationale: Auto-generated inverse of informs relationship from EPIC-067
   - target: EPIC-069
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-069"
+    rationale: Auto-generated inverse of informs relationship from EPIC-069
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-403
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-404
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-405
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-407
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-408
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-409
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-410
+    type: contains
+    rationale: Epic contains this task
 ---
 ## UAT Findings Summary
 

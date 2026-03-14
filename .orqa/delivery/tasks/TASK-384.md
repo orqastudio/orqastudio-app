@@ -1,15 +1,19 @@
 ---
 id: TASK-384
-title: "Scope drift detection tooling"
-description: "Build tooling that compares epic scope against actual implementation to detect silently added, removed, or deferred deliverables"
+title: Scope drift detection tooling
+description: Build tooling that compares epic scope against actual implementation to detect silently added, removed, or deferred deliverables
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on:
   - TASK-362
 acceptance:
-  - "Tooling detects when epic deliverables were silently added, removed, or deferred without user approval"
+  - Tooling detects when epic deliverables were silently added, removed, or deferred without user approval
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

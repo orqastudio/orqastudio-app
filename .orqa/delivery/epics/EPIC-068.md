@@ -1,14 +1,11 @@
 ---
-
-
-
 id: EPIC-068
-title: "Dashboard redesign — layout, widgets, and plugin extensibility"
-description: "Redesign the dashboard from a vertical card stack to an information-dense layout. Architecture must support drag-and-drop positioning and plugin-provided custom widgets."
+title: Dashboard redesign — layout, widgets, and plugin extensibility
+description: Redesign the dashboard from a vertical card stack to an information-dense layout. Architecture must support drag-and-drop positioning and plugin-provided custom widgets.
 status: draft
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 horizon: active
@@ -23,19 +20,37 @@ docs-produced: []
 relationships:
   - target: EPIC-063
     type: informed-by
-    rationale: "UAT round 2 findings drive dashboard redesign"
+    rationale: UAT round 2 findings drive dashboard redesign
   - target: IDEA-091
     type: informed-by
-    rationale: "Pipeline flow model rethinking feeds into dashboard widget design"
+    rationale: Pipeline flow model rethinking feeds into dashboard widget design
   - target: IMPL-062
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-062"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-062
   - target: IMPL-060
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-060"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-060
   - target: IMPL-063
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-063"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-063
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-439
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-440
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-441
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-442
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-443
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

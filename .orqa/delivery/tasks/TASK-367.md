@@ -1,10 +1,10 @@
 ---
 id: TASK-367
-title: "Wire all new checks into pre-commit hook"
-description: "Integrate all new linter, hook, and tooling checks from Phase 2 into the pre-commit hook staged-file paths"
+title: Wire all new checks into pre-commit hook
+description: Integrate all new linter, hook, and tooling checks from Phase 2 into the pre-commit hook staged-file paths
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on:
   - TASK-363
@@ -12,7 +12,11 @@ depends-on:
   - TASK-365
   - TASK-366
 acceptance:
-  - "All Phase 2 checks run as part of the pre-commit hook based on staged file paths"
+  - All Phase 2 checks run as part of the pre-commit hook based on staged file paths
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

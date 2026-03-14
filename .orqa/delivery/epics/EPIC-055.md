@@ -1,15 +1,14 @@
 ---
-
 id: EPIC-055
-title: "Codebase Quality and Composability Alignment"
+title: Codebase Quality and Composability Alignment
 description: |
   Address critical code quality issues found by RES-043: eliminate stream_commands.rs
   duplication, add frontend and search test coverage, fix error handling gaps, and
   audit orphaned backend commands.
 status: done
 priority: P1
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 deadline: null
 milestone: MS-001
 horizon: null
@@ -28,7 +27,37 @@ scoring:
 relationships:
   - target: RES-043
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-043"
+    rationale: Auto-generated inverse of informed-by relationship from RES-043
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-243
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-244
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-245
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-246
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-247
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-248
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-249
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-250
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-345
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

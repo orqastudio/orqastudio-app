@@ -1,14 +1,18 @@
 ---
 id: TASK-379
 title: "Behavioral enforcement plan: prompt injection rules"
-description: "Define enforcement mechanisms for behavioral rules enforced via prompt injection at delegation time"
+description: Define enforcement mechanisms for behavioral rules enforced via prompt injection at delegation time
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on: []
 acceptance:
-  - "Enforcement plan documented for all prompt-injection-enforced behavioral rules (RULE-001, RULE-005, RULE-007, RULE-016, RULE-023, RULE-026, RULE-027, RULE-036)"
+  - Enforcement plan documented for all prompt-injection-enforced behavioral rules (RULE-001, RULE-005, RULE-007, RULE-016, RULE-023, RULE-026, RULE-027, RULE-036)
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

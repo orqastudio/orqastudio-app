@@ -1,16 +1,20 @@
 ---
 id: TASK-120
-title: "Define tool system and permission model"
-description: "Defined file tools, search tools, and governance tools with their permission model and execution patterns."
+title: Define tool system and permission model
+description: Defined file tools, search tools, and governance tools with their permission model and execution patterns.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-029
 depends-on: []
 acceptance:
   - All tool types are catalogued with input/output schemas
   - Permission model is specified
   - Tool execution flows through the sidecar NDJSON protocol
+relationships:
+  - target: EPIC-029
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

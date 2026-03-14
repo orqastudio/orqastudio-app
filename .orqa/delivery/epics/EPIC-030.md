@@ -4,8 +4,8 @@ title: Project Scaffold
 description: "The first working version: a Tauri v2 desktop app with Claude conversations via Agent SDK sidecar, streaming, SQLite, and conversation UI."
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -31,6 +31,43 @@ scoring:
   dependency: 3
   effort: 1
   score: 28
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-123
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-124
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-125
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-126
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-127
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-128
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-129
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-130
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-131
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-132
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-320
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

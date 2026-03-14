@@ -1,23 +1,26 @@
 ---
 id: TASK-434
-title: "Migrate scope fields to relationships array (rules + skills)"
-description: "Replace scope fields on rules and skills with relationships array entries using scoped-to/scoped-by types."
+title: Migrate scope fields to relationships array (rules + skills)
+description: Replace scope fields on rules and skills with relationships array entries using scoped-to/scoped-by types.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-067
 depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "Rule and skill schemas updated — scope removed, AGENT-NNN references moved to relationships array with type scoped-to/scoped-by"
-  - "Migration script backfills existing artifacts"
-  - "Integrity validator updated"
+  - Rule and skill schemas updated — scope removed, AGENT-NNN references moved to relationships array with type scoped-to/scoped-by
+  - Migration script backfills existing artifacts
+  - Integrity validator updated
 relationships:
   - target: EPIC-067
     type: delivers
-    rationale: "Normalizing scope into relationships simplifies the graph model"
+    rationale: Normalizing scope into relationships simplifies the graph model
+  - target: EPIC-067
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

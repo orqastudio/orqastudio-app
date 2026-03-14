@@ -1,18 +1,24 @@
 ---
 id: TASK-266
-title: "Write core architecture documentation"
-description: "Complete end-to-end documentation of the target core application architecture."
+title: Write core architecture documentation
+description: Complete end-to-end documentation of the target core application architecture.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
-depends-on: [TASK-258, TASK-259]
+depends-on:
+  - TASK-258
+  - TASK-259
 assignee: AGENT-007
 acceptance:
   - "Architecture doc covers: artifact system, knowledge graph, prompt injection, rule enforcement, learning loop"
-  - "Every module in the codebase appears in the architecture map"
-  - "Data flow diagrams trace end-to-end paths"
-  - "Document lives in .orqa/documentation/architecture/"
+  - Every module in the codebase appears in the architecture map
+  - Data flow diagrams trace end-to-end paths
+  - Document lives in .orqa/documentation/architecture/
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

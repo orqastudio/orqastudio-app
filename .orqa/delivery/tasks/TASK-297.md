@@ -1,22 +1,27 @@
 ---
 id: TASK-297
-title: "Documentation inventory"
+title: Documentation inventory
 description: "Audit documentation/: what docs NEED to exist vs what IS there. Identify stale content. Every remaining doc must be human-consumption content. Flag placeholder directories."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
-depends-on: [TASK-285]
+depends-on:
+  - TASK-285
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "Inventory of all documentation files with current/needed status"
-  - "Stale content identified and removed or updated"
-  - "All remaining docs are human-consumption content"
-  - "Placeholder directories flagged or removed"
+  - Inventory of all documentation files with current/needed status
+  - Stale content identified and removed or updated
+  - All remaining docs are human-consumption content
+  - Placeholder directories flagged or removed
   - "Gap analysis: what docs are missing"
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

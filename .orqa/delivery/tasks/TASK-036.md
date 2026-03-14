@@ -3,8 +3,8 @@ id: TASK-036
 title: Verify three-tier skill loading
 description: Dry-runs backend, frontend, and governance delegation scenarios to confirm that all three skill tiers load correctly and that no agent definition still carries project-specific skills directly.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-042
 assignee: AGENT-006
 skills:
@@ -15,6 +15,10 @@ acceptance:
   - Dry-run a frontend task delegation — confirm correct Tier 2 skills injected
   - Dry-run a governance task delegation — confirm orqa-governance injected
   - Verify no agent definition still contains orqa-* or chunkhound/orqa-native-search
+relationships:
+  - target: EPIC-042
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

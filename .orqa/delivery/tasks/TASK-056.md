@@ -3,8 +3,8 @@ id: TASK-056
 title: Update rules for universal roles
 description: Update agent-delegation.md and all other rules that reference old software-specific agent names to use the new universal role names (Implementer, Reviewer, etc.) and skill-based delegation.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-045
 depends-on:
   - TASK-052
@@ -20,6 +20,10 @@ acceptance:
   - lessons-learned.md references updated (code-reviewer → Reviewer + code-quality skill)
   - honest-reporting.md references updated
   - No remaining references to deleted agent names in any rule file
+relationships:
+  - target: EPIC-045
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

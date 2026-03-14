@@ -1,21 +1,25 @@
 ---
 id: TASK-286
-title: "Create AD for directory reorganization (AD-043)"
-description: "Architecture decision formalizing the three-level structure (process/delivery/documentation) and the first-class artifact principle."
+title: Create AD for directory reorganization (AD-043)
+description: Architecture decision formalizing the three-level structure (process/delivery/documentation) and the first-class artifact principle.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "AD-043 exists in .orqa/process/decisions/"
-  - "Documents the three-level structure with rationale"
-  - "Defines the first-class artifact principle"
-  - "Maps current structure to target structure"
+  - AD-043 exists in .orqa/process/decisions/
+  - Documents the three-level structure with rationale
+  - Defines the first-class artifact principle
+  - Maps current structure to target structure
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

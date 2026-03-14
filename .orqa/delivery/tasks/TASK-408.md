@@ -1,11 +1,11 @@
 ---
 id: TASK-408
-title: "Humanize agent capability display and capture subagent mapping idea"
-description: "Display agent capabilities as human-readable labels instead of raw identifiers. Capture sidecar-specific subagent mapping as an idea."
+title: Humanize agent capability display and capture subagent mapping idea
+description: Display agent capabilities as human-readable labels instead of raw identifiers. Capture sidecar-specific subagent mapping as an idea.
 status: done
 priority: P2
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-063
 depends-on: []
 assignee: null
@@ -13,13 +13,16 @@ skills:
   - SKILL-030
   - SKILL-042
 acceptance:
-  - "Agent capabilities displayed with human-readable labels (e.g., 'Read Files' not 'file_read')"
-  - "Capability label mapping is centralized and reusable"
-  - "IDEA-089 created for sidecar-specific subagent mapping"
+  - Agent capabilities displayed with human-readable labels (e.g., 'Read Files' not 'file_read')
+  - Capability label mapping is centralized and reusable
+  - IDEA-089 created for sidecar-specific subagent mapping
 relationships:
   - target: EPIC-063
     type: delivers
-    rationale: "Theme F — agent display improvements from UAT"
+    rationale: Theme F — agent display improvements from UAT
+  - target: EPIC-063
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

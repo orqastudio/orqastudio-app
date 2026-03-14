@@ -3,8 +3,8 @@ id: TASK-179
 title: Implement agent and skill loading from .orqa/process/
 description: Plugin loads agent definitions and skills directly from .orqa/process/, replacing .claude/ symlinks.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-050
 depends-on:
   - TASK-177
@@ -20,6 +20,10 @@ acceptance:
   - Agent capabilities are resolved to CLI tool names per RULE-034
   - Skills are discoverable via Claude Code skill system
   - No .claude/ symlinks required for agent or skill loading
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

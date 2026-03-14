@@ -1,24 +1,26 @@
 ---
-
 id: TASK-306
-title: "Replace hardcoded path constants with runtime config cache (IMPL-018)"
+title: Replace hardcoded path constants with runtime config cache (IMPL-018)
 description: "Remove paths.rs constants and all hardcoded .orqa/ paths. Load project.json once at startup, build a ProjectPaths struct, pass it through the call chain. Decision: Option C from RES-052, approved by user."
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 acceptance:
-  - "paths.rs removed or reduced to only truly structural constants (ORQA_DIR, SETTINGS_FILE)"
-  - "ProjectPaths struct built from project.json at startup"
-  - "All modules that previously used path constants use ProjectPaths instead"
-  - "project_scanner.rs, artifact_fs.rs, and delivery workflow code all read from config"
-  - "make lint-backend && make test-rust pass"
-  - "IMPL-018 maturity updated to understanding"
+  - paths.rs removed or reduced to only truly structural constants (ORQA_DIR, SETTINGS_FILE)
+  - ProjectPaths struct built from project.json at startup
+  - All modules that previously used path constants use ProjectPaths instead
+  - project_scanner.rs, artifact_fs.rs, and delivery workflow code all read from config
+  - make lint-backend && make test-rust pass
+  - IMPL-018 maturity updated to understanding
 relationships:
   - target: IMPL-018
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-018"
+    rationale: Auto-generated inverse of enforced-by relationship from IMPL-018
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

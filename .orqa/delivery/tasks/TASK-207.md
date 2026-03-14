@@ -5,8 +5,8 @@ description: |
   End-to-end verification that all four enforcement layers work together in
   both CLI (plugin) and app (Rust) contexts.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-196
@@ -18,11 +18,15 @@ depends-on:
   - TASK-203
   - TASK-206
 acceptance:
-  - "Process gates fire at correct moments in both CLI and app contexts"
-  - "Skill injection works for path-based triggers with deduplication"
-  - "Linter delegation documented and functional via make check"
-  - "All new rules validate against schema"
-  - "No regression in existing enforcement"
+  - Process gates fire at correct moments in both CLI and app contexts
+  - Skill injection works for path-based triggers with deduplication
+  - Linter delegation documented and functional via make check
+  - All new rules validate against schema
+  - No regression in existing enforcement
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 

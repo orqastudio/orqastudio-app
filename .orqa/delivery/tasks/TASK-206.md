@@ -5,16 +5,20 @@ description: |
   Create three new rules documenting the enforcement layers: data persistence
   boundaries, automated skill injection, and tooling ecosystem management.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-193
   - TASK-194
 acceptance:
-  - "RULE-041, RULE-042, RULE-043 created with valid frontmatter"
-  - "All three rules pass schema validation"
-  - "Rules reference each other and related rules appropriately"
+  - RULE-041, RULE-042, RULE-043 created with valid frontmatter
+  - All three rules pass schema validation
+  - Rules reference each other and related rules appropriately
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

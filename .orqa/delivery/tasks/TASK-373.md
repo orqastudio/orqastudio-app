@@ -1,15 +1,19 @@
 ---
 id: TASK-373
-title: "Define priority dimensions and auto-classification rules"
-description: "Define project-level priority dimensions based on RES-054 gap patterns and encode auto-classification rules"
+title: Define priority dimensions and auto-classification rules
+description: Define project-level priority dimensions based on RES-054 gap patterns and encode auto-classification rules
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on:
   - TASK-362
 acceptance:
-  - "Priority dimensions are defined and auto-classification rules are encoded in config or documentation"
+  - Priority dimensions are defined and auto-classification rules are encoded in config or documentation
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

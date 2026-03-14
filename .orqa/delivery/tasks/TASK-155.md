@@ -3,8 +3,8 @@ id: TASK-155
 title: Enforce frontmatter field ordering at creation time via schema validation
 description: Add propertyOrder enforcement to the schema validation hook and agent artifact creation process so frontmatter fields are written in the correct order from the start.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on:
   - TASK-152
@@ -13,6 +13,10 @@ acceptance:
   - Out-of-order fields produce a warning or error at commit time
   - Agents and skills that create artifacts document the correct field order
   - Existing rule files fixed as a one-time batch
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

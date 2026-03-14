@@ -1,24 +1,29 @@
 ---
 id: TASK-288
-title: "Move team artifacts to process/"
-description: "Move skills and agents from .orqa/process/ to .orqa/process/. Update project.json, all path references, .claude/ symlinks."
+title: Move team artifacts to process/
+description: Move skills and agents from .orqa/process/ to .orqa/process/. Update project.json, all path references, .claude/ symlinks.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
-depends-on: [TASK-286]
+depends-on:
+  - TASK-286
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - ".orqa/process/skills/ exists with all skill directories"
-  - ".orqa/process/agents/ exists with all agent files"
-  - ".orqa/process/ directory no longer exists"
-  - "project.json paths updated"
-  - ".claude/agents and .claude/skills symlinks point to new paths"
+  - .orqa/process/skills/ exists with all skill directories
+  - .orqa/process/agents/ exists with all agent files
+  - .orqa/process/ directory no longer exists
+  - project.json paths updated
+  - .claude/agents and .claude/skills symlinks point to new paths
 rule-overrides:
   - rule: RULE-003
-    reason: "Artifact paths are being reorganized — intermediate state will have mismatches"
+    reason: Artifact paths are being reorganized — intermediate state will have mismatches
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

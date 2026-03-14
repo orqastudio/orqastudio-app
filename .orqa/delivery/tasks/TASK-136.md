@@ -1,16 +1,20 @@
 ---
 id: TASK-136
-title: "Implement recommendation review UI"
-description: "Built the UI for reviewing, approving, and acting on governance recommendations."
+title: Implement recommendation review UI
+description: Built the UI for reviewing, approving, and acting on governance recommendations.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-031
 depends-on: []
 acceptance:
   - Users can browse and filter recommendations
   - Approve/dismiss actions update recommendation status
   - Recommendation state persists across sessions
+relationships:
+  - target: EPIC-031
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

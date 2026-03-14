@@ -3,8 +3,8 @@ id: TASK-014
 title: Local embeddings and semantic search
 description: Adds on-device embedding generation using an ONNX model with GPU acceleration, enabling semantic similarity search that ranks results by cosine distance.
 status: done
-created: "2026-03-04"
-updated: "2026-03-09"
+created: 2026-03-04
+updated: 2026-03-09
 epic: EPIC-034
 assignee: AGENT-002
 skills:
@@ -14,6 +14,10 @@ acceptance:
   - ONNX Runtime loads bge-small-en-v1.5 model
   - DirectML acceleration works (GPU/NPU with CPU fallback)
   - Semantic search returns results ranked by cosine similarity
+relationships:
+  - target: EPIC-034
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

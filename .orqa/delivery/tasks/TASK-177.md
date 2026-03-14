@@ -3,8 +3,8 @@ id: TASK-177
 title: Create orqa-plugin repository with Claude Code plugin scaffold
 description: Set up the separate orqa-plugin repo with plugin.json manifest, directory structure, and README.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-050
 depends-on:
   - TASK-171
@@ -17,6 +17,10 @@ acceptance:
   - Directory structure matches EPIC-050 architecture (hooks/, commands/, agents/, skills/, core/)
   - Plugin is loadable by Claude Code (plugin.json validates)
   - README documents the plugin purpose and installation
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

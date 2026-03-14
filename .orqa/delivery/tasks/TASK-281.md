@@ -1,22 +1,26 @@
 ---
 id: TASK-281
-title: "Integrate integrity checks into pre-commit hook"
-description: "Add staged-file mode to verify-links.mjs and verify-pipeline-integrity.mjs. Add both to .githooks/pre-commit in the ORQA_CHANGED block. Broken links and missing inverses on staged files block the commit."
+title: Integrate integrity checks into pre-commit hook
+description: Add staged-file mode to verify-links.mjs and verify-pipeline-integrity.mjs. Add both to .githooks/pre-commit in the ORQA_CHANGED block. Broken links and missing inverses on staged files block the commit.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "verify-links.mjs accepts a --staged flag that checks only staged .orqa/ files"
-  - "verify-pipeline-integrity.mjs accepts a --staged flag that checks only staged .orqa/ files"
-  - "Both are called from .githooks/pre-commit when .orqa/ files are staged"
-  - "Broken links on staged files block the commit"
-  - "Missing bidirectional inverses on staged files block the commit"
+  - verify-links.mjs accepts a --staged flag that checks only staged .orqa/ files
+  - verify-pipeline-integrity.mjs accepts a --staged flag that checks only staged .orqa/ files
+  - Both are called from .githooks/pre-commit when .orqa/ files are staged
+  - Broken links on staged files block the commit
+  - Missing bidirectional inverses on staged files block the commit
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

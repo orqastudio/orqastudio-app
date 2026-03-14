@@ -1,15 +1,19 @@
 ---
 id: TASK-224
-title: "Backfill missing description fields across all artifact types"
-description: "Add description frontmatter to 106 artifacts (ideas, decisions, lessons, epics, tasks) that predate the required field"
+title: Backfill missing description fields across all artifact types
+description: Add description frontmatter to 106 artifacts (ideas, decisions, lessons, epics, tasks) that predate the required field
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-054
 acceptance:
-  - "All artifacts pass schema validation (0 errors from validate-artifacts script)"
-  - "Every idea, decision, lesson, epic, and task has a non-empty description field"
-  - "Descriptions are concise summaries, not duplicates of the title"
+  - All artifacts pass schema validation (0 errors from validate-artifacts script)
+  - Every idea, decision, lesson, epic, and task has a non-empty description field
+  - Descriptions are concise summaries, not duplicates of the title
+relationships:
+  - target: EPIC-054
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

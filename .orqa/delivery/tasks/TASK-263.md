@@ -1,17 +1,22 @@
 ---
 id: TASK-263
-title: "Add tests for untested command modules"
-description: "Write unit tests for the 8 Tauri command modules that have zero test coverage."
+title: Add tests for untested command modules
+description: Write unit tests for the 8 Tauri command modules that have zero test coverage.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-057
-depends-on: [TASK-260]
+depends-on:
+  - TASK-260
 assignee: AGENT-002
 acceptance:
-  - "Test modules exist in all 8 command files"
-  - "Each command module has at least 3 tests covering happy path, error path, and edge case"
-  - "make test-rust passes"
+  - Test modules exist in all 8 command files
+  - Each command module has at least 3 tests covering happy path, error path, and edge case
+  - make test-rust passes
+relationships:
+  - target: EPIC-057
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

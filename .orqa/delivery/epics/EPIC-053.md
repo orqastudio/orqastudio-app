@@ -9,8 +9,8 @@ description: |
   skills can be informed by external knowledge.
 status: done
 priority: P1
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 deadline: null
 milestone: MS-002
 horizon: null
@@ -30,6 +30,61 @@ scoring:
   foundation: 5
   complexity: 3
   score: 4.5
+relationships:
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-208
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-209
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-210
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-211
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-212
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-213
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-214
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-215
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-216
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-217
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-218
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-219
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-220
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-221
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-222
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-223
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-343
+    type: contains
+    rationale: Epic contains this task
 ---
 
 ## Context

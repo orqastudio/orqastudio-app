@@ -1,23 +1,26 @@
 ---
 id: TASK-435
-title: "Add documents/documented-by relationship types + body-text edge extraction"
-description: "Introduce documents/documented-by relationship types and extract artifact references from markdown body text as graph edges."
+title: Add documents/documented-by relationship types + body-text edge extraction
+description: Introduce documents/documented-by relationship types and extract artifact references from markdown body text as graph edges.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-067
 depends-on: []
 assignee: null
 skills: []
 acceptance:
-  - "New relationship types documents/documented-by in INVERSE_MAP"
-  - "Graph builder extracts artifact references from markdown body text as edges"
-  - "Documentation pages linked to artifacts they describe"
+  - New relationship types documents/documented-by in INVERSE_MAP
+  - Graph builder extracts artifact references from markdown body text as edges
+  - Documentation pages linked to artifacts they describe
 relationships:
   - target: EPIC-067
     type: delivers
-    rationale: "Body-text edge extraction and document relationships enrich the graph automatically"
+    rationale: Body-text edge extraction and document relationships enrich the graph automatically
+  - target: EPIC-067
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

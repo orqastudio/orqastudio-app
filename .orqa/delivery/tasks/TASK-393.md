@@ -1,20 +1,24 @@
 ---
 id: TASK-393
-title: "Fix flow — auto-fix button and results display in IntegrityWidget"
-description: "Add a Fix button to the IntegrityWidget that calls apply_auto_fixes, shows which fixes were applied, and re-scans to show remaining issues."
+title: Fix flow — auto-fix button and results display in IntegrityWidget
+description: Add a Fix button to the IntegrityWidget that calls apply_auto_fixes, shows which fixes were applied, and re-scans to show remaining issues.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-060
 depends-on:
   - TASK-391
   - TASK-392
 acceptance:
-  - "Fix button appears when auto-fixable issues exist"
-  - "Clicking Fix calls apply_auto_fixes, shows results, then re-scans"
-  - "Applied fixes shown as a success list before the remaining issues"
-  - "Fix button disabled when no auto-fixable issues or while applying"
-  - "make typecheck passes"
+  - Fix button appears when auto-fixable issues exist
+  - Clicking Fix calls apply_auto_fixes, shows results, then re-scans
+  - Applied fixes shown as a success list before the remaining issues
+  - Fix button disabled when no auto-fixable issues or while applying
+  - make typecheck passes
+relationships:
+  - target: EPIC-060
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

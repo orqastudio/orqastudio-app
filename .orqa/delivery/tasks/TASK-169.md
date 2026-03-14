@@ -3,8 +3,8 @@ id: TASK-169
 title: "Frontend: References panel in artifact viewer"
 description: Add a ReferencesPanel component below the frontmatter header showing incoming and outgoing artifact cross-references using the graph SDK.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-005
 depends-on: []
 acceptance:
@@ -14,6 +14,10 @@ acceptance:
   - Empty sections are hidden
   - Clicking a reference navigates to the target artifact
   - make typecheck passes
+relationships:
+  - target: EPIC-005
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 

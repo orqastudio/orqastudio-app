@@ -3,8 +3,8 @@ id: TASK-143
 title: Deduplicate rule/skill content — rules keep constraints, skills keep methodology
 description: Remove duplicated methodology, templates, and code examples from three rules and move them into their companion skills, leaving rules with only constraints and FORBIDDEN sections.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -14,6 +14,10 @@ acceptance:
   - Skills contain the full methodology, templates, and code examples
   - No content lost — everything moved, nothing deleted
   - Rules are significantly shorter after deduplication
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

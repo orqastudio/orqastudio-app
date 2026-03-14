@@ -1,16 +1,20 @@
 ---
 id: TASK-114
-title: "Define interaction patterns and responsive behaviour"
-description: "Documented how the user navigates, creates, edits, and deletes artifacts, and how the layout adapts across window sizes."
+title: Define interaction patterns and responsive behaviour
+description: Documented how the user navigates, creates, edits, and deletes artifacts, and how the layout adapts across window sizes.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-028
 depends-on: []
 acceptance:
   - Interaction patterns are consistent across all content types
   - Responsive behaviour is specified with breakpoints
   - Accessibility basics are addressed
+relationships:
+  - target: EPIC-028
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

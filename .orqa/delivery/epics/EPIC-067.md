@@ -1,16 +1,11 @@
 ---
-
-
-
-
-
 id: EPIC-067
-title: "Artifact viewer redesign — layout, relationships, and graph enrichment"
-description: "Redesign the artifact viewer information hierarchy, relationships panel, and pipeline stepper. Enrich graph nodes with metadata for display. The largest systemic theme from UAT round 2."
+title: Artifact viewer redesign — layout, relationships, and graph enrichment
+description: Redesign the artifact viewer information hierarchy, relationships panel, and pipeline stepper. Enrich graph nodes with metadata for display. The largest systemic theme from UAT round 2.
 status: in-progress
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 horizon: active
@@ -24,25 +19,64 @@ docs-produced: []
 relationships:
   - target: EPIC-065
     type: informed-by
-    rationale: "First pass at artifact viewer enhancements revealed deeper layout and relationship issues"
+    rationale: First pass at artifact viewer enhancements revealed deeper layout and relationship issues
   - target: EPIC-063
     type: informed-by
-    rationale: "UAT round 2 findings drive this epic's scope"
+    rationale: UAT round 2 findings drive this epic's scope
   - target: EPIC-072
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-072"
+    rationale: Auto-generated inverse of informs relationship from EPIC-072
   - target: IMPL-064
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-064"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-064
   - target: EPIC-070
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from EPIC-070"
+    rationale: Auto-generated inverse of informs relationship from EPIC-070
   - target: IMPL-058
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-058"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-058
   - target: IMPL-059
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-059"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-059
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-429
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-430
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-431
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-432
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-433
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-434
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-435
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-436
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-437
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-438
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-458
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-459
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

@@ -3,8 +3,8 @@ id: TASK-063
 title: Update product documentation for pillar artifacts
 description: Update product documentation for pillar artifacts
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-046
 depends-on:
   - TASK-060
@@ -16,6 +16,10 @@ acceptance:
   - vision.md points to .orqa/process/pillars/ as the source of truth for pillars
   - No duplicate pillar definitions remain in prose documentation
   - Documentation explains that pillars are project-configurable
+relationships:
+  - target: EPIC-046
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

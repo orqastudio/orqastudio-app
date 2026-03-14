@@ -3,8 +3,8 @@ id: TASK-049
 title: Classify rules and hooks with layer field
 description: Adds layer classification to all rule and hook files, separating platform-level canon rules from OrqaStudio-specific project rules.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-044
 assignee: AGENT-003
 skills:
@@ -14,6 +14,10 @@ acceptance:
   - All hook files have classification documented
   - Canon rules enforce platform principles
   - Project rules enforce project-specific conventions
+relationships:
+  - target: EPIC-044
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Classification Plan
 

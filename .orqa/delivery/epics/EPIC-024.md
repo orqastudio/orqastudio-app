@@ -4,8 +4,8 @@ title: Additional MVP Polish
 description: Nice-to-have polish items for MVP launch including search index UI, multi-window support, and sprint planning.
 status: draft
 priority: P3
-created: "2026-03-07"
-updated: "2026-03-07"
+created: 2026-03-07
+updated: 2026-03-07
 milestone: MS-002
 horizon: next
 pillars:
@@ -20,6 +20,10 @@ scoring:
   dependency: 1
   effort: 3
   score: 5.3
+relationships:
+  - target: MS-002
+    type: belongs-to
+    rationale: Epic belongs to this milestone
 ---
 ## Tasks
 

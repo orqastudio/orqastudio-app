@@ -3,8 +3,8 @@ id: TASK-167
 title: "Frontend: ArtifactToolbar with sort dropdown and filter popover"
 description: Replace SearchInput in ArtifactNav with an icon-based toolbar containing sort (DropdownMenu) and filter (Popover) controls, dynamically generated from schema metadata.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-005
 depends-on:
   - TASK-166
@@ -15,6 +15,10 @@ acceptance:
   - Active indicators appear when sort/filter differs from defaults
   - Clear-all resets to _navigation.json defaults
   - make typecheck and make lint-frontend pass
+relationships:
+  - target: EPIC-005
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 

@@ -3,8 +3,8 @@ id: TASK-064
 title: Update session-start hook with uncommitted changes check
 description: Update session-start hook with uncommitted changes check
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-047
 depends-on: []
 assignee: AGENT-003
@@ -18,6 +18,10 @@ acceptance:
   - ui/
   - sidecars/claude-agentsdk-sidecar/)
   - Warning includes instruction to commit before starting new work
+relationships:
+  - target: EPIC-047
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

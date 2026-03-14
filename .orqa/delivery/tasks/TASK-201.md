@@ -6,15 +6,19 @@ description: |
   code areas, mapping file path patterns to the skills that should be
   auto-loaded.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-199
 acceptance:
-  - "Enforcement entries with action:inject added to relevant rules"
-  - "Each path-to-skill mapping references an existing skill"
-  - "Writing to a mapped path triggers skill injection"
+  - Enforcement entries with action:inject added to relevant rules
+  - Each path-to-skill mapping references an existing skill
+  - Writing to a mapped path triggers skill injection
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

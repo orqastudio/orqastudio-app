@@ -1,23 +1,28 @@
 ---
 id: TASK-280
-title: "Verify pipeline integrity — all artifacts connected, no orphans"
+title: Verify pipeline integrity — all artifacts connected, no orphans
 description: "Final verification that the migration is complete: every governance artifact has relationships, no orphan nodes, bidirectional consistency holds, pipeline flow is forward."
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-058
-depends-on: [TASK-279]
+depends-on:
+  - TASK-279
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "Every governance artifact (lesson, decision, rule, skill) has a non-empty relationships array"
-  - "No orphan nodes — every artifact is reachable from at least one other artifact"
-  - "Bidirectional consistency — if A says grounded:B, B says grounded-by:A"
-  - "No unintended null targets without intended:true"
-  - "Pipeline flow analysis — no backwards flow (enforcement without upstream observation)"
-  - "Deprecated fields completely removed"
+  - Every governance artifact (lesson, decision, rule, skill) has a non-empty relationships array
+  - No orphan nodes — every artifact is reachable from at least one other artifact
+  - Bidirectional consistency — if A says grounded:B, B says grounded-by:A
+  - No unintended null targets without intended:true
+  - Pipeline flow analysis — no backwards flow (enforcement without upstream observation)
+  - Deprecated fields completely removed
 rule-overrides: []
+relationships:
+  - target: EPIC-058
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

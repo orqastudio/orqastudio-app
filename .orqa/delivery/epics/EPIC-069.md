@@ -1,12 +1,11 @@
 ---
-
 id: EPIC-069
-title: "Notification system — toast, in-app panel, desktop"
-description: "Design and implement a notification strategy covering toast messages, in-app notification panel, and desktop notifications. Determine which events use which channel."
+title: Notification system — toast, in-app panel, desktop
+description: Design and implement a notification strategy covering toast messages, in-app notification panel, and desktop notifications. Determine which events use which channel.
 status: draft
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 horizon: next
@@ -19,10 +18,22 @@ docs-produced: []
 relationships:
   - target: EPIC-063
     type: informed-by
-    rationale: "UAT round 2 identified missing notification strategy"
+    rationale: UAT round 2 identified missing notification strategy
   - target: IMPL-061
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from IMPL-061"
+    rationale: Auto-generated inverse of informed-by relationship from IMPL-061
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-444
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-445
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-446
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

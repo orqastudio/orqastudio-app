@@ -1,20 +1,24 @@
 ---
 id: TASK-256
-title: "Move dev controller to debugger/"
-description: "Relocate scripts/dev.mjs and scripts/dev-dashboard.html to debugger/ and update Makefile and internal paths."
+title: Move dev controller to debugger/
+description: Relocate scripts/dev.mjs and scripts/dev-dashboard.html to debugger/ and update Makefile and internal paths.
 status: done
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 epic: EPIC-056
 depends-on:
   - TASK-255
 acceptance:
-  - "scripts/dev.mjs moved to debugger/dev.mjs"
-  - "scripts/dev-dashboard.html moved to debugger/dev-dashboard.html"
-  - "Makefile dev controller references updated (9 changes)"
-  - "DASHBOARD_HTML path in dev.mjs updated"
-  - "make dev starts successfully"
-  - "scripts/ directory removed if empty"
+  - scripts/dev.mjs moved to debugger/dev.mjs
+  - scripts/dev-dashboard.html moved to debugger/dev-dashboard.html
+  - Makefile dev controller references updated (9 changes)
+  - DASHBOARD_HTML path in dev.mjs updated
+  - make dev starts successfully
+  - scripts/ directory removed if empty
+relationships:
+  - target: EPIC-056
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

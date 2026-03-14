@@ -1,16 +1,20 @@
 ---
 id: TASK-100
-title: "Record persistence and governance decisions (AD-011 through AD-014)"
-description: "Captured architecture decisions for persistence strategy, governance artifact format, data ownership boundaries, and configuration management."
+title: Record persistence and governance decisions (AD-011 through AD-014)
+description: Captured architecture decisions for persistence strategy, governance artifact format, data ownership boundaries, and configuration management.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-026
 depends-on: []
 acceptance:
   - Each AD follows the decision schema with all required sections
   - Persistence and governance boundaries are clearly delineated
   - Decisions are added to the decisions index
+relationships:
+  - target: EPIC-026
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

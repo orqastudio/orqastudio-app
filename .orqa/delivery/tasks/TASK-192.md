@@ -5,14 +5,18 @@ description: |
   Update the companion plugin README.md with installation instructions,
   what the plugin provides, and how it integrates with OrqaStudio projects.
 status: done
-created: "2026-03-11"
-updated: "2026-03-12"
+created: 2026-03-11
+updated: 2026-03-12
 epic: EPIC-052
 depends-on:
   - TASK-191
 acceptance:
-  - "Plugin README.md has installation instructions"
-  - "All plugin components (hooks, skills) are listed in README"
+  - Plugin README.md has installation instructions
+  - All plugin components (hooks, skills) are listed in README
+relationships:
+  - target: EPIC-052
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

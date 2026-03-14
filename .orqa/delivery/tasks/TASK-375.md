@@ -1,10 +1,10 @@
 ---
 id: TASK-375
-title: "Reconcile EPIC-061"
-description: "Final reconciliation of EPIC-061 — verify all tasks complete, all deliverables shipped, all enforcement tooling operational"
+title: Reconcile EPIC-061
+description: Final reconciliation of EPIC-061 — verify all tasks complete, all deliverables shipped, all enforcement tooling operational
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-061
 depends-on:
   - TASK-350
@@ -35,7 +35,11 @@ depends-on:
   - TASK-386
   - TASK-387
 acceptance:
-  - "All EPIC-061 tasks are done and all deliverables verified as operational"
+  - All EPIC-061 tasks are done and all deliverables verified as operational
+relationships:
+  - target: EPIC-061
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

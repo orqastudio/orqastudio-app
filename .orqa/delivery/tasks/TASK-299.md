@@ -1,21 +1,26 @@
 ---
 id: TASK-299
-title: "README alignment audit"
-description: "Every artifact directory README should describe what the artifact type IS, its role in the pipeline, and be consistent in format. Must reflect new directory structure."
+title: README alignment audit
+description: Every artifact directory README should describe what the artifact type IS, its role in the pipeline, and be consistent in format. Must reflect new directory structure.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
-depends-on: [TASK-292]
+depends-on:
+  - TASK-292
 assignee: null
 docs: []
 skills: []
 acceptance:
-  - "Every artifact directory has a README.md"
-  - "Each README describes the artifact type and its pipeline role"
-  - "README frontmatter is consistent (icon, label, description, sort)"
-  - "READMEs reflect new directory structure"
+  - Every artifact directory has a README.md
+  - Each README describes the artifact type and its pipeline role
+  - README frontmatter is consistent (icon, label, description, sort)
+  - READMEs reflect new directory structure
 rule-overrides: []
+relationships:
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

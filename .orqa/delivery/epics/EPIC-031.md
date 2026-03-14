@@ -4,8 +4,8 @@ title: Governance Bootstrap
 description: "The initial governance layer: filesystem scanner, coverage analysis, recommendations, and governance coverage indicator on the dashboard."
 status: done
 priority: P1
-created: "2026-03-02"
-updated: "2026-03-07"
+created: 2026-03-02
+updated: 2026-03-07
 milestone: MS-000
 horizon: null
 pillars:
@@ -26,6 +26,31 @@ scoring:
   dependency: 3
   effort: 1
   score: 34
+relationships:
+  - target: MS-000
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-133
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-134
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-135
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-136
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-137
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-138
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-321
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Why P1
 

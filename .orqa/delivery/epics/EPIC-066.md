@@ -1,12 +1,11 @@
 ---
-
 id: EPIC-066
-title: "Package ecosystem extraction for plugin portability"
-description: "Extract types, integrity validator, eslint config, and SDK into standalone @orqastudio/ npm packages hosted on GitHub Packages. Gives plugins parity access to the frontend-backend connection, artifact graph, and code standards."
+title: Package ecosystem extraction for plugin portability
+description: Extract types, integrity validator, eslint config, and SDK into standalone @orqastudio/ npm packages hosted on GitHub Packages. Gives plugins parity access to the frontend-backend connection, artifact graph, and code standards.
 status: ready
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 horizon: active
@@ -22,22 +21,61 @@ docs-produced: []
 relationships:
   - target: IDEA-093
     type: informed-by
-    rationale: "Promoted from IDEA-093 — package ecosystem for plugin portability"
+    rationale: Promoted from IDEA-093 — package ecosystem for plugin portability
   - target: IDEA-092
     type: informed-by
-    rationale: "CLI scanner parity idea drove the integrity validator extraction"
+    rationale: CLI scanner parity idea drove the integrity validator extraction
   - target: RES-057
     type: informed-by
-    rationale: "Integrity check alignment audit identified the need for a single check library"
+    rationale: Integrity check alignment audit identified the need for a single check library
   - target: RES-058
     type: informed-by
-    rationale: "SDK extraction research confirmed architecture is clean and extraction-ready"
+    rationale: SDK extraction research confirmed architecture is clean and extraction-ready
   - target: EPIC-064
     type: informs
-    rationale: "Enforcement bootstrapping benefits from the portable integrity validator"
+    rationale: Enforcement bootstrapping benefits from the portable integrity validator
   - target: RES-059
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-059"
+    rationale: Auto-generated inverse of informed-by relationship from RES-059
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-417
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-418
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-419
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-420
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-421
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-422
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-423
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-424
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-425
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-426
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-427
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-428
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

@@ -3,8 +3,8 @@ id: TASK-080
 title: Write Artifact Graph SDK documentation
 description: Create a development guide for the Artifact Graph SDK covering API reference, usage patterns, and plugin integration examples.
 status: done
-created: "2026-03-10"
-updated: "2026-03-10"
+created: 2026-03-10
+updated: 2026-03-10
 epic: EPIC-048
 depends-on:
   - TASK-083
@@ -17,6 +17,10 @@ acceptance:
   - Plugin integration examples showing how plugins consume the SDK
   - Migration guide from old patterns (prefix map, raw invoke) to SDK
   - Architecture diagram showing backend graph → Tauri commands → SDK → components
+relationships:
+  - target: EPIC-048
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## What

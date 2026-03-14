@@ -3,8 +3,8 @@ id: TASK-188
 title: Port enforcement engine to Rust backend
 description: Implement the rule enforcement engine in Rust for app-native enforcement.
 status: todo
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-050
 depends-on:
   - TASK-185
@@ -22,6 +22,10 @@ acceptance:
   - Module evaluates patterns against tool call context
   - Module returns block/warn/allow decisions
   - Unit tests cover loading, parsing, and pattern matching
+relationships:
+  - target: EPIC-050
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 

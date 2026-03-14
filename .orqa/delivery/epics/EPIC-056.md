@@ -1,15 +1,14 @@
 ---
-
 id: EPIC-056
-title: "Repository Directory Reorganisation"
+title: Repository Directory Reorganisation
 description: |
   Restructure the repository so that frontend, backend, sidecar, and debugger code
   each live in their own top-level directory. Watchers then target only their specific
   directory, eliminating unnecessary rebuilds when unrelated files change.
 status: done
 priority: P1
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 deadline: null
 milestone: MS-001
 horizon: null
@@ -29,7 +28,34 @@ scoring:
 relationships:
   - target: RES-044
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-044"
+    rationale: Auto-generated inverse of informed-by relationship from RES-044
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-251
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-252
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-253
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-254
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-255
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-256
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-257
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-346
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

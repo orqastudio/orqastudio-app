@@ -1,11 +1,11 @@
 ---
 id: TASK-424
-title: "Create @orqastudio/test-config package — shared vitest + testing utilities"
-description: "Extract shared test configuration (vitest config, test utilities, fixture helpers) into a standalone package. All orqastudio repos and plugins use this for consistent testing with full CI/CD integration."
+title: Create @orqastudio/test-config package — shared vitest + testing utilities
+description: Extract shared test configuration (vitest config, test utilities, fixture helpers) into a standalone package. All orqastudio repos and plugins use this for consistent testing with full CI/CD integration.
 status: done
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-066
 depends-on: []
 assignee: null
@@ -13,16 +13,19 @@ skills:
   - SKILL-033
   - SKILL-034
 acceptance:
-  - "New repo orqastudio/orqastudio-test-config exists with CI + publish workflow"
-  - "Exports shared vitest config (base vitest.config.ts for extends)"
+  - New repo orqastudio/orqastudio-test-config exists with CI + publish workflow
+  - Exports shared vitest config (base vitest.config.ts for extends)
   - "Exports test utilities: artifact fixture builders, graph builders, mock invoke"
-  - "Published to GitHub Packages as @orqastudio/test-config"
-  - "All orqastudio repos (integrity-validator, sdk, types) use this package"
-  - "CI/CD runs full test suite on every PR and push to main"
+  - Published to GitHub Packages as @orqastudio/test-config
+  - All orqastudio repos (integrity-validator, sdk, types) use this package
+  - CI/CD runs full test suite on every PR and push to main
 relationships:
   - target: EPIC-066
     type: delivers
-    rationale: "Shared testing framework for the package ecosystem"
+    rationale: Shared testing framework for the package ecosystem
+  - target: EPIC-066
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

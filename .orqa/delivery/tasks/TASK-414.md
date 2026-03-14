@@ -1,11 +1,11 @@
 ---
 id: TASK-414
-title: "Integration test — verify all declared enforcement entries are consumed"
-description: "Audit all enforcement entries across all rules and verify each one is actually evaluated by the plugin (CLI) or app (Rust). Produce a coverage report showing declared vs. implemented enforcement."
+title: Integration test — verify all declared enforcement entries are consumed
+description: Audit all enforcement entries across all rules and verify each one is actually evaluated by the plugin (CLI) or app (Rust). Produce a coverage report showing declared vs. implemented enforcement.
 status: todo
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-064
 depends-on:
   - TASK-411
@@ -21,11 +21,14 @@ acceptance:
   - "Every enforcement entry with event: stop is evaluated by rule-engine.mjs Stop hook"
   - "Every enforcement entry with action: inject loads actual skill content"
   - "Coverage report: number of declared entries vs. number consumed, per event type"
-  - "Any entry that is declared but not consumed is flagged as a gap"
+  - Any entry that is declared but not consumed is flagged as a gap
 relationships:
   - target: EPIC-064
     type: delivers
-    rationale: "Verification task — confirms the bootstrapping gap is closed"
+    rationale: Verification task — confirms the bootstrapping gap is closed
+  - target: EPIC-064
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

@@ -1,11 +1,11 @@
 ---
 id: TASK-412
-title: "Implement full skill content injection in rule-engine.mjs"
-description: "Currently skill injection returns skill names as a list. Change it to read the actual SKILL.md file content and inject it as systemMessage so agents receive the knowledge, not just a reference."
+title: Implement full skill content injection in rule-engine.mjs
+description: Currently skill injection returns skill names as a list. Change it to read the actual SKILL.md file content and inject it as systemMessage so agents receive the knowledge, not just a reference.
 status: todo
 priority: P1
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 epic: EPIC-064
 depends-on: []
 assignee: null
@@ -13,18 +13,21 @@ skills:
   - SKILL-011
   - SKILL-020
 acceptance:
-  - "collectSkillIds() resolves skill names to .orqa/process/skills/{name}/SKILL.md paths"
-  - "Skill file content is read, YAML frontmatter stripped, body returned as systemMessage"
-  - "Deduplication still works via .injected-skills.json (no re-injection of already-loaded skills)"
-  - "Missing skill files produce a warning message, not a crash"
-  - "Injected content is returned alongside any warn/block verdicts"
+  - collectSkillIds() resolves skill names to .orqa/process/skills/{name}/SKILL.md paths
+  - Skill file content is read, YAML frontmatter stripped, body returned as systemMessage
+  - Deduplication still works via .injected-skills.json (no re-injection of already-loaded skills)
+  - Missing skill files produce a warning message, not a crash
+  - Injected content is returned alongside any warn/block verdicts
 relationships:
   - target: EPIC-064
     type: delivers
-    rationale: "Core task — makes skill injection meaningful instead of just naming skills"
+    rationale: Core task — makes skill injection meaningful instead of just naming skills
   - target: RULE-042
     type: enforces
-    rationale: "RULE-042's path-to-skill injection depends on actual skill content being loaded"
+    rationale: RULE-042's path-to-skill injection depends on actual skill content being loaded
+  - target: EPIC-064
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

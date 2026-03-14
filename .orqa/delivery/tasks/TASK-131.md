@@ -1,16 +1,20 @@
 ---
 id: TASK-131
-title: "Implement session management UI"
-description: "Built the session dropdown with history browsing, search, and navigation between conversations."
+title: Implement session management UI
+description: Built the session dropdown with history browsing, search, and navigation between conversations.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-030
 depends-on: []
 acceptance:
   - Users can browse, search, and switch between sessions
   - New session creation works from the UI
   - Session state persists across app restarts
+relationships:
+  - target: EPIC-030
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

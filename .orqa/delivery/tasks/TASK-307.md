@@ -1,28 +1,29 @@
 ---
-
-
 id: TASK-307
-title: "Design plugin-sidecar pairing mechanism (IMPL-019, IMPL-020)"
-description: "Design the plugin type taxonomy, AI provider schema, and capability fulfilment model schemas. Design only — implementation is deferred to IDEA-071. Covers plugin.json schema extension, provider definition schema, and capability routing configuration shape."
+title: Design plugin-sidecar pairing mechanism (IMPL-019, IMPL-020)
+description: Design the plugin type taxonomy, AI provider schema, and capability fulfilment model schemas. Design only — implementation is deferred to IDEA-071. Covers plugin.json schema extension, provider definition schema, and capability routing configuration shape.
 status: done
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-059
 depends-on: []
 acceptance:
-  - "IMPL-019 and IMPL-020 maturity updated to understanding"
-  - "Plugin.json schema extension designed with type array, requires shape per type, default-capabilities"
-  - "AI provider schema designed for .orqa/providers/<name>.json"
-  - "Capability routing config shape designed for project.json"
-  - "All schemas documented, user-approved"
-  - "IDEA-071 created to track implementation"
+  - IMPL-019 and IMPL-020 maturity updated to understanding
+  - Plugin.json schema extension designed with type array, requires shape per type, default-capabilities
+  - AI provider schema designed for .orqa/providers/<name>.json
+  - Capability routing config shape designed for project.json
+  - All schemas documented, user-approved
+  - IDEA-071 created to track implementation
 relationships:
   - target: IMPL-020
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-020"
+    rationale: Auto-generated inverse of enforced-by relationship from IMPL-020
   - target: IMPL-019
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from IMPL-019"
+    rationale: Auto-generated inverse of enforced-by relationship from IMPL-019
+  - target: EPIC-059
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

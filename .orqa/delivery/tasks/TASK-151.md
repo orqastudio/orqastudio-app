@@ -3,8 +3,8 @@ id: TASK-151
 title: Create epic readiness validator hook
 description: Validation hook that checks docs-required paths exist on disk before an epic can move to ready status.
 status: done
-created: "2026-03-11"
-updated: "2026-03-11"
+created: 2026-03-11
+updated: 2026-03-11
 epic: EPIC-049
 depends-on: []
 acceptance:
@@ -12,6 +12,10 @@ acceptance:
   - Epic with all docs-required items present passes validation
   - Epic with empty docs-required passes validation
   - Handles both artifact ID refs and file path refs
+relationships:
+  - target: EPIC-049
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

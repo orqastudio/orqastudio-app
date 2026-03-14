@@ -1,16 +1,20 @@
 ---
 id: TASK-107
-title: "Define MVP feature set"
-description: "Bounded the set of capabilities that constitute the minimum viable product, distinguishing MVP features from future work."
+title: Define MVP feature set
+description: Bounded the set of capabilities that constitute the minimum viable product, distinguishing MVP features from future work.
 status: done
-created: "2026-03-02"
-updated: "2026-03-02"
+created: 2026-03-02
+updated: 2026-03-02
 epic: EPIC-027
 depends-on: []
 acceptance:
   - MVP scope is clearly bounded
   - Every MVP feature traces to at least one pillar
   - Excluded features are documented with rationale
+relationships:
+  - target: EPIC-027
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

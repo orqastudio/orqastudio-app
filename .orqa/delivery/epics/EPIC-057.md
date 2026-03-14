@@ -1,20 +1,23 @@
 ---
-
 id: EPIC-057
-title: "Codebase Audit and Architecture Documentation"
-description: "Thorough code review ensuring artifact accuracy, documenting undiscovered implementation patterns, removing dead/outdated code, assessing test coverage, aligning linting with coding standards, and producing complete architecture documentation for the target core application."
+title: Codebase Audit and Architecture Documentation
+description: Thorough code review ensuring artifact accuracy, documenting undiscovered implementation patterns, removing dead/outdated code, assessing test coverage, aligning linting with coding standards, and producing complete architecture documentation for the target core application.
 status: done
 priority: P1
-created: "2026-03-12"
-updated: "2026-03-12"
+created: 2026-03-12
+updated: 2026-03-12
 deadline: null
 milestone: MS-001
 horizon: null
-pillars: [PILLAR-001, PILLAR-002]
+pillars:
+  - PILLAR-001
+  - PILLAR-002
 depends-on: []
 blocks: []
-research-refs: [RES-047]
-docs-required: [RES-047]
+research-refs:
+  - RES-047
+docs-required:
+  - RES-047
 docs-produced: []
 scoring:
   user-value: 4
@@ -24,7 +27,52 @@ scoring:
 relationships:
   - target: RES-047
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-047"
+    rationale: Auto-generated inverse of informed-by relationship from RES-047
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-258
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-259
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-260
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-261
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-262
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-263
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-264
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-265
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-266
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-267
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-268
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-269
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-270
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-347
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

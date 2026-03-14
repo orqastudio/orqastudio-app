@@ -1,14 +1,11 @@
 ---
-
-
-
 id: EPIC-061
-title: "Principle enforcement foundations"
-description: "Close all gaps between declared principles and mechanical enforcement. Backfill the relationship graph, mechanically enforce all enforceable rules, automate the learning loop, build Pillar 3 tooling, establish a behavioral rule enforcement plan, define priority dimensions, and build the gap audit into repeatable tooling. The system enforces itself going forward."
+title: Principle enforcement foundations
+description: Close all gaps between declared principles and mechanical enforcement. Backfill the relationship graph, mechanically enforce all enforceable rules, automate the learning loop, build Pillar 3 tooling, establish a behavioral rule enforcement plan, define priority dimensions, and build the gap audit into repeatable tooling. The system enforces itself going forward.
 status: done
 priority: P1
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 deadline: null
 milestone: MS-001
 horizon: null
@@ -32,13 +29,100 @@ rule-overrides: []
 relationships:
   - target: IMPL-048
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from IMPL-048"
+    rationale: Auto-generated inverse of informs relationship from IMPL-048
   - target: IMPL-049
     type: informs
-    rationale: "Auto-generated inverse of informs relationship from IMPL-049"
+    rationale: Auto-generated inverse of informs relationship from IMPL-049
   - target: RES-054
     type: informed-by
-    rationale: "Auto-generated inverse of informed-by relationship from RES-054"
+    rationale: Auto-generated inverse of informed-by relationship from RES-054
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-350
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-351
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-362
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-363
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-364
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-365
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-366
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-367
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-368
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-369
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-370
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-371
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-372
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-373
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-374
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-375
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-376
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-377
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-378
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-379
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-380
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-381
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-382
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-383
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-384
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-385
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-386
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-387
+    type: contains
+    rationale: Epic contains this task
 ---
 ## Context
 

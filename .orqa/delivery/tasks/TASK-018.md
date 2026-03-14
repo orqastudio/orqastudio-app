@@ -3,8 +3,8 @@ id: TASK-018
 title: Product rebrand to Orqa Studio
 description: Full product rebrand from Forge to Orqa Studio across all code, configuration, documentation, agent definitions, and brand assets.
 status: done
-created: "2026-03-04"
-updated: "2026-03-09"
+created: 2026-03-04
+updated: 2026-03-09
 epic: EPIC-036
 assignee: AGENT-002
 skills:
@@ -16,6 +16,10 @@ acceptance:
   - .forge/ config removed
   - Brand assets replaced
   - All 16 agent definitions updated
+relationships:
+  - target: EPIC-036
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## What
 

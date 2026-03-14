@@ -3,8 +3,8 @@ id: TASK-054
 title: Create project setup skills
 description: "Write the four setup skills that replace templates for project initialisation: base scaffolding, folder inference, agentic config migration, and the software project type preset."
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-045
 depends-on:
   - TASK-057
@@ -33,6 +33,10 @@ acceptance:
   - SKILL-024 knows worktree rules
   - code quality
   - testing standards
+relationships:
+  - target: EPIC-045
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Reference
 

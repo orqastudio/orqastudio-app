@@ -3,8 +3,8 @@ id: TASK-045
 title: Hooks display in governance section
 description: Fixes the hooks section of the governance panel showing empty by updating the scanner to surface hook files even when they are not markdown documents.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-043
 assignee: AGENT-002
 skills:
@@ -15,6 +15,10 @@ acceptance:
   - If hooks directory contains shell scripts (not .md files)
   - they are still listed with their filename as label
   - Consider whether Claude hooks from .claude/settings.json should also surface here (may defer to IDEA-027)
+relationships:
+  - target: EPIC-043
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Findings Addressed
 

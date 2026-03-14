@@ -3,8 +3,8 @@ id: TASK-051
 title: Create universal agent definitions
 description: Write the 4 new universal role agent files (researcher, planner, implementer, reviewer), rename documentation-writer to writer, and broaden designer to cover experience/interface/structure design beyond just UI.
 status: done
-created: "2026-03-09"
-updated: "2026-03-09"
+created: 2026-03-09
+updated: 2026-03-09
 epic: EPIC-045
 depends-on:
   - TASK-057
@@ -22,6 +22,10 @@ acceptance:
   - required reading
   - ownership boundaries
   - Claude Code subagent_type mapping documented per role
+relationships:
+  - target: EPIC-045
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 ## Reference
 

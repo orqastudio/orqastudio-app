@@ -1,11 +1,11 @@
 ---
 id: EPIC-070
-title: "Dynamic artifact tables and schema validation enhancements"
-description: "Injectable dynamic tables in markdown (tasks table on epics, epics on milestones), body template validation, and schema evolution (new relationship types, personas)."
+title: Dynamic artifact tables and schema validation enhancements
+description: Injectable dynamic tables in markdown (tasks table on epics, epics on milestones), body template validation, and schema evolution (new relationship types, personas).
 status: draft
 priority: P2
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 deadline: null
 milestone: MS-001
 horizon: next
@@ -20,10 +20,25 @@ docs-produced: []
 relationships:
   - target: EPIC-067
     type: informed-by
-    rationale: "Graph enrichment from EPIC-067 enables dynamic table data"
+    rationale: Graph enrichment from EPIC-067 enables dynamic table data
   - target: EPIC-063
     type: informed-by
-    rationale: "UAT round 2 findings drive schema and validation work"
+    rationale: UAT round 2 findings drive schema and validation work
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+  - target: TASK-447
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-448
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-449
+    type: contains
+    rationale: Epic contains this task
+  - target: TASK-450
+    type: contains
+    rationale: Epic contains this task
 ---
 
 ## Context

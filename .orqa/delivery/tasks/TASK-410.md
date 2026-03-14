@@ -1,11 +1,11 @@
 ---
 id: TASK-410
-title: "Investigate and suppress tao event loop warnings"
-description: "Investigate tao framework event loop warnings flooding the dev controller output. Determine if they indicate a real issue or can be safely filtered."
+title: Investigate and suppress tao event loop warnings
+description: Investigate tao framework event loop warnings flooding the dev controller output. Determine if they indicate a real issue or can be safely filtered.
 status: done
 priority: P3
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 epic: EPIC-063
 depends-on: []
 assignee: null
@@ -13,12 +13,15 @@ skills:
   - SKILL-032
   - SKILL-006
 acceptance:
-  - "Root cause of tao NewEvents/RedrawEventsCleared warnings understood and documented"
-  - "Warnings either fixed at source or filtered from dev output with documented justification"
+  - Root cause of tao NewEvents/RedrawEventsCleared warnings understood and documented
+  - Warnings either fixed at source or filtered from dev output with documented justification
 relationships:
   - target: EPIC-063
     type: delivers
-    rationale: "Theme H — framework warning noise from UAT"
+    rationale: Theme H — framework warning noise from UAT
+  - target: EPIC-063
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope

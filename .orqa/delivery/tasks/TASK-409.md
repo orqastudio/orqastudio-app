@@ -1,11 +1,11 @@
 ---
 id: TASK-409
-title: "Research document relationship schema update and data backfill"
-description: "Add relationships array to research schema. Backfill existing research documents with relationship data. Backfill epic horizon fields."
+title: Research document relationship schema update and data backfill
+description: Add relationships array to research schema. Backfill existing research documents with relationship data. Backfill epic horizon fields.
 status: done
 priority: P2
-created: "2026-03-13"
-updated: "2026-03-14"
+created: 2026-03-13
+updated: 2026-03-14
 epic: EPIC-063
 depends-on: []
 assignee: null
@@ -14,15 +14,18 @@ skills:
   - SKILL-039
   - SKILL-050
 acceptance:
-  - "Research schema includes relationships array matching the standard relationship pattern"
-  - "All research documents have relationship data backfilled (at minimum, informs edges to epics that reference them)"
-  - "Bidirectional consistency verified — epic research-refs have matching research→epic relationships"
-  - "All epics have horizon field populated (active/next/later/someday/null)"
-  - "verify-links passes clean after backfill"
+  - Research schema includes relationships array matching the standard relationship pattern
+  - All research documents have relationship data backfilled (at minimum, informs edges to epics that reference them)
+  - Bidirectional consistency verified — epic research-refs have matching research→epic relationships
+  - All epics have horizon field populated (active/next/later/someday/null)
+  - verify-links passes clean after backfill
 relationships:
   - target: EPIC-063
     type: delivers
-    rationale: "Theme G — data integrity backfill from UAT"
+    rationale: Theme G — data integrity backfill from UAT
+  - target: EPIC-063
+    type: belongs-to
+    rationale: Task belongs to this epic
 ---
 
 ## Scope
