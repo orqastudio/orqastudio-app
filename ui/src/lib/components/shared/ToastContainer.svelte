@@ -50,7 +50,7 @@
 			{@const styles = styleMap[entry.type]}
 			{@const Icon = iconMap[entry.type]}
 			<div
-				class="flex min-w-[300px] items-start gap-3 rounded-md border {styles.border} bg-background/95 px-4 py-3 shadow-lg backdrop-blur-sm animate-in slide-in-from-top-3 fade-in duration-200"
+				class="toast-enter flex min-w-[300px] items-start gap-3 rounded-md border {styles.border} bg-background/95 px-4 py-3 shadow-lg backdrop-blur-sm"
 				role="status"
 				aria-live="polite"
 			>
@@ -73,3 +73,19 @@
 		{/each}
 	</div>
 {/if}
+
+<style>
+	@keyframes toast-slide-in {
+		from {
+			opacity: 0;
+			transform: translateY(-0.75rem);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	.toast-enter {
+		animation: toast-slide-in 200ms ease-out forwards;
+	}
+</style>
