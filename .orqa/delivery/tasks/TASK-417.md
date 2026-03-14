@@ -2,7 +2,7 @@
 id: TASK-417
 title: "Create @orqastudio/types package"
 description: "Extract all 13 type files from ui/src/lib/types/ into a standalone @orqastudio/types package. Include shared constants (INVERSE_MAP, SINGLE_REF_FIELDS, ARRAY_REF_FIELDS). Set up GitHub repo, CI, and GitHub Packages publishing."
-status: todo
+status: done
 priority: P1
 created: "2026-03-14"
 updated: "2026-03-14"
