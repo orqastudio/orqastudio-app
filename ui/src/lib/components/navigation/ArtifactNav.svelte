@@ -293,7 +293,7 @@
 										label={node.label}
 										description={node.description ?? undefined}
 										status={node.status ?? undefined}
-t									actionsNeeded={nodeHasActions(node)}
+										actionsNeeded={nodeHasActions(node)}
 										active={navigationStore.selectedArtifactPath === node.path}
 										onclick={() => handleLeafClick(node)}
 									/>
@@ -308,7 +308,7 @@ t									actionsNeeded={nodeHasActions(node)}
 						label={node.label}
 						description={node.description ?? undefined}
 						status={node.status ?? undefined}
-t					actionsNeeded={nodeHasActions(node)}
+						actionsNeeded={nodeHasActions(node)}
 						active={navigationStore.selectedArtifactPath === node.path}
 						onclick={() => handleLeafClick(node)}
 					/>
@@ -342,7 +342,7 @@ t					actionsNeeded={nodeHasActions(node)}
 				label={node.label}
 				description={node.description ?? undefined}
 				status={node.status ?? undefined}
-t			actionsNeeded={nodeHasActions(node)}
+				actionsNeeded={nodeHasActions(node)}
 				active={navigationStore.selectedArtifactPath === node.path}
 				onclick={() => handleLeafClick(node)}
 			/>
