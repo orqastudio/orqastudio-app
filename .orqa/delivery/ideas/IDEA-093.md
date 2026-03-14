@@ -2,7 +2,7 @@
 id: IDEA-093
 title: "OrqaStudio package ecosystem for plugin portability"
 description: "Extract shared code into scoped npm packages hosted on GitHub Packages so that plugins can import types, validation, SDK, and UI components without depending on the full app."
-status: exploring
+status: promoted
 created: "2026-03-14"
 updated: "2026-03-14"
 pillars:
@@ -15,7 +15,7 @@ research-needed:
   - "Component library extraction — which shadcn wrappers and shared components should be in the package?"
   - "Monorepo vs multi-repo — should packages live in separate repos or a monorepo with workspaces?"
   - "Versioning strategy — how do package versions relate to app versions?"
-promoted-to: null
+promoted-to: EPIC-066
 spun-off-from: null
 relationships:
   - target: IDEA-092

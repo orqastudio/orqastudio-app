@@ -21,6 +21,9 @@ relationships:
   - target: RES-057
     type: informed-by
     rationale: "Integrity check alignment audit identified the parity gap"
+  - target: EPIC-066
+    type: informs
+    rationale: "CLI scanner parity idea drove the integrity validator package extraction"
 ---
 
 ## Motivation
