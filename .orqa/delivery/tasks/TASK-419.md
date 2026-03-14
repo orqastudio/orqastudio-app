@@ -2,7 +2,7 @@
 id: TASK-419
 title: "Wire types + eslint-config into integrity validator + add tests"
 description: "Update @orqastudio/integrity-validator to import types from @orqastudio/types, use @orqastudio/eslint-config, and add comprehensive unit tests for all 10 checks."
-status: todo
+status: done
 priority: P1
 created: "2026-03-14"
 updated: "2026-03-14"
