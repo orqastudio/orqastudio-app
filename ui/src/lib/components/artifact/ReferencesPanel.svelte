@@ -5,10 +5,14 @@
 		CollapsibleTrigger,
 	} from "$lib/components/ui/collapsible";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import ListIcon from "@lucide/svelte/icons/list";
+	import NetworkIcon from "@lucide/svelte/icons/network";
+	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { SvelteMap } from "svelte/reactivity";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 	import ArtifactLink from "./ArtifactLink.svelte";
+	import RelationshipGraphView from "./RelationshipGraphView.svelte";
 	import type { ArtifactRef } from "$lib/types/artifact-graph";
 
 	let { artifactPath }: { artifactPath: string } = $props();
@@ -57,6 +61,9 @@
 
 	let panelOpen = $state(false);
 
+	/** Toggle between list and graph view. */
+	let viewMode = $state<"list" | "graph">("list");
+
 	/** Per-group expanded state for overflow toggle. */
 	const expandedGroups = $state<SvelteMap<string, boolean>>(new SvelteMap());
 
@@ -86,16 +93,49 @@
 {#if totalRefs > 0}
 	<div class="border-b border-border px-4 py-2">
 		<Collapsible bind:open={panelOpen}>
-			<CollapsibleTrigger
-				class="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
-			>
-				<ChevronRightIcon
-					class="h-3 w-3 transition-transform {panelOpen ? 'rotate-90' : ''}"
-				/>
-				Relationships
-				<span class="text-[10px] tabular-nums">({totalRefs})</span>
-			</CollapsibleTrigger>
+			<div class="flex items-center justify-between">
+				<CollapsibleTrigger
+					class="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+				>
+					<ChevronRightIcon
+						class="h-3 w-3 transition-transform {panelOpen ? 'rotate-90' : ''}"
+					/>
+					Relationships
+					<span class="text-[10px] tabular-nums">({totalRefs})</span>
+				</CollapsibleTrigger>
+				{#if panelOpen}
+					<Tooltip.Root>
+						<Tooltip.Trigger>
+							{#snippet child({ props })}
+								<button
+									{...props}
+									class="rounded p-0.5 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+									onclick={() => { viewMode = viewMode === "list" ? "graph" : "list"; }}
+								>
+									{#if viewMode === "list"}
+										<NetworkIcon class="h-3.5 w-3.5" />
+									{:else}
+										<ListIcon class="h-3.5 w-3.5" />
+									{/if}
+								</button>
+							{/snippet}
+						</Tooltip.Trigger>
+						<Tooltip.Content side="top">
+							<p>{viewMode === "list" ? "Graph view" : "List view"}</p>
+						</Tooltip.Content>
+					</Tooltip.Root>
+				{/if}
+			</div>
 			<CollapsibleContent>
+				{#if viewMode === "graph"}
+					<div class="pt-1.5">
+						<RelationshipGraphView
+							{artifactId}
+							{incomingRefs}
+							{outgoingRefs}
+						/>
+					</div>
+				{:else}
 				<div class="space-y-2 pt-1.5 pl-4">
 					{#if incomingRefs.length > 0}
 						<div class="space-y-1.5">
@@ -163,6 +203,7 @@
 						</div>
 					{/if}
 				</div>
+				{/if}
 			</CollapsibleContent>
 		</Collapsible>
 	</div>

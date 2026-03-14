@@ -2,7 +2,6 @@
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
-	import * as Tooltip from "$lib/components/ui/tooltip";
 	import type { ArtifactRef } from "$lib/types/artifact-graph";
 
 	let {
@@ -28,9 +27,10 @@
 	interface GraphNode {
 		id: string;
 		label: string;
+		title: string;
 		x: number;
 		y: number;
-		dotClass: string;
+		fillColor: string;
 		direction: "in" | "out";
 		edgeType: string;
 	}
@@ -49,6 +49,29 @@
 			.replace(/-/g, " ")
 			.replace(/_/g, " ")
 			.replace(/\b\w/g, (c) => c.toUpperCase());
+	}
+
+	/** Map Tailwind bg class to an SVG fill color. */
+	function svgFillFromClass(dotClass: string): string {
+		if (dotClass.includes("blue-500")) return "#3b82f6";
+		if (dotClass.includes("emerald-500")) return "#10b981";
+		if (dotClass.includes("amber-500")) return "#f59e0b";
+		if (dotClass.includes("purple-500")) return "#a855f7";
+		if (dotClass.includes("destructive")) return "#ef4444";
+		return "#6b7280";
+	}
+
+	/** Resolve SVG fill color for an artifact ID based on its status. */
+	function resolveNodeColor(targetId: string): string {
+		const node = artifactGraphSDK.resolve(targetId);
+		if (!node?.status) return "#6b7280";
+		return svgFillFromClass(statusColor(node.status));
+	}
+
+	/** Resolve display title for an artifact ID. */
+	function resolveTitle(targetId: string): string {
+		const node = artifactGraphSDK.resolve(targetId);
+		return node?.title ?? targetId;
 	}
 
 	/** Collect unique related IDs grouped by (direction, edgeType). */
@@ -117,15 +140,14 @@
 				const r = count === 1 ? INNER_RADIUS : INNER_RADIUS + (ni % 2 === 0 ? 0 : 20);
 
 				const targetId = group.ids[ni];
-				const node = artifactGraphSDK.resolve(targetId);
-				const dotClass = node?.status ? statusColor(node.status) : "bg-muted-foreground/50";
 
 				nodes.push({
 					id: targetId,
 					label: targetId,
+					title: resolveTitle(targetId),
 					x: CX + r * Math.cos(angle),
 					y: CY + r * Math.sin(angle),
-					dotClass,
+					fillColor: resolveNodeColor(targetId),
 					direction: group.direction,
 					edgeType: group.edgeType,
 				});
@@ -135,21 +157,8 @@
 		return { nodes, groups: groupLabels };
 	});
 
-	/** Center node status color. */
-	const centerDotClass = $derived.by(() => {
-		const node = artifactGraphSDK.resolve(artifactId);
-		return node?.status ? statusColor(node.status) : "bg-muted-foreground/50";
-	});
-
-	/** Map Tailwind bg class to an SVG fill color. */
-	function svgFill(dotClass: string): string {
-		if (dotClass.includes("blue-500")) return "#3b82f6";
-		if (dotClass.includes("emerald-500")) return "#10b981";
-		if (dotClass.includes("amber-500")) return "#f59e0b";
-		if (dotClass.includes("purple-500")) return "#a855f7";
-		if (dotClass.includes("destructive")) return "#ef4444";
-		return "#6b7280";
-	}
+	/** Center node fill color. */
+	const centerFill = $derived(resolveNodeColor(artifactId));
 
 	function handleNodeClick(id: string): void {
 		navigationStore.navigateToArtifact(id);
@@ -158,9 +167,9 @@
 	/** Compute text-anchor for a label based on its angle. */
 	function textAnchor(angle: number): string {
 		const deg = ((angle * 180) / Math.PI + 360) % 360;
-		if (deg > 90 && deg < 270) return "end";
-		if (deg > 80 && deg < 100) return "middle";
-		if (deg > 260 && deg < 280) return "middle";
+		if (deg > 100 && deg < 260) return "end";
+		if (deg >= 80 && deg <= 100) return "middle";
+		if (deg >= 260 && deg <= 280) return "middle";
 		return "start";
 	}
 </script>
@@ -178,7 +187,7 @@
 			y1={CY}
 			x2={node.x}
 			y2={node.y}
-			stroke={node.direction === "out" ? "#3b82f680" : "#a855f780"}
+			stroke={node.direction === "out" ? "#3b82f650" : "#a855f750"}
 			stroke-width="1"
 			stroke-dasharray={node.direction === "in" ? "4 3" : "none"}
 		/>
@@ -191,7 +200,10 @@
 			y={group.labelY}
 			text-anchor={textAnchor(group.midAngle)}
 			dominant-baseline="central"
-			class="fill-muted-foreground text-[9px] font-medium uppercase"
+			class="fill-muted-foreground"
+			font-size="9"
+			font-weight="500"
+			style="text-transform: uppercase"
 		>
 			{group.direction === "in" ? "\u2190 " : ""}{group.label}{group.direction === "out" ? " \u2192" : ""}
 		</text>
@@ -208,35 +220,33 @@
 				if (e.key === "Enter" || e.key === " ") handleNodeClick(node.id);
 			}}
 		>
-			<Tooltip.Root>
-				<Tooltip.Trigger>
-					{#snippet child({ props })}
-						<g {...props}>
-							<circle
-								cx={node.x}
-								cy={node.y}
-								r={NODE_RADIUS}
-								fill={svgFill(node.dotClass)}
-								class="transition-all hover:opacity-80"
-								stroke="currentColor"
-								stroke-width="0.5"
-								opacity="0.9"
-							/>
-							<text
-								x={node.x}
-								y={node.y + NODE_RADIUS + 10}
-								text-anchor="middle"
-								class="fill-foreground text-[9px] font-mono"
-							>
-								{node.label}
-							</text>
-						</g>
-					{/snippet}
-				</Tooltip.Trigger>
-				<Tooltip.Content side="top">
-					<p>Navigate to {node.id}</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
+			<title>{node.title} ({node.id})</title>
+			<circle
+				cx={node.x}
+				cy={node.y}
+				r={NODE_RADIUS}
+				fill={node.fillColor}
+				stroke="var(--border)"
+				stroke-width="0.5"
+				opacity="0.9"
+			/>
+			<!-- Invisible larger hit area for easier clicking -->
+			<circle
+				cx={node.x}
+				cy={node.y}
+				r={NODE_RADIUS + 4}
+				fill="transparent"
+			/>
+			<text
+				x={node.x}
+				y={node.y + NODE_RADIUS + 11}
+				text-anchor="middle"
+				class="fill-foreground"
+				font-size="9"
+				font-family="monospace"
+			>
+				{node.label}
+			</text>
 		</g>
 	{/each}
 
@@ -245,16 +255,19 @@
 		cx={CX}
 		cy={CY}
 		r={CENTER_RADIUS}
-		fill={svgFill(centerDotClass)}
-		stroke="currentColor"
+		fill={centerFill}
+		stroke="var(--foreground)"
 		stroke-width="1.5"
 		opacity="0.95"
 	/>
 	<text
 		x={CX}
-		y={CY + CENTER_RADIUS + 12}
+		y={CY + CENTER_RADIUS + 14}
 		text-anchor="middle"
-		class="fill-foreground text-[10px] font-mono font-semibold"
+		class="fill-foreground"
+		font-size="11"
+		font-family="monospace"
+		font-weight="600"
 	>
 		{artifactId}
 	</text>
