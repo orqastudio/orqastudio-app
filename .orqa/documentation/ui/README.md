@@ -8,6 +8,5 @@ sort: 3
 
 # User Interface
 
-UI documentation describes what users see and how they interact with OrqaStudio. Each page specifies the target UX for a feature area — states, labels, components, and interactions. Implementation is expected to match these specs exactly; divergence is a bug in the code, not the doc.
-
-Pages here include: conversation view, artifact navigation, panel layout, component library reference, and per-feature UX specs.
+Content from this directory has been migrated to reference/ per RES-063.
+This directory is no longer scanned by the artifact reader.

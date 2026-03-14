@@ -8,4 +8,5 @@ sort: 7
 
 # Wireframes
 
-Visual wireframes and mockups that inform UI implementation. Wireframes define layout, hierarchy, and interaction intent before code is written. Implementation must serve the intent expressed in the wireframe; pixel-perfect fidelity is not required but structural alignment is.
+Content from this directory has been migrated to reference/wireframes/ per RES-063.
+This directory is no longer scanned by the artifact reader.

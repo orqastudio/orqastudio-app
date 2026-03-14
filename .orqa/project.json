@@ -63,9 +63,7 @@
         { "key": "about", "path": ".orqa/documentation/about" },
         { "key": "development", "path": ".orqa/documentation/development" },
         { "key": "reference", "path": ".orqa/documentation/reference" },
-        { "key": "process", "path": ".orqa/documentation/process" },
-        { "key": "ui", "path": ".orqa/documentation/ui" },
-        { "key": "wireframes", "path": ".orqa/documentation/wireframes" }
+        { "key": "wireframes", "path": ".orqa/documentation/reference/wireframes" }
       ]
     },
     { "key": "process", "label": "Process", "icon": "workflow",
