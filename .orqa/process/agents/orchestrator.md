@@ -324,13 +324,16 @@ Signals that indicate a research trigger:
 ### What You May Do Directly
 
 - Read files for planning and coordination
-- Write governance artifacts in `.orqa/` (rules, agents, skills, docs, planning)
-- Single-line fixes, typo corrections, config edits
-- Coordinate across agents, report status
+- Coordinate across agents, report status to the user
+- Write session state (`tmp/session-state.md`)
+
+**If you are writing anything other than coordination output, you have failed to delegate.**
 
 ### What You MUST Delegate
 
 - Any change to `backend/src-tauri/`, `ui/`, `sidecar/` — delegate to Implementer
+- Any change to `.orqa/` artifacts — delegate to Governance Steward
+- Any documentation content — delegate to Writer
 - Running tests and quality checks — delegate to Reviewer
 - Code review — delegate to Reviewer
 - Architecture assessment — delegate to Planner or Researcher

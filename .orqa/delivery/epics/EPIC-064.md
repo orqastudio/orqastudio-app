@@ -103,6 +103,60 @@ relationships:
   - target: TASK-190
     type: delivered-by
     rationale: Absorbed from EPIC-050 — surface violations in governance UI
+  - target: TASK-460
+    type: contains
+    rationale: Phase 1 — delete duplicate documentation
+  - target: TASK-460
+    type: delivered-by
+    rationale: Phase 1 — delete duplicate documentation
+  - target: TASK-461
+    type: contains
+    rationale: Phase 1 — merge overlapping documentation
+  - target: TASK-461
+    type: delivered-by
+    rationale: Phase 1 — merge overlapping documentation
+  - target: TASK-462
+    type: contains
+    rationale: Phase 1 — restructure unfocused documentation
+  - target: TASK-462
+    type: delivered-by
+    rationale: Phase 1 — restructure unfocused documentation
+  - target: TASK-463
+    type: contains
+    rationale: Phase 2 — create grounding documents
+  - target: TASK-463
+    type: delivered-by
+    rationale: Phase 2 — create grounding documents
+  - target: TASK-464
+    type: contains
+    rationale: Phase 2 — create delegation reference
+  - target: TASK-464
+    type: delivered-by
+    rationale: Phase 2 — create delegation reference
+  - target: TASK-465
+    type: contains
+    rationale: Phase 2 — define Governance Steward agent
+  - target: TASK-465
+    type: delivered-by
+    rationale: Phase 2 — define Governance Steward agent
+  - target: TASK-466
+    type: contains
+    rationale: Phase 2 — connect documentation to graph
+  - target: TASK-466
+    type: delivered-by
+    rationale: Phase 2 — connect documentation to graph
+  - target: TASK-467
+    type: contains
+    rationale: Phase 3 — grounding injection in plugin
+  - target: TASK-467
+    type: delivered-by
+    rationale: Phase 3 — grounding injection in plugin
+  - target: IDEA-095
+    type: informed-by
+    rationale: Documentation-as-graph-knowledge idea drove the expanded scope
+  - target: RES-062
+    type: informed-by
+    rationale: Documentation audit findings shaped the restructuring plan
 ---
 ## Context
 
@@ -155,7 +209,17 @@ Each is 30-50 lines. Answers three questions: why this role exists, what "good" 
 A new doc in `documentation/process/delegation.md` — the orchestrator's lookup table:
 - Maps every work type to: agent role, required skills, grounding document
 - Connected to orchestrator via `grounded-by`
-- Makes "the orchestrator doing work itself is a failure" explicit and actionable
+- Makes "if the orchestrator is writing anything other than coordination output, the system has failed" explicit and actionable
+- Includes the Governance Steward as the owner of ALL `.orqa/` artifact creation and maintenance
+
+#### Governance Steward Agent
+A new specialist agent (`governance-steward.md`) that owns all `.orqa/` artifact work:
+- **Purpose**: Create and maintain governance artifacts with correct frontmatter, relationships, pillar alignment, and schema compliance
+- **Grounding**: artifact-principles, product-purpose
+- **Skills**: orqa-governance, orqa-documentation, orqa-schema-compliance, migration-tooling
+- **Key behavior**: automatically maintains bidirectional relationships, validates against schema.json before writing, enforces pillar alignment on every artifact
+- **Capabilities**: file_read, file_write, file_edit, file_search, content_search, code_search_regex
+- The orchestrator provides content intent; the steward handles the writing with full graph discipline
 
 #### Graph Connectivity
 - Add `grounded-by` relationships on all agent definitions → their grounding docs
@@ -188,24 +252,23 @@ Wire the Rust EnforcementEngine to agent execution for app-context enforcement p
 
 ### Phase 1: Documentation Restructuring
 
-- [ ] TASK-NEW-1: Delete duplicate and stale documentation (DOC-019, DOC-054, DOC-032)
-- [ ] TASK-NEW-2: Merge overlapping documentation (4 merge pairs)
-- [ ] TASK-NEW-3: Restructure unfocused documentation (DOC-021, DOC-030, phase references)
-- [ ] TASK-NEW-4: Clarify or delete ambiguous documentation (DOC-051, DOC-029, DOC-045)
+- [ ] [TASK-460](TASK-460): Delete duplicate and stale documentation (DOC-019, DOC-054, DOC-032)
+- [ ] [TASK-461](TASK-461): Merge overlapping documentation (4 merge pairs)
+- [ ] [TASK-462](TASK-462): Restructure unfocused documentation and remove stale phase references
 
 ### Phase 2: Grounding and Graph Connectivity
 
-- [ ] TASK-NEW-5: Create grounding documents (5 role-area docs)
-- [ ] TASK-NEW-6: Create delegation reference document
-- [ ] TASK-NEW-7: Connect documentation to graph (relationships on docs, skills, agents)
-- [ ] TASK-NEW-8: Wire agent definitions to grounding via `grounded-by` relationships
+- [ ] [TASK-463](TASK-463): Create grounding documents (5 role-area docs)
+- [ ] [TASK-464](TASK-464): Create delegation reference document
+- [ ] [TASK-465](TASK-465): Define Governance Steward agent
+- [ ] [TASK-466](TASK-466): Connect documentation to graph (relationships on docs, skills, agents)
 
 ### Phase 3: Mechanical Enforcement (CLI Plugin)
 
 - [ ] [TASK-411](TASK-411): Add stop event handling to rule-engine.mjs
 - [ ] [TASK-412](TASK-412): Implement full skill content injection in rule-engine.mjs
 - [ ] [TASK-413](TASK-413): Add bidirectional relationship checking to graph-guardian.mjs
-- [ ] TASK-NEW-9: Add grounding injection to plugin — resolve `grounded-by` on agent, inject content
+- [ ] [TASK-467](TASK-467): Add grounding injection to plugin — resolve `grounded-by` on agent, inject content
 - [ ] [TASK-414](TASK-414): Integration test — verify all enforcement entries are consumed
 
 ### Phase 4: App Enforcement Pipeline
