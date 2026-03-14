@@ -1,13 +1,10 @@
 ---
-
-
-
 id: RULE-045
 title: Data Integrity
 description: All artifact cross-references must resolve, pipeline relationships must have bidirectional inverses, and integrity checks run on every commit.
 status: active
-created: "2026-03-13"
-updated: "2026-03-14"
+created: 2026-03-13
+updated: 2026-03-14
 layer: core
 scope:
   - AGENT-003
@@ -23,7 +20,7 @@ enforcement:
     action: inject
     skills:
       - orqa-governance
-    message: "Artifact modified — injecting governance patterns for graph integrity maintenance."
+    message: Artifact modified — injecting governance patterns for graph integrity maintenance.
 relationships:
   - type: grounded
     target: PILLAR-001
@@ -48,13 +45,16 @@ relationships:
     rationale: IMPL-055 identified that commit-time-only enforcement is too late — write-time enforcement added as a result
   - target: RES-056
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from RES-056"
+    rationale: Auto-generated inverse of observed-by relationship from RES-056
   - target: TASK-413
     type: enforced-by
-    rationale: "Auto-generated inverse of enforced-by relationship from TASK-413"
+    rationale: Auto-generated inverse of enforced-by relationship from TASK-413
   - target: IMPL-058
     type: observed-by
-    rationale: "Auto-generated inverse of observed-by relationship from IMPL-058"
+    rationale: Auto-generated inverse of observed-by relationship from IMPL-058
+  - type: scoped-to
+    target: AGENT-003
+    rationale: Migrated from scope field
 ---
 All artifact cross-references must resolve to existing artifacts. Pipeline relationships must have bidirectional inverses. These constraints are enforced at commit time and can be verified manually.
 
@@ -78,6 +78,8 @@ For every relationship `A --type--> B`, the artifact `B` must have the correspon
 | `enforces` | `enforced-by` |
 | `verifies` | `verified-by` |
 | `informs` | `informed-by` |
+| `scoped-to` | `scoped-by` |
+| `documents` | `documented-by` |
 
 One-sided relationships indicate a broken graph edge. The pre-commit hook blocks commits that introduce asymmetric relationships.
 

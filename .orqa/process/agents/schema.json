@@ -29,6 +29,32 @@
       "items": { "type": "string", "pattern": "^SKILL-\\d+$" }
     },
     "model": { "type": "string" },
-    "subagent_mapping": { "type": "object" }
+    "subagent_mapping": { "type": "object" },
+    "relationships": {
+      "type": "array",
+      "description": "Graph edges connecting this agent to other artifacts.",
+      "items": {
+        "type": "object",
+        "required": ["type", "target", "rationale"],
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "enum": ["observes", "observed-by", "grounded", "grounded-by", "practices", "practiced-by", "enforces", "enforced-by", "verifies", "verified-by", "informs", "informed-by", "scoped-to", "scoped-by", "documents", "documented-by"]
+          },
+          "target": {
+            "type": ["string", "null"],
+            "pattern": "^(IMPL|AD|RULE|SKILL|PILLAR|RES|VER|AGENT)-\\d+$"
+          },
+          "rationale": {
+            "type": "string",
+            "description": "Why this relationship exists"
+          },
+          "intended": {
+            "type": "boolean",
+            "description": "When target is null: true = human confirmed the gap is deliberate, any other value = unresolved tension"
+          }
+        }
+      }
+    }
   }
 }

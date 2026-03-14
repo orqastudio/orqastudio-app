@@ -91,14 +91,28 @@ function discoverAllArtifacts() {
     }
   }
 
+  // Agents (role-named files with AGENT-NNN id in frontmatter)
+  const agentsPath = resolve(ROOT, ".orqa/process/agents");
+  if (existsSync(agentsPath)) {
+    for (const file of readdirSync(agentsPath)) {
+      if (!file.endsWith(".md") || file === "README.md") continue;
+      const filePath = resolve(agentsPath, file);
+      const content = readFileSync(filePath, "utf-8");
+      const fm = parseFrontmatter(content);
+      if (fm?.id?.match(/^AGENT-\d+$/)) {
+        artifacts.set(fm.id, { path: join(".orqa/process/agents", file), type: "agent" });
+      }
+    }
+  }
+
   return artifacts;
 }
 
 // ── Reference Scanning ──────────────────────────────────────────────────────
 
-const ARTIFACT_ID_PATTERN = /\b(RULE-\d+|AD-\d+|IMPL-\d+|PILLAR-\d+|MS-\d+|EPIC-\d+|TASK-\d+|IDEA-\d+|RES-\d+|VER-\d+)\b/g;
+const ARTIFACT_ID_PATTERN = /\b(RULE-\d+|AD-\d+|IMPL-\d+|PILLAR-\d+|MS-\d+|EPIC-\d+|TASK-\d+|IDEA-\d+|RES-\d+|VER-\d+|AGENT-\d+)\b/g;
 const LINKED_REF_PATTERN = /\[([^\]]*)\]\(([A-Z]+-\d+)\)/g;
-const BARE_ID_PATTERN = /(?<!\[)(?<!\()(?<!\w)\b(RULE-\d+|AD-\d+|IMPL-\d+|PILLAR-\d+|MS-\d+|EPIC-\d+|TASK-\d+|IDEA-\d+|RES-\d+|VER-\d+)\b(?!\))(?!\])/g;
+const BARE_ID_PATTERN = /(?<!\[)(?<!\()(?<!\w)\b(RULE-\d+|AD-\d+|IMPL-\d+|PILLAR-\d+|MS-\d+|EPIC-\d+|TASK-\d+|IDEA-\d+|RES-\d+|VER-\d+|AGENT-\d+)\b(?!\))(?!\])/g;
 
 function scanFile(filePath, knownArtifacts) {
   const content = readFileSync(resolve(ROOT, filePath), "utf-8");
@@ -228,6 +242,10 @@ const INVERSE_TYPES = {
   "verified-by": "verifies",
   "informs": "informed-by",
   "informed-by": "informs",
+  "scoped-to": "scoped-by",
+  "scoped-by": "scoped-to",
+  "documents": "documented-by",
+  "documented-by": "documents",
 };
 
 function checkBidirectional(allArtifactData) {
@@ -431,6 +449,11 @@ for (const file of allFiles) {
   }
   // Skills: subdirectory pattern with SKILL.md, ID is in frontmatter
   if (file.endsWith("SKILL.md") && fm?.id) {
+    allArtifactData.set(fm.id, { fm, path: file });
+  }
+  // Agents: role-named files with AGENT-NNN id in frontmatter
+  const normFile = file.replace(/\\/g, "/");
+  if (normFile.includes("process/agents/") && !normFile.endsWith("README.md") && fm?.id?.match?.(/^AGENT-\d+$/)) {
     allArtifactData.set(fm.id, { fm, path: file });
   }
 }

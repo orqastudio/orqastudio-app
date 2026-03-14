@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 use std::path::Path;
 
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 
 use crate::error::OrqaError;
@@ -182,7 +183,7 @@ fn collect_node(
     let content = std::fs::read_to_string(file_path)?;
 
     // Extract the raw YAML frontmatter text.
-    let (fm_text, _body) = crate::domain::artifact::extract_frontmatter(&content);
+    let (fm_text, body) = crate::domain::artifact::extract_frontmatter(&content);
     let Some(fm_text) = fm_text else {
         return Ok(());
     };
@@ -231,7 +232,10 @@ fn collect_node(
     let frontmatter_json = yaml_to_json(&yaml_value);
 
     // Collect forward references from well-known fields.
-    let references_out = collect_forward_refs(&yaml_value, &id);
+    let mut references_out = collect_forward_refs(&yaml_value, &id);
+
+    // Also extract references from markdown body text (informational edges).
+    references_out.extend(collect_body_refs(&body, &id));
 
     let node = ArtifactNode {
         id: id.clone(),
@@ -320,6 +324,40 @@ fn collect_relationship_refs(yaml_value: &serde_yaml::Value, source_id: &str) ->
             }
         }
     }
+    refs
+}
+
+/// Extract artifact references from markdown body text.
+///
+/// Scans for the pattern `[TEXT](ARTIFACT-ID)` where `ARTIFACT-ID` matches
+/// `PREFIX-NNN` (e.g. `EPIC-048`, `RULE-006`). These are informational edges
+/// with `field: "body"` and no `relationship_type`.
+fn collect_body_refs(body: &str, source_id: &str) -> Vec<ArtifactRef> {
+    // Thread-local compiled regex to avoid recompilation on every call.
+    thread_local! {
+        static BODY_REF_RE: Regex =
+            Regex::new(r"\[([^\]]*)\]\(([A-Z]+-\d+)\)").expect("body ref regex is valid");
+    }
+
+    let mut refs = Vec::new();
+    let mut seen = std::collections::HashSet::new();
+
+    BODY_REF_RE.with(|re| {
+        for cap in re.captures_iter(body) {
+            let target_id = cap[2].to_owned();
+            // Skip self-references and deduplicate.
+            if target_id == source_id || !seen.insert(target_id.clone()) {
+                continue;
+            }
+            refs.push(ArtifactRef {
+                target_id,
+                field: "body".to_owned(),
+                source_id: source_id.to_owned(),
+                relationship_type: None,
+            });
+        }
+    });
+
     refs
 }
 
@@ -454,6 +492,10 @@ fn check_missing_inverses(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck
         ("verified-by", "verifies"),
         ("informs", "informed-by"),
         ("informed-by", "informs"),
+        ("scoped-to", "scoped-by"),
+        ("scoped-by", "scoped-to"),
+        ("documents", "documented-by"),
+        ("documented-by", "documents"),
     ];
 
     for node in graph.nodes.values() {
