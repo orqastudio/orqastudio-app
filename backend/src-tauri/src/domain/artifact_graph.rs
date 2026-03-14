@@ -512,16 +512,15 @@ fn check_research_gaps(graph: &ArtifactGraph, checks: &mut Vec<IntegrityCheck>) 
             _ => continue,
         };
 
-        // Check if any tasks reference this idea (by ID appearing in task descriptions
-        // or via backlinks from tasks)
-        let has_related_tasks = node.references_in.iter().any(|r| {
-            graph
-                .nodes
-                .get(&r.source_id)
-                .is_some_and(|n| n.artifact_type == "task")
+        // Check if any artifacts reference this idea via relationships —
+        // tasks, research docs, rules, decisions, or epics all count as evidence
+        // that the research questions were addressed.
+        let has_related_artifacts = node.references_in.iter().any(|r| {
+            r.field == "relationships"
+                && graph.nodes.contains_key(&r.source_id)
         });
 
-        if !has_related_tasks {
+        if !has_related_artifacts {
             checks.push(IntegrityCheck {
                 category: IntegrityCategory::ResearchGap,
                 severity: IntegritySeverity::Warning,
