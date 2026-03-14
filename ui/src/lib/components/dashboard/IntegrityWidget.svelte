@@ -119,6 +119,8 @@
 		error = null;
 		appliedFixes = [];
 		try {
+			// Refresh the graph from disk before scanning to avoid stale results
+			await artifactGraphSDK.refresh();
 			checks = await artifactGraphSDK.runIntegrityScan();
 			scanned = true;
 			const errors = checks.filter((c) => c.severity === "Error").length;
@@ -139,7 +141,8 @@
 		try {
 			const fixableChecks = checks.filter((c) => c.auto_fixable);
 			appliedFixes = await artifactGraphSDK.applyAutoFixes(fixableChecks);
-			// Re-scan to show remaining issues
+			// Refresh graph after fixes wrote to disk, then re-scan
+			await artifactGraphSDK.refresh();
 			checks = await artifactGraphSDK.runIntegrityScan();
 		} catch (err: unknown) {
 			error = err instanceof Error ? err.message : String(err);
@@ -149,17 +152,27 @@
 	}
 </script>
 
+{#if scanned && checks.length === 0 && !error}
+	<!-- Collapsed "all clear" state — minimal footprint -->
+	<div class="mb-4 flex items-center gap-2 rounded-lg border border-border px-3 py-2">
+		<ShieldCheckIcon class="h-4 w-4 text-green-500" />
+		<span class="text-sm text-muted-foreground">Pipeline Health</span>
+		<span class="text-xs text-green-600 dark:text-green-400">All clear</span>
+		{#if loading}
+			<LoadingSpinner size="sm" />
+		{/if}
+	</div>
+{:else}
 <Card.Root class="mb-4">
 	<Card.Header class="pb-3">
 		<div class="flex items-center justify-between">
 			<Card.Title class="text-base">
 				<div class="flex items-center gap-2">
-					{#if scanned && errorCount === 0 && warningCount === 0}
-						<ShieldCheckIcon class="h-4 w-4 text-green-500" />
-					{:else}
-						<ShieldAlertIcon class="h-4 w-4 {healthColor}" />
-					{/if}
+					<ShieldAlertIcon class="h-4 w-4 {healthColor}" />
 					Pipeline Health
+					{#if loading}
+						<LoadingSpinner size="sm" />
+					{/if}
 				</div>
 			</Card.Title>
 			<div class="flex items-center gap-1">
@@ -178,19 +191,6 @@
 						Fix ({fixableCount})
 					</Button>
 				{/if}
-				<Button
-					variant="ghost"
-					size="sm"
-					onclick={scan}
-					disabled={loading || fixing}
-				>
-					{#if loading}
-						<LoadingSpinner size="sm" />
-					{:else}
-						<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
-					{/if}
-					Rescan
-				</Button>
 			</div>
 		</div>
 	</Card.Header>
@@ -206,32 +206,6 @@
 				Waiting for artifact graph...
 			</p>
 		{:else}
-			<!-- Applied fixes banner -->
-			{#if appliedFixes.length > 0}
-				<div class="mb-3 rounded-md border border-green-200 bg-green-50 p-2 dark:border-green-800 dark:bg-green-950">
-					<p class="mb-1 text-xs font-medium text-green-700 dark:text-green-300">
-						{appliedFixes.length} fix{appliedFixes.length !== 1 ? "es" : ""} applied
-					</p>
-					<ul class="space-y-0.5">
-						{#each appliedFixes as appliedFix, i (appliedFix.artifact_id + appliedFix.description + i)}
-							<li class="flex items-start gap-1.5 text-xs text-green-600 dark:text-green-400">
-								<CheckCircle2Icon class="mt-0.5 h-3 w-3 shrink-0" />
-								<span>
-									<ArtifactLink id={appliedFix.artifact_id} />
-									<span class="ml-1 text-muted-foreground">{appliedFix.description}</span>
-								</span>
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{/if}
-
-			{#if checks.length === 0}
-				<div class="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
-					<CheckCircle2Icon class="h-4 w-4" />
-					All clear — no integrity issues found.
-				</div>
-			{:else}
 				<!-- Summary -->
 				<div class="mb-3 flex items-center gap-4 text-sm">
 					{#if errorCount > 0}
@@ -354,3 +328,4 @@
 		{/if}
 	</Card.Content>
 </Card.Root>
+{/if}

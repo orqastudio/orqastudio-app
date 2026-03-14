@@ -202,17 +202,11 @@
 							<div class="flex items-center gap-2">
 								<NetworkIcon class="h-4 w-4" />
 								Artifacts
+								{#if graphLoading}
+									<LoadingSpinner size="sm" />
+								{/if}
 							</div>
 						</Card.Title>
-						<Button
-							variant="ghost"
-							size="sm"
-							onclick={() => artifactGraphSDK.refresh()}
-							disabled={graphLoading}
-						>
-							<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
-							Refresh
-						</Button>
 					</div>
 				</Card.Header>
 				<Card.Content>
@@ -227,7 +221,7 @@
 						/>
 					{:else if !hasGraphData}
 						<p class="text-sm text-muted-foreground">
-							No artifact graph data. Click Refresh to build the index.
+							No artifact graph data. Use Re-index in the status bar to build the index.
 						</p>
 					{:else}
 						<!-- Summary stats row -->
