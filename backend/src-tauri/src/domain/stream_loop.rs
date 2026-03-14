@@ -366,7 +366,9 @@ fn dispatch_response(
         return Some(true);
     }
     if let SidecarResponse::ToolExecute {
-        ref tool_call_id, ref tool_name, ref input,
+        ref tool_call_id,
+        ref tool_name,
+        ref input,
     } = *response
     {
         return if handle_tool_execute(tool_call_id, tool_name, input, state, on_event) {
@@ -376,7 +378,9 @@ fn dispatch_response(
         };
     }
     if let SidecarResponse::ToolApprovalRequest {
-        ref tool_call_id, ref tool_name, ref input,
+        ref tool_call_id,
+        ref tool_name,
+        ref input,
     } = *response
     {
         return if handle_tool_approval(tool_call_id, tool_name, input, state, on_event) {

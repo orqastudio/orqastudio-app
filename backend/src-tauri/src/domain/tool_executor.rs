@@ -217,7 +217,8 @@ fn process_verdicts(
             RuleAction::Inject => {
                 tracing::debug!(
                     "[enforcement] INJECT tool={tool_label} rule='{}' {context_label} skills={:?}",
-                    verdict.rule_name, verdict.skills
+                    verdict.rule_name,
+                    verdict.skills
                 );
                 all_inject_skills.extend(verdict.skills.clone());
             }
@@ -232,7 +233,8 @@ fn process_verdicts(
 /// or the engine is not initialised.
 fn lock_enforcement_engine<'a>(
     state: &'a tauri::State<'a, AppState>,
-) -> Option<std::sync::MutexGuard<'a, Option<crate::domain::enforcement_engine::EnforcementEngine>>> {
+) -> Option<std::sync::MutexGuard<'a, Option<crate::domain::enforcement_engine::EnforcementEngine>>>
+{
     match state.enforcement.engine.lock() {
         Ok(g) if g.is_some() => Some(g),
         Ok(_) => None,
@@ -268,10 +270,16 @@ pub fn enforce_file(
     project_dir: &Path,
 ) -> EnforcementResult {
     let Some(guard) = lock_enforcement_engine(state) else {
-        return EnforcementResult { block_message: None, injected_content: None };
+        return EnforcementResult {
+            block_message: None,
+            injected_content: None,
+        };
     };
     let Some(engine) = guard.as_ref() else {
-        return EnforcementResult { block_message: None, injected_content: None };
+        return EnforcementResult {
+            block_message: None,
+            injected_content: None,
+        };
     };
     let verdicts = engine.evaluate_file(file_path, new_text);
     let context = format!("file='{file_path}'");
@@ -293,10 +301,16 @@ pub fn enforce_bash(
     project_dir: &Path,
 ) -> EnforcementResult {
     let Some(guard) = lock_enforcement_engine(state) else {
-        return EnforcementResult { block_message: None, injected_content: None };
+        return EnforcementResult {
+            block_message: None,
+            injected_content: None,
+        };
     };
     let Some(engine) = guard.as_ref() else {
-        return EnforcementResult { block_message: None, injected_content: None };
+        return EnforcementResult {
+            block_message: None,
+            injected_content: None,
+        };
     };
     let verdicts = engine.evaluate_bash(command);
     let context = format!("command='{command}'");
@@ -578,9 +592,7 @@ const BASH_TIMEOUT: std::time::Duration = std::time::Duration::from_secs(120);
 const MAX_PIPE_BYTES: usize = 512_000;
 
 /// Spawn a background thread that reads from a pipe into a string (capped).
-fn spawn_pipe_reader(
-    pipe: Option<std::process::ChildStdout>,
-) -> std::thread::JoinHandle<String> {
+fn spawn_pipe_reader(pipe: Option<std::process::ChildStdout>) -> std::thread::JoinHandle<String> {
     use std::io::Read;
     std::thread::spawn(move || {
         let mut buf = String::new();
@@ -592,9 +604,7 @@ fn spawn_pipe_reader(
 }
 
 /// Spawn a background thread that reads from a stderr pipe into a string (capped).
-fn spawn_stderr_reader(
-    pipe: Option<std::process::ChildStderr>,
-) -> std::thread::JoinHandle<String> {
+fn spawn_stderr_reader(pipe: Option<std::process::ChildStderr>) -> std::thread::JoinHandle<String> {
     use std::io::Read;
     std::thread::spawn(move || {
         let mut buf = String::new();
@@ -798,9 +808,7 @@ pub fn tool_search_regex(
         return ("missing 'pattern' parameter".to_string(), true);
     };
     let path_filter = input["path"].as_str();
-    let max_results = input["max_results"]
-        .as_u64()
-        .map_or(20, |n| n as u32);
+    let max_results = input["max_results"].as_u64().map_or(20, |n| n as u32);
 
     let search_guard = match state.search.engine.lock() {
         Ok(g) => g,
@@ -827,9 +835,7 @@ pub fn tool_search_semantic(
     let Some(query) = input["query"].as_str() else {
         return ("missing 'query' parameter".to_string(), true);
     };
-    let max_results = input["max_results"]
-        .as_u64()
-        .map_or(10, |n| n as u32);
+    let max_results = input["max_results"].as_u64().map_or(10, |n| n as u32);
 
     let mut search_guard = match state.search.engine.lock() {
         Ok(g) => g,
@@ -920,9 +926,7 @@ pub fn tool_code_research(
     let Some(query) = input["query"].as_str() else {
         return ("missing 'query' parameter".to_string(), true);
     };
-    let max_results = input["max_results"]
-        .as_u64()
-        .map_or(10, |n| n as u32);
+    let max_results = input["max_results"].as_u64().map_or(10, |n| n as u32);
     let half = max_results / 2 + 1;
     let mut out = String::new();
 
@@ -934,7 +938,10 @@ pub fn tool_code_research(
     }
 
     if out.is_empty() {
-        ("search index not initialized — index the codebase first".to_string(), true)
+        (
+            "search index not initialized — index the codebase first".to_string(),
+            true,
+        )
     } else if out.trim().is_empty() || (out.contains("unavailable") && !out.contains("Matches")) {
         ("no results found".to_string(), false)
     } else {

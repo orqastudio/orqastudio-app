@@ -590,13 +590,11 @@ fn extract_sortable_field(name: &str, prop: &serde_json::Value, out: &mut Vec<So
     }
 
     // Accept {"type": "string", "format": "date"} or {"type": ["string", "null"], "format": "date"}
-    let is_string_type = prop
-        .get("type")
-        .is_some_and(|t| {
-            (t.as_str() == Some("string"))
-                || t.as_array()
-                    .is_some_and(|arr| arr.iter().any(|v| v.as_str() == Some("string")))
-        });
+    let is_string_type = prop.get("type").is_some_and(|t| {
+        (t.as_str() == Some("string"))
+            || t.as_array()
+                .is_some_and(|arr| arr.iter().any(|v| v.as_str() == Some("string")))
+    });
 
     let is_date_format = prop.get("format").and_then(|f| f.as_str()) == Some("date");
 

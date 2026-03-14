@@ -281,9 +281,8 @@ mod tests {
             .expect("create user msg");
 
         // Assistant message
-        let msg =
-            message_repo::create(&conn, 1, "assistant", "text", Some("Hi there"), 1, 0)
-                .expect("create assistant msg");
+        let msg = message_repo::create(&conn, 1, "assistant", "text", Some("Hi there"), 1, 0)
+            .expect("create assistant msg");
         assert_eq!(msg.role, MessageRole::Assistant);
 
         // Update stream status
@@ -306,8 +305,7 @@ mod tests {
         let t0 = message_repo::next_turn_index(&conn, 1).expect("t0");
         assert_eq!(t0, 0);
 
-        message_repo::create(&conn, 1, "user", "text", Some("msg1"), t0, 0)
-            .expect("create");
+        message_repo::create(&conn, 1, "user", "text", Some("msg1"), t0, 0).expect("create");
         let t1 = message_repo::next_turn_index(&conn, 1).expect("t1");
         assert_eq!(t1, 1);
     }

@@ -65,10 +65,7 @@ pub fn evaluate_process_gates(
 }
 
 /// Evaluate gates triggered by a file write event.
-fn evaluate_write_gates(
-    tracker: &mut WorkflowTracker,
-    file_path: Option<&str>,
-) -> Vec<GateResult> {
+fn evaluate_write_gates(tracker: &mut WorkflowTracker, file_path: Option<&str>) -> Vec<GateResult> {
     let writing_code = file_path.is_some_and(is_code_file);
     let mut results = Vec::new();
 

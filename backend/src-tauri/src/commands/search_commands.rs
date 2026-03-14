@@ -45,12 +45,8 @@ mod tests {
     #[test]
     fn all_done_when_all_tasks_complete() {
         let tracker = StartupTracker::new();
-        tracker
-            .register("task1", "Task 1")
-            .expect("register");
-        tracker
-            .register("task2", "Task 2")
-            .expect("register");
+        tracker.register("task1", "Task 1").expect("register");
+        tracker.register("task2", "Task 2").expect("register");
         tracker
             .update("task1", TaskStatus::Done, None)
             .expect("update");
@@ -65,12 +61,8 @@ mod tests {
     #[test]
     fn not_all_done_when_some_pending() {
         let tracker = StartupTracker::new();
-        tracker
-            .register("task1", "Task 1")
-            .expect("register");
-        tracker
-            .register("task2", "Task 2")
-            .expect("register");
+        tracker.register("task1", "Task 1").expect("register");
+        tracker.register("task2", "Task 2").expect("register");
         tracker
             .update("task1", TaskStatus::Done, None)
             .expect("update");
@@ -83,18 +75,13 @@ mod tests {
     #[test]
     fn error_status_counts_as_done() {
         let tracker = StartupTracker::new();
-        tracker
-            .register("task1", "Task 1")
-            .expect("register");
+        tracker.register("task1", "Task 1").expect("register");
         tracker
             .update("task1", TaskStatus::Error, Some("failed".to_string()))
             .expect("update");
 
         let snapshot = tracker.snapshot().expect("snapshot");
         assert!(snapshot.all_done);
-        assert_eq!(
-            snapshot.tasks[0].detail,
-            Some("failed".to_string())
-        );
+        assert_eq!(snapshot.tasks[0].detail, Some("failed".to_string()));
     }
 }

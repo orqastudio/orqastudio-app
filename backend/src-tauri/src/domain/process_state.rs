@@ -62,7 +62,11 @@ impl SessionProcessState {
                     if std::path::Path::new(path)
                         .extension()
                         .and_then(|e| e.to_str())
-                        .is_some_and(|ext| ext.eq_ignore_ascii_case("rs") || ext.eq_ignore_ascii_case("ts") || ext.eq_ignore_ascii_case("svelte"))
+                        .is_some_and(|ext| {
+                            ext.eq_ignore_ascii_case("rs")
+                                || ext.eq_ignore_ascii_case("ts")
+                                || ext.eq_ignore_ascii_case("svelte")
+                        })
                     {
                         self.code_written = true;
                     }

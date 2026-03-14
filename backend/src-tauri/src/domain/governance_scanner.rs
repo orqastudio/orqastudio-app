@@ -58,12 +58,7 @@ fn scan_orqa_areas(project_path: &Path) -> Vec<GovernanceArea> {
         scan_directory_area("rules", "orqa", &process_dir.join("rules"), Some(".md")),
         scan_directory_area("agents", "orqa", &process_dir.join("agents"), Some(".md")),
         scan_skills_area(project_path, &process_dir.join("skills")),
-        scan_directory_area(
-            "lessons",
-            "orqa",
-            &process_dir.join("lessons"),
-            Some(".md"),
-        ),
+        scan_directory_area("lessons", "orqa", &process_dir.join("lessons"), Some(".md")),
         scan_directory_area(
             "decisions",
             "orqa",
@@ -221,9 +216,10 @@ fn read_governance_file_relative(path: &Path, root: &Path) -> Option<GovernanceF
     let metadata = std::fs::metadata(path).ok()?;
     let size_bytes = metadata.len();
     let content_preview = read_preview(path);
-    let display_path = path
-        .strip_prefix(root)
-        .map_or_else(|_| path.to_string_lossy().to_string(), |p| p.to_string_lossy().to_string());
+    let display_path = path.strip_prefix(root).map_or_else(
+        |_| path.to_string_lossy().to_string(),
+        |p| p.to_string_lossy().to_string(),
+    );
     Some(GovernanceFile {
         path: display_path,
         size_bytes,
@@ -296,18 +292,17 @@ mod tests {
         // skills (subdirectory with SKILL.md)
         fs::create_dir_all(process_dir.join("skills").join("chunkhound")).expect("mkdir");
         fs::write(
-            process_dir.join("skills").join("chunkhound").join("SKILL.md"),
+            process_dir
+                .join("skills")
+                .join("chunkhound")
+                .join("SKILL.md"),
             "# Skill",
         )
         .expect("write");
 
         // lessons
         fs::create_dir_all(process_dir.join("lessons")).expect("mkdir");
-        fs::write(
-            process_dir.join("lessons").join("IMPL-001.md"),
-            "# Lesson",
-        )
-        .expect("write");
+        fs::write(process_dir.join("lessons").join("IMPL-001.md"), "# Lesson").expect("write");
 
         // decisions
         fs::create_dir_all(process_dir.join("decisions")).expect("mkdir");

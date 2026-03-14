@@ -94,7 +94,10 @@ fn create_debouncer<R: Runtime>(
     app: AppHandle<R>,
     orqa_dir: &Path,
 ) -> Result<
-    notify_debouncer_full::Debouncer<notify::RecommendedWatcher, notify_debouncer_full::RecommendedCache>,
+    notify_debouncer_full::Debouncer<
+        notify::RecommendedWatcher,
+        notify_debouncer_full::RecommendedCache,
+    >,
     String,
 > {
     let orqa_dir_for_closure = orqa_dir.to_path_buf();

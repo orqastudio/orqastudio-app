@@ -239,11 +239,7 @@ impl SearchStore {
 }
 
 /// Build `SearchResult` entries from raw regex-matched chunk rows.
-fn build_regex_results(
-    rows: Vec<ChunkRow>,
-    re: &Regex,
-    max_results: u32,
-) -> Vec<SearchResult> {
+fn build_regex_results(rows: Vec<ChunkRow>, re: &Regex, max_results: u32) -> Vec<SearchResult> {
     let mut results = Vec::new();
     for (file_path, start_line, end_line, content, language) in rows {
         if let Some(mat) = re.find(&content) {

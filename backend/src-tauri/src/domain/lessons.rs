@@ -217,8 +217,8 @@ Test body.
         let lesson =
             parse_lesson(SAMPLE, ".orqa/process/lessons/IMPL-001.md").expect("should parse");
         let rendered = render_lesson(&lesson);
-        let reparsed = parse_lesson(&rendered, ".orqa/process/lessons/IMPL-001.md")
-            .expect("should re-parse");
+        let reparsed =
+            parse_lesson(&rendered, ".orqa/process/lessons/IMPL-001.md").expect("should re-parse");
         assert_eq!(reparsed.id, lesson.id);
         assert_eq!(reparsed.title, lesson.title);
         assert_eq!(reparsed.recurrence, lesson.recurrence);

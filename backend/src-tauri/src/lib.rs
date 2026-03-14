@@ -137,8 +137,7 @@ fn setup_app(app: &mut tauri::App) -> Result<(), Box<dyn std::error::Error>> {
         .path()
         .app_data_dir()
         .map_err(|e| format!("failed to resolve app data dir: {e}"))?;
-    std::fs::create_dir_all(&app_dir)
-        .map_err(|e| format!("failed to create app data dir: {e}"))?;
+    std::fs::create_dir_all(&app_dir).map_err(|e| format!("failed to create app data dir: {e}"))?;
 
     let db_path = app_dir.join("orqa.db");
     let db_path_str = db_path

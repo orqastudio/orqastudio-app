@@ -3,8 +3,8 @@ use std::path::Path;
 use tauri::State;
 
 use crate::domain::artifact_graph::{
-    apply_fixes, build_artifact_graph, check_integrity, graph_stats, ArtifactGraph, ArtifactNode,
-    AppliedFix, GraphStats, IntegrityCheck,
+    apply_fixes, build_artifact_graph, check_integrity, graph_stats, AppliedFix, ArtifactGraph,
+    ArtifactNode, GraphStats, IntegrityCheck,
 };
 use crate::domain::health_snapshot::{HealthSnapshot, NewHealthSnapshot};
 use crate::error::OrqaError;
@@ -187,9 +187,8 @@ pub fn store_health_snapshot(
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
-    let project = project_repo::get_active(&conn)?.ok_or_else(|| {
-        OrqaError::NotFound("no active project".to_string())
-    })?;
+    let project = project_repo::get_active(&conn)?
+        .ok_or_else(|| OrqaError::NotFound("no active project".to_string()))?;
 
     health_snapshot_repo::create(
         &conn,
@@ -217,9 +216,8 @@ pub fn get_health_snapshots(
         .lock()
         .map_err(|e| OrqaError::Database(format!("lock poisoned: {e}")))?;
 
-    let project = project_repo::get_active(&conn)?.ok_or_else(|| {
-        OrqaError::NotFound("no active project".to_string())
-    })?;
+    let project = project_repo::get_active(&conn)?
+        .ok_or_else(|| OrqaError::NotFound("no active project".to_string()))?;
 
     health_snapshot_repo::get_recent(&conn, project.id, limit.unwrap_or(30))
 }

@@ -1,6 +1,5 @@
 pub mod artifact;
 pub mod artifact_fs;
-pub mod health_snapshot;
 pub mod artifact_graph;
 pub mod artifact_reader;
 pub mod enforcement;
@@ -8,6 +7,7 @@ pub mod enforcement_engine;
 pub mod enforcement_parser;
 pub mod governance;
 pub mod governance_scanner;
+pub mod health_snapshot;
 pub mod lessons;
 pub mod message;
 pub mod paths;
