@@ -44,9 +44,9 @@
 	const SPARKLINE_HEIGHT = 40;
 
 	/** Build an SVG polyline path from an array of values.
-	 *  fixedMin/fixedMax: use a fixed scale (e.g. 0-100 for percentages)
-	 *  instead of auto-scaling to data range. */
-	function sparklinePath(values: number[], invert: boolean = false, fixedMin?: number, fixedMax?: number): string {
+	 *  Values plot naturally: 0 at bottom, max at top.
+	 *  Color (not line direction) indicates whether the trend is good or bad. */
+	function sparklinePath(values: number[], fixedMin?: number, fixedMax?: number): string {
 		if (values.length < 2) return "";
 		const min = fixedMin ?? Math.min(...values);
 		const max = fixedMax ?? Math.max(...values);
@@ -56,8 +56,7 @@
 		const totalWidth = 100;
 		const stepX = totalWidth / (values.length - 1);
 		const points = values.map((v, i) => {
-			// When range is 0 (all values equal), render at middle
-			const normalised = range === 0 ? 0.5 : (invert ? 1 - (v - min) / range : (v - min) / range);
+			const normalised = range === 0 ? 0.5 : (v - min) / range;
 			return `${i * stepX},${pad + h - normalised * h}`;
 		});
 		return `M${points.join(" L")}`;
@@ -77,19 +76,16 @@
 			label: "Errors",
 			lowerIsBetter: true,
 			getValue: (s) => s.error_count,
-			fixedMin: 0,
 		},
 		{
 			label: "Warnings",
 			lowerIsBetter: true,
 			getValue: (s) => s.warning_count,
-			fixedMin: 0,
 		},
 		{
 			label: "Artifacts",
 			lowerIsBetter: false,
 			getValue: (s) => s.node_count,
-			fixedMin: 0,
 		},
 		{
 			label: "Integrity",
@@ -177,7 +173,7 @@
 			{@const label = trendLabel(m)}
 			{@const colorClass = trendColorClass(m)}
 			{@const stroke = strokeColor(m)}
-			{@const path = hasTrend ? sparklinePath(values, m.lowerIsBetter, m.fixedMin, m.fixedMax) : ""}
+			{@const path = hasTrend ? sparklinePath(values, m.fixedMin, m.fixedMax) : ""}
 			{@const isLeft = idx % 2 === 0}
 			{@const isTop = idx < 2}
 			<div class="flex min-h-0 flex-col overflow-hidden {isLeft && 'border-r border-border'} {isTop && 'border-t border-border'}">
