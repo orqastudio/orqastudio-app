@@ -155,7 +155,17 @@ The graph ensures they stay aligned. When documentation changes, the connected s
 | **Domain skills** | Rust patterns, Svelte 5, testing methodology | No — portable expertise, not project-specific |
 | **Platform skills** | How OrqaStudio works | No — shipped with the app, uneditable |
 
-Documentation is always about THIS project. Skills can be generic expertise applied to how the project delivers. A Rust coding patterns skill has nothing to do with the project's content — it's domain knowledge the agent needs to write good code.
+**Documentation has two categories too:**
+
+| Category | Example | Editable? |
+|---|---|---|
+| **Platform documentation** | How to use OrqaStudio, how statuses work, what the roadmap shows | No — shipped with app |
+| **Project documentation** | Architecture docs, how-to guides, specifications | Yes — project-specific |
+
+The symmetry:
+- Platform docs ↔ Platform skills (same knowledge, human vs agent, app-shipped)
+- Project docs ↔ Project skills (same knowledge, human vs agent, synchronised)
+- Domain skills have no doc counterpart (portable expertise, not project or platform)
 
 ## Key Design Principles
 
