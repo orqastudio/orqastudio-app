@@ -13,6 +13,8 @@
 	import ProjectGeneralSettings from "./ProjectGeneralSettings.svelte";
 	import ProjectScanningSettings from "./ProjectScanningSettings.svelte";
 	import ProjectArtifactLinksSettings from "./ProjectArtifactLinksSettings.svelte";
+	import ProjectDeliverySettings from "./ProjectDeliverySettings.svelte";
+	import ProjectStatusSettings from "./ProjectStatusSettings.svelte";
 
 	interface Props {
 		activeSection?: string;
@@ -25,7 +27,9 @@
 	const isProjectSection = $derived(
 		section === "project-general" ||
 		section === "project-scanning" ||
-		section === "project-artifact-links",
+		section === "project-artifact-links" ||
+		section === "project-delivery" ||
+		section === "project-status",
 	);
 </script>
 
@@ -82,6 +86,16 @@
 					/>
 				{:else if section === "project-artifact-links"}
 					<ProjectArtifactLinksSettings
+						settings={projectStore.projectSettings}
+						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
+					/>
+				{:else if section === "project-delivery"}
+					<ProjectDeliverySettings
+						settings={projectStore.projectSettings}
+						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
+					/>
+				{:else if section === "project-status"}
+					<ProjectStatusSettings
 						settings={projectStore.projectSettings}
 						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
 					/>

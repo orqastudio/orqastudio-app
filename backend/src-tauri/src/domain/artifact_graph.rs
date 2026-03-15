@@ -403,6 +403,7 @@ pub enum IntegrityCategory {
     InvalidStatus,
     BodyTextRefWithoutRelationship,
     ParentChildInconsistency,
+    DeliveryPathMismatch,
 }
 
 /// Severity of an integrity finding.
@@ -460,8 +461,152 @@ pub fn check_integrity(
         check_invalid_statuses(graph, valid_statuses, &mut checks);
         check_parent_child_consistency(graph, valid_statuses, delivery, &mut checks);
     }
+    if !delivery.types.is_empty() {
+        check_delivery_paths(graph, delivery, &mut checks);
+    }
 
     checks
+}
+
+/// Validate delivery artifacts against the `DeliveryConfig`.
+///
+/// Warns when:
+/// - An artifact under `.orqa/delivery/` is not covered by any configured delivery type.
+/// - An artifact's inferred type doesn't match the delivery type key for its path.
+/// - A delivery type has a parent config but the artifact is missing the parent field.
+/// - The parent field points to an artifact of the wrong type.
+fn check_delivery_paths(
+    graph: &ArtifactGraph,
+    delivery: &DeliveryConfig,
+    checks: &mut Vec<IntegrityCheck>,
+) {
+    for node in graph
+        .nodes
+        .values()
+        .filter(|n| n.path.starts_with(".orqa/delivery/"))
+    {
+        let matched = delivery
+            .types
+            .iter()
+            .find(|dt| node.path.starts_with(dt.path.trim_end_matches('/')));
+
+        let Some(dtype) = matched else {
+            push_orphaned_from_config(node, checks);
+            continue;
+        };
+
+        check_delivery_node_type(node, dtype, checks);
+        check_delivery_node_parent(node, dtype, graph, checks);
+    }
+}
+
+/// Warn when no configured delivery type covers an artifact's path.
+fn push_orphaned_from_config(node: &ArtifactNode, checks: &mut Vec<IntegrityCheck>) {
+    checks.push(IntegrityCheck {
+        category: IntegrityCategory::DeliveryPathMismatch,
+        severity: IntegritySeverity::Warning,
+        artifact_id: node.id.clone(),
+        message: format!(
+            "{} is under '{}' but no delivery type in the config covers that path",
+            node.id, node.path
+        ),
+        auto_fixable: false,
+        fix_description: Some(
+            "Add a delivery type entry to project.json covering this path, \
+             or move the artifact to a configured path"
+                .to_owned(),
+        ),
+    });
+}
+
+/// Warn when an artifact's inferred type does not match its delivery type key.
+fn check_delivery_node_type(
+    node: &ArtifactNode,
+    dtype: &crate::domain::project_settings::DeliveryTypeConfig,
+    checks: &mut Vec<IntegrityCheck>,
+) {
+    if node.artifact_type == dtype.key {
+        return;
+    }
+    checks.push(IntegrityCheck {
+        category: IntegrityCategory::DeliveryPathMismatch,
+        severity: IntegritySeverity::Warning,
+        artifact_id: node.id.clone(),
+        message: format!(
+            "{} is under path '{}' (delivery type '{}') but has artifact_type '{}'",
+            node.id, dtype.path, dtype.key, node.artifact_type
+        ),
+        auto_fixable: false,
+        fix_description: Some(format!(
+            "Move the artifact to the correct directory, \
+             or update the delivery type key in project.json to '{}'",
+            node.artifact_type
+        )),
+    });
+}
+
+/// Validate the parent field for a delivery node that has a parent config.
+fn check_delivery_node_parent(
+    node: &ArtifactNode,
+    dtype: &crate::domain::project_settings::DeliveryTypeConfig,
+    graph: &ArtifactGraph,
+    checks: &mut Vec<IntegrityCheck>,
+) {
+    let Some(parent_cfg) = &dtype.parent else {
+        return;
+    };
+
+    let parent_id = node
+        .frontmatter
+        .get(&parent_cfg.field)
+        .and_then(|v| v.as_str())
+        .map(str::trim)
+        .filter(|s| !s.is_empty());
+
+    let Some(parent_id) = parent_id else {
+        checks.push(IntegrityCheck {
+            category: IntegrityCategory::DeliveryPathMismatch,
+            severity: IntegritySeverity::Warning,
+            artifact_id: node.id.clone(),
+            message: format!(
+                "{} (delivery type '{}') is missing required parent field '{}'",
+                node.id, dtype.key, parent_cfg.field
+            ),
+            auto_fixable: false,
+            fix_description: Some(format!(
+                "Set '{}' to the ID of the parent {} artifact",
+                parent_cfg.field, parent_cfg.parent_type
+            )),
+        });
+        return;
+    };
+
+    // Broken link is already caught by check_broken_refs — avoid noise.
+    let Some(parent_node) = graph.nodes.get(parent_id) else {
+        return;
+    };
+
+    if parent_node.artifact_type != parent_cfg.parent_type {
+        checks.push(IntegrityCheck {
+            category: IntegrityCategory::DeliveryPathMismatch,
+            severity: IntegritySeverity::Warning,
+            artifact_id: node.id.clone(),
+            message: format!(
+                "{} has {}='{}' but {} is a '{}', expected '{}'",
+                node.id,
+                parent_cfg.field,
+                parent_id,
+                parent_id,
+                parent_node.artifact_type,
+                parent_cfg.parent_type
+            ),
+            auto_fixable: false,
+            fix_description: Some(format!(
+                "Set '{}' to a valid {} artifact ID",
+                parent_cfg.field, parent_cfg.parent_type
+            )),
+        });
+    }
 }
 
 /// Check for broken references — target_id doesn't exist in the graph.

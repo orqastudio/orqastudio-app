@@ -7,6 +7,8 @@
 	import LinkIcon from "@lucide/svelte/icons/link";
 	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import KeyboardIcon from "@lucide/svelte/icons/keyboard";
+	import RocketIcon from "@lucide/svelte/icons/rocket";
+	import WorkflowIcon from "@lucide/svelte/icons/workflow";
 	import { settingsStore } from "$lib/stores/settings.svelte";
 	import type { Component } from "svelte";
 
@@ -79,6 +81,18 @@
 			label: "Artifact Links",
 			icon: LinkIcon,
 			description: "Display mode, chip colours",
+		},
+		{
+			id: "project-delivery",
+			label: "Delivery Pipeline",
+			icon: RocketIcon,
+			description: "Delivery types and hierarchy",
+		},
+		{
+			id: "project-status",
+			label: "Status Machine",
+			icon: WorkflowIcon,
+			description: "Statuses, transitions, auto rules",
 		},
 	];
 

@@ -1,8 +1,9 @@
 ---
+
 id: TASK-513
 title: "Project settings UI for managing delivery types and state machine"
 description: "Add a settings section where users can configure delivery artifact types (add/edit/remove types, define parent-child hierarchy) and the status state machine (statuses, transitions, auto_rules, icons). Changes persist to project.json."
-status: blocked
+status: ready
 priority: P1
 created: 2026-03-15
 updated: 2026-03-15

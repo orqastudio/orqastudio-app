@@ -16,7 +16,7 @@ export type {
 	DeliveryConfig,
 } from "./project";
 export { isArtifactGroup, DEFAULT_ARTIFACT_LINK_COLORS } from "./project";
-export type { StatusDefinition, ArtifactStatus } from "./project";
+export type { StatusDefinition, StatusAutoRule, ArtifactStatus } from "./project";
 
 export type {
 	Session,
