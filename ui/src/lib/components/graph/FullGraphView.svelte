@@ -143,13 +143,10 @@
 		const options: Options = {
 			autoResize: false,
 			physics: {
-				enabled: !hasCachedPositions, // Disable physics if positions are cached
-				stabilization: {
-					enabled: !hasCachedPositions,
-					iterations: 150,
-					updateInterval: 25,
-					fit: true,
-				},
+				enabled: !hasCachedPositions,
+				// Never use synchronous stabilization — it blocks the main thread
+				// and freezes the chat panel. Let physics run frame-by-frame instead.
+				stabilization: false,
 				barnesHut: {
 					gravitationalConstant: -4000,
 					centralGravity: 0.3,
@@ -188,16 +185,13 @@
 			}
 		});
 
-		network.on("stabilizationProgress", (params) => {
-			stabilizationProgress = Math.round((params.iterations / params.total) * 100);
-		});
-
-		network.on("stabilizationIterationsDone", () => {
+		// Physics runs frame-by-frame (non-blocking). When it settles, freeze and cache.
+		network.on("stabilized", () => {
+			if (!stabilizing) return; // Already handled
 			stabilizing = false;
 			stabilizationProgress = 100;
 			network?.setOptions({ physics: { enabled: false } });
 			network?.fit({ animation: { duration: 400, easingFunction: "easeInOutQuad" } });
-			// Cache positions for next render
 			try {
 				if (network) cachedPositions = network.getPositions();
 			} catch {
@@ -281,18 +275,11 @@
 				aria-label="Full artifact relationship graph"
 			></div>
 			{#if stabilizing}
-				<div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm">
+				<div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background/60 backdrop-blur-[2px]">
 					<LoadingSpinner size="lg" />
 					<p class="text-sm font-medium text-muted-foreground">
 						Laying out {artifactGraphSDK.graph.size} nodes…
 					</p>
-					<div class="h-1.5 w-48 overflow-hidden rounded-full bg-muted">
-						<div
-							class="h-full rounded-full bg-primary transition-[width] duration-200"
-							style="width: {stabilizationProgress}%"
-						></div>
-					</div>
-					<p class="text-xs text-muted-foreground tabular-nums">{stabilizationProgress}%</p>
 				</div>
 			{/if}
 		</div>
