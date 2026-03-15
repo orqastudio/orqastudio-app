@@ -44,11 +44,17 @@
 		onDragOver?.(e);
 	}
 
-	function handleDragLeave() {
+	function handleDragLeave(e: DragEvent) {
+		// Only reset isDragOver when the cursor actually leaves the column, not when
+		// it moves between child elements. relatedTarget is the element the cursor
+		// is entering — if it's still inside the column, ignore the event.
+		const related = e.relatedTarget as Node | null;
+		if (related && (e.currentTarget as HTMLElement).contains(related)) return;
 		isDragOver = false;
 	}
 
 	function handleDrop(e: DragEvent) {
+		e.stopPropagation();
 		isDragOver = false;
 		onDrop?.(e);
 	}
@@ -131,9 +137,6 @@
 			<div
 				class="flex flex-col gap-2 p-2"
 				role="list"
-				ondragover={handleDragOver}
-				ondragleave={handleDragLeave}
-				ondrop={handleDrop}
 			>
 				{@render children()}
 			</div>

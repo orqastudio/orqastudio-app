@@ -26,57 +26,169 @@
     "has_design_tokens": false
   },
   "governance": {
-    "rules": 45,
-    "agents": 7,
-    "skills": 49,
     "lessons": 16,
     "decisions": 44,
+    "agents": 7,
+    "rules": 45,
+    "skills": 49,
     "has_claude_config": true
   },
   "icon": "icon.svg",
-  "workflow": {
-    "epics-required": true
-  },
   "show_thinking": true,
   "custom_system_prompt": "You are running inside OrqaStudio — the same app you are helping develop. Your responses flow through the Agent SDK sidecar (sidecar/dist/sidecar.js) → Rust Channel<T> → this Svelte UI.\n\nKey constraints of this environment:\n  - Rust backend changes require a manual app restart (no hot reload)\n  - Frontend changes hot-reload via Vite HMR — but editing components mid-stream can crash the window\n  - The sidecar must be rebuilt (`cd sidecar && bun run build`) after any changes to sidecar source\n  - You have 6 file tools available: read, write, edit, bash, glob, grep\n\nProject conventions:\n  - Svelte 5 runes only — no $:, no export let, no let:\n  - All Rust functions return Result — no unwrap() in production\n  - Use `make` targets, not raw cargo/npm commands\n  - shadcn-svelte for UI components, Tailwind for styling\n  - SQLite for all structured persistence, not localStorage\n\nCurrent codebase: Tauri v2 + Svelte 5 + Rust + SQLite desktop app at C:\\Users\\Bobbi\\code\\orqa-studio.",
-  "relationshipDisplay": {
-    "defaultField": "title",
-    "overrides": {}
-  },
   "artifacts": [
-    { "key": "exploring", "label": "Exploring", "icon": "compass",
+    {
+      "key": "exploring",
+      "label": "Exploring",
+      "icon": "compass",
       "children": [
-        { "key": "ideas", "path": ".orqa/delivery/ideas" },
-        { "key": "research", "path": ".orqa/delivery/research" }
+        {
+          "key": "ideas",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/delivery/ideas"
+        },
+        {
+          "key": "research",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/delivery/research"
+        }
       ]
     },
-    { "key": "delivery", "label": "Delivery", "icon": "rocket",
+    {
+      "key": "delivery",
+      "label": "Delivery",
+      "icon": "rocket",
       "children": [
-        { "key": "milestones", "path": ".orqa/delivery/milestones" },
-        { "key": "epics", "path": ".orqa/delivery/epics" },
-        { "key": "tasks", "path": ".orqa/delivery/tasks" }
+        {
+          "key": "milestones",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/delivery/milestones"
+        },
+        {
+          "key": "epics",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/delivery/epics"
+        },
+        {
+          "key": "tasks",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/delivery/tasks"
+        }
       ]
     },
-    { "key": "docs", "label": "Documentation", "icon": "book-open",
+    {
+      "key": "docs",
+      "label": "Documentation",
+      "icon": "book-open",
       "children": [
-        { "key": "guide", "path": ".orqa/documentation/guide" },
-        { "key": "about", "path": ".orqa/documentation/about" },
-        { "key": "development", "path": ".orqa/documentation/development" },
-        { "key": "how-to", "path": ".orqa/documentation/how-to" },
-        { "key": "reference", "path": ".orqa/documentation/reference" },
-        { "key": "wireframes", "path": ".orqa/documentation/reference/wireframes" },
-        { "key": "grounding", "path": ".orqa/documentation/grounding" }
+        {
+          "key": "guide",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/guide"
+        },
+        {
+          "key": "about",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/about"
+        },
+        {
+          "key": "development",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/development"
+        },
+        {
+          "key": "how-to",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/how-to"
+        },
+        {
+          "key": "reference",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/reference"
+        },
+        {
+          "key": "wireframes",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/reference/wireframes"
+        },
+        {
+          "key": "grounding",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/documentation/grounding"
+        }
       ]
     },
-    { "key": "process", "label": "Process", "icon": "workflow",
+    {
+      "key": "process",
+      "label": "Process",
+      "icon": "workflow",
       "children": [
-        { "key": "pillars", "path": ".orqa/process/pillars" },
-        { "key": "lessons", "path": ".orqa/process/lessons" },
-        { "key": "decisions", "path": ".orqa/process/decisions" },
-        { "key": "rules", "path": ".orqa/process/rules" },
-        { "key": "skills", "path": ".orqa/process/skills" },
-        { "key": "agents", "path": ".orqa/process/agents" }
+        {
+          "key": "pillars",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/process/pillars"
+        },
+        {
+          "key": "lessons",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/process/lessons"
+        },
+        {
+          "key": "decisions",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/process/decisions"
+        },
+        {
+          "key": "rules",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/process/rules"
+        },
+        {
+          "key": "skills",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/process/skills"
+        },
+        {
+          "key": "agents",
+          "label": null,
+          "icon": null,
+          "path": ".orqa/process/agents"
+        }
       ]
     }
-  ]
+  ],
+  "artifactLinks": {
+    "display_mode": "id",
+    "colors": {
+      "DOC": "#64748b",
+      "RULE": "#f59e0b",
+      "EPIC": "#3b82f6",
+      "AD": "#8b5cf6",
+      "SKILL": "#14b8a6",
+      "AGENT": "#e11d48",
+      "PILLAR": "#f97316",
+      "TASK": "#22c55e",
+      "IDEA": "#ec4899",
+      "IMPL": "#06b6d4",
+      "MS": "#84cc16",
+      "RES": "#6366f1"
+    }
+  }
 }

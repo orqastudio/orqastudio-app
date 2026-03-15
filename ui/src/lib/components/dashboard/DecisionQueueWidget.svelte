@@ -73,7 +73,7 @@
 </script>
 
 {#if hasData}
-	<Card.Root>
+	<Card.Root class="min-h-[220px]">
 		<Card.Header class="pb-3">
 			<div class="flex items-center justify-between">
 				<Card.Title class="text-base">

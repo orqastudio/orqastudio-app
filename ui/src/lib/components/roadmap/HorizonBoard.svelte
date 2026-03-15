@@ -52,12 +52,17 @@
 		dropTargetKey = colKey;
 	}
 
-	function handleDragLeave() {
+	function handleDragLeave(e: DragEvent) {
+		// Only reset the drop target when the cursor actually leaves the column,
+		// not when it moves between child elements.
+		const related = e.relatedTarget as Node | null;
+		if (related && (e.currentTarget as HTMLElement).contains(related)) return;
 		dropTargetKey = null;
 	}
 
 	function handleDrop(e: DragEvent, colKey: string) {
 		e.preventDefault();
+		e.stopPropagation();
 		dropTargetKey = null;
 		const msId = e.dataTransfer?.getData("text/plain") ?? dragMilestoneId;
 		if (!msId) return;
@@ -249,9 +254,6 @@
 							<div
 								class="flex flex-col gap-3 p-3"
 								role="list"
-								ondragover={(e) => handleDragOver(e, col.key)}
-								ondragleave={handleDragLeave}
-								ondrop={(e) => handleDrop(e, col.key)}
 							>
 								{#if col.milestones.length === 0}
 									<div class="flex flex-1 items-center justify-center rounded-lg border border-dashed border-border p-6 text-center text-xs text-muted-foreground">

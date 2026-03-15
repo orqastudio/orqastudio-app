@@ -16,24 +16,29 @@
 		return { ...DEFAULT_ARTIFACT_LINK_COLORS, ...(props.settings.artifactLinks?.colors ?? {}) };
 	});
 
-	const displayMode = $derived<ArtifactLinkDisplayMode>(
-		props.settings.artifactLinks?.displayMode ?? "id",
-	);
+	const effectiveDisplayModes = $derived.by((): Record<string, ArtifactLinkDisplayMode> => {
+		return props.settings.artifactLinks?.displayModes ?? {};
+	});
 
 	/** All type prefixes, in display order. */
 	const prefixes = Object.keys(DEFAULT_ARTIFACT_LINK_COLORS);
 
+	function getDisplayMode(prefix: string): ArtifactLinkDisplayMode {
+		return effectiveDisplayModes[prefix] ?? "id";
+	}
+
 	function buildConfig(): ArtifactLinksConfig {
 		return {
-			displayMode,
+			displayModes: effectiveDisplayModes,
 			colors: effectiveColors,
 		};
 	}
 
-	function handleDisplayModeChange(mode: ArtifactLinkDisplayMode) {
+	function handleDisplayModeChange(prefix: string, mode: ArtifactLinkDisplayMode) {
+		const displayModes = { ...effectiveDisplayModes, [prefix]: mode };
 		props.onSave({
 			...props.settings,
-			artifactLinks: { ...buildConfig(), displayMode: mode },
+			artifactLinks: { ...buildConfig(), displayModes },
 		});
 	}
 
@@ -47,11 +52,11 @@
 
 	function resetColor(prefix: string) {
 		const colors = { ...effectiveColors };
-		delete colors[prefix];
-		// Restore the default for this prefix only.
 		const defaultColor = DEFAULT_ARTIFACT_LINK_COLORS[prefix];
 		if (defaultColor) {
 			colors[prefix] = defaultColor;
+		} else {
+			delete colors[prefix];
 		}
 		props.onSave({
 			...props.settings,
@@ -65,52 +70,52 @@
 		<Card.Title>Artifact Links</Card.Title>
 		<Card.Description>Control how artifact link chips are displayed across the app</Card.Description>
 	</Card.Header>
-	<Card.Content class="space-y-5">
-		<!-- Display mode toggle -->
-		<div>
-			<span class="text-sm font-medium">Display Mode</span>
-			<p class="mt-0.5 text-xs text-muted-foreground">
-				Choose whether chips show the artifact ID or its resolved title
-			</p>
-			<div class="mt-2 flex gap-2">
-				<button
-					class="rounded border px-3 py-1.5 text-sm transition-colors {displayMode === 'id'
-						? 'border-primary bg-primary text-primary-foreground'
-						: 'border-border bg-background text-muted-foreground hover:bg-accent/50'}"
-					onclick={() => handleDisplayModeChange("id")}
-				>
-					ID
-					<span class="ml-1 font-mono text-xs opacity-70">EPIC-001</span>
-				</button>
-				<button
-					class="rounded border px-3 py-1.5 text-sm transition-colors {displayMode === 'title'
-						? 'border-primary bg-primary text-primary-foreground'
-						: 'border-border bg-background text-muted-foreground hover:bg-accent/50'}"
-					onclick={() => handleDisplayModeChange("title")}
-				>
-					Title
-					<span class="ml-1 text-xs opacity-70">My Epic Title</span>
-				</button>
-			</div>
+	<Card.Content class="space-y-3">
+		<!-- Column headers -->
+		<div class="grid grid-cols-[6rem_1fr_auto] items-center gap-x-4 px-1">
+			<span class="text-xs font-medium text-muted-foreground">Type</span>
+			<span class="text-xs font-medium text-muted-foreground">Display</span>
+			<span class="text-xs font-medium text-muted-foreground">Colour</span>
 		</div>
 
 		<Separator />
 
-		<!-- Per-type colour pickers -->
-		<div>
-			<span class="text-sm font-medium">Chip Colours</span>
-			<p class="mt-0.5 text-xs text-muted-foreground">
-				Set a background colour for each artifact type prefix
-			</p>
-			<div class="mt-3 grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-3">
-				{#each prefixes as prefix (prefix)}
-					{@const color = effectiveColors[prefix] ?? DEFAULT_ARTIFACT_LINK_COLORS[prefix] ?? "#64748b"}
-					{@const isDefault = color === DEFAULT_ARTIFACT_LINK_COLORS[prefix]}
-					<div class="flex items-center gap-2">
-						<!-- Colour swatch + native picker -->
-						<label class="flex cursor-pointer items-center gap-1.5" title="Pick colour for {prefix}">
+		<!-- Per-type rows -->
+		<div class="space-y-1.5">
+			{#each prefixes as prefix (prefix)}
+				{@const color = effectiveColors[prefix] ?? DEFAULT_ARTIFACT_LINK_COLORS[prefix] ?? "#64748b"}
+				{@const isDefault = color === DEFAULT_ARTIFACT_LINK_COLORS[prefix]}
+				{@const mode = getDisplayMode(prefix)}
+
+				<div class="grid grid-cols-[6rem_1fr_auto] items-center gap-x-4">
+					<!-- Type label -->
+					<span class="font-mono text-xs font-semibold">{prefix}</span>
+
+					<!-- Display mode toggle -->
+					<div class="flex gap-1.5">
+						<button
+							class="rounded border px-2 py-0.5 text-xs transition-colors {mode === 'id'
+								? 'border-primary bg-primary text-primary-foreground'
+								: 'border-border bg-background text-muted-foreground hover:bg-accent/50'}"
+							onclick={() => handleDisplayModeChange(prefix, "id")}
+						>
+							ID
+						</button>
+						<button
+							class="rounded border px-2 py-0.5 text-xs transition-colors {mode === 'title'
+								? 'border-primary bg-primary text-primary-foreground'
+								: 'border-border bg-background text-muted-foreground hover:bg-accent/50'}"
+							onclick={() => handleDisplayModeChange(prefix, "title")}
+						>
+							Title
+						</button>
+					</div>
+
+					<!-- Colour swatch + native picker + reset -->
+					<div class="flex items-center gap-1.5">
+						<label class="flex cursor-pointer items-center gap-1" title="Pick colour for {prefix}">
 							<span
-								class="inline-block h-5 w-5 shrink-0 rounded border border-border"
+								class="inline-block h-4 w-4 shrink-0 rounded border border-border"
 								style="background-color: {color};"
 							></span>
 							<input
@@ -123,10 +128,9 @@
 								}}
 							/>
 						</label>
-						<span class="font-mono text-xs font-medium">{prefix}</span>
 						{#if !isDefault}
 							<button
-								class="ml-auto text-[10px] text-muted-foreground hover:text-foreground"
+								class="text-[10px] text-muted-foreground hover:text-foreground"
 								title="Reset to default"
 								onclick={() => resetColor(prefix)}
 							>
@@ -134,8 +138,8 @@
 							</button>
 						{/if}
 					</div>
-				{/each}
-			</div>
+				</div>
+			{/each}
 		</div>
 	</Card.Content>
 </Card.Root>

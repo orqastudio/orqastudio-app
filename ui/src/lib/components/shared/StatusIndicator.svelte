@@ -2,75 +2,71 @@
 	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
 	import ClockIcon from "@lucide/svelte/icons/clock";
 	import FileEditIcon from "@lucide/svelte/icons/file-edit";
-	import AlertCircleIcon from "@lucide/svelte/icons/alert-circle";
 	import ArchiveIcon from "@lucide/svelte/icons/archive";
-	import ArrowUpCircleIcon from "@lucide/svelte/icons/arrow-up-circle";
 	import type { Component } from "svelte";
 	import type { BadgeVariant } from "$lib/components/ui/badge";
 
-	type StatusGroup = "active" | "success" | "draft" | "warning" | "promoted" | "inactive";
+	type StatusGroup = "green" | "blue" | "amber" | "muted";
 
 	const STATUS_GROUP_MAP: Record<string, StatusGroup> = {
-		active: "active",
-		"in-progress": "active",
-		exploring: "active",
-		ready: "active",
-		done: "success",
-		complete: "success",
-		accepted: "success",
-		shaped: "success",
-		draft: "draft",
-		captured: "draft",
-		todo: "draft",
-		proposed: "draft",
-		planning: "draft",
-		review: "warning",
-		recurring: "warning",
-		promoted: "promoted",
-		inactive: "inactive",
-		superseded: "inactive",
-		deprecated: "inactive",
-		archived: "inactive",
-		surpassed: "inactive",
+		// Green — positive/complete/accepted states
+		active: "green",
+		accepted: "green",
+		done: "green",
+		complete: "green",
+		promoted: "green",
+		shaped: "green",
+		// Blue — draft/initial states
+		draft: "blue",
+		todo: "blue",
+		captured: "blue",
+		proposed: "blue",
+		planning: "blue",
+		// Amber — in-flight/transitional states
+		"in-progress": "amber",
+		exploring: "amber",
+		ready: "amber",
+		review: "amber",
+		recurring: "amber",
+		// Muted — inactive/historical states
+		inactive: "muted",
+		archived: "muted",
+		surpassed: "muted",
+		superseded: "muted",
+		deprecated: "muted",
 	};
 
 	const GROUP_ICONS: Record<StatusGroup, Component> = {
-		active: ClockIcon,
-		success: CheckCircleIcon,
-		draft: FileEditIcon,
-		warning: AlertCircleIcon,
-		promoted: ArrowUpCircleIcon,
-		inactive: ArchiveIcon,
+		green: CheckCircleIcon,
+		blue: FileEditIcon,
+		amber: ClockIcon,
+		muted: ArchiveIcon,
 	};
 
 	/** Dot colour classes per status group (Tailwind bg-* utility). */
 	const GROUP_DOT_CLASSES: Record<StatusGroup, string> = {
-		active: "bg-blue-500",
-		success: "bg-emerald-500",
-		draft: "bg-muted-foreground/50",
-		warning: "bg-amber-500",
-		promoted: "bg-purple-500",
-		inactive: "bg-destructive/60",
+		green: "bg-emerald-500",
+		blue: "bg-blue-500",
+		amber: "bg-amber-500",
+		muted: "bg-muted-foreground/40",
 	};
 
 	/** Badge variant per status group. */
 	const GROUP_BADGE_VARIANTS: Record<StatusGroup, BadgeVariant> = {
-		active: "default",
-		success: "outline",
-		draft: "secondary",
-		warning: "warning",
-		promoted: "secondary",
-		inactive: "destructive",
+		green: "outline",
+		blue: "secondary",
+		amber: "warning",
+		muted: "secondary",
 	};
 
-	/** Extra Tailwind classes applied to badge for promoted group (no built-in variant). */
+	/** Extra Tailwind classes applied to badges that need custom colouring. */
 	const GROUP_BADGE_EXTRA: Partial<Record<StatusGroup, string>> = {
-		promoted: "bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30",
-		success: "border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
+		green: "border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
+		muted: "text-muted-foreground opacity-70",
 	};
 
 	function resolveGroup(status: string): StatusGroup {
-		return STATUS_GROUP_MAP[status.toLowerCase()] ?? "draft";
+		return STATUS_GROUP_MAP[status.toLowerCase()] ?? "blue";
 	}
 
 	/** Returns the Badge variant for the given status string. */

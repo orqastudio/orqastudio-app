@@ -26,17 +26,19 @@
 		return { label: displayLabel ?? "??", resolvable: false, targetId: null, node: null };
 	});
 
-	/** Effective display mode from project settings (default: "id"). */
-	const displayMode = $derived(
-		projectStore.projectSettings?.artifactLinks?.displayMode ?? "id",
-	);
-
 	/** The type prefix of the resolved artifact (e.g. "EPIC" from "EPIC-001"). */
 	const typePrefix = $derived.by((): string | null => {
 		const targetId = resolved.targetId;
 		if (!targetId) return null;
 		const match = /^([A-Z]+)-\d+$/.exec(targetId);
 		return match ? match[1] : null;
+	});
+
+	/** Effective display mode for this artifact type from project settings (default: "id"). */
+	const displayMode = $derived.by((): "id" | "title" => {
+		const modes = projectStore.projectSettings?.artifactLinks?.displayModes ?? {};
+		if (typePrefix && modes[typePrefix]) return modes[typePrefix];
+		return "id";
 	});
 
 	/** Per-type chip colour from project settings, with default fallback. */

@@ -5,7 +5,6 @@
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
 
 	interface Relationship {
@@ -49,14 +48,6 @@
 		expandedTypes.set(type, !isExpanded(type));
 	}
 
-	/** Resolve status dot color for a target artifact ID. */
-	function getStatusDotClass(targetId: string | null): string | null {
-		if (!targetId) return null;
-		const node = artifactGraphSDK.resolve(targetId);
-		if (!node?.status) return null;
-		return statusColor(node.status);
-	}
-
 	/** Get visible items for a type (respecting overflow toggle). */
 	function visibleRels(type: string, rels: Relationship[]): Relationship[] {
 		if (rels.length <= 3 || isExpanded(type)) return rels;
@@ -94,15 +85,11 @@
 					<div class="flex min-w-0 flex-wrap items-center gap-1">
 						{#each visibleRels(type, rels) as rel, i (i)}
 							{#if rel.target}
-								{@const dotClass = getStatusDotClass(rel.target)}
 								<Tooltip.Root>
 									<Tooltip.Trigger>
 										{#snippet child({ props })}
 											{@const label = chipLabel(rel.target ?? "")}
-											<span {...props} class="inline-flex items-center gap-1">
-												{#if dotClass}
-													<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
-												{/if}
+											<span {...props} class="inline-flex items-center">
 												{#if label !== (rel.target ?? "")}
 													<ArtifactLink id={rel.target ?? undefined} displayLabel={label} />
 												{:else}

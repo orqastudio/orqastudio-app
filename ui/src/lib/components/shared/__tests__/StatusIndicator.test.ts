@@ -36,11 +36,11 @@ describe("StatusIndicator", () => {
 		expect(dot?.className).toContain("bg-emerald-500");
 	});
 
-	it("falls back to draft group for unknown statuses", () => {
+	it("falls back to blue group for unknown statuses", () => {
 		const { container } = render(StatusIndicator, {
 			props: { status: "unknown-status", mode: "dot" },
 		});
 		const dot = container.querySelector(".rounded-full");
-		expect(dot?.className).toContain("bg-muted-foreground");
+		expect(dot?.className).toContain("bg-blue-500");
 	});
 });

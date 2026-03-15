@@ -47,8 +47,8 @@ export type ArtifactLinkDisplayMode = "id" | "title";
 
 /** Per-type colour and display settings for artifact link chips. */
 export interface ArtifactLinksConfig {
-	/** Whether chips show the artifact ID or its resolved title. Default: "id". */
-	displayMode: ArtifactLinkDisplayMode;
+	/** Per-type display mode (e.g. { "EPIC": "title", "TASK": "id" }). Absent prefixes default to "id". */
+	displayModes: Record<string, ArtifactLinkDisplayMode>;
 	/** Optional per-type prefix hex colour (e.g. { "EPIC": "#3b82f6" }). */
 	colors: Record<string, string>;
 }

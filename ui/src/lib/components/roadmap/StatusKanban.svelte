@@ -6,7 +6,6 @@
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LayersIcon from "@lucide/svelte/icons/layers";
 	import CircleCheckBigIcon from "@lucide/svelte/icons/circle-check-big";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
 
 	type ColumnDef = {
 		key: string;

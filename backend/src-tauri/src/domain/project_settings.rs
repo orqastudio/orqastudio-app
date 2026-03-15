@@ -53,9 +53,10 @@ pub enum ArtifactLinkDisplayMode {
 /// Per-type colour and display settings for artifact link chips.
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct ArtifactLinksConfig {
-    /// Whether chips show the artifact ID or its resolved title.
-    #[serde(default)]
-    pub display_mode: ArtifactLinkDisplayMode,
+    /// Per-type prefix display mode override (e.g. `{ "EPIC": "title", "TASK": "id" }`).
+    /// Absent prefixes fall back to `"id"`.
+    #[serde(rename = "displayModes", default)]
+    pub display_modes: std::collections::HashMap<String, ArtifactLinkDisplayMode>,
     /// Optional per-type prefix hex colour override (e.g. `{ "EPIC": "#3b82f6" }`).
     #[serde(default)]
     pub colors: std::collections::HashMap<String, String>,
@@ -152,7 +153,10 @@ mod tests {
             show_thinking: false,
             custom_system_prompt: None,
             artifacts: vec![],
-            artifact_links: ArtifactLinksConfig::default(),
+            artifact_links: ArtifactLinksConfig {
+                display_modes: std::collections::HashMap::new(),
+                colors: std::collections::HashMap::new(),
+            },
         }
     }
 
