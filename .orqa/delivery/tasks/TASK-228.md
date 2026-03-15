@@ -2,7 +2,7 @@
 id: TASK-228
 title: Audit EPIC-050 tasks against plugin codebase
 description: 14 tasks marked todo but plugin has working code. Verify each task against actual implementation.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

@@ -2,7 +2,7 @@
 id: EPIC-038
 title: UX Polish Sprint
 description: "UX improvements identified during early dogfooding: streaming fix, output truncation, tool call grouping, auto-naming sessions, custom titlebar."
-status: done
+status: completed
 priority: P2
 created: 2026-03-06
 updated: 2026-03-09

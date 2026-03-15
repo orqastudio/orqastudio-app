@@ -2,7 +2,7 @@
 id: TASK-268
 title: Fix EPIC-005 task statuses
 description: Correct task statuses that were marked done incorrectly.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-057

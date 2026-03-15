@@ -2,7 +2,7 @@
 id: TASK-217
 title: Add web_fetch and web_search capabilities to research and planner agents
 description: Ensure Researcher and Planner agent definitions include web_fetch and web_search capabilities so they can access external knowledge during investigation.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-053

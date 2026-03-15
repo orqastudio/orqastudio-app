@@ -2,7 +2,7 @@
 id: EPIC-034
 title: Native Search Engine
 description: "Implement native code search engine using DuckDB for storage, ONNX Runtime for embeddings, and DirectML for hardware acceleration. Three search modes: regex, semantic, and code_research."
-status: done
+status: completed
 priority: P1
 created: 2026-03-04
 updated: 2026-03-09

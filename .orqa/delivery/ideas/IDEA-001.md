@@ -3,7 +3,7 @@ id: IDEA-001
 title: Multi-Provider Ecosystem
 description: |
   Support additional AI providers through the provider-agnostic sidecar interface without changing the Rust core or Svelte UI.
-status: delivered
+status: completed
 created: 2026-03-07
 updated: 2026-03-13
 pillars:

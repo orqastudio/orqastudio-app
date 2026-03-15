@@ -2,7 +2,7 @@
 id: TASK-384
 title: Scope drift detection tooling
 description: Build tooling that compares epic scope against actual implementation to detect silently added, removed, or deferred deliverables
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

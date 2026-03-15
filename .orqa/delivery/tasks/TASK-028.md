@@ -2,7 +2,7 @@
 id: TASK-028
 title: Provider interface and Claude adapter
 description: Defines a provider abstraction interface in the sidecar and refactors the Claude Agent SDK integration into a concrete adapter, enabling future providers to be added via a factory.
-status: done
+status: completed
 created: 2026-03-07
 updated: 2026-03-09
 epic: EPIC-040

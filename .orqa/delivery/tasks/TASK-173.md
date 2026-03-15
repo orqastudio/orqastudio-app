@@ -2,7 +2,7 @@
 id: TASK-173
 title: Migrate agent definitions from tools to capabilities
 description: Update all 7 agent definitions to declare capabilities instead of concrete tool names.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-051

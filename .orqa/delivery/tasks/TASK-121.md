@@ -2,7 +2,7 @@
 id: TASK-121
 title: Design MCP host interface
 description: Designed the interface for future external MCP server support, defining how OrqaStudio will host and connect to MCP servers.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

@@ -2,7 +2,7 @@
 id: TASK-055
 title: Update product documentation
 description: Update governance.md with the concept taxonomy from AD-029, create a new governance-hub.md page for the distribution and coexistence model from AD-030, and verify artifact-framework.md alignment.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-045

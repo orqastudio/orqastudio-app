@@ -3,7 +3,7 @@ id: IMPL-011
 title: Investigate systemically before fixing individual issues
 description: |
   Collect all findings first, group by systemic theme, investigate the architecture, then design solutions at the system level. One fix addressing six findings is better than six independent fixes.
-status: promoted
+status: completed
 created: 2026-03-07
 updated: 2026-03-07
 maturity: understanding

@@ -6,7 +6,7 @@ description: |
   Create a rule that maps capabilities to provider-specific tools per context
   (CLI, App, future providers). Update all agent definitions and the delegation
   protocol to use the abstraction.
-status: done
+status: completed
 priority: P1
 created: 2026-03-11
 updated: 2026-03-12

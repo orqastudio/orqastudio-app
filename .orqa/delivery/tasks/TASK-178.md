@@ -2,7 +2,7 @@
 id: TASK-178
 title: Implement rule engine core (loader, parser, pattern matcher)
 description: Build the core engine that loads .orqa/process/rules/, parses frontmatter, and evaluates enforcement patterns.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-050

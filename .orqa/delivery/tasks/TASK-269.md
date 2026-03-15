@@ -2,7 +2,7 @@
 id: TASK-269
 title: Tighten RULE-001 orchestrator content boundary
 description: Clarify in RULE-001 that the orchestrator creates artifact structure but delegates content writing to Writer.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-057

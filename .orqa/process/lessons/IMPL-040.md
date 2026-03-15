@@ -2,7 +2,7 @@
 id: IMPL-040
 title: "Decisions scrolled out of view by automated work must be resurfaced"
 description: "When the orchestrator presents a decision to the user and then launches background agents whose output scrolls the decision out of view, the user loses context. The orchestrator must re-present pending decisions after automated work completes, not assume the user remembers what was asked."
-status: promoted
+status: completed
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding

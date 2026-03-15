@@ -2,7 +2,7 @@
 id: TASK-420
 title: Create @orqastudio/sdk package — graph + IPC + frontmatter
 description: Create the SDK package with ArtifactGraphSDK, IPC invoke wrapper, and frontmatter parser. This is the core layer — stores are added in subsequent tasks.
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

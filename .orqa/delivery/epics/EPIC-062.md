@@ -2,7 +2,7 @@
 id: EPIC-062
 title: Artifact Graph SDK extraction research
 description: Research extracting the artifactGraphSDK into a standalone npm package that plugins can import, enabling the plugin architecture's data layer.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-13
 updated: 2026-03-13

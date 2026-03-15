@@ -2,7 +2,7 @@
 id: EPIC-001
 title: AI Transparency Wiring
 description: Wire the emission logic that connects existing AI transparency types, components, and store handling into a working end-to-end pipeline.
-status: done
+status: completed
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

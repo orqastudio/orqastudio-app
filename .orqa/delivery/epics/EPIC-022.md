@@ -2,7 +2,7 @@
 id: EPIC-022
 title: Implementation Breakdown & Work Management
 description: Build epic-to-task hierarchy, plan-to-backlog breakdown, unified backlog view, status workflow, and progress dashboard.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

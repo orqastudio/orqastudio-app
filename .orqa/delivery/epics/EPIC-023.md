@@ -2,7 +2,7 @@
 id: EPIC-023
 title: Onboarding Flow Review
 description: Audit and improve the first-run setup wizard, new project flow, existing folder initialization, and guided first conversation.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

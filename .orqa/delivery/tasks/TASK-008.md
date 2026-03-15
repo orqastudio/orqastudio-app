@@ -2,7 +2,7 @@
 id: TASK-008
 title: Update scanner to use config-driven paths
 description: Replace the scanner's folder-guessing logic with config-driven scanning. The scanner reads the artifacts array from project.json and scans exactly those paths. No more inferring groups from README frontmatter.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

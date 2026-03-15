@@ -2,7 +2,7 @@
 id: TASK-138
 title: Wire governance end-to-end integration
 description: Connected the full governance pipeline from scanner through analysis to recommendations and dashboard.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-031

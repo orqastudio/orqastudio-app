@@ -4,7 +4,7 @@ title: Add prompt event handler to plugin rule-engine.mjs
 description: |
   Add UserPromptSubmit hook handling to the plugin that classifies user intent
   from the prompt and injects relevant skills before work begins.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

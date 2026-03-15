@@ -2,7 +2,7 @@
 id: EPIC-004
 title: AI-Mediated Artifact Editing
 description: Build an AI-mediated editing experience where creates, edits, and deletes are proposals sent to the AI conversation panel. The AI analyses cross-reference implications and suggests cascading updates to keep artifacts in sync.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-11

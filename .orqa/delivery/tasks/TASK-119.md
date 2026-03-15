@@ -2,7 +2,7 @@
 id: TASK-119
 title: Design streaming pipeline
 description: Designed the Agent SDK to Svelte event flow including the sidecar NDJSON protocol, Rust Channel<T>, and frontend event handling.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

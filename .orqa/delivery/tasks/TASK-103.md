@@ -2,7 +2,7 @@
 id: TASK-103
 title: Define product glossary
 description: Established canonical terminology used throughout OrqaStudio's product documentation, governance, and UI.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-027

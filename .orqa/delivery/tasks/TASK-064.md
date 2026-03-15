@@ -2,7 +2,7 @@
 id: TASK-064
 title: Update session-start hook with uncommitted changes check
 description: Update session-start hook with uncommitted changes check
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-047

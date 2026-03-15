@@ -2,7 +2,7 @@
 id: TASK-176
 title: Implement capability resolution in app agent execution pipeline
 description: The Rust backend resolves agent capabilities to Tauri tool names when building agent execution context.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-051

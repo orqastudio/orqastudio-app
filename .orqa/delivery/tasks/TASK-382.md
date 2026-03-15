@@ -2,7 +2,7 @@
 id: TASK-382
 title: "Behavioral enforcement plan: session hook rules"
 description: Define enforcement mechanisms for behavioral rules enforced via plugin session hooks
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

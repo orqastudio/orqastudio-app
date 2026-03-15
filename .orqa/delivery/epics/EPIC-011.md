@@ -2,7 +2,7 @@
 id: EPIC-011
 title: Chat-Guided Onboarding
 description: Make the chat conversation itself guide new users through setup, with project state awareness and entry mode detection.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

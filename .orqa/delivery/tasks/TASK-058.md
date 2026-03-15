@@ -2,7 +2,7 @@
 id: TASK-058
 title: Create pillar artifact schema and initial pillars
 description: Create pillar artifact schema and initial pillars
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-046

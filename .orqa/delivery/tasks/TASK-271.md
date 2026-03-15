@@ -2,7 +2,7 @@
 id: TASK-271
 title: Implement rule-overrides in CLI plugin prompt injection
 description: When loading rules into agent context for a task, read the task's rule-overrides (falling back to epic's if task has none). Suspended rules are loaded but annotated with the suspension reason.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-058

@@ -2,7 +2,7 @@
 id: IDEA-049
 title: Graph-Powered Dashboard Insights and Trend Analysis
 description: Combine artifact graph relationship data with created/updated timestamps to surface trends, velocity metrics, and structural health insights over time. Move the dashboard beyond static counts into a temporal, relational analytics layer.
-status: promoted
+status: completed
 created: "2026-03-11"
 updated: "2026-03-11"
 horizon: active

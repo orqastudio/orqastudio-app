@@ -2,7 +2,7 @@
 id: TASK-032
 title: Create code-search wrapper skill
 description: Creates a context-detecting wrapper skill that instructs agents to load the appropriate concrete search skill depending on whether they are running in CLI or App context.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-042

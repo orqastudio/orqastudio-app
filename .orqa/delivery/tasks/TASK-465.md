@@ -2,7 +2,7 @@
 id: TASK-465
 title: "Define Governance Steward agent"
 description: "Create a specialist agent definition for all .orqa/ artifact creation and maintenance. The orchestrator delegates governance work to this agent instead of writing artifacts directly."
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

@@ -2,7 +2,7 @@
 id: TASK-105
 title: Define user journeys
 description: Documented end-to-end user flows for primary use cases including first-run, conversation, artifact browsing, and governance review.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-027

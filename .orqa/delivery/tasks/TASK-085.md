@@ -2,7 +2,7 @@
 id: TASK-085
 title: Audit all skill definitions against codebase
 description: Verify every skill in .orqa/process/skills/ has accurate code patterns, valid file paths in examples, correct layer classification, and no stale module/function references.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-049

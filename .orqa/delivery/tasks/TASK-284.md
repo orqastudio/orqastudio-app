@@ -2,7 +2,7 @@
 id: TASK-284
 title: Backfill missing bidirectional inverses
 description: For every relationship A --type--> B, ensure B --inverse--> A exists. Add relationships arrays to artifact types that need them.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

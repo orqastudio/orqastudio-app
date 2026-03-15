@@ -2,7 +2,7 @@
 id: TASK-117
 title: Design Rust module architecture
 description: Defined domain boundaries, service interfaces, and the repository pattern for the Rust backend.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

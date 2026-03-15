@@ -2,7 +2,7 @@
 id: TASK-310
 title: "Plugin: maintain memory entries for unimplemented ADs"
 description: Use Claude Code's memory system to surface unimplemented architecture decisions. Session-start hook creates/updates concise memory entries for accepted ADs lacking enforced-by/practiced-by edges. Hook also cleans up memory entries when ADs mature. Leverages provider-native memory for compaction-resistant context.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

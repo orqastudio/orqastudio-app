@@ -2,7 +2,7 @@
 id: EPIC-036
 title: "Rebrand: Forge → OrqaStudio"
 description: 'Product rebrand from "Forge" to "Orqa Studio": name, directory structure (src/ → ui/), brand assets, documentation, and build configuration updates.'
-status: done
+status: completed
 priority: P1
 created: 2026-03-04
 updated: 2026-03-09

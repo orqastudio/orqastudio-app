@@ -2,7 +2,7 @@
 id: TASK-019
 title: Governance artifact alignment for dogfooding
 description: Aligns governance artifacts with the live codebase in preparation for dogfood use, fixing hook paths, removing debug logging, and eliminating unsafe type annotations.
-status: done
+status: completed
 created: 2026-03-05
 updated: 2026-03-09
 epic: EPIC-037

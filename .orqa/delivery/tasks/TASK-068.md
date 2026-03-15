@@ -2,7 +2,7 @@
 id: TASK-068
 title: Promote IMPL-015 to enforcement artifacts
 description: Promote IMPL-015 to enforcement artifacts
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-047

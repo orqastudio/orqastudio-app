@@ -2,7 +2,7 @@
 id: TASK-252
 title: Update documentation paths for directory reorganisation
 description: Find-replace all path references in .orqa/ documentation to reflect the new directory structure.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-056

@@ -2,7 +2,7 @@
 id: TASK-027
 title: "Security hardening: CSP and permissions"
 description: Audits and restricts Tauri capabilities to the minimum required permissions, removing broad defaults and enabling a Content Security Policy.
-status: done
+status: completed
 created: 2026-03-06
 updated: 2026-03-09
 epic: EPIC-039

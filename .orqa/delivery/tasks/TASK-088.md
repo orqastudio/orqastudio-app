@@ -2,7 +2,7 @@
 id: TASK-088
 title: Cross-layer consistency verification
 description: Verify consistency across the orchestrator, agents, skills, and rules layers — skill injection tables, agent-to-subagent mappings, orphaned artifacts, and cross-references.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-049

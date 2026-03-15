@@ -2,7 +2,7 @@
 id: EPIC-006
 title: File Watcher for External Changes
 description: Watch .claude/ and .orqa/ directories for external modifications and refresh artifact list and viewer when files change on disk.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

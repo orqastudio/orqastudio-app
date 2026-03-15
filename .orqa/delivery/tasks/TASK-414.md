@@ -2,7 +2,7 @@
 id: TASK-414
 title: Integration test — verify all declared enforcement entries are consumed
 description: Audit all enforcement entries across all rules and verify each one is actually evaluated by the plugin (CLI) or app (Rust). Produce a coverage report showing declared vs. implemented enforcement.
-status: done
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

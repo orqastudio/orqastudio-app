@@ -2,7 +2,7 @@
 id: TASK-120
 title: Define tool system and permission model
 description: Defined file tools, search tools, and governance tools with their permission model and execution patterns.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

@@ -2,7 +2,7 @@
 id: TASK-179
 title: Implement agent and skill loading from .orqa/process/
 description: Plugin loads agent definitions and skills directly from .orqa/process/, replacing .claude/ symlinks.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-050

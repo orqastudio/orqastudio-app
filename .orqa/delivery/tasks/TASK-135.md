@@ -2,7 +2,7 @@
 id: TASK-135
 title: Implement governance recommendations
 description: Built the recommendation engine that generates structured suggestions based on governance coverage analysis.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-031

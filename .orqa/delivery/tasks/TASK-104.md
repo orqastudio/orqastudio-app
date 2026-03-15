@@ -2,7 +2,7 @@
 id: TASK-104
 title: Define user personas
 description: Created target user archetypes with goals, contexts, pain points, and usage patterns for OrqaStudio.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-027

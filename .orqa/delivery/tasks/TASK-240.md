@@ -2,7 +2,7 @@
 id: TASK-240
 title: Archive stale ideas and fix IDEA-057
 description: IDEA-025,032,045 should be archived. IDEA-057 should be promoted.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

@@ -2,7 +2,7 @@
 id: TASK-002
 title: Verify end-to-end AI transparency rendering
 description: "Verify the full AI transparency pipeline works end-to-end: Rust emission to Channel<T> to store accumulation to component rendering."
-status: done
+status: completed
 created: 2026-03-07
 updated: 2026-03-07
 epic: EPIC-001

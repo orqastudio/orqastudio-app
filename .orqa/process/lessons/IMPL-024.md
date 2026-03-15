@@ -3,7 +3,7 @@
 id: IMPL-024
 title: "Lessons learned should be recorded on task completion artifacts"
 description: "When a task is completed, any observations logged or recurrence incremented during that task should be recorded in the task artifact itself. This makes the learning visible to the user as part of the completion statement, not buried in conversation history."
-status: promoted
+status: completed
 created: "2026-03-13"
 updated: "2026-03-13"
 maturity: understanding

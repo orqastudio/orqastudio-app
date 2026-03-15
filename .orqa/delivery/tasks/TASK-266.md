@@ -2,7 +2,7 @@
 id: TASK-266
 title: Write core architecture documentation
 description: Complete end-to-end documentation of the target core application architecture.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-057

@@ -4,7 +4,7 @@ title: Add prompt-based injection to Rust system prompt builder
 description: |
   Implement prompt-based skill injection in the app's Rust system prompt builder
   using the local embeddings engine for semantic similarity matching.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

@@ -2,7 +2,7 @@
 id: TASK-100
 title: Record persistence and governance decisions (AD-011 through AD-014)
 description: Captured architecture decisions for persistence strategy, governance artifact format, data ownership boundaries, and configuration management.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-026

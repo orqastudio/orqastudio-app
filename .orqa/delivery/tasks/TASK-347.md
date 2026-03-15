@@ -2,7 +2,7 @@
 id: TASK-347
 title: Reconcile EPIC-057
 description: "Standing reconciliation task — verify epic body accuracy: task table, pillars, docs-produced, scope."
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-057

@@ -2,7 +2,7 @@
 id: TASK-039
 title: Shared list item and status indicator components
 description: Extracts duplicated list item and status display logic into reusable shared components covering all artifact lifecycle statuses, used consistently across the sidebar and landing grid.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-043

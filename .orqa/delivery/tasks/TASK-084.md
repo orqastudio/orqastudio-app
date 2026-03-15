@@ -2,7 +2,7 @@
 id: TASK-084
 title: Audit all agent definitions for accuracy
 description: Verify every agent YAML definition in .orqa/process/agents/ has correct skills lists, valid required reading paths, accurate role descriptions, and no stale references.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-049

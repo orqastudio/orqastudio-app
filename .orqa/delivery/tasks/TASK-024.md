@@ -2,7 +2,7 @@
 id: TASK-024
 title: Decompose stream commands into domain modules
 description: Extracts business logic from the monolithic stream_commands.rs (2,425 lines) into four focused domain modules, leaving the command file as thin orchestration only.
-status: done
+status: completed
 created: 2026-03-06
 updated: 2026-03-09
 epic: EPIC-039

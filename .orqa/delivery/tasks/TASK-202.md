@@ -5,7 +5,7 @@ description: |
   Create a clear mapping between documented coding standards and the linter
   rules/configs that enforce them. Each standard traces to a specific linter
   rule. Each skill describes how to configure the relevant tool.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

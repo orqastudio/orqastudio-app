@@ -2,7 +2,7 @@
 id: TASK-116
 title: Design IPC command catalogue
 description: Catalogued every Tauri command with its input types, output types, error cases, and domain assignment.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

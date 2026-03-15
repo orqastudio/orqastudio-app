@@ -2,7 +2,7 @@
 id: TASK-300
 title: Update all path references across codebase
 description: After directory moves, every hardcoded path in Rust, TypeScript, skills, rules, agents, documentation must be updated. Use verify-links to confirm zero broken references.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

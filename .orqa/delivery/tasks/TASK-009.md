@@ -2,7 +2,7 @@
 id: TASK-009
 title: "Frontend: config-driven navigation and fix app hang"
 description: Replace all hardcoded navigation constants with config-driven derivation. This fixes the app hang (caused by mismatch between scanner output and hardcoded navigation expectations) and enables dynamic artifact types.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

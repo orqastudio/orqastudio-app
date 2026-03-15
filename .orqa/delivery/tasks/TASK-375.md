@@ -2,7 +2,7 @@
 id: TASK-375
 title: Reconcile EPIC-061
 description: Final reconciliation of EPIC-061 — verify all tasks complete, all deliverables shipped, all enforcement tooling operational
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

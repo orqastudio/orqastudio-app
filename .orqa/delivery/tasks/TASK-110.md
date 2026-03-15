@@ -2,7 +2,7 @@
 id: TASK-110
 title: Design conversation view wireframes
 description: Created wireframes for the conversation UI including message bubbles, streaming display, tool call cards, and input area.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

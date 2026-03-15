@@ -2,7 +2,7 @@
 id: TASK-376
 title: Run all enforcement tooling and review output
 description: Execute make verify, all new linter rules, gap audit tool, pipeline health checks, and behavioral enforcement mechanisms against the full codebase
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

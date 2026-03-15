@@ -2,7 +2,7 @@
 id: TASK-091
 title: Convert monolithic decisions doc to individual artifacts
 description: Converted the monolithic docs/architecture/decisions.md from full content to an index table, creating 20 individual AD-NNN.md artifacts with complete YAML frontmatter and cross-references.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-032

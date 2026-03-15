@@ -2,7 +2,7 @@
 id: TASK-208
 title: Add docs and skills fields to task schema
 description: Extend the task schema with optional docs (array of documentation paths) and skills (array of skill names) fields that create graph edges from tasks to their implementation context.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-053

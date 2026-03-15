@@ -2,7 +2,7 @@
 id: EPIC-030
 title: Project Scaffold
 description: "The first working version: a Tauri v2 desktop app with Claude conversations via Agent SDK sidecar, streaming, SQLite, and conversation UI."
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

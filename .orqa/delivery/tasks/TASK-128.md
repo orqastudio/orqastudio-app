@@ -2,7 +2,7 @@
 id: TASK-128
 title: Implement four-zone layout and sidebar
 description: Built the desktop layout with toolbar, sidebar navigation, main content area, and status bar with resizable panels.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

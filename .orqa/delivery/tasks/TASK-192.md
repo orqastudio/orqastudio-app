@@ -4,7 +4,7 @@ title: Update plugin README with installation docs
 description: |
   Update the companion plugin README.md with installation instructions,
   what the plugin provides, and how it integrates with OrqaStudio projects.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

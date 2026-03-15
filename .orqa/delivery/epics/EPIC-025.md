@@ -2,7 +2,7 @@
 id: EPIC-025
 title: Tech Stack Research
 description: Pre-build investigation that determined the technology choices underpinning the entire OrqaStudio platform.
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

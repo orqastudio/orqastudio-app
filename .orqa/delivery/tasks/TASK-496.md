@@ -2,7 +2,7 @@
 id: TASK-496
 title: "Relationship graph visualization library (F42)"
 description: "Replace the existing relationship graph with a proper graph visualization library that supports zoom, pan, and dynamic node positioning. Clicking a node navigates to that artifact. Research and select the appropriate library (e.g., d3-force, cytoscape.js, or vis-network)."
-status: todo
+status: ready
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

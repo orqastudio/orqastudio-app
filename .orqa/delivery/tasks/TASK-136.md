@@ -2,7 +2,7 @@
 id: TASK-136
 title: Implement recommendation review UI
 description: Built the UI for reviewing, approving, and acting on governance recommendations.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-031

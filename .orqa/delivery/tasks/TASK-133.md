@@ -2,7 +2,7 @@
 id: TASK-133
 title: Implement governance filesystem scanner
 description: Built the filesystem walker that collects governance artifacts from the .orqa/ directory structure.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-031

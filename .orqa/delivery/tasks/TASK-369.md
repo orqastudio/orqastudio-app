@@ -2,7 +2,7 @@
 id: TASK-369
 title: Pipeline stage transition health checks
 description: Build pipeline health checks that detect stuck observations, accepted ADs without skills, skills without rules, and rules without verification
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

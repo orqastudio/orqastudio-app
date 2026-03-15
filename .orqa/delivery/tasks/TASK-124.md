@@ -2,7 +2,7 @@
 id: TASK-124
 title: Implement Rust backend sidecar and streaming
 description: Built the Agent SDK sidecar process management in Rust with NDJSON streaming via Channel<T> for real-time conversation display.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

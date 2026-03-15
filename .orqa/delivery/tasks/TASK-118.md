@@ -2,7 +2,7 @@
 id: TASK-118
 title: Design Svelte component tree
 description: Mapped the Svelte component hierarchy to the UX wireframes, defining which components are pages, containers, and display components.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

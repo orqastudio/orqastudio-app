@@ -2,7 +2,7 @@
 id: TASK-378
 title: "Update RULE-022: loop-closure + scope verification requirements"
 description: Update RULE-022 to require loop-closure phases in enforcement epics and explicit user approval for out-of-scope sections
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

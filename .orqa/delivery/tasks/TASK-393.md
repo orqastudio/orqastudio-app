@@ -2,7 +2,7 @@
 id: TASK-393
 title: Fix flow — auto-fix button and results display in IntegrityWidget
 description: Add a Fix button to the IntegrityWidget that calls apply_auto_fixes, shows which fixes were applied, and re-scans to show remaining issues.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-060

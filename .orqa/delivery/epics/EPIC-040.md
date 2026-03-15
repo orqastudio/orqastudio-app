@@ -2,7 +2,7 @@
 id: EPIC-040
 title: Provider Abstraction Layer
 description: Refactor sidecar from Claude-specific to provider-agnostic architecture. Provider interface, Claude adapter, sdk_session_id → provider_session_id rename across 13+ files including SQLite migration.
-status: done
+status: completed
 priority: P1
 created: 2026-03-07
 updated: 2026-03-09

@@ -2,7 +2,7 @@
 id: TASK-059
 title: Register pillars in artifact config
 description: Register pillars in artifact config
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-046

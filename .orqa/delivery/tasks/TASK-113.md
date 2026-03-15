@@ -2,7 +2,7 @@
 id: TASK-113
 title: Define component inventory
 description: Catalogued all reusable UI components with their states, variants, and composition patterns.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

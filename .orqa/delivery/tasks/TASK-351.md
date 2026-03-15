@@ -2,7 +2,7 @@
 id: TASK-351
 title: Backfill lesson promoted-to targets (22 lessons)
 description: Populate the promoted-to field for all 22 promoted lessons that had empty targets
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

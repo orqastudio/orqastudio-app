@@ -8,7 +8,7 @@
 id: EPIC-068
 title: Dashboard redesign — layout, widgets, and plugin extensibility
 description: Redesign the dashboard from a vertical card stack to an information-dense layout. Architecture must support drag-and-drop positioning and plugin-provided custom widgets.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

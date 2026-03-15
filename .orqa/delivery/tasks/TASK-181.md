@@ -2,7 +2,7 @@
 id: TASK-181
 title: Implement SessionStart hook (orchestrator injection + session checks)
 description: Plugin SessionStart hook injects orchestrator context and runs session-start checks.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-050

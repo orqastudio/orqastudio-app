@@ -2,7 +2,7 @@
 id: TASK-099
 title: Record core architecture decisions (AD-007 through AD-010)
 description: Captured foundational architecture decisions covering thick backend, IPC boundary, error propagation, and Svelte 5 runes-only policy.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-026

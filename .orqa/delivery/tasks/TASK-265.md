@@ -2,7 +2,7 @@
 id: TASK-265
 title: Add errors.svelte.ts store test
 description: Write test file for the one untested frontend store.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-057

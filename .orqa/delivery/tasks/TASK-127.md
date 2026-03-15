@@ -2,7 +2,7 @@
 id: TASK-127
 title: Implement remaining IPC commands across all domains
 description: Built the full IPC command surface covering settings, governance, tools, sidecar management, and system information.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

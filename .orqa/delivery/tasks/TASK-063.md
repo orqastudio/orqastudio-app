@@ -2,7 +2,7 @@
 id: TASK-063
 title: Update product documentation for pillar artifacts
 description: Update product documentation for pillar artifacts
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-046

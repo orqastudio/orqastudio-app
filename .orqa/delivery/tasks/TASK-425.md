@@ -2,7 +2,7 @@
 id: TASK-425
 title: "Fix CI workflows for independent builds (no file: references)"
 description: "CI workflows fail because packages reference each other via file: paths that don't exist in CI. Update each package's CI to either use npm pack from a checkout or publish tier-0 packages first."
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

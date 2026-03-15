@@ -2,7 +2,7 @@
 id: TASK-112
 title: Design settings and onboarding wireframes
 description: Created wireframes for the settings view and first-run onboarding flow including API key configuration and project setup.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

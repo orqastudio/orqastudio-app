@@ -4,7 +4,7 @@ title: Create RULE-041, RULE-042, RULE-043
 description: |
   Create three new rules documenting the enforcement layers: data persistence
   boundaries, automated skill injection, and tooling ecosystem management.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

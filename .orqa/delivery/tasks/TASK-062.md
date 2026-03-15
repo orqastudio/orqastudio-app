@@ -2,7 +2,7 @@
 id: TASK-062
 title: Update system prompt assembly to inject pillars
 description: Update system prompt assembly to inject pillars
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-046

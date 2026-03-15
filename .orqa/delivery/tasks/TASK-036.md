@@ -2,7 +2,7 @@
 id: TASK-036
 title: Verify three-tier skill loading
 description: Dry-runs backend, frontend, and governance delegation scenarios to confirm that all three skill tiers load correctly and that no agent definition still carries project-specific skills directly.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-042

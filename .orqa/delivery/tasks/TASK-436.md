@@ -2,7 +2,7 @@
 id: TASK-436
 title: Field display improvements — badges, checkbox icons, display order
 description: Improve frontmatter field display with badges for maturity/category/version, checkbox icons for booleans, and better field ordering.
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

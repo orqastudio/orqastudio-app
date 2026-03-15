@@ -2,7 +2,7 @@
 id: TASK-129
 title: Implement conversation UI with streaming
 description: Built the conversation view with message bubbles, streaming token display, message input, and real-time response rendering.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

@@ -5,7 +5,7 @@ description: |
   Build a two-context rule enforcement engine: a Claude Code companion plugin
   (separate repo) that enforces .orqa/ rules in the CLI, then integrate the same
   enforcement logic into the OrqaStudio app for dogfooding parity.
-status: done
+status: completed
 priority: P1
 created: 2026-03-11
 updated: 2026-03-12

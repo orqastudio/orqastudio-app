@@ -2,7 +2,7 @@
 id: TASK-137
 title: Implement governance coverage dashboard widget
 description: Built the dashboard widget showing governance coverage health with visual indicators for each governance area.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-031

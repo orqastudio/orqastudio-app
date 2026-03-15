@@ -2,7 +2,7 @@
 id: TASK-096
 title: Frontend library selection
 description: Evaluated frontend frameworks and selected Svelte 5 with shadcn-svelte as the component library and Tailwind CSS for styling.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-025

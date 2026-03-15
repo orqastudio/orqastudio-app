@@ -2,7 +2,7 @@
 id: TASK-432
 title: Relationships panel — equal columns, overflow toggle, status dots
 description: Redesign the relationships panel with equal-width columns, expandable overflow, and status dots from graph node data.
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

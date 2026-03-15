@@ -2,7 +2,7 @@
 id: TASK-065
 title: Update pre-commit-reminder hook with commit prompt
 description: Update pre-commit-reminder hook with commit prompt
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-047

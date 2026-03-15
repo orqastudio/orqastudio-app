@@ -2,7 +2,7 @@
 id: TASK-380
 title: "Behavioral enforcement plan: output validation rules"
 description: Define enforcement mechanisms for behavioral rules enforced via post-hoc output validation
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

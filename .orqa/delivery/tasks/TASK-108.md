@@ -2,7 +2,7 @@
 id: TASK-108
 title: Define design system
 description: Established the visual design system including typography, colour palette, spacing scale, and iconography conventions.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

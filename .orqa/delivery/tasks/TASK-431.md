@@ -2,7 +2,7 @@
 id: TASK-431
 title: Reusable pipeline stepper with configurable stages and visual refresh
 description: Refactor PipelineStepper to accept stages as a prop and update styling to match the app look and feel.
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

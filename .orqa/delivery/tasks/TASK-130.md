@@ -2,7 +2,7 @@
 id: TASK-130
 title: Implement tool call rendering
 description: Built tool call card components with collapsible display showing tool name, input parameters, and output results.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

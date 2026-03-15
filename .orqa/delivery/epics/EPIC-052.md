@@ -8,7 +8,7 @@ description: |
   file paths and prompt intent. Tooling ecosystem management delegates code quality
   to linters while OrqaStudio manages the full chain from documented intent to
   linter config to hook trigger.
-status: done
+status: completed
 priority: P1
 created: 2026-03-11
 updated: 2026-03-12

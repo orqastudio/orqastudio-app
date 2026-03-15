@@ -2,7 +2,7 @@
 id: TASK-387
 title: Cognitive load indicators
 description: Build tooling that detects excessive session complexity and surfaces warnings about too many open files, uncommitted changes, or interleaved tasks
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

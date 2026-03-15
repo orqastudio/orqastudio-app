@@ -15,7 +15,7 @@
 id: EPIC-067
 title: Artifact viewer redesign — layout, relationships, and graph enrichment
 description: Redesign the artifact viewer information hierarchy, relationships panel, and pipeline stepper. Enrich graph nodes with metadata for display. The largest systemic theme from UAT round 2.
-status: in-progress
+status: active
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

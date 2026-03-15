@@ -2,7 +2,7 @@
 id: EPIC-014
 title: Project Type System
 description: Add a project type system so OrqaStudio adapts its agents, tools, and scanning to the domain (software, research, product, personal).
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

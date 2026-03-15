@@ -2,7 +2,7 @@
 id: TASK-299
 title: README alignment audit
 description: Every artifact directory README should describe what the artifact type IS, its role in the pipeline, and be consistent in format. Must reflect new directory structure.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

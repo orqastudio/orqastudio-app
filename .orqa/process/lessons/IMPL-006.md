@@ -3,7 +3,7 @@ id: IMPL-006
 title: Symlinks Prevent Governance Divergence
 description: |
   When .claude/ contains copies instead of symlinks to .orqa/, agents writing to .claude/ bypass the source of truth and the two directories silently diverge.
-status: promoted
+status: completed
 created: 2026-03-07
 updated: 2026-03-07
 maturity: understanding

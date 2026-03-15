@@ -2,7 +2,7 @@
 id: TASK-182
 title: Implement Stop hook (replaces pre-commit-reminder.sh)
 description: Plugin Stop hook replaces the shell-script pre-commit reminder with a structured hook.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-050

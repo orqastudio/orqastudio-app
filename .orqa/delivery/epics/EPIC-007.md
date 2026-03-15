@@ -2,7 +2,7 @@
 id: EPIC-007
 title: Composability Refactoring
 description: Refactor monolithic service files into composable units while preserving existing store, IPC, and component boundaries.
-status: done
+status: completed
 priority: P2
 created: 2026-03-07
 updated: 2026-03-12

@@ -2,7 +2,7 @@
 id: TASK-003
 title: Update streaming pipeline documentation
 description: Update streaming-pipeline.md to reflect the new SystemPromptSent emission point added by TASK-001.
-status: done
+status: completed
 created: 2026-03-07
 updated: 2026-03-07
 epic: EPIC-001

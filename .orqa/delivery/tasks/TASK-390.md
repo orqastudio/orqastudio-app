@@ -2,7 +2,7 @@
 id: TASK-390
 title: Native integrity checks in artifact_graph.rs
 description: Add integrity check methods to the artifact graph that detect broken links, missing relationship inverses, and pipeline gaps. Returns Vec<IntegrityCheck> with categorised findings, severity levels, and auto-fix indicators.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-060

@@ -2,7 +2,7 @@
 id: EPIC-026
 title: Architecture Decisions
 description: Formal architecture decision records (AD-007 through AD-017) capturing every significant technical choice made before implementation.
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

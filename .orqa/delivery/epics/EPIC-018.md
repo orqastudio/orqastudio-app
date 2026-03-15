@@ -2,7 +2,7 @@
 id: EPIC-018
 title: Sub-Agent Support
 description: Build agent registry, spawn_agent tool, explore mode, output aggregation, and turn limits for sub-agent delegation.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

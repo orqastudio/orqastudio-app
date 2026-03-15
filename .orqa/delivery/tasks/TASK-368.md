@@ -2,7 +2,7 @@
 id: TASK-368
 title: Recurrence auto-tracking and promotion readiness detection
 description: Add tooling to auto-track lesson recurrence from review output and detect lessons ready for promotion
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

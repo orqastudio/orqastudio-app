@@ -3,7 +3,7 @@ id: IDEA-027
 title: Native Hooks System
 description: |
   Design a hooks layer that works in both app and CLI contexts, with richer lifecycle events and backwards compatibility with Claude Code hooks.
-status: promoted
+status: completed
 created: "2026-03-07"
 updated: "2026-03-07"
 horizon: active

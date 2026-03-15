@@ -2,7 +2,7 @@
 id: TASK-263
 title: Add tests for untested command modules
 description: Write unit tests for the 8 Tauri command modules that have zero test coverage.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-057

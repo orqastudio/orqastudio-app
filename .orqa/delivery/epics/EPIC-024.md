@@ -2,7 +2,7 @@
 id: EPIC-024
 title: Additional MVP Polish
 description: Nice-to-have polish items for MVP launch including search index UI, multi-window support, and sprint planning.
-status: draft
+status: captured
 priority: P3
 created: 2026-03-07
 updated: 2026-03-07

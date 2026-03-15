@@ -2,7 +2,7 @@
 id: TASK-224
 title: Backfill missing description fields across all artifact types
 description: Add description frontmatter to 106 artifacts (ideas, decisions, lessons, epics, tasks) that predate the required field
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

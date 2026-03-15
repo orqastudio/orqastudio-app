@@ -2,7 +2,7 @@
 id: TASK-164
 title: Audit artifact group README files for accuracy
 description: Verify that all README.md files in .orqa/ artifact directories have accurate descriptions, icons, labels, and sort metadata reflecting the current state of each group.
-status: todo
+status: ready
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-005

@@ -2,7 +2,7 @@
 id: TASK-126
 title: Implement session and message CRUD
 description: Built complete CRUD operations for sessions and messages including creation, listing, retrieval, updating, and deletion via IPC commands.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

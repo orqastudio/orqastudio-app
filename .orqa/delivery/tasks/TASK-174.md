@@ -2,7 +2,7 @@
 id: TASK-174
 title: Update delegation rules for capability resolution
 description: Update RULE-001 and RULE-026 to reference capability-based delegation and skill loading.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-051

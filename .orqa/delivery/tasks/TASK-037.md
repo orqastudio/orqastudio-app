@@ -2,7 +2,7 @@
 id: TASK-037
 title: Fix documentation visibility and navigation
 description: Fixes the documentation section failing to appear in the sidebar and artifact viewer when selected, and corrects breadcrumb paths that duplicate hierarchy segments.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-043

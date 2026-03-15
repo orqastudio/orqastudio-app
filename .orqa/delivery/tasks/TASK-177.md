@@ -2,7 +2,7 @@
 id: TASK-177
 title: Create orqa-plugin repository with Claude Code plugin scaffold
 description: Set up the separate orqa-plugin repo with plugin.json manifest, directory structure, and README.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-050

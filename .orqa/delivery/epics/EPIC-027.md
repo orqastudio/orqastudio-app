@@ -2,7 +2,7 @@
 id: EPIC-027
 title: Product Definition
 description: "The complete product specification: personas, user journeys, information architecture, glossary, and MVP feature set."
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

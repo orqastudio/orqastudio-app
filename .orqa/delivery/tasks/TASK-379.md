@@ -2,7 +2,7 @@
 id: TASK-379
 title: "Behavioral enforcement plan: prompt injection rules"
 description: Define enforcement mechanisms for behavioral rules enforced via prompt injection at delegation time
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

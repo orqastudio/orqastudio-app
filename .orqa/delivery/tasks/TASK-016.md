@@ -2,7 +2,7 @@
 id: TASK-016
 title: Tool call display polish
 description: "Replaces raw tool call JSON with user-friendly presentation: human-readable names, Lucide icons, parameter summaries, and grouping of consecutive same-tool calls."
-status: done
+status: completed
 created: 2026-03-04
 updated: 2026-03-09
 epic: EPIC-035

@@ -2,7 +2,7 @@
 id: TASK-069
 title: Improve nav item hover and active state visibility
 description: "User feedback: hover and active states on navigation items need to be a little more obvious, with stronger contrast or background shift to distinguish hover and selected states."
-status: todo
+status: ready
 created: "2026-03-09"
 updated: "2026-03-09"
 epic: EPIC-010

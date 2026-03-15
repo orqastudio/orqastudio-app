@@ -2,7 +2,7 @@
 id: TASK-385
 title: Decision persistence tooling
 description: Build tooling that captures pending decisions, unanswered questions, and open threads at session boundaries
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

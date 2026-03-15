@@ -2,7 +2,7 @@
 id: TASK-287
 title: Move governance artifacts to process/
 description: Move lessons, decisions, and rules from .orqa/process/ to .orqa/process/. Remove governance/hooks/ (plugin implementation, not artifacts). Update project.json, pre-commit hook, all path references, .claude/ symlinks.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

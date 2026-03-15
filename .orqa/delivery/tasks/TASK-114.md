@@ -2,7 +2,7 @@
 id: TASK-114
 title: Define interaction patterns and responsive behaviour
 description: Documented how the user navigates, creates, edits, and deletes artifacts, and how the layout adapts across window sizes.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

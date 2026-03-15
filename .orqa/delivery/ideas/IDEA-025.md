@@ -4,7 +4,7 @@ id: IDEA-025
 title: Agent task ownership review
 description: |
   Audit agent definitions for process vs execution knowledge placement, define clear task ownership boundaries between orchestrator and specialist agents.
-status: archived
+status: surpassed
 created: "2026-03-07"
 updated: "2026-03-12"
 pillars:

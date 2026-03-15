@@ -2,7 +2,7 @@
 id: EPIC-028
 title: UX Design
 description: "The complete UX specification: design system, wireframes, component inventory, interaction patterns, and responsive behaviour rules."
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

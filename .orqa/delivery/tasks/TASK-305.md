@@ -2,7 +2,7 @@
 id: TASK-305
 title: Fix broken forward-references to non-existent artifacts
 description: "verify-links reports 9 broken-link errors for references to artifacts that don't exist: SKILL-045 (4 refs), AGENT-003/004/005, VER-NNN (2 refs). Either create the referenced artifacts or remove the forward references."
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

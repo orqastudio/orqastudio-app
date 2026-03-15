@@ -2,7 +2,7 @@
 id: TASK-386
 title: Mid-cycle orientation tooling
 description: Build tooling that periodically re-grounds the agent in the original epic purpose during extended work sessions
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

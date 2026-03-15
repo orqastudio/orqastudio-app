@@ -2,7 +2,7 @@
 id: TASK-408
 title: Humanize agent capability display and capture subagent mapping idea
 description: Display agent capabilities as human-readable labels instead of raw identifiers. Capture sidecar-specific subagent mapping as an idea.
-status: done
+status: completed
 priority: P2
 created: 2026-03-13
 updated: 2026-03-13

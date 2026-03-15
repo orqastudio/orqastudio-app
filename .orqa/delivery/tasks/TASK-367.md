@@ -2,7 +2,7 @@
 id: TASK-367
 title: Wire all new checks into pre-commit hook
 description: Integrate all new linter, hook, and tooling checks from Phase 2 into the pre-commit hook staged-file paths
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

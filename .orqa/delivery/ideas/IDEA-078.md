@@ -2,7 +2,7 @@
 id: IDEA-078
 title: "Auto-fix null relationship targets by scanning for tracking artifacts"
 description: "When the integrity tool finds null relationship targets, it should scan for related IDEAs/TASKs/EPICs that could be the intended target and either auto-fix or suggest linkages. Currently null targets are only reported as warnings requiring manual resolution."
-status: promoted
+status: completed
 created: "2026-03-13"
 updated: "2026-03-13"
 horizon: active

@@ -2,7 +2,7 @@
 id: TASK-308
 title: Establish learning loop and completion discipline (IMPL-021, 022, 023, 024)
 description: "Create enforcement for: tracking open items during implementation, human-gated epic completion, automated observation logging by agents, and recording lessons on task completion artifacts."
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

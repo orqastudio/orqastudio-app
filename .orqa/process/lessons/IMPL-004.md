@@ -2,7 +2,7 @@
 id: "IMPL-004"
 title: "Svelte 5 derived requires .by() for function expressions"
 description: "Use $derived(expr) for simple expressions or $derived.by(() => expr) for function bodies. Never use $derived(() => expr) — it creates a derived value that is the function itself, causing infinite re-render loops.\n"
-status: "active"
+status: active
 created: "2026-03-07"
 updated: "2026-03-07"
 maturity: "understanding"

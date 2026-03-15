@@ -2,7 +2,7 @@
 id: TASK-021
 title: Lesson promotion pipeline
 description: Implements the self-learning loop that creates lesson entries, tracks recurrence counts, and promotes repeated patterns into rules or skills at a configurable threshold.
-status: done
+status: completed
 created: 2026-03-05
 updated: 2026-03-09
 epic: EPIC-037

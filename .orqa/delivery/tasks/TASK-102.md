@@ -2,7 +2,7 @@
 id: TASK-102
 title: Create architecture decisions index
 description: Created the consolidated architecture decisions index page listing all AD records with status, category, and cross-references.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-026

@@ -2,7 +2,7 @@
 id: TASK-109
 title: Design core layout wireframes
 description: Created wireframes for the four-zone desktop layout with toolbar, sidebar, main content area, and status bar.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

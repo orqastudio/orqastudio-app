@@ -2,7 +2,7 @@
 id: TASK-399
 title: "Evaluate friction vs UX-first design tension"
 description: "Research how purposeful friction (mandatory relationships, schema enforcement) interacts with UX-first design. Identify where friction serves clarity and where it conflicts with the principle of reducing cognitive burden."
-status: todo
+status: ready
 created: "2026-03-13"
 updated: "2026-03-13"
 epic: null

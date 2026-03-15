@@ -2,7 +2,7 @@
 id: TASK-012
 title: Remove Plan type from artifact framework
 description: Removes the Plan artifact type from the framework schema and replaces it with a Research schema, updating the traceability chain to Task → Epic → Milestone.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

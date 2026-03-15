@@ -2,7 +2,7 @@
 id: TASK-235
 title: Assign scope to RULE-041, RULE-042, RULE-043
 description: These rules have empty scope arrays. Assign agent IDs for enforcement.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

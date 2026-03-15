@@ -2,7 +2,7 @@
 id: EPIC-020
 title: Discovery & Research Artifacts
 description: Build structured research artifacts, decision traceability graph, research-to-AD promotion, and conversational research workflow.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

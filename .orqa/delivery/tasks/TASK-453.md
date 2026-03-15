@@ -2,7 +2,7 @@
 id: TASK-453
 title: Audit and reorder documentation for reading flow
 description: Reorder documentation within each category for structured reading — fundamentals first, specifics later.
-status: done
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

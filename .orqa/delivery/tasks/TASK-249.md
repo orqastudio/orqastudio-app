@@ -2,7 +2,7 @@
 id: TASK-249
 title: Decompose AppState into grouped sub-structs
 description: AppState has 11 Mutex-wrapped fields. Group related state into sub-structs (SearchState, StreamingState, GovernanceState) to reduce flat mutex surface.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-055

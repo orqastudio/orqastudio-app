@@ -2,7 +2,7 @@
 id: TASK-409
 title: Research document relationship schema update and data backfill
 description: Add relationships array to research schema. Backfill existing research documents with relationship data. Backfill epic horizon fields.
-status: done
+status: completed
 priority: P2
 created: 2026-03-13
 updated: 2026-03-14

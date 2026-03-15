@@ -2,7 +2,7 @@
 id: TASK-010
 title: Add Skills Field to Task Schema
 description: "Add the skills field to the task frontmatter schema in both the tasks README and the artifact-framework documentation. This enables full traceability: plan → task → agent → skills → implementation."
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

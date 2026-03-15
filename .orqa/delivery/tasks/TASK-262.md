@@ -2,7 +2,7 @@
 id: TASK-262
 title: Set up frontend coverage tooling
 description: Configure Vitest coverage reporter with threshold enforcement.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-057

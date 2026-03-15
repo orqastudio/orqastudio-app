@@ -2,7 +2,7 @@
 id: EPIC-002
 title: Settings UI for Thinking & Custom Prompt
 description: Add UI controls for show_thinking toggle and custom system prompt fields that already exist in the backend.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

@@ -3,7 +3,7 @@ id: IDEA-032
 title: Artifact Traceability Graph
 description: |
   Build a navigable knowledge graph from artifact cross-references that auto-updates when content changes. Enables plugin-driven views (dependency trees, impact analysis, knowledge provenance) without manual reverse links.
-status: archived
+status: surpassed
 created: 2026-03-07
 updated: 2026-03-12
 pillars:

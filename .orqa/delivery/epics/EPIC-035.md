@@ -2,7 +2,7 @@
 id: EPIC-035
 title: Native Tool UX & First-Run Setup
 description: "Two related UX improvements: (1) friendly tool call display with names, icons, and grouping; (2) first-run setup wizard for project creation and AI provider configuration."
-status: done
+status: completed
 priority: P1
 created: 2026-03-04
 updated: 2026-03-09

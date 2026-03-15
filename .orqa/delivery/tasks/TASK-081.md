@@ -2,7 +2,7 @@
 id: TASK-081
 title: Create orqa-plugin-development skill (new project + seed data approach)
 description: Create a skill that guides the AI in building OrqaStudio plugins, always in a standalone project with seed data, using the Artifact Graph SDK.
-status: done
+status: completed
 created: 2026-03-10
 updated: 2026-03-10
 epic: EPIC-048

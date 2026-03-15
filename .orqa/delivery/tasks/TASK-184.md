@@ -2,7 +2,7 @@
 id: TASK-184
 title: Implement /orqa, /orqa:rules, /orqa:status commands
 description: Plugin slash commands for governance interaction in Claude Code.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-14
 epic: EPIC-050

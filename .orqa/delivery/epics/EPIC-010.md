@@ -2,7 +2,7 @@
 id: EPIC-010
 title: Developer Experience Polish
 description: Quality-of-life improvements for dogfooding, including project-local database, build splash window, and system prompt templates.
-status: draft
+status: captured
 priority: P3
 created: 2026-03-07
 updated: 2026-03-07

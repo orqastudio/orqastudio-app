@@ -2,7 +2,7 @@
 id: TASK-383
 title: Implement behavioral enforcement mechanisms
 description: Implement all behavioral enforcement mechanisms defined in the Phase 5 plans (prompt injection, output validation, skill injection, session hooks)
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

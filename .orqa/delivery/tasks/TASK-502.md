@@ -2,7 +2,7 @@
 id: TASK-502
 title: "Add backbone artifacts widget to dashboard (PageRank)"
 description: "Add a dashboard widget that shows the top 10 artifacts by PageRank score, computed from the artifact graph via the artifactGraphSDK. Each entry shows artifact ID, title, type, and score. Entries are clickable and navigate to the artifact. Widget is labeled 'Backbone Artifacts — most structurally important'."
-status: todo
+status: ready
 priority: P2
 created: "2026-03-15"
 updated: "2026-03-15"

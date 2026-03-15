@@ -2,7 +2,7 @@
 id: TASK-227
 title: Fix epic and task status mismatches
 description: EPIC-051 complete but draft, EPIC-053 in-progress but draft, EPIC-007 superseded but done. Fix statuses.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

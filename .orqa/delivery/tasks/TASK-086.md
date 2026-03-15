@@ -2,7 +2,7 @@
 id: TASK-086
 title: Audit all rules for enforcement accuracy
 description: Verify every rule in .orqa/process/rules/ has accurate enforcement mechanisms, valid cross-references, current code patterns in FORBIDDEN sections, and no stale content.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-049

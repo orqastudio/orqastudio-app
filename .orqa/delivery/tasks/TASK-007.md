@@ -2,7 +2,7 @@
 id: TASK-007
 title: Add artifacts config to project.json and Rust types
 description: Define the artifacts config schema in project.json and add corresponding Rust types. This is the foundation — the scanner and frontend will read from this config.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

@@ -2,7 +2,7 @@
 id: TASK-362
 title: Extend pipeline integrity tool with enforcement chain checks
 description: Add checks for AD enforcement gaps, promoted lesson targets, and rule-AD reference consistency to verify-pipeline-integrity.mjs
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

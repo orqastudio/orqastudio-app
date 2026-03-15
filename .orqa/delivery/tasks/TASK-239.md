@@ -2,7 +2,7 @@
 id: TASK-239
 title: Update EPIC-044 body canon to core
 description: EPIC-044 uses canon throughout. Current vocabulary is core. Update.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

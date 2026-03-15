@@ -2,7 +2,7 @@
 id: TASK-213
 title: Extract project-specific requirements to graph-readable artifacts
 description: Move project-specific sections from the orchestrator prompt to standalone artifacts discoverable via graph traversal — tech stack, naming conventions, verification gates.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-053

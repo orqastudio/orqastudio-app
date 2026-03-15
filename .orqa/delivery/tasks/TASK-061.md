@@ -2,7 +2,7 @@
 id: TASK-061
 title: Add pillar reference field to epic/idea schemas
 description: Add pillar reference field to epic/idea schemas
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-046

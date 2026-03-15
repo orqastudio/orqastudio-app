@@ -2,7 +2,7 @@
 id: TASK-286
 title: Create AD for directory reorganization (AD-043)
 description: Architecture decision formalizing the three-level structure (process/delivery/documentation) and the first-class artifact principle.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-059

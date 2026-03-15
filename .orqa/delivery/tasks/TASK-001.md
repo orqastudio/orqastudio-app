@@ -2,7 +2,7 @@
 id: TASK-001
 title: Emit SystemPromptSent event from stream_commands.rs
 description: In stream_send_message(), emit a SystemPromptSent event via on_event channel after resolve_system_prompt() and before sidecar.send().
-status: done
+status: completed
 created: 2026-03-07
 updated: 2026-03-07
 epic: EPIC-001

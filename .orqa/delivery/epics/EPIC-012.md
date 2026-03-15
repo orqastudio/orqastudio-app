@@ -2,7 +2,7 @@
 id: EPIC-012
 title: Process Visibility Dashboard
 description: Build scanner runner, scanner dashboard, metrics dashboard, and agent activity panel for richer process visibility.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

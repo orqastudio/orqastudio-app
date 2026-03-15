@@ -2,7 +2,7 @@
 id: TASK-429
 title: Enrich graph nodes with status, title, priority as first-class fields
 description: Update ArtifactNode to expose status, title, description, priority as direct fields instead of requiring frontmatter JSON parsing.
-status: done
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

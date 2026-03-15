@@ -2,7 +2,7 @@
 id: TASK-095
 title: Tauri v2 capability audit
 description: Confirmed Tauri v2 meets all desktop app requirements including security model, IPC patterns, plugin ecosystem, and cross-platform support.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-025

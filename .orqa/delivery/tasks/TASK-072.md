@@ -2,7 +2,7 @@
 id: TASK-072
 title: Backfill existing artifacts to match body templates
 description: Audit all existing planning and governance artifacts and add missing required body sections so they pass the new body template linting.
-status: done
+status: completed
 created: 2026-03-10
 updated: 2026-03-10
 epic: EPIC-048

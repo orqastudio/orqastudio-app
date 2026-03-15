@@ -2,7 +2,7 @@
 id: EPIC-058
 title: Knowledge Maturity Pipeline — Full Migration
 description: "Migrate all governance artifacts to the AD-042 knowledge maturity pipeline: rule-overrides mechanism, relationship backfill on ~150 artifacts, schema enforcement, deprecated field removal. Done in one pass to avoid mid-migration drift."
-status: done
+status: completed
 priority: P1
 created: 2026-03-12
 updated: 2026-03-12

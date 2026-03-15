@@ -2,7 +2,7 @@
 id: TASK-090
 title: Add Decision type to artifact framework
 description: Added Decision (AD-NNN) type schema to artifact-framework.md, decision creation section to artifact-workflow.md, decision enforcement to RULE-004, and decision directory to orchestrator resources.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-032

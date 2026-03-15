@@ -2,7 +2,7 @@
 id: EPIC-031
 title: Governance Bootstrap
 description: "The initial governance layer: filesystem scanner, coverage analysis, recommendations, and governance coverage indicator on the dashboard."
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

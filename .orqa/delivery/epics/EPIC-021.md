@@ -2,7 +2,7 @@
 id: EPIC-021
 title: Idea & Feedback Capture
 description: Build idea quick-capture from conversation and anywhere, idea inbox, promotion workflows, and duplicate detection.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

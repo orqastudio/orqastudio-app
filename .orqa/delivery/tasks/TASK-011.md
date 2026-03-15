@@ -2,7 +2,7 @@
 id: TASK-011
 title: Backfill Historical Artifact Metadata
 description: Backfill historical artifact data so the decision history, lesson pipeline, and surpassed artifact workflows have real data to test against when we build the navigation and visualization tooling. Some reconstruction from session history is expected — the goal is representative data, not perfect accuracy. This ensures we're dogfooding the full artifact lifecycle, not just the happy path of "create and leave as accepted."
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

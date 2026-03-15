@@ -2,7 +2,7 @@
 id: EPIC-008
 title: Code Quality Audit
 description: Audit the codebase against coding standards, fix violations, and feed findings into the PILLAR-002 loop as lessons.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07

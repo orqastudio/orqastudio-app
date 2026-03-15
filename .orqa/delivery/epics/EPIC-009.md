@@ -2,7 +2,7 @@
 id: EPIC-009
 title: Codebase Test Coverage
 description: Achieve comprehensive test coverage across the entire codebase — frontend (Vitest), backend (cargo test + tarpaulin), and IPC contract verification. Close the frontend test gap (zero tests vs 465 Rust tests) and establish coverage measurement and enforcement.
-status: draft
+status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-13

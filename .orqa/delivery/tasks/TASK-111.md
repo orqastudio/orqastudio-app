@@ -2,7 +2,7 @@
 id: TASK-111
 title: Design artifact browser wireframes
 description: Created wireframes for the artifact browser including navigation tree, content panel, and frontmatter display.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-028

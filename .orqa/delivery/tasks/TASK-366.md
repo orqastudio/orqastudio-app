@@ -2,7 +2,7 @@
 id: TASK-366
 title: "Tooling checks: skill portability, capability-not-tools, persistence boundaries"
 description: Add verification tooling for skill portability, provider-agnostic capabilities, and data persistence boundary enforcement
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

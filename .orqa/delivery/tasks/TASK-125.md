@@ -2,7 +2,7 @@
 id: TASK-125
 title: Implement SQLite database and migrations
 description: Set up SQLite database creation, schema initialization, and migration infrastructure for conversation persistence.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

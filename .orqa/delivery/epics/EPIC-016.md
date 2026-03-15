@@ -2,7 +2,7 @@
 id: EPIC-016
 title: Prioritisation Framework
 description: Build the scoring model from the roadmap into the app with configurable dimensions, weights, and priority bands.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

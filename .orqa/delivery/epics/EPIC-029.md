@@ -2,7 +2,7 @@
 id: EPIC-029
 title: Technical Design
 description: "The complete technical blueprint: database schema, IPC commands, Rust modules, streaming pipeline, tool definitions, and error taxonomy."
-status: done
+status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07

@@ -2,7 +2,7 @@
 id: TASK-222
 title: Audit existing architecture decisions against AD-038/039/040
 description: Review AD-001 through AD-037 to identify which decisions are superseded, affected, or made defunct by the graph-based knowledge injection (AD-038), core graph firmware (AD-039), and task-first audit trail (AD-040) decisions.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-053

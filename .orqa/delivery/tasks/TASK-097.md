@@ -2,7 +2,7 @@
 id: TASK-097
 title: SQLite persistence design
 description: Evaluated SQLite via rusqlite for structured local storage of conversation data, sessions, and messages.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-025

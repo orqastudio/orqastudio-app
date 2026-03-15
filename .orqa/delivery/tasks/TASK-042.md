@@ -2,7 +2,7 @@
 id: TASK-042
 title: Loading spinner size increase
 description: Increases the artifact viewer loading spinner to the large size variant so the branded logo-pulse animation is clearly visible rather than being lost at the default small size.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-043

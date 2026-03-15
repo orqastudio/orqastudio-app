@@ -2,7 +2,7 @@
 id: TASK-067
 title: Create or update commit discipline skill
 description: Create or update commit discipline skill
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-047

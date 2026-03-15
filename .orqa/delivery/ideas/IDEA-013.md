@@ -3,7 +3,7 @@ id: IDEA-013
 title: Reasoning Transparency
 description: |
   Maintain clear reasoning trails with AI-generated summaries, confidence indicators, and chronological decision logs.
-status: delivered
+status: completed
 created: "2026-03-07"
 updated: "2026-03-13"
 pillars:

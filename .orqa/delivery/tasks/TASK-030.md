@@ -2,7 +2,7 @@
 id: TASK-030
 title: Vision evolution and pillar renaming
 description: Reframes the product vision as a domain-agnostic clarity engine and renames the two product pillars, aligning all vision, governance, and roadmap documentation to the new language.
-status: done
+status: completed
 created: 2026-03-07
 updated: 2026-03-09
 epic: EPIC-041

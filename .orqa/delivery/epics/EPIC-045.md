@@ -2,7 +2,7 @@
 id: EPIC-045
 title: Portable Governance Framework
 description: Restructure agents from 16 software-specific roles to 7 universal roles, extract domain knowledge into skills, create project setup skills, update product documentation to reflect the PILLAR-001 engine identity and governance hub capability. Implements AD-029 and AD-030.
-status: done
+status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09

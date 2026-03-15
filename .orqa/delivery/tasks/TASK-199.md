@@ -4,7 +4,7 @@ title: Implement skill injection in plugin rule-engine.mjs
 description: |
   Extend the plugin rule engine to handle inject actions by reading SKILL.md
   files and returning their content as systemMessage.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

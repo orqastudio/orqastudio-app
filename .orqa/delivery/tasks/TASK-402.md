@@ -2,7 +2,7 @@
 id: TASK-402
 title: Implement 7 high-priority integrity checks + codebase-wide clippy compliance
 description: Implement all 7 graph-implementable integrity checks identified in TASK-401 audit. Also fix all clippy too_many_lines violations across the entire backend codebase to achieve zero-warning clippy compliance.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-060

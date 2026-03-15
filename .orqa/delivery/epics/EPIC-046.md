@@ -2,7 +2,7 @@
 id: EPIC-046
 title: Pillars as First-Class Artifacts
 description: Make product pillars structured artifacts in .orqa/process/pillars/ with frontmatter schema, referenced by ID from other artifacts, and injected into AI system prompts. Replaces hardcoded pillar strings across rules and documentation. Implements AD-031.
-status: done
+status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09

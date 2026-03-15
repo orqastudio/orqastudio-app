@@ -2,7 +2,7 @@
 id: EPIC-041
 title: Vision & Brand Identity
 description: Evolve OrqaStudio's vision from software development tool to domain-agnostic PILLAR-001 engine. Rename pillars, broaden personas, establish licensing, and align all documentation with canonical strategic vision.
-status: done
+status: completed
 priority: P1
 created: 2026-03-07
 updated: 2026-03-09

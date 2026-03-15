@@ -2,7 +2,7 @@
 id: TASK-395
 title: Graph health snapshot storage and trend sparklines
 description: Store graph health snapshots on each integrity scan and display trend sparklines on the dashboard showing how graph health metrics change over time.
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-060

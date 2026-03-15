@@ -2,7 +2,7 @@
 id: TASK-274
 title: Backfill rules with relationships
 description: Use backfill tooling to add grounded relationships to all 44 rules, connecting each to the decision or pillar it enforces.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-058

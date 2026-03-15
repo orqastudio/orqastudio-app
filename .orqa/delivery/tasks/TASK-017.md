@@ -2,7 +2,7 @@
 id: TASK-017
 title: First-run setup wizard
 description: Implements an onboarding wizard for first-time users covering Claude CLI detection, auth verification, and project name, icon, and model configuration.
-status: done
+status: completed
 created: 2026-03-04
 updated: 2026-03-09
 epic: EPIC-035

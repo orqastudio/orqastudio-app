@@ -2,7 +2,7 @@
 id: TASK-371
 title: Plugin prompt-submit hook for observation capture
 description: Create a user-prompt-submit hook in the plugin that infers observation intent and prompts auto-creation of IMPL entries
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

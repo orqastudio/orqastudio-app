@@ -2,7 +2,7 @@
 id: TASK-140
 title: Reclassify tech skills as Tier 2 in orchestrator
 description: Move rust-async-patterns, svelte5-best-practices, tailwind-design-system, typescript-advanced-types, and tauri-v2 from the Tier 1 table to the Tier 2 injection table in the orchestrator's Skills section.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-049

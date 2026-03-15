@@ -2,7 +2,7 @@
 id: TASK-033
 title: Three-tier skill loading for agents
 description: Updates all 16 agent definitions to carry only portable Tier 1 skills and the code-search wrapper, removing all project-specific and context-specific skills from their frontmatter.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-042

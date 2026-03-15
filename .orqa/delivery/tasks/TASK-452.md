@@ -2,7 +2,7 @@
 id: TASK-452
 title: Populate Guide section
 description: Create a Guide section with user-facing documentation including SDK docs, moving articles from other categories where appropriate.
-status: done
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

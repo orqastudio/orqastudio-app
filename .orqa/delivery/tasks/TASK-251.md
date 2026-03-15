@@ -2,7 +2,7 @@
 id: TASK-251
 title: "Research: cross-cutting concerns of directory restructure"
 description: Audit every config, import, and path reference affected by the proposed repository reorganisation into backend/, ui/src/, sidecars/, and debugger/ directories.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-056

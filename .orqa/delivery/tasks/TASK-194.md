@@ -5,7 +5,7 @@ description: |
   Add a 'lint' event type to the enforcement schema. This documents that
   enforcement for a pattern is delegated to an external linter tool, not
   handled by the OrqaStudio rule engine directly.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

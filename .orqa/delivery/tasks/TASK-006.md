@@ -2,7 +2,7 @@
 id: TASK-006
 title: Governance Vision Alignment Audit
 description: Audit governance rules (.claude/rules/) and agent definitions (.claude/agents/) for references that contradict the updated vision. These are the enforcement layer — they must accurately reflect .orqa/ as source of truth.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-033

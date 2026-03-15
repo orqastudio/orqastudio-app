@@ -2,7 +2,7 @@
 id: TASK-131
 title: Implement session management UI
 description: Built the session dropdown with history browsing, search, and navigation between conversations.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

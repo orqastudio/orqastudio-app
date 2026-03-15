@@ -2,7 +2,7 @@
 id: TASK-171
 title: Create capability vocabulary rule (RULE-040)
 description: Create a rule defining the abstract capability vocabulary, provider mapping tables, and delegation resolution protocol.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-051

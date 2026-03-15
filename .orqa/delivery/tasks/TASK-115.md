@@ -2,7 +2,7 @@
 id: TASK-115
 title: Design SQLite schema
 description: Designed all SQLite tables, columns, indexes, and foreign key constraints for conversation persistence.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-029

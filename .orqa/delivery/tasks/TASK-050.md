@@ -2,7 +2,7 @@
 id: TASK-050
 title: Document governance classification schema
 description: Updates the artifact framework documentation to formally define the three-layer classification model and agent scope categories, and updates the skill enforcement rule to reference layer-aware loading decisions.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-044

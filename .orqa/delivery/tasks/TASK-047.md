@@ -2,7 +2,7 @@
 id: TASK-047
 title: Classify agents with layer and scope fields
 description: Adds layer and scope classification fields to all 16 agent definitions, distinguishing canon agents from project agents and categorising each by domain (software-engineering, governance, or general).
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-044

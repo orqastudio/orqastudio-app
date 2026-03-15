@@ -2,7 +2,7 @@
 id: EPIC-017
 title: Enforcement & Continuity
 description: Add real-time violation detection during streaming, hook-based rule injection, compliance dashboard, and session handoff continuity.
-status: done
+status: completed
 priority: P2
 created: 2026-03-07
 updated: 2026-03-12

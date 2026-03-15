@@ -2,7 +2,7 @@
 id: EPIC-042
 title: Three-Tier Skill Loading
 description: "Implement AD-028: restructure skill loading into three tiers — portable agent skills (Tier 1), orchestrator-injected project skills (Tier 2), and wrapper skills that resolve context-dependent implementations (Tier 3)."
-status: done
+status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09

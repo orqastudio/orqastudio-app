@@ -4,7 +4,7 @@ title: Integration testing for all enforcement layers
 description: |
   End-to-end verification that all four enforcement layers work together in
   both CLI (plugin) and app (Rust) contexts.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

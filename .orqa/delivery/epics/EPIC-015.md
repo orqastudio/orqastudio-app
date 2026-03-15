@@ -2,7 +2,7 @@
 id: EPIC-015
 title: CI/CD Pipeline & Distribution
 description: Build the CI/CD pipeline with GitHub Actions, cross-platform builds, artifact signing, and auto-update for distribution.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

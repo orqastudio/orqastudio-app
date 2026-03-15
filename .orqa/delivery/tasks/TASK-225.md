@@ -2,7 +2,7 @@
 id: TASK-225
 title: Fix SKILL-046 ID collision
 description: Three skills share SKILL-046. Assign unique IDs and update all agent references.
-status: done
+status: completed
 created: 2026-03-12
 updated: 2026-03-12
 epic: EPIC-054

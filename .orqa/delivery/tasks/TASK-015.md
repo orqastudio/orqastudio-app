@@ -2,7 +2,7 @@
 id: TASK-015
 title: Model auto-download and startup loading
 description: Automatically downloads the embedding model from Hugging Face on first use and pre-loads it at startup, with download progress visible in the status bar.
-status: done
+status: completed
 created: 2026-03-04
 updated: 2026-03-09
 epic: EPIC-034

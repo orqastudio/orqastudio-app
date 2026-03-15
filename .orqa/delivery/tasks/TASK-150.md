@@ -2,7 +2,7 @@
 id: TASK-150
 title: Create task dependency validator hook
 description: Pre-task hook that checks depends-on tasks have status done before allowing a task to start.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-11
 epic: EPIC-049

@@ -2,7 +2,7 @@
 id: TASK-134
 title: Implement governance coverage analysis
 description: Built the analysis engine that evaluates collected governance artifacts and identifies coverage gaps.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-031

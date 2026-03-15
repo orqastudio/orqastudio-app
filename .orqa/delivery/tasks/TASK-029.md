@@ -2,7 +2,7 @@
 id: TASK-029
 title: Provider-neutral session ID naming
 description: Renames the provider-specific session ID field to a neutral name across all layers — sidecar, Rust types, commands, domain, repository, and SQLite — with no behavioral changes.
-status: done
+status: completed
 created: 2026-03-07
 updated: 2026-03-09
 epic: EPIC-040

@@ -2,7 +2,7 @@
 id: TASK-023
 title: Streaming and Conversation UX Fixes
 description: "Fixes a set of UX issues found during early dogfooding: broken streaming, unreadable tool output, cluttered tool display, unnamed sessions, and a generic titlebar."
-status: done
+status: completed
 created: 2026-03-06
 updated: 2026-03-09
 epic: EPIC-038

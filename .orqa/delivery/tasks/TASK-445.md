@@ -2,7 +2,7 @@
 id: TASK-445
 title: Implement toast notification system
 description: Install and configure a toast notification library with configurable position, duration, and severity levels.
-status: done
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

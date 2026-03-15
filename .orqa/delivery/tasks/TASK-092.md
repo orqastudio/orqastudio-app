@@ -2,7 +2,7 @@
 id: TASK-092
 title: Validate cross-references and update roadmap
 description: Validated all research-to-decision cross-references, fixed broken links, and updated the roadmap completed-work section to reference MS-000 with retroactive epics.
-status: done
+status: completed
 created: 2026-03-08
 updated: 2026-03-08
 epic: EPIC-032

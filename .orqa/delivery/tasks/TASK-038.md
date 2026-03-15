@@ -2,7 +2,7 @@
 id: TASK-038
 title: Null field handling and YAML display ordering
 description: Fixes the artifact detail renderer to suppress null, empty, and invalid-date field values, and makes field render order follow YAML source order rather than a hardcoded list.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-043

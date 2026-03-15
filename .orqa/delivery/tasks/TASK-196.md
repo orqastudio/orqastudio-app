@@ -4,7 +4,7 @@ title: Implement understand-first + docs-before-code gates
 description: |
   Process gates that fire when the first code write in a session happens without
   prior research or documentation reading.
-status: done
+status: completed
 created: 2026-03-11
 updated: 2026-03-12
 epic: EPIC-052

@@ -2,7 +2,7 @@
 id: EPIC-003
 title: Context Injection on Failed Resume
 description: Add fallback context injection when SDK session resume fails due to app restart or cleared storage.
-status: draft
+status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07

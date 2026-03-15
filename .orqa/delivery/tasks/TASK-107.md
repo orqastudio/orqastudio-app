@@ -2,7 +2,7 @@
 id: TASK-107
 title: Define MVP feature set
 description: Bounded the set of capabilities that constitute the minimum viable product, distinguishing MVP features from future work.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-027

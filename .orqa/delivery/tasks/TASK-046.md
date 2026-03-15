@@ -2,7 +2,7 @@
 id: TASK-046
 title: Epic title naming convention cleanup
 description: Renames all epic titles that use process words instead of describing outcomes, and adds a naming convention to the artifact lifecycle rule to prevent recurrence.
-status: done
+status: completed
 created: 2026-03-09
 updated: 2026-03-09
 epic: EPIC-043

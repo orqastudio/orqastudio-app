@@ -2,7 +2,7 @@
 id: TASK-370
 title: "Update RULE-004: related idea surfacing during promotion"
 description: Add mandatory step to RULE-004 promotion procedure requiring scanning for thematically related ideas before creating an epic
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

@@ -2,7 +2,7 @@
 id: TASK-106
 title: Define information architecture
 description: Designed the app's navigation structure, content hierarchy, and organizational patterns for all content types.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-027

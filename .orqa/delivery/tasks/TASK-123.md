@@ -2,7 +2,7 @@
 id: TASK-123
 title: Initialize Tauri v2 + Svelte 5 project
 description: Set up the initial Tauri v2 project with Svelte 5 frontend, configured plugins, build tooling, and development scripts.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

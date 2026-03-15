@@ -2,7 +2,7 @@
 id: TASK-381
 title: "Behavioral enforcement plan: skill injection rules"
 description: Define enforcement mechanisms for behavioral rules enforced via domain knowledge skill injection
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

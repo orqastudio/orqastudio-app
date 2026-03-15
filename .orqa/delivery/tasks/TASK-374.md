@@ -2,7 +2,7 @@
 id: TASK-374
 title: Automated gap audit tool (repeatable RES-054)
 description: Build a repeatable version of the RES-054 audit as tooling that scans rules, ADs, lessons, and pipeline stages for enforcement gaps
-status: done
+status: completed
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-061

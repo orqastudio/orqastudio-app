@@ -2,7 +2,7 @@
 id: TASK-132
 title: Implement settings view and semantic code search
 description: Built the settings view for provider configuration and model selection, and set up the ONNX embeddings engine with DuckDB vector search.
-status: done
+status: completed
 created: 2026-03-02
 updated: 2026-03-02
 epic: EPIC-030

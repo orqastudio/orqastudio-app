@@ -2,7 +2,7 @@
 id: "IMPL-010"
 title: "Documentation Must Be App-Native"
 description: "External documentation tools (like Docsify) create parallel navigation and rendering systems that diverge from the app. First-class features should be rendered natively by the app itself.\n"
-status: "active"
+status: active
 created: "2026-03-07"
 updated: "2026-03-07"
 maturity: "understanding"
