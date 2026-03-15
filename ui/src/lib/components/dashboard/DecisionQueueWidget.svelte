@@ -3,6 +3,7 @@
 	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import { Badge } from "$lib/components/ui/badge";
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
+	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
 	import CompassIcon from "@lucide/svelte/icons/compass";
 	import MapIcon from "@lucide/svelte/icons/map";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
@@ -298,7 +299,7 @@
 			</Card.Action>
 		</Card.Header>
 		<Card.Content class="p-0">
-			<ScrollArea.Root class="h-[280px] px-6 pb-4">
+			<ScrollArea.Root class="h-[280px] px-3 pb-3">
 			{#if activeTab === "actions"}
 				<!-- ---------------------------------------------------------- -->
 				<!-- Actions tab: all artifacts needing attention               -->
@@ -311,27 +312,15 @@
 				{:else}
 					<div class="space-y-1">
 						{#each pendingActions as action (action.id)}
-							<button
-								class="flex w-full items-start justify-between gap-2 rounded-md px-2 py-1.5 text-left transition-colors hover:bg-accent/50"
-								onclick={() => openArtifact(action.path)}
-							>
-								<div class="flex min-w-0 items-start gap-2">
-									<div class="mt-0.5 shrink-0">
-										<Badge variant={typeBadgeVariant(action.artifactType)} class="text-[10px] px-1.5 py-0 h-4">
-											{typeBadgeLabel(action.artifactType)}
-										</Badge>
-									</div>
-									<div class="min-w-0">
-										<p class="truncate text-xs font-medium">{action.title}</p>
-										<p class="text-[10px] text-muted-foreground">{action.action}</p>
-									</div>
+							<div class="flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-accent/50">
+								<div class="min-w-0 flex-1">
+									<p class="truncate text-xs font-medium">{action.title}</p>
+									<p class="text-[10px] text-muted-foreground">{action.action}</p>
 								</div>
-								{#if action.priority}
-									<span class="shrink-0 text-[10px] font-medium {priorityBadgeClass(action.priority)}">
-										{action.priority}
-									</span>
-								{/if}
-							</button>
+								<div class="shrink-0">
+									<ArtifactLink id={action.id} />
+								</div>
+							</div>
 						{/each}
 					</div>
 				{/if}
