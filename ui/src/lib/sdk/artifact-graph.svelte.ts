@@ -16,6 +16,51 @@ import type { UnlistenFn } from "@tauri-apps/api/event";
 import { invoke, extractErrorMessage } from "$lib/ipc/invoke";
 import type { ArtifactNode, ArtifactRef, GraphStats, IntegrityCheck, AppliedFix, HealthSnapshot } from "$lib/types/artifact-graph";
 import { ARTIFACT_TYPES } from "$lib/types/artifact-graph";
+import cytoscape from "cytoscape";
+
+// ---------------------------------------------------------------------------
+// Analysis types
+// ---------------------------------------------------------------------------
+
+/** Structural health metrics derived from the artifact graph topology. */
+export interface GraphHealth {
+    /** Number of disconnected subgraphs (weakly connected components). */
+    componentCount: number;
+    /** Nodes with zero in-degree (nothing points to them). */
+    orphanCount: number;
+    /** orphanCount / totalNodes * 100, rounded to 1 decimal place. */
+    orphanPercentage: number;
+    /** Average number of connections (in + out) per node. */
+    avgDegree: number;
+    /** Largest component size / totalNodes. 1.0 means a fully connected graph. */
+    largestComponentRatio: number;
+    /** Total number of nodes in the graph. */
+    totalNodes: number;
+    /** Total number of directed edges in the graph. */
+    totalEdges: number;
+}
+
+/** A high-PageRank artifact that many others reference or depend upon. */
+export interface BackboneArtifact {
+    /** Artifact ID (e.g. "RULE-006"). */
+    id: string;
+    /** Display title. */
+    title: string;
+    /** Artifact type string (e.g. "rule", "epic"). */
+    type: string;
+    /** Normalised PageRank score (0–1). */
+    rank: number;
+}
+
+/** Knowledge gaps detected from the relationship graph. */
+export interface KnowledgeGaps {
+    /** Rule IDs that have no `grounded-by` edge pointing to any PILLAR artifact. */
+    ungroundedRules: string[];
+    /** Skill IDs that have no `practiced-by` edge from any AGENT artifact. */
+    unusedSkills: string[];
+    /** Decision IDs that carry no outgoing `enforces` edge. */
+    unenforcedDecisions: string[];
+}
 
 // ---------------------------------------------------------------------------
 // Subscription callback types
@@ -76,6 +121,121 @@ class ArtifactGraphSDK {
 
     /** Non-reactive flag to prevent $effect re-triggering on error. */
     private _initCalled = false;
+
+    // -----------------------------------------------------------------------
+    // Analysis — headless Cytoscape cache
+    // -----------------------------------------------------------------------
+
+    /**
+     * Cached headless Cytoscape instance. Rebuilt whenever `graph` changes.
+     * Access via `_getCy()` — never directly.
+     */
+    private _cy: cytoscape.Core | null = null;
+
+    /**
+     * Version counter incremented every time the graph map is replaced.
+     * Allows `$derived.by()` computations to detect graph changes without
+     * depending on the full SvelteMap internals.
+     */
+    private _graphVersion = $state(0);
+
+    // -----------------------------------------------------------------------
+    // Analysis — reactive derived properties
+    // -----------------------------------------------------------------------
+
+    /**
+     * Structural health metrics for the artifact graph.
+     * Recomputed automatically whenever the graph refreshes.
+     */
+    graphHealth = $derived.by((): GraphHealth => {
+        // Access the version counter so Svelte tracks the dependency.
+        const _v = this._graphVersion;
+        void _v;
+        const cy = this._getCy();
+        const totalNodes = cy.nodes().length;
+        const totalEdges = cy.edges().length;
+
+        if (totalNodes === 0) {
+            return { componentCount: 0, orphanCount: 0, orphanPercentage: 0, avgDegree: 0, largestComponentRatio: 0, totalNodes: 0, totalEdges: 0 };
+        }
+
+        // Weakly connected components (treats directed edges as undirected).
+        const components = cy.elements().components();
+        const componentCount = components.length;
+        const largestComponentSize = Math.max(...components.map((c) => c.nodes().length));
+        const largestComponentRatio = largestComponentSize / totalNodes;
+
+        // Orphans: nodes with 0 in-degree (nothing points to them).
+        const orphanCount = cy.nodes().filter((n) => n.indegree(false) === 0).length;
+        const orphanPercentage = Math.round((orphanCount / totalNodes) * 1000) / 10;
+
+        // Average degree: total (in + out) edges / nodes.
+        const avgDegree = Math.round(((totalEdges * 2) / totalNodes) * 10) / 10;
+
+        return { componentCount, orphanCount, orphanPercentage, avgDegree, largestComponentRatio, totalNodes, totalEdges };
+    });
+
+    /**
+     * Top 10 artifacts by PageRank — the most structurally central nodes.
+     * Recomputed automatically whenever the graph refreshes.
+     */
+    backboneArtifacts = $derived.by((): BackboneArtifact[] => {
+        const _v = this._graphVersion;
+        void _v;
+        const cy = this._getCy();
+        if (cy.nodes().length === 0) return [];
+
+        const pr = cy.elements().pageRank({});
+        const scored = cy.nodes().map((n) => ({
+            id: n.id(),
+            rank: pr.rank(n),
+        }));
+
+        scored.sort((a, b) => b.rank - a.rank);
+
+        return scored.slice(0, 10).map(({ id, rank }) => {
+            const node = this.graph.get(id);
+            return {
+                id,
+                title: node?.title ?? id,
+                type: node?.artifact_type ?? "unknown",
+                rank,
+            };
+        });
+    });
+
+    /**
+     * Knowledge gaps: rules without pillar grounding, skills not used by
+     * any agent, and decisions that enforce nothing.
+     * Recomputed automatically whenever the graph refreshes.
+     */
+    knowledgeGaps = $derived.by((): KnowledgeGaps => {
+        const _v = this._graphVersion;
+        void _v;
+
+        const ungroundedRules: string[] = [];
+        const unusedSkills: string[] = [];
+        const unenforcedDecisions: string[] = [];
+
+        for (const node of this.graph.values()) {
+            if (node.artifact_type === "rule") {
+                const hasGrounding = node.references_out.some(
+                    (r) => r.relationship_type === "grounded-by" && this.graph.get(r.target_id)?.artifact_type === "pillar"
+                );
+                if (!hasGrounding) ungroundedRules.push(node.id);
+            } else if (node.artifact_type === "skill") {
+                const hasPractitioner = node.references_in.some(
+                    (r) => r.relationship_type === "practices" && this.graph.get(r.source_id)?.artifact_type === "agent"
+                );
+                if (!hasPractitioner) unusedSkills.push(node.id);
+            } else if (node.artifact_type === "decision") {
+                const hasEnforces = node.references_out.some((r) => r.relationship_type === "enforces");
+                if (!hasEnforces) unenforcedDecisions.push(node.id);
+            }
+        }
+
+        return { ungroundedRules, unusedSkills, unenforcedDecisions };
+    });
 
     // -----------------------------------------------------------------------
     // Lifecycle
@@ -386,6 +546,90 @@ class ArtifactGraphSDK {
     }
 
     // -----------------------------------------------------------------------
+    // Analysis — graph traversal methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * BFS trace from an artifact following the graph topology.
+     *
+     * - `'up'`   — follow edges TO the node (who references this?).
+     *              Traces toward pillars and milestones.
+     * - `'down'` — follow edges FROM the node (what does this reference?).
+     *              Traces toward tasks and implementations.
+     *
+     * Returns an ordered array of artifact IDs visited during BFS,
+     * not including the starting node itself.
+     */
+    traceChain(id: string, direction: "up" | "down"): string[] {
+        const cy = this._getCy();
+        const startNode = cy.getElementById(id);
+        if (startNode.empty()) return [];
+
+        const visited: string[] = [];
+        const seen = new Set<string>([id]);
+        const queue: string[] = [id];
+
+        while (queue.length > 0) {
+            const current = queue.shift()!;
+            const cyNode = cy.getElementById(current);
+
+            const neighbours =
+                direction === "up"
+                    ? cyNode.incomers("node")   // edges TO current → sources
+                    : cyNode.outgoers("node");  // edges FROM current → targets
+
+            neighbours.forEach((n) => {
+                const nid = n.id();
+                if (!seen.has(nid)) {
+                    seen.add(nid);
+                    visited.push(nid);
+                    queue.push(nid);
+                }
+            });
+        }
+
+        return visited;
+    }
+
+    /**
+     * Return all artifacts within `maxDepth` hops from the given node,
+     * grouped by relationship type.
+     *
+     * @param id       Starting artifact ID.
+     * @param maxDepth Maximum BFS depth (default 2).
+     */
+    impactOf(id: string, maxDepth = 2): { total: number; artifacts: Array<{ id: string; type: string; distance: number }> } {
+        const cy = this._getCy();
+        const startNode = cy.getElementById(id);
+        if (startNode.empty()) return { total: 0, artifacts: [] };
+
+        const results: Array<{ id: string; type: string; distance: number }> = [];
+        const seen = new Set<string>([id]);
+
+        // BFS level by level so we track distance accurately.
+        let frontier: string[] = [id];
+        for (let depth = 1; depth <= maxDepth; depth++) {
+            const nextFrontier: string[] = [];
+            for (const current of frontier) {
+                const cyNode = cy.getElementById(current);
+                // Visit both successors and predecessors for impact analysis.
+                cyNode.neighborhood("node").forEach((n) => {
+                    const nid = n.id();
+                    if (!seen.has(nid)) {
+                        seen.add(nid);
+                        const node = this.graph.get(nid);
+                        results.push({ id: nid, type: node?.artifact_type ?? "unknown", distance: depth });
+                        nextFrontier.push(nid);
+                    }
+                });
+            }
+            frontier = nextFrontier;
+        }
+
+        return { total: results.length, artifacts: results };
+    }
+
+    // -----------------------------------------------------------------------
     // Integrity checks — async (requires backend scan)
     // -----------------------------------------------------------------------
 
@@ -465,6 +709,51 @@ class ArtifactGraphSDK {
     // Private helpers
     // -----------------------------------------------------------------------
 
+    /**
+     * Return the cached headless Cytoscape instance, building it from the
+     * current graph data if it doesn't exist yet. The instance is rebuilt
+     * whenever `_fetchAll` replaces the graph map (via `_graphVersion`).
+     *
+     * Do NOT call this inside a `$derived` without also reading `_graphVersion`
+     * first — the version counter is what makes Svelte re-evaluate the derived.
+     */
+    private _getCy(): cytoscape.Core {
+        if (this._cy) return this._cy;
+
+        const elements: cytoscape.ElementDefinition[] = [];
+
+        for (const node of this.graph.values()) {
+            elements.push({
+                group: "nodes",
+                data: { id: node.id, type: node.artifact_type, status: node.status },
+            });
+            for (const ref of node.references_out) {
+                if (this.graph.has(ref.target_id)) {
+                    elements.push({
+                        group: "edges",
+                        data: {
+                            id: `${ref.source_id}→${ref.target_id}→${ref.relationship_type ?? ref.field}`,
+                            source: ref.source_id,
+                            target: ref.target_id,
+                            type: ref.relationship_type ?? ref.field,
+                        },
+                    });
+                }
+            }
+        }
+
+        this._cy = cytoscape({ elements, headless: true });
+        return this._cy;
+    }
+
+    /** Invalidate the cached Cytoscape instance so it is rebuilt on next access. */
+    private _invalidateCy(): void {
+        if (this._cy) {
+            this._cy.destroy();
+            this._cy = null;
+        }
+    }
+
     /** First-load wrapper: sets loading/error state then delegates. */
     private async _loadAll(): Promise<void> {
         if (this.loading) return;
@@ -509,6 +798,11 @@ class ArtifactGraphSDK {
         this.graph = newGraph;
         this.pathIndex = newPathIndex;
         this.stats = statsResult;
+
+        // Invalidate the headless Cytoscape cache so analysis properties
+        // are recomputed against the new graph on next access.
+        this._invalidateCy();
+        this._graphVersion++;
 
         this._notifySubscribers(newGraph);
     }
