@@ -8,6 +8,7 @@
 	import CircleMinusIcon from "@lucide/svelte/icons/circle-minus";
 	import CircleFadingArrowUpIcon from "@lucide/svelte/icons/circle-fading-arrow-up";
 	import CircleStarIcon from "@lucide/svelte/icons/circle-star";
+	import CirclePauseIcon from "@lucide/svelte/icons/circle-pause";
 	import type { Component } from "svelte";
 
 	type StatusGroup =
@@ -18,6 +19,7 @@
 		| "active"
 		| "human-gate"
 		| "complete"
+		| "on-hold"
 		| "closed"
 		| "recurring";
 
@@ -46,6 +48,9 @@
 		accepted: "complete",
 		promoted: "complete",
 		active: "complete",
+		// On hold — paused
+		"on-hold": "on-hold",
+		blocked: "on-hold",
 		// Closed — inactive/historical states
 		inactive: "closed",
 		archived: "closed",
@@ -64,6 +69,7 @@
 		active: CircleArrowRightIcon,
 		"human-gate": CircleUserRoundIcon,
 		complete: CircleCheckBigIcon,
+		"on-hold": CirclePauseIcon,
 		closed: CircleMinusIcon,
 		recurring: CircleFadingArrowUpIcon,
 	};
@@ -76,6 +82,7 @@
 		active: "Active",
 		"human-gate": "Needs review",
 		complete: "Complete",
+		"on-hold": "On Hold",
 		closed: "Closed",
 		recurring: "Recurring",
 	};
