@@ -248,6 +248,20 @@ The symmetry:
 - Project docs ↔ Project skills (same knowledge, human vs agent, synchronised)
 - Domain skills have no doc counterpart (portable expertise, not project or platform)
 
+## Open Questions (Unresolved)
+
+1. **Existing relationship types** — scoped-to, contains, documents, practices, verifies are in use but not in the new vocabulary. For each: keep, rename, or absorb? Is `contains/belongs-to` the same as `delivers/delivered-by` or semantically different (containment vs contribution)?
+
+2. **`surpassed` doing double duty** — it's a status (overtaken by newer work) AND used for idea merging (source ideas surpassed). Should merged ideas use `archived` instead, or is surpassed correct for both?
+
+3. **Status restriction per type** — one vocabulary with aliases, but do ALL 11 statuses make sense for every type? Does a task need `exploring`? Does a milestone need `recurring`? Should config allow restricting which statuses apply to which type?
+
+4. **`depends-on` replacement** — what relationship type? `blocked-by`? Or keep `depends-on/depended-on-by` as its own type since dependency is structural (always exists) while blocking is a state (temporary)?
+
+5. **Research as core vs project** — we concluded research is project-specific, but `.orqa/delivery/research/` is heavily used with 60+ files. Migrate now or later?
+
+6. **Agent skills during migration** — governance is disconnected but agents need implementation quality guidance. Which skills load manually? Coding standards, composability, Svelte 5, Tauri v2, Rust patterns at minimum.
+
 ## Key Design Principles
 
 1. **The graph is the only data structure.** No standalone fields, no side channels.
