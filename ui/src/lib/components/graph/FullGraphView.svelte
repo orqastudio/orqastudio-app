@@ -26,8 +26,13 @@
 	let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
 	function buildGraph(el: HTMLDivElement): void {
-		// Destroy existing instance (positions are already in artifactGraphSDK.cachedPositions)
+		// Destroy existing instance
 		if (cy) {
+			try {
+				artifactGraphSDK.cachedPositions = cy.nodes().map((n) => ({
+					id: n.id(), x: n.position().x, y: n.position().y,
+				}));
+			} catch { /* ignore */ }
 			cy.destroy();
 			cy = null;
 		}
@@ -100,15 +105,14 @@
 				? { name: "preset" }
 				: ({
 						name: "cose-bilkent",
-						animate: "end",
-						animationDuration: 500,
+						animate: false,
 						randomize: true,
 						nodeRepulsion: 4500,
 						idealEdgeLength: 100,
 						edgeElasticity: 0.45,
 						nestingFactor: 0.1,
 						gravity: 0.25,
-						numIter: 2500,
+						numIter: 500,
 						tile: true,
 						tilingPaddingVertical: 10,
 						tilingPaddingHorizontal: 10,
@@ -163,12 +167,16 @@
 		if (cy && nodeCount === lastElementCount) return;
 
 		lastElementCount = nodeCount;
-		try {
-			buildGraph(el);
-		} catch (err) {
-			console.error("Graph build failed:", err);
-			stabilizing = false;
-		}
+		stabilizing = true;
+		// Defer to next frame so loading overlay renders before heavy work
+		requestAnimationFrame(() => {
+			try {
+				buildGraph(el);
+			} catch (err) {
+				console.error("Graph build failed:", err);
+				stabilizing = false;
+			}
+		});
 	});
 
 	onDestroy(() => {
