@@ -1,5 +1,4 @@
 <script lang="ts">
-	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import StatusIndicator from "./StatusIndicator.svelte";
 	import { cn } from "$lib/utils";
 
@@ -8,7 +7,6 @@
 		description,
 		status,
 		badge,
-		actionsNeeded = false,
 		active = false,
 		onclick,
 	}: {
@@ -16,7 +14,6 @@
 		description?: string;
 		status?: string;
 		badge?: string;
-		actionsNeeded?: boolean;
 		active?: boolean;
 		onclick: () => void;
 	} = $props();
@@ -34,9 +31,6 @@
 			<StatusIndicator {status} mode="dot" />
 		{:else if badge}
 			<span class="shrink-0 rounded bg-muted px-1 py-0.5 text-[10px] font-normal text-muted-foreground">{badge}</span>
-		{/if}
-		{#if actionsNeeded}
-			<CircleAlertIcon class="h-3.5 w-3.5 shrink-0 text-amber-500" />
 		{/if}
 		<span class="truncate">{label}</span>
 	</span>

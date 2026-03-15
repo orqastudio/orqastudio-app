@@ -19,7 +19,7 @@
 	let activeTab = $state<TabKey>("actions");
 
 	// -------------------------------------------------------------------------
-	// Pending actions — all artifacts that need human attention
+	// Pending actions — all artifacts with status: review
 	// -------------------------------------------------------------------------
 
 	interface PendingAction {
@@ -31,127 +31,29 @@
 		priority: string | null;
 	}
 
-	/**
-	 * Return true if a task has a depends-on list with any unfinished dependency.
-	 * The depends-on field is an array of task IDs in frontmatter.
-	 */
-	function hasUnmetDependencies(node: ArtifactNode): boolean {
-		const fm = node.frontmatter as Record<string, unknown>;
-		const dependsOn = fm["depends-on"];
-		if (!Array.isArray(dependsOn) || dependsOn.length === 0) return false;
-		for (const depId of dependsOn) {
-			if (typeof depId !== "string") continue;
-			const dep = artifactGraphSDK.resolve(depId);
-			if (!dep || dep.status !== "done") return true;
+	/** Human-readable action description based on artifact type. */
+	function actionLabel(type: string): string {
+		switch (type) {
+			case "task": return "Task needs review";
+			case "epic": return "Epic needs review";
+			case "idea": return "Idea needs review";
+			case "decision": return "Decision needs review";
+			case "lesson": return "Lesson needs review";
+			case "research": return "Research needs review";
+			case "milestone": return "Milestone needs review";
+			default: return "Needs review";
 		}
-		return false;
 	}
 
 	const pendingActions = $derived.by((): PendingAction[] => {
-		const actions: PendingAction[] = [];
-
-		// Tasks: todo or in-progress with unmet depends-on
-		for (const node of artifactGraphSDK.byType("task")) {
-			const status = node.status ?? "";
-			if (status === "todo" || status === "in-progress") {
-				if (hasUnmetDependencies(node)) {
-					actions.push({
-						id: node.id,
-						title: node.title,
-						artifactType: "task",
-						action: "Blocked — dependency not done",
-						path: node.path,
-						priority: node.priority,
-					});
-				}
-			}
-		}
-
-		// Epics: draft or ready needing attention
-		for (const node of artifactGraphSDK.byType("epic")) {
-			const status = node.status ?? "";
-			if (status === "draft") {
-				actions.push({
-					id: node.id,
-					title: node.title,
-					artifactType: "epic",
-					action: "Draft — needs docs-required gate",
-					path: node.path,
-					priority: node.priority,
-				});
-			} else if (status === "ready") {
-				actions.push({
-					id: node.id,
-					title: node.title,
-					artifactType: "epic",
-					action: "Ready — awaiting implementation start",
-					path: node.path,
-					priority: node.priority,
-				});
-			}
-		}
-
-		// Ideas: exploring or shaped awaiting promotion
-		for (const node of artifactGraphSDK.byType("idea")) {
-			const status = node.status ?? "";
-			if (status === "exploring") {
-				actions.push({
-					id: node.id,
-					title: node.title,
-					artifactType: "idea",
-					action: "Exploring — research in progress",
-					path: node.path,
-					priority: node.priority,
-				});
-			} else if (status === "shaped") {
-				actions.push({
-					id: node.id,
-					title: node.title,
-					artifactType: "idea",
-					action: "Shaped — ready to promote to epic",
-					path: node.path,
-					priority: node.priority,
-				});
-			}
-		}
-
-		// Decisions: proposed awaiting acceptance
-		for (const node of artifactGraphSDK.byType("decision")) {
-			if (node.status === "proposed") {
-				actions.push({
-					id: node.id,
-					title: node.title,
-					artifactType: "decision",
-					action: "Proposed — awaiting acceptance",
-					path: node.path,
-					priority: node.priority,
-				});
-			}
-		}
-
-		// Lessons: recurring awaiting promotion to rule/skill
-		for (const node of artifactGraphSDK.byType("lesson")) {
-			if (node.status === "recurring") {
-				actions.push({
-					id: node.id,
-					title: node.title,
-					artifactType: "lesson",
-					action: "Recurring — promote to rule or skill",
-					path: node.path,
-					priority: node.priority,
-				});
-			}
-		}
-
-		// Sort: shaped ideas first (most actionable), then by type priority
-		const typeOrder: Record<string, number> = {
-			idea: 0,
-			decision: 1,
-			lesson: 2,
-			epic: 3,
-			task: 4,
-		};
-		return actions.sort((a, b) => (typeOrder[a.artifactType] ?? 9) - (typeOrder[b.artifactType] ?? 9));
+		return artifactGraphSDK.byStatus("review").map((node) => ({
+			id: node.id,
+			title: node.title,
+			artifactType: node.artifact_type,
+			action: actionLabel(node.artifact_type),
+			path: node.path,
+			priority: node.priority,
+		}));
 	});
 
 	// -------------------------------------------------------------------------

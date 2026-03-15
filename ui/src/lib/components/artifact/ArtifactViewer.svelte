@@ -1,6 +1,5 @@
 <script lang="ts">
 	import AcceptanceCriteria from "./AcceptanceCriteria.svelte";
-	import ActionsNeeded from "./ActionsNeeded.svelte";
 	import Breadcrumb from "./Breadcrumb.svelte";
 	import ChainTrace from "./ChainTrace.svelte";
 	import FrontmatterHeader from "./FrontmatterHeader.svelte";
@@ -266,7 +265,6 @@
 						{#if artifactStatus && pipelineStages.length > 0}
 							<PipelineStepper stages={pipelineStages} status={artifactStatus} />
 						{/if}
-						<ActionsNeeded {artifactType} metadata={parsedContent.metadata} />
 						<FrontmatterHeader
 							metadata={parsedContent.metadata}
 							{artifactType}

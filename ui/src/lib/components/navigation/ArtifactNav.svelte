@@ -31,8 +31,6 @@
 		navigationStore,
 		type ActivityView,
 	} from "$lib/stores/navigation.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { hasActionsNeeded } from "$lib/utils/actions-needed";
 	import type { DocNode, ArtifactViewState, SortConfig } from "$lib/types/nav-tree";
 	import type { Component } from "svelte";
 	import { applyFilters, applySort, applyGrouping } from "$lib/utils/artifact-view";
@@ -215,15 +213,6 @@
 		return crumbs;
 	}
 
-	/** Check whether a DocNode's artifact has pending actions via the graph SDK. */
-	function nodeHasActions(node: DocNode): boolean {
-		const id = node.frontmatter?.["id"] as string | undefined;
-		if (!id) return false;
-		const graphNode = artifactGraphSDK.resolve(id);
-		if (!graphNode) return false;
-		return hasActionsNeeded(graphNode, artifactGraphSDK);
-	}
-
 	function handleLeafClick(node: DocNode) {
 		if (!node.path) return;
 		navigationStore.openArtifact(node.path, buildBreadcrumbs(node));
@@ -293,8 +282,7 @@
 										label={node.label}
 										description={node.description ?? undefined}
 										status={node.status ?? undefined}
-										actionsNeeded={nodeHasActions(node)}
-										active={navigationStore.selectedArtifactPath === node.path}
+														active={navigationStore.selectedArtifactPath === node.path}
 										onclick={() => handleLeafClick(node)}
 									/>
 								{/each}
@@ -308,7 +296,6 @@
 						label={node.label}
 						description={node.description ?? undefined}
 						status={node.status ?? undefined}
-						actionsNeeded={nodeHasActions(node)}
 						active={navigationStore.selectedArtifactPath === node.path}
 						onclick={() => handleLeafClick(node)}
 					/>
@@ -342,7 +329,6 @@
 				label={node.label}
 				description={node.description ?? undefined}
 				status={node.status ?? undefined}
-				actionsNeeded={nodeHasActions(node)}
 				active={navigationStore.selectedArtifactPath === node.path}
 				onclick={() => handleLeafClick(node)}
 			/>
