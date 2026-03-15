@@ -23,6 +23,7 @@ pub mod session_title;
 pub mod settings;
 pub mod setup;
 pub mod skill_injector;
+pub mod status_transitions;
 pub mod stream_loop;
 pub mod system_prompt;
 pub mod time_utils;

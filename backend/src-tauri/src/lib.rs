@@ -226,6 +226,8 @@ fn register_commands(builder: tauri::Builder<tauri::Wry>) -> tauri::Builder<taur
         commands::graph_commands::store_health_snapshot,
         commands::graph_commands::get_health_snapshots,
         commands::graph_commands::update_artifact_field,
+        commands::status_transition_commands::evaluate_status_transitions,
+        commands::status_transition_commands::apply_status_transition,
     ])
 }
 
