@@ -17,6 +17,7 @@ import { invoke, extractErrorMessage } from "$lib/ipc/invoke";
 import type { ArtifactNode, ArtifactRef, GraphStats, IntegrityCheck, AppliedFix, HealthSnapshot } from "$lib/types/artifact-graph";
 import { ARTIFACT_TYPES } from "$lib/types/artifact-graph";
 import cytoscape from "cytoscape";
+import { graphLayoutService } from "$lib/services/graph-layout.svelte";
 
 // ---------------------------------------------------------------------------
 // Visualization color map
@@ -870,8 +871,13 @@ class ArtifactGraphSDK {
         // Clear cached positions — new nodes may have appeared and the old
         // layout coordinates are no longer valid.
         this.cachedPositions = [];
+        graphLayoutService.invalidate();
 
         this._notifySubscribers(newGraph);
+
+        // Kick off background layout as soon as the graph is ready so that by
+        // the time the user navigates to FullGraphView the positions are cached.
+        graphLayoutService.requestLayout(this._buildVisualizationElements());
     }
 
     /**

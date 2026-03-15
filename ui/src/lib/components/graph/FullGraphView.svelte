@@ -1,66 +1,45 @@
 <script lang="ts">
 	import { onDestroy } from "svelte";
 	import cytoscape from "cytoscape";
-	// @ts-expect-error — no type declarations for cytoscape-cose-bilkent
-	import coseBilkent from "cytoscape-cose-bilkent";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { graphLayoutService } from "$lib/services/graph-layout.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 
-	// Register layout extension once
-	try {
-		cytoscape.use(coseBilkent);
-	} catch {
-		// Already registered — safe to ignore
-	}
+	// cose-bilkent is no longer needed here — layout runs in the worker.
 
 	let container = $state<HTMLDivElement | undefined>(undefined);
 	let cy: cytoscape.Core | null = null;
 
-	let stabilizing = $state(false);
-
-	/** Track element count so we only rebuild when the graph actually changes. */
-	let lastElementCount = 0;
+	/** Track the positions snapshot we last rendered so we only rebuild when
+	 *  positions actually change (not on every reactive read). */
+	let lastRenderedPositionCount = 0;
+	let lastRenderedNodeCount = 0;
 
 	let resizeObserver: ResizeObserver | null = null;
 	let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
 	function buildGraph(el: HTMLDivElement): void {
-		// Destroy existing instance
 		if (cy) {
-			try {
-				artifactGraphSDK.cachedPositions = cy.nodes().map((n) => ({
-					id: n.id(), x: n.position().x, y: n.position().y,
-				}));
-			} catch { /* ignore */ }
 			cy.destroy();
 			cy = null;
 		}
 
 		const elements = artifactGraphSDK.graphElements;
+		const positions = graphLayoutService.positions;
+
 		if (elements.filter((e) => e.group === "nodes").length === 0) return;
+		if (positions.length === 0) return; // Still computing — wait for positions
 
-		const positions = artifactGraphSDK.cachedPositions;
-		const hasCachedPositions = positions.length > 0;
-
-		if (!hasCachedPositions) {
-			stabilizing = true;
-		}
-
-		// Apply cached positions to node element definitions
-		let elementsWithPositions: cytoscape.ElementDefinition[];
-		if (hasCachedPositions) {
-			const positionMap = new Map(positions.map((p) => [p.id, { x: p.x, y: p.y }]));
-			elementsWithPositions = elements.map((el) => {
-				if (el.group === "nodes" && el.data?.id) {
-					const pos = positionMap.get(el.data.id as string);
-					if (pos) return { ...el, position: pos };
-				}
-				return el;
-			});
-		} else {
-			elementsWithPositions = elements;
-		}
+		// Apply worker-computed positions to node element definitions.
+		const positionMap = new Map(positions.map((p) => [p.id, { x: p.x, y: p.y }]));
+		const elementsWithPositions: cytoscape.ElementDefinition[] = elements.map((el) => {
+			if (el.group === "nodes" && el.data?.id) {
+				const pos = positionMap.get(el.data.id as string);
+				if (pos) return { ...el, position: pos };
+			}
+			return el;
+		});
 
 		cy = cytoscape({
 			container: el,
@@ -80,7 +59,7 @@
 						"text-halign": "center",
 						"font-size": "11px",
 						"font-family": "'JetBrains Mono', monospace",
-						"font-weight": "500",
+						"font-weight": 500,
 						shape: "round-rectangle",
 						width: "label",
 						height: 20,
@@ -108,52 +87,20 @@
 					},
 				},
 			],
-			layout: hasCachedPositions
-				? { name: "preset" }
-				: ({
-						name: "cose-bilkent",
-						animate: "end",
-						animationDuration: 500,
-						randomize: true,
-						nodeRepulsion: 4500,
-						idealEdgeLength: 100,
-						edgeElasticity: 0.45,
-						nestingFactor: 0.1,
-						gravity: 0.25,
-						numIter: 2500,
-						tile: true,
-						tilingPaddingVertical: 10,
-						tilingPaddingHorizontal: 10,
-					} as cytoscape.LayoutOptions),
+			// Positions are already pre-computed — use preset layout for instant render.
+			layout: { name: "preset" },
 			minZoom: 0.1,
 			maxZoom: 4,
 			wheelSensitivity: 0.3,
 		});
+
+		cy.fit(undefined, 40);
 
 		// Click handler — navigate to clicked artifact
 		cy.on("tap", "node", (evt) => {
 			const nodeId = evt.target.id() as string;
 			navigationStore.navigateToArtifact(nodeId);
 		});
-
-		if (hasCachedPositions) {
-			stabilizing = false;
-			cy.fit(undefined, 40);
-		} else {
-			// cose-bilkent fires layoutstop when done
-			cy.one("layoutstop", () => {
-				stabilizing = false;
-				cy?.fit(undefined, 40);
-				// Store positions back to the SDK so subsequent renders skip layout
-				if (cy) {
-					artifactGraphSDK.cachedPositions = cy.nodes().map((n) => ({
-						id: n.id(),
-						x: n.position().x,
-						y: n.position().y,
-					}));
-				}
-			});
-		}
 
 		// Debounced resize observer
 		if (resizeObserver) resizeObserver.disconnect();
@@ -169,20 +116,27 @@
 	$effect(() => {
 		const el = container;
 		const elements = artifactGraphSDK.graphElements;
+		const positions = graphLayoutService.positions;
+		const running = graphLayoutService.layoutRunning;
+
 		const nodeCount = elements.filter((e) => e.group === "nodes").length;
+		const posCount = positions.length;
 
 		if (!el) return;
-		if (cy && nodeCount === lastElementCount) return;
+		if (running) return; // Still computing — spinner shown instead
+		if (posCount === 0) return; // No positions yet
 
-		lastElementCount = nodeCount;
-		stabilizing = true;
-		// Defer to next frame so loading overlay renders before heavy work
+		// Rebuild if the graph or positions changed since last render.
+		if (cy && nodeCount === lastRenderedNodeCount && posCount === lastRenderedPositionCount) return;
+
+		lastRenderedNodeCount = nodeCount;
+		lastRenderedPositionCount = posCount;
+
 		requestAnimationFrame(() => {
 			try {
 				buildGraph(el);
 			} catch (err) {
 				console.error("Graph build failed:", err);
-				stabilizing = false;
 			}
 		});
 	});
@@ -194,12 +148,6 @@
 		}
 		if (resizeTimer) clearTimeout(resizeTimer);
 		if (cy) {
-			// Save final positions back to SDK before destroy
-			artifactGraphSDK.cachedPositions = cy.nodes().map((n) => ({
-				id: n.id(),
-				x: n.position().x,
-				y: n.position().y,
-			}));
 			cy.destroy();
 			cy = null;
 		}
@@ -234,7 +182,7 @@
 				role="img"
 				aria-label="Full artifact relationship graph"
 			></div>
-			{#if stabilizing}
+			{#if graphLayoutService.layoutRunning}
 				<div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-background/60 backdrop-blur-[2px]">
 					<LoadingSpinner size="lg" />
 					<p class="text-sm font-medium text-muted-foreground">
