@@ -294,22 +294,27 @@ Lessons and Research already have established schemas (see their respective READ
 
 ### Connections
 
-```
-Pillar ──referenced-by──> Epic, Idea (pillars: [PILLAR-NNN])
-  │                        └── evaluated against pillar gate questions
-  │
-Milestone
-  └── Epic (milestone: MS-NNN, pillars: [PILLAR-NNN])
-        ├── Task (epic: EPIC-NNN)  — inline checklist or separate file
-        └── research-refs: []  — design explorations and investigations
+```mermaid
+graph LR
+    Pillar["Pillar (PILLAR-NNN)<br/>evaluated against gate questions"]
+    Milestone["Milestone (MS-NNN)"]
+    Epic["Epic (EPIC-NNN)"]
+    Task["Task (TASK-NNN)<br/>inline checklist or separate file"]
+    Research["Research<br/>design explorations"]
+    Idea["Idea (IDEA-NNN)"]
+    Lesson["Lesson (IMPL-NNN)"]
+    Rule["Rule / Skill / Coding Standard"]
+    Decision["Decision (AD-NNN)"]
 
-Idea ──promote──> Epic (when validated)
-
-Lesson ──promote──> Rule / Skill / Coding Standard
-
-Research ──promote──> Decision (AD-NNN)
-
-Decision ──supersedes──> Decision (when updated)
+    Pillar -->|referenced-by| Epic
+    Pillar -->|referenced-by| Idea
+    Milestone --> Epic
+    Epic --> Task
+    Epic -->|research-refs| Research
+    Idea -->|promote when validated| Epic
+    Lesson -->|promote| Rule
+    Research -->|promote| Decision
+    Decision -->|supersedes| Decision
 ```
 
 ### Relationship Types
@@ -778,9 +783,14 @@ todo ──> in-progress ──> done
 
 ### Idea
 
-```
-captured ──> exploring ──> shaped ──> promoted ──> (becomes Epic)
-                                  └──> archived    (rejected or deferred)
+```mermaid
+stateDiagram-v2
+    [*] --> captured
+    captured --> exploring
+    exploring --> shaped
+    shaped --> promoted : user approves
+    shaped --> archived : rejected or deferred
+    promoted --> [*] : becomes Epic
 ```
 
 ### Research
@@ -797,9 +807,12 @@ active ──> promoted (recurrence >= threshold)
 
 ### Decision
 
-```
-proposed ──> accepted ──> superseded
-                      └──> deprecated
+```mermaid
+stateDiagram-v2
+    [*] --> proposed
+    proposed --> accepted
+    accepted --> superseded : replaced by newer decision
+    accepted --> deprecated : no longer relevant
 ```
 
 ---

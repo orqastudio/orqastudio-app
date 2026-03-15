@@ -31,27 +31,32 @@ For enforcement rules, see [RULE-004](RULE-004).
 
 ## The Artifact Lifecycle at a Glance
 
-```
-User has an idea
-  → Idea captured (IDEA-NNN, status: captured)
-  → Research investigates (status: exploring, .orqa/delivery/research/ artifacts created)
-  → Idea scoped and validated (status: shaped)
-  → User approves promotion (status: promoted, EPIC-NNN created)
+```mermaid
+graph TD
+    Idea["User has an idea"]
+    Captured["IDEA-NNN created<br/>status: captured"]
+    Exploring["Research investigates<br/>status: exploring<br/>.orqa/delivery/research/ artifacts created"]
+    Shaped["Idea scoped and validated<br/>status: shaped"]
+    Promoted["User approves promotion<br/>status: promoted, EPIC-NNN created"]
 
-Epic implementation
-  → Documentation gate checked (docs-required satisfied → status: ready)
-  → Worktree created, agent assigned (status: in-progress)
-  → Implementation complete (status: review)
-  → Verification gates passed, docs-produced verified (status: done)
+    DocGate["Documentation gate checked<br/>docs-required satisfied → status: ready"]
+    InProgress["Worktree created, agent assigned<br/>status: in-progress"]
+    Review["Implementation complete<br/>status: review"]
+    Done["Verification gates passed<br/>docs-produced verified<br/>status: done"]
 
-Lessons along the way
-  → Implementation patterns captured (IMPL-NNN in .orqa/process/lessons/)
-  → Recurring patterns promoted to rules/skills
+    Lesson["Implementation patterns captured<br/>IMPL-NNN in .orqa/process/lessons/"]
+    Promoted2["Recurring patterns promoted to rules/skills"]
 
-Milestone completion
-  → All P1 epics done
-  → Gate question answered "yes"
-  → Milestone status: complete
+    P1["All P1 epics done"]
+    Gate["Gate question answered yes"]
+    Complete["Milestone status: complete"]
+
+    Idea --> Captured --> Exploring --> Shaped --> Promoted
+    Promoted --> DocGate --> InProgress --> Review --> Done
+
+    InProgress --> Lesson --> Promoted2
+
+    Done --> P1 --> Gate --> Complete
 ```
 
 ---

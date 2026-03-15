@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from "svelte";
+	import { SvelteSet } from "svelte/reactivity";
 	import { Network } from "vis-network";
 	import type { Node, Edge, Options } from "vis-network";
 	import { DataSet } from "vis-data";
@@ -90,7 +91,7 @@
 		);
 
 		// Deduplicate edges: use "source->target" as key to avoid multi-edges
-		const edgeKeys = new Set<string>();
+		const edgeKeys = new SvelteSet<string>();
 		const edgeList: Edge[] = [];
 
 		for (const node of graphNodes) {
@@ -176,7 +177,7 @@
 	$effect(() => {
 		const el = container;
 		// Track graph size as a reactive dependency
-		const _graphSize = artifactGraphSDK.graph.size;
+		void artifactGraphSDK.graph.size;
 
 		if (!el) return;
 

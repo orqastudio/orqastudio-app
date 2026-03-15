@@ -25,6 +25,7 @@ pub fn init_db(path: &str) -> Result<Connection, OrqaError> {
     run_migration_006(&conn)?;
     conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
     conn.execute_batch(include_str!("../migrations/008_health_snapshots.sql"))?;
+    conn.execute_batch(include_str!("../migrations/009_drop_artifacts_table.sql"))?;
 
     Ok(conn)
 }
@@ -42,6 +43,7 @@ pub fn init_memory_db() -> Result<Connection, OrqaError> {
     run_migration_006(&conn)?;
     conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
     conn.execute_batch(include_str!("../migrations/008_health_snapshots.sql"))?;
+    conn.execute_batch(include_str!("../migrations/009_drop_artifacts_table.sql"))?;
 
     Ok(conn)
 }
@@ -127,8 +129,10 @@ mod tests {
             )
             .expect("should query sqlite_master");
 
-        // We expect: projects, sessions, messages, artifacts, settings,
-        // project_themes, project_theme_overrides, messages_fts (+ internal fts tables), artifacts_fts
+        // We expect: projects, sessions, messages, settings,
+        // project_themes, project_theme_overrides, messages_fts (+ internal fts tables),
+        // enforcement_violations, health_snapshots.
+        // artifacts and artifacts_fts are removed by migration 009.
         assert!(
             table_count >= 7,
             "expected at least 7 user tables, found {table_count}"

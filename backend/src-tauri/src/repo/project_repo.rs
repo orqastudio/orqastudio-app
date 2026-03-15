@@ -97,12 +97,15 @@ pub fn get_active(conn: &Connection) -> Result<Option<Project>, OrqaError> {
     .map_err(|e| OrqaError::Database(e.to_string()))
 }
 
-/// List all projects with summary info (session + artifact counts).
+/// List all projects with summary info (session count).
+///
+/// `artifact_count` is always 0 — artifacts are file-based (`.orqa/`) not stored in SQLite.
+/// The field is kept on the type for API compatibility with the frontend.
 pub fn list(conn: &Connection) -> Result<Vec<ProjectSummary>, OrqaError> {
     let mut stmt = conn.prepare(
         "SELECT p.id, p.name, p.path, p.detected_stack, p.updated_at, \
                 (SELECT COUNT(*) FROM sessions s WHERE s.project_id = p.id) AS session_count, \
-                (SELECT COUNT(*) FROM artifacts a WHERE a.project_id = p.id) AS artifact_count \
+                0 AS artifact_count \
          FROM projects p \
          ORDER BY p.updated_at DESC",
     )?;

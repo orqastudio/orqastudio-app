@@ -50,7 +50,7 @@ conn.execute_batch("
 ---
 
 
-## Core Tables (9 implemented + 3 planned)
+## Core Tables (8 implemented + 3 planned)
 
 ### projects
 
@@ -126,40 +126,6 @@ CREATE TABLE IF NOT EXISTS messages (
 CREATE INDEX IF NOT EXISTS idx_messages_session ON messages(session_id, turn_index, block_index);
 CREATE INDEX IF NOT EXISTS idx_messages_tool ON messages(tool_name) WHERE tool_name IS NOT NULL;
 CREATE INDEX IF NOT EXISTS idx_messages_stream ON messages(stream_status) WHERE stream_status = 'pending';
-```
-
-### artifacts
-
-Governance artifact metadata. Content lives on disk as markdown.
-
-Hookify rules (`.orqa/process/hookify.*.local.md`) share `artifact_type = 'hook'` with lifecycle hooks (`.orqa/process/hooks/`). The `hook_kind` column distinguishes them. This mirrors the UI where both subtypes appear under the single "Hooks" Activity Bar icon. In CLI-only environments, these may reside under `.claude/` as a compatibility layer.
-
-```sql
-CREATE TABLE IF NOT EXISTS artifacts (
-    id              INTEGER PRIMARY KEY,
-    project_id      INTEGER NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
-    artifact_type   TEXT NOT NULL CHECK (artifact_type IN ('agent', 'rule', 'skill', 'hook', 'doc')),
-    rel_path        TEXT NOT NULL,
-    name            TEXT NOT NULL,
-    description     TEXT,
-    hook_kind       TEXT CHECK (hook_kind IN ('lifecycle', 'hookify')),
-    file_hash       TEXT,
-    file_size       INTEGER,
-    file_modified_at TEXT,
-    last_scanned_at TEXT,
-    compliance_status TEXT DEFAULT 'unknown'
-                    CHECK (compliance_status IN ('compliant', 'non_compliant', 'unknown', 'error')),
-    relationships   TEXT,                   -- JSON: [{"type":"references","target":"path"}]
-    metadata        TEXT,                   -- JSON: extracted frontmatter
-    last_edited_by  TEXT,
-    created_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
-    updated_at      TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
-);
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_artifacts_path ON artifacts(project_id, rel_path);
-CREATE INDEX IF NOT EXISTS idx_artifacts_type ON artifacts(project_id, artifact_type);
-CREATE INDEX IF NOT EXISTS idx_artifacts_hook_kind ON artifacts(project_id, hook_kind)
-    WHERE hook_kind IS NOT NULL;
 ```
 
 ### scanner_results (NOT YET CREATED — post-MVP)
@@ -365,7 +331,7 @@ CREATE TABLE IF NOT EXISTS enforcement_violations (
 ---
 
 
-## FTS5 Virtual Tables (2)
+## FTS5 Virtual Tables (1)
 
 ### messages_fts
 
@@ -397,20 +363,6 @@ CREATE TRIGGER IF NOT EXISTS messages_au AFTER UPDATE OF content ON messages BEG
     INSERT INTO messages_fts(rowid, content, tool_name)
     VALUES (new.id, new.content, new.tool_name);
 END;
-```
-
-### artifacts_fts
-
-Contentless FTS5 — index only, no content stored. Content read from disk on demand.
-
-```sql
-CREATE VIRTUAL TABLE IF NOT EXISTS artifacts_fts USING fts5(
-    name,
-    content,
-    content='',
-    contentless_delete=1,
-    tokenize='porter unicode61'
-);
 ```
 
 ---
@@ -448,17 +400,22 @@ pub fn init_db(path: &str) -> Result<Connection, OrqaError> {
     run_migration_004(&conn)?;
     run_migration_005(&conn)?;
     run_migration_006(&conn)?;
+    conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
+    conn.execute_batch(include_str!("../migrations/008_health_snapshots.sql"))?;
+    conn.execute_batch(include_str!("../migrations/009_drop_artifacts_table.sql"))?;
     Ok(conn)
 }
 ```
 
 The database path is `orqa.db` in the Tauri app data directory, resolved during `.setup()` in `lib.rs`.
 
-For tests, `db::init_memory_db()` creates an in-memory SQLite database with the same schema, running all 6 migrations identically.
+For tests, `db::init_memory_db()` creates an in-memory SQLite database with the same schema, running all 9 migrations identically.
 
 ### Migration 001: Initial Schema
 
 Contains the 7 core tables (`projects`, `sessions`, `messages`, `artifacts`, `settings`, `project_themes`, `project_theme_overrides`), 2 FTS5 virtual tables (`messages_fts`, `artifacts_fts`), all indexes, sync triggers, and the stream recovery statement.
+
+> **Note:** `artifacts` and `artifacts_fts` created here are dropped by migration 009. They exist in this file for schema history integrity — deployed databases that ran 001 need 009 to clean them up.
 
 Ends with a stream recovery statement:
 
@@ -469,7 +426,7 @@ WHERE stream_status = 'pending';
 
 ### Migration 002: Governance Bootstrap
 
-Adds `governance_analyses` and `governance_recommendations` tables used by the governance analysis workflow.
+Adds `governance_analyses` and `governance_recommendations` tables. These are dropped by migration 007.
 
 ### Migration 003: Enforcement Violations
 
@@ -487,10 +444,22 @@ Adds `title_manually_set INTEGER DEFAULT 0` to `sessions`. Tracks whether the us
 
 Renames `sdk_session_id` → `provider_session_id` on the `sessions` table. Implemented as `run_migration_006()` in `db.rs`. Requires SQLite 3.25.0+ for `ALTER TABLE RENAME COLUMN` support.
 
+### Migration 007: Drop Governance Tables
+
+Drops `governance_recommendations` and `governance_analyses`. These were added in migration 002 and removed per [AD-032](AD-032) (SQLite is for conversation persistence only).
+
+### Migration 008: Health Snapshots
+
+Adds `health_snapshots` table for storing graph integrity metric trends over time.
+
+### Migration 009: Drop Artifacts Table
+
+Drops `artifacts_fts` and `artifacts`. Artifacts are file-based (`.orqa/`) — SQLite persistence is not needed per [AD-032](AD-032).
+
 ### Rules
 
 - Migrations are append-only. Never modify a deployed migration.
-- Migrations 001–003 use `IF NOT EXISTS` throughout and are safely re-runnable.
+- Migrations 001–003 and 007–009 use `IF NOT EXISTS` / `IF EXISTS` throughout and are safely re-runnable.
 - Migrations 004–006 check `pragma_table_info` before altering to achieve idempotency.
 - Destructive changes (column removal, type changes) require a new migration that copies data.
 - Test migrations against an empty database and against the previous version.
@@ -592,15 +561,16 @@ Schema design for `global.db` will be specified when cross-project learning feat
 | projects | 10-50 | 001 | Implemented |
 | sessions | 1,000-5,000 | 001 | Implemented |
 | messages | 100,000-500,000 | 001 | Implemented |
-| artifacts | 50-500 per project | 001 | Implemented |
 | settings | 20-50 | 001 | Implemented |
 | project_themes | 1-5 per project | 001 | Implemented |
 | project_theme_overrides | 0-30 per project | 001 | Implemented |
 | messages_fts | (mirrors messages) | 001 | Implemented |
-| artifacts_fts | (mirrors artifacts) | 001 | Implemented |
-| governance_analyses | 10-100 | 002 | Implemented |
-| governance_recommendations | 50-500 | 002 | Implemented |
 | enforcement_violations | 1,000-50,000 | 003 | Implemented |
+| health_snapshots | 100-10,000 | 008 | Implemented |
+| artifacts | — | 001→009 | Dropped (file-based) |
+| artifacts_fts | — | 001→009 | Dropped (file-based) |
+| governance_analyses | — | 002→007 | Dropped (file-based) |
+| governance_recommendations | — | 002→007 | Dropped (file-based) |
 | scanner_results | 1,000-10,000 | PLANNED | Not yet created |
 | tasks | 100-1,000 per project | PLANNED | Not yet created |
 | metrics | 10,000-100,000 | PLANNED | Not yet created |

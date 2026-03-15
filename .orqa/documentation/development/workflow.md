@@ -252,8 +252,9 @@ Template:
 
 OrqaStudio structures work as a continuous loop: **Understand, Plan, Document, Implement, Review, Learn**. Each step produces artifacts that feed into the next.
 
-```
-Understand → Plan → Document → Implement → Review → Learn → Understand
+```mermaid
+graph LR
+    Understand --> Plan --> Document --> Implement --> Review --> Learn --> Understand
 ```
 
 This is not a linear waterfall. The loop runs at every scale: within a single task, across an epic, and across a milestone. Learning feeds back into understanding, which improves the next plan.
@@ -316,8 +317,16 @@ The dashboard surfaces these as warnings and errors, with suggested actions for 
 
 The pipeline widget tracks how knowledge matures through stages:
 
-```
-Observation → Understanding → Principle → Practice → Enforcement → Verification
+```mermaid
+graph LR
+    Observation["Observation<br/>Lessons, research findings"]
+    Understanding["Understanding<br/>Research docs, shaped ideas"]
+    Principle["Principle<br/>Decisions, pillars"]
+    Practice["Practice<br/>Skills, documentation"]
+    Enforcement["Enforcement<br/>Rules with enforcement entries"]
+    Verification["Verification<br/>Integrity checks, review verdicts"]
+
+    Observation --> Understanding --> Principle --> Practice --> Enforcement --> Verification
 ```
 
 Each stage maps to artifact types:

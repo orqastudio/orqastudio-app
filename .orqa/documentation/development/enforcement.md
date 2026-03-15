@@ -135,13 +135,23 @@ Gates fire at most once per trigger — the tracker records when each gate has a
 
 ### Evaluation Flow
 
-```text
-Tool call arrives
-  → WorkflowTracker records the event (read/write/search/command)
-  → evaluate_process_gates(tracker, event_type, file_path)
-    → Each gate checks tracker state
-    → If prerequisites not met → gate fires, returns thinking prompt
-  → Fired gate messages are prepended to the tool output as injected content
+```mermaid
+graph TD
+    A["Tool call arrives"]
+    B["WorkflowTracker records the event<br/>(read/write/search/command)"]
+    C["evaluate_process_gates(tracker, event_type, file_path)"]
+    D["Each gate checks tracker state"]
+    E{"Prerequisites met?"}
+    F["Gate fires → returns thinking prompt"]
+    G["Fired gate messages prepended to tool output as injected content"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E -->|No| F
+    F --> G
+    E -->|Yes| G
 ```
 
 ---
@@ -228,13 +238,20 @@ enforcement:
 
 ### The Full Chain
 
-```text
-Documented standard (.orqa/process/rules/RULE-NNN.md)
-  → lint enforcement entry (documents which linter enforces this)
-  → Linter config (eslint.config.js, Cargo.toml, etc.)
-  → Pre-commit hook (.githooks/pre-commit) or make check
-  → Violation surfaces in terminal output
-  → Relevant skill already in context (via Layer 2 injection)
+```mermaid
+graph TD
+    Rule["Documented standard<br/>(.orqa/process/rules/RULE-NNN.md)"]
+    Lint["lint enforcement entry<br/>(documents which linter enforces this)"]
+    Config["Linter config<br/>(eslint.config.js, Cargo.toml, etc.)"]
+    Hook["Pre-commit hook (.githooks/pre-commit)<br/>or make check"]
+    Violation["Violation surfaces in terminal output"]
+    Skill["Relevant skill already in context<br/>(via Layer 2 injection)"]
+
+    Rule --> Lint
+    Lint --> Config
+    Config --> Hook
+    Hook --> Violation
+    Violation --> Skill
 ```
 
 ---
@@ -350,25 +367,29 @@ backend/src-tauri/src/
 
 Both streaming and non-streaming tool execution follow the same pattern:
 
-```text
-Tool call received
-  ├── Enforcement engine evaluates (evaluate_file / evaluate_bash)
-  │   ├── Block verdicts → return error, tool call rejected
-  │   ├── Warn verdicts → log warning, tool call proceeds
-  │   └── Inject verdicts → collect skill names
-  │
-  ├── Process gates evaluate (evaluate_process_gates)
-  │   └── Fired gates → collect thinking prompt messages
-  │
-  ├── Skill injection (collect_injected_skills)
-  │   ├── Deduplicate against WorkflowTracker.injected_skills
-  │   ├── Read SKILL.md files, strip frontmatter
-  │   └── Combine into injected content string
-  │
-  ├── Execute tool call
-  │
-  └── Return result
-      └── Prepend injected content (skills + gate messages) to tool output
+```mermaid
+flowchart TD
+    TC["Tool call received"]
+
+    TC --> EE["Enforcement engine evaluates<br/>(evaluate_file / evaluate_bash)"]
+    EE --> Block["Block verdicts<br/>→ return error, tool call rejected"]
+    EE --> Warn["Warn verdicts<br/>→ log warning, tool call proceeds"]
+    EE --> Inject["Inject verdicts<br/>→ collect skill names"]
+
+    TC --> PG["Process gates evaluate<br/>(evaluate_process_gates)"]
+    PG --> Gates["Fired gates<br/>→ collect thinking prompt messages"]
+
+    TC --> SI["Skill injection<br/>(collect_injected_skills)"]
+    SI --> Dedup["Deduplicate against WorkflowTracker.injected_skills"]
+    Dedup --> ReadSkills["Read SKILL.md files, strip frontmatter"]
+    ReadSkills --> Combine["Combine into injected content string"]
+
+    Warn --> Execute["Execute tool call"]
+    Inject --> Execute
+    Combine --> Execute
+    Gates --> Execute
+
+    Execute --> Return["Return result<br/>Prepend injected content (skills + gate messages) to tool output"]
 ```
 
 The `EnforcementResult` struct carries both components:

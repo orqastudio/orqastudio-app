@@ -25,24 +25,22 @@ Built-in semantic code search with no external dependencies. The entire search s
 
 ## 1. Architecture Overview
 
-```
-User types query → Claude uses search tool
-                         ↓
-                   Sidecar MCP server (orqa-studio)
-                         ↓ tool_execute NDJSON
-                   Rust search module
-                         ↓
-                   ┌─────┴─────┐
-                   │  Embedder  │  ← ort (DirectML) + tokenizers
-                   │  bge-small │     384-dim, NPU/GPU/CPU auto
-                   └─────┬─────┘
-                         ↓
-                   ┌─────┴─────┐
-                   │  DuckDB    │  ← .orqa/search.duckdb
-                   │  VSS index │     HNSW cosine similarity
-                   └─────┬─────┘
-                         ↓
-                   Top-K results → tool_result → Claude
+```mermaid
+graph TD
+    User["User types query"]
+    Claude["Claude uses search tool"]
+    Sidecar["Sidecar MCP server (orqa-studio)"]
+    Rust["Rust search module"]
+    Embedder["Embedder<br/>ort (DirectML) + tokenizers<br/>bge-small, 384-dim, NPU/GPU/CPU auto"]
+    DuckDB["DuckDB<br/>.orqa/search.duckdb<br/>HNSW cosine similarity"]
+    Results["Top-K results → tool_result → Claude"]
+
+    User --> Claude
+    Claude -->|tool call| Sidecar
+    Sidecar -->|tool_execute NDJSON| Rust
+    Rust --> Embedder
+    Embedder --> DuckDB
+    DuckDB --> Results
 ```
 
 **Design principle:** Zero configuration. OrqaStudio indexes the codebase, embeds chunks, and searches — all within the Tauri process. No external servers, no API keys, no Docker containers.

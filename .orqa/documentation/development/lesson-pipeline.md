@@ -126,24 +126,27 @@ CREATE TABLE lessons (
 
 ## Lesson Lifecycle
 
-```text
-Observation
-  → Review agent identifies a recurring mistake pattern
-    → Lesson created (IMPL-NNN.md, recurrence=1, status=active)
+```mermaid
+graph TD
+    Obs["Observation<br/>Review agent identifies a recurring mistake pattern"]
+    Create["Lesson created<br/>IMPL-NNN.md, recurrence=1, status=active"]
+    Recur["Same mistake observed in a later session"]
+    Increment["Existing lesson's recurrence incremented<br/>last_seen_at updated, session_id appended"]
+    Threshold{"recurrence >= 2?"}
+    Candidate["Promotion candidate surfaced in dashboard"]
+    Approve["User reviews and approves promotion"]
+    Update["Rule frontmatter updated with new enforcement entry<br/>lesson.status = promoted<br/>lesson.promoted-to = RULE-NNN enforcement entry"]
+    Hookify["Hookify file generated for the new enforcement entry"]
 
-Recurrence
-  → Same mistake observed in a later session
-    → existing lesson's recurrence incremented
-    → last_seen_at updated
-    → session_id appended to session_ids
-
-Threshold reached (recurrence >= 2)
-  → Promotion candidate surfaced in dashboard
-    → User reviews and approves promotion
-      → Rule frontmatter updated with new enforcement entry
-        → lesson.status = "promoted"
-        → lesson.promoted-to = "RULE-NNN enforcement entry RULE-NNN-001"
-        → Hookify file generated for the new enforcement entry
+    Obs --> Create
+    Create --> Recur
+    Recur --> Increment
+    Increment --> Threshold
+    Threshold -->|Yes| Candidate
+    Threshold -->|No| Recur
+    Candidate --> Approve
+    Approve --> Update
+    Update --> Hookify
 ```
 
 ---

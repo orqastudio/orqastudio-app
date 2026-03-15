@@ -20,23 +20,41 @@ This document maps the entire OrqaStudio core application end-to-end. It covers 
 
 ## Architecture Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ Frontend (Svelte 5 Runes)                                       │
-│  Stores (.svelte.ts) ──invoke()──> Tauri Commands               │
-│  Components (.svelte)  <──Channel<T>── StreamEvents             │
-├─────────────────────────────────────────────────────────────────┤
-│ Backend (Rust / Tauri v2)                                       │
-│  Commands (commands/) ──> Domain (domain/) ──> Repo (repo/)     │
-│  State (state.rs) ──> SidecarManager ──> NDJSON ──> Sidecar     │
-├─────────────────────────────────────────────────────────────────┤
-│ Sidecar (Bun TypeScript)                                        │
-│  NDJSON stdin/stdout ──> Claude Agent SDK ──> Claude API        │
-├─────────────────────────────────────────────────────────────────┤
-│ Persistence                                                     │
-│  SQLite: sessions, messages, tokens, settings, projects         │
-│  File System: .orqa/ governance artifacts (rules, skills, etc.) │
-└─────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph Frontend["Frontend (Svelte 5 Runes)"]
+        Stores["Stores (.svelte.ts)"]
+        Components["Components (.svelte)"]
+    end
+
+    subgraph Backend["Backend (Rust / Tauri v2)"]
+        Commands["commands/"]
+        Domain["domain/"]
+        Repo["repo/"]
+        SidecarMgr["SidecarManager (state.rs)"]
+    end
+
+    subgraph SidecarLayer["Sidecar (Bun TypeScript)"]
+        Sidecar["NDJSON stdin/stdout"]
+        AgentSDK["Claude Agent SDK"]
+        ClaudeAPI["Claude API"]
+    end
+
+    subgraph Persistence
+        SQLite["SQLite<br/>sessions, messages, tokens, settings, projects"]
+        FileSystem[".orqa/ file system<br/>governance artifacts (rules, skills, etc.)"]
+    end
+
+    Stores -->|invoke()| Commands
+    Commands --> Domain
+    Domain --> Repo
+    Domain --> SidecarMgr
+    SidecarMgr -->|NDJSON| Sidecar
+    Sidecar --> AgentSDK
+    AgentSDK --> ClaudeAPI
+    Commands -->|Channel&lt;T&gt; StreamEvents| Components
+    Repo --> SQLite
+    Domain --> FileSystem
 ```
 
 ## AppState Decomposition
@@ -170,27 +188,39 @@ The streaming pipeline carries messages from the LLM provider through the sideca
 
 ### Tool Execution Flow
 
-```
-LLM requests tool → Sidecar emits tool_execute → Rust reads it
-  → tool_executor.rs dispatches to handler (read_file, bash, etc.)
-  → Enforcement check (enforce_file/enforce_bash) runs BEFORE execution
-  → Skill injection: Inject verdicts → read SKILL.md → prepend to output
-  → Process tracking: record_read/record_write/record_command on WorkflowTracker
-  → Result sent back to sidecar as tool_result NDJSON
-  → Sidecar returns result to SDK → SDK continues conversation
+```mermaid
+graph TD
+    LLM["LLM requests tool"]
+    Sidecar["Sidecar emits tool_execute NDJSON"]
+    Rust["Rust reads it → tool_executor.rs dispatches to handler<br/>(read_file, bash, etc.)"]
+    Enforce["Enforcement check<br/>(enforce_file/enforce_bash) runs BEFORE execution"]
+    Inject["Skill injection<br/>Inject verdicts → read SKILL.md → prepend to output"]
+    Track["Process tracking<br/>record_read/record_write/record_command on WorkflowTracker"]
+    Result["Result sent back to sidecar as tool_result NDJSON"]
+    SDK["Sidecar returns result to SDK → SDK continues conversation"]
+
+    LLM --> Sidecar --> Rust --> Enforce --> Inject --> Track --> Result --> SDK
 ```
 
 ### Tool Approval Flow
 
-```
-Sidecar canUseTool callback fires → emit tool_approval_request NDJSON
-  → Rust handle_tool_approval:
-    - READ_ONLY_TOOLS auto-approved (read_file, glob, grep, search_*, load_skill, code_research)
-    - Write/execute tools: emit ToolApprovalRequest via Channel<T> to frontend
-      → Frontend shows approval dialog → user clicks approve/deny
-      → invoke("stream_tool_approval_respond") → sync_channel sender → Rust unblocks
-      → Result sent to sidecar as tool_approval NDJSON
-  → Sidecar resolves canUseTool promise → allow or deny
+```mermaid
+graph TD
+    Callback["Sidecar canUseTool callback fires"]
+    Emit["emit tool_approval_request NDJSON"]
+    Handle["Rust handle_tool_approval"]
+    ReadOnly{"Read-only tool?"}
+    AutoApprove["READ_ONLY_TOOLS auto-approved<br/>(read_file, glob, grep, search_*, load_skill, code_research)"]
+    FrontendReq["Emit ToolApprovalRequest via Channel&lt;T&gt; to frontend"]
+    Dialog["Frontend shows approval dialog"]
+    UserDecide["User clicks approve/deny"]
+    Respond["invoke(stream_tool_approval_respond)<br/>→ sync_channel sender → Rust unblocks"]
+    ToolApproval["Result sent to sidecar as tool_approval NDJSON"]
+    Resolve["Sidecar resolves canUseTool promise → allow or deny"]
+
+    Callback --> Emit --> Handle --> ReadOnly
+    ReadOnly -->|Yes| AutoApprove --> Resolve
+    ReadOnly -->|No| FrontendReq --> Dialog --> UserDecide --> Respond --> ToolApproval --> Resolve
 ```
 
 ### Session Resumption

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from "svelte";
+	import { SvelteSet } from "svelte/reactivity";
 	import { Network } from "vis-network";
 	import type { Node, Edge, Options } from "vis-network";
 	import { DataSet } from "vis-data";
@@ -64,7 +65,7 @@
 		}
 
 		// Collect unique node IDs from incoming and outgoing refs
-		const nodeIds = new Set<string>();
+		const nodeIds = new SvelteSet<string>();
 		nodeIds.add(artifactId);
 		for (const ref of incomingRefs) nodeIds.add(ref.source_id);
 		for (const ref of outgoingRefs) nodeIds.add(ref.target_id);
@@ -180,9 +181,9 @@
 	$effect(() => {
 		const el = container;
 		// Access reactive dependencies so the effect re-runs on data changes
-		const _id = artifactId;
-		const _in = incomingRefs;
-		const _out = outgoingRefs;
+		void artifactId;
+		void incomingRefs;
+		void outgoingRefs;
 
 		if (!el) return;
 

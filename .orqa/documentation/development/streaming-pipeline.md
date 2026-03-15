@@ -28,26 +28,22 @@ End-to-end description of how AI responses stream through the provider sidecar, 
 
 ## 1. Pipeline Overview
 
-```
-Claude Agent SDK (TypeScript)
-        |
-        v
-  Sidecar (Bun binary)           -- translates SDK messages into SidecarResponse NDJSON
-        |
-   stdout pipe (NDJSON)
-        |
-        v
-  Rust stream loop               -- domain/stream_loop.rs, reads line-by-line
-        |
-   Channel<StreamEvent>           -- Tauri IPC, ordered delivery (AD-009)
-        |
-        v
-  Svelte store ($state runes)
-        |
-   requestAnimationFrame (~16ms)
-        |
-        v
-       DOM
+```mermaid
+graph TD
+    SDK["Claude Agent SDK (TypeScript)"]
+    Sidecar["Sidecar (Bun binary)<br/>translates SDK messages into SidecarResponse NDJSON"]
+    Rust["Rust stream loop<br/>domain/stream_loop.rs, reads line-by-line"]
+    Channel["Channel&lt;StreamEvent&gt;<br/>Tauri IPC, ordered delivery (AD-009)"]
+    Store["Svelte store ($state runes)"]
+    RAF["requestAnimationFrame (~16ms)"]
+    DOM["DOM"]
+
+    SDK -->|stdout pipe NDJSON| Sidecar
+    Sidecar -->|stdout pipe NDJSON| Rust
+    Rust --> Channel
+    Channel --> Store
+    Store --> RAF
+    RAF --> DOM
 ```
 
 The sidecar adds ~0.1–0.5ms per event, negligible relative to AI token generation latency. `Channel<T>` is Tauri's streaming IPC mechanism — faster than `emit`/`listen`, with ordered, indexed delivery.
