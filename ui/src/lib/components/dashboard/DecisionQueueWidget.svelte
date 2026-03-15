@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
+	import * as ScrollArea from "$lib/components/ui/scroll-area";
 	import { Badge } from "$lib/components/ui/badge";
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
 	import CompassIcon from "@lucide/svelte/icons/compass";
@@ -267,7 +268,7 @@
 </script>
 
 {#if hasData}
-	<Card.Root class="min-h-[220px] gap-2">
+	<Card.Root class="gap-2 flex flex-col h-full">
 		<Card.Header class="pb-1">
 			<Card.Title class="flex items-center gap-1.5 text-sm font-semibold">
 				<CompassIcon class="h-4 w-4 text-muted-foreground" />
@@ -296,7 +297,8 @@
 				</div>
 			</Card.Action>
 		</Card.Header>
-		<Card.Content class="pt-0">
+		<Card.Content class="pt-0 flex-1 min-h-0 overflow-hidden">
+			<ScrollArea.Root class="h-full">
 			{#if activeTab === "actions"}
 				<!-- ---------------------------------------------------------- -->
 				<!-- Actions tab: all artifacts needing attention               -->
@@ -391,6 +393,7 @@
 					</button>
 				{/if}
 			{/if}
+			</ScrollArea.Root>
 		</Card.Content>
 	</Card.Root>
 {/if}

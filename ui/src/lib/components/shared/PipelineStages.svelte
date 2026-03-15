@@ -87,7 +87,7 @@
 						{#if onStageClick}
 							<button
 								{...props}
-								class="flex w-[72px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 transition-colors hover:bg-accent/50 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
+								class="flex w-[88px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 transition-colors hover:bg-accent/50 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
 								onclick={() => onStageClick?.(stage.key)}
 							>
 								{@render stageInner(stage)}
@@ -95,7 +95,7 @@
 						{:else}
 							<div
 								{...props}
-								class="flex w-[72px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
+								class="flex w-[88px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
 							>
 								{@render stageInner(stage)}
 							</div>
@@ -115,7 +115,7 @@
 					{#snippet child({ props })}
 						<button
 							{...props}
-							class="flex w-[72px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 transition-colors hover:bg-accent/50 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
+							class="flex w-[88px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 transition-colors hover:bg-accent/50 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
 							onclick={() => onStageClick?.(stage.key)}
 						>
 							{@render stageInner(stage)}
@@ -128,7 +128,7 @@
 			</Tooltip.Root>
 		{:else}
 			<div
-				class="flex w-[72px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
+				class="flex w-[88px] shrink-0 flex-col items-center gap-1.5 rounded-lg border px-2 py-3 {stage.borderClass ?? 'border-border'} {stage.bgClass ?? 'bg-muted/30'}"
 			>
 				{@render stageInner(stage)}
 			</div>
@@ -139,28 +139,34 @@
 		<!-- ------------------------------------------------------------------ -->
 		{#if i < stages.length - 1}
 			{#if hasEdges && edges}
-				<!-- Rich arrow connector with edge count — stretches between pills -->
-				<div class="flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5">
+				<!-- Rich arrow connector with edge count — fills space between stages -->
+				<div class="flex min-w-0 flex-1 flex-col items-center justify-center gap-0.5 {defaultColorClass(edges[i])}">
 					<svg
-						class="w-full max-w-[48px] {defaultColorClass(edges[i])}"
-						height="16"
-						viewBox="0 0 48 16"
-						preserveAspectRatio="xMidYMid meet"
+						class="w-full h-4"
+						viewBox="0 0 100 16"
+						preserveAspectRatio="none"
 						fill="none"
 						xmlns="http://www.w3.org/2000/svg"
 					>
-						<line x1="0" y1="8" x2="38" y2="8" stroke="currentColor" stroke-width="1.5" />
-						<polyline points="34,4 42,8 34,12" stroke="currentColor" stroke-width="1.5" fill="none" />
+						<line x1="0" y1="8" x2="88" y2="8" stroke="currentColor" stroke-width="1.5" />
+						<polyline points="84,3 96,8 84,13" stroke="currentColor" stroke-width="1.5" fill="none" />
 					</svg>
-					<span class="text-[10px] tabular-nums {defaultColorClass(edges[i])}">
+					<span class="text-[10px] tabular-nums">
 						{edges[i].count}
 					</span>
 				</div>
 			{:else}
-				<!-- Simple chevron connector — stretches between pills -->
+				<!-- Simple arrow connector — fills space between stages -->
 				<div class="flex min-w-0 flex-1 items-center justify-center text-muted-foreground/40">
-					<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<polyline points="4,4 10,8 4,12" stroke="currentColor" stroke-width="1.5" fill="none" />
+					<svg
+						class="w-full h-4"
+						viewBox="0 0 100 16"
+						preserveAspectRatio="none"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<line x1="0" y1="8" x2="88" y2="8" stroke="currentColor" stroke-width="1.5" />
+						<polyline points="84,3 96,8 84,13" stroke="currentColor" stroke-width="1.5" fill="none" />
 					</svg>
 				</div>
 			{/if}

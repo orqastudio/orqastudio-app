@@ -105,7 +105,7 @@
 				<MilestoneContextCard />
 
 				<!-- Row 2: Three pillar columns — each card carries its own title -->
-				<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+				<div class="grid grid-cols-1 gap-4 md:grid-cols-3 items-stretch">
 					<!-- Column 1: Where You Are (Clarity) — title lives inside GraphHealthWidget -->
 					<GraphHealthWidget
 						checks={healthChecks}
