@@ -1,8 +1,9 @@
 ---
+
 id: TASK-312
 title: Reconcile EPIC-005
 description: "Standing reconciliation task — verify epic body accuracy: task table, pillars, docs-produced, scope."
-status: ready
+status: blocked
 created: 2026-03-13
 updated: 2026-03-13
 epic: EPIC-005
@@ -24,7 +25,6 @@ relationships:
     type: belongs-to
     rationale: Task belongs to this epic
 ---
-
 ## What
 
 Standing reconciliation task for [EPIC-005](EPIC-005). Ensures the epic body stays accurate as work evolves.

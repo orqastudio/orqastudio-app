@@ -1,8 +1,9 @@
 ---
+
 id: TASK-508
 title: "Update PipelineStepper to show valid transitions"
 description: "Extend the PipelineStepper component to display which status transitions are valid from the artifact's current state, and make those transitions clickable so users can apply them directly from the stepper without manually editing the artifact file."
-status: ready
+status: blocked
 priority: P2
 created: "2026-03-15"
 updated: "2026-03-15"
@@ -21,7 +22,6 @@ relationships:
   - type: belongs-to
     target: EPIC-077
 ---
-
 ## What
 
 PipelineStepper currently renders the artifact's current stage in the lifecycle. This task adds interactive transition buttons to the stepper: for each valid next status reachable from the current one, a button appears that — when clicked — calls the artifact-update SDK command to apply the transition. The valid transitions are derived from the same transition map used by the Rust transition engine (TASK-505), ensuring the UI and backend agree on what is allowed.

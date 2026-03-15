@@ -1,8 +1,9 @@
 ---
+
 id: TASK-499
 title: "Replace GraphHealthWidget scoring with graph-theoretic metrics"
 description: "Migrate GraphHealthWidget from file-based scan counts to graph-theoretic metrics sourced from the artifactGraphSDK's graphHealth property. Health score becomes largestComponentRatio; orphan count uses structural 0-degree detection; component count is displayed as disconnected clusters."
-status: ready
+status: blocked
 priority: P1
 created: "2026-03-15"
 updated: "2026-03-15"
@@ -23,7 +24,6 @@ relationships:
   - type: belongs-to
     target: EPIC-076
 ---
-
 ## What
 
 Replace the existing file-scan-based scoring in `GraphHealthWidget` with graph-theoretic metrics derived from `artifactGraphSDK.graphHealth`. The health score becomes a structural measure (largest component ratio) rather than a count of file-level issues. Orphan detection switches from filename heuristics to structural 0-degree analysis. Component count is surfaced as human-readable "N disconnected clusters" text.

@@ -14,7 +14,7 @@
 id: EPIC-075
 title: "Documentation reorganisation — book-chapter structure with how-to guides"
 description: "Reorganise .orqa/documentation/ from ad-hoc sections (architecture/, product/, process/, ui/, wireframes/) into book chapters (about/, guide/, development/, how-to/, reference/, grounding/). Write missing how-to guides for plugin SDK, testing, and linting. Migrate relationships and project.json paths."
-status: ready
+status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14

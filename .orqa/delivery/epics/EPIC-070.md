@@ -6,7 +6,7 @@
 id: EPIC-070
 title: Dynamic artifact tables and schema validation enhancements
 description: Injectable dynamic tables in markdown (tasks table on epics, epics on milestones), body template validation, and schema evolution (new relationship types, personas).
-status: captured
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

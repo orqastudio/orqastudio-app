@@ -1,8 +1,9 @@
 ---
+
 id: TASK-505
 title: "Build automatic status transition engine in Rust"
 description: "Implement a Rust domain module that evaluates artifact transition conditions across the loaded graph and returns a list of proposed status transitions. The engine does not auto-apply — it returns proposals that callers can approve or queue for auto-apply."
-status: ready
+status: blocked
 priority: P1
 created: "2026-03-15"
 updated: "2026-03-15"
@@ -22,7 +23,6 @@ relationships:
   - type: belongs-to
     target: EPIC-077
 ---
-
 ## What
 
 A new Rust domain module (`backend/src-tauri/src/domain/transition_engine.rs` or equivalent) that analyses the loaded artifact graph and evaluates a fixed set of transition conditions. When a condition is satisfied, the engine emits a `TransitionProposal` — a value object containing the artifact ID, current status, proposed status, and a human-readable reason string. The engine never mutates state; callers decide whether to auto-apply or queue for human approval.

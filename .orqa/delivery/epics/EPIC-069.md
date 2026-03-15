@@ -5,7 +5,7 @@
 id: EPIC-069
 title: Notification system — toast, in-app panel, desktop
 description: Design and implement a notification strategy covering toast messages, in-app notification panel, and desktop notifications. Determine which events use which channel.
-status: captured
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

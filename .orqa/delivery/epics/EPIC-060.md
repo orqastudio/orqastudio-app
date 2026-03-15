@@ -2,7 +2,7 @@
 id: EPIC-060
 title: Pipeline health dashboard
 description: Surface pipeline integrity on the app dashboard with scan/fix actions, add pipeline visualization and temporal analytics.
-status: review
+status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13

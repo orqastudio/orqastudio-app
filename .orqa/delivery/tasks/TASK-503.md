@@ -1,8 +1,9 @@
 ---
+
 id: TASK-503
 title: "Knowledge gap detection in governance audit"
 description: "Extend the governance audit (IntegrityWidget or dedicated panel) to surface per-type unlinked artifacts: rules without grounded-by, skills without practiced-by, decisions without enforces. Also detect disconnected components not reachable from the main graph. Each gap entry links directly to the artifact that needs fixing."
-status: ready
+status: blocked
 priority: P2
 created: "2026-03-15"
 updated: "2026-03-15"
@@ -22,7 +23,6 @@ relationships:
   - type: belongs-to
     target: EPIC-076
 ---
-
 ## What
 
 Extend the governance audit surface to report knowledge gaps derived from the artifact graph structure. Three categories of gap are detected: (1) per-type missing inverse relationships (rules without `grounded-by`, skills without `practiced-by`, decisions without `enforces`), (2) artifacts in disconnected components not reachable from the main connected component. Each gap entry is actionable — clicking it navigates to the artifact that needs attention.

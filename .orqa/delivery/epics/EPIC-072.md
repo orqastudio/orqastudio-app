@@ -4,7 +4,7 @@
 id: EPIC-072
 title: Roadmap kanban view
 description: Replace the static roadmap documentation page with a dynamic kanban board view under Process. Milestone-level board with drill-down into epics and tasks, all data from the graph.
-status: captured
+status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14

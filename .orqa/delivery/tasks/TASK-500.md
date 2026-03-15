@@ -1,8 +1,9 @@
 ---
+
 id: TASK-500
 title: "Add dependency chain tracing to artifact viewer"
 description: "Extend the artifact viewer with a Trace section that shows upward (task→epic→milestone→pillar) and downward (what this artifact affects) dependency chains. Uses BFS over relationship edges from the artifactGraphSDK. Each artifact in the chain is a clickable ArtifactLink."
-status: ready
+status: blocked
 priority: P1
 created: "2026-03-15"
 updated: "2026-03-15"
@@ -22,7 +23,6 @@ relationships:
   - type: belongs-to
     target: EPIC-076
 ---
-
 ## What
 
 Add a "Trace" section to the artifact viewer that shows the full dependency chain in both directions: upward (why does this artifact exist — tracing to its owning epic, milestone, and pillar) and downward (what artifacts depend on or are delivered by this one). Each artifact in the chain is rendered as a clickable `ArtifactLink` for navigation. The traversal uses BFS over the artifact graph edges provided by `artifactGraphSDK`.

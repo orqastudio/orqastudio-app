@@ -1,8 +1,9 @@
 ---
+
 id: TASK-501
 title: "Build impact analysis panel for pre-edit preview"
 description: "Before editing an artifact, show a non-blocking impact panel that lists artifacts reachable within 1-2 hops via relationship edges, grouped by relationship type. Uses neighborhood traversal from the artifactGraphSDK. Rendered as an expandable info panel, not a modal."
-status: ready
+status: blocked
 priority: P2
 created: "2026-03-15"
 updated: "2026-03-15"
@@ -22,7 +23,6 @@ relationships:
   - type: belongs-to
     target: EPIC-076
 ---
-
 ## What
 
 Add a pre-edit impact panel to the artifact editor. When the user opens an artifact for editing, a collapsible info panel appears showing which other artifacts are reachable within 1-2 relationship hops — giving a quick sense of blast radius before making changes. The panel is non-blocking: it does not prevent editing and can be dismissed or left collapsed.
