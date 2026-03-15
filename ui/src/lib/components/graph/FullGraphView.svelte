@@ -5,7 +5,6 @@
 	import coseBilkent from "cytoscape-cose-bilkent";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 
 	// Register layout extension once
@@ -20,109 +19,47 @@
 
 	let stabilizing = $state(false);
 
-	/** Cached graph size — only rebuild when this changes. */
-	let lastGraphSize = 0;
-
-	/** Cached node positions from previous layout run. */
-	let cachedPositions: Array<{ id: string; x: number; y: number }> = [];
+	/** Track element count so we only rebuild when the graph actually changes. */
+	let lastElementCount = 0;
 
 	let resizeObserver: ResizeObserver | null = null;
 	let resizeTimer: ReturnType<typeof setTimeout> | null = null;
 
-	const TYPE_COLORS: Record<string, string> = {
-		epic: "#3b82f6",
-		task: "#10b981",
-		milestone: "#f59e0b",
-		idea: "#a855f7",
-		decision: "#ec4899",
-		research: "#06b6d4",
-		lesson: "#f97316",
-		rule: "#ef4444",
-		agent: "#8b5cf6",
-		skill: "#14b8a6",
-		hook: "#6366f1",
-		pillar: "#d97706",
-		doc: "#9ca3af",
-	};
-
-	function hexFromDotClass(dotClass: string): string {
-		if (dotClass.includes("blue-500")) return "#3b82f6";
-		if (dotClass.includes("emerald-500")) return "#10b981";
-		if (dotClass.includes("amber-500")) return "#f59e0b";
-		if (dotClass.includes("purple-500")) return "#a855f7";
-		if (dotClass.includes("destructive") || dotClass.includes("red")) return "#ef4444";
-		return "#6b7280";
-	}
-
-	function resolveNodeColor(status: string | null, artifactType: string): string {
-		if (status) return hexFromDotClass(statusColor(status));
-		return TYPE_COLORS[artifactType] ?? "#6b7280";
-	}
-
 	function buildGraph(el: HTMLDivElement): void {
-		// Save positions and destroy existing instance
+		// Destroy existing instance (positions are already in artifactGraphSDK.cachedPositions)
 		if (cy) {
-			cachedPositions = cy.nodes().map((n) => ({
-				id: n.id(),
-				x: n.position().x,
-				y: n.position().y,
-			}));
 			cy.destroy();
 			cy = null;
 		}
 
-		const graphNodes = [...artifactGraphSDK.graph.values()];
-		if (graphNodes.length === 0) return;
+		const elements = artifactGraphSDK.graphElements;
+		if (elements.filter((e) => e.group === "nodes").length === 0) return;
 
-		const positionMap = new Map(cachedPositions.map((p) => [p.id, { x: p.x, y: p.y }]));
-		const hasCachedPositions = cachedPositions.length > 0;
+		const positions = artifactGraphSDK.cachedPositions;
+		const hasCachedPositions = positions.length > 0;
 
 		if (!hasCachedPositions) {
 			stabilizing = true;
 		}
 
-		// Build elements
-		const edgeKeys = new Set<string>();
-		const elements: cytoscape.ElementDefinition[] = [];
-
-		for (const node of graphNodes) {
-			const color = resolveNodeColor(node.status ?? null, node.artifact_type);
-			const cached = positionMap.get(node.id);
-			const elementDef: cytoscape.ElementDefinition = {
-				group: "nodes",
-				data: {
-					id: node.id,
-					label: node.id,
-					color,
-					tooltip: `${node.title}\n${node.artifact_type}${node.status ? ` · ${node.status}` : ""}`,
-				},
-			};
-			if (cached) {
-				elementDef.position = { x: cached.x, y: cached.y };
-			}
-			elements.push(elementDef);
-		}
-
-		for (const node of graphNodes) {
-			for (const ref of node.references_out) {
-				if (!artifactGraphSDK.graph.has(ref.target_id)) continue;
-				const key = `${ref.source_id}->${ref.target_id}`;
-				if (edgeKeys.has(key)) continue;
-				edgeKeys.add(key);
-				elements.push({
-					group: "edges",
-					data: {
-						id: key,
-						source: ref.source_id,
-						target: ref.target_id,
-					},
-				});
-			}
+		// Apply cached positions to node element definitions
+		let elementsWithPositions: cytoscape.ElementDefinition[];
+		if (hasCachedPositions) {
+			const positionMap = new Map(positions.map((p) => [p.id, { x: p.x, y: p.y }]));
+			elementsWithPositions = elements.map((el) => {
+				if (el.group === "nodes" && el.data?.id) {
+					const pos = positionMap.get(el.data.id as string);
+					if (pos) return { ...el, position: pos };
+				}
+				return el;
+			});
+		} else {
+			elementsWithPositions = elements;
 		}
 
 		cy = cytoscape({
 			container: el,
-			elements,
+			elements: elementsWithPositions,
 			style: [
 				{
 					selector: "node",
@@ -195,9 +132,9 @@
 			cy.one("layoutstop", () => {
 				stabilizing = false;
 				cy?.fit(undefined, 40);
-				// Cache positions after layout
+				// Store positions back to the SDK so subsequent renders skip layout
 				if (cy) {
-					cachedPositions = cy.nodes().map((n) => ({
+					artifactGraphSDK.cachedPositions = cy.nodes().map((n) => ({
 						id: n.id(),
 						x: n.position().x,
 						y: n.position().y,
@@ -219,12 +156,13 @@
 
 	$effect(() => {
 		const el = container;
-		const currentSize = artifactGraphSDK.graph.size;
+		const elements = artifactGraphSDK.graphElements;
+		const nodeCount = elements.filter((e) => e.group === "nodes").length;
 
 		if (!el) return;
-		if (cy && currentSize === lastGraphSize) return;
+		if (cy && nodeCount === lastElementCount) return;
 
-		lastGraphSize = currentSize;
+		lastElementCount = nodeCount;
 		try {
 			buildGraph(el);
 		} catch (err) {
@@ -240,8 +178,8 @@
 		}
 		if (resizeTimer) clearTimeout(resizeTimer);
 		if (cy) {
-			// Save final positions before destroy
-			cachedPositions = cy.nodes().map((n) => ({
+			// Save final positions back to SDK before destroy
+			artifactGraphSDK.cachedPositions = cy.nodes().map((n) => ({
 				id: n.id(),
 				x: n.position().x,
 				y: n.position().y,

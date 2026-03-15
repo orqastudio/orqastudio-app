@@ -3,7 +3,7 @@
 	import cytoscape from "cytoscape";
 	// @ts-expect-error — no type declarations for cytoscape-cose-bilkent
 	import coseBilkent from "cytoscape-cose-bilkent";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { artifactGraphSDK, ARTIFACT_TYPE_COLORS, hexFromStatusDotClass } from "$lib/sdk/artifact-graph.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 	import type { ArtifactRef } from "$lib/types/artifact-graph";
@@ -27,21 +27,12 @@
 	/** The cytoscape instance, cleaned up on destroy. */
 	let cy: cytoscape.Core | null = null;
 
-	/** Map Tailwind dot class to a hex color. */
-	function hexFromDotClass(dotClass: string): string {
-		if (dotClass.includes("blue-500")) return "#3b82f6";
-		if (dotClass.includes("emerald-500")) return "#10b981";
-		if (dotClass.includes("amber-500")) return "#f59e0b";
-		if (dotClass.includes("purple-500")) return "#a855f7";
-		if (dotClass.includes("destructive") || dotClass.includes("red")) return "#ef4444";
-		return "#6b7280";
-	}
-
-	/** Resolve a node color from its status. */
+	/** Resolve a node color from its status or artifact type. */
 	function resolveNodeColor(id: string): string {
 		const node = artifactGraphSDK.resolve(id);
-		if (!node?.status) return "#6b7280";
-		return hexFromDotClass(statusColor(node.status));
+		if (!node) return "#6b7280";
+		if (node.status) return hexFromStatusDotClass(statusColor(node.status));
+		return ARTIFACT_TYPE_COLORS[node.artifact_type] ?? "#6b7280";
 	}
 
 	/** Resolve the display title for an artifact. */

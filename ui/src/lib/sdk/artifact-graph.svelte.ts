@@ -19,6 +19,44 @@ import { ARTIFACT_TYPES } from "$lib/types/artifact-graph";
 import cytoscape from "cytoscape";
 
 // ---------------------------------------------------------------------------
+// Visualization color map
+// ---------------------------------------------------------------------------
+
+/** Hex color per artifact type — used by visualization components. */
+export const ARTIFACT_TYPE_COLORS: Record<string, string> = {
+    epic: "#3b82f6",
+    task: "#10b981",
+    milestone: "#f59e0b",
+    idea: "#a855f7",
+    decision: "#ec4899",
+    research: "#06b6d4",
+    lesson: "#f97316",
+    rule: "#ef4444",
+    agent: "#8b5cf6",
+    skill: "#14b8a6",
+    hook: "#6366f1",
+    pillar: "#d97706",
+    doc: "#9ca3af",
+};
+
+/** Derive a hex color from a Tailwind dot-class string (as returned by statusColor()). */
+export function hexFromStatusDotClass(dotClass: string): string {
+    if (dotClass.includes("blue-500")) return "#3b82f6";
+    if (dotClass.includes("emerald-500")) return "#10b981";
+    if (dotClass.includes("amber-500")) return "#f59e0b";
+    if (dotClass.includes("purple-500")) return "#a855f7";
+    if (dotClass.includes("destructive") || dotClass.includes("red")) return "#ef4444";
+    return "#6b7280";
+}
+
+/** Cached node position — shared between SDK and visualization components. */
+export interface NodePosition {
+    id: string;
+    x: number;
+    y: number;
+}
+
+// ---------------------------------------------------------------------------
 // Analysis types
 // ---------------------------------------------------------------------------
 
@@ -105,6 +143,15 @@ class ArtifactGraphSDK {
 
     /** Error message from the last failed operation, or null when healthy. */
     error = $state<string | null>(null);
+
+    /**
+     * Cached node positions from the last completed full-graph layout.
+     * Visualization components write positions here after layout completes so
+     * subsequent renders can use `preset` layout instead of re-running cose-bilkent.
+     *
+     * Cleared automatically when the graph refreshes (new nodes invalidate old positions).
+     */
+    cachedPositions = $state<NodePosition[]>([]);
 
     // -----------------------------------------------------------------------
     // Private subscription registries
@@ -235,6 +282,22 @@ class ArtifactGraphSDK {
         }
 
         return { ungroundedRules, unusedSkills, unenforcedDecisions };
+    });
+
+    /**
+     * Cytoscape element definitions ready for visualization rendering.
+     *
+     * Includes:
+     * - Nodes with `color` (resolved from status or type), `label`, and `tooltip`.
+     * - Edges deduplicated by source→target pair (multiple relationship types
+     *   between the same pair are collapsed to one visual edge).
+     *
+     * Recomputed whenever the graph refreshes. Visualization components pass
+     * this directly to their DOM-attached cytoscape instance.
+     */
+    graphElements = $derived.by((): cytoscape.ElementDefinition[] => {
+        void this._graphVersion;
+        return this._buildVisualizationElements();
     });
 
     // -----------------------------------------------------------------------
@@ -804,7 +867,82 @@ class ArtifactGraphSDK {
         this._invalidateCy();
         this._graphVersion++;
 
+        // Clear cached positions — new nodes may have appeared and the old
+        // layout coordinates are no longer valid.
+        this.cachedPositions = [];
+
         this._notifySubscribers(newGraph);
+    }
+
+    /**
+     * Build Cytoscape element definitions for visualization.
+     *
+     * Nodes include `color` (status-based or type-based), `label`, and `tooltip`.
+     * Edges are deduplicated by source→target pair — only one visual edge per pair,
+     * even when multiple relationship types connect the same two nodes.
+     *
+     * Called by the `graphElements` derived property. Not cached here — the derived
+     * handles reactivity via `_graphVersion`.
+     */
+    private _buildVisualizationElements(): cytoscape.ElementDefinition[] {
+        // Inline status-group → hex mapping (mirrors StatusIndicator logic without
+        // importing from a .svelte module).
+        const STATUS_HEX: Record<string, string> = {
+            active: "#10b981",    // emerald-500
+            accepted: "#10b981",
+            done: "#10b981",
+            complete: "#10b981",
+            promoted: "#10b981",
+            shaped: "#10b981",
+            draft: "#3b82f6",     // blue-500
+            todo: "#3b82f6",
+            captured: "#3b82f6",
+            proposed: "#3b82f6",
+            planning: "#3b82f6",
+            "in-progress": "#f59e0b",  // amber-500
+            exploring: "#f59e0b",
+            ready: "#f59e0b",
+            review: "#f59e0b",
+            recurring: "#f59e0b",
+        };
+        // Muted statuses fall through to the type-based color below.
+
+        const elements: cytoscape.ElementDefinition[] = [];
+        const edgeKeys = new Set<string>();
+
+        for (const node of this.graph.values()) {
+            const statusHex = node.status ? STATUS_HEX[node.status.toLowerCase()] : undefined;
+            const color = statusHex ?? ARTIFACT_TYPE_COLORS[node.artifact_type] ?? "#6b7280";
+
+            elements.push({
+                group: "nodes",
+                data: {
+                    id: node.id,
+                    label: node.id,
+                    color,
+                    tooltip: `${node.title}\n${node.artifact_type}${node.status ? ` · ${node.status}` : ""}`,
+                },
+            });
+        }
+
+        for (const node of this.graph.values()) {
+            for (const ref of node.references_out) {
+                if (!this.graph.has(ref.target_id)) continue;
+                const key = `${ref.source_id}->${ref.target_id}`;
+                if (edgeKeys.has(key)) continue;
+                edgeKeys.add(key);
+                elements.push({
+                    group: "edges",
+                    data: {
+                        id: key,
+                        source: ref.source_id,
+                        target: ref.target_id,
+                    },
+                });
+            }
+        }
+
+        return elements;
     }
 
     /** Fire all registered subscriptions after a graph refresh. */
