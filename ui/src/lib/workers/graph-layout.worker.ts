@@ -42,17 +42,12 @@ export type WorkerResponse =
 
 function runLayout(elements: WorkerRequest["elements"]): void {
     try {
-        console.log(`[graph-worker] Starting layout with ${elements.length} elements`);
-
-        // Create a headless cytoscape instance — no DOM access required.
         const cy = cytoscape({
             headless: true,
             elements: elements as cytoscape.ElementDefinition[],
         });
 
         const nodeCount = cy.nodes().length;
-        const edgeCount = cy.edges().length;
-        console.log(`[graph-worker] Cytoscape created: ${nodeCount} nodes, ${edgeCount} edges`);
 
         if (nodeCount === 0) {
             const response: WorkerResponse = { type: "positions", positions: [] };
