@@ -27,8 +27,10 @@ relationships:
 Pillars are currently under Process alongside rules, lessons, and decisions. But pillars aren't process artifacts — they're foundational principles that determine what the project IS, what ideas fit, and what work matters. They belong with the product vision and grounding documents, not with enforcement rules and implementation lessons.
 
 The split:
-- **Principles**: Pillars, vision, grounding docs — what the project believes and why
+- **Principles**: Pillars, vision, grounding docs (first-class artifact) — what the project believes and why
 - **Learning** (renamed from Process): Rules, lessons, decisions, skills, agents — how the project improves
-- **Discovery**: Ideas, research — what the project is exploring
+- **Discovery**: Ideas, research, wireframes (first-class artifact) — what the project is exploring
 
-This also gives grounding documents a natural home beyond the documentation tree.
+Wireframes belong in Discovery because that's when they're created — during exploration and shaping, before work is committed to the delivery pipeline. They're a discovery tool, not a reference document.
+
+Grounding documents should be a first-class artifact type with their own schema, not just documentation files. They anchor agent behavior and project principles — that's structural, not prose.
