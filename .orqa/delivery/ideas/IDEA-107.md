@@ -42,6 +42,13 @@ System knowledge should be:
 - How delegation works (the orchestrator pattern)
 - How the learning loop works (lesson → recurrence → promotion)
 
+### Conventions section (app-shipped, replaces current rules for system behavior)
+A documentation section named **"Conventions"** that contains the built-in app rules — how the system expects things to work. These are distinct from project-level rules:
+- **Conventions** = app-shipped, uneditable, describe platform behavior (e.g., "completed parent requires all children completed", "review status means human gate")
+- **Rules** = project-level, editable, describe project-specific standards (e.g., coding standards, commit discipline, documentation requirements)
+
+Current rules like RULE-004 (artifact lifecycle), RULE-032 (schema validation), and RULE-045 (data integrity) are system conventions, not project rules. They describe how the platform works, not what this particular project requires. They should move to Conventions.
+
 ### What stays as project-level skills/rules:
 - **Project state machine skill** — required skill, editable at project level. Teaches agents how THIS project uses the state machine (when to use each status, project-specific conventions like "we use hold for client-waiting states"). The app generates a default version from the state machine config; the project can customise it.
 - Coding standards (project-specific)
