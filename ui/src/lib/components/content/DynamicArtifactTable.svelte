@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
 	import type { ArtifactNode } from "$lib/types/artifact-graph";
 
 	let {
@@ -85,7 +85,8 @@
 						<!-- Status dot -->
 						<td class="px-3 py-2">
 							{#if child.status}
-								<span class="inline-block h-2 w-2 rounded-full {statusColor(child.status)}"></span>
+								{@const StatusIcon = statusIcon(child.status)}
+								<StatusIcon class="h-3.5 w-3.5 text-muted-foreground" />
 							{/if}
 						</td>
 						<!-- ID -->

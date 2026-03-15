@@ -40,15 +40,6 @@ export const ARTIFACT_TYPE_COLORS: Record<string, string> = {
     doc: "#9ca3af",
 };
 
-/** Derive a hex color from a Tailwind dot-class string (as returned by statusColor()). */
-export function hexFromStatusDotClass(dotClass: string): string {
-    if (dotClass.includes("blue-500")) return "#3b82f6";
-    if (dotClass.includes("emerald-500")) return "#10b981";
-    if (dotClass.includes("amber-500")) return "#f59e0b";
-    if (dotClass.includes("purple-500")) return "#a855f7";
-    if (dotClass.includes("destructive") || dotClass.includes("red")) return "#ef4444";
-    return "#6b7280";
-}
 
 /** Cached node position — shared between SDK and visualization components. */
 export interface NodePosition {
@@ -891,34 +882,12 @@ class ArtifactGraphSDK {
      * handles reactivity via `_graphVersion`.
      */
     private _buildVisualizationElements(): cytoscape.ElementDefinition[] {
-        // Inline status-group → hex mapping (mirrors StatusIndicator logic without
-        // importing from a .svelte module).
-        const STATUS_HEX: Record<string, string> = {
-            active: "#10b981",    // emerald-500
-            accepted: "#10b981",
-            done: "#10b981",
-            complete: "#10b981",
-            promoted: "#10b981",
-            shaped: "#10b981",
-            draft: "#3b82f6",     // blue-500
-            todo: "#3b82f6",
-            captured: "#3b82f6",
-            proposed: "#3b82f6",
-            planning: "#3b82f6",
-            "in-progress": "#f59e0b",  // amber-500
-            exploring: "#f59e0b",
-            ready: "#f59e0b",
-            review: "#f59e0b",
-            recurring: "#f59e0b",
-        };
-        // Muted statuses fall through to the type-based color below.
-
+        // Nodes are colored by artifact type only — status is communicated via icons, not color.
         const elements: cytoscape.ElementDefinition[] = [];
         const edgeKeys = new Set<string>();
 
         for (const node of this.graph.values()) {
-            const statusHex = node.status ? STATUS_HEX[node.status.toLowerCase()] : undefined;
-            const color = statusHex ?? ARTIFACT_TYPE_COLORS[node.artifact_type] ?? "#6b7280";
+            const color = ARTIFACT_TYPE_COLORS[node.artifact_type] ?? "#6b7280";
 
             elements.push({
                 group: "nodes",

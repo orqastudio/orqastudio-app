@@ -67,7 +67,7 @@
 						width: 80,
 						height: 22,
 						"text-max-width": "70px",
-						"text-overflow-wrap": "ellipsis",
+						"text-wrap": "ellipsis" as unknown as undefined,
 						"text-margin-y": 0,
 					},
 				},

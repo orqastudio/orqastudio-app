@@ -1,87 +1,101 @@
 <script lang="ts" module>
-	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
-	import ClockIcon from "@lucide/svelte/icons/clock";
-	import FileEditIcon from "@lucide/svelte/icons/file-edit";
-	import ArchiveIcon from "@lucide/svelte/icons/archive";
+	import CircleIcon from "@lucide/svelte/icons/circle";
+	import CompassIcon from "@lucide/svelte/icons/compass";
+	import CircleDotIcon from "@lucide/svelte/icons/circle-dot";
+	import CircleArrowRightIcon from "@lucide/svelte/icons/circle-arrow-right";
+	import CircleUserRoundIcon from "@lucide/svelte/icons/circle-user-round";
+	import CircleCheckBigIcon from "@lucide/svelte/icons/circle-check-big";
+	import CircleMinusIcon from "@lucide/svelte/icons/circle-minus";
+	import CircleFadingArrowUpIcon from "@lucide/svelte/icons/circle-fading-arrow-up";
+	import CircleStarIcon from "@lucide/svelte/icons/circle-star";
 	import type { Component } from "svelte";
-	import type { BadgeVariant } from "$lib/components/ui/badge";
 
-	type StatusGroup = "green" | "blue" | "amber" | "muted";
+	type StatusGroup =
+		| "unshaped"
+		| "exploring"
+		| "prioritised"
+		| "waiting"
+		| "active"
+		| "human-gate"
+		| "complete"
+		| "closed"
+		| "recurring";
 
 	const STATUS_GROUP_MAP: Record<string, StatusGroup> = {
-		// Green — positive/complete/accepted states
-		active: "green",
-		accepted: "green",
-		done: "green",
-		complete: "green",
-		promoted: "green",
-		shaped: "green",
-		// Blue — draft/initial states
-		draft: "blue",
-		todo: "blue",
-		captured: "blue",
-		proposed: "blue",
-		planning: "blue",
-		// Amber — in-flight/transitional states
-		"in-progress": "amber",
-		exploring: "amber",
-		ready: "amber",
-		review: "amber",
-		recurring: "amber",
-		// Muted — inactive/historical states
-		inactive: "muted",
-		archived: "muted",
-		surpassed: "muted",
-		superseded: "muted",
-		deprecated: "muted",
+		// Unshaped — draft/initial states
+		draft: "unshaped",
+		captured: "unshaped",
+		proposed: "unshaped",
+		planning: "unshaped",
+		// Exploring — investigation
+		exploring: "exploring",
+		// Prioritised — human-marked as important
+		prioritised: "prioritised",
+		// Waiting — staged/ready states
+		todo: "waiting",
+		ready: "waiting",
+		shaped: "waiting",
+		// Active — in-flight
+		"in-progress": "active",
+		// Human gate — needs human attention
+		review: "human-gate",
+		"action-needed": "human-gate",
+		// Complete — positive/done states
+		done: "complete",
+		complete: "complete",
+		accepted: "complete",
+		promoted: "complete",
+		active: "complete",
+		// Closed — inactive/historical states
+		inactive: "closed",
+		archived: "closed",
+		surpassed: "closed",
+		superseded: "closed",
+		deprecated: "closed",
+		// Recurring
+		recurring: "recurring",
 	};
 
 	const GROUP_ICONS: Record<StatusGroup, Component> = {
-		green: CheckCircleIcon,
-		blue: FileEditIcon,
-		amber: ClockIcon,
-		muted: ArchiveIcon,
+		unshaped: CircleIcon,
+		exploring: CompassIcon,
+		prioritised: CircleStarIcon,
+		waiting: CircleDotIcon,
+		active: CircleArrowRightIcon,
+		"human-gate": CircleUserRoundIcon,
+		complete: CircleCheckBigIcon,
+		closed: CircleMinusIcon,
+		recurring: CircleFadingArrowUpIcon,
 	};
 
-	/** Dot colour classes per status group (Tailwind bg-* utility). */
-	const GROUP_DOT_CLASSES: Record<StatusGroup, string> = {
-		green: "bg-emerald-500",
-		blue: "bg-blue-500",
-		amber: "bg-amber-500",
-		muted: "bg-muted-foreground/40",
-	};
-
-	/** Badge variant per status group. */
-	const GROUP_BADGE_VARIANTS: Record<StatusGroup, BadgeVariant> = {
-		green: "outline",
-		blue: "secondary",
-		amber: "warning",
-		muted: "secondary",
-	};
-
-	/** Extra Tailwind classes applied to badges that need custom colouring. */
-	const GROUP_BADGE_EXTRA: Partial<Record<StatusGroup, string>> = {
-		green: "border-emerald-500/30 text-emerald-700 dark:text-emerald-400",
-		muted: "text-muted-foreground opacity-70",
+	const GROUP_LABELS: Record<StatusGroup, string> = {
+		unshaped: "Unshaped",
+		exploring: "Exploring",
+		prioritised: "Prioritised",
+		waiting: "Queued",
+		active: "Active",
+		"human-gate": "Needs review",
+		complete: "Complete",
+		closed: "Closed",
+		recurring: "Recurring",
 	};
 
 	function resolveGroup(status: string): StatusGroup {
-		return STATUS_GROUP_MAP[status.toLowerCase()] ?? "blue";
+		return STATUS_GROUP_MAP[status.toLowerCase()] ?? "unshaped";
 	}
 
-	/** Returns the Badge variant for the given status string. */
-	export function statusVariant(status: string): BadgeVariant {
-		return GROUP_BADGE_VARIANTS[resolveGroup(status)];
+	/** Returns the Lucide icon component for the given status string. */
+	export function statusIcon(status: string): Component {
+		return GROUP_ICONS[resolveGroup(status)];
 	}
 
-	/** Returns Tailwind dot colour classes for the given status string. */
-	export function statusColor(status: string): string {
-		return GROUP_DOT_CLASSES[resolveGroup(status)];
+	/** Returns the group label (e.g. "Active", "Complete") for the given status string. */
+	export function statusLabel(status: string): string {
+		return GROUP_LABELS[resolveGroup(status)];
 	}
 </script>
 
 <script lang="ts">
-	import { Badge } from "$lib/components/ui/badge";
 	import { cn } from "$lib/utils";
 
 	let {
@@ -92,25 +106,18 @@
 		mode?: "badge" | "dot" | "inline";
 	} = $props();
 
-	const group = $derived(resolveGroup(status));
-	const Icon = $derived(GROUP_ICONS[group]);
-	const dotClass = $derived(GROUP_DOT_CLASSES[group]);
-	const badgeVariant = $derived(GROUP_BADGE_VARIANTS[group]);
-	const badgeExtra = $derived(GROUP_BADGE_EXTRA[group] ?? "");
+	const Icon = $derived(statusIcon(status));
 </script>
 
 {#if mode === "dot"}
-	<span
-		class={cn("inline-block h-2 w-2 shrink-0 rounded-full", dotClass)}
-		title={status}
-	></span>
+	<Icon class={cn("inline-block h-3.5 w-3.5 shrink-0 text-muted-foreground")} />
 {:else if mode === "inline"}
-	<span class="inline-flex items-center gap-1 text-xs">
+	<span class="inline-flex items-center gap-1 text-xs text-muted-foreground">
 		<Icon class="h-3.5 w-3.5 shrink-0" />
 		<span class="capitalize">{status}</span>
 	</span>
 {:else}
-	<Badge variant={badgeVariant} class="{badgeExtra} capitalize">
+	<span class="inline-flex items-center gap-1.5 rounded border border-border bg-muted/30 px-1.5 py-0.5 text-xs capitalize text-muted-foreground">
 		<Icon class="h-3 w-3 shrink-0" />{status}
-	</Badge>
+	</span>
 {/if}

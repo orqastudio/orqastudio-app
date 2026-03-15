@@ -4,7 +4,7 @@
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
 	import { projectStore } from "$lib/stores/project.svelte";
 	import { DEFAULT_ARTIFACT_LINK_COLORS } from "$lib/types";
 
@@ -67,9 +67,9 @@
 		resolved.node !== null && chipLabel !== resolved.targetId,
 	);
 
-	/** Status dot colour class for the resolved node, or null if no status. */
-	const dotClass = $derived(
-		resolved.node?.status ? statusColor(resolved.node.status) : null,
+	/** Status icon component for the resolved node, or null if no status. */
+	const StatusIcon = $derived(
+		resolved.node?.status ? statusIcon(resolved.node.status) : null,
 	);
 
 	/** First line of the description for use in the popover. */
@@ -99,8 +99,8 @@
 						: "background-color: rgb(6 182 212 / 0.1); border-color: rgb(6 182 212 / 0.3); color: rgb(34 211 238);"}
 					onclick={handleClick}
 				>
-					{#if dotClass}
-						<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
+					{#if StatusIcon}
+						<StatusIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
 					{/if}
 					{#if showingTitle}
 						<span class="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">{chipLabel}</span>
@@ -116,8 +116,8 @@
 				{@const node = resolved.node}
 				<div class="space-y-1 text-xs">
 					<div class="flex items-center gap-1.5">
-						{#if dotClass}
-							<span class="inline-block h-1.5 w-1.5 shrink-0 rounded-full {dotClass}"></span>
+						{#if StatusIcon}
+							<StatusIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
 						{/if}
 						<span class="font-mono font-semibold">{node.id}</span>
 						{#if node.status}

@@ -6,7 +6,7 @@
 	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
 	import type { ArtifactNode } from "$lib/types/artifact-graph";
 
 	let query = $state("");
@@ -140,11 +140,10 @@
 										selectedIndex = i;
 									}}
 								>
-									<!-- Status dot -->
+									<!-- Status icon -->
 									{#if node.status}
-										<span
-											class="inline-block h-2 w-2 shrink-0 rounded-full {statusColor(node.status)}"
-										></span>
+										{@const StatusIcon = statusIcon(node.status)}
+										<StatusIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 									{:else}
 										<FileTextIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 									{/if}

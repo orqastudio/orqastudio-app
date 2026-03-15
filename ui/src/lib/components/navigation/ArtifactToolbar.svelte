@@ -5,7 +5,7 @@
 	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
 	import FilterIcon from "@lucide/svelte/icons/filter";
 	import CheckIcon from "@lucide/svelte/icons/check";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
 	import { countFieldValues } from "$lib/utils/artifact-view";
 	import type {
 		FilterableField,
@@ -237,11 +237,10 @@
 													<CheckIcon class="h-2.5 w-2.5 text-primary-foreground" />
 												{/if}
 											</span>
-											<!-- Status dot if this is a status field -->
+											<!-- Status icon if this is a status field -->
 											{#if field.name === "status"}
-												<span
-													class="h-2 w-2 shrink-0 rounded-full {statusColor(value)}"
-												></span>
+												{@const StatusIcon = statusIcon(value)}
+												<StatusIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 											{/if}
 											<span class="flex-1 capitalize">{humanizeValue(value)}</span>
 											{#if count > 0}

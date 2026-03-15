@@ -3,9 +3,8 @@
 	import cytoscape from "cytoscape";
 	// @ts-expect-error — no type declarations for cytoscape-cose-bilkent
 	import coseBilkent from "cytoscape-cose-bilkent";
-	import { artifactGraphSDK, ARTIFACT_TYPE_COLORS, hexFromStatusDotClass } from "$lib/sdk/artifact-graph.svelte";
+	import { artifactGraphSDK, ARTIFACT_TYPE_COLORS } from "$lib/sdk/artifact-graph.svelte";
 	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { statusColor } from "$lib/components/shared/StatusIndicator.svelte";
 	import type { ArtifactRef } from "$lib/types/artifact-graph";
 
 	// Register layout extension once (safe to call multiple times — cytoscape deduplicates)
@@ -27,11 +26,10 @@
 	/** The cytoscape instance, cleaned up on destroy. */
 	let cy: cytoscape.Core | null = null;
 
-	/** Resolve a node color from its status or artifact type. */
+	/** Resolve a node color from its artifact type. */
 	function resolveNodeColor(id: string): string {
 		const node = artifactGraphSDK.resolve(id);
 		if (!node) return "#6b7280";
-		if (node.status) return hexFromStatusDotClass(statusColor(node.status));
 		return ARTIFACT_TYPE_COLORS[node.artifact_type] ?? "#6b7280";
 	}
 
