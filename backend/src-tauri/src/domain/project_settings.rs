@@ -73,7 +73,9 @@ pub enum ArtifactEntry {
 pub struct DeliveryParentConfig {
     #[serde(rename = "type")]
     pub parent_type: String,
-    pub field: String,
+    /// The relationship type that connects child to parent (e.g. "delivers", "belongs-to").
+    /// The system reads the relationship graph, not standalone frontmatter fields.
+    pub relationship: String,
 }
 
 /// A single delivery type defined in `project.json`.

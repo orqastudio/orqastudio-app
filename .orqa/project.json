@@ -187,13 +187,13 @@
         "key": "epic",
         "label": "Epic",
         "path": ".orqa/delivery/epics",
-        "parent": { "type": "milestone", "field": "milestone" }
+        "parent": { "type": "milestone", "relationship": "belongs-to" }
       },
       {
         "key": "task",
         "label": "Task",
         "path": ".orqa/delivery/tasks",
-        "parent": { "type": "epic", "field": "epic" }
+        "parent": { "type": "epic", "relationship": "delivers" }
       }
     ]
   },

@@ -37,7 +37,8 @@ export interface ScanResult {
 /** The parent relationship config for a delivery type. */
 export interface DeliveryParentConfig {
 	type: string;
-	field: string;
+	/** The relationship type that connects child to parent (e.g. "delivers", "belongs-to"). */
+	relationship: string;
 }
 
 /** A single delivery type defined in project.json (e.g. milestone, epic, task). */
