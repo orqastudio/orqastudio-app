@@ -130,15 +130,22 @@ This is not behavioral guidance for AI. This is the app refusing to accept inval
 
 AI rules/skills become documentation: they teach agents HOW to work with the system, not how to ENFORCE it. The app enforces. The agent operates within the enforced boundaries.
 
-## Documentation and Skills Are One Thing
+## Documentation and Skills Are Separate But Synchronised
 
-A skill is "knowledge an agent needs." Documentation is "knowledge a human needs." The underlying knowledge is the same — two audiences, one source of truth.
+Documentation and skills are different artifacts written for different audiences:
 
-Rather than maintaining separate documentation pages and skill files that describe the same concepts, documentation IS the skill. The app injects relevant documentation into agent context based on what the agent is working on. No separate skill files — agents read the same knowledge humans read.
+| | Documentation | Skill |
+|---|---|---|
+| **Audience** | Humans | Agents |
+| **Tone** | Narrative, explanatory | Concise, actionable |
+| **Structure** | Chapters, sections, examples | Rules, patterns, do/don't |
+| **Format** | Long-form readable | Context-window efficient |
 
-A "skill" becomes a pointer: "when working in this area, load these documentation pages into context." The knowledge lives in one place. The rendering adapts to the audience (browsable page for humans, injected context for agents).
+They cover the same knowledge but are authored differently. You can't make one markdown file serve both audiences well.
 
-This eliminates the drift between documentation and skills that we've been fighting — they're the same artifact.
+**Synchronisation through relationships:** A skill and its corresponding documentation page are connected via a relationship (e.g., `synchronised-with`). The integrity checker flags when one is modified without the other — preventing the drift we've been fighting.
+
+The graph ensures they stay aligned. When documentation changes, the connected skill is flagged for review. When a skill is updated, its documentation is flagged too.
 
 ## Key Design Principles
 
