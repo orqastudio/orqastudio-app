@@ -9,6 +9,7 @@
 	import ScanIcon from "@lucide/svelte/icons/scan";
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
 	import EyeIcon from "@lucide/svelte/icons/eye";
+	import * as Popover from "$lib/components/ui/popover";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
 	import type { IntegrityCheck } from "$lib/types/artifact-graph";
@@ -55,16 +56,22 @@
 	const errorCount = $derived(checks.filter((c) => c.severity === "Error").length);
 	const warningCount = $derived(checks.filter((c) => c.severity === "Warning").length);
 	const fixableCount = $derived(checks.filter((c) => c.auto_fixable).length);
+
+	// Orphan severity: green <5%, amber 5-15%, red >15%
+	const orphanSeverity = $derived.by(() => {
+		if (health.orphanPercentage > 15) return "text-destructive";
+		if (health.orphanPercentage > 5) return "text-warning";
+		return "text-emerald-500";
+	});
 </script>
 
-<Card.Root class="gap-2">
+<Card.Root class="gap-2 flex flex-col h-full">
 	<Card.Header class="pb-2">
 		<Card.Title class="flex items-center gap-1.5 text-sm font-semibold">
 			<EyeIcon class="h-4 w-4 text-muted-foreground" />
 			Clarity
 		</Card.Title>
 		<Card.Description class="text-xs">Where You Are</Card.Description>
-		<!-- Status dot + score go in Card.Action (right side of header) -->
 		<Card.Action>
 			{#if loading}
 				<LoadingSpinner size="sm" />
@@ -79,72 +86,86 @@
 			{/if}
 		</Card.Action>
 	</Card.Header>
-	<Card.Content class="flex flex-col gap-4 pt-0">
-		<!-- Status description (fragmented states only — no text for green/empty) -->
-		{#if status === "amber"}
-			<p class="text-xs text-muted-foreground">Fragmented — some clusters</p>
-		{:else if status === "red"}
-			<p class="text-xs text-muted-foreground">Highly fragmented</p>
-		{/if}
-
-		<!-- Graph-theoretic metrics (always visible once graph has nodes) -->
+	<Card.Content class="flex flex-1 flex-col gap-3 pt-0">
 		{#if health.totalNodes > 0}
-			<div class="grid grid-cols-4 gap-2 text-center text-xs">
-				<div class="flex flex-col items-center gap-1 rounded-md bg-muted/50 py-2">
-					<NetworkIcon class="h-3.5 w-3.5 {health.componentCount > 1 ? 'text-warning' : 'text-muted-foreground'}" />
-					<span class="{health.componentCount > 1 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
-						{health.componentCount}
-					</span>
-					<span class="text-muted-foreground">Cluster{health.componentCount !== 1 ? "s" : ""}</span>
-				</div>
-				<div class="flex flex-col items-center gap-1 rounded-md bg-muted/50 py-2">
-					<UnlinkIcon class="h-3.5 w-3.5 {health.orphanCount > 0 ? 'text-warning' : 'text-muted-foreground'}" />
-					<span class="{health.orphanCount > 0 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
-						{health.orphanCount}
-					</span>
-					<span class="text-muted-foreground">Orphan{health.orphanCount !== 1 ? "s" : ""}</span>
-				</div>
-				<div class="flex flex-col items-center gap-1 rounded-md bg-muted/50 py-2">
-					<UnlinkIcon class="h-3.5 w-3.5 text-muted-foreground" />
-					<span class="tabular-nums text-muted-foreground">{health.orphanPercentage}%</span>
-					<span class="text-muted-foreground">Orphan %</span>
-				</div>
-				<div class="flex flex-col items-center gap-1 rounded-md bg-muted/50 py-2">
-					<GitBranchIcon class="h-3.5 w-3.5 text-muted-foreground" />
-					<span class="tabular-nums text-muted-foreground">{health.avgDegree}</span>
-					<span class="text-muted-foreground">Avg degree</span>
-				</div>
+			<div class="grid grid-cols-2 gap-2 flex-1 text-center text-xs">
+				<!-- Clusters -->
+				<Popover.Root>
+					<Popover.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 cursor-help transition-colors hover:bg-muted/80">
+						<NetworkIcon class="h-3.5 w-3.5 {health.componentCount > 1 ? 'text-warning' : 'text-muted-foreground'}" />
+						<span class="{health.componentCount > 1 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
+							{health.componentCount}
+						</span>
+						<span class="text-muted-foreground">Cluster{health.componentCount !== 1 ? "s" : ""}</span>
+					</Popover.Trigger>
+					<Popover.Content side="bottom" class="w-64 text-xs">
+						<p class="font-medium mb-1">Connected Components</p>
+						<p class="text-muted-foreground">The number of disconnected subgraphs. A healthy graph has 1 cluster — all artifacts are reachable from each other. Multiple clusters indicate orphaned groups of artifacts that aren't connected to the main knowledge graph.</p>
+					</Popover.Content>
+				</Popover.Root>
+
+				<!-- Orphans -->
+				<Popover.Root>
+					<Popover.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 cursor-help transition-colors hover:bg-muted/80">
+						<UnlinkIcon class="h-3.5 w-3.5 {orphanSeverity}" />
+						<span class="{orphanSeverity} font-semibold tabular-nums">
+							{health.orphanCount} <span class="font-normal">({health.orphanPercentage}%)</span>
+						</span>
+						<span class="text-muted-foreground">Orphans</span>
+					</Popover.Trigger>
+					<Popover.Content side="bottom" class="w-64 text-xs">
+						<p class="font-medium mb-1">Orphaned Artifacts</p>
+						<p class="text-muted-foreground">Artifacts with no incoming references — nothing points to them. They exist in isolation and won't be discovered through graph traversal. Each orphan should either be connected via relationships or removed if no longer relevant.</p>
+					</Popover.Content>
+				</Popover.Root>
+
+				<!-- Avg Degree -->
+				<Popover.Root>
+					<Popover.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 cursor-help transition-colors hover:bg-muted/80">
+						<GitBranchIcon class="h-3.5 w-3.5 text-foreground" />
+						<span class="text-foreground font-semibold tabular-nums">{health.avgDegree}</span>
+						<span class="text-muted-foreground">Avg Degree</span>
+					</Popover.Trigger>
+					<Popover.Content side="bottom" class="w-64 text-xs">
+						<p class="font-medium mb-1">Average Connection Degree</p>
+						<p class="text-muted-foreground">The average number of relationships per artifact. Higher means a more interconnected knowledge graph. A well-connected graph has an average degree of 4+ — each artifact relates to multiple others.</p>
+					</Popover.Content>
+				</Popover.Root>
+
+				<!-- Scan Results -->
+				{#if scanned}
+					<Popover.Root>
+						<Popover.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 cursor-help transition-colors hover:bg-muted/80">
+							{#if errorCount > 0}
+								<CircleAlertIcon class="h-3.5 w-3.5 text-destructive" />
+								<span class="text-destructive font-semibold tabular-nums">{errorCount}E / {warningCount}W</span>
+							{:else if warningCount > 0}
+								<TriangleAlertIcon class="h-3.5 w-3.5 text-warning" />
+								<span class="text-warning font-semibold tabular-nums">{warningCount}W</span>
+							{:else}
+								<CircleAlertIcon class="h-3.5 w-3.5 text-emerald-500" />
+								<span class="text-emerald-500 font-semibold">Clean</span>
+							{/if}
+							<span class="text-muted-foreground">Integrity</span>
+						</Popover.Trigger>
+						<Popover.Content side="bottom" class="w-64 text-xs">
+							<p class="font-medium mb-1">Integrity Scan Results</p>
+							<p class="text-muted-foreground">File-level checks: broken references, invalid statuses, missing required fields, schema violations. Errors must be fixed. Warnings indicate potential issues. Use Auto-fix for machine-fixable problems.</p>
+						</Popover.Content>
+					</Popover.Root>
+				{:else}
+					<div class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 text-muted-foreground">
+						<ScanIcon class="h-3.5 w-3.5" />
+						<span class="tabular-nums">—</span>
+						<span>Integrity</span>
+					</div>
+				{/if}
 			</div>
 		{/if}
 
-		<!-- Integrity scan results (shown only after a scan) -->
-		{#if scanned}
-			<div class="grid grid-cols-2 gap-2 text-center text-xs">
-				<div class="flex flex-col items-center gap-1 rounded-md bg-muted/50 py-2">
-					<CircleAlertIcon class="h-3.5 w-3.5 {errorCount > 0 ? 'text-destructive' : 'text-muted-foreground'}" />
-					<span class="{errorCount > 0 ? 'text-destructive font-semibold' : 'text-muted-foreground'} tabular-nums">
-						{errorCount}
-					</span>
-					<span class="text-muted-foreground">Error{errorCount !== 1 ? "s" : ""}</span>
-				</div>
-				<div class="flex flex-col items-center gap-1 rounded-md bg-muted/50 py-2">
-					<TriangleAlertIcon class="h-3.5 w-3.5 {warningCount > 0 ? 'text-warning' : 'text-muted-foreground'}" />
-					<span class="{warningCount > 0 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
-						{warningCount}
-					</span>
-					<span class="text-muted-foreground">Warning{warningCount !== 1 ? "s" : ""}</span>
-				</div>
-			</div>
-		{/if}
-
-		<!-- Actions — equal-width buttons in a 2-column grid -->
-		<div class="grid grid-cols-2 gap-2">
-			<Button
-				variant="outline"
-				size="sm"
-				onclick={onScan}
-				disabled={loading || fixing}
-			>
+		<!-- Actions -->
+		<div class="grid grid-cols-2 gap-2 mt-auto">
+			<Button variant="outline" size="sm" onclick={onScan} disabled={loading || fixing}>
 				{#if loading}
 					<span class="mr-2"><LoadingSpinner size="sm" /></span>
 				{:else}
@@ -152,12 +173,7 @@
 				{/if}
 				Scan
 			</Button>
-			<Button
-				variant="outline"
-				size="sm"
-				onclick={onAutoFix}
-				disabled={loading || fixing || !scanned || fixableCount === 0 || !onAutoFix}
-			>
+			<Button variant="outline" size="sm" onclick={onAutoFix} disabled={loading || fixing || !scanned || fixableCount === 0 || !onAutoFix}>
 				{#if fixing}
 					<span class="mr-2"><LoadingSpinner size="sm" /></span>
 				{:else}
