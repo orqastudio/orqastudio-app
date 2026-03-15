@@ -162,17 +162,43 @@
 	 * - No trend / flat → cyan (neutral)
 	 */
 	function strokeColor(m: MetricConfig): string {
-		if (chronological.length < 2) return "#06b6d4";
-		const first = m.getValue(chronological[0]);
-		const last = m.getValue(chronological[chronological.length - 1]);
+		const values = sparklineValues(m);
+		if (values.length < 2) return "#06b6d4";
+		const first = values[0];
+		const last = values[values.length - 1];
 		const diff = last - first;
 		if (diff === 0) return "#06b6d4";
 		const improving = m.lowerIsBetter ? diff < 0 : diff > 0;
 		return improving ? "#22c55e" : "#ef4444";
 	}
 
+	/** Generate last 7 days as ISO date strings. */
+	const last7Days = $derived.by((): string[] => {
+		const days: string[] = [];
+		const now = new Date();
+		for (let i = 6; i >= 0; i--) {
+			const d = new Date(now);
+			d.setDate(d.getDate() - i);
+			days.push(d.toISOString().slice(0, 10));
+		}
+		return days;
+	});
+
+	/** Filter snapshots to last 7 days only. */
+	const recentSnapshots = $derived(
+		chronological.filter((s) => {
+			const date = s.created_at.slice(0, 10);
+			return date >= last7Days[0];
+		})
+	);
+
 	function sparklineValues(m: MetricConfig): number[] {
-		return chronological.map((s) => m.getValue(s));
+		if (m.label === "Governance") {
+			// Use daily time points, not snapshots
+			return last7Days.map((date) => governanceAtDate(date));
+		}
+		// For snapshot-based metrics, use recent snapshots only
+		return recentSnapshots.map((s) => m.getValue(s));
 	}
 
 
