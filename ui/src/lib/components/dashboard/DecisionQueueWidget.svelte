@@ -268,7 +268,7 @@
 </script>
 
 {#if hasData}
-	<Card.Root class="gap-2 flex flex-col h-full">
+	<Card.Root class="gap-2">
 		<Card.Header class="pb-1">
 			<Card.Title class="flex items-center gap-1.5 text-sm font-semibold">
 				<CompassIcon class="h-4 w-4 text-muted-foreground" />
@@ -297,8 +297,8 @@
 				</div>
 			</Card.Action>
 		</Card.Header>
-		<Card.Content class="pt-0 flex-1 min-h-0 overflow-hidden">
-			<ScrollArea.Root class="h-full">
+		<Card.Content class="pt-0 overflow-hidden">
+			<ScrollArea.Root class="max-h-[280px]">
 			{#if activeTab === "actions"}
 				<!-- ---------------------------------------------------------- -->
 				<!-- Actions tab: all artifacts needing attention               -->

@@ -75,7 +75,7 @@
 	This keeps all stage pills the same size regardless of label length, and lets
 	the arrows stretch proportionally between them.
 -->
-<div class="flex items-stretch">
+<div class="flex items-stretch gap-1.5">
 	{#each stages as stage, i (stage.key)}
 		<!-- ------------------------------------------------------------------ -->
 		<!-- Stage pill — fixed width, wrapped in Tooltip when tooltipTitle set  -->
