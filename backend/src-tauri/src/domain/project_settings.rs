@@ -2,6 +2,16 @@ use serde::{Deserialize, Serialize};
 
 use crate::domain::project::DetectedStack;
 
+/// An automatic transition rule on a status definition.
+///
+/// `condition` is a named condition evaluated by the transition engine.
+/// `target` is the status key to transition to when the condition is met.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct StatusAutoRule {
+    pub condition: String,
+    pub target: String,
+}
+
 /// A status definition loaded from `project.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct StatusDefinition {
@@ -10,6 +20,12 @@ pub struct StatusDefinition {
     pub icon: String,
     #[serde(default)]
     pub spin: bool,
+    /// Ordered list of status keys that can be manually transitioned to from this status.
+    #[serde(default)]
+    pub transitions: Vec<String>,
+    /// Automatic transition rules evaluated by the transition engine.
+    #[serde(default)]
+    pub auto_rules: Vec<StatusAutoRule>,
 }
 
 /// A single artifact type with a filesystem path to scan.

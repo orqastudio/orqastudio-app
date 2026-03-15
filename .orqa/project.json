@@ -175,17 +175,62 @@
     }
   ],
   "statuses": [
-    { "key": "captured", "label": "Captured", "icon": "circle" },
-    { "key": "exploring", "label": "Exploring", "icon": "compass" },
-    { "key": "ready", "label": "Ready", "icon": "circle-dot" },
-    { "key": "prioritised", "label": "Prioritised", "icon": "circle-star" },
-    { "key": "active", "label": "Active", "icon": "circle-dot-dashed", "spin": true },
-    { "key": "hold", "label": "On Hold", "icon": "circle-pause" },
-    { "key": "blocked", "label": "Blocked", "icon": "circle-stop" },
-    { "key": "review", "label": "Review", "icon": "circle-user-round" },
-    { "key": "completed", "label": "Completed", "icon": "circle-check-big" },
-    { "key": "surpassed", "label": "Surpassed", "icon": "circle-minus" },
-    { "key": "recurring", "label": "Recurring", "icon": "circle-fading-arrow-up" }
+    {
+      "key": "captured", "label": "Captured", "icon": "circle",
+      "transitions": ["exploring", "ready", "prioritised"]
+    },
+    {
+      "key": "exploring", "label": "Exploring", "icon": "compass",
+      "transitions": ["ready", "prioritised", "hold"]
+    },
+    {
+      "key": "ready", "label": "Ready", "icon": "circle-dot",
+      "transitions": ["prioritised", "active"],
+      "auto_rules": [
+        { "condition": "dependency-blocked", "target": "blocked" }
+      ]
+    },
+    {
+      "key": "prioritised", "label": "Prioritised", "icon": "circle-star",
+      "transitions": ["active", "ready"]
+    },
+    {
+      "key": "active", "label": "Active", "icon": "circle-dot-dashed", "spin": true,
+      "transitions": ["hold", "blocked", "review"],
+      "auto_rules": [
+        { "condition": "all-children-completed", "target": "review" }
+      ]
+    },
+    {
+      "key": "hold", "label": "On Hold", "icon": "circle-pause",
+      "transitions": ["active", "ready"]
+    },
+    {
+      "key": "blocked", "label": "Blocked", "icon": "circle-stop",
+      "transitions": ["active", "ready"],
+      "auto_rules": [
+        { "condition": "dependencies-met", "target": "ready" }
+      ]
+    },
+    {
+      "key": "review", "label": "Review", "icon": "circle-user-round",
+      "transitions": ["completed", "active"]
+    },
+    {
+      "key": "completed", "label": "Completed", "icon": "circle-check-big",
+      "transitions": ["surpassed"]
+    },
+    {
+      "key": "surpassed", "label": "Surpassed", "icon": "circle-minus",
+      "transitions": []
+    },
+    {
+      "key": "recurring", "label": "Recurring", "icon": "circle-fading-arrow-up",
+      "transitions": ["review", "completed"],
+      "auto_rules": [
+        { "condition": "recurrence-threshold", "target": "review" }
+      ]
+    }
   ],
   "artifactLinks": {
     "displayModes": {

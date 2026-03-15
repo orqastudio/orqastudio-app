@@ -10,6 +10,16 @@ use crate::error::OrqaError;
 use crate::repo::project_repo;
 use crate::state::AppState;
 
+/// Load `StatusDefinition` entries for a project path from `project.json`.
+fn load_status_definitions(
+    project_path: &str,
+) -> Vec<crate::domain::project_settings::StatusDefinition> {
+    crate::repo::project_settings_repo::read(project_path)
+        .unwrap_or(None)
+        .map(|s| s.statuses)
+        .unwrap_or_default()
+}
+
 // ---------------------------------------------------------------------------
 // Internal helpers
 // ---------------------------------------------------------------------------
@@ -69,8 +79,10 @@ fn get_or_build_graph(
 pub fn evaluate_status_transitions(
     state: State<'_, AppState>,
 ) -> Result<Vec<ProposedTransition>, OrqaError> {
+    let project_path = active_project_path(&state)?;
     let graph = get_or_build_graph(&state)?;
-    Ok(evaluate_transitions(&graph))
+    let statuses = load_status_definitions(&project_path);
+    Ok(evaluate_transitions(&graph, &statuses))
 }
 
 /// Apply a single proposed status transition by updating the `status` field

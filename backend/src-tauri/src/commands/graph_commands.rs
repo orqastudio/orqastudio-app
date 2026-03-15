@@ -8,6 +8,7 @@ use crate::domain::artifact_graph::{
     GraphStats, IntegrityCheck,
 };
 use crate::domain::health_snapshot::{HealthSnapshot, NewHealthSnapshot};
+use crate::domain::project_settings::StatusDefinition;
 use crate::domain::status_transitions::{evaluate_transitions, ProposedTransition};
 use crate::error::OrqaError;
 use crate::repo::{health_snapshot_repo, project_repo};
@@ -175,8 +176,9 @@ pub fn refresh_artifact_graph<R: Runtime>(
     let project_root = Path::new(&project_path);
 
     let graph = build_artifact_graph(project_root)?;
+    let statuses = load_status_definitions(&project_path);
     let (auto_apply, pending): (Vec<ProposedTransition>, Vec<ProposedTransition>) =
-        evaluate_transitions(&graph)
+        evaluate_transitions(&graph, &statuses)
             .into_iter()
             .partition(|p| p.auto_apply);
 
@@ -188,7 +190,7 @@ pub fn refresh_artifact_graph<R: Runtime>(
     // Rebuild after auto-applies so the cached graph reflects new statuses.
     let (final_graph, pending_for_event) = if any_applied {
         let updated = build_artifact_graph(project_root)?;
-        let updated_pending = evaluate_transitions(&updated)
+        let updated_pending = evaluate_transitions(&updated, &statuses)
             .into_iter()
             .filter(|p| !p.auto_apply)
             .collect();
@@ -215,14 +217,24 @@ pub fn refresh_artifact_graph<R: Runtime>(
     Ok(())
 }
 
+/// Load `StatusDefinition` entries for the active project from `project.json`.
+///
+/// Returns an empty `Vec` if settings are unavailable or have no statuses defined.
+fn load_status_definitions(project_path: &str) -> Vec<StatusDefinition> {
+    crate::repo::project_settings_repo::read(project_path)
+        .unwrap_or(None)
+        .map(|s| s.statuses)
+        .unwrap_or_default()
+}
+
 /// Load the valid status keys for the active project from `project.json`.
 ///
 /// Returns an empty `Vec` if settings are unavailable or have no statuses defined.
 fn load_valid_statuses(project_path: &str) -> Vec<String> {
-    crate::repo::project_settings_repo::read(project_path)
-        .unwrap_or(None)
-        .map(|s| s.statuses.into_iter().map(|sd| sd.key).collect())
-        .unwrap_or_default()
+    load_status_definitions(project_path)
+        .into_iter()
+        .map(|sd| sd.key)
+        .collect()
 }
 
 /// Run integrity checks on the artifact graph and return all findings.

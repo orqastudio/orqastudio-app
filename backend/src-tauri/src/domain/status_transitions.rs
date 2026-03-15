@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::domain::artifact_graph::ArtifactGraph;
+use crate::domain::project_settings::StatusDefinition;
 
 // ---------------------------------------------------------------------------
 // Domain types
@@ -36,286 +37,328 @@ pub struct ProposedTransition {
 
 /// Evaluate the artifact graph and return all transitions that should occur.
 ///
-/// The function is pure — it only reads `graph` and never modifies it.
-/// All five rules are evaluated in a single pass:
+/// The function is pure — it only reads `graph` and `statuses`, and never
+/// modifies either. Each `StatusDefinition` carries `auto_rules` that declare
+/// which named conditions apply to which status. The condition-evaluation
+/// logic lives here; the config drives which conditions are active.
 ///
-/// 1. All tasks completed → epic to `review`
-/// 2. All P1 epics completed → milestone to `review`
-/// 3. Dependency not met → task to `blocked`
-/// 4. All dependencies met → task from `blocked` to `ready`
-/// 5. Lesson recurrence ≥ 2 → lesson to `review`
-pub fn evaluate_transitions(graph: &ArtifactGraph) -> Vec<ProposedTransition> {
+/// When `statuses` is empty the function returns an empty list — without
+/// config there are no rules to evaluate.
+pub fn evaluate_transitions(
+    graph: &ArtifactGraph,
+    statuses: &[StatusDefinition],
+) -> Vec<ProposedTransition> {
+    if statuses.is_empty() {
+        return Vec::new();
+    }
+
     let mut proposals: Vec<ProposedTransition> = Vec::new();
 
-    propose_epic_to_review(graph, &mut proposals);
-    propose_milestone_to_review(graph, &mut proposals);
-    propose_task_blocked(graph, &mut proposals);
-    propose_task_unblocked(graph, &mut proposals);
-    propose_lesson_to_review(graph, &mut proposals);
+    for node in graph.nodes.values() {
+        let Some(current_status) = node.status.as_deref() else {
+            continue;
+        };
+
+        // Find the status definition for this node's current status.
+        let Some(status_def) = statuses.iter().find(|s| s.key == current_status) else {
+            continue;
+        };
+
+        for rule in &status_def.auto_rules {
+            if let Some(proposal) =
+                evaluate_condition(graph, node, current_status, &rule.condition, &rule.target)
+            {
+                proposals.push(proposal);
+            }
+        }
+    }
 
     proposals
 }
 
 // ---------------------------------------------------------------------------
-// Rule 1 — all tasks completed → epic to review
+// Condition evaluation
 // ---------------------------------------------------------------------------
 
-fn propose_epic_to_review(graph: &ArtifactGraph, proposals: &mut Vec<ProposedTransition>) {
-    for node in graph.nodes.values() {
-        if node.artifact_type != "epic" {
-            continue;
-        }
-        let Some(current_status) = node.status.as_deref() else {
-            continue;
-        };
-        if current_status != "active" && current_status != "in-progress" {
-            continue;
-        }
-
-        // Collect all tasks that reference this epic.
-        let related_tasks: Vec<&crate::domain::artifact_graph::ArtifactNode> = graph
-            .nodes
-            .values()
-            .filter(|n| {
-                if n.artifact_type != "task" {
-                    return false;
-                }
-                // Check `epic` frontmatter field reference.
-                let epic_field = n
-                    .frontmatter
-                    .get("epic")
-                    .and_then(|v| v.as_str())
-                    .unwrap_or("");
-                if epic_field == node.id {
-                    return true;
-                }
-                // Check `delivers` relationship edge.
-                n.references_out.iter().any(|r| {
-                    r.relationship_type.as_deref() == Some("delivers") && r.target_id == node.id
-                })
-            })
-            .collect();
-
-        if related_tasks.is_empty() {
-            continue;
-        }
-
-        let all_completed = related_tasks.iter().all(|t| {
-            t.status.as_deref() == Some("completed") || t.status.as_deref() == Some("done")
-        });
-
-        if all_completed {
-            proposals.push(ProposedTransition {
-                artifact_id: node.id.clone(),
-                artifact_path: node.path.clone(),
-                current_status: current_status.to_owned(),
-                proposed_status: "review".to_owned(),
-                reason: format!("All {} related task(s) are completed", related_tasks.len()),
-                auto_apply: false,
-            });
-        }
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Rule 2 — all P1 epics completed → milestone to review
-// ---------------------------------------------------------------------------
-
-/// Return `true` if `node` is a P1 epic that belongs to `milestone_id`.
-fn is_p1_epic_for_milestone(
+/// Evaluate a single named condition for a given artifact node.
+///
+/// Returns `Some(ProposedTransition)` when the condition is met, `None` otherwise.
+///
+/// ### Supported conditions
+///
+/// | Condition | Meaning | auto_apply |
+/// |-----------|---------|-----------|
+/// | `all-children-completed` | All child artifacts (tasks linked by `epic` field or `delivers` edge) are completed | `false` |
+/// | `all-p1-children-completed` | All P1 child epics (linked by `milestone` field) are completed | `false` |
+/// | `dependency-blocked` | At least one `depends-on` item is not completed | `true` |
+/// | `dependencies-met` | All `depends-on` items are completed; node must currently be `blocked` | `true` |
+/// | `recurrence-threshold` | `recurrence` frontmatter field is ≥ 2 | `false` |
+fn evaluate_condition(
+    graph: &ArtifactGraph,
     node: &crate::domain::artifact_graph::ArtifactNode,
-    milestone_id: &str,
-) -> bool {
-    if node.artifact_type != "epic" {
-        return false;
-    }
-    let milestone_ref = node
-        .frontmatter
-        .get("milestone")
-        .and_then(|v| v.as_str())
-        .unwrap_or("");
-    if milestone_ref != milestone_id {
-        return false;
-    }
-    node.frontmatter
-        .get("priority")
-        .and_then(|v| v.as_str())
-        .unwrap_or("")
-        == "P1"
-}
-
-fn propose_milestone_to_review(graph: &ArtifactGraph, proposals: &mut Vec<ProposedTransition>) {
-    for node in graph.nodes.values() {
-        if node.artifact_type != "milestone" {
-            continue;
+    current_status: &str,
+    condition: &str,
+    target: &str,
+) -> Option<ProposedTransition> {
+    match condition {
+        "all-children-completed" => {
+            check_all_children_completed(graph, node, current_status, target)
         }
-        let Some(current_status) = node.status.as_deref() else {
-            continue;
-        };
-        if current_status != "active" {
-            continue;
+        "all-p1-children-completed" => {
+            check_all_p1_children_completed(graph, node, current_status, target)
         }
-
-        let p1_epics: Vec<&crate::domain::artifact_graph::ArtifactNode> = graph
-            .nodes
-            .values()
-            .filter(|n| is_p1_epic_for_milestone(n, &node.id))
-            .collect();
-
-        if p1_epics.is_empty() {
-            continue;
-        }
-
-        let all_completed = p1_epics.iter().all(|e| {
-            e.status.as_deref() == Some("completed") || e.status.as_deref() == Some("done")
-        });
-
-        if all_completed {
-            proposals.push(ProposedTransition {
-                artifact_id: node.id.clone(),
-                artifact_path: node.path.clone(),
-                current_status: current_status.to_owned(),
-                proposed_status: "review".to_owned(),
-                reason: format!(
-                    "All {} P1 epic(s) for this milestone are completed",
-                    p1_epics.len()
-                ),
-                auto_apply: false,
-            });
+        "dependency-blocked" => check_dependency_blocked(graph, node, current_status, target),
+        "dependencies-met" => check_dependencies_met(graph, node, current_status, target),
+        "recurrence-threshold" => check_recurrence_threshold(node, current_status, target),
+        other => {
+            tracing::debug!(
+                "[transitions] unknown condition '{}' on node '{}' — skipping",
+                other,
+                node.id
+            );
+            None
         }
     }
 }
 
 // ---------------------------------------------------------------------------
-// Rule 3 — dependency not met → task to blocked
+// Condition: all-children-completed
 // ---------------------------------------------------------------------------
 
-fn propose_task_blocked(graph: &ArtifactGraph, proposals: &mut Vec<ProposedTransition>) {
-    for node in graph.nodes.values() {
-        if node.artifact_type != "task" {
-            continue;
-        }
-        let Some(current_status) = node.status.as_deref() else {
-            continue;
-        };
-        if current_status != "ready" && current_status != "todo" {
-            continue;
-        }
-
-        let depends_on = collect_depends_on(&node.frontmatter);
-        if depends_on.is_empty() {
-            continue;
-        }
-
-        let blocking: Vec<&str> = depends_on
-            .iter()
-            .filter(|dep_id| {
-                match graph.nodes.get(dep_id.as_str()) {
-                    Some(dep) => {
-                        dep.status.as_deref() != Some("completed")
-                            && dep.status.as_deref() != Some("done")
-                    }
-                    // Unknown dependency — treat as blocking to be safe.
-                    None => true,
-                }
+/// Proposes `target` when all child artifacts (tasks referencing this node via
+/// `epic` field or `delivers` edge) are completed.
+fn check_all_children_completed(
+    graph: &ArtifactGraph,
+    node: &crate::domain::artifact_graph::ArtifactNode,
+    current_status: &str,
+    target: &str,
+) -> Option<ProposedTransition> {
+    // Collect all tasks that reference this node as their epic.
+    let children: Vec<&crate::domain::artifact_graph::ArtifactNode> = graph
+        .nodes
+        .values()
+        .filter(|n| {
+            if n.artifact_type != "task" {
+                return false;
+            }
+            let epic_field = n
+                .frontmatter
+                .get("epic")
+                .and_then(|v| v.as_str())
+                .unwrap_or("");
+            if epic_field == node.id {
+                return true;
+            }
+            n.references_out.iter().any(|r| {
+                r.relationship_type.as_deref() == Some("delivers") && r.target_id == node.id
             })
-            .map(String::as_str)
-            .collect();
+        })
+        .collect();
 
-        if !blocking.is_empty() {
-            proposals.push(ProposedTransition {
-                artifact_id: node.id.clone(),
-                artifact_path: node.path.clone(),
-                current_status: current_status.to_owned(),
-                proposed_status: "blocked".to_owned(),
-                reason: format!("Dependency {} not completed", blocking.join(", ")),
-                auto_apply: true,
-            });
-        }
+    if children.is_empty() {
+        return None;
+    }
+
+    let all_completed = children
+        .iter()
+        .all(|t| t.status.as_deref() == Some("completed") || t.status.as_deref() == Some("done"));
+
+    if all_completed {
+        Some(ProposedTransition {
+            artifact_id: node.id.clone(),
+            artifact_path: node.path.clone(),
+            current_status: current_status.to_owned(),
+            proposed_status: target.to_owned(),
+            reason: format!("All {} related task(s) are completed", children.len()),
+            auto_apply: false,
+        })
+    } else {
+        None
     }
 }
 
 // ---------------------------------------------------------------------------
-// Rule 4 — all dependencies met → task from blocked to ready
+// Condition: all-p1-children-completed
 // ---------------------------------------------------------------------------
 
-fn propose_task_unblocked(graph: &ArtifactGraph, proposals: &mut Vec<ProposedTransition>) {
-    for node in graph.nodes.values() {
-        if node.artifact_type != "task" {
-            continue;
-        }
-        let Some(current_status) = node.status.as_deref() else {
-            continue;
-        };
-        if current_status != "blocked" {
-            continue;
-        }
+/// Proposes `target` when all P1 child epics (referencing this node via
+/// `milestone` field) are completed.
+fn check_all_p1_children_completed(
+    graph: &ArtifactGraph,
+    node: &crate::domain::artifact_graph::ArtifactNode,
+    current_status: &str,
+    target: &str,
+) -> Option<ProposedTransition> {
+    let p1_epics: Vec<&crate::domain::artifact_graph::ArtifactNode> = graph
+        .nodes
+        .values()
+        .filter(|n| {
+            if n.artifact_type != "epic" {
+                return false;
+            }
+            let milestone_ref = n
+                .frontmatter
+                .get("milestone")
+                .and_then(|v| v.as_str())
+                .unwrap_or("");
+            if milestone_ref != node.id {
+                return false;
+            }
+            n.frontmatter
+                .get("priority")
+                .and_then(|v| v.as_str())
+                .unwrap_or("")
+                == "P1"
+        })
+        .collect();
 
-        let depends_on = collect_depends_on(&node.frontmatter);
-        if depends_on.is_empty() {
-            // Blocked with no dependencies — don't auto-unblock; something
-            // else caused the block.
-            continue;
-        }
+    if p1_epics.is_empty() {
+        return None;
+    }
 
-        let all_complete = depends_on.iter().all(|dep_id| {
-            graph
-                .nodes
-                .get(dep_id.as_str())
-                .and_then(|n| n.status.as_deref())
-                .is_some_and(|s| s == "completed" || s == "done")
-        });
+    let all_completed = p1_epics
+        .iter()
+        .all(|e| e.status.as_deref() == Some("completed") || e.status.as_deref() == Some("done"));
 
-        if all_complete {
-            proposals.push(ProposedTransition {
-                artifact_id: node.id.clone(),
-                artifact_path: node.path.clone(),
-                current_status: current_status.to_owned(),
-                proposed_status: "ready".to_owned(),
-                reason: format!(
-                    "All {} dependency/dependencies are now completed",
-                    depends_on.len()
-                ),
-                auto_apply: true,
-            });
-        }
+    if all_completed {
+        Some(ProposedTransition {
+            artifact_id: node.id.clone(),
+            artifact_path: node.path.clone(),
+            current_status: current_status.to_owned(),
+            proposed_status: target.to_owned(),
+            reason: format!(
+                "All {} P1 epic(s) for this milestone are completed",
+                p1_epics.len()
+            ),
+            auto_apply: false,
+        })
+    } else {
+        None
     }
 }
 
 // ---------------------------------------------------------------------------
-// Rule 5 — lesson recurrence ≥ 2 → lesson to review
+// Condition: dependency-blocked
 // ---------------------------------------------------------------------------
 
-fn propose_lesson_to_review(graph: &ArtifactGraph, proposals: &mut Vec<ProposedTransition>) {
-    for node in graph.nodes.values() {
-        if node.artifact_type != "lesson" {
-            continue;
-        }
-        let Some(current_status) = node.status.as_deref() else {
-            continue;
-        };
-        if current_status != "active" && current_status != "recurring" {
-            continue;
-        }
+/// Proposes `target` when at least one `depends-on` item is not completed.
+/// Auto-apply is `true`.
+fn check_dependency_blocked(
+    graph: &ArtifactGraph,
+    node: &crate::domain::artifact_graph::ArtifactNode,
+    current_status: &str,
+    target: &str,
+) -> Option<ProposedTransition> {
+    let depends_on = collect_depends_on(&node.frontmatter);
+    if depends_on.is_empty() {
+        return None;
+    }
 
-        let recurrence = node
-            .frontmatter
-            .get("recurrence")
-            .and_then(serde_json::Value::as_u64)
-            .unwrap_or(0);
+    let blocking: Vec<&str> = depends_on
+        .iter()
+        .filter(|dep_id| match graph.nodes.get(dep_id.as_str()) {
+            Some(dep) => {
+                dep.status.as_deref() != Some("completed") && dep.status.as_deref() != Some("done")
+            }
+            // Unknown dependency — treat as blocking to be safe.
+            None => true,
+        })
+        .map(String::as_str)
+        .collect();
 
-        if recurrence >= 2 {
-            proposals.push(ProposedTransition {
-                artifact_id: node.id.clone(),
-                artifact_path: node.path.clone(),
-                current_status: current_status.to_owned(),
-                proposed_status: "review".to_owned(),
-                reason: format!(
-                    "Lesson recurrence is {recurrence} (threshold: 2) — ready for promotion"
-                ),
-                auto_apply: false,
-            });
-        }
+    if blocking.is_empty() {
+        return None;
+    }
+
+    Some(ProposedTransition {
+        artifact_id: node.id.clone(),
+        artifact_path: node.path.clone(),
+        current_status: current_status.to_owned(),
+        proposed_status: target.to_owned(),
+        reason: format!("Dependency {} not completed", blocking.join(", ")),
+        auto_apply: true,
+    })
+}
+
+// ---------------------------------------------------------------------------
+// Condition: dependencies-met
+// ---------------------------------------------------------------------------
+
+/// Proposes `target` when all `depends-on` items are completed.
+/// Only fires when the node is currently `blocked`.
+/// Auto-apply is `true`.
+fn check_dependencies_met(
+    graph: &ArtifactGraph,
+    node: &crate::domain::artifact_graph::ArtifactNode,
+    current_status: &str,
+    target: &str,
+) -> Option<ProposedTransition> {
+    // This condition only makes sense for blocked artifacts.
+    if current_status != "blocked" {
+        return None;
+    }
+
+    let depends_on = collect_depends_on(&node.frontmatter);
+    if depends_on.is_empty() {
+        // Blocked with no dependencies — don't auto-unblock; something
+        // else caused the block.
+        return None;
+    }
+
+    let all_complete = depends_on.iter().all(|dep_id| {
+        graph
+            .nodes
+            .get(dep_id.as_str())
+            .and_then(|n| n.status.as_deref())
+            .is_some_and(|s| s == "completed" || s == "done")
+    });
+
+    if all_complete {
+        Some(ProposedTransition {
+            artifact_id: node.id.clone(),
+            artifact_path: node.path.clone(),
+            current_status: current_status.to_owned(),
+            proposed_status: target.to_owned(),
+            reason: format!(
+                "All {} dependency/dependencies are now completed",
+                depends_on.len()
+            ),
+            auto_apply: true,
+        })
+    } else {
+        None
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Condition: recurrence-threshold
+// ---------------------------------------------------------------------------
+
+/// Proposes `target` when the artifact's `recurrence` frontmatter field is ≥ 2.
+fn check_recurrence_threshold(
+    node: &crate::domain::artifact_graph::ArtifactNode,
+    current_status: &str,
+    target: &str,
+) -> Option<ProposedTransition> {
+    let recurrence = node
+        .frontmatter
+        .get("recurrence")
+        .and_then(serde_json::Value::as_u64)
+        .unwrap_or(0);
+
+    if recurrence >= 2 {
+        Some(ProposedTransition {
+            artifact_id: node.id.clone(),
+            artifact_path: node.path.clone(),
+            current_status: current_status.to_owned(),
+            proposed_status: target.to_owned(),
+            reason: format!(
+                "Lesson recurrence is {recurrence} (threshold: 2) — ready for promotion"
+            ),
+            auto_apply: false,
+        })
+    } else {
+        None
     }
 }
 
@@ -348,6 +391,7 @@ mod tests {
 
     use super::*;
     use crate::domain::artifact_graph::{ArtifactNode, ArtifactRef};
+    use crate::domain::project_settings::{StatusAutoRule, StatusDefinition};
 
     // -----------------------------------------------------------------------
     // Helpers
@@ -384,6 +428,23 @@ mod tests {
         }
     }
 
+    fn status(key: &str, auto_rules: Vec<(&str, &str)>) -> StatusDefinition {
+        StatusDefinition {
+            key: key.to_owned(),
+            label: key.to_owned(),
+            icon: "circle".to_owned(),
+            spin: false,
+            transitions: Vec::new(),
+            auto_rules: auto_rules
+                .into_iter()
+                .map(|(condition, target)| StatusAutoRule {
+                    condition: condition.to_owned(),
+                    target: target.to_owned(),
+                })
+                .collect(),
+        }
+    }
+
     // -----------------------------------------------------------------------
     // Rule 1 — epic to review
     // -----------------------------------------------------------------------
@@ -404,8 +465,13 @@ mod tests {
             serde_json::json!({ "epic": "EPIC-001" }),
         );
         let graph = make_graph(vec![epic, task1, task2]);
+        let statuses = vec![
+            status("in-progress", vec![("all-children-completed", "review")]),
+            status("completed", vec![]),
+            status("done", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let epic_proposals: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "EPIC-001")
@@ -432,8 +498,12 @@ mod tests {
             serde_json::json!({ "epic": "EPIC-002" }),
         );
         let graph = make_graph(vec![epic, task1, task2]);
+        let statuses = vec![
+            status("in-progress", vec![("all-children-completed", "review")]),
+            status("completed", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals
             .iter()
             .all(|p| p.artifact_id != "EPIC-002" || p.proposed_status != "review"));
@@ -443,8 +513,9 @@ mod tests {
     fn rule1_no_proposal_when_no_related_tasks() {
         let epic = make_node("EPIC-003", "epic", "active", serde_json::json!({}));
         let graph = make_graph(vec![epic]);
+        let statuses = vec![status("active", vec![("all-children-completed", "review")])];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "EPIC-003"));
     }
 
@@ -459,8 +530,12 @@ mod tests {
             relationship_type: Some("delivers".to_owned()),
         });
         let graph = make_graph(vec![epic, task]);
+        let statuses = vec![
+            status("active", vec![("all-children-completed", "review")]),
+            status("completed", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let epic_proposals: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "EPIC-010")
@@ -490,8 +565,12 @@ mod tests {
             serde_json::json!({ "milestone": "MS-001", "priority": "P1" }),
         );
         let graph = make_graph(vec![ms, epic1, epic2]);
+        let statuses = vec![
+            status("active", vec![("all-p1-children-completed", "review")]),
+            status("completed", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let ms_proposals: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "MS-001")
@@ -518,8 +597,13 @@ mod tests {
             serde_json::json!({ "milestone": "MS-002", "priority": "P1" }),
         );
         let graph = make_graph(vec![ms, epic1, epic2]);
+        let statuses = vec![
+            status("active", vec![("all-p1-children-completed", "review")]),
+            status("completed", vec![]),
+            status("in-progress", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "MS-002"));
     }
 
@@ -540,8 +624,13 @@ mod tests {
             serde_json::json!({ "milestone": "MS-003", "priority": "P2" }),
         );
         let graph = make_graph(vec![ms, epic_p1, epic_p2]);
+        let statuses = vec![
+            status("active", vec![("all-p1-children-completed", "review")]),
+            status("completed", vec![]),
+            status("in-progress", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let ms_proposals: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "MS-003")
@@ -561,8 +650,12 @@ mod tests {
             serde_json::json!({ "milestone": "MS-004", "priority": "P2" }),
         );
         let graph = make_graph(vec![ms, epic_p2]);
+        let statuses = vec![
+            status("active", vec![("all-p1-children-completed", "review")]),
+            status("completed", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "MS-004"));
     }
 
@@ -580,8 +673,12 @@ mod tests {
             serde_json::json!({ "depends-on": ["TASK-020"] }),
         );
         let graph = make_graph(vec![dep, task]);
+        let statuses = vec![
+            status("ready", vec![("dependency-blocked", "blocked")]),
+            status("in-progress", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let blocked: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "TASK-021")
@@ -602,8 +699,12 @@ mod tests {
             serde_json::json!({ "depends-on": ["TASK-022"] }),
         );
         let graph = make_graph(vec![dep, task]);
+        let statuses = vec![
+            status("ready", vec![("dependency-blocked", "blocked")]),
+            status("completed", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "TASK-023"));
     }
 
@@ -611,8 +712,9 @@ mod tests {
     fn rule3_no_proposal_when_no_dependencies() {
         let task = make_node("TASK-024", "task", "ready", serde_json::json!({}));
         let graph = make_graph(vec![task]);
+        let statuses = vec![status("ready", vec![("dependency-blocked", "blocked")])];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "TASK-024"));
     }
 
@@ -626,8 +728,12 @@ mod tests {
             serde_json::json!({ "depends-on": "TASK-025" }),
         );
         let graph = make_graph(vec![dep, task]);
+        let statuses = vec![
+            status("todo", vec![("dependency-blocked", "blocked")]),
+            status("in-progress", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let blocked: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "TASK-026")
@@ -651,8 +757,12 @@ mod tests {
             serde_json::json!({ "depends-on": ["TASK-030"] }),
         );
         let graph = make_graph(vec![dep, task]);
+        let statuses = vec![
+            status("blocked", vec![("dependencies-met", "ready")]),
+            status("completed", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let unblocked: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "TASK-031")
@@ -673,8 +783,12 @@ mod tests {
             serde_json::json!({ "depends-on": ["TASK-032"] }),
         );
         let graph = make_graph(vec![dep, task]);
+        let statuses = vec![
+            status("blocked", vec![("dependencies-met", "ready")]),
+            status("in-progress", vec![]),
+        ];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "TASK-033"));
     }
 
@@ -682,8 +796,9 @@ mod tests {
     fn rule4_no_proposal_for_blocked_task_with_no_deps() {
         let task = make_node("TASK-034", "task", "blocked", serde_json::json!({}));
         let graph = make_graph(vec![task]);
+        let statuses = vec![status("blocked", vec![("dependencies-met", "ready")])];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "TASK-034"));
     }
 
@@ -700,8 +815,9 @@ mod tests {
             serde_json::json!({ "recurrence": 2 }),
         );
         let graph = make_graph(vec![lesson]);
+        let statuses = vec![status("active", vec![("recurrence-threshold", "review")])];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let lesson_proposals: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "IMPL-001")
@@ -721,8 +837,12 @@ mod tests {
             serde_json::json!({ "recurrence": 5 }),
         );
         let graph = make_graph(vec![lesson]);
+        let statuses = vec![status(
+            "recurring",
+            vec![("recurrence-threshold", "review")],
+        )];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         let lesson_proposals: Vec<_> = proposals
             .iter()
             .filter(|p| p.artifact_id == "IMPL-002")
@@ -741,8 +861,9 @@ mod tests {
             serde_json::json!({ "recurrence": 1 }),
         );
         let graph = make_graph(vec![lesson]);
+        let statuses = vec![status("active", vec![("recurrence-threshold", "review")])];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "IMPL-003"));
     }
 
@@ -755,19 +876,40 @@ mod tests {
             serde_json::json!({ "recurrence": 3 }),
         );
         let graph = make_graph(vec![lesson]);
+        // "promoted" has no auto_rules — so no proposal even though recurrence is high
+        let statuses = vec![status("promoted", vec![])];
 
-        let proposals = evaluate_transitions(&graph);
+        let proposals = evaluate_transitions(&graph, &statuses);
         assert!(proposals.iter().all(|p| p.artifact_id != "IMPL-004"));
     }
 
     // -----------------------------------------------------------------------
-    // Empty graph
+    // Empty graph / empty statuses
     // -----------------------------------------------------------------------
 
     #[test]
     fn empty_graph_returns_no_proposals() {
         let graph = make_graph(vec![]);
-        let proposals = evaluate_transitions(&graph);
+        let statuses = vec![status("active", vec![("all-children-completed", "review")])];
+        let proposals = evaluate_transitions(&graph, &statuses);
+        assert!(proposals.is_empty());
+    }
+
+    #[test]
+    fn empty_statuses_returns_no_proposals() {
+        let epic = make_node("EPIC-099", "epic", "in-progress", serde_json::json!({}));
+        let graph = make_graph(vec![epic]);
+        let proposals = evaluate_transitions(&graph, &[]);
+        assert!(proposals.is_empty());
+    }
+
+    #[test]
+    fn unknown_condition_is_skipped_without_panic() {
+        let node = make_node("TASK-099", "task", "active", serde_json::json!({}));
+        let graph = make_graph(vec![node]);
+        let statuses = vec![status("active", vec![("not-a-real-condition", "review")])];
+        let proposals = evaluate_transitions(&graph, &statuses);
+        // Unknown condition silently skipped — no panic, no proposals.
         assert!(proposals.is_empty());
     }
 }

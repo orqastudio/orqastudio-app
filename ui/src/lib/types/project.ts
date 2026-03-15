@@ -69,12 +69,20 @@ export const DEFAULT_ARTIFACT_LINK_COLORS: Record<string, string> = {
 	AGENT: "#f472b6",
 };
 
+/** An automatic transition rule on a status. */
+export interface StatusAutoRule {
+	condition: string;
+	target: string;
+}
+
 /** A single status definition from project config — source of truth for status vocabulary. */
 export interface StatusDefinition {
 	key: string;
 	label: string;
 	icon: string;
 	spin?: boolean;
+	transitions?: string[];
+	auto_rules?: StatusAutoRule[];
 }
 
 /** The canonical status values. Project config is the source of truth. */

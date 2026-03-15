@@ -1,6 +1,7 @@
 <script lang="ts">
 	import CheckIcon from "@lucide/svelte/icons/check";
 	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { projectStore } from "$lib/stores/project.svelte";
 
 	interface Stage {
 		key: string;
@@ -23,27 +24,21 @@
 	);
 
 	/**
-	 * Simplified transition map for UI convenience.
-	 * The authoritative transition engine is in Rust; this is advisory/shortcut only.
+	 * Keys reachable from the current status — driven by the `transitions` array
+	 * on the matching status definition in project config.
+	 *
+	 * Falls back to an empty array when config is absent or the current status
+	 * has no defined transitions, preventing stale hardcoded maps from
+	 * diverging from the project's actual workflow.
 	 */
-	const TRANSITIONS: Record<string, string[]> = {
-		captured: ["exploring", "ready", "prioritised"],
-		exploring: ["ready", "prioritised"],
-		ready: ["prioritised", "active"],
-		prioritised: ["active"],
-		active: ["hold", "blocked", "review"],
-		hold: ["active"],
-		blocked: ["active", "ready"],
-		review: ["completed", "active"],
-		completed: ["surpassed"],
-		surpassed: [],
-		recurring: ["review", "completed"],
-	};
-
-	/** Keys reachable from the current status. */
-	const reachableKeys = $derived(
-		TRANSITIONS[status?.toLowerCase()] ?? [],
-	);
+	const reachableKeys = $derived.by((): string[] => {
+		const statusKey = status?.toLowerCase();
+		if (!statusKey) return [];
+		const def = projectStore.projectSettings?.statuses?.find(
+			(s) => s.key === statusKey,
+		);
+		return def?.transitions ?? [];
+	});
 
 	let transitioning = $state(false);
 
