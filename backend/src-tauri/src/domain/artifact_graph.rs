@@ -1357,30 +1357,32 @@ fn check_idea_promotion_validity(graph: &ArtifactGraph, checks: &mut Vec<Integri
             continue;
         }
 
-        let status = match &node.status {
-            Some(s) if s == "promoted" => s.as_str(),
-            _ => continue,
-        };
+        if node.status.as_deref() != Some("surpassed") {
+            continue;
+        }
 
-        // A promoted idea should have promoted-to set
-        let has_promoted_to = node
-            .frontmatter
-            .get("promoted-to")
-            .and_then(|v| v.as_str())
-            .is_some_and(|s| !s.is_empty());
+        // A surpassed idea should have lineage: evolves-into (single successor)
+        // or merged-into (consolidated with others into a larger artifact).
+        let has_lineage = node.references_out.iter().any(|r| {
+            matches!(
+                r.relationship_type.as_deref(),
+                Some("evolves-into") | Some("merged-into")
+            )
+        });
 
-        if !has_promoted_to {
+        if !has_lineage {
             checks.push(IntegrityCheck {
                 category: IntegrityCategory::IdeaPromotionValidity,
                 severity: IntegritySeverity::Error,
                 artifact_id: node.id.clone(),
                 message: format!(
-                    "{} has status {} but promoted-to is not set",
-                    node.id, status
+                    "{} has status surpassed but no evolves-into or merged-into relationship",
+                    node.id
                 ),
                 auto_fixable: false,
                 fix_description: Some(
-                    "Set promoted-to to the epic ID, or revert status to shaped".to_string(),
+                    "Add an evolves-into or merged-into relationship to the artifact this idea became"
+                        .to_string(),
                 ),
             });
         }
@@ -1394,36 +1396,50 @@ fn check_idea_delivery_tracking(graph: &ArtifactGraph, checks: &mut Vec<Integrit
             continue;
         }
 
-        if node.status.as_deref() != Some("promoted") {
+        // Skip ideas already in terminal states.
+        let status = match &node.status {
+            Some(s) => s.as_str(),
+            None => continue,
+        };
+        if status == "completed" || status == "surpassed" || status == "archived" {
             continue;
         }
 
-        let epic_id = match node.frontmatter.get("promoted-to").and_then(|v| v.as_str()) {
-            Some(id) if !id.is_empty() => id,
-            _ => continue,
-        };
+        // Check evolves-into targets — if any are completed, the idea should be terminal.
+        let evolves_targets: Vec<&str> = node
+            .references_out
+            .iter()
+            .filter(|r| r.relationship_type.as_deref() == Some("evolves-into"))
+            .map(|r| r.target_id.as_str())
+            .collect();
 
-        let epic_done = graph
-            .nodes
-            .get(epic_id)
-            .and_then(|n| n.status.as_deref())
-            .is_some_and(|s| s == "done");
+        if evolves_targets.is_empty() {
+            continue;
+        }
 
-        if epic_done {
-            checks.push(IntegrityCheck {
-                category: IntegrityCategory::IdeaDeliveryTracking,
-                severity: IntegritySeverity::Warning,
-                artifact_id: node.id.clone(),
-                message: format!(
-                    "{} is promoted to {} which is done — idea should be delivered or partially-delivered",
-                    node.id, epic_id
-                ),
-                auto_fixable: false,
-                fix_description: Some(format!(
-                    "Update {} status to delivered (if fully covered) or partially-delivered",
-                    node.id
-                )),
-            });
+        for target_id in evolves_targets {
+            let target_completed = graph
+                .nodes
+                .get(target_id)
+                .and_then(|n| n.status.as_deref())
+                .is_some_and(|s| s == "completed");
+
+            if target_completed {
+                checks.push(IntegrityCheck {
+                    category: IntegrityCategory::IdeaDeliveryTracking,
+                    severity: IntegritySeverity::Warning,
+                    artifact_id: node.id.clone(),
+                    message: format!(
+                        "{} evolves-into {} which is completed, but idea is still status: {} — should be surpassed or completed",
+                        node.id, target_id, status
+                    ),
+                    auto_fixable: false,
+                    fix_description: Some(format!(
+                        "Update {} status to surpassed (if fully covered) or completed",
+                        node.id
+                    )),
+                });
+            }
         }
     }
 }

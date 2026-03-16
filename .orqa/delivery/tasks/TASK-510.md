@@ -8,7 +8,7 @@ created: 2026-03-15
 updated: 2026-03-15
 horizon: active
 acceptance:
-  - "check_parent_child_consistency reads hierarchy from delivery type config, not hardcoded \\"epic\\"/\\"milestone\\""
+  - check_parent_child_consistency reads hierarchy from delivery type config, not hardcoded "epic"/"milestone"
   - check_milestone_gate reads the gate type from config
   - No hardcoded artifact type names in integrity check functions
   - All existing integrity checks still produce the same results
