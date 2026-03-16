@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Message } from "$lib/types";
+	import type { Message } from "@orqastudio/types";
 	import UserMessage from "./UserMessage.svelte";
 	import AssistantMessage from "./AssistantMessage.svelte";
 	import SystemMessage from "./SystemMessage.svelte";

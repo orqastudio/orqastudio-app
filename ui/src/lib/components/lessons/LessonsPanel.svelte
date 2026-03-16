@@ -2,9 +2,10 @@
 	import { onMount } from "svelte";
 	import LessonList from "./LessonList.svelte";
 	import LessonViewer from "./LessonViewer.svelte";
-	import { lessonStore } from "$lib/stores/lessons.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import type { Lesson } from "$lib/types/lessons";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { lessonStore, projectStore } = getStores();
+	import type { Lesson } from "@orqastudio/types";
 
 	let selectedLesson = $state<Lesson | null>(null);
 

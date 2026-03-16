@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import type { ArtifactNode } from "@orqastudio/types";
 	import CollapsibleColumn from "./CollapsibleColumn.svelte";
 	import KanbanCard from "./KanbanCard.svelte";
 	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";

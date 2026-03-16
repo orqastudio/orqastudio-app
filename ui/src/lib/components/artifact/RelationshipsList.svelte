@@ -4,8 +4,9 @@
 	import { Badge } from "$lib/components/ui/badge";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, projectStore } = getStores();
 
 	interface Relationship {
 		type: string;

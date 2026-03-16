@@ -3,8 +3,9 @@
 	import * as Card from "$lib/components/ui/card";
 	import CircleXIcon from "@lucide/svelte/icons/circle-x";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { projectStore, settingsStore } = getStores();
 	import ProviderSettings from "./ProviderSettings.svelte";
 	import ModelSettings from "./ModelSettings.svelte";
 	import AppearanceSettings from "./AppearanceSettings.svelte";

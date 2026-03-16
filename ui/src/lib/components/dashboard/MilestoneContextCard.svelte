@@ -6,9 +6,10 @@
 	import CalendarIcon from "@lucide/svelte/icons/calendar";
 	import MapIcon from "@lucide/svelte/icons/map";
 	import KanbanIcon from "@lucide/svelte/icons/kanban";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, navigationStore } = getStores();
+	import type { ArtifactNode } from "@orqastudio/types";
 
 	// -------------------------------------------------------------------------
 	// Derive active milestone and its P1 epic progress

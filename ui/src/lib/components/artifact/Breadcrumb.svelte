@@ -1,7 +1,9 @@
 <script lang="ts">
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import HomeIcon from "@lucide/svelte/icons/home";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { navigationStore } = getStores();
 
 	let { items }: { items: string[] } = $props();
 

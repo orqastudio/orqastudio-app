@@ -4,7 +4,10 @@
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
 	import InfoIcon from "@lucide/svelte/icons/info";
 	import XIcon from "@lucide/svelte/icons/x";
-	import { toastStore, type ToastType } from "$lib/stores/toast.svelte";
+	import { getStores } from "@orqastudio/sdk";
+	import type { ToastType } from "@orqastudio/sdk";
+
+	const { toastStore } = getStores();
 
 	const iconMap: Record<ToastType, typeof CheckCircleIcon> = {
 		success: CheckCircleIcon,

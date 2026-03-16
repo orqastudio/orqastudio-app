@@ -2,8 +2,10 @@
 	import * as Card from "$lib/components/ui/card";
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import type { HealthSnapshot } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK } = getStores();
+	import type { HealthSnapshot } from "@orqastudio/types";
 
 	let snapshots = $state<HealthSnapshot[]>([]);
 	let loading = $state(false);

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import XIcon from "@lucide/svelte/icons/x";
-	import { errorStore } from "$lib/stores/errors.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { errorStore } = getStores();
 
 	const sourceLabels: Record<string, string> = {
 		rust: "Backend",

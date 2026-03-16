@@ -4,9 +4,10 @@
 	import cytoscape from "cytoscape";
 	// @ts-expect-error — no type declarations for cytoscape-cose-bilkent
 	import coseBilkent from "cytoscape-cose-bilkent";
-	import { artifactGraphSDK, ARTIFACT_TYPE_COLORS } from "$lib/sdk/artifact-graph.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import type { ArtifactRef } from "$lib/types/artifact-graph";
+	import { getStores, ARTIFACT_TYPE_COLORS } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, navigationStore } = getStores();
+	import type { ArtifactRef } from "@orqastudio/types";
 
 	// Register layout extension once (safe to call multiple times — cytoscape deduplicates)
 	cytoscape.use(coseBilkent);

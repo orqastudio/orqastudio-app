@@ -8,9 +8,10 @@
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import ViolationsPanel from "$lib/components/governance/ViolationsPanel.svelte";
 	import { Badge } from "$lib/components/ui/badge";
-	import { artifactStore } from "$lib/stores/artifact.svelte";
-	import { enforcementStore } from "$lib/stores/enforcement.svelte";
-	import { navigationStore, type ActivityView } from "$lib/stores/navigation.svelte";
+	import { getStores } from "@orqastudio/sdk";
+	import type { ActivityView } from "@orqastudio/sdk";
+
+	const { artifactStore, enforcementStore, navigationStore } = getStores();
 	import type { Component } from "svelte";
 
 	let { category }: { category: ActivityView } = $props();

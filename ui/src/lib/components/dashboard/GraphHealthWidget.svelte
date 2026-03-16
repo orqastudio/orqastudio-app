@@ -11,8 +11,10 @@
 	import EyeIcon from "@lucide/svelte/icons/eye";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import type { IntegrityCheck } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK } = getStores();
+	import type { IntegrityCheck } from "@orqastudio/types";
 
 	interface Props {
 		checks: IntegrityCheck[];

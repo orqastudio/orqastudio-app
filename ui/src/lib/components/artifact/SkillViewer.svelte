@@ -3,7 +3,9 @@
 	import MetadataRow from "$lib/components/shared/MetadataRow.svelte";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import { parseFrontmatter } from "$lib/utils/frontmatter";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK } = getStores();
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
 	import TagIcon from "@lucide/svelte/icons/tag";
 

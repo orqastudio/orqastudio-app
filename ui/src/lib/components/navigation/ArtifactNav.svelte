@@ -26,12 +26,11 @@
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import ArtifactListItem from "$lib/components/shared/ArtifactListItem.svelte";
 	import ArtifactToolbar from "$lib/components/navigation/ArtifactToolbar.svelte";
-	import { artifactStore } from "$lib/stores/artifact.svelte";
-	import {
-		navigationStore,
-		type ActivityView,
-	} from "$lib/stores/navigation.svelte";
-	import type { DocNode, ArtifactViewState, SortConfig } from "$lib/types/nav-tree";
+	import { getStores } from "@orqastudio/sdk";
+	import type { ActivityView } from "@orqastudio/sdk";
+
+	const { artifactStore, navigationStore } = getStores();
+	import type { DocNode, ArtifactViewState, SortConfig } from "@orqastudio/types";
 	import type { Component } from "svelte";
 	import { applyFilters, applySort, applyGrouping } from "$lib/utils/artifact-view";
 	import { SvelteMap } from "svelte/reactivity";

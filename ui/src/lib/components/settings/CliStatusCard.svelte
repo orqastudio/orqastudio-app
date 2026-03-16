@@ -8,7 +8,9 @@
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
 	import LogInIcon from "@lucide/svelte/icons/log-in";
-	import { setupStore } from "$lib/stores/setup.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { setupStore } = getStores();
 	import CliSubscriptionInfo from "./CliSubscriptionInfo.svelte";
 
 	interface Props {

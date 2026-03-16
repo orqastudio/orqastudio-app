@@ -4,7 +4,9 @@
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import setupBackground from "$lib/assets/setup-background.png";
-	import { projectStore } from "$lib/stores/project.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { projectStore } = getStores();
 
 	let opening = $state(false);
 

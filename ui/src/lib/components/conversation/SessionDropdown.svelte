@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { SessionSummary, SessionStatus } from "$lib/types";
+	import type { SessionSummary, SessionStatus } from "@orqastudio/types";
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import Trash2Icon from "@lucide/svelte/icons/trash-2";
 	import MessageSquareIcon from "@lucide/svelte/icons/message-square";

@@ -2,8 +2,9 @@
 	import * as Card from "$lib/components/ui/card";
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, navigationStore } = getStores();
 	import PipelineStages, { type PipelineStage } from "$lib/components/shared/PipelineStages.svelte";
 
 	// -------------------------------------------------------------------------

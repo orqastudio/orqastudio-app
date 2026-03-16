@@ -9,10 +9,12 @@
 	import NetworkIcon from "@lucide/svelte/icons/network";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import { SvelteMap } from "svelte/reactivity";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK } = getStores();
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import RelationshipGraphView from "./RelationshipGraphView.svelte";
-	import type { ArtifactRef } from "$lib/types/artifact-graph";
+	import type { ArtifactRef } from "@orqastudio/types";
 
 	let { artifactPath }: { artifactPath: string } = $props();
 

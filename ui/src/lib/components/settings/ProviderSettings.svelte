@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { setupStore } from "$lib/stores/setup.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { setupStore } = getStores();
 	import SidecarStatusCard from "./SidecarStatusCard.svelte";
 	import CliStatusCard from "./CliStatusCard.svelte";
 

@@ -7,9 +7,10 @@
 	import CompassIcon from "@lucide/svelte/icons/compass";
 	import MapIcon from "@lucide/svelte/icons/map";
 	import { SvelteMap } from "svelte/reactivity";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, navigationStore } = getStores();
+	import type { ArtifactNode } from "@orqastudio/types";
 
 	// -------------------------------------------------------------------------
 	// Tab state

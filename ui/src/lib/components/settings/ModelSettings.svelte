@@ -1,7 +1,10 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
 	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
-	import { settingsStore, type DefaultModel } from "$lib/stores/settings.svelte";
+	import { getStores } from "@orqastudio/sdk";
+	import type { DefaultModel } from "@orqastudio/sdk";
+
+	const { settingsStore } = getStores();
 
 	const modelOptions: { value: DefaultModel; label: string; description: string }[] = [
 		{ value: "auto", label: "Auto (recommended)", description: "Automatically selects the best model" },

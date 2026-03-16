@@ -7,8 +7,10 @@
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
 	import WorkflowIcon from "@lucide/svelte/icons/workflow";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import type { ArtifactNode, ArtifactRef } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK } = getStores();
+	import type { ArtifactNode, ArtifactRef } from "@orqastudio/types";
 	import type { Component } from "svelte";
 	import PipelineStages, { type PipelineStage, type PipelineEdge } from "$lib/components/shared/PipelineStages.svelte";
 

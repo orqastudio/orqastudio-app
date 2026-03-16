@@ -7,7 +7,7 @@
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import Trash2Icon from "@lucide/svelte/icons/trash-2";
 	import GripVerticalIcon from "@lucide/svelte/icons/grip-vertical";
-	import type { ProjectSettings, StatusDefinition, StatusAutoRule } from "$lib/types";
+	import type { ProjectSettings, StatusDefinition, StatusAutoRule } from "@orqastudio/types";
 
 	interface Props {
 		settings: ProjectSettings;

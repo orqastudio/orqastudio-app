@@ -8,8 +8,10 @@
 	import ScanSearchIcon from "@lucide/svelte/icons/scan-search";
 	import SaveIcon from "@lucide/svelte/icons/save";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import type { ProjectSettings, ProjectScanResult } from "$lib/types";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { projectStore } = getStores();
+	import type { ProjectSettings, ProjectScanResult } from "@orqastudio/types";
 
 	interface Props {
 		projectPath: string;

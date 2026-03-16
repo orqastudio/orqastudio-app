@@ -9,7 +9,9 @@
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import { Badge } from "$lib/components/ui/badge";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
-	import { enforcementStore } from "$lib/stores/enforcement.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { enforcementStore } = getStores();
 
 	let { content, ruleName }: { content: string; ruleName: string } = $props();
 

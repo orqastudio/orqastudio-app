@@ -8,7 +8,7 @@
 	import SearchInput from "$lib/components/shared/SearchInput.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import type { StoredEnforcementViolation } from "$lib/types/enforcement";
+	import type { StoredEnforcementViolation } from "@orqastudio/types";
 
 	let {
 		violations,

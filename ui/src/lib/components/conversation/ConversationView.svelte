@@ -12,11 +12,10 @@
 	import ToolApprovalDialog from "$lib/components/tool/ToolApprovalDialog.svelte";
 	import ContextEntryComponent from "./ContextEntry.svelte";
 	import ThinkingBlock from "$lib/components/shared/ThinkingBlock.svelte";
-	import { conversationStore } from "$lib/stores/conversation.svelte";
-import { sessionStore } from "$lib/stores/session.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
-	import type { Message } from "$lib/types";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { conversationStore, sessionStore, projectStore, settingsStore } = getStores();
+	import type { Message } from "@orqastudio/types";
 	import { onMount } from "svelte";
 
 	let scrollViewportRef = $state<HTMLElement | null>(null);

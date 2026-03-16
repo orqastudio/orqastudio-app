@@ -3,10 +3,10 @@
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, navigationStore, projectStore } = getStores();
+	import type { ArtifactNode } from "@orqastudio/types";
 	import HorizonBoard from "./HorizonBoard.svelte";
 	import StatusKanban from "./StatusKanban.svelte";
 	import DrilldownBreadcrumbs from "./DrilldownBreadcrumbs.svelte";
@@ -33,10 +33,10 @@
 	const level1Key = $derived(level1Type?.key ?? "epic");
 	const level2Key = $derived(level2Type?.key ?? "task");
 
-	/** Field on level-1 artifacts that points to the root (e.g. "milestone"). */
-	const level1ParentField = $derived(level1Type?.parent?.field ?? rootKey);
-	/** Field on level-2 artifacts that points to level-1 (e.g. "epic"). */
-	const level2ParentField = $derived(level2Type?.parent?.field ?? level1Key);
+	/** Relationship type on level-1 artifacts that connects to root (e.g. "delivers"). */
+	const level1ParentRel = $derived(level1Type?.parent?.relationship ?? "delivers");
+	/** Relationship type on level-2 artifacts that connects to level-1 (e.g. "delivers"). */
+	const level2ParentRel = $derived(level2Type?.parent?.relationship ?? "delivers");
 
 	/** Labels for UI display. */
 	const rootLabel = $derived(rootType?.label ?? "Milestone");
@@ -176,7 +176,11 @@
 	const milestoneEpics = $derived.by((): ArtifactNode[] => {
 		const ms = selectedMilestone;
 		if (!ms) return [];
-		return epics.filter((e) => e.frontmatter[level1ParentField] === ms.id);
+		return epics.filter((e) =>
+			e.references_out.some(
+				(r) => r.relationship_type === level1ParentRel && r.target_id === ms.id,
+			),
+		);
 	});
 
 	// ---------------------------------------------------------------------------
@@ -195,7 +199,11 @@
 	const epicTasks = $derived.by((): ArtifactNode[] => {
 		const ep = selectedEpic;
 		if (!ep) return [];
-		return tasks.filter((t) => t.frontmatter[level2ParentField] === ep.id);
+		return tasks.filter((t) =>
+			t.references_out.some(
+				(r) => r.relationship_type === level2ParentRel && r.target_id === ep.id,
+			),
+		);
 	});
 
 	// ---------------------------------------------------------------------------
@@ -203,8 +211,10 @@
 	// ---------------------------------------------------------------------------
 
 	function taskCountForEpic(epicId: string): { done: number; total: number } {
-		const epicTaskList = tasks.filter(
-			(t) => t.frontmatter[level2ParentField] === epicId,
+		const epicTaskList = tasks.filter((t) =>
+			t.references_out.some(
+				(r) => r.relationship_type === level2ParentRel && r.target_id === epicId,
+			),
 		);
 		const done = epicTaskList.filter((t) => t.status === "completed").length;
 		return { done, total: epicTaskList.length };
@@ -296,7 +306,7 @@
 					<HorizonBoard
 						columns={horizonColumns}
 						{epics}
-						epicParentField={level1ParentField}
+						epicParentRel={level1ParentRel}
 						epicLabel={level1Label}
 						{rootLabel}
 						onMilestoneClick={handleMilestoneClick}

@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { onDestroy } from "svelte";
 	import cytoscape from "cytoscape";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
 	import { graphLayoutService } from "$lib/services/graph-layout.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
+
+	const { artifactGraphSDK, navigationStore } = getStores();
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 
 	// cose-bilkent is no longer needed here — layout runs in the worker.

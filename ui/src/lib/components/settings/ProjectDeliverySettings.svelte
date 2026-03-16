@@ -6,7 +6,7 @@
 	import ConfirmDeleteDialog from "$lib/components/shared/ConfirmDeleteDialog.svelte";
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import Trash2Icon from "@lucide/svelte/icons/trash-2";
-	import type { ProjectSettings, DeliveryTypeConfig, DeliveryParentConfig } from "$lib/types";
+	import type { ProjectSettings, DeliveryTypeConfig, DeliveryParentConfig } from "@orqastudio/types";
 
 	interface Props {
 		settings: ProjectSettings;
@@ -55,19 +55,19 @@
 			}
 			const parent: DeliveryParentConfig = {
 				type: parentType,
-				field: t.parent?.field ?? "",
+				relationship: t.parent?.relationship ?? "",
 			};
 			return { ...t, parent };
 		});
 		save();
 	}
 
-	function updateParentField(index: number, parentField: string) {
+	function updateParentRelationship(index: number, parentRelationship: string) {
 		localTypes = localTypes.map((t, i) => {
 			if (i !== index) return t;
 			const parent: DeliveryParentConfig = {
 				type: t.parent?.type ?? "",
-				field: parentField,
+				relationship: parentRelationship,
 			};
 			return { ...t, parent };
 		});
@@ -178,16 +178,16 @@
 							</select>
 						</div>
 						<div class="space-y-1">
-							<label class="text-xs font-medium text-muted-foreground" for="parent-field-{index}">
-								Parent field
+							<label class="text-xs font-medium text-muted-foreground" for="parent-rel-{index}">
+								Parent relationship
 							</label>
 							<Input
-								id="parent-field-{index}"
-								value={type.parent?.field ?? ""}
-								oninput={(e) => updateParentField(index, e.currentTarget.value)}
+								id="parent-rel-{index}"
+								value={type.parent?.relationship ?? ""}
+								oninput={(e) => updateParentRelationship(index, e.currentTarget.value)}
 								disabled={!type.parent?.type}
 								class="h-7 font-mono text-xs"
-								placeholder="e.g. milestone"
+								placeholder="e.g. delivers"
 							/>
 						</div>
 					</div>

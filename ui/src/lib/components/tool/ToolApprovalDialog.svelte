@@ -5,7 +5,7 @@
 	import { Button } from "$lib/components/ui/button";
 	import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
-	import type { PendingApproval } from "$lib/stores/conversation.svelte";
+	import type { PendingApproval } from "@orqastudio/sdk";
 	import { getToolDisplay, stripToolName } from "$lib/utils/tool-display";
 
 	let {

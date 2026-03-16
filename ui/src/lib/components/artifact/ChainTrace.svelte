@@ -6,7 +6,9 @@
 	} from "$lib/components/ui/collapsible";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import ArrowRightIcon from "@lucide/svelte/icons/arrow-right";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK } = getStores();
 	import ArtifactLink from "./ArtifactLink.svelte";
 
 	let { artifactId }: { artifactId: string } = $props();

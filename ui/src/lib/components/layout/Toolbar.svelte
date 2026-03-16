@@ -3,7 +3,9 @@
 	import { getCurrentWindow } from "@tauri-apps/api/window";
 	import { getVersion, getName } from "@tauri-apps/api/app";
 	import logoStatic from "$lib/assets/logo-static.svg";
-	import { projectStore } from "$lib/stores/project.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { projectStore } = getStores();
 	import WindowControls from "./WindowControls.svelte";
 	import AboutDialog from "./AboutDialog.svelte";
 	import NewProjectDialog from "./NewProjectDialog.svelte";

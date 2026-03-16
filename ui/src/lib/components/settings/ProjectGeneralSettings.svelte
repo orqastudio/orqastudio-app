@@ -8,7 +8,7 @@
 	import ImageIcon from "@lucide/svelte/icons/image";
 	import UploadIcon from "@lucide/svelte/icons/upload";
 	import TrashIcon from "@lucide/svelte/icons/trash-2";
-	import type { ProjectSettings } from "$lib/types";
+	import type { ProjectSettings } from "@orqastudio/types";
 
 	interface Props {
 		settings: ProjectSettings;

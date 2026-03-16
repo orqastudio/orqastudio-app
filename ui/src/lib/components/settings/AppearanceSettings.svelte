@@ -1,7 +1,10 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
 	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
-	import { settingsStore, type ThemeMode } from "$lib/stores/settings.svelte";
+	import { getStores } from "@orqastudio/sdk";
+	import type { ThemeMode } from "@orqastudio/sdk";
+
+	const { settingsStore } = getStores();
 
 	const themeModeOptions: { value: ThemeMode; label: string }[] = [
 		{ value: "system", label: "System (default)" },

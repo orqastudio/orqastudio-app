@@ -6,7 +6,9 @@
 	import EmbeddingModelStep from "./EmbeddingModelStep.svelte";
 	import SetupComplete from "./SetupComplete.svelte";
 	import setupBackground from "$lib/assets/setup-background.png";
-	import { setupStore } from "$lib/stores/setup.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { setupStore } = getStores();
 
 	interface Props {
 		onComplete: () => void;

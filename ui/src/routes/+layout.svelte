@@ -3,7 +3,12 @@
 	import "svelte-highlight/styles/github-dark-dimmed.css";
 	import * as Tooltip from "$lib/components/ui/tooltip";
 	import ToastContainer from "$lib/components/shared/ToastContainer.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { initializeStores, getStores } from "@orqastudio/sdk";
+
+	// Create all SDK store instances — must happen before any component accesses getStores().
+	initializeStores();
+
+	const { navigationStore } = getStores();
 
 	let { children } = $props();
 

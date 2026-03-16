@@ -2,7 +2,9 @@
 	import { Button } from "$lib/components/ui/button";
 	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
 	import RocketIcon from "@lucide/svelte/icons/rocket";
-	import { setupStore } from "$lib/stores/setup.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { setupStore } = getStores();
 
 	interface Props {
 		onComplete: () => void;

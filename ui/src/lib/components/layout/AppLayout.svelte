@@ -16,20 +16,15 @@
 	import SetupWizard from "$lib/components/setup/SetupWizard.svelte";
 	import ArtifactSearchOverlay from "$lib/components/navigation/ArtifactSearchOverlay.svelte";
 	import ErrorToast from "$lib/components/shared/ErrorToast.svelte";
-	import { errorStore } from "$lib/stores/errors.svelte";
+	import { getStores } from "@orqastudio/sdk";
 	import { initDevConsole } from "$lib/utils/dev-console";
 
 	import ArtifactMasterDetail from "$lib/components/artifact/ArtifactMasterDetail.svelte";
 	import FullGraphView from "$lib/components/graph/FullGraphView.svelte";
 	import * as Resizable from "$lib/components/ui/resizable";
 	import setupBackground from "$lib/assets/setup-background.png";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
-	import { artifactStore } from "$lib/stores/artifact.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { setupStore } from "$lib/stores/setup.svelte";
-	import { enforcementStore } from "$lib/stores/enforcement.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+
+	const { errorStore, navigationStore, settingsStore, artifactStore, projectStore, setupStore, enforcementStore, artifactGraphSDK } = getStores();
 
 	/** Unlisten function for the artifact-changed event, cleaned up on destroy. */
 	let unlistenArtifactChanged: UnlistenFn | null = null;

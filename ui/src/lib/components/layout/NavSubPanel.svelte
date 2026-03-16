@@ -2,7 +2,9 @@
 	import SettingsCategoryNav from "$lib/components/navigation/SettingsCategoryNav.svelte";
 	import GroupSubPanel from "$lib/components/navigation/GroupSubPanel.svelte";
 	import ArtifactNav from "$lib/components/navigation/ArtifactNav.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { navigationStore } = getStores();
 </script>
 
 <div class="flex w-[200px] flex-col overflow-hidden border-r border-border bg-muted/10">

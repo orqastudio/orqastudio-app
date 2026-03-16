@@ -1,4 +1,4 @@
-import type { DocNode, SortConfig, FilterableField } from "$lib/types/nav-tree";
+import type { DocNode, SortConfig, FilterableField } from "@orqastudio/types";
 
 /** Filter nodes by frontmatter values. */
 export function applyFilters(

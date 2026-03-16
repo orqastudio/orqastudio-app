@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { Button } from "$lib/components/ui/button";
-	import { extractErrorMessage } from "$lib/ipc/invoke";
+	import { extractErrorMessage } from "@orqastudio/sdk";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
 	import CpuIcon from "@lucide/svelte/icons/cpu";
-	import { setupStore } from "$lib/stores/setup.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { setupStore, settingsStore } = getStores();
 
 	interface Props {
 		onComplete: () => void;

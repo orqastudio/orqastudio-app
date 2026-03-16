@@ -7,7 +7,7 @@
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import type { Lesson } from "$lib/types/lessons";
+	import type { Lesson } from "@orqastudio/types";
 	import { categoryColor } from "$lib/utils/category-colors";
 
 	let {

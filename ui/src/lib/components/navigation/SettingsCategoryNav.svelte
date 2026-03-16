@@ -9,7 +9,9 @@
 	import KeyboardIcon from "@lucide/svelte/icons/keyboard";
 	import RocketIcon from "@lucide/svelte/icons/rocket";
 	import WorkflowIcon from "@lucide/svelte/icons/workflow";
-	import { settingsStore } from "$lib/stores/settings.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { settingsStore } = getStores();
 	import type { Component } from "svelte";
 
 	interface SettingsCategory {

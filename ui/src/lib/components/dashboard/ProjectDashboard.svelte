@@ -3,8 +3,7 @@
 	import * as Card from "$lib/components/ui/card";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
 	import MilestoneContextCard from "./MilestoneContextCard.svelte";
 	import IntegrityWidget from "./IntegrityWidget.svelte";
 	import PipelineWidget from "./PipelineWidget.svelte";
@@ -13,8 +12,9 @@
 	import LessonVelocityWidget from "./LessonVelocityWidget.svelte";
 	import DecisionQueueWidget from "./DecisionQueueWidget.svelte";
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
-	import { toast } from "$lib/stores/toast.svelte";
-	import type { IntegrityCheck } from "$lib/types/artifact-graph";
+
+	const { projectStore, artifactGraphSDK, toast } = getStores();
+	import type { IntegrityCheck } from "@orqastudio/types";
 
 	const project = $derived(projectStore.activeProject);
 	const projectName = $derived(

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import CheckIcon from "@lucide/svelte/icons/check";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, projectStore } = getStores();
 
 	interface Stage {
 		key: string;

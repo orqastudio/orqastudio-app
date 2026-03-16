@@ -2,7 +2,7 @@
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
 	import XCircleIcon from "@lucide/svelte/icons/x-circle";
-	import type { Message } from "$lib/types";
+	import type { Message } from "@orqastudio/types";
 	import {
 		Collapsible,
 		CollapsibleContent,

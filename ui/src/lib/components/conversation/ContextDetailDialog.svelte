@@ -8,7 +8,7 @@
 		CollapsibleTrigger,
 	} from "$lib/components/ui/collapsible";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import type { ContextEntry as ContextEntryType } from "$lib/stores/conversation.svelte";
+	import type { ContextEntry as ContextEntryType } from "@orqastudio/sdk";
 
 	let {
 		entry,

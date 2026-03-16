@@ -31,10 +31,10 @@
 	import MegaphoneIcon from "@lucide/svelte/icons/megaphone";
 	import AnchorIcon from "@lucide/svelte/icons/anchor";
 	import * as Tooltip from "$lib/components/ui/tooltip";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { artifactStore } from "$lib/stores/artifact.svelte";
-	import { isArtifactGroup } from "$lib/types/project";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { navigationStore, projectStore, artifactStore } = getStores();
+	import { isArtifactGroup } from "@orqastudio/types";
 	import type { Component } from "svelte";
 
 	let { group }: { group: string } = $props();

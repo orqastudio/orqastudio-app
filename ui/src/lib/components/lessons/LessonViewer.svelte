@@ -7,7 +7,7 @@
 	import { ScrollArea } from "$lib/components/ui/scroll-area";
 	import { Separator } from "$lib/components/ui/separator";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
-	import type { Lesson } from "$lib/types/lessons";
+	import type { Lesson } from "@orqastudio/types";
 	import { categoryColor } from "$lib/utils/category-colors";
 
 	let {

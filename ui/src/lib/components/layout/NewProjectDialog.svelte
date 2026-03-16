@@ -3,7 +3,9 @@
 	import * as Dialog from "$lib/components/ui/dialog";
 	import FolderCodeIcon from "@lucide/svelte/icons/folder-code";
 	import SquarePlusIcon from "@lucide/svelte/icons/square-plus";
-	import { projectStore } from "$lib/stores/project.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { projectStore } = getStores();
 
 	interface Props {
 		open: boolean;

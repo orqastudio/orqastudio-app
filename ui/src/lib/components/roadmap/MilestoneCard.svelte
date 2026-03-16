@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import type { ArtifactNode } from "@orqastudio/types";
 	import StatusIndicator from "$lib/components/shared/StatusIndicator.svelte";
 	import SmallBadge from "$lib/components/shared/SmallBadge.svelte";
 

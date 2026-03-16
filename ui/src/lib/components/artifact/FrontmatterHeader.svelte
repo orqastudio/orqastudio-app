@@ -67,14 +67,10 @@
 
 	/**
 	 * Relationship-specific fields that duplicate data shown in RelationshipsList.
-	 * These are excluded from the metadata panel entirely.
+	 * After the graph-first migration, all connections use the `relationships` array.
+	 * These legacy field names are still excluded to handle any residual frontmatter.
 	 */
-	const RELATIONSHIP_FIELDS = new Set([
-		"epic", "milestone", "depends-on", "blocks",
-		"research-refs", "docs-required", "docs-produced",
-		"promoted-to", "supersedes", "superseded-by",
-		"pillars", "spun-off-from", "surpassed-by",
-	]);
+	const RELATIONSHIP_FIELDS = new Set<string>([]);
 
 	/**
 	 * Fields always rendered in the fixed header row (ID, status, priority)
@@ -98,14 +94,10 @@
 
 	/**
 	 * LINK_FIELDS: values that are artifact IDs and should render as clickable ArtifactLink chips.
-	 * research-refs added here (RES-NNN IDs).
+	 * After graph-first migration, most connection fields have moved to relationships.
 	 */
 	const LINK_FIELDS = new Set([
-		"milestone", "epic", "pillars",
-		"surpassed-by", "supersedes", "superseded-by",
-		"depends-on", "blocks", "research-refs",
-		"docs-required", "docs-produced",
-		"assignee", "scope", "skills",
+		"assignee", "scope",
 	]);
 
 	/**
@@ -204,7 +196,7 @@
 	 */
 	const FIELD_ORDER: string[] = [
 		"layer", "maturity", "recurrence", "category", "version", "horizon",
-		"milestone", "epic", "pillars", "depends-on", "blocks",
+		"assignee",
 	];
 
 	/**

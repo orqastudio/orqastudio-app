@@ -1,7 +1,10 @@
 <script lang="ts">
 	import ArtifactNav from "$lib/components/navigation/ArtifactNav.svelte";
 	import ArtifactViewer from "./ArtifactViewer.svelte";
-	import { navigationStore, type ActivityView } from "$lib/stores/navigation.svelte";
+	import { getStores } from "@orqastudio/sdk";
+	import type { ActivityView } from "@orqastudio/sdk";
+
+	const { navigationStore } = getStores();
 
 	let { activity }: { activity: ActivityView } = $props();
 

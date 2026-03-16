@@ -1,8 +1,8 @@
 <script lang="ts">
 	import * as Card from "$lib/components/ui/card";
 	import { Separator } from "$lib/components/ui/separator";
-	import type { ProjectSettings, ArtifactLinksConfig, ArtifactLinkDisplayMode } from "$lib/types";
-	import { DEFAULT_ARTIFACT_LINK_COLORS } from "$lib/types";
+	import type { ProjectSettings, ArtifactLinksConfig, ArtifactLinkDisplayMode } from "@orqastudio/types";
+	import { DEFAULT_ARTIFACT_LINK_COLORS } from "@orqastudio/types";
 
 	interface Props {
 		settings: ProjectSettings;

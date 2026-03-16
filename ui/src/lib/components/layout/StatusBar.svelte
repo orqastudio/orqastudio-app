@@ -4,10 +4,9 @@
 	import DatabaseIcon from "@lucide/svelte/icons/database";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
 	import * as Tooltip from "$lib/components/ui/tooltip";
-	import { settingsStore } from "$lib/stores/settings.svelte";
-	import { sessionStore } from "$lib/stores/session.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { settingsStore, sessionStore, navigationStore, artifactGraphSDK } = getStores();
 	import finMark from "$lib/assets/fin-mark.svg";
 
 	const statusColor = $derived.by(() => {

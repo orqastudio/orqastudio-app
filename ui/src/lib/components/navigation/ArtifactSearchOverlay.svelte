@@ -4,10 +4,11 @@
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
 	import { Button } from "$lib/components/ui/button";
 	import { ScrollArea } from "$lib/components/ui/scroll-area";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { navigationStore, artifactGraphSDK } = getStores();
 	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import type { ArtifactNode } from "@orqastudio/types";
 
 	let query = $state("");
 	let inputEl = $state<HTMLInputElement | null>(null);

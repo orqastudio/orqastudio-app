@@ -12,9 +12,10 @@
 	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { toast } from "$lib/stores/toast.svelte";
-	import type { IntegrityCheck, IntegrityCategory, IntegritySeverity } from "$lib/types/artifact-graph";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, toast } = getStores();
+	import type { IntegrityCheck, IntegrityCategory, IntegritySeverity } from "@orqastudio/types";
 
 	let checks = $state<IntegrityCheck[]>([]);
 	let loading = $state(false);
@@ -52,6 +53,10 @@
 		MilestoneGate: "Milestone Gate Violations",
 		IdeaPromotionValidity: "Promotion Issues",
 		IdeaDeliveryTracking: "Undelivered Ideas",
+		InvalidStatus: "Invalid Statuses",
+		BodyTextRefWithoutRelationship: "Body Refs Without Relationships",
+		ParentChildInconsistency: "Parent-Child Inconsistencies",
+		DeliveryPathMismatch: "Delivery Path Mismatches",
 	};
 
 	/** Unique categories present in current checks, for the filter dropdown. */

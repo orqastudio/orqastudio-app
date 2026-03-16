@@ -10,10 +10,9 @@
 	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import { ScrollArea } from "$lib/components/ui/scroll-area";
-	import { artifactStore } from "$lib/stores/artifact.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactStore, projectStore, navigationStore, artifactGraphSDK } = getStores();
 	import { parseFrontmatter } from "$lib/utils/frontmatter";
 
 	const content = $derived(artifactStore.activeContent);

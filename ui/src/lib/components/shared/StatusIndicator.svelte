@@ -11,8 +11,10 @@
 	import CircleMinusIcon from "@lucide/svelte/icons/circle-minus";
 	import CircleFadingArrowUpIcon from "@lucide/svelte/icons/circle-fading-arrow-up";
 	import type { Component } from "svelte";
-	import type { StatusDefinition } from "$lib/types";
-	import { projectStore } from "$lib/stores/project.svelte";
+	import type { StatusDefinition } from "@orqastudio/types";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { projectStore } = getStores();
 
 	/** Map from icon name (as stored in project config) to Lucide component. */
 	const ICON_MAP: Record<string, Component> = {

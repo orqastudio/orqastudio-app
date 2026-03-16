@@ -29,11 +29,10 @@
 	import WorkflowIcon from "@lucide/svelte/icons/workflow";
 	import NetworkIcon from "@lucide/svelte/icons/network";
 	import { Separator } from "$lib/components/ui/separator";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { settingsStore } from "$lib/stores/settings.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { artifactStore } from "$lib/stores/artifact.svelte";
-	import { isArtifactGroup } from "$lib/types/project";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { navigationStore, settingsStore, projectStore, artifactStore } = getStores();
+	import { isArtifactGroup } from "@orqastudio/types";
 	import ActivityBarItem from "./ActivityBarItem.svelte";
 	import type { Component } from "svelte";
 

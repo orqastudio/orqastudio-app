@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SvelteSet } from "svelte/reactivity";
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import type { ArtifactNode } from "@orqastudio/types";
 	import MilestoneCard from "./MilestoneCard.svelte";
 	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
 	import { Badge } from "$lib/components/ui/badge";
@@ -18,7 +18,7 @@
 	let {
 		columns,
 		epics,
-		epicParentField = "milestone",
+		epicParentRel = "delivers",
 		epicLabel = "Epic",
 		rootLabel = "Milestone",
 		onMilestoneClick,
@@ -26,8 +26,8 @@
 	}: {
 		columns: HorizonColumn[];
 		epics: ArtifactNode[];
-		/** The frontmatter field on epics that points to the parent milestone. Defaults to "milestone". */
-		epicParentField?: string;
+		/** The relationship type on epics that connects to the parent milestone. Defaults to "delivers". */
+		epicParentRel?: string;
 		/** Display label for the level-1 type (e.g. "Epic"). Used in card counts. */
 		epicLabel?: string;
 		/** Display label for the root type (e.g. "Milestone"). Used in empty state text. */
@@ -101,7 +101,11 @@
 	}
 
 	function epicsForMilestone(msId: string): ArtifactNode[] {
-		return epics.filter((e) => e.frontmatter[epicParentField] === msId);
+		return epics.filter((e) =>
+			e.references_out.some(
+				(r) => r.relationship_type === epicParentRel && r.target_id === msId,
+			),
+		);
 	}
 
 	// Sort/group options for the horizon board

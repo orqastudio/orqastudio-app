@@ -1,7 +1,7 @@
 <script lang="ts">
 	import EyeIcon from "@lucide/svelte/icons/eye";
 	import MessageSquareIcon from "@lucide/svelte/icons/message-square";
-	import type { ContextEntry as ContextEntryType } from "$lib/stores/conversation.svelte";
+	import type { ContextEntry as ContextEntryType } from "@orqastudio/sdk";
 	import ContextDetailDialog from "./ContextDetailDialog.svelte";
 
 	let { entry }: { entry: ContextEntryType } = $props();

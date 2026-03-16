@@ -10,7 +10,7 @@
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import XIcon from "@lucide/svelte/icons/x";
 	import PlusIcon from "@lucide/svelte/icons/plus";
-	import type { ProjectSettings, ProjectScanResult } from "$lib/types";
+	import type { ProjectSettings, ProjectScanResult } from "@orqastudio/types";
 
 	interface Props {
 		settings: ProjectSettings;

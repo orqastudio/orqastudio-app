@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { artifactGraphSDK, navigationStore } = getStores();
 	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
-	import type { ArtifactNode } from "$lib/types/artifact-graph";
+	import type { ArtifactNode } from "@orqastudio/types";
 
 	let {
 		parentId,

@@ -4,7 +4,9 @@
 	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
 	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
 	import TerminalIcon from "@lucide/svelte/icons/terminal";
-	import { setupStore } from "$lib/stores/setup.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { setupStore } = getStores();
 
 	interface Props {
 		onComplete: () => void;

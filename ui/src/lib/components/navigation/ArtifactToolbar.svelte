@@ -13,7 +13,7 @@
 		SortConfig,
 		NavigationConfig,
 		DocNode,
-	} from "$lib/types/nav-tree";
+	} from "@orqastudio/types";
 
 	let {
 		sortableFields,

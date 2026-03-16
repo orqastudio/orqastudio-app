@@ -2,11 +2,11 @@
 	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
 	import Link2OffIcon from "@lucide/svelte/icons/link-2-off";
 	import * as Tooltip from "$lib/components/ui/tooltip";
-	import { navigationStore } from "$lib/stores/navigation.svelte";
-	import { artifactGraphSDK } from "$lib/sdk/artifact-graph.svelte";
+	import { getStores } from "@orqastudio/sdk";
 	import { statusIcon, statusIsSpinning } from "$lib/components/shared/StatusIndicator.svelte";
-	import { projectStore } from "$lib/stores/project.svelte";
-	import { DEFAULT_ARTIFACT_LINK_COLORS } from "$lib/types";
+
+	const { navigationStore, artifactGraphSDK, projectStore } = getStores();
+	import { DEFAULT_ARTIFACT_LINK_COLORS } from "@orqastudio/types";
 
 	let { id, path, displayLabel }: { id?: string; path?: string; displayLabel?: string } = $props();
 

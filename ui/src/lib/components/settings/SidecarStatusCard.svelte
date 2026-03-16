@@ -7,7 +7,9 @@
 	import CircleDotIcon from "@lucide/svelte/icons/circle-dot";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
-	import { settingsStore } from "$lib/stores/settings.svelte";
+	import { getStores } from "@orqastudio/sdk";
+
+	const { settingsStore } = getStores();
 
 	function sidecarStatusColor(state: string): string {
 		switch (state) {
