@@ -4,7 +4,6 @@
 
 	const { artifactGraphSDK } = getStores();
 	import type { ArtifactNode, ArtifactRef } from "@orqastudio/types";
-	import type { Component } from "svelte";
 	import { PipelineStages, type PipelineStage, type PipelineEdge } from "@orqastudio/svelte-components/pure";
 
 	// -------------------------------------------------------------------------
@@ -17,7 +16,7 @@
 		/** Plural noun for display in reason text (e.g. "lessons", "decisions"). */
 		artifactNoun: string;
 		artifactType: string | null;
-		icon: Component;
+		icon: string;
 		/**
 		 * Relationship types that indicate flow FROM this stage to the next.
 		 * We include both directions of each pair so that we catch edges

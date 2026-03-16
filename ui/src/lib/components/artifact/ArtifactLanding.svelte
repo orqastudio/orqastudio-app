@@ -8,14 +8,13 @@
 	import type { ActivityView } from "@orqastudio/sdk";
 
 	const { artifactStore, enforcementStore, navigationStore } = getStores();
-	import type { Component } from "svelte";
 
 	let { category }: { category: ActivityView } = $props();
 
 	const categoryConfig: Record<
 		string,
 		{
-			icon: Component;
+			icon: string;
 			label: string;
 			singular: string;
 			description: string;
@@ -145,7 +144,6 @@
 					<!-- Card grid -->
 					<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
 						{#each items as item (item.path)}
-							{@const Icon = config.icon}
 							<button
 								class="text-left"
 								onclick={() => item.path && handleItemClick(item.label, item.path)}
@@ -153,7 +151,7 @@
 								<CardRoot class="transition-colors hover:bg-accent/50">
 									<CardContent class="p-4">
 										<div class="flex items-start gap-3">
-											<Icon class="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+											<Icon name={config.icon} size="md" />
 											<div class="min-w-0 flex-1">
 												<p class="truncate text-sm font-medium">{item.label}</p>
 												{#if item.description}

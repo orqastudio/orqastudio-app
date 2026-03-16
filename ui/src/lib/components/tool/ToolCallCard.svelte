@@ -70,8 +70,8 @@
 		class="flex w-full items-center gap-2 rounded-lg border {isEnforcementBlock ? 'border-destructive/50 bg-destructive/5' : 'border-border bg-muted/30'} px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
 	>
 		<Icon name="chevron-right" size="sm" />
-		{@const Icon = displayInfo.icon}
-		<Icon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+		{@const ToolIcon = displayInfo.icon}
+		<ToolIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 		<span class="flex-1 truncate font-mono text-xs">{displayInfo.label}</span>
 		{#if isEnforcementBlock && enforcementRuleName}
 			<ViolationBadge action="Block" ruleName={enforcementRuleName} />

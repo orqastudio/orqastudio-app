@@ -132,7 +132,7 @@
 	{#if isAllDone}
 		<div class="flex flex-1 items-center justify-center">
 			<EmptyState
-				icon={CircleCheckBigIcon}
+				icon="circle-check-big"
 				title="All completed"
 				description="Every item at this level is done."
 				action={{
@@ -150,7 +150,7 @@
 				{#if totalNodes === 0}
 					<div class="flex flex-1 items-center justify-center">
 						<EmptyState
-							icon={LayersIcon}
+							icon="layers"
 							title="No items"
 							description="Nothing to show here yet."
 						/>

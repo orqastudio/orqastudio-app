@@ -1,5 +1,5 @@
 <script lang="ts">
-timport { Icon } from "@orqastudio/svelte-components/pure";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import GateQuestions from "./GateQuestions.svelte";
 	import { StatusIndicator } from "@orqastudio/svelte-components/connected";

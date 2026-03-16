@@ -1,5 +1,5 @@
 <script lang="ts">
-timport { Icon } from "@orqastudio/svelte-components/pure";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 
 	let {
 		criteria,

@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Icon, SvelteMap } from "svelte/reactivity";
+	import { SvelteMap } from "svelte/reactivity";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";

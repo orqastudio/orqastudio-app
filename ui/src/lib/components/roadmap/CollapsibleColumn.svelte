@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import { Icon, untrack } from "svelte";
+	import { untrack } from "svelte";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { cn } from "@orqastudio/svelte-components";

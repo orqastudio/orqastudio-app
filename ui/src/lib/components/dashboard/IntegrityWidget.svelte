@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { Icon, SvelteSet } from "svelte/reactivity";
+	import { SvelteSet } from "svelte/reactivity";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";

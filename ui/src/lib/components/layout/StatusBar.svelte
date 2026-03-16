@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Icon, LoaderCircle } from "lucide-svelte";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -82,7 +82,7 @@
 	<!-- Startup task indicator -->
 	{#if settingsStore.activeStartupTask}
 		<div class="mr-4 flex items-center gap-1.5">
-			<LoaderCircle class="h-3 w-3 animate-spin text-muted-foreground" />
+			<Icon name="loader-circle" size="xs" />
 			<span>
 				{settingsStore.activeStartupTask.label}{settingsStore.activeStartupTask.detail
 					? `: ${settingsStore.activeStartupTask.detail}`
@@ -110,7 +110,7 @@
 						disabled={artifactGraphSDK.loading}
 					>
 						{#if artifactGraphSDK.loading}
-							<LoaderCircle class="h-3 w-3 animate-spin" />
+							<Icon name="loader-circle" size="xs" />
 							<span>Indexing...</span>
 						{:else if artifactGraphSDK.error}
 							<Icon name="triangle-alert" size="xs" />

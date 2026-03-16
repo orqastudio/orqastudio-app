@@ -282,7 +282,7 @@
 		{:else if !hasData}
 			<div class="flex flex-1 items-center justify-center">
 				<EmptyState
-					icon={KanbanIcon}
+					icon="kanban"
 					title="No {rootLabel.toLowerCase()}s found"
 					description="Create {rootLabel.toLowerCase()}s to see them here."
 				/>

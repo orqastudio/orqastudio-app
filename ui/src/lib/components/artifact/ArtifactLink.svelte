@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
+	import { Icon, TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import { statusIconName, statusIsSpinning, resolveIcon } from "@orqastudio/svelte-components/pure";
 

@@ -3,12 +3,11 @@
 	import { getStores } from "@orqastudio/sdk";
 
 	const { settingsStore } = getStores();
-	import type { Component } from "svelte";
 
 	interface SettingsCategory {
 		id: string;
 		label: string;
-		icon: Component;
+		icon: string;
 		description: string;
 	}
 
@@ -33,25 +32,25 @@
 		{
 			id: "provider",
 			label: "Provider",
-			icon: MonitorIcon,
+			icon: "monitor",
 			description: "Sidecar status, CLI path",
 		},
 		{
 			id: "model",
 			label: "Model",
-			icon: BrainIcon,
+			icon: "brain",
 			description: "Default Claude model",
 		},
 		{
 			id: "appearance",
 			label: "Appearance",
-			icon: PaletteIcon,
+			icon: "palette",
 			description: "Theme, font size",
 		},
 		{
 			id: "shortcuts",
 			label: "Keyboard Shortcuts",
-			icon: KeyboardIcon,
+			icon: "keyboard",
 			description: "Shortcut reference",
 		},
 	];
@@ -60,31 +59,31 @@
 		{
 			id: "project-general",
 			label: "General",
-			icon: SettingsIcon,
+			icon: "settings",
 			description: "Name, icon, description",
 		},
 		{
 			id: "project-scanning",
 			label: "Model & Scanning",
-			icon: ScanSearchIcon,
+			icon: "scan-search",
 			description: "Model, paths, stack detection",
 		},
 		{
 			id: "project-artifact-links",
 			label: "Artifact Links",
-			icon: LinkIcon,
+			icon: "link",
 			description: "Display mode, chip colours",
 		},
 		{
 			id: "project-delivery",
 			label: "Delivery Pipeline",
-			icon: RocketIcon,
+			icon: "rocket",
 			description: "Delivery types and hierarchy",
 		},
 		{
 			id: "project-status",
 			label: "Status Machine",
-			icon: WorkflowIcon,
+			icon: "workflow",
 			description: "Statuses, transitions, auto rules",
 		},
 	];
@@ -95,14 +94,13 @@
 <ScrollArea class="h-full">
 	<div class="space-y-0.5 p-2">
 		{#each categories as cat (cat.id)}
-			{@const Icon = cat.icon}
 			<button
 				class="flex w-full items-center gap-2 rounded px-2 py-2 text-left transition-colors hover:bg-accent/50"
 				class:bg-accent={currentSection === cat.id}
 				class:text-accent-foreground={currentSection === cat.id}
 				onclick={() => handleSectionChange(cat.id)}
 			>
-				<Icon class="h-4 w-4 shrink-0 text-muted-foreground" />
+				<Icon name={cat.icon} size="md" />
 				<div class="min-w-0">
 					<div class="truncate text-sm font-medium">{cat.label}</div>
 					<div class="truncate text-xs text-muted-foreground">{cat.description}</div>

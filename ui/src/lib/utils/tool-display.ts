@@ -1,26 +1,8 @@
-import WrenchIcon from "@lucide/svelte/icons/wrench";
-import FileTextIcon from "@lucide/svelte/icons/file-text";
-import FilePenIcon from "@lucide/svelte/icons/file-pen";
-import PencilIcon from "@lucide/svelte/icons/pencil";
-import TerminalIcon from "@lucide/svelte/icons/terminal";
-import FolderSearchIcon from "@lucide/svelte/icons/folder-search";
-import FileSearchIcon from "@lucide/svelte/icons/file-search";
-import RegexIcon from "@lucide/svelte/icons/regex";
-import BrainIcon from "@lucide/svelte/icons/brain";
-import BookOpenIcon from "@lucide/svelte/icons/book-open";
+import { resolveIcon } from "@orqastudio/svelte-components/pure";
+import type { Component } from "svelte";
 
 /**
  * Strips an MCP server prefix from a tool name.
- *
- * MCP tool names follow the pattern `mcp__<server>__<tool>` (two or more
- * double-underscore segments after the leading "mcp" segment). This function
- * returns just the final `<tool>` segment. If the name does not match the
- * pattern it is returned unchanged.
- *
- * Examples:
- *   mcp__orqa_studio_tools__read_file  → read_file
- *   mcp__chunkhound__search_regex      → search_regex
- *   read_file                          → read_file
  */
 export function stripToolName(name: string): string {
 	const parts = name.split("__");
@@ -30,25 +12,45 @@ export function stripToolName(name: string): string {
 	return name;
 }
 
-export const TOOL_DISPLAY: Record<string, { label: string; icon: typeof WrenchIcon }> = {
-	read_file: { label: "Read File", icon: FileTextIcon },
-	write_file: { label: "Write File", icon: FilePenIcon },
-	edit_file: { label: "Edit File", icon: PencilIcon },
-	bash: { label: "Run Command", icon: TerminalIcon },
-	glob: { label: "Find Files", icon: FolderSearchIcon },
-	grep: { label: "Search Content", icon: FileSearchIcon },
-	search_regex: { label: "Regex Search", icon: RegexIcon },
-	search_semantic: { label: "Semantic Search", icon: BrainIcon },
-	code_research: { label: "Code Research", icon: BookOpenIcon },
+const TOOL_ICONS: Record<string, string> = {
+	read_file: "file-text",
+	write_file: "file-text",
+	edit_file: "pencil",
+	bash: "terminal",
+	glob: "folder",
+	grep: "search",
+	search_regex: "search",
+	search_semantic: "brain",
+	code_research: "book-open",
+};
+
+const TOOL_LABELS: Record<string, string> = {
+	read_file: "Read File",
+	write_file: "Write File",
+	edit_file: "Edit File",
+	bash: "Run Command",
+	glob: "Find Files",
+	grep: "Search Content",
+	search_regex: "Regex Search",
+	search_semantic: "Semantic Search",
+	code_research: "Code Research",
 };
 
 /**
+ * Returns the display label and icon for a tool name.
+ */
+export function getToolDisplay(name: string): { label: string; icon: Component; iconName: string } {
+	const stripped = stripToolName(name);
+	const iconName = TOOL_ICONS[stripped] ?? "wrench";
+	return {
+		label: TOOL_LABELS[stripped] ?? stripped,
+		icon: resolveIcon(iconName),
+		iconName,
+	};
+}
+
+/**
  * Human-friendly labels for agent capability identifiers.
- *
- * Capabilities are declared in agent YAML frontmatter (e.g. `file_read`,
- * `shell_execute`) and resolved to provider-specific tool names at delegation
- * time. This map provides display labels for the capability identifiers
- * themselves, used in the artifact viewer UI.
  */
 export const CAPABILITY_LABELS: Record<string, string> = {
 	file_read: "Read Files",
@@ -66,35 +68,10 @@ export const CAPABILITY_LABELS: Record<string, string> = {
 	notebook_edit: "Edit Notebooks",
 };
 
-/**
- * Returns the human-friendly label for a capability identifier.
- * Falls back to a humanized version of the raw identifier.
- */
 export function getCapabilityLabel(capability: string): string {
 	return CAPABILITY_LABELS[capability] ?? capability.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-/**
- * Returns the display label and icon for a tool name.
- *
- * Automatically strips any MCP server prefix before performing the lookup so
- * that `mcp__chunkhound__search_regex` resolves to the same entry as
- * `search_regex`. Falls back to the stripped name and the generic wrench icon
- * when no entry is found in `TOOL_DISPLAY`.
- */
-export function getToolDisplay(name: string): { label: string; icon: typeof WrenchIcon } {
-	const stripped = stripToolName(name);
-	return TOOL_DISPLAY[stripped] ?? { label: stripped, icon: WrenchIcon };
-}
-
-/**
- * Returns a short group label for N consecutive completed calls of the same tool.
- *
- * Examples:
- *   groupLabel("read_file", 3)   → "Read 3 files"
- *   groupLabel("bash", 2)        → "Ran 2 commands"
- *   groupLabel("search_regex", 4) → "Regex search (4 searches)"
- */
 export function groupLabel(toolName: string, count: number): string {
 	const stripped = stripToolName(toolName);
 	const labels: Record<string, string> = {
@@ -111,9 +88,6 @@ export function groupLabel(toolName: string, count: number): string {
 	return labels[stripped] ?? `${stripped} (${count} calls)`;
 }
 
-/**
- * Maps a tool name to an activity phase label shown during streaming.
- */
 export function getActivityPhase(toolName: string): string {
 	const stripped = stripToolName(toolName);
 	const phases: Record<string, string> = {
@@ -130,10 +104,6 @@ export function getActivityPhase(toolName: string): string {
 	return phases[stripped] ?? "Working";
 }
 
-/**
- * Returns a short ephemeral description for a tool call in progress.
- * e.g. "Reading src/main.rs" or "Searching for 'handleClick'"
- */
 export function getEphemeralLabel(toolName: string, input: string): string {
 	const stripped = stripToolName(toolName);
 	try {

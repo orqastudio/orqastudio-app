@@ -267,7 +267,7 @@
 				style="padding-left: {depth * 12 + 4}px"
 			>
 				<Icon name="chevron-right" size="xs" />
-				<DirIcon class="h-3 w-3 shrink-0" />
+				<Icon name={dirIconName} size="xs" />
 				{node.label}
 			</CollapsibleTrigger>
 			<CollapsibleContent>

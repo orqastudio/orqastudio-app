@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { open } from "@tauri-apps/plugin-dialog";
-	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
+	import { Icon, DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { projectStore } = getStores();
