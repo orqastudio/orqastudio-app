@@ -1,5 +1,5 @@
 <script lang="ts">
-	import {
+	import { Icon,
 		DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent,
 		DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent,
 		DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem,
@@ -7,9 +7,6 @@
 		Button,
 		statusIconName, resolveIcon,
 	} from "@orqastudio/svelte-components/pure";
-	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
-	import FilterIcon from "@lucide/svelte/icons/filter";
-	import CheckIcon from "@lucide/svelte/icons/check";
 	import { countFieldValues } from "$lib/utils/artifact-view";
 	import type {
 		FilterableField,
@@ -140,7 +137,7 @@
 						size="icon-sm"
 						class="text-muted-foreground hover:text-foreground {isNonDefaultSort ? 'text-foreground' : ''}"
 					>
-						<ArrowUpDownIcon class="h-3.5 w-3.5" />
+						<Icon name="arrow-up-down" size="sm" />
 					</Button>
 				{/snippet}
 			</DropdownMenuTrigger>
@@ -160,7 +157,7 @@
 					<DropdownMenuItem onclick={() => onGroupChange(null)}>
 						<span class="flex items-center gap-2">
 							{#if currentGroup === null}
-								<CheckIcon class="h-3.5 w-3.5" />
+								<Icon name="check" size="sm" />
 							{:else}
 								<span class="h-3.5 w-3.5"></span>
 							{/if}
@@ -171,7 +168,7 @@
 						<DropdownMenuItem onclick={() => onGroupChange(field.name)}>
 							<span class="flex items-center gap-2">
 								{#if currentGroup === field.name}
-									<CheckIcon class="h-3.5 w-3.5" />
+									<Icon name="check" size="sm" />
 								{:else}
 									<span class="h-3.5 w-3.5"></span>
 								{/if}
@@ -201,7 +198,7 @@
 							size="icon-sm"
 							class="text-muted-foreground hover:text-foreground {hasActiveFilters ? 'text-foreground' : ''}"
 						>
-							<FilterIcon class="h-3.5 w-3.5" />
+							<Icon name="filter" size="sm" />
 						</Button>
 					{/snippet}
 				</PopoverTrigger>
@@ -238,7 +235,7 @@
 													: 'border-muted-foreground/40'}"
 											>
 												{#if active}
-													<CheckIcon class="h-2.5 w-2.5 text-primary-foreground" />
+													<Icon name="check" size="md" />
 												{/if}
 											</span>
 											<!-- Status icon if this is a status field -->

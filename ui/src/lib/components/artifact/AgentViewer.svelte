@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { SmallBadge } from "@orqastudio/svelte-components/pure";
+	import { Icon, SmallBadge } from "@orqastudio/svelte-components/pure";
 	import { MetadataRow } from "@orqastudio/svelte-components/pure";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import { parseFrontmatter } from "$lib/utils/frontmatter";
@@ -7,9 +7,6 @@
 
 	const { artifactGraphSDK } = getStores();
 	import { getCapabilityLabel } from "$lib/utils/tool-display";
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
-	import SparklesIcon from "@lucide/svelte/icons/sparkles";
-	import CpuIcon from "@lucide/svelte/icons/cpu";
 
 	let { content, path }: { content: string; path?: string } = $props();
 
@@ -60,12 +57,12 @@
 			<p class="text-sm text-muted-foreground">{description}</p>
 		{/if}
 
-		<MetadataRow icon={WrenchIcon} label="Capabilities" items={capabilities} badgeVariant="secondary" />
-		<MetadataRow icon={SparklesIcon} label="Skills" items={skills} badgeVariant="outline" />
+		<MetadataRow icon="wrench" label="Capabilities" items={capabilities} badgeVariant="secondary" />
+		<MetadataRow icon="sparkles" label="Skills" items={skills} badgeVariant="outline" />
 		{#if model}
 			<div class="flex items-center gap-1.5">
 				<span class="flex items-center gap-1 text-xs text-muted-foreground">
-					<CpuIcon class="h-3.5 w-3.5" />
+					<Icon name="cpu" size="sm" />
 					Model
 				</span>
 				<SmallBadge variant="default">{model}</SmallBadge>

@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 
-	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
-	import CompassIcon from "@lucide/svelte/icons/compass";
-	import MapIcon from "@lucide/svelte/icons/map";
 	import { SvelteMap } from "svelte/reactivity";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -146,7 +143,7 @@
 	<CardRoot class="gap-2">
 		<CardHeader class="pb-1">
 			<CardTitle class="flex items-center gap-1.5 text-sm font-semibold">
-				<CompassIcon class="h-4 w-4 text-muted-foreground" />
+				<Icon name="compass" size="md" />
 				Purpose
 			</CardTitle>
 			<CardDescription class="text-xs">What's Next</CardDescription>
@@ -181,7 +178,7 @@
 				<!-- ---------------------------------------------------------- -->
 				{#if pendingActions.length === 0}
 					<div class="flex items-center gap-2 py-4 text-sm text-muted-foreground">
-						<CheckCircle2Icon class="h-4 w-4 text-emerald-500 shrink-0" />
+						<Icon name="check-circle-2" size="md" />
 						<span>No pending actions — everything is moving</span>
 					</div>
 				{:else}
@@ -205,7 +202,7 @@
 				<!-- ---------------------------------------------------------- -->
 				{#if epicEntries.length === 0}
 					<div class="flex items-center gap-2 py-4 text-sm text-muted-foreground">
-						<MapIcon class="h-4 w-4 shrink-0" />
+						<Icon name="map" size="md" />
 						<span>No active or ready epics</span>
 					</div>
 				{:else}

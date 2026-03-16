@@ -1,14 +1,5 @@
 <script lang="ts">
-	import { ScrollArea } from "@orqastudio/svelte-components/pure";
-	import MonitorIcon from "@lucide/svelte/icons/monitor";
-	import BrainIcon from "@lucide/svelte/icons/brain";
-	import SettingsIcon from "@lucide/svelte/icons/settings";
-	import ScanSearchIcon from "@lucide/svelte/icons/scan-search";
-	import LinkIcon from "@lucide/svelte/icons/link";
-	import PaletteIcon from "@lucide/svelte/icons/palette";
-	import KeyboardIcon from "@lucide/svelte/icons/keyboard";
-	import RocketIcon from "@lucide/svelte/icons/rocket";
-	import WorkflowIcon from "@lucide/svelte/icons/workflow";
+	import { Icon, ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { settingsStore } = getStores();

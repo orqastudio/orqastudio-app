@@ -1,7 +1,5 @@
 <script lang="ts">
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import AlertTriangleIcon from "@lucide/svelte/icons/alert-triangle";
-	import { TooltipRoot as Tooltip, TooltipContent, TooltipTrigger } from "@orqastudio/svelte-components/pure";
+	import { Icon, TooltipRoot as Tooltip, TooltipContent, TooltipTrigger } from "@orqastudio/svelte-components/pure";
 
 	let {
 		action,
@@ -19,7 +17,7 @@
 				class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-medium bg-destructive/15 text-destructive border border-destructive/30"
 				aria-label="Blocked by rule: {ruleName}"
 			>
-				<ShieldIcon class="h-3 w-3 shrink-0" />
+				<Icon name="shield" size="xs" />
 				Block
 			</span>
 		{:else}
@@ -27,7 +25,7 @@
 				class="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-medium bg-warning/15 text-warning border border-warning/30"
 				aria-label="Warning from rule: {ruleName}"
 			>
-				<AlertTriangleIcon class="h-3 w-3 shrink-0" />
+				<Icon name="alert-triangle" size="xs" />
 				Warn
 			</span>
 		{/if}

@@ -1,8 +1,5 @@
 <script lang="ts">
-	import { LoaderCircle } from "lucide-svelte";
-	import BrainIcon from "@lucide/svelte/icons/brain";
-	import DatabaseIcon from "@lucide/svelte/icons/database";
-	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
+	import { Icon, LoaderCircle } from "lucide-svelte";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -68,7 +65,7 @@
 						class="flex items-center gap-1 rounded px-1.5 py-0.5 transition-colors hover:bg-accent hover:text-accent-foreground"
 						onclick={openModelSettings}
 					>
-						<BrainIcon class="h-3 w-3" />
+						<Icon name="brain" size="xs" />
 						<span>{settingsStore.modelDisplayName}</span>
 					</button>
 				{/snippet}
@@ -116,10 +113,10 @@
 							<LoaderCircle class="h-3 w-3 animate-spin" />
 							<span>Indexing...</span>
 						{:else if artifactGraphSDK.error}
-							<TriangleAlertIcon class="h-3 w-3" />
+							<Icon name="triangle-alert" size="xs" />
 							<span>Index Error</span>
 						{:else}
-							<DatabaseIcon class="h-3 w-3" />
+							<Icon name="database" size="xs" />
 							<span>{artifactCount} Artifacts Indexed</span>
 						{/if}
 					</button>

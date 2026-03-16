@@ -1,4 +1,5 @@
 <script lang="ts">
+timport { Icon } from "@orqastudio/svelte-components/pure";
 	import type { Component } from "svelte";
 	import { Button } from "$lib/components/ui/button";
 

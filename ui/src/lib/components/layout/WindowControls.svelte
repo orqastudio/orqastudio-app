@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { getCurrentWindow } from "@tauri-apps/api/window";
-	import MinusIcon from "@lucide/svelte/icons/minus";
-	import SquareIcon from "@lucide/svelte/icons/square";
-	import CopyIcon from "@lucide/svelte/icons/copy";
-	import XIcon from "@lucide/svelte/icons/x";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 
 	let isMaximized = $state(false);
 
@@ -40,7 +37,7 @@
 		onclick={minimize}
 		title="Minimize"
 	>
-		<MinusIcon class="h-3.5 w-3.5" />
+		<Icon name="minus" size="sm" />
 	</button>
 	<button
 		class="flex h-8 w-10 items-center justify-center text-muted-foreground hover:bg-accent hover:text-foreground"
@@ -48,9 +45,9 @@
 		title={isMaximized ? "Restore" : "Maximize"}
 	>
 		{#if isMaximized}
-			<CopyIcon class="h-3 w-3" />
+			<Icon name="copy" size="xs" />
 		{:else}
-			<SquareIcon class="h-3 w-3" />
+			<Icon name="square" size="xs" />
 		{/if}
 	</button>
 	<button
@@ -58,6 +55,6 @@
 		onclick={close}
 		title="Close"
 	>
-		<XIcon class="h-3.5 w-3.5" />
+		<Icon name="x" size="sm" />
 	</button>
 </div>

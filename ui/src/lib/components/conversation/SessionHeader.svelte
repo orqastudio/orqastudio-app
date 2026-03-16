@@ -1,10 +1,6 @@
 <script lang="ts">
 	import type { Session, SessionSummary } from "@orqastudio/types";
-	import PlusIcon from "@lucide/svelte/icons/plus";
-	import PencilIcon from "@lucide/svelte/icons/pencil";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import HistoryIcon from "@lucide/svelte/icons/history";
-	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Icon, Button } from "@orqastudio/svelte-components/pure";
 	import SessionDropdown from "./SessionDropdown.svelte";
 
 	let {
@@ -72,7 +68,7 @@
 		onRetry={onRetryLoadSessions}
 	>
 		<Button variant="ghost" size="icon-sm" aria-label="Session history" title="Session history">
-			<HistoryIcon class="h-4 w-4" />
+			<Icon name="history" size="md" />
 		</Button>
 	</SessionDropdown>
 
@@ -87,18 +83,18 @@
 				class="min-w-0 flex-1 rounded border border-input bg-transparent px-1.5 py-0.5 text-sm outline-none focus-visible:border-ring"
 			/>
 			<Button variant="ghost" size="icon-sm" onclick={finishEditing} aria-label="Save title">
-				<CheckIcon class="h-3.5 w-3.5" />
+				<Icon name="check" size="sm" />
 			</Button>
 		{:else}
 			<h2 class="min-w-0 flex-1 truncate text-sm font-medium">{displayTitle}</h2>
 			<Button variant="ghost" size="icon-sm" onclick={startEditing} aria-label="Edit title">
-				<PencilIcon class="h-3.5 w-3.5" />
+				<Icon name="pencil" size="sm" />
 			</Button>
 		{/if}
 	</div>
 
 	<!-- New session -->
 	<Button variant="ghost" size="icon-sm" onclick={onNewSession} aria-label="New session">
-		<PlusIcon class="h-4 w-4" />
+		<Icon name="plus" size="md" />
 	</Button>
 </div>

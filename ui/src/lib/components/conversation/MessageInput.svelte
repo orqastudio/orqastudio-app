@@ -1,7 +1,5 @@
 <script lang="ts">
-	import SendIcon from "@lucide/svelte/icons/send";
-	import SquareIcon from "@lucide/svelte/icons/square";
-	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Icon, Button } from "@orqastudio/svelte-components/pure";
 
 	let {
 		isStreaming = false,
@@ -65,7 +63,7 @@
 
 		{#if isStreaming}
 			<Button variant="destructive" size="icon-sm" onclick={onstop} aria-label="Stop generating">
-				<SquareIcon class="h-4 w-4" />
+				<Icon name="square" size="md" />
 			</Button>
 		{:else}
 			<Button
@@ -75,7 +73,7 @@
 				disabled={!canSend}
 				aria-label="Send message"
 			>
-				<SendIcon class="h-4 w-4" />
+				<Icon name="send" size="md" />
 			</Button>
 		{/if}
 	</div>

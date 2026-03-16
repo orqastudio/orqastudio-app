@@ -1,6 +1,6 @@
 <script lang="ts">
-	import CheckIcon from "@lucide/svelte/icons/check";
 	import { getStores } from "@orqastudio/sdk";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 
 	const { artifactGraphSDK, projectStore } = getStores();
 
@@ -85,7 +85,7 @@
 						<div
 							class="flex h-4 w-4 items-center justify-center rounded-full bg-primary/20"
 						>
-							<CheckIcon class="h-2.5 w-2.5 text-primary/70" />
+							<Icon name="check" size="md" />
 						</div>
 					{:else if isCurrent}
 						<div

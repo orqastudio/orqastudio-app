@@ -1,8 +1,5 @@
 <script lang="ts">
-	import BookOpenIcon from "@lucide/svelte/icons/book-open";
-	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
-	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
-	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Icon, Badge } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
@@ -48,19 +45,19 @@
 	<!-- Header -->
 	<div class="flex items-center justify-between border-b border-border px-3 py-2">
 		<div class="flex items-center gap-2">
-			<BookOpenIcon class="h-4 w-4 text-muted-foreground" />
+			<Icon name="book-open" size="md" />
 			<span class="text-sm font-medium">Lessons</span>
 		</div>
 		<div class="flex items-center gap-1.5">
 			{#if promotionCandidates.length > 0}
 				<Badge variant="secondary" class="text-xs px-1.5 py-0.5">
-					<TrendingUpIcon class="mr-1 h-3 w-3" />
+					<Icon name="trending-up" size="xs" />
 					{promotionCandidates.length} ready to promote
 				</Badge>
 			{/if}
 			{#if promotedCount > 0}
 				<Badge variant="outline" class="text-xs px-1.5 py-0.5">
-					<CheckCircleIcon class="mr-1 h-3 w-3" />
+					<Icon name="check-circle" size="xs" />
 					{promotedCount} promoted
 				</Badge>
 			{/if}
@@ -77,7 +74,7 @@
 				<ErrorDisplay message="Failed to load lessons: {error}" {onRetry} />
 			{:else if lessons.length === 0}
 				<EmptyState
-					icon={BookOpenIcon}
+					icon="book-open"
 					title="No lessons yet"
 					description="Lessons are captured when patterns recur across agent sessions."
 				/>

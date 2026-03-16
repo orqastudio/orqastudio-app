@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
+	import { Icon, DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
 	import { TabsRoot as Tabs, TabsContent, TabsList, TabsTrigger } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import {
@@ -7,7 +7,6 @@
 		CollapsibleContent,
 		CollapsibleTrigger,
 	} from "@orqastudio/svelte-components/pure";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import type { ContextEntry as ContextEntryType } from "@orqastudio/sdk";
 
 	let {
@@ -95,11 +94,7 @@
 									<CollapsibleTrigger
 										class="flex w-full items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
 									>
-										<ChevronRightIcon
-											class="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform {customPromptOpen
-												? 'rotate-90'
-												: ''}"
-										/>
+										<Icon name="chevron-right" size="sm" />
 										<span class="flex-1 text-xs font-medium text-foreground">Custom Prompt</span>
 										<span class="text-xs text-muted-foreground">
 											{entry.customPrompt.length.toLocaleString()} chars
@@ -124,11 +119,7 @@
 								<CollapsibleTrigger
 									class="flex w-full items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
 								>
-									<ChevronRightIcon
-										class="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform {governancePromptOpen
-											? 'rotate-90'
-											: ''}"
-									/>
+									<Icon name="chevron-right" size="sm" />
 									<span class="flex-1 text-xs font-medium text-foreground"
 										>Governance Prompt</span
 									>

@@ -1,4 +1,5 @@
 <script lang="ts">
+timport { Icon } from "@orqastudio/svelte-components/pure";
 	import type { Component } from "svelte";
 	import SmallBadge from "./SmallBadge.svelte";
 	import type { BadgeVariant } from "$lib/components/ui/badge";

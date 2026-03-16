@@ -1,6 +1,5 @@
 <script lang="ts">
-	import SquareIcon from "@lucide/svelte/icons/square";
-	import SquareCheckIcon from "@lucide/svelte/icons/square-check";
+timport { Icon } from "@orqastudio/svelte-components/pure";
 
 	let {
 		criteria,
@@ -22,9 +21,9 @@
 			{#each criteria as item, i (i)}
 				<li class="flex items-start gap-2 text-sm {isDone ? 'text-muted-foreground' : 'text-foreground'}">
 					{#if isDone}
-						<SquareCheckIcon class="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
+						<Icon name="square-check" size="sm" />
 					{:else}
-						<SquareIcon class="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
+						<Icon name="square" size="sm" />
 					{/if}
 					<span class={isDone ? 'line-through' : ''}>{item}</span>
 				</li>

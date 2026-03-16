@@ -1,7 +1,6 @@
 <script lang="ts">
-	import EyeIcon from "@lucide/svelte/icons/eye";
-	import MessageSquareIcon from "@lucide/svelte/icons/message-square";
 	import type { ContextEntry as ContextEntryType } from "@orqastudio/sdk";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import ContextDetailDialog from "./ContextDetailDialog.svelte";
 
 	let { entry }: { entry: ContextEntryType } = $props();
@@ -23,9 +22,9 @@
 	}}
 >
 	{#if entry.type === "system_prompt_sent"}
-		<EyeIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+		<Icon name="eye" size="sm" />
 	{:else}
-		<MessageSquareIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+		<Icon name="message-square" size="sm" />
 	{/if}
 	<span class="flex-1 text-xs text-muted-foreground">{summaryText}</span>
 </button>

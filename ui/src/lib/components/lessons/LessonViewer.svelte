@@ -1,8 +1,5 @@
 <script lang="ts">
-	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
-	import ArrowUpCircleIcon from "@lucide/svelte/icons/arrow-up-circle";
-	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
-	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Icon, Badge } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
@@ -45,7 +42,7 @@
 			<!-- Recurrence indicator and action -->
 			<div class="flex shrink-0 flex-col items-end gap-2">
 				<div class="flex items-center gap-1.5">
-					<TrendingUpIcon class="h-3.5 w-3.5 text-muted-foreground" />
+					<Icon name="trending-up" size="sm" />
 					<span class="text-xs font-medium">{lesson.recurrence}x</span>
 				</div>
 				{#if lesson.status === "active"}
@@ -65,7 +62,7 @@
 			<div
 				class="mt-2 flex items-center gap-1.5 rounded-md bg-warning/10 px-2 py-1.5 text-xs text-warning"
 			>
-				<ArrowUpCircleIcon class="h-3.5 w-3.5 shrink-0" />
+				<Icon name="arrow-up-circle" size="sm" />
 				<span>Recurred {lesson.recurrence} times — ready for promotion to a rule</span>
 			</div>
 		{/if}
@@ -74,7 +71,7 @@
 			<div
 				class="mt-2 flex items-center gap-1.5 rounded-md bg-muted px-2 py-1.5 text-xs text-muted-foreground"
 			>
-				<ExternalLinkIcon class="h-3.5 w-3.5 shrink-0" />
+				<Icon name="external-link" size="sm" />
 				<span>Promoted to: <code class="font-mono">{lesson.promoted_to}</code></span>
 			</div>
 		{/if}

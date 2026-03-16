@@ -1,13 +1,10 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
 	import { Input } from "@orqastudio/svelte-components/pure";
 	import { Textarea } from "@orqastudio/svelte-components/pure";
 	import { open } from "@tauri-apps/plugin-dialog";
-	import ImageIcon from "@lucide/svelte/icons/image";
-	import UploadIcon from "@lucide/svelte/icons/upload";
-	import TrashIcon from "@lucide/svelte/icons/trash-2";
 	import type { ProjectSettings } from "@orqastudio/types";
 
 	interface Props {
@@ -69,17 +66,17 @@
 					/>
 				{:else}
 					<div class="flex h-10 w-10 items-center justify-center rounded border bg-muted">
-						<ImageIcon class="h-5 w-5 text-muted-foreground" />
+						<Icon name="image" size="lg" />
 					</div>
 				{/if}
 				<div class="flex gap-2">
 					<Button variant="outline" size="sm" onclick={handleIconUpload}>
-						<UploadIcon class="mr-1.5 h-3.5 w-3.5" />
+						<Icon name="upload" size="sm" />
 						{props.iconDataUrl ? "Change" : "Upload"}
 					</Button>
 					{#if props.iconDataUrl}
 						<Button variant="outline" size="sm" onclick={props.onRemoveIcon}>
-							<TrashIcon class="mr-1.5 h-3.5 w-3.5" />
+							<Icon name="trash-2" size="sm" />
 							Remove
 						</Button>
 					{/if}

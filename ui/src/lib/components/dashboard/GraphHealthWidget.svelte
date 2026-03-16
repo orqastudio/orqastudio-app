@@ -1,14 +1,6 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
-	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
-	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
-	import UnlinkIcon from "@lucide/svelte/icons/unlink";
-	import NetworkIcon from "@lucide/svelte/icons/network";
-	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
-	import ScanIcon from "@lucide/svelte/icons/scan";
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
-	import EyeIcon from "@lucide/svelte/icons/eye";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { getGraphViz } from "$lib/graph-viz.svelte";
@@ -78,7 +70,7 @@
 <CardRoot class="gap-2 flex flex-col h-full">
 	<CardHeader class="pb-2">
 		<CardTitle class="flex items-center gap-1.5 text-sm font-semibold">
-			<EyeIcon class="h-4 w-4 text-muted-foreground" />
+			<Icon name="eye" size="md" />
 			Clarity
 		</CardTitle>
 		<CardDescription class="text-xs">Where You Are</CardDescription>
@@ -102,7 +94,7 @@
 				<!-- Clusters -->
 				<TooltipRoot delayDuration={300}>
 					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
-						<NetworkIcon class="h-3.5 w-3.5 {health.componentCount > 1 ? 'text-warning' : 'text-muted-foreground'}" />
+						<Icon name="network" size="sm" />
 						<span class="{health.componentCount > 1 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
 							{health.componentCount}
 						</span>
@@ -117,7 +109,7 @@
 				<!-- Orphans -->
 				<TooltipRoot delayDuration={300}>
 					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
-						<UnlinkIcon class="h-3.5 w-3.5 {orphanSeverity}" />
+						<Icon name="unlink" size="sm" />
 						<span class="{orphanSeverity} font-semibold tabular-nums">
 							{health.orphanCount} <span class="font-normal">({health.orphanPercentage}%)</span>
 						</span>
@@ -132,7 +124,7 @@
 				<!-- Avg Degree -->
 				<TooltipRoot delayDuration={300}>
 					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
-						<GitBranchIcon class="h-3.5 w-3.5 {degreeSeverity}" />
+						<Icon name="git-branch" size="sm" />
 						<span class="{degreeSeverity} font-semibold tabular-nums">{health.avgDegree}</span>
 						<span class="text-muted-foreground">Avg Degree</span>
 					</TooltipTrigger>
@@ -147,13 +139,13 @@
 					<TooltipRoot delayDuration={300}>
 						<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 							{#if errorCount > 0}
-								<CircleAlertIcon class="h-3.5 w-3.5 text-destructive" />
+								<Icon name="circle-alert" size="sm" />
 								<span class="text-destructive font-semibold tabular-nums">{errorCount}E / {warningCount}W</span>
 							{:else if warningCount > 0}
-								<TriangleAlertIcon class="h-3.5 w-3.5 text-warning" />
+								<Icon name="triangle-alert" size="sm" />
 								<span class="text-warning font-semibold tabular-nums">{warningCount}W</span>
 							{:else}
-								<CircleAlertIcon class="h-3.5 w-3.5 text-emerald-500" />
+								<Icon name="circle-alert" size="sm" />
 								<span class="text-emerald-500 font-semibold">Clean</span>
 							{/if}
 							<span class="text-muted-foreground">Integrity</span>
@@ -165,7 +157,7 @@
 					</TooltipRoot>
 				{:else}
 					<div class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 text-muted-foreground">
-						<ScanIcon class="h-3.5 w-3.5" />
+						<Icon name="scan" size="sm" />
 						<span class="tabular-nums">—</span>
 						<span>Integrity</span>
 					</div>
@@ -179,7 +171,7 @@
 				{#if loading}
 					<span class="mr-2"><LoadingSpinner size="sm" /></span>
 				{:else}
-					<ScanIcon class="mr-2 h-3.5 w-3.5" />
+					<Icon name="scan" size="sm" />
 				{/if}
 				Scan
 			</Button>
@@ -187,7 +179,7 @@
 				{#if fixing}
 					<span class="mr-2"><LoadingSpinner size="sm" /></span>
 				{:else}
-					<WrenchIcon class="mr-1.5 h-3.5 w-3.5" />
+					<Icon name="wrench" size="sm" />
 				{/if}
 				Auto-fix{scanned && fixableCount > 0 ? ` (${fixableCount})` : ""}
 			</Button>

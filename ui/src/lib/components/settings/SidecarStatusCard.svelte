@@ -1,12 +1,7 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
-	import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
-	import CircleXIcon from "@lucide/svelte/icons/circle-x";
-	import CircleDotIcon from "@lucide/svelte/icons/circle-dot";
-	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
-	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { settingsStore } = getStores();
@@ -42,13 +37,13 @@
 				<span class="w-32 text-muted-foreground">Sidecar Status:</span>
 				<div class="flex items-center gap-1.5">
 					{#if settingsStore.sidecarStatus.state === "connected"}
-						<CircleCheckIcon class="h-4 w-4 text-success" />
+						<Icon name="circle-check" size="md" />
 					{:else if settingsStore.sidecarStatus.state === "starting"}
-						<LoaderCircleIcon class="h-4 w-4 animate-spin text-warning" />
+						<Icon name="loader-circle" size="md" />
 					{:else if settingsStore.sidecarStatus.state === "error"}
-						<CircleXIcon class="h-4 w-4 text-destructive" />
+						<Icon name="circle-x" size="md" />
 					{:else}
-						<CircleDotIcon class="h-4 w-4 text-muted-foreground" />
+						<Icon name="circle-dot" size="md" />
 					{/if}
 					<span class={sidecarStatusColor(settingsStore.sidecarStatus.state)}>
 						{settingsStore.sidecarStateLabel}
@@ -74,12 +69,12 @@
 				<span class="w-32 text-muted-foreground">CLI Detected:</span>
 				{#if settingsStore.sidecarStatus.cli_detected}
 					<div class="flex items-center gap-1.5">
-						<CircleCheckIcon class="h-4 w-4 text-success" />
+						<Icon name="circle-check" size="md" />
 						<span>{settingsStore.sidecarStatus.cli_version ?? "Unknown version"}</span>
 					</div>
 				{:else}
 					<div class="flex items-center gap-1.5">
-						<CircleXIcon class="h-4 w-4 text-muted-foreground" />
+						<Icon name="circle-x" size="md" />
 						<span class="text-muted-foreground">Not found</span>
 					</div>
 				{/if}
@@ -95,7 +90,7 @@
 		<Separator />
 
 		<Button variant="outline" size="sm" onclick={handleRestart}>
-			<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
+			<Icon name="refresh-cw" size="sm" />
 			Restart Sidecar
 		</Button>
 	</CardContent>

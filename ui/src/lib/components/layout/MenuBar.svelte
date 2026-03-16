@@ -1,11 +1,5 @@
 <script lang="ts">
-	import FolderPlusIcon from "@lucide/svelte/icons/folder-plus";
-	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
-	import FolderXIcon from "@lucide/svelte/icons/folder-x";
-	import SlidersHorizontalIcon from "@lucide/svelte/icons/sliders-horizontal";
-	import InfoIcon from "@lucide/svelte/icons/info";
-	import LogOutIcon from "@lucide/svelte/icons/log-out";
-	import { DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@orqastudio/svelte-components/pure";
+	import { Icon, DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@orqastudio/svelte-components/pure";
 
 	interface Props {
 		hasProject: boolean;
@@ -67,23 +61,23 @@
 		</div>
 		<DropdownMenuContent align="start" class="w-52">
 			<DropdownMenuItem onclick={() => handleItem(onNewProject)}>
-				<FolderPlusIcon class="mr-2 h-4 w-4" />
+				<Icon name="folder-plus" size="md" />
 				New Project...
 			</DropdownMenuItem>
 			<DropdownMenuItem onclick={() => handleItem(onOpenProject)}>
-				<FolderOpenIcon class="mr-2 h-4 w-4" />
+				<Icon name="folder-open" size="md" />
 				Open Project...
 			</DropdownMenuItem>
 			{#if hasProject}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem onclick={() => handleItem(onCloseProject)}>
-					<FolderXIcon class="mr-2 h-4 w-4" />
+					<Icon name="folder-x" size="md" />
 					Close Project
 				</DropdownMenuItem>
 			{/if}
 			<DropdownMenuSeparator />
 			<DropdownMenuItem onclick={() => handleItem(onExit)}>
-				<LogOutIcon class="mr-2 h-4 w-4" />
+				<Icon name="log-out" size="md" />
 				Exit
 			</DropdownMenuItem>
 		</DropdownMenuContent>
@@ -105,7 +99,7 @@
 		</div>
 		<DropdownMenuContent align="start" class="w-52">
 			<DropdownMenuItem onclick={() => handleItem(onSettings)}>
-				<SlidersHorizontalIcon class="mr-2 h-4 w-4" />
+				<Icon name="sliders-horizontal" size="md" />
 				Settings
 			</DropdownMenuItem>
 		</DropdownMenuContent>
@@ -127,7 +121,7 @@
 		</div>
 		<DropdownMenuContent align="start" class="w-52">
 			<DropdownMenuItem onclick={() => handleItem(onAbout)}>
-				<InfoIcon class="mr-2 h-4 w-4" />
+				<Icon name="info" size="md" />
 				About
 			</DropdownMenuItem>
 		</DropdownMenuContent>

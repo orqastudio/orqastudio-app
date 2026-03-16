@@ -1,7 +1,4 @@
 <script lang="ts">
-	import SearchIcon from "@lucide/svelte/icons/search";
-	import XIcon from "@lucide/svelte/icons/x";
-	import FileTextIcon from "@lucide/svelte/icons/file-text";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
@@ -107,7 +104,7 @@
 			<div class="rounded-lg border border-border bg-popover shadow-2xl">
 				<!-- Search input -->
 				<div class="flex items-center gap-2 border-b border-border px-3">
-					<SearchIcon class="h-4 w-4 shrink-0 text-foreground" />
+					<Icon name="search" size="md" />
 					<input
 						bind:this={inputEl}
 						bind:value={query}
@@ -124,7 +121,7 @@
 								inputEl?.focus();
 							}}
 						>
-							<XIcon class="h-3.5 w-3.5" />
+							<Icon name="x" size="sm" />
 						</Button>
 					{/if}
 				</div>
@@ -146,7 +143,7 @@
 										{@const StatusIcon = resolveIcon(statusIconName(node.status))}
 										<StatusIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 									{:else}
-										<FileTextIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+										<Icon name="file-text" size="sm" />
 									{/if}
 
 									<!-- ID badge -->

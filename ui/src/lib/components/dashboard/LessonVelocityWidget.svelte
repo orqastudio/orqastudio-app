@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
-	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
-	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK, navigationStore } = getStores();
@@ -74,7 +72,7 @@
 		<CardHeader class="pb-2">
 			<CardTitle class="text-sm font-semibold">
 				<div class="flex items-center gap-2">
-					<TrendingUpIcon class="h-4 w-4 text-muted-foreground" />
+					<Icon name="trending-up" size="md" />
 					Lesson Velocity
 				</div>
 			</CardTitle>
@@ -88,7 +86,7 @@
 			<!-- Summary text -->
 			<div class="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
 				{#if awaitingPromotion === 0}
-					<CheckCircle2Icon class="h-3.5 w-3.5 text-emerald-500" />
+					<Icon name="check-circle-2" size="sm" />
 				{:else}
 					<span class="inline-block h-1.5 w-1.5 rounded-full bg-amber-500"></span>
 				{/if}

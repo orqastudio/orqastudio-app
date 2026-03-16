@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
-	import XIcon from "@lucide/svelte/icons/x";
+	import { Icon, DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import SettingsCategoryNav from "$lib/components/navigation/SettingsCategoryNav.svelte";
 
@@ -27,7 +26,7 @@
 				class="rounded-sm p-1 text-muted-foreground opacity-70 transition-opacity hover:opacity-100"
 				onclick={onClose}
 			>
-				<XIcon class="h-4 w-4" />
+				<Icon name="x" size="md" />
 			</button>
 		</div>
 		<div class="flex flex-1 overflow-hidden">

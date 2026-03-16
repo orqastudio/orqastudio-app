@@ -1,13 +1,7 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
-	import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
-	import CircleXIcon from "@lucide/svelte/icons/circle-x";
-	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
-	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
-	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
-	import LogInIcon from "@lucide/svelte/icons/log-in";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { setupStore } = getStores();
@@ -31,7 +25,7 @@
 	<CardContent class="space-y-4">
 		{#if cliChecking}
 			<div class="flex items-center gap-2 text-sm">
-				<LoaderCircleIcon class="h-4 w-4 animate-spin text-muted-foreground" />
+				<Icon name="loader-circle" size="md" />
 				<span class="text-muted-foreground">Checking CLI status...</span>
 			</div>
 		{:else if setupStore.cliInfo}
@@ -40,12 +34,12 @@
 					<span class="w-32 text-muted-foreground">Installed:</span>
 					{#if setupStore.cliInfo.installed}
 						<div class="flex items-center gap-1.5">
-							<CircleCheckIcon class="h-4 w-4 text-success" />
+							<Icon name="circle-check" size="md" />
 							<span>Yes</span>
 						</div>
 					{:else}
 						<div class="flex items-center gap-1.5">
-							<CircleXIcon class="h-4 w-4 text-destructive" />
+							<Icon name="circle-x" size="md" />
 							<span class="text-destructive">Not found</span>
 						</div>
 					{/if}
@@ -69,12 +63,12 @@
 					<span class="w-32 text-muted-foreground">Authenticated:</span>
 					{#if setupStore.cliInfo.authenticated}
 						<div class="flex items-center gap-1.5">
-							<ShieldCheckIcon class="h-4 w-4 text-success" />
+							<Icon name="shield-check" size="md" />
 							<span>Yes</span>
 						</div>
 					{:else}
 						<div class="flex items-center gap-1.5">
-							<CircleXIcon class="h-4 w-4 text-warning" />
+							<Icon name="circle-x" size="md" />
 							<span class="text-warning">Not authenticated</span>
 						</div>
 					{/if}
@@ -97,7 +91,7 @@
 
 		<div class="flex gap-2">
 			<Button variant="outline" size="sm" onclick={onCheckCli} disabled={cliChecking}>
-				<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
+				<Icon name="refresh-cw" size="sm" />
 				Re-check Status
 			</Button>
 			<Button
@@ -107,10 +101,10 @@
 				disabled={reauthenticating}
 			>
 				{#if reauthenticating}
-					<LoaderCircleIcon class="mr-1.5 h-3.5 w-3.5 animate-spin" />
+					<Icon name="loader-circle" size="sm" />
 					Authenticating...
 				{:else}
-					<LogInIcon class="mr-1.5 h-3.5 w-3.5" />
+					<Icon name="log-in" size="sm" />
 					Re-authenticate
 				{/if}
 			</Button>

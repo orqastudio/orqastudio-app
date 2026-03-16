@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
-	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -112,7 +111,7 @@
 		<CardHeader class="pb-3">
 			<CardTitle class="text-base">
 				<div class="flex items-center gap-2">
-					<TrendingUpIcon class="h-4 w-4 text-muted-foreground" />
+					<Icon name="trending-up" size="md" />
 					Health Trends
 				</div>
 			</CardTitle>

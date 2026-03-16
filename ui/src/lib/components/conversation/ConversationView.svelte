@@ -1,5 +1,4 @@
 <script lang="ts">
-	import MessageBubbleIcon from "@lucide/svelte/icons/message-square";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
@@ -264,7 +263,7 @@
 			{:else if messages.length === 0 && !isStreaming}
 				<div class="flex h-full items-center justify-center">
 					<EmptyState
-						icon={MessageBubbleIcon}
+						icon="message-square"
 						title="No messages yet"
 						description="Send a message to start the conversation."
 					/>
@@ -353,7 +352,7 @@
 		<!-- No session selected -->
 		<div class="flex h-full items-center justify-center">
 			<EmptyState
-				icon={MessageBubbleIcon}
+				icon="message-square"
 				title="No session active"
 				description="Select or create a session to begin chatting."
 				action={{

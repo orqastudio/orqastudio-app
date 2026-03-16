@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Icon, Button } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
-	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
-	import TerminalIcon from "@lucide/svelte/icons/terminal";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { setupStore } = getStores();
@@ -33,7 +31,7 @@
 </script>
 
 <div class="space-y-4 text-center">
-	<TerminalIcon class="mx-auto h-10 w-10 text-muted-foreground" />
+	<Icon name="terminal" size="xl" />
 	<h3 class="text-lg font-semibold">Claude CLI</h3>
 	<p class="text-sm text-muted-foreground">Checking for Claude Code CLI installation</p>
 
@@ -44,7 +42,7 @@
 		<ErrorDisplay message={setupStore.error} onRetry={check} />
 	{:else if setupStore.cliInfo?.installed}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<Icon name="circle-check" size="xl" />
 			<p class="text-sm font-medium text-success">Claude CLI found</p>
 			{#if setupStore.cliInfo.version}
 				<p class="text-xs text-muted-foreground">Version: {setupStore.cliInfo.version}</p>

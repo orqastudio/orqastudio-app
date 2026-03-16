@@ -1,13 +1,5 @@
 <script lang="ts">
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import AlertTriangleIcon from "@lucide/svelte/icons/alert-triangle";
-	import FolderIcon from "@lucide/svelte/icons/folder";
-	import GlobeIcon from "@lucide/svelte/icons/globe";
-	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
-	import CircleDashedIcon from "@lucide/svelte/icons/circle-dashed";
-	import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Icon, Badge } from "@orqastudio/svelte-components/pure";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -40,12 +32,12 @@
 	<div class="flex flex-wrap items-center gap-2 rounded-md border border-border bg-muted/30 px-3 py-2">
 		{#if isLoaded}
 			<div class="flex items-center gap-1 text-xs text-success">
-				<CheckCircleIcon class="h-3.5 w-3.5" />
+				<Icon name="check-circle" size="sm" />
 				<span>Loaded</span>
 			</div>
 		{:else}
 			<div class="flex items-center gap-1 text-xs text-muted-foreground">
-				<CircleDashedIcon class="h-3.5 w-3.5" />
+				<Icon name="circle-dashed" size="sm" />
 				<span>Not loaded</span>
 			</div>
 		{/if}
@@ -54,10 +46,10 @@
 			<span class="text-muted-foreground">|</span>
 			<div class="flex items-center gap-1 text-xs text-muted-foreground">
 				{#if matchedRule.scope === "system"}
-					<GlobeIcon class="h-3 w-3" />
+					<Icon name="globe" size="xs" />
 					<span>System</span>
 				{:else}
-					<FolderIcon class="h-3 w-3" />
+					<Icon name="folder" size="xs" />
 					<span>Project</span>
 				{/if}
 			</div>
@@ -87,9 +79,9 @@
 				onclick={() => (violationsExpanded = !violationsExpanded)}
 			>
 				{#if violationsExpanded}
-					<ChevronDownIcon class="h-3 w-3" />
+					<Icon name="chevron-down" size="xs" />
 				{:else}
-					<ChevronRightIcon class="h-3 w-3" />
+					<Icon name="chevron-right" size="xs" />
 				{/if}
 				Session Violations ({ruleViolations.length})
 			</button>
@@ -98,9 +90,9 @@
 					{#each ruleViolations as violation (violation.timestamp)}
 						<div class="flex items-start gap-2">
 							{#if violation.action === "Block"}
-								<ShieldIcon class="mt-0.5 h-3 w-3 shrink-0 text-destructive" />
+								<Icon name="shield" size="xs" />
 							{:else}
-								<AlertTriangleIcon class="mt-0.5 h-3 w-3 shrink-0 text-warning" />
+								<Icon name="alert-triangle" size="xs" />
 							{/if}
 							<div class="min-w-0 flex-1">
 								<span class="block truncate font-mono text-xs text-muted-foreground">{violation.tool_name}</span>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from "svelte";
-	import { untrack } from "svelte";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
+	import { Icon, untrack } from "svelte";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { cn } from "@orqastudio/svelte-components";
@@ -127,7 +126,7 @@
 					onclick={handleToggle}
 					aria-label="Collapse {title} column"
 				>
-					<ChevronRightIcon class="h-3.5 w-3.5" />
+					<Icon name="chevron-right" size="sm" />
 				</button>
 			{/if}
 		</div>

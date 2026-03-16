@@ -1,15 +1,11 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
 	import { Input } from "@orqastudio/svelte-components/pure";
 	import { Textarea } from "@orqastudio/svelte-components/pure";
 	import { SelectMenu } from "@orqastudio/svelte-components/pure";
-	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
-	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
-	import XIcon from "@lucide/svelte/icons/x";
-	import PlusIcon from "@lucide/svelte/icons/plus";
 	import type { ProjectSettings, ProjectScanResult } from "@orqastudio/types";
 
 	interface Props {
@@ -153,7 +149,7 @@
 							class="ml-0.5 rounded-sm hover:bg-muted"
 							onclick={() => removeExcludedPath(path)}
 						>
-							<XIcon class="h-3 w-3" />
+							<Icon name="x" size="xs" />
 						</button>
 					</Badge>
 				{/each}
@@ -168,7 +164,7 @@
 					}}
 				/>
 				<Button variant="outline" size="sm" onclick={addExcludedPath} disabled={!newExcludedPath.trim()}>
-					<PlusIcon class="h-3.5 w-3.5" />
+					<Icon name="plus" size="sm" />
 				</Button>
 			</div>
 		</div>
@@ -181,10 +177,10 @@
 					<h4 class="text-sm font-medium">Detected Stack</h4>
 					<Button variant="ghost" size="sm" onclick={handleRescan} disabled={props.rescanning}>
 						{#if props.rescanning}
-							<LoaderCircleIcon class="mr-1.5 h-3.5 w-3.5 animate-spin" />
+							<Icon name="loader-circle" size="sm" />
 							Scanning...
 						{:else}
-							<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
+							<Icon name="refresh-cw" size="sm" />
 							Re-scan
 						{/if}
 					</Button>
@@ -221,10 +217,10 @@
 					<h4 class="text-sm font-medium">Detected Stack</h4>
 					<Button variant="ghost" size="sm" onclick={handleRescan} disabled={props.rescanning}>
 						{#if props.rescanning}
-							<LoaderCircleIcon class="mr-1.5 h-3.5 w-3.5 animate-spin" />
+							<Icon name="loader-circle" size="sm" />
 							Scanning...
 						{:else}
-							<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
+							<Icon name="refresh-cw" size="sm" />
 							Scan
 						{/if}
 					</Button>

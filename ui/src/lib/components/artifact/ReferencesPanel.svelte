@@ -1,12 +1,9 @@
 <script lang="ts">
-	import {
+	import { Icon,
 		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
 	} from "@orqastudio/svelte-components/pure";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import ListIcon from "@lucide/svelte/icons/list";
-	import NetworkIcon from "@lucide/svelte/icons/network";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { SvelteMap } from "svelte/reactivity";
 	import { getStores } from "@orqastudio/sdk";
@@ -92,9 +89,7 @@
 				<CollapsibleTrigger
 					class="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
 				>
-					<ChevronRightIcon
-						class="h-3 w-3 transition-transform {panelOpen ? 'rotate-90' : ''}"
-					/>
+					<Icon name="chevron-right" size="xs" />
 					Relationships
 
 				</CollapsibleTrigger>
@@ -108,9 +103,9 @@
 									onclick={() => { viewMode = viewMode === "list" ? "graph" : "list"; }}
 								>
 									{#if viewMode === "list"}
-										<NetworkIcon class="h-3.5 w-3.5" />
+										<Icon name="network" size="sm" />
 									{:else}
-										<ListIcon class="h-3.5 w-3.5" />
+										<Icon name="list" size="sm" />
 									{/if}
 								</button>
 							{/snippet}

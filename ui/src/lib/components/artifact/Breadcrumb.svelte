@@ -1,7 +1,6 @@
 <script lang="ts">
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import HomeIcon from "@lucide/svelte/icons/home";
 	import { getStores } from "@orqastudio/sdk";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 
 	const { navigationStore } = getStores();
 
@@ -33,11 +32,11 @@
 		class="flex items-center text-muted-foreground hover:text-foreground"
 		onclick={handleHome}
 	>
-		<HomeIcon class="h-3.5 w-3.5" />
+		<Icon name="home" size="sm" />
 	</button>
 
 	{#each items as item, index (index)}
-		<ChevronRightIcon class="h-3 w-3 text-muted-foreground" />
+		<Icon name="chevron-right" size="xs" />
 		{#if index === items.length - 1}
 			<span class="font-medium text-foreground">{item}</span>
 		{:else}

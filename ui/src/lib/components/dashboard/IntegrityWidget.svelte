@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { SvelteSet } from "svelte/reactivity";
+	import { Icon, SvelteSet } from "svelte/reactivity";
 	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { SelectMenu } from "@orqastudio/svelte-components/pure";
-	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
-	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
-	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
-	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
-	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
 	import { getStores } from "@orqastudio/sdk";
@@ -145,7 +140,7 @@
 {#if scanned && checks.length === 0 && !error}
 	<!-- Collapsed "all clear" state — minimal footprint -->
 	<div class="mb-4 flex items-center gap-2 rounded-lg border border-border px-3 py-2">
-		<ShieldCheckIcon class="h-4 w-4 text-green-500" />
+		<Icon name="shield-check" size="md" />
 		<span class="text-sm text-muted-foreground">Pipeline Health</span>
 		<span class="text-xs text-green-600 dark:text-green-400">All clear</span>
 		{#if loading}
@@ -157,7 +152,7 @@
 	<CardHeader class="pb-2">
 		<CardTitle class="text-sm font-semibold">
 			<div class="flex items-center gap-2">
-				<ShieldAlertIcon class="h-4 w-4 {healthColor}" />
+				<Icon name="shield-alert" size="md" />
 				Pipeline Health
 				{#if loading}
 					<LoadingSpinner size="sm" />
@@ -240,7 +235,7 @@
 									class="flex items-center gap-0.5 text-muted-foreground hover:text-foreground"
 									onclick={() => toggleSort("severity")}
 								>
-									<ArrowUpDownIcon class="h-3 w-3" />
+									<Icon name="arrow-up-down" size="xs" />
 								</button>
 							</th>
 							<th class="px-2 py-1.5 text-right">
@@ -250,7 +245,7 @@
 								>
 									Category
 									{#if sortColumn === "category"}
-										<ArrowUpDownIcon class="h-3 w-3" />
+										<Icon name="arrow-up-down" size="xs" />
 									{/if}
 								</button>
 							</th>
@@ -261,7 +256,7 @@
 								>
 									Artifact
 									{#if sortColumn === "artifact"}
-										<ArrowUpDownIcon class="h-3 w-3" />
+										<Icon name="arrow-up-down" size="xs" />
 									{/if}
 								</button>
 							</th>
@@ -272,7 +267,7 @@
 								>
 									Message
 									{#if sortColumn === "message"}
-										<ArrowUpDownIcon class="h-3 w-3" />
+										<Icon name="arrow-up-down" size="xs" />
 									{/if}
 								</button>
 							</th>
@@ -283,9 +278,9 @@
 							<tr class="hover:bg-accent/30">
 								<td class="px-2 py-1.5">
 									{#if check.severity === "Error"}
-										<CircleAlertIcon class="h-3.5 w-3.5 text-destructive" />
+										<Icon name="circle-alert" size="sm" />
 									{:else}
-										<TriangleAlertIcon class="h-3.5 w-3.5 text-warning" />
+										<Icon name="triangle-alert" size="sm" />
 									{/if}
 								</td>
 								<td class="whitespace-nowrap px-2 py-1.5 text-muted-foreground text-right">

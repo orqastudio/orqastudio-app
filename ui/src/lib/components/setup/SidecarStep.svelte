@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Icon, Button } from "@orqastudio/svelte-components/pure";
 	import { extractErrorMessage } from "@orqastudio/sdk";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
-	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
-	import CpuIcon from "@lucide/svelte/icons/cpu";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { setupStore, settingsStore } = getStores();
@@ -54,7 +52,7 @@
 </script>
 
 <div class="space-y-4 text-center">
-	<CpuIcon class="mx-auto h-10 w-10 text-muted-foreground" />
+	<Icon name="cpu" size="xl" />
 	<h3 class="text-lg font-semibold">Sidecar Process</h3>
 	<p class="text-sm text-muted-foreground">Starting the Agent SDK sidecar</p>
 
@@ -65,7 +63,7 @@
 		<ErrorDisplay message={setupStore.error} onRetry={start} />
 	{:else if setupStore.sidecarStarted}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<Icon name="circle-check" size="xl" />
 			<p class="text-sm font-medium text-success">Sidecar connected</p>
 			{#if settingsStore.sidecarStatus.pid}
 				<p class="text-xs text-muted-foreground">PID: {settingsStore.sidecarStatus.pid}</p>

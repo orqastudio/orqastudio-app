@@ -1,11 +1,9 @@
 <script lang="ts">
-	import {
+	import { Icon,
 		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
 	} from "@orqastudio/svelte-components/pure";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import ArrowRightIcon from "@lucide/svelte/icons/arrow-right";
 	import { getGraphViz } from "$lib/graph-viz.svelte";
 	import ArtifactLink from "./ArtifactLink.svelte";
 
@@ -27,9 +25,7 @@
 			<CollapsibleTrigger
 				class="flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
 			>
-				<ChevronRightIcon
-					class="h-3 w-3 transition-transform {open ? 'rotate-90' : ''}"
-				/>
+				<Icon name="chevron-right" size="xs" />
 				Trace
 			</CollapsibleTrigger>
 			<CollapsibleContent>
@@ -47,7 +43,7 @@
 									{artifactId}
 								</span>
 								{#each upChain as id (id)}
-									<ArrowRightIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
+									<Icon name="arrow-right" size="xs" />
 									<ArtifactLink {id} />
 								{/each}
 							</div>
@@ -67,7 +63,7 @@
 									{artifactId}
 								</span>
 								{#each downChain as id (id)}
-									<ArrowRightIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
+									<Icon name="arrow-right" size="xs" />
 									<ArtifactLink {id} />
 								{/each}
 							</div>

@@ -1,12 +1,9 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Input } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
 	import { ConfirmDialog as ConfirmDeleteDialog } from "@orqastudio/svelte-components/pure";
-	import PlusIcon from "@lucide/svelte/icons/plus";
-	import Trash2Icon from "@lucide/svelte/icons/trash-2";
-	import GripVerticalIcon from "@lucide/svelte/icons/grip-vertical";
 	import type { ProjectSettings, StatusDefinition, StatusAutoRule } from "@orqastudio/types";
 
 	interface Props {
@@ -187,7 +184,7 @@
 				>
 					<!-- Header row: drag handle, key, delete -->
 					<div class="flex items-center gap-2">
-						<GripVerticalIcon class="h-4 w-4 shrink-0 cursor-grab text-muted-foreground/50" />
+						<Icon name="grip-vertical" size="md" />
 						<span class="flex-1 font-mono text-xs font-semibold text-muted-foreground">{status.key}</span>
 						<Button
 							variant="ghost"
@@ -195,7 +192,7 @@
 							class="h-7 px-2 text-muted-foreground hover:text-destructive"
 							onclick={() => requestDelete(index)}
 						>
-							<Trash2Icon class="h-3.5 w-3.5" />
+							<Icon name="trash-2" size="sm" />
 						</Button>
 					</div>
 
@@ -279,7 +276,7 @@
 								class="h-6 px-2 text-xs"
 								onclick={() => addAutoRule(index)}
 							>
-								<PlusIcon class="mr-1 h-3 w-3" />
+								<Icon name="plus" size="xs" />
 								Add rule
 							</Button>
 						</div>
@@ -312,7 +309,7 @@
 											class="h-7 px-1.5 text-muted-foreground hover:text-destructive"
 											onclick={() => removeAutoRule(index, rIndex)}
 										>
-											<Trash2Icon class="h-3.5 w-3.5" />
+											<Icon name="trash-2" size="sm" />
 										</Button>
 									</div>
 								{/each}
@@ -328,7 +325,7 @@
 		{/if}
 
 		<Button variant="outline" size="sm" onclick={addStatus} class="w-full">
-			<PlusIcon class="mr-1.5 h-3.5 w-3.5" />
+			<Icon name="plus" size="sm" />
 			Add Status
 		</Button>
 	</CardContent>

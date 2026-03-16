@@ -1,9 +1,7 @@
 <script lang="ts">
-	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Icon, Button } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
-	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
-	import BrainIcon from "@lucide/svelte/icons/brain";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { setupStore, settingsStore } = getStores();
@@ -68,7 +66,7 @@
 </script>
 
 <div class="space-y-4 text-center">
-	<BrainIcon class="mx-auto h-10 w-10 text-muted-foreground" />
+	<Icon name="brain" size="xl" />
 	<h3 class="text-lg font-semibold">Embedding Model</h3>
 	<p class="text-sm text-muted-foreground">Preparing semantic search model</p>
 
@@ -83,7 +81,7 @@
 		<ErrorDisplay message={setupStore.error} onRetry={check} />
 	{:else if setupStore.embeddingStatus?.status === "complete"}
 		<div class="space-y-2">
-			<CheckCircleIcon class="mx-auto h-8 w-8 text-success" />
+			<Icon name="circle-check" size="xl" />
 			<p class="text-sm font-medium text-success">Model ready</p>
 			<p class="text-xs text-muted-foreground">bge-small-en-v1.5</p>
 		</div>

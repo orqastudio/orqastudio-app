@@ -1,26 +1,6 @@
 <script lang="ts">
 	import { CollapsibleRoot as Collapsible, CollapsibleTrigger, CollapsibleContent } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import FolderIcon from "@lucide/svelte/icons/folder";
-	import BookOpenIcon from "@lucide/svelte/icons/book-open";
-	import BotIcon from "@lucide/svelte/icons/bot";
-	import CheckSquareIcon from "@lucide/svelte/icons/check-square";
-	import ClipboardListIcon from "@lucide/svelte/icons/clipboard-list";
-	import FlaskConicalIcon from "@lucide/svelte/icons/flask-conical";
-	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
-	import LayersIcon from "@lucide/svelte/icons/layers";
-	import LightbulbIcon from "@lucide/svelte/icons/lightbulb";
-	import ScrollTextIcon from "@lucide/svelte/icons/scroll-text";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import TargetIcon from "@lucide/svelte/icons/target";
-	import UsersIcon from "@lucide/svelte/icons/users";
-	import ZapIcon from "@lucide/svelte/icons/zap";
-	import CompassIcon from "@lucide/svelte/icons/compass";
-	import CodeIcon from "@lucide/svelte/icons/code";
-	import LayoutIcon from "@lucide/svelte/icons/layout";
-	import PaletteIcon from "@lucide/svelte/icons/palette";
 	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
@@ -31,38 +11,12 @@
 
 	const { artifactStore, navigationStore } = getStores();
 	import type { DocNode, ArtifactViewState, SortConfig } from "@orqastudio/types";
-	import type { Component } from "svelte";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 	import { applyFilters, applySort, applyGrouping } from "$lib/utils/artifact-view";
 	import { SvelteMap } from "svelte/reactivity";
 
-	/** Map from icon name strings (as stored in README frontmatter) to Lucide icon components. */
-	const ICON_MAP: Record<string, Component> = {
-		"book-open": BookOpenIcon,
-		bot: BotIcon,
-		"check-square": CheckSquareIcon,
-		"clipboard-list": ClipboardListIcon,
-		"file-text": FileTextIcon,
-		"flask-conical": FlaskConicalIcon,
-		folder: FolderIcon,
-		"git-branch": GitBranchIcon,
-		layers: LayersIcon,
-		lightbulb: LightbulbIcon,
-		"scroll-text": ScrollTextIcon,
-		shield: ShieldIcon,
-		target: TargetIcon,
-		users: UsersIcon,
-		zap: ZapIcon,
-		compass: CompassIcon,
-		code: CodeIcon,
-		layout: LayoutIcon,
-		palette: PaletteIcon,
-	};
-
-	function resolveDirectoryIcon(iconName: string | null | undefined): Component {
-		if (iconName && iconName in ICON_MAP) {
-			return ICON_MAP[iconName];
-		}
-		return FolderIcon;
+	function resolveDirectoryIcon(iconName: string | null | undefined): string {
+		return iconName ?? "folder";
 	}
 
 	let { category }: { category: ActivityView } = $props();
@@ -248,7 +202,7 @@
 			{:else if rawNodes.length === 0}
 				<div class="px-2 py-8">
 					<EmptyState
-						icon={FileTextIcon}
+						icon="file-text"
 						title="No {categoryLabel.toLowerCase()} yet"
 						description="No {categoryLabel.toLowerCase()} files found in this project."
 					/>
@@ -271,7 +225,7 @@
 							<CollapsibleTrigger
 								class="flex w-full items-center gap-1.5 rounded px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:bg-accent/50"
 							>
-								<ChevronRightIcon class="h-3 w-3 transition-transform [[data-state=open]_&]:rotate-90" />
+								<Icon name="chevron-right" size="xs" />
 								{group.label}
 								<span class="ml-auto text-[10px] font-normal tabular-nums">{group.nodes.length}</span>
 							</CollapsibleTrigger>
@@ -306,13 +260,13 @@
 
 {#snippet treeSection(node: DocNode, depth: number)}
 	{#if node.children}
-		{@const DirIcon = resolveDirectoryIcon(node.icon)}
+		{@const dirIconName = resolveDirectoryIcon(node.icon)}
 		<Collapsible open={true}>
 			<CollapsibleTrigger
 				class="flex w-full items-center gap-1 rounded px-1 py-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:bg-accent/50"
 				style="padding-left: {depth * 12 + 4}px"
 			>
-				<ChevronRightIcon class="h-3 w-3 transition-transform [[data-state=open]_&]:rotate-90" />
+				<Icon name="chevron-right" size="xs" />
 				<DirIcon class="h-3 w-3 shrink-0" />
 				{node.label}
 			</CollapsibleTrigger>

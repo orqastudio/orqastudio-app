@@ -1,9 +1,6 @@
 <script lang="ts">
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
-	import XCircleIcon from "@lucide/svelte/icons/x-circle";
 	import type { Message } from "@orqastudio/types";
-	import {
+	import { Icon,
 		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
@@ -95,16 +92,12 @@
 		<CollapsibleTrigger
 			class="flex w-full items-center gap-2 rounded-lg border border-border bg-muted/30 px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
 		>
-			<ChevronRightIcon
-				class="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform {open
-					? 'rotate-90'
-					: ''}"
-			/>
-			<WrenchIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+			<Icon name="chevron-right" size="sm" />
+			<Icon name="wrench" size="sm" />
 			<span class="flex-1 text-xs text-muted-foreground">{summaryLabel}</span>
 			{#if errorCount > 0}
 				<span class="flex items-center gap-1 text-xs text-destructive">
-					<XCircleIcon class="h-3.5 w-3.5 shrink-0" />
+					<Icon name="x-circle" size="sm" />
 					{errorCount} {errorCount === 1 ? "error" : "errors"}
 				</span>
 			{/if}

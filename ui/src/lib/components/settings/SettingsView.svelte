@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Icon, ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
-	import CircleXIcon from "@lucide/svelte/icons/circle-x";
-	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { projectStore, settingsStore } = getStores();
@@ -57,7 +55,7 @@
 				<CardRoot>
 					<CardContent class="py-8">
 						<div class="flex items-center gap-2 text-sm text-muted-foreground">
-							<CircleXIcon class="h-4 w-4" />
+							<Icon name="circle-x" size="md" />
 							No project loaded
 						</div>
 					</CardContent>
@@ -65,7 +63,7 @@
 			{:else if !projectStore.settingsLoaded}
 				<CardRoot>
 					<CardContent class="flex items-center gap-2 py-8">
-						<LoaderCircleIcon class="h-4 w-4 animate-spin" />
+						<Icon name="loader-circle" size="md" />
 						<span class="text-sm text-muted-foreground">Loading project settings...</span>
 					</CardContent>
 				</CardRoot>

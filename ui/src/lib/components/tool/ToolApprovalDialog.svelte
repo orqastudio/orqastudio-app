@@ -1,8 +1,5 @@
 <script lang="ts">
-	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import XIcon from "@lucide/svelte/icons/x";
-	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Icon, Button } from "@orqastudio/svelte-components/pure";
 	import { CardRoot as Card, CardContent, CardFooter, CardHeader, CardTitle } from "@orqastudio/svelte-components/pure";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
 	import type { PendingApproval } from "@orqastudio/sdk";
@@ -33,7 +30,7 @@
 <Card class="border-warning/40 bg-warning/5">
 	<CardHeader class="pb-2">
 		<CardTitle class="flex items-center gap-2 text-sm font-semibold text-warning">
-			<ShieldAlertIcon class="h-4 w-4 shrink-0" />
+			<Icon name="shield-alert" size="md" />
 			Approval Required — {toolLabel}
 		</CardTitle>
 	</CardHeader>
@@ -46,11 +43,11 @@
 	</CardContent>
 	<CardFooter class="flex gap-2 pt-2">
 		<Button variant="default" size="sm" onclick={onApprove} class="gap-1.5">
-			<CheckIcon class="h-3.5 w-3.5" />
+			<Icon name="check" size="sm" />
 			Approve
 		</Button>
 		<Button variant="outline" size="sm" onclick={onDeny} class="gap-1.5">
-			<XIcon class="h-3.5 w-3.5" />
+			<Icon name="x" size="sm" />
 			Deny
 		</Button>
 	</CardFooter>

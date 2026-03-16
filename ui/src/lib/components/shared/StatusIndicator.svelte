@@ -71,6 +71,7 @@
 </script>
 
 <script lang="ts">
+timport { Icon } from "@orqastudio/svelte-components/pure";
 	import { cn } from "$lib/utils";
 
 	let {

@@ -1,11 +1,9 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Input } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
 	import { ConfirmDialog as ConfirmDeleteDialog } from "@orqastudio/svelte-components/pure";
-	import PlusIcon from "@lucide/svelte/icons/plus";
-	import Trash2Icon from "@lucide/svelte/icons/trash-2";
 	import type { ProjectSettings, DeliveryTypeConfig, DeliveryParentConfig } from "@orqastudio/types";
 
 	interface Props {
@@ -129,7 +127,7 @@
 							class="h-7 px-2 text-muted-foreground hover:text-destructive"
 							onclick={() => requestDelete(index)}
 						>
-							<Trash2Icon class="h-3.5 w-3.5" />
+							<Icon name="trash-2" size="sm" />
 						</Button>
 					</div>
 
@@ -213,7 +211,7 @@
 		{/if}
 
 		<Button variant="outline" size="sm" onclick={addType} class="w-full">
-			<PlusIcon class="mr-1.5 h-3.5 w-3.5" />
+			<Icon name="plus" size="sm" />
 			Add Delivery Type
 		</Button>
 	</CardContent>

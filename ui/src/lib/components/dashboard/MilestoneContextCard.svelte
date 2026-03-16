@@ -1,11 +1,7 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
-	import TargetIcon from "@lucide/svelte/icons/target";
-	import CalendarIcon from "@lucide/svelte/icons/calendar";
-	import MapIcon from "@lucide/svelte/icons/map";
-	import KanbanIcon from "@lucide/svelte/icons/kanban";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK, navigationStore } = getStores();
@@ -81,18 +77,18 @@
 <CardRoot class="w-full">
 	<CardHeader class="pb-3">
 		<CardTitle class="flex items-center gap-2 text-base">
-			<TargetIcon class="h-4 w-4 text-muted-foreground" />
+			<Icon name="target" size="md" />
 			Active Milestone
 		</CardTitle>
 		<CardAction>
 			{#if activeMilestone}
 				<Button variant="ghost" size="sm" onclick={openMilestone} class="h-7 text-xs">
-					<KanbanIcon class="mr-1 h-3.5 w-3.5" />
+					<Icon name="kanban" size="sm" />
 					View Roadmap
 				</Button>
 			{:else}
 				<Button variant="ghost" size="sm" onclick={openRoadmap} class="h-7 text-xs">
-					<MapIcon class="mr-1 h-3.5 w-3.5" />
+					<Icon name="map" size="sm" />
 					Roadmap
 				</Button>
 			{/if}
@@ -123,7 +119,7 @@
 				</div>
 				{#if activeMilestone.deadline}
 					<div class="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-						<CalendarIcon class="h-3.5 w-3.5" />
+						<Icon name="calendar" size="sm" />
 						{activeMilestone.deadline}
 					</div>
 				{/if}

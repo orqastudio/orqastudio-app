@@ -1,9 +1,6 @@
 <script lang="ts">
 	import type { SessionSummary, SessionStatus } from "@orqastudio/types";
-	import PlusIcon from "@lucide/svelte/icons/plus";
-	import Trash2Icon from "@lucide/svelte/icons/trash-2";
-	import MessageSquareIcon from "@lucide/svelte/icons/message-square";
-	import {
+	import { Icon,
 		PopoverRoot as Popover,
 		PopoverContent,
 		PopoverTrigger,
@@ -142,7 +139,7 @@
 		<div class="flex items-center justify-between p-3 pb-2">
 			<h3 class="text-sm font-semibold">Sessions</h3>
 			<Button variant="ghost" size="sm" onclick={handleNewSession} class="h-7 gap-1 px-2 text-xs">
-				<PlusIcon class="h-3.5 w-3.5" />
+				<Icon name="plus" size="sm" />
 				New Session
 			</Button>
 		</div>
@@ -166,7 +163,7 @@
 				</div>
 			{:else if filteredSessions.length === 0}
 				<EmptyState
-					icon={MessageSquareIcon}
+					icon="message-square"
 					title={searchQuery.trim().length > 0 ? "No matching sessions" : "No sessions yet"}
 				/>
 			{:else}
@@ -208,7 +205,7 @@
 								aria-label="Delete session"
 								title="Delete session"
 							>
-								<Trash2Icon class="h-3.5 w-3.5" />
+								<Icon name="trash-2" size="sm" />
 							</button>
 						</div>
 					{/each}

@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Icon, ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
-	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import MilestoneContextCard from "./MilestoneContextCard.svelte";
@@ -11,7 +10,6 @@
 	import GraphHealthWidget from "./GraphHealthWidget.svelte";
 	import LessonVelocityWidget from "./LessonVelocityWidget.svelte";
 	import DecisionQueueWidget from "./DecisionQueueWidget.svelte";
-	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
 
 	const { projectStore, artifactGraphSDK, toast } = getStores();
 	import type { IntegrityCheck } from "@orqastudio/types";
@@ -73,7 +71,7 @@
 	<div class="p-6">
 		{#if !project}
 			<EmptyState
-				icon={FolderOpenIcon}
+				icon="folder-open"
 				title="No project open"
 				description="Open a project to view its dashboard and governance artifacts."
 				action={{ label: "Open Project", onclick: () => {} }}
@@ -85,7 +83,7 @@
 					{#if projectStore.iconDataUrl}
 						<img src={projectStore.iconDataUrl} alt={projectName} class="h-12 w-12 rounded object-contain" />
 					{:else}
-						<FolderOpenIcon class="h-12 w-12 text-muted-foreground" />
+						<Icon name="folder-open" size="xl" />
 					{/if}
 					<div>
 						<h1 class="text-2xl font-bold">{projectName}</h1>
@@ -120,7 +118,7 @@
 					<CardRoot class="gap-2 overflow-hidden">
 						<CardHeader class="pb-2">
 							<CardTitle class="flex items-center gap-1.5 text-sm font-semibold">
-								<TrendingUpIcon class="h-4 w-4 text-muted-foreground" />
+								<Icon name="trending-up" size="md" />
 								Learning
 							</CardTitle>
 							<CardDescription class="text-xs">How You're Improving</CardDescription>

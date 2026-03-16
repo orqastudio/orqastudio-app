@@ -1,14 +1,13 @@
 <script lang="ts">
-	import type { Component } from "svelte";
-	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
+	import { Icon, TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 
 	let {
-		icon: Icon,
+		icon,
 		label,
 		active = false,
 		onclick,
 	}: {
-		icon: Component;
+		icon: string;
 		label: string;
 		active?: boolean;
 		onclick: () => void;
@@ -26,7 +25,7 @@
 					: 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'}"
 				{onclick}
 			>
-				<Icon class="h-5 w-5" />
+				<Icon name={icon} size="lg" />
 			</button>
 		{/snippet}
 	</TooltipTrigger>

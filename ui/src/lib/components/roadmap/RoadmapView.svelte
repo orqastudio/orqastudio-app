@@ -1,6 +1,5 @@
 <script lang="ts">
-	import KanbanIcon from "@lucide/svelte/icons/kanban";
-	import { EmptyState } from "@orqastudio/svelte-components/pure";
+	import { Icon, EmptyState } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
@@ -293,7 +292,7 @@
 			<div class="flex h-full flex-col px-6 py-4">
 				<div class="mb-4">
 					<div class="flex items-center gap-3">
-						<KanbanIcon class="h-6 w-6 text-muted-foreground" />
+						<Icon name="kanban" size="xl" />
 						<div>
 							<h1 class="text-xl font-bold">Roadmap</h1>
 							<p class="text-xs text-muted-foreground">

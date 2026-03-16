@@ -1,7 +1,5 @@
 <script lang="ts">
-	import CopyIcon from "@lucide/svelte/icons/copy";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Icon, Badge } from "@orqastudio/svelte-components/pure";
 	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Highlight, type LanguageType } from "svelte-highlight";
 	import bash from "svelte-highlight/languages/bash";
@@ -61,10 +59,10 @@
 			onclick={copyToClipboard}
 		>
 			{#if copied}
-				<CheckIcon size={10} class="text-success" />
+				<Icon name="check" size="md" />
 				<span>Copied</span>
 			{:else}
-				<CopyIcon size={12} />
+				<Icon name="copy" size="md" />
 			{/if}
 		</button>
 	</div>

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { open } from "@tauri-apps/plugin-dialog";
 	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
-	import FolderCodeIcon from "@lucide/svelte/icons/folder-code";
-	import SquarePlusIcon from "@lucide/svelte/icons/square-plus";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { projectStore } = getStores();
@@ -53,7 +51,7 @@
 				class="flex items-start gap-4 rounded-lg border border-border p-4 text-left transition-colors hover:bg-accent"
 				onclick={handleCreateFromScratch}
 			>
-				<SquarePlusIcon class="mt-0.5 h-6 w-6 shrink-0 text-primary" />
+				<Icon name="square-plus" size="xl" />
 				<div>
 					<p class="text-sm font-medium">Create From Scratch</p>
 					<p class="text-xs text-muted-foreground">
@@ -65,7 +63,7 @@
 				class="flex items-start gap-4 rounded-lg border border-border p-4 text-left transition-colors hover:bg-accent"
 				onclick={handleInitializeExisting}
 			>
-				<FolderCodeIcon class="mt-0.5 h-6 w-6 shrink-0 text-primary" />
+				<Icon name="folder-code" size="xl" />
 				<div>
 					<p class="text-sm font-medium">Initialize Existing Folder</p>
 					<p class="text-xs text-muted-foreground">

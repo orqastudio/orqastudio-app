@@ -1,12 +1,5 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
-	import EyeIcon from "@lucide/svelte/icons/eye";
-	import BookOpenIcon from "@lucide/svelte/icons/book-open";
-	import ScaleIcon from "@lucide/svelte/icons/scale";
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
-	import WorkflowIcon from "@lucide/svelte/icons/workflow";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK } = getStores();
@@ -39,7 +32,7 @@
 			label: "Observation",
 			artifactNoun: "lessons",
 			artifactType: "lesson",
-			icon: EyeIcon,
+			icon: "eye",
 			outboundRelationships: ["informs", "informed-by", "grounded", "grounded-by"],
 		},
 		{
@@ -47,7 +40,7 @@
 			label: "Understanding",
 			artifactNoun: "research docs",
 			artifactType: "research",
-			icon: BookOpenIcon,
+			icon: "book-open",
 			outboundRelationships: ["grounded", "grounded-by", "informs", "informed-by"],
 		},
 		{
@@ -55,7 +48,7 @@
 			label: "Principle",
 			artifactNoun: "decisions",
 			artifactType: "decision",
-			icon: ScaleIcon,
+			icon: "scale",
 			outboundRelationships: ["practices", "practiced-by"],
 		},
 		{
@@ -63,7 +56,7 @@
 			label: "Practice",
 			artifactNoun: "skills",
 			artifactType: "skill",
-			icon: WrenchIcon,
+			icon: "wrench",
 			outboundRelationships: ["enforces", "enforced-by"],
 		},
 		{
@@ -71,7 +64,7 @@
 			label: "Enforcement",
 			artifactNoun: "rules",
 			artifactType: "rule",
-			icon: ShieldIcon,
+			icon: "shield",
 			outboundRelationships: ["verifies", "verified-by"],
 		},
 		{
@@ -79,7 +72,7 @@
 			label: "Verification",
 			artifactNoun: "checks",
 			artifactType: null,
-			icon: CheckCircle2Icon,
+			icon: "check-circle-2",
 			outboundRelationships: [],
 		},
 	];
@@ -271,7 +264,7 @@
 		<CardHeader class="pb-2">
 			<CardTitle class="text-sm font-semibold">
 				<div class="flex items-center gap-2">
-					<WorkflowIcon class="h-4 w-4 text-muted-foreground" />
+					<Icon name="workflow" size="md" />
 					Knowledge Pipeline
 				</div>
 			</CardTitle>

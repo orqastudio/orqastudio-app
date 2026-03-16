@@ -6,8 +6,6 @@
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK } = getStores();
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
-	import TagIcon from "@lucide/svelte/icons/tag";
 
 	let { content, path }: { content: string; path?: string } = $props();
 
@@ -62,8 +60,8 @@
 			<p class="text-sm text-muted-foreground">{description}</p>
 		{/if}
 
-		<MetadataRow icon={WrenchIcon} label="Allowed Tools" items={allowedTools} badgeVariant="secondary" />
-		<MetadataRow icon={TagIcon} label="Tags" items={tags} badgeVariant="outline" />
+		<MetadataRow icon="wrench" label="Allowed Tools" items={allowedTools} badgeVariant="secondary" />
+		<MetadataRow icon="tag" label="Tags" items={tags} badgeVariant="outline" />
 	</div>
 
 	<!-- Body content -->

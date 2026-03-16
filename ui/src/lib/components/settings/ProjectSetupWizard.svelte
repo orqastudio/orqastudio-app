@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { Separator } from "@orqastudio/svelte-components/pure";
 	import { Input } from "@orqastudio/svelte-components/pure";
-	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
-	import ScanSearchIcon from "@lucide/svelte/icons/scan-search";
-	import SaveIcon from "@lucide/svelte/icons/save";
-	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { projectStore } = getStores();
@@ -73,7 +69,7 @@
 	</CardHeader>
 	<CardContent class="space-y-4">
 		<div class="flex items-center gap-2 text-sm">
-			<FolderOpenIcon class="h-4 w-4 text-muted-foreground" />
+			<Icon name="folder-open" size="md" />
 			<span class="font-mono text-xs text-muted-foreground">{props.projectPath}</span>
 		</div>
 
@@ -96,10 +92,10 @@
 				disabled={projectStore.scanning}
 			>
 				{#if projectStore.scanning}
-					<LoaderCircleIcon class="mr-1.5 h-3.5 w-3.5 animate-spin" />
+					<Icon name="loader-circle" size="sm" />
 					Scanning...
 				{:else}
-					<ScanSearchIcon class="mr-1.5 h-3.5 w-3.5" />
+					<Icon name="scan-search" size="sm" />
 					Scan Project
 				{/if}
 			</Button>
@@ -173,7 +169,7 @@
 			<Separator />
 
 			<Button onclick={handleSave}>
-				<SaveIcon class="mr-1.5 h-3.5 w-3.5" />
+				<Icon name="save" size="sm" />
 				Save Configuration
 			</Button>
 		{/if}

@@ -2,7 +2,6 @@
 	import { open } from "@tauri-apps/plugin-dialog";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
-	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import setupBackground from "$lib/assets/setup-background.png";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -43,7 +42,7 @@
 				<LoadingSpinner />
 			{:else}
 				<Button variant="outline" onclick={handleOpenProject}>
-					<FolderOpenIcon class="mr-2 h-4 w-4" />
+					<Icon name="folder-open" size="md" />
 					Open Project
 				</Button>
 			{/if}

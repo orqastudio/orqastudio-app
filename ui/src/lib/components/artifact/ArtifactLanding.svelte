@@ -1,9 +1,5 @@
 <script lang="ts">
-	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
-	import BotIcon from "@lucide/svelte/icons/bot";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import ZapIcon from "@lucide/svelte/icons/zap";
-	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import ViolationsPanel from "$lib/components/governance/ViolationsPanel.svelte";
@@ -27,7 +23,7 @@
 		}
 	> = {
 		agents: {
-			icon: BotIcon,
+			icon: "bot",
 			label: "Agents",
 			singular: "agent",
 			description:
@@ -35,7 +31,7 @@
 			location: ".claude/agents/",
 		},
 		rules: {
-			icon: ShieldIcon,
+			icon: "shield",
 			label: "Rules",
 			singular: "rule",
 			description:
@@ -43,7 +39,7 @@
 			location: ".claude/rules/",
 		},
 		skills: {
-			icon: ZapIcon,
+			icon: "zap",
 			label: "Skills",
 			singular: "skill",
 			description:
@@ -51,7 +47,7 @@
 			location: ".claude/skills/",
 		},
 		hooks: {
-			icon: GitBranchIcon,
+			icon: "git-branch",
 			label: "Hooks",
 			singular: "hook",
 			description:

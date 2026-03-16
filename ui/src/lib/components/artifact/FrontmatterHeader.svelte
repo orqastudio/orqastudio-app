@@ -1,15 +1,10 @@
 <script lang="ts">
+timport { Icon } from "@orqastudio/svelte-components/pure";
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import GateQuestions from "./GateQuestions.svelte";
 	import { StatusIndicator } from "@orqastudio/svelte-components/connected";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { getCapabilityLabel } from "$lib/utils/tool-display";
-	import CalendarPlusIcon from "@lucide/svelte/icons/calendar-plus";
-	import CalendarCheckIcon from "@lucide/svelte/icons/calendar-check";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import XIcon from "@lucide/svelte/icons/x";
-	import ScaleIcon from "@lucide/svelte/icons/scale";
-	import WrenchIcon from "@lucide/svelte/icons/wrench";
 
 	let {
 		metadata,
@@ -258,12 +253,12 @@
 			<div class="flex shrink-0 items-center gap-2">
 				{#if createdShort}
 					<Badge variant="secondary" class="text-muted-foreground">
-						<CalendarPlusIcon class="h-3 w-3" />{createdShort}
+						<Icon name="calendar-plus" size="xs" />{createdShort}
 					</Badge>
 				{/if}
 				{#if updatedShort && updatedShort !== createdShort}
 					<Badge variant="secondary" class="text-muted-foreground">
-						<CalendarCheckIcon class="h-3 w-3" />{updatedShort}
+						<Icon name="calendar-check" size="xs" />{updatedShort}
 					</Badge>
 				{/if}
 				{#if priority}
@@ -283,7 +278,7 @@
 		<div class="flex items-baseline gap-2">
 			<span class="w-[7rem] shrink-0 text-xs font-medium text-muted-foreground">
 				<span class="inline-flex items-center gap-1">
-					<ScaleIcon class="h-3 w-3" />Scoring
+					<Icon name="scale" size="xs" />Scoring
 				</span>
 			</span>
 			<div class="flex min-w-0 flex-1 flex-wrap gap-1">
@@ -376,9 +371,9 @@
 					{humanizeKey(key)}
 				</span>
 				{#if value}
-					<CheckIcon class="h-4 w-4 text-green-500" />
+					<Icon name="check" size="md" />
 				{:else}
-					<XIcon class="h-4 w-4 text-muted-foreground" />
+					<Icon name="x" size="md" />
 				{/if}
 			</div>
 
@@ -413,7 +408,7 @@
 	{#if appTools.length > 0}
 		<div class="flex items-baseline gap-2">
 			<span class="inline-flex w-[7rem] shrink-0 items-center gap-1 text-xs font-medium capitalize text-muted-foreground">
-				<WrenchIcon class="h-3 w-3 shrink-0" />Capabilities
+				<Icon name="wrench" size="xs" />Capabilities
 			</span>
 			<div class="flex min-w-0 flex-1 flex-wrap gap-1">
 				{#each appTools as tool, i (i)}

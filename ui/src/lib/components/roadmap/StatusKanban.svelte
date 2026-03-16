@@ -4,8 +4,6 @@
 	import KanbanCard from "./KanbanCard.svelte";
 	import { SelectMenu } from "@orqastudio/svelte-components/pure";
 	import { EmptyState } from "@orqastudio/svelte-components/pure";
-	import LayersIcon from "@lucide/svelte/icons/layers";
-	import CircleCheckBigIcon from "@lucide/svelte/icons/circle-check-big";
 
 	type ColumnDef = {
 		key: string;

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
-	import Link2OffIcon from "@lucide/svelte/icons/link-2-off";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import { statusIconName, statusIsSpinning, resolveIcon } from "@orqastudio/svelte-components/pure";
@@ -112,7 +110,7 @@
 					{:else}
 						{chipLabel}
 					{/if}
-					<ExternalLinkIcon class="h-3 w-3 shrink-0 opacity-60" />
+					<Icon name="external-link" size="xs" />
 				</button>
 			{/snippet}
 		</TooltipTrigger>
@@ -149,7 +147,7 @@
 					{...props}
 					class="inline-flex items-center gap-1 whitespace-nowrap rounded border border-warning/30 bg-warning/10 px-1.5 py-0.5 font-mono text-[11px] font-medium text-warning"
 				>
-					<Link2OffIcon class="h-3 w-3 shrink-0 text-muted-foreground" />
+					<Icon name="link-2-off" size="xs" />
 					{resolved.label}
 				</span>
 			{/snippet}

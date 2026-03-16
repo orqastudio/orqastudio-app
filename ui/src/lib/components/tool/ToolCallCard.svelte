@@ -1,10 +1,6 @@
 <script lang="ts">
-	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
-	import XCircleIcon from "@lucide/svelte/icons/x-circle";
-	import LoaderIcon from "@lucide/svelte/icons/loader";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
-	import {
+	import { Icon,
 		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
@@ -73,22 +69,18 @@
 	<CollapsibleTrigger
 		class="flex w-full items-center gap-2 rounded-lg border {isEnforcementBlock ? 'border-destructive/50 bg-destructive/5' : 'border-border bg-muted/30'} px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50"
 	>
-		<ChevronRightIcon
-			class="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform {open
-				? 'rotate-90'
-				: ''}"
-		/>
+		<Icon name="chevron-right" size="sm" />
 		{@const Icon = displayInfo.icon}
 		<Icon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 		<span class="flex-1 truncate font-mono text-xs">{displayInfo.label}</span>
 		{#if isEnforcementBlock && enforcementRuleName}
 			<ViolationBadge action="Block" ruleName={enforcementRuleName} />
 		{:else if isComplete && isError}
-			<XCircleIcon class="h-3.5 w-3.5 shrink-0 {statusColor}" />
+			<Icon name="x-circle" size="sm" />
 		{:else if isComplete}
-			<CheckCircleIcon class="h-3.5 w-3.5 shrink-0 {statusColor}" />
+			<Icon name="check-circle" size="sm" />
 		{:else}
-			<LoaderIcon class="h-3.5 w-3.5 shrink-0 animate-spin {statusColor}" />
+			<Icon name="loader" size="sm" />
 		{/if}
 	</CollapsibleTrigger>
 	<CollapsibleContent>

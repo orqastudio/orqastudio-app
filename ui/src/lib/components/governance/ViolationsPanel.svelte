@@ -1,8 +1,5 @@
 <script lang="ts">
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import AlertTriangleIcon from "@lucide/svelte/icons/alert-triangle";
-	import ClockIcon from "@lucide/svelte/icons/clock";
-	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Icon, ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import { SearchInput } from "@orqastudio/svelte-components/pure";
@@ -113,7 +110,7 @@
 			<div class="flex h-full items-center justify-center">
 				{#if violations.length === 0}
 					<EmptyState
-						icon={ShieldIcon}
+						icon="shield"
 						title="No violations recorded"
 						description="Enforcement violations will appear here when rules block or warn on tool calls."
 					/>
@@ -132,9 +129,9 @@
 							<!-- Action icon -->
 							<div class="mt-0.5 shrink-0">
 								{#if v.action.toLowerCase() === "block"}
-									<ShieldIcon class="h-3.5 w-3.5 text-destructive" />
+									<Icon name="shield" size="sm" />
 								{:else}
-									<AlertTriangleIcon class="h-3.5 w-3.5 text-warning" />
+									<Icon name="alert-triangle" size="sm" />
 								{/if}
 							</div>
 
@@ -161,7 +158,7 @@
 
 							<!-- Timestamp -->
 							<div class="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
-								<ClockIcon class="h-3 w-3" />
+								<Icon name="clock" size="xs" />
 								<span>{formatTimestamp(v.created_at)}</span>
 							</div>
 						</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+timport { Icon } from "@orqastudio/svelte-components/pure";
 	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";

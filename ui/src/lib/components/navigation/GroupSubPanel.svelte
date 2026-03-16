@@ -1,83 +1,15 @@
 <script lang="ts">
-	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import FlaskConicalIcon from "@lucide/svelte/icons/flask-conical";
-	import ClipboardListIcon from "@lucide/svelte/icons/clipboard-list";
-	import BotIcon from "@lucide/svelte/icons/bot";
-	import ZapIcon from "@lucide/svelte/icons/zap";
-	import UsersIcon from "@lucide/svelte/icons/users";
-	import ShieldIcon from "@lucide/svelte/icons/shield";
-	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
-	import BookOpenIcon from "@lucide/svelte/icons/book-open";
-	import TargetIcon from "@lucide/svelte/icons/target";
-	import LayersIcon from "@lucide/svelte/icons/layers";
-	import CheckSquareIcon from "@lucide/svelte/icons/check-square";
-	import LightbulbIcon from "@lucide/svelte/icons/lightbulb";
-	import ScrollTextIcon from "@lucide/svelte/icons/scroll-text";
-	import FolderIcon from "@lucide/svelte/icons/folder";
-	import CompassIcon from "@lucide/svelte/icons/compass";
-	import CodeIcon from "@lucide/svelte/icons/code";
-	import LayoutIcon from "@lucide/svelte/icons/layout";
-	import PaletteIcon from "@lucide/svelte/icons/palette";
-	import BrainIcon from "@lucide/svelte/icons/brain";
-	import PackageIcon from "@lucide/svelte/icons/package";
-	import FlagIcon from "@lucide/svelte/icons/flag";
-	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
-	import RocketIcon from "@lucide/svelte/icons/rocket";
-	import WorkflowIcon from "@lucide/svelte/icons/workflow";
-	import KanbanIcon from "@lucide/svelte/icons/kanban";
-	import InfoIcon from "@lucide/svelte/icons/info";
-	import BookOpenCheckIcon from "@lucide/svelte/icons/book-open-check";
-	import BookMarkedIcon from "@lucide/svelte/icons/book-marked";
-	import MegaphoneIcon from "@lucide/svelte/icons/megaphone";
-	import AnchorIcon from "@lucide/svelte/icons/anchor";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { navigationStore, projectStore, artifactStore } = getStores();
 	import { isArtifactGroup } from "@orqastudio/types";
-	import type { Component } from "svelte";
+	import { Icon } from "@orqastudio/svelte-components/pure";
 
 	let { group }: { group: string } = $props();
 
-	/** Map from icon name strings (as stored in config / navTree) to Lucide icon components. */
-	const ICON_MAP: Record<string, Component> = {
-		"file-text": FileTextIcon,
-		"flask-conical": FlaskConicalIcon,
-		"clipboard-list": ClipboardListIcon,
-		bot: BotIcon,
-		zap: ZapIcon,
-		users: UsersIcon,
-		shield: ShieldIcon,
-		"git-branch": GitBranchIcon,
-		"book-open": BookOpenIcon,
-		target: TargetIcon,
-		layers: LayersIcon,
-		"check-square": CheckSquareIcon,
-		lightbulb: LightbulbIcon,
-		"scroll-text": ScrollTextIcon,
-		folder: FolderIcon,
-		compass: CompassIcon,
-		code: CodeIcon,
-		layout: LayoutIcon,
-		palette: PaletteIcon,
-		brain: BrainIcon,
-		package: PackageIcon,
-		flag: FlagIcon,
-		"shield-check": ShieldCheckIcon,
-		rocket: RocketIcon,
-		workflow: WorkflowIcon,
-		info: InfoIcon,
-		"book-open-check": BookOpenCheckIcon,
-		"book-marked": BookMarkedIcon,
-		megaphone: MegaphoneIcon,
-		anchor: AnchorIcon,
-	};
-
-	function resolveIcon(iconName: string | undefined): Component {
-		if (iconName && iconName in ICON_MAP) {
-			return ICON_MAP[iconName];
-		}
-		return FolderIcon;
+	function resolveIconName(iconName: string | undefined): string {
+		return iconName ?? "folder";
 	}
 
 	/**
@@ -124,7 +56,7 @@
 							: 'text-muted-foreground hover:bg-accent/40 hover:text-foreground'}"
 						onclick={() => navigationStore.setSubCategory("roadmap")}
 					>
-						<KanbanIcon class="h-4 w-4 shrink-0" />
+						<Icon name="kanban" size="md" />
 						<span class="truncate">Roadmap</span>
 					</button>
 				{/snippet}
@@ -132,7 +64,7 @@
 		</TooltipRoot>
 	{/if}
 	{#each subCategories as sub (sub.key)}
-		{@const SubIcon = resolveIcon(getSubCategoryIcon(sub.key))}
+		{@const subIconName = resolveIconName(getSubCategoryIcon(sub.key))}
 		{@const isActive = activeSubCategory === sub.key}
 		<TooltipRoot>
 			<TooltipTrigger class="w-full">
@@ -145,7 +77,7 @@
 							: 'text-muted-foreground hover:bg-accent/40 hover:text-foreground'}"
 						onclick={() => navigationStore.setSubCategory(sub.key)}
 					>
-						<SubIcon class="h-4 w-4 shrink-0" />
+						<Icon name={subIconName} size="md" />
 						<span class="truncate">{sub.label}</span>
 					</button>
 				{/snippet}

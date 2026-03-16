@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { SvelteMap } from "svelte/reactivity";
+	import { Icon, SvelteMap } from "svelte/reactivity";
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
-	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK, projectStore } = getStores();
@@ -102,7 +101,7 @@
 													? 'border-muted-foreground/30 bg-muted text-muted-foreground'
 													: 'border-warning/30 bg-warning/10 text-warning'}"
 											>
-												<CircleAlertIcon class="h-3 w-3 shrink-0" />
+												<Icon name="circle-alert" size="xs" />
 												{rel.intended ? "intentional gap" : "unresolved"}
 											</span>
 										{/snippet}
