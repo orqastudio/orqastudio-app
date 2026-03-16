@@ -1,4 +1,5 @@
-![License](https://img.shields.io/badge/license-Apache%202.0-blue)
+![License](https://img.shields.io/badge/license-BSL%201.1-blue)
+![Status](https://img.shields.io/badge/status-pre--release-orange)
 
 ![OrqaStudio](https://github.com/orqastudio/orqastudio-brand/blob/main/assets/banners/banner-1680x240.png?raw=1)
 
@@ -96,13 +97,7 @@ Documentation lives in the `docs/` directory. Open any `.md` file directly or br
 
 Copyright (c) 2026 Bobbi Byrne-Graham
 
-The OrqaStudio platform is released under the **Apache License 2.0**.
-
-You are free to use, modify, and distribute this software in accordance with the terms of the license.
-
-See the [LICENSE](./LICENSE) file for the full license text.
-
-Documentation (`docs/`) is licensed under [Creative Commons Attribution 4.0 (CC BY 4.0)](docs/LICENSE).
+[BSL 1.1](LICENSE) — converts to Apache 2.0 four years after each version release. Internal business use, non-commercial use, plugin development, and evaluation are expressly permitted.
 
 For third-party dependency licenses, see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
