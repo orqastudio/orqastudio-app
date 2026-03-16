@@ -30,6 +30,9 @@ pub struct ArtifactGraph {
 pub struct ArtifactNode {
     /// Frontmatter `id` field (e.g. "EPIC-048").
     pub id: String,
+    /// Source project name in organisation mode, or `None` for single-project mode.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub project: Option<String>,
     /// Relative path from the project root (e.g. ".orqa/delivery/epics/EPIC-048.md").
     pub path: String,
     /// Inferred category string (e.g. "epic", "task", "milestone", "idea", "decision").
@@ -92,15 +95,96 @@ pub struct GraphStats {
 /// 1. Walk every `.md` file, parse frontmatter, collect nodes and forward refs.
 /// 2. Invert every forward ref into a backlink on the target node.
 ///
+/// A mapping from directory path segments to artifact type keys.
+///
+/// Built from `project.json` artifacts config. Each entry maps a path
+/// (e.g. ".orqa/delivery/epics") to its type key (e.g. "epic").
+/// Used by `infer_artifact_type` to determine types from paths without
+/// hardcoding.
+pub type TypeRegistry = Vec<(String, String)>;
+
+/// Build a type registry from the project's `project.json` settings.
+///
+/// Reads the `artifacts` config entries and maps each path to its key.
+/// Returns an empty registry if settings are unavailable.
+fn build_type_registry(project_path: &Path) -> TypeRegistry {
+    use crate::domain::project_settings::ArtifactEntry;
+
+    let settings = crate::repo::project_settings_repo::read(
+        &project_path.to_string_lossy(),
+    )
+    .unwrap_or(None);
+
+    let Some(settings) = settings else {
+        return Vec::new();
+    };
+
+    let mut registry = Vec::new();
+    for entry in &settings.artifacts {
+        match entry {
+            ArtifactEntry::Group { children, .. } => {
+                for child in children {
+                    registry.push((
+                        child.path.replace('\\', "/"),
+                        child.key.clone(),
+                    ));
+                }
+            }
+            ArtifactEntry::Type(type_config) => {
+                registry.push((
+                    type_config.path.replace('\\', "/"),
+                    type_config.key.clone(),
+                ));
+            }
+        }
+    }
+
+    registry
+}
+
 /// Files without an `id` frontmatter field are silently skipped — they are
 /// documentation pages, not typed governance artifacts.
 pub fn build_artifact_graph(project_path: &Path) -> Result<ArtifactGraph, OrqaError> {
     let orqa_dir = project_path.join(".orqa");
+    let type_registry = build_type_registry(project_path);
 
     let mut graph = ArtifactGraph::default();
 
-    // Pass 1: walk all .md files and collect nodes + forward refs.
-    walk_directory(&orqa_dir, project_path, &mut graph)?;
+    // Pass 1a: walk the org project's own .orqa/ with project: None.
+    walk_directory(&orqa_dir, project_path, &mut graph, &type_registry, None)?;
+
+    // Pass 1b: if organisation mode, scan each child project.
+    let settings = crate::repo::project_settings_repo::read(
+        &project_path.to_string_lossy(),
+    )
+    .unwrap_or(None);
+
+    if let Some(ref settings) = settings {
+        if settings.organisation {
+            for child in &settings.projects {
+                let child_path = if Path::new(&child.path).is_absolute() {
+                    std::path::PathBuf::from(&child.path)
+                } else {
+                    project_path.join(&child.path)
+                };
+                // Canonicalize to resolve `..` segments.
+                let child_path = child_path.canonicalize().unwrap_or(child_path);
+                let child_orqa = child_path.join(".orqa");
+                if child_orqa.exists() {
+                    let child_registry = build_type_registry(&child_path);
+                    walk_directory(
+                        &child_orqa,
+                        &child_path,
+                        &mut graph,
+                        &child_registry,
+                        Some(&child.name),
+                    )?;
+                    // Qualify intra-project refs that lack a `::` separator.
+                    qualify_intra_project_refs(&mut graph, &child.name);
+                }
+            }
+        }
+    }
 
     // Pass 2: invert references — add backlinks to target nodes.
     let forward_refs: Vec<ArtifactRef> = graph
@@ -110,6 +194,7 @@ pub fn build_artifact_graph(project_path: &Path) -> Result<ArtifactGraph, OrqaEr
         .collect();
 
     for ref_entry in forward_refs {
+        // Try the target_id directly (may already be qualified or match an unqualified key).
         if let Some(target_node) = graph.nodes.get_mut(&ref_entry.target_id) {
             target_node.references_in.push(ref_entry);
         }
@@ -119,11 +204,46 @@ pub fn build_artifact_graph(project_path: &Path) -> Result<ArtifactGraph, OrqaEr
     Ok(graph)
 }
 
+/// Qualify intra-project relationship targets for a child project.
+///
+/// After scanning a child, any `references_out` target that doesn't contain `::`
+/// is prefixed with the child project name so it resolves correctly in the
+/// merged graph. Cross-project refs (already containing `::`) are left as-is.
+fn qualify_intra_project_refs(graph: &mut ArtifactGraph, project_name: &str) {
+    let prefix = format!("{project_name}::");
+    // Collect all graph keys so we can check existence without borrow conflicts.
+    let all_keys: std::collections::HashSet<String> = graph.nodes.keys().cloned().collect();
+
+    // Collect node keys belonging to this project.
+    let child_keys: Vec<String> = all_keys
+        .iter()
+        .filter(|k| k.starts_with(&prefix))
+        .cloned()
+        .collect();
+
+    for key in child_keys {
+        if let Some(node) = graph.nodes.get_mut(&key) {
+            for ref_entry in &mut node.references_out {
+                if !ref_entry.target_id.contains("::") {
+                    let qualified = format!("{project_name}::{}", ref_entry.target_id);
+                    // Qualify if the qualified key exists; otherwise leave unqualified
+                    // (it may be a cross-project ref or a broken link).
+                    if all_keys.contains(&qualified) {
+                        ref_entry.target_id = qualified;
+                    }
+                }
+            }
+        }
+    }
+}
+
 /// Recursively walk a directory, collecting `ArtifactNode` entries into `graph`.
 fn walk_directory(
     dir: &Path,
     project_root: &Path,
     graph: &mut ArtifactGraph,
+    type_registry: &TypeRegistry,
+    project_name: Option<&str>,
 ) -> Result<(), OrqaError> {
     // Directory doesn't exist — skip silently (some sub-paths may be optional).
     let Ok(entries) = std::fs::read_dir(dir) else {
@@ -143,13 +263,13 @@ fn walk_directory(
         let ft = entry.file_type()?;
 
         if ft.is_dir() {
-            walk_directory(&entry.path(), project_root, graph)?;
+            walk_directory(&entry.path(), project_root, graph, type_registry, project_name)?;
         } else if ft.is_file() && name.ends_with(".md") {
             // README files carry navigation metadata, not artifact identity.
             if name.eq_ignore_ascii_case("README.md") {
                 continue;
             }
-            collect_node(&entry.path(), project_root, graph)?;
+            collect_node(&entry.path(), project_root, graph, type_registry, project_name)?;
         }
     }
 
@@ -163,6 +283,8 @@ fn build_node(
     file_path: &Path,
     yaml_value: &serde_yaml::Value,
     body: &str,
+    type_registry: &TypeRegistry,
+    project_name: Option<&str>,
 ) -> ArtifactNode {
     let title = yaml_value
         .get("title")
@@ -180,12 +302,13 @@ fn build_node(
         .get("priority")
         .and_then(|v| v.as_str())
         .map(str::to_owned);
-    let artifact_type = infer_artifact_type(&rel_path);
+    let artifact_type = infer_artifact_type(&rel_path, type_registry);
     let frontmatter = yaml_to_json(yaml_value);
     let mut references_out = collect_forward_refs(yaml_value, &id);
     references_out.extend(collect_body_refs(body, &id));
     ArtifactNode {
         id,
+        project: project_name.map(str::to_owned),
         path: rel_path,
         artifact_type,
         title,
@@ -200,10 +323,16 @@ fn build_node(
 
 /// Parse a single `.md` file and add an `ArtifactNode` to the graph if it has
 /// a YAML `id` field.
+///
+/// When `project_name` is `Some`, the node gets a qualified graph key
+/// (`"{project}::{id}"`) and a `project` field. In single-project mode
+/// (`None`), keys are unqualified — zero behaviour change.
 fn collect_node(
     file_path: &Path,
     project_root: &Path,
     graph: &mut ArtifactGraph,
+    type_registry: &TypeRegistry,
+    project_name: Option<&str>,
 ) -> Result<(), OrqaError> {
     let content = std::fs::read_to_string(file_path)?;
     let (fm_text, body) = crate::domain::artifact::extract_frontmatter(&content);
@@ -221,9 +350,20 @@ fn collect_node(
         .unwrap_or(file_path)
         .to_string_lossy()
         .replace('\\', "/");
-    let node = build_node(id.clone(), rel_path.clone(), file_path, &yaml_value, &body);
-    graph.nodes.insert(id.clone(), node);
-    graph.path_index.insert(rel_path, id);
+    let node = build_node(id.clone(), rel_path.clone(), file_path, &yaml_value, &body, type_registry, project_name);
+
+    // In org mode, qualify the graph key and path index to prevent ID collisions.
+    let graph_key = match project_name {
+        Some(proj) => format!("{proj}::{id}"),
+        None => id.clone(),
+    };
+    let path_key = match project_name {
+        Some(proj) => format!("{proj}::{rel_path}"),
+        None => rel_path,
+    };
+
+    graph.nodes.insert(graph_key, node);
+    graph.path_index.insert(path_key, id);
     Ok(())
 }
 
@@ -1928,30 +2068,44 @@ fn apply_missing_inverse_fix(
 // ---------------------------------------------------------------------------
 
 /// Infer a human-readable artifact type category from a relative file path.
-fn infer_artifact_type(rel_path: &str) -> String {
-    if rel_path.contains("/epics/") {
+///
+/// First checks the config-driven type registry (built from project.json).
+/// Falls back to the hardcoded path-segment heuristic for backwards compatibility.
+fn infer_artifact_type(rel_path: &str, type_registry: &TypeRegistry) -> String {
+    let normalized = rel_path.replace('\\', "/");
+
+    // Check the config-driven registry first: if the rel_path starts with a
+    // registered path prefix, use its type key.
+    for (path_prefix, type_key) in type_registry {
+        if normalized.starts_with(path_prefix) {
+            return type_key.clone();
+        }
+    }
+
+    // Hardcoded fallback for backwards compatibility.
+    if normalized.contains("/epics/") {
         "epic"
-    } else if rel_path.contains("/tasks/") {
+    } else if normalized.contains("/tasks/") {
         "task"
-    } else if rel_path.contains("/milestones/") {
+    } else if normalized.contains("/milestones/") {
         "milestone"
-    } else if rel_path.contains("/ideas/") {
+    } else if normalized.contains("/ideas/") {
         "idea"
-    } else if rel_path.contains("/decisions/") {
+    } else if normalized.contains("/decisions/") {
         "decision"
-    } else if rel_path.contains("/research/") {
+    } else if normalized.contains("/research/") {
         "research"
-    } else if rel_path.contains("/lessons/") {
+    } else if normalized.contains("/lessons/") {
         "lesson"
-    } else if rel_path.contains("/rules/") {
+    } else if normalized.contains("/rules/") {
         "rule"
-    } else if rel_path.contains("/agents/") {
+    } else if normalized.contains("/agents/") {
         "agent"
-    } else if rel_path.contains("/skills/") {
+    } else if normalized.contains("/skills/") {
         "skill"
-    } else if rel_path.contains("/hooks/") {
+    } else if normalized.contains("/hooks/") {
         "hook"
-    } else if rel_path.contains("/pillars/") {
+    } else if normalized.contains("/pillars/") {
         "pillar"
     } else {
         "doc"
@@ -2508,29 +2662,46 @@ mod tests {
 
     #[test]
     fn infer_artifact_type_variants() {
+        let empty_registry: TypeRegistry = Vec::new();
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/epics/EPIC-001.md"),
+            infer_artifact_type(".orqa/delivery/epics/EPIC-001.md", &empty_registry),
             "epic"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/tasks/TASK-001.md"),
+            infer_artifact_type(".orqa/delivery/tasks/TASK-001.md", &empty_registry),
             "task"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/milestones/MS-001.md"),
+            infer_artifact_type(".orqa/delivery/milestones/MS-001.md", &empty_registry),
             "milestone"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/process/decisions/AD-001.md"),
+            infer_artifact_type(".orqa/process/decisions/AD-001.md", &empty_registry),
             "decision"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/process/lessons/IMPL-001.md"),
+            infer_artifact_type(".orqa/process/lessons/IMPL-001.md", &empty_registry),
             "lesson"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/documentation/product/vision.md"),
+            infer_artifact_type(".orqa/documentation/product/vision.md", &empty_registry),
             "doc"
+        );
+    }
+
+    #[test]
+    fn infer_artifact_type_uses_registry() {
+        let registry: TypeRegistry = vec![
+            (".orqa/custom/widgets".to_string(), "widget".to_string()),
+        ];
+        assert_eq!(
+            infer_artifact_type(".orqa/custom/widgets/W-001.md", &registry),
+            "widget"
+        );
+        // Falls back to hardcoded when registry doesn't match
+        assert_eq!(
+            infer_artifact_type(".orqa/delivery/epics/EPIC-001.md", &registry),
+            "epic"
         );
     }
 }

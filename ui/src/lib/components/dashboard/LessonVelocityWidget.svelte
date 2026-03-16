@@ -2,8 +2,14 @@
 	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
-	const { artifactGraphSDK, navigationStore } = getStores();
+	const { artifactGraphSDK, navigationStore, projectStore } = getStores();
 	import { PipelineStages, type PipelineStage } from "@orqastudio/svelte-components/pure";
+
+	const projectFilter = $derived(
+		projectStore.activeChildProject
+			? { project: projectStore.activeChildProject }
+			: undefined,
+	);
 
 	// -------------------------------------------------------------------------
 	// Lesson pipeline stage definitions
@@ -21,7 +27,7 @@
 		for (const s of stageDefinitions) {
 			counts[s.key] = 0;
 		}
-		for (const node of artifactGraphSDK.byType("lesson")) {
+		for (const node of artifactGraphSDK.byType("lesson", projectFilter)) {
 			const s = node.status ?? "";
 			if (s in counts) {
 				counts[s]++;

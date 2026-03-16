@@ -395,6 +395,7 @@ mod tests {
     ) -> ArtifactNode {
         ArtifactNode {
             id: id.to_owned(),
+            project: None,
             path: format!(".orqa/{id}.md"),
             artifact_type: artifact_type.to_owned(),
             title: id.to_owned(),

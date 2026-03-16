@@ -2,8 +2,9 @@
 	import { Icon, Separator } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
-	const { navigationStore, settingsStore, projectStore, artifactStore } = getStores();
+	const { navigationStore, settingsStore, projectStore, artifactStore, pluginRegistry } = getStores();
 	import { isArtifactGroup } from "@orqastudio/types";
+	import type { NavigationItem } from "@orqastudio/types";
 	import ActivityBarItem from "./ActivityBarItem.svelte";
 
 	function resolveIconName(iconName: string | undefined): string {
@@ -53,74 +54,147 @@
 	}
 
 	const artifactConfig = $derived(projectStore.artifactConfig);
+	const navItems = $derived(navigationStore.topLevelNavItems);
+
+	/** Check if a NavigationItem or its children is active. */
+	function isNavItemActive(item: NavigationItem): boolean {
+		if (item.type === "group") {
+			return navigationStore.activeGroup === item.key;
+		}
+		return navigationStore.activeActivity === item.key && navigationStore.activeGroup === null;
+	}
+
+	/** Handle click on a navigation item. */
+	function handleNavClick(item: NavigationItem): void {
+		if (item.type === "group") {
+			navigationStore.setGroup(item.key);
+		} else {
+			navigationStore.activeGroup = null;
+			navigationStore.setActivity(item.key);
+		}
+	}
 </script>
 
 <div class="flex w-12 flex-col items-center border-r border-border bg-muted/30 py-2">
-	<!-- Project Dashboard -->
-	<ActivityBarItem
-		icon="layout-dashboard"
-		label="Project Dashboard"
-		active={navigationStore.activeActivity === "project"}
-		onclick={() => navigationStore.setActivity("project")}
-	/>
+	{#if navItems}
+		<!-- New navigation model: render from navigation tree -->
+		{#each navItems as item (item.key)}
+			{#if !item.hidden}
+				{#if item.key === "artifact-graph" || item.key === "settings"}
+					<!-- These are rendered in the bottom section -->
+				{:else}
+					{@const entryLabel = item.label ?? humanizeKey(item.key)}
+					<ActivityBarItem
+						icon={item.icon}
+						label={entryLabel}
+						active={isNavItemActive(item)}
+						onclick={() => handleNavClick(item)}
+					/>
+				{/if}
+			{/if}
+		{/each}
 
-	{#if artifactConfig.length > 0}
+		<div class="flex-1"></div>
+
+		<!-- Bottom items: Artifact Graph, Search, Settings -->
+		{@const graphItem = navItems.find((i) => i.key === "artifact-graph")}
+		{#if graphItem && !graphItem.hidden}
+			<ActivityBarItem
+				icon={graphItem.icon}
+				label="Artifact Graph"
+				active={navigationStore.activeActivity === "artifact-graph"}
+				onclick={() => { navigationStore.activeGroup = null; navigationStore.setActivity("artifact-graph"); }}
+			/>
+		{/if}
+
+		<ActivityBarItem
+			icon="search"
+			label="Search Artifacts (Ctrl+Space)"
+			active={false}
+			onclick={() => navigationStore.toggleSearch()}
+		/>
+
 		<div class="my-1 w-6">
 			<Separator />
 		</div>
 
-		<!-- Config-driven artifact entries -->
-		{#each artifactConfig as entry (entry.key)}
-			{@const navIcon = isArtifactGroup(entry) ? getNavTreeIcon(entry.key) : getNavTreeIcon(entry.key, entry.path)}
-			{@const iconName = resolveIconName(entry.icon ?? navIcon)}
-			{@const entryLabel = entry.label ?? humanizeKey(entry.key)}
-			{#if isArtifactGroup(entry)}
-				<!-- Group entry — clicking activates the group -->
-				<ActivityBarItem
-					icon={iconName}
-					label={entryLabel}
-					active={navigationStore.activeGroup === entry.key}
-					onclick={() => navigationStore.setGroup(entry.key)}
-				/>
-			{:else}
-				<!-- Direct type entry — clicking activates the type directly -->
-				<ActivityBarItem
-					icon={iconName}
-					label={entryLabel}
-					active={navigationStore.activeActivity === entry.key && navigationStore.activeGroup === null}
-					onclick={() => { navigationStore.activeGroup = null; navigationStore.setActivity(entry.key); }}
-				/>
-			{/if}
-		{/each}
+		{@const settingsItem = navItems.find((i) => i.key === "settings")}
+		{#if settingsItem && !settingsItem.hidden}
+			<ActivityBarItem
+				icon={settingsItem.icon}
+				label="Project Settings"
+				active={navigationStore.activeActivity === "settings"}
+				onclick={() => { settingsStore.setActiveSection("project-general"); navigationStore.setActivity("settings"); }}
+			/>
+		{/if}
+	{:else}
+		<!-- Legacy mode: render from artifactConfig -->
+		<!-- Project Dashboard -->
+		<ActivityBarItem
+			icon="layout-dashboard"
+			label="Project Dashboard"
+			active={navigationStore.activeActivity === "project"}
+			onclick={() => navigationStore.setActivity("project")}
+		/>
+
+		{#if artifactConfig.length > 0}
+			<div class="my-1 w-6">
+				<Separator />
+			</div>
+
+			<!-- Config-driven artifact entries -->
+			{#each artifactConfig as entry (entry.key)}
+				{@const navIcon = isArtifactGroup(entry) ? getNavTreeIcon(entry.key) : getNavTreeIcon(entry.key, entry.path)}
+				{@const iconName = resolveIconName(entry.icon ?? navIcon)}
+				{@const entryLabel = entry.label ?? humanizeKey(entry.key)}
+				{#if isArtifactGroup(entry)}
+					<!-- Group entry — clicking activates the group -->
+					<ActivityBarItem
+						icon={iconName}
+						label={entryLabel}
+						active={navigationStore.activeGroup === entry.key}
+						onclick={() => navigationStore.setGroup(entry.key)}
+					/>
+				{:else}
+					<!-- Direct type entry — clicking activates the type directly -->
+					<ActivityBarItem
+						icon={iconName}
+						label={entryLabel}
+						active={navigationStore.activeActivity === entry.key && navigationStore.activeGroup === null}
+						onclick={() => { navigationStore.activeGroup = null; navigationStore.setActivity(entry.key); }}
+					/>
+				{/if}
+			{/each}
+		{/if}
+
+		<div class="flex-1"></div>
+
+		<!-- Artifact Graph -->
+		<ActivityBarItem
+			icon="network"
+			label="Artifact Graph"
+			active={navigationStore.activeActivity === "artifact-graph"}
+			onclick={() => { navigationStore.activeGroup = null; navigationStore.setActivity("artifact-graph"); }}
+		/>
+
+		<!-- Search -->
+		<ActivityBarItem
+			icon="search"
+			label="Search Artifacts (Ctrl+Space)"
+			active={false}
+			onclick={() => navigationStore.toggleSearch()}
+		/>
+
+		<div class="my-1 w-6">
+			<Separator />
+		</div>
+
+		<!-- Project Settings -->
+		<ActivityBarItem
+			icon="settings"
+			label="Project Settings"
+			active={navigationStore.activeActivity === "settings"}
+			onclick={() => { settingsStore.setActiveSection("project-general"); navigationStore.setActivity("settings"); }}
+		/>
 	{/if}
-
-	<div class="flex-1"></div>
-
-	<!-- Artifact Graph -->
-	<ActivityBarItem
-		icon="network"
-		label="Artifact Graph"
-		active={navigationStore.activeActivity === "artifact-graph"}
-		onclick={() => { navigationStore.activeGroup = null; navigationStore.setActivity("artifact-graph"); }}
-	/>
-
-	<!-- Search -->
-	<ActivityBarItem
-		icon="search"
-		label="Search Artifacts (Ctrl+Space)"
-		active={false}
-		onclick={() => navigationStore.toggleSearch()}
-	/>
-
-	<div class="my-1 w-6">
-		<Separator />
-	</div>
-
-	<!-- Project Settings -->
-	<ActivityBarItem
-		icon="settings"
-		label="Project Settings"
-		active={navigationStore.activeActivity === "settings"}
-		onclick={() => { settingsStore.setActiveSection("project-general"); navigationStore.setActivity("settings"); }}
-	/>
 </div>

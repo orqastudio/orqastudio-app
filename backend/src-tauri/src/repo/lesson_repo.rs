@@ -180,6 +180,8 @@ mod tests {
     fn make_project_paths(tmp: &TempDir) -> ProjectPaths {
         let settings = ProjectSettings {
             name: "test".to_string(),
+            organisation: false,
+            projects: vec![],
             description: None,
             default_model: "auto".to_string(),
             excluded_paths: vec![],
@@ -345,6 +347,8 @@ mod tests {
         // Create ProjectPaths with NO artifacts configured
         let settings = ProjectSettings {
             name: "empty".to_string(),
+            organisation: false,
+            projects: vec![],
             description: None,
             default_model: "auto".to_string(),
             excluded_paths: vec![],

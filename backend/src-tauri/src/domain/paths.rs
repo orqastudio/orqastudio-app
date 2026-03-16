@@ -100,6 +100,8 @@ mod tests {
     fn sample_settings() -> ProjectSettings {
         ProjectSettings {
             name: "test".to_string(),
+            organisation: false,
+            projects: vec![],
             description: None,
             default_model: "auto".to_string(),
             excluded_paths: vec![],
@@ -189,6 +191,8 @@ mod tests {
         let root = Path::new("/projects/my-app");
         let settings = ProjectSettings {
             name: "empty".to_string(),
+            organisation: false,
+            projects: vec![],
             description: None,
             default_model: "auto".to_string(),
             excluded_paths: vec![],

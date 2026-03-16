@@ -8,20 +8,26 @@
 
 	let { id, path, displayLabel }: { id?: string; path?: string; displayLabel?: string } = $props();
 
+	/** Extract the project prefix from a qualified ID (e.g. "sdk::EPIC-001" -> "sdk"). */
+	function extractProjectPrefix(qualifiedId: string): string | null {
+		const idx = qualifiedId.indexOf("::");
+		return idx >= 0 ? qualifiedId.slice(0, idx) : null;
+	}
+
 	/** Resolve the display label, node metadata, and whether this link is navigable. */
 	const resolved = $derived.by(() => {
 		if (id) {
 			const node = artifactGraphSDK.resolve(id);
-			const label = displayLabel ?? id;
-			return { label, resolvable: node !== undefined, targetId: node ? id : null, node: node ?? null };
+			const label = displayLabel ?? (id.includes("::") ? id.split("::")[1] : id);
+			return { label, resolvable: node !== undefined, targetId: node ? id : null, node: node ?? null, projectPrefix: extractProjectPrefix(id) };
 		}
 		if (path) {
 			const targetId = artifactGraphSDK.pathIndex.get(path.trim());
 			const node = targetId ? artifactGraphSDK.resolve(targetId) : undefined;
 			const label = displayLabel ?? path;
-			return { label, resolvable: targetId !== undefined, targetId: targetId ?? null, node: node ?? null };
+			return { label, resolvable: targetId !== undefined, targetId: targetId ?? null, node: node ?? null, projectPrefix: null };
 		}
-		return { label: displayLabel ?? "??", resolvable: false, targetId: null, node: null };
+		return { label: displayLabel ?? "??", resolvable: false, targetId: null, node: null, projectPrefix: null };
 	});
 
 	/** The type prefix of the resolved artifact (e.g. "EPIC" from "EPIC-001"). */
@@ -104,6 +110,9 @@
 				>
 					{#if StatusIcon}
 						<StatusIcon class="h-3 w-3 shrink-0 {spinning ? 'status-spin' : ''}" />
+					{/if}
+					{#if resolved.projectPrefix}
+						<span class="opacity-50 text-[9px]">{resolved.projectPrefix}</span>
 					{/if}
 					{#if showingTitle}
 						<span class="max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap">{chipLabel}</span>

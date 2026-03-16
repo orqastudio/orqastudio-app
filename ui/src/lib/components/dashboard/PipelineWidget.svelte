@@ -2,8 +2,14 @@
 	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
-	const { artifactGraphSDK } = getStores();
+	const { artifactGraphSDK, projectStore } = getStores();
 	import type { ArtifactNode, ArtifactRef } from "@orqastudio/types";
+
+	const projectFilter = $derived(
+		projectStore.activeChildProject
+			? { project: projectStore.activeChildProject }
+			: undefined,
+	);
 	import { PipelineStages, type PipelineStage, type PipelineEdge } from "@orqastudio/svelte-components/pure";
 
 	// -------------------------------------------------------------------------
@@ -136,7 +142,7 @@
 	const stageDataList = $derived.by((): StageData[] => {
 		return stageDefs.map((def) => {
 			const artifacts =
-				def.artifactType !== null ? artifactGraphSDK.byType(def.artifactType) : [];
+				def.artifactType !== null ? artifactGraphSDK.byType(def.artifactType, projectFilter) : [];
 			const count = artifacts.length;
 
 			let connectedCount = 0;
@@ -177,7 +183,7 @@
 			const toDef = stageDefs[i + 1];
 			const fromArtifacts =
 				fromDef.artifactType !== null
-					? artifactGraphSDK.byType(fromDef.artifactType)
+					? artifactGraphSDK.byType(fromDef.artifactType, projectFilter)
 					: [];
 			const count = countEdgesBetween(
 				fromArtifacts,

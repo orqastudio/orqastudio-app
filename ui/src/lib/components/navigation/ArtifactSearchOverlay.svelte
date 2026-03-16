@@ -146,6 +146,13 @@
 										<Icon name="file-text" size="sm" />
 									{/if}
 
+									<!-- Project badge (org mode) -->
+									{#if node.project}
+										<span class="shrink-0 rounded bg-primary/10 px-1 py-0.5 text-[9px] font-medium text-primary">
+											{node.project}
+										</span>
+									{/if}
+
 									<!-- ID badge -->
 									<span
 										class="shrink-0 rounded bg-muted px-1 py-0.5 font-mono text-[11px] text-muted-foreground"

@@ -37,34 +37,14 @@
 		return undefined;
 	}
 
-	// Use the store getter which derives from artifact config
+	// Use the store getter which derives from artifact config or navigation tree
 	const subCategories = $derived(navigationStore.getGroupChildren(group));
 	const activeSubCategory = $derived(navigationStore.activeSubCategory);
 </script>
 
 <div class="flex flex-col">
-	{#if group === "delivery"}
-		{@const isRoadmapActive = activeSubCategory === "roadmap"}
-		<TooltipRoot>
-			<TooltipTrigger class="w-full">
-				{#snippet child({ props })}
-					<button
-						{...props}
-						class="flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors
-							{isRoadmapActive
-							? 'bg-accent text-accent-foreground font-medium'
-							: 'text-muted-foreground hover:bg-accent/40 hover:text-foreground'}"
-						onclick={() => navigationStore.setSubCategory("roadmap")}
-					>
-						<Icon name="kanban" size="md" />
-						<span class="truncate">Roadmap</span>
-					</button>
-				{/snippet}
-			</TooltipTrigger>
-		</TooltipRoot>
-	{/if}
 	{#each subCategories as sub (sub.key)}
-		{@const subIconName = resolveIconName(getSubCategoryIcon(sub.key))}
+		{@const subIconName = resolveIconName(sub.icon ?? getSubCategoryIcon(sub.key))}
 		{@const isActive = activeSubCategory === sub.key}
 		<TooltipRoot>
 			<TooltipTrigger class="w-full">

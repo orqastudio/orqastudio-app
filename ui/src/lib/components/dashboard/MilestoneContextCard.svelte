@@ -4,8 +4,14 @@
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
-	const { artifactGraphSDK, navigationStore } = getStores();
+	const { artifactGraphSDK, navigationStore, projectStore } = getStores();
 	import type { ArtifactNode } from "@orqastudio/types";
+
+	const projectFilter = $derived(
+		projectStore.activeChildProject
+			? { project: projectStore.activeChildProject }
+			: undefined,
+	);
 
 	// -------------------------------------------------------------------------
 	// Derive active milestone and its P1 epic progress
@@ -20,7 +26,7 @@
 	}
 
 	const activeMilestone = $derived.by((): MilestoneProgress | null => {
-		const milestones = artifactGraphSDK.byType("milestone");
+		const milestones = artifactGraphSDK.byType("milestone", projectFilter);
 		const active = milestones.find((m) => m.status === "active");
 		if (!active) return null;
 

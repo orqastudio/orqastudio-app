@@ -65,8 +65,11 @@
 		</div>
 	{/if}
 
-	<!-- ID chip -->
-	<div class="mt-1.5">
+	<!-- ID chip + project badge -->
+	<div class="mt-1.5 flex items-center gap-1.5">
+		{#if node.project}
+			<span class="rounded bg-primary/10 px-1 py-0.5 text-[9px] font-medium text-primary">{node.project}</span>
+		{/if}
 		<span class="text-[10px] font-mono text-muted-foreground/60">{node.id}</span>
 	</div>
 {/snippet}

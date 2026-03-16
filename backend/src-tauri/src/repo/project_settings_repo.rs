@@ -42,6 +42,8 @@ mod tests {
     fn sample_settings() -> ProjectSettings {
         ProjectSettings {
             name: "test-project".to_string(),
+            organisation: false,
+            projects: vec![],
             description: Some("A test project".to_string()),
             default_model: "auto".to_string(),
             excluded_paths: vec![

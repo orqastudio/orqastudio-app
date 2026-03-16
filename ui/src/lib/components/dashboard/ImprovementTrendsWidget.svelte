@@ -2,8 +2,14 @@
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
-	const { artifactGraphSDK } = getStores();
+	const { artifactGraphSDK, projectStore } = getStores();
 	import type { HealthSnapshot } from "@orqastudio/types";
+
+	const projectFilter = $derived(
+		projectStore.activeChildProject
+			? { project: projectStore.activeChildProject }
+			: undefined,
+	);
 
 	let snapshots = $state<HealthSnapshot[]>([]);
 	let loading = $state(false);
@@ -11,9 +17,9 @@
 
 	/** All governance artifacts with their created dates. */
 	const governanceArtifacts = $derived([
-		...artifactGraphSDK.byType("rule"),
-		...artifactGraphSDK.byType("lesson"),
-		...artifactGraphSDK.byType("decision"),
+		...artifactGraphSDK.byType("rule", projectFilter),
+		...artifactGraphSDK.byType("lesson", projectFilter),
+		...artifactGraphSDK.byType("decision", projectFilter),
 	]);
 
 	/** Build cumulative governance count over time, aligned to snapshot dates. */

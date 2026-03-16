@@ -69,6 +69,18 @@
 			description: "Model, paths, stack detection",
 		},
 		{
+			id: "project-navigation",
+			label: "Navigation",
+			icon: "panel-left",
+			description: "Nav tree, item order, visibility",
+		},
+		{
+			id: "project-relationships",
+			label: "Relationships",
+			icon: "git-branch",
+			description: "Canonical and plugin relationships",
+		},
+		{
 			id: "project-artifact-links",
 			label: "Artifact Links",
 			icon: "link",

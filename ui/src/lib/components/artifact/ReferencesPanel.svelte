@@ -135,10 +135,11 @@
 								<div class="grid grid-cols-2 items-baseline gap-2">
 									<span class="justify-self-start rounded border border-muted-foreground/20 bg-muted px-1.5 py-0.5 text-[10px] font-medium capitalize text-muted-foreground">
 										{humanizeLabel(groupKey)}
+									</span>
 
 									<div class="flex min-w-0 flex-wrap items-center gap-1">
 										{#each visibleRefs(groupKey, "in", refs) as ref ("in:" + ref.source_id + ref.field)}
-t										<ArtifactLink id={ref.source_id} />
+											<ArtifactLink id={ref.source_id} />
 
 										{/each}
 										{#if refs.length > 3}
@@ -163,10 +164,11 @@ t										<ArtifactLink id={ref.source_id} />
 								<div class="grid grid-cols-2 items-baseline gap-2">
 									<span class="justify-self-start rounded border border-muted-foreground/20 bg-muted px-1.5 py-0.5 text-[10px] font-medium capitalize text-muted-foreground">
 										{humanizeLabel(groupKey)}
+									</span>
 
 									<div class="flex min-w-0 flex-wrap items-center gap-1">
 										{#each visibleRefs(groupKey, "out", refs) as ref ("out:" + ref.target_id + ref.field)}
-t										<ArtifactLink id={ref.target_id} />
+											<ArtifactLink id={ref.target_id} />
 										{/each}
 										{#if refs.length > 3}
 											<button

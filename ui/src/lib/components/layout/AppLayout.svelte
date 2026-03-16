@@ -24,7 +24,7 @@
 	import { ResizablePaneGroup, ResizableHandle, ResizablePane } from "@orqastudio/svelte-components/pure";
 	import setupBackground from "$lib/assets/setup-background.png";
 
-	const { errorStore, navigationStore, settingsStore, artifactStore, projectStore, setupStore, enforcementStore, artifactGraphSDK } = getStores();
+	const { errorStore, navigationStore, settingsStore, artifactStore, projectStore, setupStore, enforcementStore, artifactGraphSDK, pluginRegistry } = getStores();
 
 	/** Unlisten function for the artifact-changed event, cleaned up on destroy. */
 	let unlistenArtifactChanged: UnlistenFn | null = null;
@@ -39,6 +39,13 @@
 		navigationStore.activeActivity === "settings",
 	);
 	const setupNeeded = $derived(!setupStore.setupComplete);
+
+	// Resolve plugin view component for the active nav item
+	const pluginViewComponent = $derived.by(() => {
+		const navItem = navigationStore.activeNavItem;
+		if (!navItem || navItem.type !== "plugin" || !navItem.pluginSource) return null;
+		return pluginRegistry.getViewComponent(navItem.pluginSource, navItem.key);
+	});
 
 	function handleGlobalKeydown(e: KeyboardEvent) {
 		// Ctrl+Space (or Cmd+Space on Mac) toggles the search overlay
@@ -169,7 +176,11 @@
 				<ResizablePaneGroup direction="horizontal" class="flex-1">
 					<ResizablePane defaultSize={70} minSize={30}>
 						<div class="h-full overflow-hidden">
-							{#if navigationStore.activeActivity === "project"}
+							{#if navigationStore.activeNavItem?.type === "plugin" && pluginViewComponent}
+								<!-- Plugin-provided view -->
+								{@const PluginView = pluginViewComponent}
+								<PluginView />
+							{:else if navigationStore.activeActivity === "project"}
 								<ProjectDashboard />
 							{:else if navigationStore.activeActivity === "artifact-graph"}
 								<FullGraphView />

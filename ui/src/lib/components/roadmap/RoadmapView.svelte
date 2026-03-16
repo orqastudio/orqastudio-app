@@ -6,6 +6,12 @@
 
 	const { artifactGraphSDK, navigationStore, projectStore } = getStores();
 	import type { ArtifactNode } from "@orqastudio/types";
+
+	const projectFilter = $derived(
+		projectStore.activeChildProject
+			? { project: projectStore.activeChildProject }
+			: undefined,
+	);
 	import HorizonBoard from "./HorizonBoard.svelte";
 	import StatusKanban from "./StatusKanban.svelte";
 	import DrilldownBreadcrumbs from "./DrilldownBreadcrumbs.svelte";
@@ -46,9 +52,9 @@
 	// Data from graph SDK
 	// ---------------------------------------------------------------------------
 
-	const milestones = $derived(artifactGraphSDK.byType(rootKey));
-	const epics = $derived(artifactGraphSDK.byType(level1Key));
-	const tasks = $derived(artifactGraphSDK.byType(level2Key));
+	const milestones = $derived(artifactGraphSDK.byType(rootKey, projectFilter));
+	const epics = $derived(artifactGraphSDK.byType(level1Key, projectFilter));
+	const tasks = $derived(artifactGraphSDK.byType(level2Key, projectFilter));
 	const graphLoading = $derived(artifactGraphSDK.loading);
 	const graphError = $derived(artifactGraphSDK.error);
 	const hasData = $derived(milestones.length > 0 || epics.length > 0);
