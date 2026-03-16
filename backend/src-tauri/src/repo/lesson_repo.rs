@@ -202,6 +202,7 @@ mod tests {
             artifact_links: Default::default(),
             statuses: vec![],
             delivery: Default::default(),
+            relationships: vec![],
         };
         ProjectPaths::from_settings(tmp.path(), &settings)
     }
@@ -356,6 +357,7 @@ mod tests {
             artifact_links: Default::default(),
             statuses: vec![],
             delivery: Default::default(),
+            relationships: vec![],
         };
         let paths = ProjectPaths::from_settings(dir.path(), &settings);
         let lessons = list(&paths).expect("list should succeed");

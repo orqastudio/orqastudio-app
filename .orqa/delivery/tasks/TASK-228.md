@@ -5,14 +5,15 @@ description: 14 tasks marked todo but plugin has working code. Verify each task 
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - Every EPIC-050 task has accurate status
   - EPIC-050 status updated accordingly
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

@@ -17,27 +17,28 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Semantic search surfaces hidden relationships in code, making architecture and data flows visible before changes
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: TASK-004
+    type: grounded
+  - target: TASK-005
+    type: grounded
+  - target: TASK-006
+    type: grounded
+  - target: TASK-007
+    type: grounded
+  - target: TASK-008
+    type: grounded
+  - target: TASK-009
+    type: grounded
+  - target: TASK-010
+    type: grounded
+  - target: TASK-011
+    type: grounded
+  - target: TASK-012
+    type: grounded
+  - target: TASK-013
+    type: grounded
+  - target: TASK-014
+    type: grounded
 ---
 
 

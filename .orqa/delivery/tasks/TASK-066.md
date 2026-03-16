@@ -5,11 +5,7 @@ description: Update git-workflow rule for governance-only work
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-047
-depends-on: []
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - Rule addresses governance-only work patterns explicitly
   - Commit-at-boundaries principle documented (end of task
@@ -20,8 +16,16 @@ acceptance:
   - Rule distinguishes worktree workflow (code) from direct-commit workflow (governance)
 relationships:
   - target: EPIC-047
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-067
+    type: depended-on-by
+  - target: TASK-068
+    type: depended-on-by
+  - target: TASK-337
+    type: depended-on-by
 ---
 
 ## What

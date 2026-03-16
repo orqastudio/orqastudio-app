@@ -5,17 +5,21 @@ description: Update all documentation files that reference pre-restructure paths
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on: []
 assignee: AGENT-002
 acceptance:
-  - No doc file references `src-tauri/` without `backend/` prefix
-  - No doc file references `persistence/` directory (should be `repo/`)
+  - "No doc file references `src-tauri/` without `backend/` prefix"
+  - "No doc file references `persistence/` directory (should be `repo/`)"
   - grep for both patterns returns zero results
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-259
+    type: depended-on-by
+  - target: TASK-266
+    type: depended-on-by
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

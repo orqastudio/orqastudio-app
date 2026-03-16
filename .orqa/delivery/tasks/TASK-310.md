@@ -1,12 +1,10 @@
 ---
 id: TASK-310
 title: "Plugin: maintain memory entries for unimplemented ADs"
-description: Use Claude Code's memory system to surface unimplemented architecture decisions. Session-start hook creates/updates concise memory entries for accepted ADs lacking enforced-by/practiced-by edges. Hook also cleans up memory entries when ADs mature. Leverages provider-native memory for compaction-resistant context.
+description: "Use Claude Code's memory system to surface unimplemented architecture decisions. Session-start hook creates/updates concise memory entries for accepted ADs lacking enforced-by/practiced-by edges. Hook also cleans up memory entries when ADs mature. Leverages provider-native memory for compaction-resistant context."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 acceptance:
   - Session-start hook scans .orqa/process/decisions/ for accepted ADs
   - ADs with enforced-by or practiced-by relationships are excluded
@@ -23,8 +21,10 @@ relationships:
     type: grounded
     rationale: Auto-generated inverse of grounded relationship from IMPL-040
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-349
+    type: depended-on-by
 ---
 ## What
 
@@ -35,7 +35,7 @@ Use Claude Code's native memory system to surface architecture decisions that ha
 1. Replace the stdout AD injection block (lines 147-176) in session-start.sh with memory management
 2. Derive Claude memory directory path from project directory
 3. On each session start:
-   - Scan `.orqa/process/decisions/AD-*.md` for `status: accepted` without `enforced-by`/`practiced-by` edges
+   - Scan `.orqa/process/decisions/AD-*.md` for `status: accepted` without `enforced-by`/`grounded` edges
    - Create `ad_AD-NNN.md` memory files for new unimplemented ADs (type: reference, concise summary)
    - Remove `ad_AD-*.md` memory files for ADs that have matured
    - Update MEMORY.md with an "Unimplemented Architecture Decisions" section

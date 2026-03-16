@@ -1,13 +1,10 @@
 ---
 id: TASK-394
 title: Pipeline stage visualization widget
-description: Add a PipelineWidget to the dashboard showing Knowledge Maturity Pipeline stages (Observation → Understanding → Principle → Practice → Enforcement → Verification) with artifact counts, flow connections, and bottleneck highlighting.
+description: "Add a PipelineWidget to the dashboard showing Knowledge Maturity Pipeline stages (Observation → Understanding → Principle → Practice → Enforcement → Verification) with artifact counts, flow connections, and bottleneck highlighting."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-060
-depends-on:
-  - TASK-389
 acceptance:
   - PipelineWidget shows 6 pipeline stages as a horizontal flow
   - Each stage shows artifact count derived from artifact type mapping
@@ -18,8 +15,12 @@ acceptance:
   - make typecheck passes (no new errors)
 relationships:
   - target: EPIC-060
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-389
+    type: depends-on
+  - target: TASK-397
+    type: depended-on-by
 ---
 
 ## What

@@ -1,20 +1,20 @@
 ---
 id: TASK-111
 title: Design artifact browser wireframes
-description: Created wireframes for the artifact browser including navigation tree, content panel, and frontmatter display.
+description: "Created wireframes for the artifact browser including navigation tree, content panel, and frontmatter display."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-028
-depends-on: []
 acceptance:
   - Artifact browser wireframe covers tree and content views
   - All component states are specified
   - Navigation supports nested directories
 relationships:
   - target: EPIC-028
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-318
+    type: depended-on-by
 ---
 ## What
 

@@ -5,12 +5,7 @@ description: Add pillar reference field to epic/idea schemas
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-046
-depends-on:
-  - TASK-058
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - Epic schema includes optional pillars field (list of PILLAR-NNN IDs)
   - Idea schema includes optional pillars field
@@ -18,8 +13,14 @@ acceptance:
   - Existing epics do not need backfilling (field is optional)
 relationships:
   - target: EPIC-046
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-058
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-336
+    type: depended-on-by
 ---
 
 ## What

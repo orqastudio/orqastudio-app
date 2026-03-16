@@ -1,29 +1,30 @@
 ---
 id: TASK-276
 title: Backfill decisions with relationships
-description: Use backfill tooling to add practices and enforces relationships to all 42 decisions, connecting to skills and rules already backfilled.
+description: "Use backfill tooling to add practices and enforces relationships to all 42 decisions, connecting to skills and rules already backfilled."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-058
-depends-on:
-  - TASK-275
 assignee: null
 docs: []
-skills: []
 acceptance:
   - All 42 decisions have a relationships array
   - Each decision has practices and enforces relationships (nullable with rationale)
   - Connections reference skills and rules already backfilled in TASK-274/TASK-275
-  - Bidirectional consistency — if AD-029 says practices:SKILL-X, SKILL-X says grounded:AD-029
+  - "Bidirectional consistency — if AD-029 says practices:SKILL-X, SKILL-X says grounded:AD-029"
   - Human reviewed and approved all proposals
 rule-overrides:
-  - rule: RULE-032
-    reason: Adding new optional relationships field to decision frontmatter during migration
+  - "rule: RULE-032"
 relationships:
   - target: EPIC-058
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-275
+    type: depends-on
+  - target: TASK-277
+    type: depended-on-by
+  - target: TASK-348
+    type: depended-on-by
 ---
 
 ## What

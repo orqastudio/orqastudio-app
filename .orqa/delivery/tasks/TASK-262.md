@@ -5,17 +5,19 @@ description: Configure Vitest coverage reporter with threshold enforcement.
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on: []
 assignee: AGENT-002
 acceptance:
   - vitest.config.ts exists with coverage configuration
   - make coverage-frontend target exists and produces a coverage report
-  - Coverage threshold of 80% configured (warn, not fail, initially)
+  - "Coverage threshold of 80% configured (warn, not fail, initially)"
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-264
+    type: depended-on-by
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

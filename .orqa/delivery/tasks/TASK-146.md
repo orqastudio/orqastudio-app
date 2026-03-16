@@ -1,22 +1,22 @@
 ---
 id: TASK-146
 title: Create systems-thinking companion skill for RULE-028
-description: Create a systems-thinking skill that provides practical methodology for applying RULE-028's systems-thinking principle to real codebases.
+description: "Create a systems-thinking skill that provides practical methodology for applying RULE-028's systems-thinking principle to real codebases."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - New skill systems-thinking created in .orqa/process/skills/
-  - Covers system identification, boundary mapping, relationship tracing, pattern recognition, uniform base discovery
+  - "Covers system identification, boundary mapping, relationship tracing, pattern recognition, uniform base discovery"
   - Practical examples showing the methodology applied to real scenarios
   - RULE-028 updated to reference the companion skill
-  - Skill is layer canon (systems thinking is universal, not project-specific)
+  - "Skill is layer canon (systems thinking is universal, not project-specific)"
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

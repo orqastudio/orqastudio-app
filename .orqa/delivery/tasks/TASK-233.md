@@ -5,14 +5,15 @@ description: composability SKILL-008 has 37 project references but is core. Spli
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - Core skill is portable
   - Project examples in project-layer skill
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

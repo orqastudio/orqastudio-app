@@ -5,18 +5,18 @@ description: Replace OrqaStudio-specific file paths and code examples in the com
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - No OrqaStudio-specific file paths in examples
   - No OrqaStudio module/component names in examples
   - Composability principles unchanged
-  - Examples still clearly illustrate each principle (small units, pure functions, swappable parts)
+  - "Examples still clearly illustrate each principle (small units, pure functions, swappable parts)"
   - Skill remains layer canon
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 
 ## What

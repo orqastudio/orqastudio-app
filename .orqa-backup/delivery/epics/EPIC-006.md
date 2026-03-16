@@ -1,0 +1,44 @@
+---
+id: EPIC-006
+title: File Watcher for External Changes
+description: Watch .claude/ and .orqa/ directories for external modifications and refresh artifact list and viewer when files change on disk.
+status: captured
+priority: P2
+created: 2026-03-07
+updated: 2026-03-07
+milestone: MS-001
+horizon: next
+pillars:
+  - PILLAR-001
+research-refs: []
+docs-required: []
+docs-produced: []
+scoring:
+  pillar: 3
+  impact: 3
+  dependency: 2
+  effort: 2
+  score: 10.5
+relationships:
+  - target: MS-001
+    type: belongs-to
+    rationale: Epic belongs to this milestone
+---
+## Why P2
+
+Without this, CLI edits to governance files and `.orqa/` artifacts aren't reflected in the app until manual refresh. Important for dogfooding where both the CLI and app are used simultaneously.
+
+## Tasks
+
+- [ ] Add `notify` crate for filesystem watching
+- [ ] Watch `.claude/` and `.orqa/` directories for external modifications
+- [ ] Refresh artifact list and viewer when files change on disk
+- [ ] Debounce rapid changes (editor auto-save)
+
+## Context
+
+This epic addresses a need identified during project development.
+
+## Implementation Design
+
+Implementation approach to be defined during planning.

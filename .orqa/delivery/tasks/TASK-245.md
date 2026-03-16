@@ -5,16 +5,17 @@ description: search/embedder.rs (331 lines) and search/store.rs (394 lines) hand
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-055
 acceptance:
-  - embedder.rs has tests for model loading, embedding generation, error handling
-  - store.rs has tests for insert, search, deletion, edge cases
+  - "embedder.rs has tests for model loading, embedding generation, error handling"
+  - "store.rs has tests for insert, search, deletion, edge cases"
   - Tests use in-memory DuckDB where possible
   - make test-rust passes
 relationships:
   - target: EPIC-055
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-345
+    type: depended-on-by
 ---
 
 ## What

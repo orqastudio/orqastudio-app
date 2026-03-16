@@ -1,8 +1,7 @@
 ---
 id: IMPL-005
 title: Config paths must match disk paths exactly
-description: |
-  Every path in project.json artifacts must resolve to an actual directory on disk. Mismatches cause silent empty results with no error.
+description: Every path in project.json artifacts must resolve to an actual directory on disk. Mismatches cause silent empty results with no error.
 status: completed
 created: 2026-03-07
 updated: 2026-03-07
@@ -15,12 +14,10 @@ relationships:
   - target: RULE-003
     type: grounded-by
     rationale: Lesson promoted to RULE-003
-  - type: observed-by
-    target: RULE-003
-    rationale: RULE-003 codified the config-disk alignment pattern first observed in this lesson
-  - type: informed-by
-    target: IMPL-006
-    rationale: IMPL-006's symlink divergence findings reinforced that source-of-truth alignment requires config-disk consistency
+  - target: IMPL-006
+    type: informed-by
+  - target: RULE-003
+    type: observed-by
 ---
 ## What Happened
 

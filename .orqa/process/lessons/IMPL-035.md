@@ -1,10 +1,10 @@
 ---
 id: IMPL-035
-title: "Design discussions need a structured mode with built-in checkpoints"
+title: Design discussions need a structured mode with built-in checkpoints
 description: "Extended design discussions produce decisions, observations, ideas, and scope changes without structured checkpoints. The orchestrator should have a 'design discussion mode' that enforces: one decision at a time, periodic zoom-outs, automatic observation logging, and a wrap-up protocol that captures all outcomes before transitioning to implementation."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

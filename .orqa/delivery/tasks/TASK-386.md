@@ -5,14 +5,14 @@ description: Build tooling that periodically re-grounds the agent in the origina
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
   - Tooling detects when execution has drifted from the original epic intention and surfaces re-orientation prompts
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

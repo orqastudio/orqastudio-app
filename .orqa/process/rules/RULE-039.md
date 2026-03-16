@@ -1,7 +1,7 @@
 ---
 id: RULE-039
 title: Session Management
-description: Sessions must be managed with state persistence, clean handoffs, and no unsaved work at session boundaries.
+description: "Sessions must be managed with state persistence, clean handoffs, and no unsaved work at session boundaries."
 status: active
 created: 2026-03-11
 updated: 2026-03-11
@@ -16,9 +16,6 @@ relationships:
   - target: RULE-007
     type: informs
     rationale: Session management requires dev server lifecycle control using make targets
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
 ---
 
 Every session that performs work must leave the codebase in a clean, resumable state. Session state bridges the gap between context windows.

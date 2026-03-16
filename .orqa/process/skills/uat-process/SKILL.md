@@ -17,9 +17,8 @@ relationships:
   - target: PILLAR-002
     type: grounded
     rationale: Collecting all findings before fixing, then grouping by root cause, turns user feedback into systemic lessons rather than one-off patches
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: AGENT-003
+    type: grounded
 ---
 
 Structured UAT methodology for the orchestrator and QA agents. Prevents premature fixing

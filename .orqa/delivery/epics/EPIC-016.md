@@ -1,31 +1,25 @@
 ---
 id: EPIC-016
 title: Prioritisation Framework
-description: Build the scoring model from the roadmap into the app with configurable dimensions, weights, and priority bands.
+description: "Build the scoring model from the roadmap into the app with configurable dimensions, weights, and priority bands."
 status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on:
-  - EPIC-005
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 4
-  dependency: 2
-  effort: 4
-  score: 7.3
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: EPIC-005
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: EPIC-022
+    type: depended-on-by
 ---
 ## Why P1
 

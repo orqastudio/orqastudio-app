@@ -19,27 +19,6 @@ relationships:
   - target: RULE-013
     type: informs
     rationale: tmp/ is gitignored; .gitignore and .gitattributes belong in root per this rule
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
 ---
 The project root must stay lean. Every file in root must have a justification.
 

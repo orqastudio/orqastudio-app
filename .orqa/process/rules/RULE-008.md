@@ -28,57 +28,28 @@ relationships:
   - target: RULE-006
     type: informs
     rationale: Coding standards document is the source of truth that must be read before writing code
-  - type: informed-by
-    target: RULE-002
-    rationale: Architecture decisions define the specific documentation agents must check before coding
-  - type: informed-by
-    target: RULE-003
-    rationale: Config integrity requires documenting the config schema before implementing the scanner
-  - type: informed-by
-    target: RULE-004
-    rationale: Artifact lifecycle gates require documentation to exist at specific transition points
-  - type: informed-by
-    target: RULE-011
-    rationale: Enforcement before code extends documentation-first to include enforcement artifacts
-  - type: informed-by
-    target: RULE-014
-    rationale: Historical preservation defines which docs are deleted (active state) vs preserved (research)
-  - type: informed-by
-    target: RULE-021
-    rationale: Pillar alignment in docs requires every feature documentation page to serve a pillar
-  - type: informed-by
-    target: RULE-023
-    rationale: Required reading formalises which documentation agents must load before starting work
-  - type: informed-by
-    target: RULE-027
-    rationale: Structure before work requires artifact documentation to exist before implementation begins
   - target: IMPL-047
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-047
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
+  - target: RULE-002
+    type: informed-by
+  - target: RULE-003
+    type: informed-by
+  - target: RULE-004
+    type: informed-by
+  - target: RULE-011
+    type: informed-by
+  - target: RULE-014
+    type: informed-by
+  - target: RULE-021
+    type: informed-by
+  - target: RULE-023
+    type: informed-by
+  - target: RULE-027
+    type: informed-by
 ---
 ## Principle
 

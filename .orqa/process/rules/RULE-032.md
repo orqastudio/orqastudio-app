@@ -1,7 +1,7 @@
 ---
 id: RULE-032
 title: Artifact Schema Compliance
-description: Every artifact's YAML frontmatter must validate against the JSON Schema defined in its artifact directory's schema.json file.
+description: "Every artifact's YAML frontmatter must validate against the JSON Schema defined in its artifact directory's schema.json file."
 status: active
 created: 2026-03-10
 updated: 2026-03-13
@@ -19,15 +19,6 @@ relationships:
   - target: RULE-027
     type: informs
     rationale: Artifacts must be correctly formed before implementation begins
-  - type: informed-by
-    target: RULE-034
-    rationale: Cross-reference format rules apply within the schema-validated frontmatter fields
-  - type: informed-by
-    target: RULE-044
-    rationale: Core graph protection includes protecting the schema.json files themselves
-  - type: enforces
-    target: AD-031
-    rationale: Pillar schema validation ensures pillar artifacts conform to their schema — validating the structured fields that AD-031 establishes (id, title, description, gate)
   - target: AD-034
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-034
@@ -37,21 +28,18 @@ relationships:
   - target: AD-023
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-023
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: artifact-framework.md defines the artifact schemas and frontmatter contracts this rule validates
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
+  - target: IMPL-067
+    type: observed-by
+  - target: RULE-034
+    type: informed-by
+  - target: RULE-044
+    type: informed-by
 ---
 Every artifact in `.orqa/` must have YAML frontmatter that validates against the JSON Schema in its directory's `schema.json` file. Fields not defined in the schema are rejected. Required fields must be present. Enum fields must use valid values.
 

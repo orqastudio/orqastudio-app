@@ -5,12 +5,7 @@ description: Update product documentation for pillar artifacts
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-046
-depends-on:
-  - TASK-060
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - governance.md references pillar artifacts instead of inline definitions
   - vision.md points to .orqa/process/pillars/ as the source of truth for pillars
@@ -18,8 +13,14 @@ acceptance:
   - Documentation explains that pillars are project-configurable
 relationships:
   - target: EPIC-046
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-060
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-336
+    type: depended-on-by
 ---
 
 ## What

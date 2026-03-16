@@ -5,8 +5,6 @@ description: Build a floating search overlay (Ctrl+Space) that sends queries to 
 status: active
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-005
-depends-on: []
 acceptance:
   - Ctrl+Space opens the search overlay from anywhere in the app
   - Search input is auto-focused on open
@@ -18,8 +16,10 @@ acceptance:
   - make typecheck passes
 relationships:
   - target: EPIC-005
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-312
+    type: depended-on-by
 ---
 
 

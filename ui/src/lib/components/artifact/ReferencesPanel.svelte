@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
-		Collapsible,
+		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
-	} from "$lib/components/ui/collapsible";
+	} from "@orqastudio/svelte-components/pure";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import ListIcon from "@lucide/svelte/icons/list";
 	import NetworkIcon from "@lucide/svelte/icons/network";
-	import * as Tooltip from "$lib/components/ui/tooltip";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { SvelteMap } from "svelte/reactivity";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -99,8 +99,8 @@
 
 				</CollapsibleTrigger>
 				{#if panelOpen}
-					<Tooltip.Root>
-						<Tooltip.Trigger>
+					<TooltipRoot>
+						<TooltipTrigger>
 							{#snippet child({ props })}
 								<button
 									{...props}
@@ -114,11 +114,11 @@
 									{/if}
 								</button>
 							{/snippet}
-						</Tooltip.Trigger>
-						<Tooltip.Content side="top">
+						</TooltipTrigger>
+						<TooltipContent side="top">
 							<p>{viewMode === "list" ? "Graph view" : "List view"}</p>
-						</Tooltip.Content>
-					</Tooltip.Root>
+						</TooltipContent>
+					</TooltipRoot>
 				{/if}
 			</div>
 			<CollapsibleContent>

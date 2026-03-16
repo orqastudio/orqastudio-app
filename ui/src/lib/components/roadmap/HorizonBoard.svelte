@@ -2,10 +2,10 @@
 	import { SvelteSet } from "svelte/reactivity";
 	import type { ArtifactNode } from "@orqastudio/types";
 	import MilestoneCard from "./MilestoneCard.svelte";
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
-	import { Badge } from "$lib/components/ui/badge";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import { cn } from "$lib/utils";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { cn } from "@orqastudio/svelte-components";
 
 	type HorizonColumn = {
 		key: string;
@@ -268,7 +268,7 @@
 						</div>
 
 						<!-- Milestone cards -->
-						<ScrollArea.Root class="min-h-0 flex-1" orientation="vertical">
+						<ScrollArea class="min-h-0 flex-1" orientation="vertical">
 							<div
 								class="flex flex-col gap-3 p-3"
 								role="list"
@@ -304,7 +304,7 @@
 									{/each}
 								{/if}
 							</div>
-						</ScrollArea.Root>
+						</ScrollArea>
 					</div>
 				{/if}
 			{/each}

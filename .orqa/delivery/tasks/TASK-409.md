@@ -6,16 +6,10 @@ status: completed
 priority: P2
 created: 2026-03-13
 updated: 2026-03-14
-epic: EPIC-063
-depends-on: []
 assignee: null
-skills:
-  - SKILL-011
-  - SKILL-039
-  - SKILL-050
 acceptance:
   - Research schema includes relationships array matching the standard relationship pattern
-  - All research documents have relationship data backfilled (at minimum, informs edges to epics that reference them)
+  - "All research documents have relationship data backfilled (at minimum, informs edges to epics that reference them)"
   - Bidirectional consistency verified — epic research-refs have matching research→epic relationships
   - All epics have horizon field populated (active/next/later/someday/null)
   - verify-links passes clean after backfill
@@ -23,9 +17,12 @@ relationships:
   - target: EPIC-063
     type: delivers
     rationale: Theme G — data integrity backfill from UAT
-  - target: EPIC-063
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-039
+    type: grounded-by
+  - target: SKILL-050
+    type: grounded-by
 ---
 
 ## Scope

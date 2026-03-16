@@ -5,17 +5,25 @@ description: Extend the task schema with optional docs (array of documentation p
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on: []
 acceptance:
-  - Task schema accepts `docs` and `skills` arrays
+  - "Task schema accepts `docs` and `skills` arrays"
   - Existing tasks without these fields still validate
   - Schema validator passes with and without the new fields
   - Artifact framework documentation reflects the new fields
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-209
+    type: depended-on-by
+  - target: TASK-210
+    type: depended-on-by
+  - target: TASK-211
+    type: depended-on-by
+  - target: TASK-214
+    type: depended-on-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

@@ -17,15 +17,14 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Establishes composability and error handling principles that make backend code consistent and reviewable
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informed-by
-    target: DOC-065
-    rationale: Code principles grounding document distills into this skill for agent injection
+  - target: TASK-176
+    type: grounded
+  - target: TASK-188
+    type: grounded
+  - target: TASK-189
+    type: grounded
+  - target: TASK-190
+    type: grounded
 ---
 
 This skill ensures every backend agent has the right mental model before writing code. It does not duplicate content from deeper skills — it establishes principles and points to the right references.

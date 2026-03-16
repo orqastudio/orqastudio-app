@@ -10,52 +10,43 @@ priority: P1
 created: 2026-03-12
 updated: 2026-03-12
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-depends-on: []
-blocks: []
-research-refs:
-  - RES-044
-docs-required:
-  - RES-044
-docs-produced: []
-scoring:
-  dogfood-value: 5
-  user-facing: 1
-  foundation: 5
+scoring: null
 relationships:
   - target: RES-044
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-044
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-251
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-252
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-253
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-254
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-255
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-256
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-257
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-346
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: RES-044
+    type: informs
 ---
 ## Context
 

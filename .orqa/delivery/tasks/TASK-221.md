@@ -1,16 +1,11 @@
 ---
 id: TASK-221
 title: Pre-commit hook blocks core graph artifact modifications
-description: Add a pre-commit check that warns and blocks commits modifying core graph artifacts (schemas, orchestrator, core skills, role definitions) unless force-overridden. Dogfood mode bypasses.
+description: "Add a pre-commit check that warns and blocks commits modifying core graph artifacts (schemas, orchestrator, core skills, role definitions) unless force-overridden. Dogfood mode bypasses."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on:
-  - TASK-211
 docs: []
-skills:
-  - SKILL-011
 acceptance:
   - Committing changes to schema.json in any artifact directory is blocked with warning
   - Committing changes to orchestrator.md is blocked with warning
@@ -20,8 +15,14 @@ acceptance:
   - Warning message explains that changing core artifacts risks breaking the system thinking structure
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-211
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

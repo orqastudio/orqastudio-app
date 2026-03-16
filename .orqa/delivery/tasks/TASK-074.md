@@ -5,26 +5,31 @@ description: "Expose the artifact graph through Tauri commands: resolve_artifact
 status: completed
 created: 2026-03-10
 updated: 2026-03-10
-epic: EPIC-048
-depends-on:
-  - TASK-073
 assignee: AGENT-002
-skills:
-  - SKILL-027
-  - SKILL-032
-  - SKILL-012
 acceptance:
   - resolve_artifact command returns ArtifactNode for a given ID
   - resolve_path command returns ArtifactNode for a given file path
   - get_references_from and get_references_to return Vec of ArtifactRef
   - get_artifacts_by_type returns filtered node list
   - read_artifact_content returns raw markdown body from disk (no caching)
-  - get_graph_stats returns node count, edge count, orphan count, broken ref count
+  - "get_graph_stats returns node count, edge count, orphan count, broken ref count"
   - All commands registered in Tauri app builder
 relationships:
   - target: EPIC-048
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-073
+    type: depends-on
+  - target: SKILL-027
+    type: grounded-by
+  - target: SKILL-032
+    type: grounded-by
+  - target: SKILL-012
+    type: grounded-by
+  - target: TASK-075
+    type: depended-on-by
+  - target: TASK-338
+    type: depended-on-by
 ---
 
 ## What

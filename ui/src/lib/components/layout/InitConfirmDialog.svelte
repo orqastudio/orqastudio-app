@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Dialog from "$lib/components/ui/dialog";
-	import { Button } from "$lib/components/ui/button";
+	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
 
 	interface Props {
 		open: boolean;
@@ -12,25 +12,25 @@
 	const { open, pendingPath, onConfirm, onCancel }: Props = $props();
 </script>
 
-<Dialog.Root
+<DialogRoot
 	{open}
 	onOpenChange={(isOpen) => { if (!isOpen) onCancel(); }}
 >
-	<Dialog.Content class="max-w-sm">
-		<Dialog.Header>
-			<Dialog.Title>Not an Orqa Project</Dialog.Title>
-			<Dialog.Description>
+	<DialogContent class="max-w-sm">
+		<DialogHeader>
+			<DialogTitle>Not an Orqa Project</DialogTitle>
+			<DialogDescription>
 				This folder doesn't have an Orqa configuration. Would you like to initialize it as a new Orqa project?
-			</Dialog.Description>
-		</Dialog.Header>
+			</DialogDescription>
+		</DialogHeader>
 		{#if pendingPath}
 			<p class="rounded bg-muted px-3 py-2 text-xs font-mono text-muted-foreground truncate">
 				{pendingPath}
 			</p>
 		{/if}
-		<Dialog.Footer>
+		<DialogFooter>
 			<Button variant="outline" onclick={onCancel}>Cancel</Button>
 			<Button onclick={onConfirm}>Initialize Project</Button>
-		</Dialog.Footer>
-	</Dialog.Content>
-</Dialog.Root>
+		</DialogFooter>
+	</DialogContent>
+</DialogRoot>

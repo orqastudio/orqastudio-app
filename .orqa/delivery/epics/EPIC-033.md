@@ -1,29 +1,13 @@
 ---
 id: EPIC-033
-title: Vision Alignment & Schema Simplification
+title: "Vision Alignment & Schema Simplification"
 description: "Align all documentation, governance rules, agent definitions, and code with the evolved vision: .orqa/ as sole source of truth, provider-agnostic AI integration, three-layer architecture (Canon/Project/Plugin), and simplified artifact schema where plans are merged into research and tasks trace cleanly to epics to milestones."
 status: completed
 priority: P1
 created: 2026-03-08
 updated: 2026-03-08
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-031
-  - RES-014
-  - RES-011
-  - RES-017
-docs-required: []
-docs-produced: []
-scoring:
-  dogfood-value: 5
-  foundation: 5
-  user-visible: 4
-  scope: 4
-  dependency-risk: 3
-  score: 4.3
+scoring: null
 relationships:
   - target: RES-014
     type: informed-by
@@ -38,38 +22,40 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-031
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-004
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-005
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-006
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-007
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-008
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-009
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-010
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-011
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-012
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-323
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Implementation Design
 

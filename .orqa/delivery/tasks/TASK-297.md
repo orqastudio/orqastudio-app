@@ -5,12 +5,8 @@ description: "Audit documentation/: what docs NEED to exist vs what IS there. Id
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-285
 assignee: null
 docs: []
-skills: []
 acceptance:
   - Inventory of all documentation files with current/needed status
   - Stale content identified and removed or updated
@@ -20,8 +16,12 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-285
+    type: depends-on
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

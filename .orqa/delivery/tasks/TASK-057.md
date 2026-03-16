@@ -1,14 +1,11 @@
 ---
 id: TASK-057
 title: Task Dependency Mechanism
-description: Add a formal depends-on field to the task schema in the artifact framework, add a dependency gate to the task lifecycle rules, and backfill existing tasks that have implicit dependencies.
+description: "Add a formal depends-on field to the task schema in the artifact framework, add a dependency gate to the task lifecycle rules, and backfill existing tasks that have implicit dependencies."
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-045
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - depends-on field defined in the Task schema (artifact-framework.md)
   - Task lifecycle rule updated with dependency gate (todo → in-progress blocked if deps not done)
@@ -16,8 +13,18 @@ acceptance:
   - Traceability web updated to show task-level dependencies
 relationships:
   - target: EPIC-045
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-051
+    type: depended-on-by
+  - target: TASK-053
+    type: depended-on-by
+  - target: TASK-054
+    type: depended-on-by
+  - target: TASK-335
+    type: depended-on-by
 ---
 ## Context
 

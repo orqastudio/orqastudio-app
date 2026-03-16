@@ -14,23 +14,20 @@ updated: 2026-03-10
 layer: project
 category: domain
 file-patterns:
-  - backend/src-tauri/src/domain/**
-  - backend/src-tauri/src/commands/**
+  - "backend/src-tauri/src/domain/**"
+  - "backend/src-tauri/src/commands/**"
 version: 1.0.0
 user-invocable: true
 relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Canonical error types with From impls make every failure path traceable from domain logic through IPC to the user
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informs
-    target: DOC-003
-    rationale: Error composition skill defines the OrqaError type hierarchy that the error taxonomy document catalogs
+  - target: TASK-176
+    type: grounded
+  - target: TASK-188
+    type: grounded
+  - target: TASK-189
+    type: grounded
 ---
 
 

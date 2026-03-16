@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import type { ThemeMode } from "@orqastudio/sdk";
 
@@ -17,12 +17,12 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Appearance</Card.Title>
-		<Card.Description>Theme and display preferences</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Appearance</CardTitle>
+		<CardDescription>Theme and display preferences</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		<div>
 			<span class="text-sm font-medium">Theme</span>
 			<div class="mt-1">
@@ -36,5 +36,5 @@
 				/>
 			</div>
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

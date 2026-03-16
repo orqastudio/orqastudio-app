@@ -6,11 +6,7 @@ status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-072
-depends-on:
-  - TASK-456
 assignee: null
-skills: []
 acceptance:
   - Roadmap view accessible under Process in navigation
   - Static roadmap.md doc removed or deprecated
@@ -18,9 +14,8 @@ relationships:
   - target: EPIC-072
     type: delivers
     rationale: Navigation registration makes the roadmap view discoverable
-  - target: EPIC-072
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-456
+    type: depends-on
 ---
 
 ## Scope

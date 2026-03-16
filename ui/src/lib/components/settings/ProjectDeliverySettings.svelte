@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
-	import { Input } from "$lib/components/ui/input";
-	import { Separator } from "$lib/components/ui/separator";
-	import ConfirmDeleteDialog from "$lib/components/shared/ConfirmDeleteDialog.svelte";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Input } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
+	import { ConfirmDialog as ConfirmDeleteDialog } from "@orqastudio/svelte-components/pure";
 	import PlusIcon from "@lucide/svelte/icons/plus";
 	import Trash2Icon from "@lucide/svelte/icons/trash-2";
 	import type { ProjectSettings, DeliveryTypeConfig, DeliveryParentConfig } from "@orqastudio/types";
@@ -110,12 +110,12 @@
 	);
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Delivery Pipeline</Card.Title>
-		<Card.Description>Define the delivery types and hierarchy for this project</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Delivery Pipeline</CardTitle>
+		<CardDescription>Define the delivery types and hierarchy for this project</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		{#if localTypes.length === 0}
 			<p class="text-sm text-muted-foreground">No delivery types defined. Add one below.</p>
 		{:else}
@@ -216,8 +216,8 @@
 			<PlusIcon class="mr-1.5 h-3.5 w-3.5" />
 			Add Delivery Type
 		</Button>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>
 
 <ConfirmDeleteDialog
 	bind:open={confirmDeleteOpen}

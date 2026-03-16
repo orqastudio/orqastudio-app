@@ -5,18 +5,18 @@ description: Replace all React code examples in the tailwind-design-system skill
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - All React code examples replaced with Svelte 5 equivalents
   - Examples use shadcn-svelte component patterns (not Radix UI)
-  - Examples use Svelte 5 runes ($props, $derived) not Svelte 4 patterns
+  - "Examples use Svelte 5 runes ($props, $derived) not Svelte 4 patterns"
   - Design system principles and Tailwind guidance unchanged
   - Skill still works as general Tailwind knowledge (not overly OrqaStudio-specific)
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

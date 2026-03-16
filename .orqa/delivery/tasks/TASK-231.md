@@ -5,14 +5,15 @@ description: "File has id: RES-039 but wrong filename. Rename to RES-039.md."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - Filename matches frontmatter ID
   - References updated
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

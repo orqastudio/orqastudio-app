@@ -2,12 +2,12 @@
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import AlertTriangleIcon from "@lucide/svelte/icons/alert-triangle";
 	import ClockIcon from "@lucide/svelte/icons/clock";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import { Badge } from "$lib/components/ui/badge";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import SearchInput from "$lib/components/shared/SearchInput.svelte";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
+	import { SearchInput } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import type { StoredEnforcementViolation } from "@orqastudio/types";
 
 	let {
@@ -125,7 +125,7 @@
 				{/if}
 			</div>
 		{:else}
-			<ScrollArea.Root class="h-full">
+			<ScrollArea class="h-full">
 				<div class="divide-y divide-border">
 					{#each filtered as v (v.id)}
 						<div class="flex items-start gap-3 px-4 py-2.5 hover:bg-muted/30">
@@ -167,7 +167,7 @@
 						</div>
 					{/each}
 				</div>
-			</ScrollArea.Root>
+			</ScrollArea>
 		{/if}
 	</div>
 

@@ -5,9 +5,6 @@ description: "Review all 8 observations logged during EPIC-059 implementation. F
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-308
 acceptance:
   - Every IMPL-018 through IMPL-025 has a documented triage outcome
   - Implement-now items have tasks created within EPIC-059
@@ -16,8 +13,12 @@ acceptance:
   - "No observation left at maturity: observation without a forward path"
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-308
+    type: depends-on
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

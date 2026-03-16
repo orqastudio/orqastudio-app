@@ -1,26 +1,22 @@
 ---
 id: TASK-501
-title: "Build impact analysis panel for pre-edit preview"
+title: Build impact analysis panel for pre-edit preview
 description: "Before editing an artifact, show a non-blocking impact panel that lists artifacts reachable within 1-2 hops via relationship edges, grouped by relationship type. Uses neighborhood traversal from the artifactGraphSDK. Rendered as an expandable info panel, not a modal."
 status: blocked
 priority: P2
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-076
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-498
 acceptance:
   - "Before editing an artifact, an impact panel shows 'This change may affect N artifacts'"
-  - "Uses neighborhood traversal (1-2 hops) from the artifact being edited"
-  - "Lists affected artifacts grouped by relationship type"
+  - Uses neighborhood traversal (1-2 hops) from the artifact being edited
+  - Lists affected artifacts grouped by relationship type
   - "Non-blocking — shown as an expandable info panel, not a modal"
 relationships:
-  - type: delivers
-    target: EPIC-076
-  - type: belongs-to
-    target: EPIC-076
+  - target: EPIC-076
+    type: delivers
+  - target: TASK-498
+    type: depends-on
 ---
 ## What
 

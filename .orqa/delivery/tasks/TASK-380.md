@@ -5,14 +5,16 @@ description: Define enforcement mechanisms for behavioral rules enforced via pos
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
-  - Enforcement plan documented for all output-validation-enforced behavioral rules (RULE-015, RULE-017, RULE-019, RULE-022)
+  - "Enforcement plan documented for all output-validation-enforced behavioral rules (RULE-015, RULE-017, RULE-019, RULE-022)"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
+  - target: TASK-383
+    type: depended-on-by
 ---
 
 ## What

@@ -6,8 +6,6 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-073
-depends-on: []
 acceptance:
   - Roadmap columns evenly fill panel width
   - ScrollArea inside columns scrolls correctly
@@ -16,7 +14,8 @@ relationships:
   - target: EPIC-073
     type: delivers
     rationale: UAT findings F34 and F35 — roadmap column layout and scroll fixes
-  - target: EPIC-073
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-491
+    type: depended-on-by
+  - target: TASK-492
+    type: depended-on-by
 ---

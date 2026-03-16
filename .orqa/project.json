@@ -1,6 +1,6 @@
 {
   "name": "Orqa Dogfood",
-  "description": "OrqaStudio™ is an AI-assisted clarity engine that helps people turn messy situations into structured understanding and evolving plans through agile thinking and continuous retrospection.",
+  "description": "OrqaStudio is an AI-assisted clarity engine that helps people turn messy situations into structured understanding and evolving plans through agile thinking and continuous retrospection.",
   "default_model": "auto",
   "excluded_paths": [
     "node_modules",
@@ -35,8 +35,39 @@
   },
   "icon": "icon.svg",
   "show_thinking": true,
-  "custom_system_prompt": "You are running inside OrqaStudio — the same app you are helping develop. Your responses flow through the Agent SDK sidecar (sidecar/dist/sidecar.js) → Rust Channel<T> → this Svelte UI.\n\nKey constraints of this environment:\n  - Rust backend changes require a manual app restart (no hot reload)\n  - Frontend changes hot-reload via Vite HMR — but editing components mid-stream can crash the window\n  - The sidecar must be rebuilt (`cd sidecar && bun run build`) after any changes to sidecar source\n  - You have 6 file tools available: read, write, edit, bash, glob, grep\n\nProject conventions:\n  - Svelte 5 runes only — no $:, no export let, no let:\n  - All Rust functions return Result — no unwrap() in production\n  - Use `make` targets, not raw cargo/npm commands\n  - shadcn-svelte for UI components, Tailwind for styling\n  - SQLite for all structured persistence, not localStorage\n\nCurrent codebase: Tauri v2 + Svelte 5 + Rust + SQLite desktop app at C:\\Users\\Bobbi\\code\\orqa-studio.",
+  "custom_system_prompt": "You are running inside OrqaStudio — the same app you are helping develop. Your responses flow through the Agent SDK sidecar (sidecar/dist/sidecar.js) → Rust Channel<T> → this Svelte UI.\n\nKey constraints of this environment:\n  - Rust backend changes require a manual app restart (no hot reload)\n  - Frontend changes hot-reload via Vite HMR — but editing components mid-stream can crash the window\n  - The sidecar must be rebuilt (`cd sidecar && bun run build`) after any changes to sidecar source\n  - You have 6 file tools available: read, write, edit, bash, glob, grep\n\nProject conventions:\n  - Svelte 5 runes only — no $:, no export let, no let:\n  - All Rust functions return Result — no unwrap() in production\n  - Use `make` targets, not raw cargo/npm commands\n  - shadcn-svelte for UI components, Tailwind for styling\n  - SQLite for all structured persistence, not localStorage.",
   "artifacts": [
+    {
+      "key": "principles",
+      "label": "Principles",
+      "icon": "landmark",
+      "children": [
+        {
+          "key": "pillars",
+          "label": "Pillars",
+          "icon": "columns-3",
+          "path": ".orqa/principles/pillars"
+        },
+        {
+          "key": "vision",
+          "label": "Vision",
+          "icon": "eye",
+          "path": ".orqa/principles/vision"
+        },
+        {
+          "key": "personas",
+          "label": "Personas",
+          "icon": "users",
+          "path": ".orqa/principles/personas"
+        },
+        {
+          "key": "grounding",
+          "label": "Grounding",
+          "icon": "anchor",
+          "path": ".orqa/principles/grounding"
+        }
+      ]
+    },
     {
       "key": "discovery",
       "label": "Discovery",
@@ -44,15 +75,58 @@
       "children": [
         {
           "key": "ideas",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/delivery/ideas"
+          "label": "Ideas",
+          "icon": "lightbulb",
+          "path": ".orqa/discovery/ideas"
         },
         {
           "key": "research",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/delivery/research"
+          "label": "Research",
+          "icon": "search",
+          "path": ".orqa/discovery/research"
+        },
+        {
+          "key": "wireframes",
+          "label": "Wireframes",
+          "icon": "layout",
+          "path": ".orqa/discovery/wireframes"
+        },
+        {
+          "key": "decisions",
+          "label": "Decisions",
+          "icon": "scale",
+          "path": ".orqa/process/decisions"
+        }
+      ]
+    },
+    {
+      "key": "learning",
+      "label": "Learning",
+      "icon": "brain",
+      "children": [
+        {
+          "key": "rules",
+          "label": "Rules",
+          "icon": "shield",
+          "path": ".orqa/process/rules"
+        },
+        {
+          "key": "lessons",
+          "label": "Lessons",
+          "icon": "book-open",
+          "path": ".orqa/process/lessons"
+        },
+        {
+          "key": "skills",
+          "label": "Skills",
+          "icon": "zap",
+          "path": ".orqa/process/skills"
+        },
+        {
+          "key": "agents",
+          "label": "Agents",
+          "icon": "bot",
+          "path": ".orqa/process/agents"
         }
       ]
     },
@@ -63,113 +137,40 @@
       "children": [
         {
           "key": "milestones",
-          "label": null,
-          "icon": null,
+          "label": "Milestones",
+          "icon": "flag",
           "path": ".orqa/delivery/milestones"
         },
         {
           "key": "epics",
-          "label": null,
-          "icon": null,
+          "label": "Epics",
+          "icon": "layers",
           "path": ".orqa/delivery/epics"
         },
         {
           "key": "tasks",
-          "label": null,
-          "icon": null,
+          "label": "Tasks",
+          "icon": "check-square",
           "path": ".orqa/delivery/tasks"
         }
       ]
     },
     {
-      "key": "docs",
+      "key": "documentation",
       "label": "Documentation",
       "icon": "book-open",
       "children": [
         {
-          "key": "about",
-          "label": "About",
-          "icon": "info",
-          "path": ".orqa/documentation/about"
+          "key": "platform",
+          "label": "Platform",
+          "icon": "server",
+          "path": ".orqa/documentation/platform"
         },
         {
-          "key": "development",
-          "label": "Development",
-          "icon": "code",
-          "path": ".orqa/documentation/development"
-        },
-        {
-          "key": "how-to",
-          "label": "How-To Guides",
-          "icon": "book-open-check",
-          "path": ".orqa/documentation/how-to"
-        },
-        {
-          "key": "reference",
-          "label": "Reference",
-          "icon": "book-marked",
-          "path": ".orqa/documentation/reference"
-        },
-        {
-          "key": "wireframes",
-          "label": "Wireframes",
-          "icon": "layout",
-          "path": ".orqa/documentation/wireframes"
-        },
-        {
-          "key": "marketing",
-          "label": "Marketing",
-          "icon": "megaphone",
-          "path": ".orqa/documentation/marketing"
-        },
-        {
-          "key": "grounding",
-          "label": "Grounding",
-          "icon": "anchor",
-          "path": ".orqa/documentation/grounding"
-        }
-      ]
-    },
-    {
-      "key": "process",
-      "label": "Process",
-      "icon": "workflow",
-      "children": [
-        {
-          "key": "pillars",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/process/pillars"
-        },
-        {
-          "key": "lessons",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/process/lessons"
-        },
-        {
-          "key": "decisions",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/process/decisions"
-        },
-        {
-          "key": "rules",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/process/rules"
-        },
-        {
-          "key": "skills",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/process/skills"
-        },
-        {
-          "key": "agents",
-          "label": null,
-          "icon": null,
-          "path": ".orqa/process/agents"
+          "key": "project",
+          "label": "Project",
+          "icon": "folder",
+          "path": ".orqa/documentation/project"
         }
       ]
     }
@@ -187,7 +188,7 @@
         "key": "epic",
         "label": "Epic",
         "path": ".orqa/delivery/epics",
-        "parent": { "type": "milestone", "relationship": "belongs-to" }
+        "parent": { "type": "milestone", "relationship": "delivers" }
       },
       {
         "key": "task",
@@ -197,6 +198,14 @@
       }
     ]
   },
+  "relationships": [
+    {
+      "key": "depends-on",
+      "inverse": "depended-on-by",
+      "label": "Depends On",
+      "inverse_label": "Depended On By"
+    }
+  ],
   "artifactLinks": {
     "displayModes": {
       "RULE": "title",
@@ -233,11 +242,7 @@
       "label": "Captured",
       "icon": "circle",
       "spin": false,
-      "transitions": [
-        "exploring",
-        "ready",
-        "prioritised"
-      ],
+      "transitions": ["exploring", "ready", "prioritised"],
       "auto_rules": []
     },
     {
@@ -245,11 +250,7 @@
       "label": "Exploring",
       "icon": "compass",
       "spin": false,
-      "transitions": [
-        "ready",
-        "prioritised",
-        "hold"
-      ],
+      "transitions": ["ready", "prioritised", "hold"],
       "auto_rules": []
     },
     {
@@ -257,16 +258,9 @@
       "label": "Ready",
       "icon": "circle-dot",
       "spin": false,
-      "transitions": [
-        "prioritised",
-        "active",
-        "review"
-      ],
+      "transitions": ["prioritised", "active", "review"],
       "auto_rules": [
-        {
-          "condition": "dependency-blocked",
-          "target": "blocked"
-        }
+        { "condition": "dependency-blocked", "target": "blocked" }
       ]
     },
     {
@@ -274,10 +268,7 @@
       "label": "Prioritised",
       "icon": "circle-star",
       "spin": false,
-      "transitions": [
-        "active",
-        "ready"
-      ],
+      "transitions": ["active", "ready"],
       "auto_rules": []
     },
     {
@@ -285,16 +276,9 @@
       "label": "Active",
       "icon": "circle-dot-dashed",
       "spin": true,
-      "transitions": [
-        "hold",
-        "blocked",
-        "review"
-      ],
+      "transitions": ["hold", "blocked", "review"],
       "auto_rules": [
-        {
-          "condition": "all-children-completed",
-          "target": "review"
-        }
+        { "condition": "all-children-completed", "target": "review" }
       ]
     },
     {
@@ -302,10 +286,7 @@
       "label": "On Hold",
       "icon": "circle-pause",
       "spin": false,
-      "transitions": [
-        "active",
-        "ready"
-      ],
+      "transitions": ["active", "ready"],
       "auto_rules": []
     },
     {
@@ -313,15 +294,9 @@
       "label": "Blocked",
       "icon": "circle-stop",
       "spin": false,
-      "transitions": [
-        "active",
-        "ready"
-      ],
+      "transitions": ["active", "ready"],
       "auto_rules": [
-        {
-          "condition": "dependencies-met",
-          "target": "ready"
-        }
+        { "condition": "dependencies-met", "target": "ready" }
       ]
     },
     {
@@ -329,10 +304,7 @@
       "label": "Review",
       "icon": "circle-user-round",
       "spin": false,
-      "transitions": [
-        "completed",
-        "active"
-      ],
+      "transitions": ["completed", "active"],
       "auto_rules": []
     },
     {
@@ -340,9 +312,7 @@
       "label": "Completed",
       "icon": "circle-check-big",
       "spin": false,
-      "transitions": [
-        "surpassed"
-      ],
+      "transitions": ["surpassed"],
       "auto_rules": []
     },
     {
@@ -354,19 +324,21 @@
       "auto_rules": []
     },
     {
+      "key": "archived",
+      "label": "Archived",
+      "icon": "circle-off",
+      "spin": false,
+      "transitions": [],
+      "auto_rules": []
+    },
+    {
       "key": "recurring",
       "label": "Recurring",
       "icon": "circle-fading-arrow-up",
       "spin": false,
-      "transitions": [
-        "review",
-        "completed"
-      ],
+      "transitions": ["review", "completed"],
       "auto_rules": [
-        {
-          "condition": "recurrence-threshold",
-          "target": "review"
-        }
+        { "condition": "recurrence-threshold", "target": "review" }
       ]
     }
   ]

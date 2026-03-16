@@ -17,9 +17,34 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Skill evaluation, portability rules, and provenance tracking ensure domain knowledge is curated, versioned, and discoverable
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: TASK-006
+    type: grounded
+  - target: TASK-032
+    type: grounded
+  - target: TASK-033
+    type: grounded
+  - target: TASK-034
+    type: grounded
+  - target: TASK-035
+    type: grounded
+  - target: TASK-040
+    type: grounded
+  - target: TASK-044
+    type: grounded
+  - target: TASK-053
+    type: grounded
+  - target: TASK-054
+    type: grounded
+  - target: TASK-067
+    type: grounded
+  - target: TASK-081
+    type: grounded
+  - target: TASK-212
+    type: grounded
+  - target: TASK-215
+    type: grounded
+  - target: TASK-223
+    type: grounded
 ---
 
 

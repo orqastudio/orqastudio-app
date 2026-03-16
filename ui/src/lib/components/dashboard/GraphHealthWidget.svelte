@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
 	import UnlinkIcon from "@lucide/svelte/icons/unlink";
@@ -9,8 +9,8 @@
 	import ScanIcon from "@lucide/svelte/icons/scan";
 	import WrenchIcon from "@lucide/svelte/icons/wrench";
 	import EyeIcon from "@lucide/svelte/icons/eye";
-	import * as Tooltip from "$lib/components/ui/tooltip";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { getGraphViz } from "$lib/graph-viz.svelte";
 	import type { IntegrityCheck } from "@orqastudio/types";
 
@@ -75,14 +75,14 @@
 	});
 </script>
 
-<Card.Root class="gap-2 flex flex-col h-full">
-	<Card.Header class="pb-2">
-		<Card.Title class="flex items-center gap-1.5 text-sm font-semibold">
+<CardRoot class="gap-2 flex flex-col h-full">
+	<CardHeader class="pb-2">
+		<CardTitle class="flex items-center gap-1.5 text-sm font-semibold">
 			<EyeIcon class="h-4 w-4 text-muted-foreground" />
 			Clarity
-		</Card.Title>
-		<Card.Description class="text-xs">Where You Are</Card.Description>
-		<Card.Action>
+		</CardTitle>
+		<CardDescription class="text-xs">Where You Are</CardDescription>
+		<CardAction>
 			{#if loading}
 				<LoadingSpinner size="sm" />
 			{:else}
@@ -94,58 +94,58 @@
 					</span>
 				</div>
 			{/if}
-		</Card.Action>
-	</Card.Header>
-	<Card.Content class="flex flex-1 flex-col gap-3 pt-0">
+		</CardAction>
+	</CardHeader>
+	<CardContent class="flex flex-1 flex-col gap-3 pt-0">
 		{#if health.totalNodes > 0}
 			<div class="grid grid-cols-2 gap-2 flex-1 text-center text-xs">
 				<!-- Clusters -->
-				<Tooltip.Root delayDuration={300}>
-					<Tooltip.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+				<TooltipRoot delayDuration={300}>
+					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 						<NetworkIcon class="h-3.5 w-3.5 {health.componentCount > 1 ? 'text-warning' : 'text-muted-foreground'}" />
 						<span class="{health.componentCount > 1 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
 							{health.componentCount}
 						</span>
 						<span class="text-muted-foreground">Cluster{health.componentCount !== 1 ? "s" : ""}</span>
-					</Tooltip.Trigger>
-					<Tooltip.Content side="bottom" class="w-64 text-xs">
+					</TooltipTrigger>
+					<TooltipContent side="bottom" class="w-64 text-xs">
 						<p class="font-medium mb-1">Connected Components</p>
 						<p class="text-muted-foreground">The number of disconnected subgraphs. A healthy graph has 1 cluster — all artifacts are reachable from each other. Multiple clusters indicate orphaned groups of artifacts that aren't connected to the main knowledge graph.</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
+					</TooltipContent>
+				</TooltipRoot>
 
 				<!-- Orphans -->
-				<Tooltip.Root delayDuration={300}>
-					<Tooltip.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+				<TooltipRoot delayDuration={300}>
+					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 						<UnlinkIcon class="h-3.5 w-3.5 {orphanSeverity}" />
 						<span class="{orphanSeverity} font-semibold tabular-nums">
 							{health.orphanCount} <span class="font-normal">({health.orphanPercentage}%)</span>
 						</span>
 						<span class="text-muted-foreground">Orphans</span>
-					</Tooltip.Trigger>
-					<Tooltip.Content side="bottom" class="w-64 text-xs">
+					</TooltipTrigger>
+					<TooltipContent side="bottom" class="w-64 text-xs">
 						<p class="font-medium mb-1">Orphaned Artifacts</p>
 						<p class="text-muted-foreground">Artifacts with no incoming references — nothing points to them. They exist in isolation and won't be discovered through graph traversal. Each orphan should either be connected via relationships or removed if no longer relevant.</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
+					</TooltipContent>
+				</TooltipRoot>
 
 				<!-- Avg Degree -->
-				<Tooltip.Root delayDuration={300}>
-					<Tooltip.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+				<TooltipRoot delayDuration={300}>
+					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 						<GitBranchIcon class="h-3.5 w-3.5 {degreeSeverity}" />
 						<span class="{degreeSeverity} font-semibold tabular-nums">{health.avgDegree}</span>
 						<span class="text-muted-foreground">Avg Degree</span>
-					</Tooltip.Trigger>
-					<Tooltip.Content side="bottom" class="w-64 text-xs">
+					</TooltipTrigger>
+					<TooltipContent side="bottom" class="w-64 text-xs">
 						<p class="font-medium mb-1">Average Connection Degree</p>
 						<p class="text-muted-foreground">The average number of relationships per artifact. Higher means a more interconnected knowledge graph. A well-connected graph has an average degree of 4+ — each artifact relates to multiple others.</p>
-					</Tooltip.Content>
-				</Tooltip.Root>
+					</TooltipContent>
+				</TooltipRoot>
 
 				<!-- Scan Results -->
 				{#if scanned}
-					<Tooltip.Root delayDuration={300}>
-						<Tooltip.Trigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+					<TooltipRoot delayDuration={300}>
+						<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 							{#if errorCount > 0}
 								<CircleAlertIcon class="h-3.5 w-3.5 text-destructive" />
 								<span class="text-destructive font-semibold tabular-nums">{errorCount}E / {warningCount}W</span>
@@ -157,12 +157,12 @@
 								<span class="text-emerald-500 font-semibold">Clean</span>
 							{/if}
 							<span class="text-muted-foreground">Integrity</span>
-						</Tooltip.Trigger>
-						<Tooltip.Content side="bottom" class="w-64 text-xs">
+						</TooltipTrigger>
+						<TooltipContent side="bottom" class="w-64 text-xs">
 							<p class="font-medium mb-1">Integrity Scan Results</p>
 							<p class="text-muted-foreground">File-level checks: broken references, invalid statuses, missing required fields, schema violations. Errors must be fixed. Warnings indicate potential issues. Use Auto-fix for machine-fixable problems.</p>
-						</Tooltip.Content>
-					</Tooltip.Root>
+						</TooltipContent>
+					</TooltipRoot>
 				{:else}
 					<div class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 text-muted-foreground">
 						<ScanIcon class="h-3.5 w-3.5" />
@@ -192,5 +192,5 @@
 				Auto-fix{scanned && fixableCount > 0 ? ` (${fixableCount})` : ""}
 			</Button>
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

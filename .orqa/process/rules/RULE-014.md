@@ -16,27 +16,6 @@ relationships:
   - target: RULE-004
     type: informs
     rationale: Status transitions define when research becomes surpassed and ideas become archived
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
 ---
 
 ## Two Categories of Written Artifacts

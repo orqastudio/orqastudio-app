@@ -5,20 +5,22 @@ description: "Replaces raw tool call JSON with user-friendly presentation: human
 status: completed
 created: 2026-03-04
 updated: 2026-03-09
-epic: EPIC-035
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-031
 acceptance:
-  - Tool calls display friendly names (Read → "Reading file")
+  - "Tool calls display friendly names (Read → \"Reading file\")"
   - Each tool type has a Lucide icon
   - Consecutive same-tool calls grouped into summary
   - Collapsible detail view for tool input/output
 relationships:
   - target: EPIC-035
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-031
+    type: grounded-by
+  - target: TASK-325
+    type: depended-on-by
 ---
 ## What
 

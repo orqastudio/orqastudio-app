@@ -6,43 +6,34 @@ status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required: []
-docs-produced:
-  - AD-028
-scoring:
-  user-value: 4
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 3
-  risk: 2
-  score: 19
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-032
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-033
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-034
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-035
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-036
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-332
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-028
+    type: informed-by
 ---
 ## Implementation Design
 

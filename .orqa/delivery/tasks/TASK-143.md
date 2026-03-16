@@ -1,23 +1,23 @@
 ---
 id: TASK-143
-title: Deduplicate rule/skill content — rules keep constraints, skills keep methodology
-description: Remove duplicated methodology, templates, and code examples from three rules and move them into their companion skills, leaving rules with only constraints and FORBIDDEN sections.
+title: "Deduplicate rule/skill content — rules keep constraints, skills keep methodology"
+description: "Remove duplicated methodology, templates, and code examples from three rules and move them into their companion skills, leaving rules with only constraints and FORBIDDEN sections."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
-  - RULE-022 contains only constraints, gates, and FORBIDDEN — references planning skill
-  - RULE-030 contains only phase structure, constraints, and FORBIDDEN — references uat-process skill
-  - RULE-010 contains only layer requirements, checklist, and FORBIDDEN — references orqa-ipc-patterns skill
-  - Skills contain the full methodology, templates, and code examples
-  - No content lost — everything moved, nothing deleted
+  - "RULE-022 contains only constraints, gates, and FORBIDDEN — references planning skill"
+  - "RULE-030 contains only phase structure, constraints, and FORBIDDEN — references uat-process skill"
+  - "RULE-010 contains only layer requirements, checklist, and FORBIDDEN — references orqa-ipc-patterns skill"
+  - "Skills contain the full methodology, templates, and code examples"
+  - "No content lost — everything moved, nothing deleted"
   - Rules are significantly shorter after deduplication
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

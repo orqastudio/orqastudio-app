@@ -5,8 +5,6 @@ description: Clarify in RULE-001 that the orchestrator creates artifact structur
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on: []
 assignee: AGENT-003
 acceptance:
   - RULE-001 exception list distinguishes structure (orchestrator) from content (Writer)
@@ -14,8 +12,10 @@ acceptance:
   - No new rule created — existing RULE-001 tightened
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

@@ -1,37 +1,36 @@
 ---
 id: TASK-462
-title: "Restructure unfocused documentation and remove stale phase references"
+title: Restructure unfocused documentation and remove stale phase references
 description: "Restructure DOC-021 (coding-standards) as a principles doc, add purpose to DOC-030 (orchestration), and remove all stale Phase 2a/2b references across 23 documentation files."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-461
 assignee: null
-skills:
-  - SKILL-037
-  - SKILL-011
 acceptance:
-  - DOC-021 restructured — leads with principles (why these standards exist), reference material follows
-  - DOC-030 restructured — leads with purpose and delegation philosophy, procedures follow
-  - Zero "Phase 2a", "Phase 2b", or numbered phase references remain in any documentation file
+  - "DOC-021 restructured — leads with principles (why these standards exist), reference material follows"
+  - "DOC-030 restructured — leads with purpose and delegation philosophy, procedures follow"
+  - "Zero \"Phase 2a\", \"Phase 2b\", or numbered phase references remain in any documentation file"
   - Phase references replaced with epic names (EPIC-NNN) or removed if context is obsolete
-  - Clarify or delete DOC-051 (engagement-infrastructure), DOC-029 (metrics), DOC-045 (system-artifacts)
+  - "Clarify or delete DOC-051 (engagement-infrastructure), DOC-029 (metrics), DOC-045 (system-artifacts)"
 relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 1 — restructure docs to be fit for graph connection and agent grounding
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: RES-062
     type: informed-by
     rationale: Documentation audit identified these issues
   - target: TASK-463
     type: informs
     rationale: "Auto-generated inverse of informs relationship from TASK-463"
+  - target: TASK-461
+    type: depends-on
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-463
+    type: depended-on-by
 ---
 ## Scope
 

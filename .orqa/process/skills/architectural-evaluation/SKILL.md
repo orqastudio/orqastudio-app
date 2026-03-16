@@ -18,12 +18,6 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Teaches boundary verification and compliance checklists that make architectural decisions visible and enforceable
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
 ---
 
 

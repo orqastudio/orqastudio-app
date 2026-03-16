@@ -1,29 +1,19 @@
 ---
 id: EPIC-012
 title: Process Visibility Dashboard
-description: Build scanner runner, scanner dashboard, metrics dashboard, and agent activity panel for richer process visibility.
+description: "Build scanner runner, scanner dashboard, metrics dashboard, and agent activity panel for richer process visibility."
 status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on: []
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 4
-  dependency: 2
-  effort: 4
-  score: 7.3
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Why P1
 

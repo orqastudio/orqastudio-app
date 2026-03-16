@@ -1,59 +1,52 @@
 ---
 id: EPIC-045
 title: Portable Governance Framework
-description: Restructure agents from 16 software-specific roles to 7 universal roles, extract domain knowledge into skills, create project setup skills, update product documentation to reflect the PILLAR-001 engine identity and governance hub capability. Implements AD-029 and AD-030.
+description: "Restructure agents from 16 software-specific roles to 7 universal roles, extract domain knowledge into skills, create project setup skills, update product documentation to reflect the PILLAR-001 engine identity and governance hub capability. Implements AD-029 and AD-030."
 status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-010
-docs-required:
-  - AD-029
-  - AD-030
-docs-produced: []
-scoring:
-  user-value: 5
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 4
-  risk: 3
-  score: 18
+scoring: null
 relationships:
   - target: RES-010
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-010
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-051
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-052
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-053
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-054
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-055
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-056
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-057
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-335
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: MS-001
+    type: delivers
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-029
+    type: informs
+  - target: AD-030
+    type: informs
 ---
 ## Context
 

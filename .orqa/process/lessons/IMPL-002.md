@@ -1,8 +1,7 @@
 ---
 id: IMPL-002
 title: Kill existing dev server processes before starting new ones
-description: |
-  Check for and kill existing dev server processes on port 1420 before starting a new instance to avoid port-in-use errors.
+description: Check for and kill existing dev server processes on port 1420 before starting a new instance to avoid port-in-use errors.
 status: active
 created: 2026-03-07
 updated: 2026-03-07
@@ -12,11 +11,8 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Process cleanup prevents structural confusion
-  - type: informed-by
-    target: IMPL-003
-    rationale: IMPL-003's orchestrator lifecycle management pattern informed the process cleanup approach in this lesson
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
 ---
 ## Pattern

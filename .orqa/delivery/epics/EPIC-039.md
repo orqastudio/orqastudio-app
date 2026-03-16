@@ -1,28 +1,13 @@
 ---
 id: EPIC-039
 title: Composability Refactoring
-description: Major refactoring sprint establishing the domain service extraction pattern. Decomposed monolithic command files, decoupled stores, extracted utilities, added semantic design tokens, and established the thin-command → domain service → repository pattern.
+description: "Major refactoring sprint establishing the domain service extraction pattern. Decomposed monolithic command files, decoupled stores, extracted utilities, added semantic design tokens, and established the thin-command → domain service → repository pattern."
 status: completed
 priority: P1
 created: 2026-03-06
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-020
-  - RES-021
-docs-required: []
-docs-produced:
-  - AD-026
-scoring:
-  user-value: 4
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 5
-  risk: 3
-  score: 22
+scoring: null
 relationships:
   - target: RES-020
     type: informed-by
@@ -31,23 +16,29 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-021
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-024
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-025
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-026
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-027
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-329
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-026
+    type: informed-by
+  - target: DOC-059
+    type: informs
 ---
 ## Implementation Design
 

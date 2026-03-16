@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK } = getStores();

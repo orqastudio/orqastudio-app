@@ -5,14 +5,8 @@ description: The companion plugin resolves agent capabilities to Claude Code too
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-051
-depends-on:
-  - TASK-173
 assignee: AGENT-002
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-045
 acceptance:
   - SubagentStart hook reads agent definition capabilities
   - Hook resolves capabilities to Claude Code CLI tool names
@@ -20,8 +14,16 @@ acceptance:
   - Agents without capabilities field fall back to tools field
 relationships:
   - target: EPIC-051
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-173
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-045
+    type: grounded-by
+  - target: TASK-341
+    type: depended-on-by
 ---
 
 ## What

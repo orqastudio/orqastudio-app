@@ -1,22 +1,18 @@
 ---
 id: TASK-417
-title: Create @orqastudio/types package
-description: Extract all 13 type files from ui/src/lib/types/ into a standalone @orqastudio/types package. Include shared constants (INVERSE_MAP, SINGLE_REF_FIELDS, ARRAY_REF_FIELDS). Set up GitHub repo, CI, and GitHub Packages publishing.
+title: "Create @orqastudio/types package"
+description: "Extract all 13 type files from ui/src/lib/types/ into a standalone @orqastudio/types package. Include shared constants (INVERSE_MAP, SINGLE_REF_FIELDS, ARRAY_REF_FIELDS). Set up GitHub repo, CI, and GitHub Packages publishing."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on: []
 assignee: null
-skills:
-  - SKILL-034
 acceptance:
   - New repo orqastudio/orqastudio-types exists with CI + publish workflow
   - All 13 type files from ui/src/lib/types/ are in the package
-  - INVERSE_MAP, SINGLE_REF_FIELDS, ARRAY_REF_FIELDS constants exported
+  - "INVERSE_MAP, SINGLE_REF_FIELDS, ARRAY_REF_FIELDS constants exported"
   - Package builds with zero errors
-  - Published to GitHub Packages as @orqastudio/types
+  - "Published to GitHub Packages as @orqastudio/types"
 relationships:
   - target: EPIC-066
     type: delivers
@@ -24,9 +20,12 @@ relationships:
   - target: RES-058
     type: informed-by
     rationale: Research confirmed all type files are fully portable
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-034
+    type: grounded-by
+  - target: TASK-419
+    type: depended-on-by
+  - target: TASK-420
+    type: depended-on-by
 ---
 
 ## Scope

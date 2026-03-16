@@ -1,30 +1,14 @@
 ---
 id: EPIC-075
-title: "Documentation reorganisation — book-chapter structure with how-to guides"
+title: Documentation reorganisation — book-chapter structure with how-to guides
 description: "Reorganise .orqa/documentation/ from ad-hoc sections (architecture/, product/, process/, ui/, wireframes/) into book chapters (about/, guide/, development/, how-to/, reference/, grounding/). Write missing how-to guides for plugin SDK, testing, and linting. Migrate relationships and project.json paths."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on: []
-blocks: []
-research-refs:
-  - RES-063
-docs-required:
-  - RES-063
-docs-produced: []
-scoring:
-  dogfood-value: 4 — documentation is browsed in-app during dogfooding
-  user-facing: 4 — documentation structure affects all users
-  foundation: 4 — connected docs enable agent grounding
-  complexity: 3 — file moves + path updates, minimal code changes
-  score: 4.0
+scoring: null
 relationships:
   - target: RES-063
     type: informed-by
@@ -36,44 +20,32 @@ relationships:
     type: informed-by
     rationale: Documentation restructuring started in EPIC-064 Phase 1
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-484
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-484"
-  - target: TASK-484
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-484"
   - target: TASK-488
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-488"
-  - target: TASK-488
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-488"
   - target: TASK-489
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-489"
-  - target: TASK-489
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-489"
   - target: TASK-485
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-485"
-  - target: TASK-485
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-485"
   - target: TASK-486
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-486"
-  - target: TASK-486
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-486"
   - target: TASK-487
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-487"
-  - target: TASK-487
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-487"
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: RES-063
+    type: informs
 ---
 ## Context
 

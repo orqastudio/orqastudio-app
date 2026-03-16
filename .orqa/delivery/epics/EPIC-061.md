@@ -1,30 +1,14 @@
 ---
 id: EPIC-061
 title: Principle enforcement foundations
-description: Close all gaps between declared principles and mechanical enforcement. Backfill the relationship graph, mechanically enforce all enforceable rules, automate the learning loop, build Pillar 3 tooling, establish a behavioral rule enforcement plan, define priority dimensions, and build the gap audit into repeatable tooling. The system enforces itself going forward.
+description: "Close all gaps between declared principles and mechanical enforcement. Backfill the relationship graph, mechanically enforce all enforceable rules, automate the learning loop, build Pillar 3 tooling, establish a behavioral rule enforcement plan, define priority dimensions, and build the gap audit into repeatable tooling. The system enforces itself going forward."
 status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-  - PILLAR-003
-depends-on: []
-blocks:
-  - EPIC-060
-research-refs:
-  - RES-054
-docs-required: []
-docs-produced: []
-scoring:
-  principle-enforcement: 10
-  data-integrity: 10
-  process-gap: 10
-  dogfood-value: 9
+scoring: null
 rule-overrides: []
 relationships:
   - target: IMPL-048
@@ -37,98 +21,106 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-054
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-350
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-351
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-362
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-363
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-364
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-365
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-366
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-367
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-368
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-369
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-370
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-371
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-372
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-373
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-374
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-375
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-376
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-377
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-378
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-379
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-380
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-381
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-382
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-383
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-384
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-385
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-386
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-387
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: EPIC-060
+    type: depended-on-by
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
 ---
 ## Context
 
 [RES-054](RES-054) audited the entire governance framework and found six gap patterns:
 
-1. **Relationship graph is declared but unpopulated** — 37/41 accepted ADs lack enforcement relationships; all 22 promoted lessons have empty `promoted-to` fields
+1. **Relationship graph is declared but unpopulated** — 37/41 accepted ADs lack enforcement relationships; all 22 promoted lessons have empty `evolves-into` fields
 2. **Self-compliance is the dominant enforcement mechanism** — 27/45 rules (60%) have no mechanical enforcement
 3. **Pillar 3 has zero tooling** — no scope drift detection, no decision persistence, no mid-cycle orientation
 4. **The learning loop is conceptual, not operational** — zero automated pipeline stage transitions, manual recurrence tracking, promotion targets never recorded
@@ -150,11 +142,11 @@ The graph is lying — enforcement chains exist in prose but not in structured r
 - Does a skill practice this AD? If yes, add `practiced-by: SKILL-NNN` relationship
 - Is this AD a strategy/selection decision with no enforceable constraint? Mark as `intended: true` (no enforcement needed)
 
-**1b. Lesson promoted-to targets**: All 22 promoted lessons have empty `promoted-to` fields. For each, trace what rule/skill/standard it was promoted to and populate the field.
+**1b. Lesson promoted-to targets**: All 22 promoted lessons have empty `evolves-into` fields. For each, trace what rule/skill/standard it was promoted to and populate the field.
 
 **1c. Extend `verify-pipeline-integrity.mjs`**: Add checks for:
 - Accepted ADs without any enforcement/practice relationship (error unless `intended: true`)
-- Promoted lessons without `promoted-to` targets (error)
+- Promoted lessons without `evolves-into` targets (error)
 - Rules that reference ADs in body text but don't have `enforces` relationships (warning)
 
 ### Phase 2: Mechanical Rule Enforcement (All 27 Self-Compliance Rules)
@@ -198,7 +190,7 @@ The knowledge maturity pipeline has zero automated stage transitions. This phase
 **3b. Promotion readiness detection**: Add tooling to detect:
 - Observations that should be elevated to understanding (maturity assessment signals)
 - Understandings that recur and should become rules/skills
-- The `promoted-to` field is empty on promoted lessons (enforcement from Phase 1c)
+- The `evolves-into` field is empty on promoted lessons (enforcement from Phase 1c)
 
 **3c. Stage transition suggestions**: Build a `pipeline-health` check (can be part of `verify-pipeline-integrity.mjs` or a new tool) that reports:
 - Stuck observations (active for >N days with no advancement)

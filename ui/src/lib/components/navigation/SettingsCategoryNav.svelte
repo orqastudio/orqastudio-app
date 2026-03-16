@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import MonitorIcon from "@lucide/svelte/icons/monitor";
 	import BrainIcon from "@lucide/svelte/icons/brain";
 	import SettingsIcon from "@lucide/svelte/icons/settings";
@@ -101,7 +101,7 @@
 	const categories = $derived(mode === "app" ? appCategories : projectCategories);
 </script>
 
-<ScrollArea.Root class="h-full">
+<ScrollArea class="h-full">
 	<div class="space-y-0.5 p-2">
 		{#each categories as cat (cat.id)}
 			{@const Icon = cat.icon}
@@ -119,4 +119,4 @@
 			</button>
 		{/each}
 	</div>
-</ScrollArea.Root>
+</ScrollArea>

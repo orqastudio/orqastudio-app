@@ -5,8 +5,6 @@ description: Correct task statuses that were marked done incorrectly.
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on: []
 assignee: AGENT-003
 acceptance:
   - TASK-170 status reverted to in-progress with note about client-side-only search
@@ -14,8 +12,10 @@ acceptance:
   - EPIC-005 description updated to reflect true completion state
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

@@ -6,27 +6,8 @@ status: completed
 priority: P1
 created: 2026-03-08
 updated: 2026-03-08
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-028
-  - RES-025
-docs-required:
-  - RES-028
-  - RES-025
-docs-produced:
-  - AD-021
-  - AD-022
-  - AD-023
-scoring:
-  dogfood-value: 5
-  foundation: 5
-  user-visible: 3
-  scope: 3
-  dependency-risk: 2
-  score: 4.1
+scoring: null
 relationships:
   - target: RES-025
     type: informed-by
@@ -35,20 +16,32 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-028
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-090
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-091
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-092
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-322
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: RES-028
+    type: informs
+  - target: RES-025
+    type: informs
+  - target: AD-021
+    type: informed-by
+  - target: AD-022
+    type: informed-by
+  - target: AD-023
+    type: informed-by
 ---
 ## Workstreams
 

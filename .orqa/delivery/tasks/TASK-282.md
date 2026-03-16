@@ -5,11 +5,8 @@ description: Add make targets for full .orqa/ link verification and pipeline int
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 assignee: null
 docs: []
-skills: []
 acceptance:
   - make verify-links runs full .orqa/ link verification
   - make verify-integrity runs pipeline integrity check
@@ -18,8 +15,14 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-283
+    type: depended-on-by
+  - target: TASK-284
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

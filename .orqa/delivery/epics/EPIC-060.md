@@ -1,29 +1,14 @@
 ---
 id: EPIC-060
 title: Pipeline health dashboard
-description: Surface pipeline integrity on the app dashboard with scan/fix actions, add pipeline visualization and temporal analytics.
+description: "Surface pipeline integrity on the app dashboard with scan/fix actions, add pipeline visualization and temporal analytics."
 status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-  - PILLAR-003
-depends-on:
-  - EPIC-061
-blocks: []
-research-refs:
-  - RES-055
-docs-required: []
-docs-produced: []
-scoring:
-  dogfood-value: 9
-  pipeline-visibility: 10
-  implementation-complexity: 7
+scoring: null
 rule-overrides: []
 relationships:
   - target: IDEA-091
@@ -39,47 +24,69 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-055
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-388
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-389
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-390
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-391
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-392
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-393
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-394
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-395
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-396
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-397
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-400
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-401
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-402
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: EPIC-061
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: EPIC-063
+    type: depended-on-by
+  - target: EPIC-065
+    type: depended-on-by
+  - target: IDEA-049
+    type: evolves-from
+  - target: IDEA-064
+    type: evolves-from
+  - target: IDEA-077
+    type: evolves-from
+  - target: IDEA-078
+    type: evolves-from
+  - target: DOC-060
+    type: informs
 ---
 ## Context
 

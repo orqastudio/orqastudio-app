@@ -1,30 +1,14 @@
 ---
 id: EPIC-049
-title: Agent, Skill, and Enforcement Artifact Audit
-description: Comprehensive audit of all agent definitions, skill definitions, and enforcement artifacts (rules, hooks) to verify accuracy against the current codebase, fix stale references, remove deprecated content, and ensure internal consistency.
+title: "Agent, Skill, and Enforcement Artifact Audit"
+description: "Comprehensive audit of all agent definitions, skill definitions, and enforcement artifacts (rules, hooks) to verify accuracy against the current codebase, fix stale references, remove deprecated content, and ensure internal consistency."
 status: completed
 priority: P1
 created: 2026-03-11
 updated: 2026-03-11
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-depends-on: []
-blocks: []
-research-refs:
-  - RES-035
-  - RES-036
-  - RES-037
-docs-required: []
-docs-produced: []
-scoring:
-  dogfood-value: 5
-  user-facing: 3
-  foundation: 5
-  complexity: 3
-  score: 4
+scoring: null
 relationships:
   - target: RES-035
     type: informed-by
@@ -36,101 +20,103 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-036
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-084
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-085
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-086
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-087
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-088
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-089
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-093
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-139
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-140
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-141
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-142
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-143
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-144
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-145
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-146
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-147
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-148
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-149
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-150
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-151
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-152
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-153
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-154
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-155
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-156
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-157
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-158
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-159
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-160
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-163
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-339
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Context
 

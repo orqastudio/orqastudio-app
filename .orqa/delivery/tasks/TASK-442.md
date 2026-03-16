@@ -6,11 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-068
-depends-on:
-  - TASK-441
 assignee: null
-skills: []
 acceptance:
   - Health trends more prominent in the grid layout
   - Better sparkline rendering
@@ -19,9 +15,8 @@ relationships:
   - target: EPIC-068
     type: delivers
     rationale: Health trends need visual prominence to drive action
-  - target: EPIC-068
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-441
+    type: depends-on
 ---
 
 ## Scope

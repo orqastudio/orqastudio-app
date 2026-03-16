@@ -1,7 +1,7 @@
 ---
 id: RULE-018
 title: No Aliases or Hacks
-description: Fix root causes of type mismatches between layers. Never paper over with aliases, shims, or duplicate mappings.
+description: "Fix root causes of type mismatches between layers. Never paper over with aliases, shims, or duplicate mappings."
 status: active
 created: 2026-03-07
 updated: 2026-03-12
@@ -22,18 +22,8 @@ relationships:
   - target: RULE-005
     type: informs
     rationale: Use search_regex to find all usages of an identifier before renaming or removing it
-  - type: informed-by
-    target: RULE-003
-    rationale: Config integrity requires canonical paths with no alias fallback resolution
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: RULE-003
+    type: informed-by
 ---
 When a value or type mismatch exists between layers, fix the root cause. Never paper over it with aliases, shims, or duplicate mappings.
 

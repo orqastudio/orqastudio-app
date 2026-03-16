@@ -1,27 +1,19 @@
 ---
 id: TASK-423
 title: Wire orqa-studio to import from packages + update pre-commit and make verify
-description: Update the main orqa-studio app to import types, SDK, and stores from the extracted packages instead of local files. Replace verify-links.mjs and verify-pipeline-integrity.mjs with @orqastudio/integrity-validator. Update pre-commit hook and make targets.
+description: "Update the main orqa-studio app to import types, SDK, and stores from the extracted packages instead of local files. Replace verify-links.mjs and verify-pipeline-integrity.mjs with @orqastudio/integrity-validator. Update pre-commit hook and make targets."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on:
-  - TASK-419
-  - TASK-421
-  - TASK-422
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
 acceptance:
-  - ui/src/lib/types/ replaced with imports from @orqastudio/types
-  - ui/src/lib/sdk/ replaced with imports from @orqastudio/sdk
-  - ui/src/lib/stores/ (except navigation) replaced with imports from @orqastudio/sdk
-  - ui/src/lib/ipc/ replaced with imports from @orqastudio/sdk
-  - Pre-commit hook uses @orqastudio/integrity-validator instead of verify-links.mjs
-  - make verify uses @orqastudio/integrity-validator
+  - "ui/src/lib/types/ replaced with imports from @orqastudio/types"
+  - "ui/src/lib/sdk/ replaced with imports from @orqastudio/sdk"
+  - "ui/src/lib/stores/ (except navigation) replaced with imports from @orqastudio/sdk"
+  - "ui/src/lib/ipc/ replaced with imports from @orqastudio/sdk"
+  - "Pre-commit hook uses @orqastudio/integrity-validator instead of verify-links.mjs"
+  - "make verify uses @orqastudio/integrity-validator"
   - verify-links.mjs and verify-pipeline-integrity.mjs removed or deprecated
   - All existing tests pass
   - App builds and runs correctly with package imports
@@ -29,9 +21,16 @@ relationships:
   - target: EPIC-066
     type: delivers
     rationale: Integration — wires the main app to use the extracted packages
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-419
+    type: depends-on
+  - target: TASK-421
+    type: depends-on
+  - target: TASK-422
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
 ---
 
 ## Scope

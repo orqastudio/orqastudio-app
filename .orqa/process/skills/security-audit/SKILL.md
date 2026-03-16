@@ -19,11 +19,8 @@ relationships:
     type: grounded
     rationale: Systematic permission, secret, and dependency audits surface hidden risks as documented findings with severity classifications
   - target: AD-011
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-011
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
 ---
 Security auditing methodology for applications. This skill teaches *what to check and how* — the specific security mechanisms (e.g., Tauri capabilities, keyring APIs) come from the project's technology skills.
 

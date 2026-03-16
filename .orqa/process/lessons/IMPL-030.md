@@ -1,10 +1,10 @@
 ---
 id: IMPL-030
-title: "Capability fulfilment should be a user choice between native provider tools and app MCP"
+title: Capability fulfilment should be a user choice between native provider tools and app MCP
 description: "The system requires a set of capabilities to function (file_read, file_edit, etc.). Whether those capabilities are fulfilled by the AI provider's native tools or by the app's built-in capabilities exposed via MCP should be a user choice per capability. This also allows new provider capabilities to be used before the app has native support."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

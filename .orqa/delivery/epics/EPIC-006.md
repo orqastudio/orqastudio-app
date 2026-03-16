@@ -6,23 +6,14 @@ status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 3
-  impact: 3
-  dependency: 2
-  effort: 2
-  score: 10.5
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Why P2
 

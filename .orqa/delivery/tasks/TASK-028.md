@@ -1,15 +1,11 @@
 ---
 id: TASK-028
 title: Provider interface and Claude adapter
-description: Defines a provider abstraction interface in the sidecar and refactors the Claude Agent SDK integration into a concrete adapter, enabling future providers to be added via a factory.
+description: "Defines a provider abstraction interface in the sidecar and refactors the Claude Agent SDK integration into a concrete adapter, enabling future providers to be added via a factory."
 status: completed
 created: 2026-03-07
 updated: 2026-03-09
-epic: EPIC-040
 assignee: AGENT-002
-skills:
-  - SKILL-017
-  - SKILL-032
 acceptance:
   - Provider interface defined with query/resume/cancel/health methods
   - ClaudeAgentProvider implements the interface
@@ -17,8 +13,14 @@ acceptance:
   - Existing behavior unchanged
 relationships:
   - target: EPIC-040
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-017
+    type: grounded-by
+  - target: SKILL-032
+    type: grounded-by
+  - target: TASK-330
+    type: depended-on-by
 ---
 ## What
 

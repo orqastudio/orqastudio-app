@@ -8,17 +8,20 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-199
 acceptance:
-  - Enforcement entries with action:inject added to relevant rules
+  - "Enforcement entries with action:inject added to relevant rules"
   - Each path-to-skill mapping references an existing skill
   - Writing to a mapped path triggers skill injection
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-199
+    type: depends-on
+  - target: TASK-207
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

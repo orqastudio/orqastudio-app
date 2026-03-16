@@ -1,28 +1,30 @@
 ---
 id: TASK-279
 title: Remove deprecated fields from schemas and artifacts
-description: Remove promoted-to from lessons, promoted-from from rules, research-refs from decisions. Data already migrated to relationships.
+description: "Remove promoted-to from lessons, promoted-from from rules, research-refs from decisions. Data already migrated to relationships."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-058
-depends-on:
-  - TASK-278
 assignee: null
 docs: []
-skills: []
 acceptance:
   - promoted-to removed from lesson schema and all lesson frontmatter
   - promoted-from removed from rule schema and all rule frontmatter
   - research-refs removed from decision schema and all decision frontmatter
-  - All data preserved in relationships (grounded-by, observes, informed-by)
+  - "All data preserved in relationships (grounded-by, observes, informed-by)"
   - Pre-commit hook passes on all artifacts
-  - No references to deprecated fields remain in rules, skills, or orchestrator prompt
+  - "No references to deprecated fields remain in rules, skills, or orchestrator prompt"
 rule-overrides: []
 relationships:
   - target: EPIC-058
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-278
+    type: depends-on
+  - target: TASK-280
+    type: depended-on-by
+  - target: TASK-348
+    type: depended-on-by
 ---
 
 ## What
@@ -40,6 +42,6 @@ Clean break — remove the old edge fields that have been fully migrated to the 
 
 ## Verification
 
-- Search for `promoted-to`, `promoted-from`, `research-refs` across entire `.orqa/` — zero results
+- Search for `evolves-into`, `promoted-from`, `research-refs` across entire `.orqa/` — zero results
 - All artifacts pass schema validation
 - Pre-commit hook passes

@@ -1,28 +1,23 @@
 ---
 
-
 id: TASK-512
-title: "Validate existing artifacts against delivery type configuration"
+title: Validate existing artifacts against delivery type configuration
 description: "Extend the integrity scanner to verify that delivery artifacts exist in their configured paths, that parent references point to valid parent types, and that no delivery directory contains artifacts whose type is not covered by the delivery type config. Current artifacts must pass validation cleanly."
-status: ready
+status: blocked
 priority: P2
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-078
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-510
 acceptance:
-  - "Integrity scanner validates that delivery artifacts exist in their configured paths"
-  - "Validates parent references point to valid parent types"
-  - "Reports any artifacts in delivery directories not covered by the type config"
-  - "Current artifacts pass validation cleanly"
+  - Integrity scanner validates that delivery artifacts exist in their configured paths
+  - Validates parent references point to valid parent types
+  - Reports any artifacts in delivery directories not covered by the type config
+  - Current artifacts pass validation cleanly
 relationships:
-  - type: delivers
-    target: EPIC-078
-  - type: belongs-to
-    target: EPIC-078
+  - target: EPIC-078
+    type: delivers
+  - target: TASK-510
+    type: depends-on
 ---
 ## What
 

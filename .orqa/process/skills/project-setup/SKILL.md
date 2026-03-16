@@ -19,14 +19,13 @@ relationships:
     type: grounded
     rationale: Scaffolding .orqa/ with core rules, skills, and project.json gives a new project a visible governance baseline from day one
   - target: AD-030
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-030
   - target: AD-016
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-016
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: TASK-223
+    type: grounded
 ---
 > **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.
 

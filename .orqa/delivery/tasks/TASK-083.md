@@ -1,17 +1,11 @@
 ---
 id: TASK-083
 title: "Migrate nav and linking to SDK: ArtifactLink, ArtifactNav, FrontmatterHeader, AppLayout"
-description: Replace ArtifactLink prefix routing, ArtifactNav pendingArtifactId workaround, and AppLayout watch init with SDK-based patterns.
+description: "Replace ArtifactLink prefix routing, ArtifactNav pendingArtifactId workaround, and AppLayout watch init with SDK-based patterns."
 status: completed
 created: 2026-03-10
 updated: 2026-03-10
-epic: EPIC-048
-depends-on:
-  - TASK-076
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-016
 acceptance:
   - ArtifactLink uses artifactGraph.resolve(id) for navigation
   - ArtifactNav removes isTree guard — auto-select works for flat AND tree types
@@ -20,8 +14,22 @@ acceptance:
   - ARTIFACT_ID_RE regex in FrontmatterHeader removed — SDK determines linkability
 relationships:
   - target: EPIC-048
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-076
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-016
+    type: grounded-by
+  - target: TASK-077
+    type: depended-on-by
+  - target: TASK-078
+    type: depended-on-by
+  - target: TASK-080
+    type: depended-on-by
+  - target: TASK-338
+    type: depended-on-by
 ---
 
 ## What

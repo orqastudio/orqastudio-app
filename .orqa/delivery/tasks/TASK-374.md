@@ -1,21 +1,26 @@
 ---
 id: TASK-374
 title: Automated gap audit tool (repeatable RES-054)
-description: Build a repeatable version of the RES-054 audit as tooling that scans rules, ADs, lessons, and pipeline stages for enforcement gaps
+description: "Build a repeatable version of the RES-054 audit as tooling that scans rules, ADs, lessons, and pipeline stages for enforcement gaps"
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on:
-  - TASK-362
-  - TASK-368
-  - TASK-369
 acceptance:
-  - Gap audit tool scans all rules, ADs, lessons, and pipeline stages and outputs a prioritized gap report
+  - "Gap audit tool scans all rules, ADs, lessons, and pipeline stages and outputs a prioritized gap report"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-362
+    type: depends-on
+  - target: TASK-368
+    type: depends-on
+  - target: TASK-369
+    type: depends-on
+  - target: TASK-375
+    type: depended-on-by
+  - target: TASK-376
+    type: depended-on-by
 ---
 
 ## What

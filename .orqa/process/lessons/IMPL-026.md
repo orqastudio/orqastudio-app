@@ -3,8 +3,8 @@ id: IMPL-026
 title: "Present decisions to the user one at a time, not batched"
 description: "When surfacing multiple decisions for user input, presenting them all at once creates cognitive overload. The user has to read and hold context for all decisions before responding to any. Present one decision at a time, wait for the response, then move to the next."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

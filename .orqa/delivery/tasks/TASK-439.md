@@ -6,20 +6,14 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-068
-depends-on: []
 assignee: null
-skills: []
 acceptance:
-  - Rescan button first refreshes the artifact graph, then runs integrity checks
+  - "Rescan button first refreshes the artifact graph, then runs integrity checks"
   - Findings reflect current disk state
 relationships:
   - target: EPIC-068
     type: delivers
     rationale: Stale data on rescan undermines trust in integrity findings
-  - target: EPIC-068
-    type: belongs-to
-    rationale: Task belongs to this epic
 ---
 
 ## Scope

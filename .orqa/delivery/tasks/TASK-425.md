@@ -6,11 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on: []
 assignee: null
-skills:
-  - SKILL-034
 acceptance:
   - "types CI builds and tests independently (no file: deps)"
   - eslint-config CI builds independently
@@ -25,9 +21,10 @@ relationships:
   - target: TASK-426
     type: informs
     rationale: Auto-generated inverse of informs relationship from TASK-426
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-034
+    type: grounded-by
+  - target: TASK-426
+    type: depended-on-by
 ---
 ## Scope
 

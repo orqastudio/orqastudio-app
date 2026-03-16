@@ -25,39 +25,27 @@ relationships:
   - target: RULE-010
     type: informs
     rationale: Plans must specify all four layers in the implementation design
-  - type: informed-by
-    target: RULE-002
-    rationale: Architecture decisions define what the compliance section must verify
-  - type: informed-by
-    target: RULE-008
-    rationale: Documentation-first requires plans to read existing docs before proposing implementation
-  - type: informed-by
-    target: RULE-015
-    rationale: Verification gates require evidence-backed verdicts, not vague completion claims
-  - type: informed-by
-    target: RULE-017
-    rationale: Verification gates trigger lesson logging when patterns emerge
-  - type: informed-by
-    target: RULE-019
-    rationale: Roadmap reconciliation ensures plan scope matches epic deliverables
-  - type: informed-by
-    target: RULE-028
-    rationale: Systems Architecture Checklist operationalises systems thinking in every plan
   - target: IMPL-035
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-035
   - target: IMPL-048
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-048
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
   - target: IMPL-066
     type: observed-by
     rationale: "Auto-generated inverse of observed-by relationship from IMPL-066"
+  - target: RULE-002
+    type: informed-by
+  - target: RULE-008
+    type: informed-by
+  - target: RULE-015
+    type: informed-by
+  - target: RULE-017
+    type: informed-by
+  - target: RULE-019
+    type: informed-by
+  - target: RULE-028
+    type: informed-by
 ---
 Every implementation plan — whether captured in an epic, a task, or proposed in conversation — MUST satisfy two mandatory requirements before implementation begins.
 

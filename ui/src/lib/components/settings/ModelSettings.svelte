@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import type { DefaultModel } from "@orqastudio/sdk";
 
@@ -18,12 +18,12 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Model</Card.Title>
-		<Card.Description>Select the default Claude model for new sessions</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Model</CardTitle>
+		<CardDescription>Select the default Claude model for new sessions</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		<div>
 			<span class="text-sm font-medium">Default Model</span>
 			<div class="mt-1">
@@ -40,5 +40,5 @@
 				{modelOptions.find((o) => o.value === settingsStore.defaultModel)?.description ?? ""}
 			</p>
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

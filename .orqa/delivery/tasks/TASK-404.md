@@ -6,26 +6,22 @@ status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-063
-depends-on: []
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
 acceptance:
   - Documentation artifacts excluded from orphan count in artifact graph
   - Single combined widget shows per-artifact-type cards with total count and status breakdown
   - Integrity scan runs automatically on dashboard navigation — scan button is for manual refresh only
   - Error and warning counts exclude documentation artifacts
-  - Integrity findings displayed as a sortable data table with columns for category, artifact, severity, message
+  - "Integrity findings displayed as a sortable data table with columns for category, artifact, severity, message"
   - Table supports filtering by category and sorting by any column
 relationships:
   - target: EPIC-063
     type: delivers
     rationale: Theme B — dashboard widget redesign from UAT
-  - target: EPIC-063
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
 ---
 
 ## Scope

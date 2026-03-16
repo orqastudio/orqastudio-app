@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Message } from "@orqastudio/types";
-	import { Badge } from "$lib/components/ui/badge";
+	import { Badge } from "@orqastudio/svelte-components/pure";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import StreamingIndicator from "./StreamingIndicator.svelte";
 

@@ -2,12 +2,12 @@
 	import SearchIcon from "@lucide/svelte/icons/search";
 	import XIcon from "@lucide/svelte/icons/x";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
-	import { Button } from "$lib/components/ui/button";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { navigationStore, artifactGraphSDK } = getStores();
-	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIconName, resolveIcon } from "@orqastudio/svelte-components/pure";
 	import type { ArtifactNode } from "@orqastudio/types";
 
 	let query = $state("");
@@ -143,7 +143,7 @@
 								>
 									<!-- Status icon -->
 									{#if node.status}
-										{@const StatusIcon = statusIcon(node.status)}
+										{@const StatusIcon = resolveIcon(statusIconName(node.status)}
 										<StatusIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 									{:else}
 										<FileTextIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />

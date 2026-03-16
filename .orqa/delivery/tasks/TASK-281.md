@@ -5,11 +5,8 @@ description: Add staged-file mode to verify-links.mjs and verify-pipeline-integr
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 assignee: null
 docs: []
-skills: []
 acceptance:
   - verify-links.mjs accepts a --staged flag that checks only staged .orqa/ files
   - verify-pipeline-integrity.mjs accepts a --staged flag that checks only staged .orqa/ files
@@ -19,8 +16,14 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-283
+    type: depended-on-by
+  - target: TASK-284
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

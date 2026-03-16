@@ -4,7 +4,7 @@
 	import PencilIcon from "@lucide/svelte/icons/pencil";
 	import CheckIcon from "@lucide/svelte/icons/check";
 	import HistoryIcon from "@lucide/svelte/icons/history";
-	import { Button } from "$lib/components/ui/button";
+	import { Button } from "@orqastudio/svelte-components/pure";
 	import SessionDropdown from "./SessionDropdown.svelte";
 
 	let {

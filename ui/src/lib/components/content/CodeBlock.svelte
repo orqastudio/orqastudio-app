@@ -1,8 +1,8 @@
 <script lang="ts">
 	import CopyIcon from "@lucide/svelte/icons/copy";
 	import CheckIcon from "@lucide/svelte/icons/check";
-	import { Badge } from "$lib/components/ui/badge";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { Highlight, type LanguageType } from "svelte-highlight";
 	import bash from "svelte-highlight/languages/bash";
 	import rust from "svelte-highlight/languages/rust";

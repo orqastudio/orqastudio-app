@@ -1,11 +1,11 @@
 ---
-id: "IMPL-016"
-title: "Orchestrator deferred scoped deliverable instead of implementing"
+id: IMPL-016
+title: Orchestrator deferred scoped deliverable instead of implementing
 description: "The orchestrator marked an epic as nearly complete while deferring a task's implementation work to a future epic, violating RULE-019."
 status: active
-created: "2026-03-12"
-updated: "2026-03-12"
-maturity: "understanding"
+created: 2026-03-12
+updated: 2026-03-12
+maturity: understanding
 recurrence: 1
 relationships:
   - target: "PILLAR-001"
@@ -14,6 +14,8 @@ relationships:
   - target: "RULE-019"
     type: "informs"
     rationale: "Lesson documents a concrete compliance failure of RULE-019 (no deferred deliverables)"
+  - target: RULE-019
+    type: informs
 ---
 
 ## Pattern

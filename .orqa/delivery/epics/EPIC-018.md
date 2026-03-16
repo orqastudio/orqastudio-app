@@ -1,29 +1,19 @@
 ---
 id: EPIC-018
 title: Sub-Agent Support
-description: Build agent registry, spawn_agent tool, explore mode, output aggregation, and turn limits for sub-agent delegation.
+description: "Build agent registry, spawn_agent tool, explore mode, output aggregation, and turn limits for sub-agent delegation."
 status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on: []
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 3
-  impact: 4
-  dependency: 2
-  effort: 4
-  score: 5.8
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Tasks
 

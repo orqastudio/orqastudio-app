@@ -1,9 +1,9 @@
 <script lang="ts">
 	import {
-		Collapsible,
+		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
-	} from "$lib/components/ui/collapsible";
+	} from "@orqastudio/svelte-components/pure";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import ArrowRightIcon from "@lucide/svelte/icons/arrow-right";
 	import { getGraphViz } from "$lib/graph-viz.svelte";

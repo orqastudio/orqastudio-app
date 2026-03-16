@@ -1,7 +1,7 @@
 ---
 id: RULE-010
 title: End-to-End Completeness
-description: Every feature must be implemented across all layers (Rust command, IPC type, Svelte component, store) in the same commit.
+description: "Every feature must be implemented across all layers (Rust command, IPC type, Svelte component, store) in the same commit."
 status: active
 created: 2026-03-07
 updated: 2026-03-13
@@ -16,39 +16,6 @@ relationships:
   - target: RULE-012
     type: informs
     rationale: The full chain must be verified before marking a feature complete
-  - type: informed-by
-    target: RULE-005
-    rationale: Code search tools are used to verify the full request chain exists across all layers
-  - type: informed-by
-    target: RULE-002
-    rationale: Architecture decisions define the IPC boundary and component purity requirements enforced here
-  - type: informed-by
-    target: RULE-003
-    rationale: Config integrity requires all layers to stay in sync when paths change
-  - type: informed-by
-    target: RULE-012
-    rationale: Error ownership requires verifying the full chain works before claiming completion
-  - type: informed-by
-    target: RULE-018
-    rationale: No-aliases ensures type consistency is maintained across all layers in the same commit
-  - type: informed-by
-    target: RULE-020
-    rationale: No-stubs requires all four layers to do real work, not return placeholder data
-  - type: informed-by
-    target: RULE-022
-    rationale: Plan compliance requires every feature to include all layers in its implementation design
-  - type: informed-by
-    target: RULE-028
-    rationale: Systems thinking applied to the four-layer structure is the foundation of this rule
-  - type: informed-by
-    target: RULE-041
-    rationale: Persistence boundaries must be consistent across all layers in the same commit
-  - type: enforces
-    target: AD-001
-    rationale: Requiring a Rust command layer for every feature enforces the thick-backend principle that domain logic stays in Rust
-  - type: enforces
-    target: AD-002
-    rationale: Requiring invoke() as the only frontend-backend interface enforces the IPC boundary decision
   - target: AD-017
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-017
@@ -58,15 +25,28 @@ relationships:
   - target: IMPL-017
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-017
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: AD-001
+    type: enforces
+  - target: AD-002
+    type: enforces
+  - target: RULE-002
+    type: informed-by
+  - target: RULE-003
+    type: informed-by
+  - target: RULE-005
+    type: informed-by
+  - target: RULE-012
+    type: informed-by
+  - target: RULE-018
+    type: informed-by
+  - target: RULE-020
+    type: informed-by
+  - target: RULE-022
+    type: informed-by
+  - target: RULE-028
+    type: informed-by
+  - target: RULE-041
+    type: informed-by
 ---
 Every feature MUST be implemented across ALL layers in the same commit. Partial implementations that work in isolation but fail at runtime due to missing layers are forbidden.
 

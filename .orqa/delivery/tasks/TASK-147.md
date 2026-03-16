@@ -1,13 +1,10 @@
 ---
 id: TASK-147
 title: Audit frontend for repeat patterns and create component reuse skill and enforcement rule
-description: Audit ui/src/lib/components/ for repeated patterns, create a component extraction skill, and update RULE-024 enforcement to mandate component reuse as a composability requirement.
+description: "Audit ui/src/lib/components/ for repeated patterns, create a component extraction skill, and update RULE-024 enforcement to mandate component reuse as a composability requirement."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on:
-  - TASK-139
 acceptance:
   - Audit document listing all repeated patterns with occurrence counts
   - New skill for component extraction methodology created
@@ -16,8 +13,12 @@ acceptance:
   - Depends on TASK-139 (component inventory) completing first
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-139
+    type: depends-on
+  - target: TASK-339
+    type: depended-on-by
 ---
 
 ## What

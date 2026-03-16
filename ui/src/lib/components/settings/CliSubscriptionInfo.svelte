@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Badge } from "$lib/components/ui/badge";
-	import { Separator } from "$lib/components/ui/separator";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
 
 	interface Props {
 		subscriptionType: string | null | undefined;

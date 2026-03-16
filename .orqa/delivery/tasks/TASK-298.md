@@ -5,11 +5,8 @@ description: "Formalize how operational standards flow through the pipeline: Obs
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 assignee: null
 docs: []
-skills: []
 acceptance:
   - AD-044 exists in decisions directory
   - Documents the full pipeline flow for operational standards
@@ -18,8 +15,10 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

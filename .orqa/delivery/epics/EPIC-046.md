@@ -1,53 +1,46 @@
 ---
 id: EPIC-046
 title: Pillars as First-Class Artifacts
-description: Make product pillars structured artifacts in .orqa/process/pillars/ with frontmatter schema, referenced by ID from other artifacts, and injected into AI system prompts. Replaces hardcoded pillar strings across rules and documentation. Implements AD-031.
+description: "Make product pillars structured artifacts in .orqa/process/pillars/ with frontmatter schema, referenced by ID from other artifacts, and injected into AI system prompts. Replaces hardcoded pillar strings across rules and documentation. Implements AD-031."
 status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required:
-  - AD-031
-docs-produced:
-  - PILLAR-001
-  - PILLAR-002
-scoring:
-  user-value: 4
-  pillar-alignment: 5
-  dependency-weight: 4
-  effort: 3
-  risk: 2
-  score: 17
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-058
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-059
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-060
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-061
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-062
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-063
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-336
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-031
+    type: informs
+  - target: PILLAR-001
+    type: informed-by
+  - target: PILLAR-002
+    type: informed-by
 ---
 ## Context
 

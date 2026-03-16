@@ -3,7 +3,7 @@
 	import BrainIcon from "@lucide/svelte/icons/brain";
 	import DatabaseIcon from "@lucide/svelte/icons/database";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
-	import * as Tooltip from "$lib/components/ui/tooltip";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { settingsStore, sessionStore, navigationStore, artifactGraphSDK } = getStores();
@@ -60,8 +60,8 @@
 
 		<span class="h-3 w-px bg-border"></span>
 
-		<Tooltip.Root>
-			<Tooltip.Trigger>
+		<TooltipRoot>
+			<TooltipTrigger>
 				{#snippet child({ props })}
 					<button
 						{...props}
@@ -72,11 +72,11 @@
 						<span>{settingsStore.modelDisplayName}</span>
 					</button>
 				{/snippet}
-			</Tooltip.Trigger>
-			<Tooltip.Content side="top">
+			</TooltipTrigger>
+			<TooltipContent side="top">
 				<p>Change model</p>
-			</Tooltip.Content>
-		</Tooltip.Root>
+			</TooltipContent>
+		</TooltipRoot>
 	</div>
 
 	<!-- Center: spacer -->
@@ -103,8 +103,8 @@
 			<span class="h-3 w-px bg-border"></span>
 		{/if}
 
-		<Tooltip.Root>
-			<Tooltip.Trigger>
+		<TooltipRoot>
+			<TooltipTrigger>
 				{#snippet child({ props })}
 					<button
 						{...props}
@@ -124,11 +124,11 @@
 						{/if}
 					</button>
 				{/snippet}
-			</Tooltip.Trigger>
-			<Tooltip.Content side="top">
+			</TooltipTrigger>
+			<TooltipContent side="top">
 				<p>{artifactGraphSDK.error ? `Index error: ${artifactGraphSDK.error}` : "Rebuild artifact graph index"}</p>
-			</Tooltip.Content>
-		</Tooltip.Root>
+			</TooltipContent>
+		</TooltipRoot>
 
 		<span class="h-3 w-px bg-border"></span>
 

@@ -1,7 +1,7 @@
 ---
 id: RULE-036
 title: Context Window Management
-description: The orchestrator must protect its context window by delegating, minimizing output, summarizing results, and using session state files.
+description: "The orchestrator must protect its context window by delegating, minimizing output, summarizing results, and using session state files."
 status: active
 created: 2026-03-11
 updated: 2026-03-11
@@ -22,27 +22,6 @@ relationships:
   - target: AD-041
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-041
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
 ---
 The orchestrator's context window is a finite resource. Filling it with implementation details, full file contents, or raw agent output degrades coordination quality. These constraints are mandatory.
 

@@ -1,7 +1,7 @@
 ---
 id: RULE-016
 title: IDs Are Not Priority
-description: Artifact IDs are sequential identifiers for uniqueness and reference. They carry no information about priority, importance, or execution order.
+description: "Artifact IDs are sequential identifiers for uniqueness and reference. They carry no information about priority, importance, or execution order."
 status: active
 created: 2026-03-07
 updated: 2026-03-07
@@ -16,36 +16,11 @@ relationships:
   - target: RULE-031
     type: informs
     rationale: Pillar alignment drives priority; ID sequence must not be mistaken for priority order
-  - type: informed-by
-    target: RULE-004
-    rationale: Artifact lifecycle defines how IDs are assigned and how priority is separately scored
-  - type: enforces
-    target: AD-029
-    rationale: This rule enforces the ID semantics principle from the universal roles decision — IDs are identifiers not rankings
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
+  - target: RULE-004
+    type: informed-by
 ---
 Artifact IDs ([EPIC-045](EPIC-045), [TASK-051](TASK-051), [AD-029](AD-029), etc.) are sequential identifiers for uniqueness and reference. They carry NO information about priority, importance, or execution order.
 

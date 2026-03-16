@@ -5,16 +5,16 @@ description: Evaluated frontend frameworks and selected Svelte 5 with shadcn-sve
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-025
-depends-on: []
 acceptance:
   - Svelte 5 selected with documented rationale
   - shadcn-svelte confirmed as component library
   - Runes-based reactivity validated for the store pattern
 relationships:
   - target: EPIC-025
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-315
+    type: depended-on-by
 ---
 ## What
 

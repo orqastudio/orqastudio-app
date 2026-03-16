@@ -3,9 +3,9 @@ id: IMPL-061
 title: "Confirmations and status changes should use toast notifications, not inline banners"
 description: "Inline success banners in widgets take permanent space and clutter the UI. Transient events (auto-fix applied, scan complete) should use toast notifications that auto-dismiss."
 status: active
+created: 2026-03-14
+updated: 2026-03-14
 recurrence: 1
-created: "2026-03-14"
-updated: "2026-03-14"
 maturity: observation
 relationships:
   - target: EPIC-069

@@ -138,6 +138,7 @@ mod tests {
             artifact_links: Default::default(),
             statuses: vec![],
             delivery: Default::default(),
+            relationships: vec![],
         }
     }
 
@@ -200,6 +201,7 @@ mod tests {
             artifact_links: Default::default(),
             statuses: vec![],
             delivery: Default::default(),
+            relationships: vec![],
         };
         let paths = ProjectPaths::from_settings(root, &settings);
 

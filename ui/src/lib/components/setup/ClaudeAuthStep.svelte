@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Button } from "$lib/components/ui/button";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
 	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
 	import { getStores } from "@orqastudio/sdk";

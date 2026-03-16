@@ -5,16 +5,10 @@ description: Define the artifacts config schema in project.json and add correspo
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-033
 assignee: AGENT-002
-skills:
-  - SKILL-003
-  - SKILL-012
-  - SKILL-009
-  - SKILL-027
 acceptance:
   - project.json has artifacts array with all current groups and types
-  - ArtifactEntry enum (Group | Type) added to project_settings.rs
+  - "ArtifactEntry enum (Group | Type) added to project_settings.rs"
   - ArtifactTypeConfig struct with key
   - label
   - icon
@@ -25,8 +19,22 @@ acceptance:
   - cargo clippy -- -D warnings passes
 relationships:
   - target: EPIC-033
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-003
+    type: grounded-by
+  - target: SKILL-012
+    type: grounded-by
+  - target: SKILL-009
+    type: grounded-by
+  - target: SKILL-027
+    type: grounded-by
+  - target: TASK-008
+    type: depended-on-by
+  - target: TASK-009
+    type: depended-on-by
+  - target: TASK-323
+    type: depended-on-by
 ---
 ## What
 

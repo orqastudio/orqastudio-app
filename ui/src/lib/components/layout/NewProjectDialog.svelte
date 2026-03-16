@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { open } from "@tauri-apps/plugin-dialog";
-	import * as Dialog from "$lib/components/ui/dialog";
+	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
 	import FolderCodeIcon from "@lucide/svelte/icons/folder-code";
 	import SquarePlusIcon from "@lucide/svelte/icons/square-plus";
 	import { getStores } from "@orqastudio/sdk";
@@ -39,15 +39,15 @@
 	}
 </script>
 
-<Dialog.Root
+<DialogRoot
 	open={dialogOpen}
 	onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}
 >
-	<Dialog.Content class="max-w-md">
-		<Dialog.Header>
-			<Dialog.Title>New Project</Dialog.Title>
-			<Dialog.Description>Choose how to create your Orqa project.</Dialog.Description>
-		</Dialog.Header>
+	<DialogContent class="max-w-md">
+		<DialogHeader>
+			<DialogTitle>New Project</DialogTitle>
+			<DialogDescription>Choose how to create your Orqa project.</DialogDescription>
+		</DialogHeader>
 		<div class="grid gap-3 py-2">
 			<button
 				class="flex items-start gap-4 rounded-lg border border-border p-4 text-left transition-colors hover:bg-accent"
@@ -74,5 +74,5 @@
 				</div>
 			</button>
 		</div>
-	</Dialog.Content>
-</Dialog.Root>
+	</DialogContent>
+</DialogRoot>

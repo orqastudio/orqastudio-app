@@ -1,28 +1,13 @@
 ---
 id: EPIC-041
-title: Vision & Brand Identity
-description: Evolve OrqaStudio's vision from software development tool to domain-agnostic PILLAR-001 engine. Rename pillars, broaden personas, establish licensing, and align all documentation with canonical strategic vision.
+title: "Vision & Brand Identity"
+description: "Evolve OrqaStudio's vision from software development tool to domain-agnostic PILLAR-001 engine. Rename pillars, broaden personas, establish licensing, and align all documentation with canonical strategic vision."
 status: completed
 priority: P1
 created: 2026-03-07
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-015
-  - RES-001
-docs-required: []
-docs-produced:
-  - AD-027
-scoring:
-  user-value: 4
-  pillar-alignment: 5
-  dependency-weight: 3
-  effort: 3
-  risk: 1
-  score: 16
+scoring: null
 relationships:
   - target: RES-015
     type: informed-by
@@ -31,17 +16,21 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-001
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-030
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-031
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-331
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-027
+    type: informed-by
 ---
 ## Implementation Design
 

@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { SvelteMap } from "svelte/reactivity";
 	import ArtifactLink from "./ArtifactLink.svelte";
-	import { Badge } from "$lib/components/ui/badge";
-	import * as Tooltip from "$lib/components/ui/tooltip";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -93,8 +93,8 @@
 									<ArtifactLink id={rel.target ?? undefined} />
 								{/if}
 							{:else}
-								<Tooltip.Root>
-									<Tooltip.Trigger>
+								<TooltipRoot>
+									<TooltipTrigger>
 										{#snippet child({ props })}
 											<span
 												{...props}
@@ -106,11 +106,11 @@
 												{rel.intended ? "intentional gap" : "unresolved"}
 											</span>
 										{/snippet}
-									</Tooltip.Trigger>
-									<Tooltip.Content side="top" class="max-w-xs">
+									</TooltipTrigger>
+									<TooltipContent side="top" class="max-w-xs">
 										<p class="text-xs">{rel.rationale}</p>
-									</Tooltip.Content>
-								</Tooltip.Root>
+									</TooltipContent>
+								</TooltipRoot>
 							{/if}
 						{/each}
 						{#if rels.length > 3}

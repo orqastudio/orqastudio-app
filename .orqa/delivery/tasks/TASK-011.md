@@ -1,15 +1,11 @@
 ---
 id: TASK-011
 title: Backfill Historical Artifact Metadata
-description: Backfill historical artifact data so the decision history, lesson pipeline, and surpassed artifact workflows have real data to test against when we build the navigation and visualization tooling. Some reconstruction from session history is expected — the goal is representative data, not perfect accuracy. This ensures we're dogfooding the full artifact lifecycle, not just the happy path of "create and leave as accepted."
+description: "Backfill historical artifact data so the decision history, lesson pipeline, and surpassed artifact workflows have real data to test against when we build the navigation and visualization tooling. Some reconstruction from session history is expected — the goal is representative data, not perfect accuracy. This ensures we're dogfooding the full artifact lifecycle, not just the happy path of \"create and leave as accepted."
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-033
 assignee: AGENT-007
-skills:
-  - SKILL-003
-  - SKILL-011
 acceptance:
   - At least 3 decisions have surpassed predecessors (showing evolution chains)
   - At least 2 research docs marked as surpassed with surpassed-by references
@@ -17,13 +13,19 @@ acceptance:
   - At least 2 tasks marked as surpassed showing work that was overtaken
   - "All surpassed artifacts have status: surpassed and surpassed-by field set"
   - Decision chains are traceable (AD-NNN surpassed-by AD-MMM)
-  - Enough variety to test filtering, sorting, and chain navigation in future UI
+  - "Enough variety to test filtering, sorting, and chain navigation in future UI"
   - "Reference integrity verified: every task has a valid epic, every epic has a valid milestone"
-  - No orphaned references (plan:, promoted-to, depends-on all point to existing artifacts)
+  - "No orphaned references (plan:, promoted-to, depends-on all point to existing artifacts)"
 relationships:
   - target: EPIC-033
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-003
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-323
+    type: depended-on-by
 ---
 ## What
 

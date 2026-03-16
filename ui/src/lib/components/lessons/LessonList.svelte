@@ -2,11 +2,11 @@
 	import BookOpenIcon from "@lucide/svelte/icons/book-open";
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
 	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
-	import { Badge } from "$lib/components/ui/badge";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import type { Lesson } from "@orqastudio/types";
 	import { categoryColor } from "$lib/utils/category-colors";
 

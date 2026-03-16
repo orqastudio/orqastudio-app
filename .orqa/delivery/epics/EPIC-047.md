@@ -1,47 +1,37 @@
 ---
 id: EPIC-047
 title: Git Workflow Enforcement Review
-description: Review and strengthen git commit discipline enforcement after discovering 237 files uncommitted across multiple sessions. Update session hooks, git-workflow rule, and create a software project-type skill for commit discipline. Addresses IMPL-015.
+description: "Review and strengthen git commit discipline enforcement after discovering 237 files uncommitted across multiple sessions. Update session hooks, git-workflow rule, and create a software project-type skill for commit discipline. Addresses IMPL-015."
 status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  user-value: 3
-  pillar-alignment: 4
-  dependency-weight: 3
-  effort: 2
-  risk: 1
-  score: 15
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-064
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-065
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-066
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-067
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-068
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-337
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Context
 
@@ -86,7 +76,7 @@ encodes commit discipline patterns:
 
 ### 4. Promote [IMPL-015](IMPL-015)
 
-After enforcement artifacts are in place, update [IMPL-015](IMPL-015) with `promoted-to`
+After enforcement artifacts are in place, update [IMPL-015](IMPL-015) with `evolves-into`
 referencing the updated rule and new skill.
 
 ## Constraints

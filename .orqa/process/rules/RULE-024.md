@@ -1,7 +1,7 @@
 ---
 id: RULE-024
 title: Reusable Components
-description: Check shared component library before creating new UI elements. Use EmptyState, LoadingSpinner, ErrorDisplay, etc.
+description: "Check shared component library before creating new UI elements. Use EmptyState, LoadingSpinner, ErrorDisplay, etc."
 status: active
 created: 2026-03-07
 updated: 2026-03-11
@@ -16,27 +16,16 @@ relationships:
   - target: RULE-005
     type: informs
     rationale: Use semantic search to find existing implementations before creating new components
-  - type: informed-by
-    target: RULE-006
-    rationale: Coding standards mandate using the shared component library
-  - type: informed-by
-    target: RULE-033
-    rationale: Tooltip usage rule is a specific shared component pattern covered by this rule
   - target: RULE-005
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-005
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
   - target: DOC-016
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Svelte Component Tree
+  - target: RULE-006
+    type: informed-by
+  - target: RULE-033
+    type: informed-by
 ---
 ## Shared Component Library
 

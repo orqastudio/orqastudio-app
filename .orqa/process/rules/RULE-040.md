@@ -19,18 +19,6 @@ relationships:
   - target: RULE-005
     type: informs
     rationale: Code search capabilities resolve to either ChunkHound MCP tools or native search tools depending on context
-  - type: informed-by
-    target: RULE-001
-    rationale: Agent delegation defines the roles whose capabilities this rule maps to provider-specific tools
-  - type: informed-by
-    target: RULE-026
-    rationale: The skill tier model defines which skills load per role, complementing the capability-to-tool mapping
-  - type: informed-by
-    target: RULE-037
-    rationale: Role-based tool restrictions constrain which resolved capabilities each role may actually use
-  - type: enforces
-    target: AD-025
-    rationale: Provider-agnostic capability declarations generalise the AI provider-agnosticism decision to all agent tooling — no agent binds to provider-specific tool names
   - target: IMPL-030
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-030
@@ -40,30 +28,15 @@ relationships:
   - target: IDEA-057
     type: informs
     rationale: All 4 research questions from IDEA-057 resolved directly into this rule
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: DOC-030
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Orchestration
+  - target: RULE-001
+    type: informed-by
+  - target: RULE-026
+    type: informed-by
+  - target: RULE-037
+    type: informed-by
 ---
 Agent definitions declare **capabilities** (what they can do), not **tools** (how they
 do it). The mapping from capabilities to provider-specific tool names is defined in this

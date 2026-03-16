@@ -18,23 +18,31 @@ relationships:
     type: grounded
     rationale: Umbrella conventions for component purity, store patterns, and Svelte 5 runes ensure UI code follows visible, enforceable standards
   - target: AD-013
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-013
   - target: AD-019
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-019
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informed-by
-    target: DOC-065
-    rationale: Code principles grounding document distills into this skill for agent injection
+  - target: TASK-403
+    type: grounded
+  - target: TASK-404
+    type: grounded
+  - target: TASK-405
+    type: grounded
+  - target: TASK-406
+    type: grounded
+  - target: TASK-407
+    type: grounded
+  - target: TASK-408
+    type: grounded
+  - target: TASK-423
+    type: grounded
+  - target: TASK-469
+    type: grounded
+  - target: TASK-470
+    type: grounded
+  - target: TASK-473
+    type: grounded
 ---
 This skill ensures every frontend agent has the right mental model before writing code. It does not duplicate content from deeper skills — it establishes principles and points to the right references.
 

@@ -1,29 +1,19 @@
 ---
 id: EPIC-015
-title: CI/CD Pipeline & Distribution
-description: Build the CI/CD pipeline with GitHub Actions, cross-platform builds, artifact signing, and auto-update for distribution.
+title: "CI/CD Pipeline & Distribution"
+description: "Build the CI/CD pipeline with GitHub Actions, cross-platform builds, artifact signing, and auto-update for distribution."
 status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on: []
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 2
-  impact: 5
-  dependency: 3
-  effort: 4
-  score: 6.3
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Why P1
 

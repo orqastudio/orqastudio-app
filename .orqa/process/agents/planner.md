@@ -1,8 +1,7 @@
 ---
 id: AGENT-004
 title: Planner
-description: |
-  Designs implementation approaches, evaluates architectural tradeoffs, maps dependencies, and produces structured plans. Does not implement — plans inform the Implementer.
+description: "Designs implementation approaches, evaluates architectural tradeoffs, maps dependencies, and produces structured plans. Does not implement — plans inform the Implementer."
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -17,102 +16,18 @@ capabilities:
   - code_research
   - web_fetch
   - web_search
-skills:
-  - SKILL-005
-  - SKILL-008
-  - SKILL-019
-  - SKILL-002
-  - SKILL-048
-subagent_mapping:
-  default: Plan
+subagent_mapping: null
 relationships:
-  - type: grounded-by
-    target: DOC-064
-    rationale: Product purpose grounding — what OrqaStudio is, what the pillars demand, and what good planning looks like
-  - type: scoped-by
-    target: RULE-002
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-005
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-008
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-010
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-011
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-012
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-014
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-015
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-016
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-021
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-022
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-023
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-025
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-026
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-028
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-031
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-036
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-037
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-040
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-001
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-003
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-008
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-002
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-005
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-013
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-019
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-048
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-040
-    rationale: Inverse of scoped-to — migrated from scope field
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: SKILL-019
+    type: grounded-by
+  - target: SKILL-002
+    type: grounded-by
+  - target: SKILL-048
+    type: grounded-by
 ---
 
 

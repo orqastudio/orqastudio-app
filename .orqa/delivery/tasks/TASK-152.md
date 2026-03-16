@@ -1,24 +1,28 @@
 ---
 id: TASK-152
 title: Create schema validation pre-commit hook
-description: Pre-commit hook that validates YAML frontmatter of staged .orqa/ markdown files against their directory's schema.json before allowing the commit.
+description: "Pre-commit hook that validates YAML frontmatter of staged .orqa/ markdown files against their directory's schema.json before allowing the commit."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - Staged .orqa/ markdown files are validated against their schema.json
   - Missing required fields block the commit with clear error messages
-  - Invalid enum values (e.g., wrong status) block the commit
-  - Pattern violations (e.g., malformed ID) block the commit
+  - "Invalid enum values (e.g., wrong status) block the commit"
+  - "Pattern violations (e.g., malformed ID) block the commit"
   - Out-of-order frontmatter fields flagged when schema defines propertyOrder
   - Files outside .orqa/ are not affected
   - Hook runs as part of the existing .githooks/pre-commit chain
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-153
+    type: depended-on-by
+  - target: TASK-155
+    type: depended-on-by
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

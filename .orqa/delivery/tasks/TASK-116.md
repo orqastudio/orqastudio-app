@@ -1,20 +1,20 @@
 ---
 id: TASK-116
 title: Design IPC command catalogue
-description: Catalogued every Tauri command with its input types, output types, error cases, and domain assignment.
+description: "Catalogued every Tauri command with its input types, output types, error cases, and domain assignment."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-029
-depends-on: []
 acceptance:
   - Every planned IPC command is listed with full type signatures
   - Input/output types are defined as Rust structs
   - Error taxonomy covers all command failure modes
 relationships:
   - target: EPIC-029
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-319
+    type: depended-on-by
 ---
 ## What
 

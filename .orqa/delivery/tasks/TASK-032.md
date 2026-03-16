@@ -5,20 +5,22 @@ description: Creates a context-detecting wrapper skill that instructs agents to 
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-042
 assignee: AGENT-003
-skills:
-  - SKILL-029
-  - SKILL-011
 acceptance:
   - Wrapper skill exists at .orqa/process/skills/code-search/SKILL.md
-  - Documents context detection logic (check for mcp__chunkhound__* vs search_regex availability)
+  - "Documents context detection logic (check for mcp__chunkhound__* vs search_regex availability)"
   - Instructs agent to load chunkhound (CLI) or orqa-native-search (App) based on detection
   - Shared query patterns documented (same as both underlying skills)
 relationships:
   - target: EPIC-042
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-029
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-332
+    type: depended-on-by
 ---
 ## What
 

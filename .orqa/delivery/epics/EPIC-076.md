@@ -1,38 +1,41 @@
 ---
 id: EPIC-076
-title: "Graph analysis — Cytoscape algorithms powering governance insights"
+title: Graph analysis — Cytoscape algorithms powering governance insights
 description: "Use Cytoscape.js graph analysis algorithms to power dashboard health scoring, dependency chain tracing, impact analysis, knowledge gap detection, and artifact importance ranking. Replaces file-based integrity checks with graph-theoretic analysis."
 status: ready
 priority: P1
 created: 2026-03-15
 updated: 2026-03-15
 deadline: null
-milestone: MS-002
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-  - PILLAR-003
-depends-on: []
-blocks: []
-research-refs:
-  - RES-065
-docs-required:
-  - RES-065
-docs-produced: []
-scoring:
-  dogfood-value: 5 — graph analysis directly improves governance quality during development
-  user-facing: 5 — dashboard insights, impact previews, chain tracing
-  foundation: 4 — builds on cytoscape already installed, extends artifact graph SDK
-  complexity: 3 — algorithms are built-in, work is integration
-  score: 4.5
+scoring: null
 relationships:
   - target: RES-065
     type: informed-by
     rationale: Graph analysis research drives the design
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: RES-065
+    type: informs
+  - target: TASK-498
+    type: delivered-by
+  - target: TASK-499
+    type: delivered-by
+  - target: TASK-500
+    type: delivered-by
+  - target: TASK-501
+    type: delivered-by
+  - target: TASK-502
+    type: delivered-by
+  - target: TASK-503
+    type: delivered-by
 ---
 
 ## Context

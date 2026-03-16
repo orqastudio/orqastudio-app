@@ -1,22 +1,13 @@
 ---
 id: EPIC-068
-title: Dashboard redesign — layout, widgets, and plugin extensibility
+title: "Dashboard redesign — layout, widgets, and plugin extensibility"
 description: Redesign the dashboard from a vertical card stack to an information-dense layout. Architecture must support drag-and-drop positioning and plugin-provided custom widgets.
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-003
-depends-on:
-  - EPIC-067
-research-refs: []
-docs-required: []
-docs-produced: []
 relationships:
   - target: EPIC-063
     type: informed-by
@@ -34,41 +25,32 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from IMPL-063
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-439
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-440
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-441
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-442
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-443
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-443
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-443"
-  - target: TASK-439
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-439"
-  - target: TASK-442
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-442"
-  - target: TASK-440
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-440"
-  - target: TASK-441
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-441"
+    rationale: Epic contains this task
   - target: EPIC-073
     type: informs
     rationale: "Auto-generated inverse of informs relationship from EPIC-073"
+  - target: EPIC-067
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
 ---
 ## Context
 

@@ -5,12 +5,6 @@ description: "Standing reconciliation task — verify epic body accuracy: task t
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-039
-depends-on:
-  - TASK-024
-  - TASK-025
-  - TASK-026
-  - TASK-027
 acceptance:
   - Epic task table lists ALL tasks created during the epic
   - Epic pillars array reflects all pillars served
@@ -18,8 +12,16 @@ acceptance:
   - Epic scope section accurately reflects what was in/out of scope
 relationships:
   - target: EPIC-039
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-024
+    type: depends-on
+  - target: TASK-025
+    type: depends-on
+  - target: TASK-026
+    type: depends-on
+  - target: TASK-027
+    type: depends-on
 ---
 
 ## What

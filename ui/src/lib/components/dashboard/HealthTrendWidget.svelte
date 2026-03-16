@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK } = getStores();
@@ -108,16 +108,16 @@
 </script>
 
 {#if loaded && snapshots.length >= 2}
-	<Card.Root>
-		<Card.Header class="pb-3">
-			<Card.Title class="text-base">
+	<CardRoot>
+		<CardHeader class="pb-3">
+			<CardTitle class="text-base">
 				<div class="flex items-center gap-2">
 					<TrendingUpIcon class="h-4 w-4 text-muted-foreground" />
 					Health Trends
 				</div>
-			</Card.Title>
-		</Card.Header>
-		<Card.Content>
+			</CardTitle>
+		</CardHeader>
+		<CardContent>
 			{#if loading}
 				<div class="flex items-center justify-center py-4">
 					<LoadingSpinner />
@@ -190,6 +190,6 @@
 					Based on {snapshots.length} scan{snapshots.length !== 1 ? "s" : ""}
 				</p>
 			{/if}
-		</Card.Content>
-	</Card.Root>
+		</CardContent>
+	</CardRoot>
 {/if}

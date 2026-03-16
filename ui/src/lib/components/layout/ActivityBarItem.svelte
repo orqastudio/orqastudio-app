@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Component } from "svelte";
-	import * as Tooltip from "$lib/components/ui/tooltip";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 
 	let {
 		icon: Icon,
@@ -15,8 +15,8 @@
 	} = $props();
 </script>
 
-<Tooltip.Root>
-	<Tooltip.Trigger>
+<TooltipRoot>
+	<TooltipTrigger>
 		{#snippet child({ props })}
 			<button
 				{...props}
@@ -29,8 +29,8 @@
 				<Icon class="h-5 w-5" />
 			</button>
 		{/snippet}
-	</Tooltip.Trigger>
-	<Tooltip.Content side="right">
+	</TooltipTrigger>
+	<TooltipContent side="right">
 		<p>{label}</p>
-	</Tooltip.Content>
-</Tooltip.Root>
+	</TooltipContent>
+</TooltipRoot>

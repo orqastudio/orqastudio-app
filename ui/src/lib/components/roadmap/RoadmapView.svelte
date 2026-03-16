@@ -1,8 +1,8 @@
 <script lang="ts">
 	import KanbanIcon from "@lucide/svelte/icons/kanban";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK, navigationStore, projectStore } = getStores();

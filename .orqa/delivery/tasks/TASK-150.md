@@ -5,16 +5,16 @@ description: Pre-task hook that checks depends-on tasks have status done before 
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - Starting a task with unfinished dependencies produces a clear warning
   - Lists which dependencies are not done
   - Does not block if depends-on is empty or all dependencies are done
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

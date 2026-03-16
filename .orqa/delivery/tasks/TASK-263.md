@@ -5,18 +5,19 @@ description: Write unit tests for the 8 Tauri command modules that have zero tes
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on:
-  - TASK-260
 assignee: AGENT-002
 acceptance:
   - Test modules exist in all 8 command files
-  - Each command module has at least 3 tests covering happy path, error path, and edge case
+  - "Each command module has at least 3 tests covering happy path, error path, and edge case"
   - make test-rust passes
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-260
+    type: depends-on
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

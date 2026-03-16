@@ -1,20 +1,14 @@
 ---
 id: TASK-461
-title: "Merge overlapping documentation"
+title: Merge overlapping documentation
 description: "Consolidate 4 pairs of overlapping docs into single authoritative sources. Merge governance-hub into governance, guide/workflow into process/workflow, component-inventory into svelte-components, artifact-types into artifact-framework."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-460
 assignee: null
-skills:
-  - SKILL-037
-  - SKILL-011
 acceptance:
-  - DOC-038 (governance-hub) merged into DOC-039 (governance) — unique content preserved, file deleted
+  - "DOC-038 (governance-hub) merged into DOC-039 (governance) — unique content preserved, file deleted"
   - DOC-082 (guide/workflow) merged into DOC-035 (process/workflow) — file deleted
   - DOC-048 (component-inventory) merged into DOC-016 (svelte-components) — file deleted
   - DOC-081 (artifact-types) merged into DOC-036 (artifact-framework) — file deleted
@@ -24,15 +18,20 @@ relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 1 — consolidate documentation before connecting to graph
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: TASK-460
     type: informed-by
     rationale: Deletions must happen first to avoid merge conflicts with already-deleted content
   - target: RES-062
     type: informed-by
     rationale: Documentation audit identified these overlaps
+  - target: TASK-460
+    type: depends-on
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-462
+    type: depended-on-by
 ---
 
 ## Scope

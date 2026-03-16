@@ -1,9 +1,9 @@
 <script lang="ts">
 	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
 	import Link2OffIcon from "@lucide/svelte/icons/link-2-off";
-	import * as Tooltip from "$lib/components/ui/tooltip";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
-	import { statusIcon, statusIsSpinning } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIconName, statusIsSpinning, resolveIcon } from "@orqastudio/svelte-components/pure";
 
 	const { navigationStore, artifactGraphSDK, projectStore } = getStores();
 	import { DEFAULT_ARTIFACT_LINK_COLORS } from "@orqastudio/types";
@@ -69,7 +69,7 @@
 
 	/** Status icon component for the resolved node, or null if no status. */
 	const StatusIcon = $derived(
-		resolved.node?.status ? statusIcon(resolved.node.status) : null,
+		resolved.node?.status ? resolveIcon(statusIconName(resolved.node.status) : null,
 	);
 
 	/** Whether the status icon should spin (active/in-progress). */
@@ -93,8 +93,8 @@
 </script>
 
 {#if resolved.resolvable}
-	<Tooltip.Root delayDuration={200}>
-		<Tooltip.Trigger>
+	<TooltipRoot delayDuration={200}>
+		<TooltipTrigger>
 			{#snippet child({ props })}
 				<button
 					{...props}
@@ -115,8 +115,8 @@
 					<ExternalLinkIcon class="h-3 w-3 shrink-0 opacity-60" />
 				</button>
 			{/snippet}
-		</Tooltip.Trigger>
-		<Tooltip.Content side="top" class="max-w-xs" avoidCollisions={true} collisionPadding={8} sideOffset={4}>
+		</TooltipTrigger>
+		<TooltipContent side="top" class="max-w-xs" avoidCollisions={true} collisionPadding={8} sideOffset={4}>
 			{#if resolved.node}
 				{@const node = resolved.node}
 				<div class="space-y-1 text-xs">
@@ -139,11 +139,11 @@
 			{:else}
 				<p>Navigate to {resolved.label}</p>
 			{/if}
-		</Tooltip.Content>
-	</Tooltip.Root>
+		</TooltipContent>
+	</TooltipRoot>
 {:else}
-	<Tooltip.Root>
-		<Tooltip.Trigger>
+	<TooltipRoot>
+		<TooltipTrigger>
 			{#snippet child({ props })}
 				<span
 					{...props}
@@ -153,9 +153,9 @@
 					{resolved.label}
 				</span>
 			{/snippet}
-		</Tooltip.Trigger>
-		<Tooltip.Content side="top">
+		</TooltipTrigger>
+		<TooltipContent side="top">
 			<p>Not found in artifact graph: {resolved.label}</p>
-		</Tooltip.Content>
-	</Tooltip.Root>
+		</TooltipContent>
+	</TooltipRoot>
 {/if}

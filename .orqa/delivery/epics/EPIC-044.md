@@ -6,39 +6,29 @@ status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  user-value: 5
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 2
-  risk: 1
-  score: 18
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-047
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-048
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-049
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-050
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-334
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 Note: This epic used 'canon' terminology which has since been renamed to 'core'.
 

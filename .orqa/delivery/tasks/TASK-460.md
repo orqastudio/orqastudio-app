@@ -1,17 +1,12 @@
 ---
 id: TASK-460
-title: "Delete duplicate and stale documentation"
+title: Delete duplicate and stale documentation
 description: "Remove documentation files that duplicate other docs or are entirely outdated. DOC-019 (architecture-overview) duplicates DOC-001, DOC-054 (launch-timeline) is outdated, DOC-032 (process/rules) duplicates RULE-026."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on: []
 assignee: null
-skills:
-  - SKILL-037
-  - SKILL-011
 acceptance:
   - DOC-019 (architecture-overview.md) deleted — content already in DOC-001
   - DOC-054 (launch-timeline.md) deleted — entirely outdated
@@ -22,15 +17,18 @@ relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 1 — clean up documentation before connecting to graph
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: RES-062
     type: informed-by
     rationale: Documentation audit identified these duplicates
   - target: TASK-461
     type: informs
     rationale: "Auto-generated inverse of informs relationship from TASK-461"
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-461
+    type: depended-on-by
 ---
 ## Scope
 

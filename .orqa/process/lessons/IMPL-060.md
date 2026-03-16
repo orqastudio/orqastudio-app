@@ -3,9 +3,9 @@ id: IMPL-060
 title: "Dashboard widgets should be information-dense, not card-per-concern"
 description: "A vertical stack of full-width cards wastes space and creates false visual hierarchy. Dashboards need grid layouts where widget size reflects importance, and empty/healthy states collapse to minimal indicators."
 status: active
+created: 2026-03-14
+updated: 2026-03-14
 recurrence: 1
-created: "2026-03-14"
-updated: "2026-03-14"
 maturity: understanding
 relationships:
   - target: IMPL-053

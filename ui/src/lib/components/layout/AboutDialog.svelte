@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Dialog from "$lib/components/ui/dialog";
+	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
 	import logoPulse from "$lib/assets/logo-pulse.svg";
 
 	interface Props {
@@ -12,23 +12,23 @@
 	const { open, onClose, appName, appVersion }: Props = $props();
 </script>
 
-<Dialog.Root
+<DialogRoot
 	{open}
 	onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}
 >
-	<Dialog.Content>
-		<Dialog.Header>
+	<DialogContent>
+		<DialogHeader>
 			<div class="flex items-center gap-3">
 				<img src={logoPulse} alt="OrqaStudio" class="h-10 w-10" />
 				<div>
-					<Dialog.Title>{appName}</Dialog.Title>
-					<Dialog.Description>Version {appVersion}</Dialog.Description>
+					<DialogTitle>{appName}</DialogTitle>
+					<DialogDescription>Version {appVersion}</DialogDescription>
 				</div>
 			</div>
-		</Dialog.Header>
+		</DialogHeader>
 		<div class="space-y-2 text-sm text-muted-foreground">
 			<p>A managed agentic development environment powered by Claude.</p>
 			<p class="text-xs">Built with Tauri, Svelte, and Rust.</p>
 		</div>
-	</Dialog.Content>
-</Dialog.Root>
+	</DialogContent>
+</DialogRoot>

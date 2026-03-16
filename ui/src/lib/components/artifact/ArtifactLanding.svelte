@@ -1,13 +1,13 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import BotIcon from "@lucide/svelte/icons/bot";
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import ZapIcon from "@lucide/svelte/icons/zap";
 	import GitBranchIcon from "@lucide/svelte/icons/git-branch";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import ViolationsPanel from "$lib/components/governance/ViolationsPanel.svelte";
-	import { Badge } from "$lib/components/ui/badge";
+	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import type { ActivityView } from "@orqastudio/sdk";
 
@@ -133,13 +133,13 @@
 				{/if}
 
 				{#if items.length === 0}
-					<Card.Root>
-						<Card.Content class="py-8 text-center">
+					<CardRoot>
+						<CardContent class="py-8 text-center">
 							<p class="text-sm text-muted-foreground">
 								No {config.label.toLowerCase()} found. Add files to <code class="rounded bg-muted px-1 py-0.5 text-xs">{config.location}</code> and re-scan.
 							</p>
-						</Card.Content>
-					</Card.Root>
+						</CardContent>
+					</CardRoot>
 				{:else}
 					<!-- Summary -->
 					<p class="text-sm text-muted-foreground">
@@ -154,8 +154,8 @@
 								class="text-left"
 								onclick={() => item.path && handleItemClick(item.label, item.path)}
 							>
-								<Card.Root class="transition-colors hover:bg-accent/50">
-									<Card.Content class="p-4">
+								<CardRoot class="transition-colors hover:bg-accent/50">
+									<CardContent class="p-4">
 										<div class="flex items-start gap-3">
 											<Icon class="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
 											<div class="min-w-0 flex-1">
@@ -182,8 +182,8 @@
 												</div>
 											{/if}
 										</div>
-									</Card.Content>
-								</Card.Root>
+									</CardContent>
+								</CardRoot>
 							</button>
 						{/each}
 					</div>

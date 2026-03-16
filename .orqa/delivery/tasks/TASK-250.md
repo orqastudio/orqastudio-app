@@ -5,7 +5,6 @@ description: "Two-tier logging: (1) in dev mode, stream info-level logs from bac
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-055
 acceptance:
   - "DEV MODE: Rust tracing output (info level and above) streamed to OrqaDev dashboard via SSE"
   - "DEV MODE: Sidecar stderr output appears in OrqaDev dashboard log stream"
@@ -20,8 +19,10 @@ acceptance:
   - Log entries have source tags and severity levels
 relationships:
   - target: EPIC-055
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-345
+    type: depended-on-by
 ---
 
 ## What

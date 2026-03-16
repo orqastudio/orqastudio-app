@@ -18,27 +18,36 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Context-aware search makes codebase knowledge discoverable before changes, preventing blind modifications
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: TASK-037
+    type: grounded
+  - target: TASK-038
+    type: grounded
+  - target: TASK-039
+    type: grounded
+  - target: TASK-041
+    type: grounded
+  - target: TASK-042
+    type: grounded
+  - target: TASK-043
+    type: grounded
+  - target: TASK-045
+    type: grounded
+  - target: AGENT-001
+    type: grounded
+  - target: AGENT-008
+    type: grounded
+  - target: AGENT-002
+    type: grounded
+  - target: AGENT-003
+    type: grounded
+  - target: AGENT-004
+    type: grounded
+  - target: AGENT-005
+    type: grounded
+  - target: AGENT-006
+    type: grounded
+  - target: AGENT-007
+    type: grounded
 ---
 
 Context-aware code search wrapper. Detects your runtime context and provides the right

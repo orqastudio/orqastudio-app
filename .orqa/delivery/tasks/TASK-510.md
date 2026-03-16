@@ -1,27 +1,24 @@
 ---
-
 id: TASK-510
-title: "Replace hardcoded parent-child field references in integrity checks"
+title: Replace hardcoded parent-child field references in integrity checks
 description: "Refactor the integrity check functions so they read the delivery type hierarchy from the project config instead of using hardcoded artifact type names such as 'epic' and 'milestone'. The checks must produce identical results for the current project while being driven entirely by config."
 status: completed
 priority: P1
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-078
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-509
 acceptance:
-  - "check_parent_child_consistency reads hierarchy from delivery type config, not hardcoded \"epic\"/\"milestone\""
-  - "check_milestone_gate reads the gate type from config"
-  - "No hardcoded artifact type names in integrity check functions"
-  - "All existing integrity checks still produce the same results"
+  - "check_parent_child_consistency reads hierarchy from delivery type config, not hardcoded \\"epic\\"/\\"milestone\\""
+  - check_milestone_gate reads the gate type from config
+  - No hardcoded artifact type names in integrity check functions
+  - All existing integrity checks still produce the same results
 relationships:
-  - type: delivers
-    target: EPIC-078
-  - type: belongs-to
-    target: EPIC-078
+  - target: EPIC-078
+    type: delivers
+  - target: TASK-509
+    type: depends-on
+  - target: TASK-512
+    type: depended-on-by
 ---
 ## What
 

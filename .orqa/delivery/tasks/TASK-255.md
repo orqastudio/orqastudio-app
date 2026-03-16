@@ -1,13 +1,10 @@
 ---
 id: TASK-255
 title: Nest frontend source into ui/src/
-description: Move ui/ contents into ui/src/ and update svelte.config.js, components.json, and vite.config.ts.
+description: "Move ui/ contents into ui/src/ and update svelte.config.js, components.json, and vite.config.ts."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-056
-depends-on:
-  - TASK-254
 acceptance:
   - Frontend source files moved to ui/src/
   - svelte.config.js src field updated
@@ -17,8 +14,14 @@ acceptance:
   - make test-frontend passes
 relationships:
   - target: EPIC-056
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-254
+    type: depends-on
+  - target: TASK-256
+    type: depended-on-by
+  - target: TASK-346
+    type: depended-on-by
 ---
 
 ## What

@@ -1,8 +1,7 @@
 ---
 id: IMPL-012
 title: Encode Improvements in Artifacts
-description: |
-  If a process improvement exists only in conversation history, it is lost in the next session. Every improvement must be recorded as a lesson and encoded in the relevant agent, rule, or skill.
+description: "If a process improvement exists only in conversation history, it is lost in the next session. Every improvement must be recorded as a lesson and encoded in the relevant agent, rule, or skill."
 status: completed
 created: 2026-03-07
 updated: 2026-03-07
@@ -18,9 +17,8 @@ relationships:
   - target: RULE-030
     type: grounded-by
     rationale: Lesson promoted to RULE-030
-  - type: observed-by
-    target: RULE-030
-    rationale: RULE-030 codified the process improvement encoding requirement first observed in this lesson
+  - target: RULE-030
+    type: observed-by
 ---
 ## What Happened
 
@@ -43,7 +41,7 @@ Every time a process works better than expected or a new pattern emerges:
 1. Create a lesson (IMPL-NNN) documenting the pattern
 2. Update the relevant governance artifact (agent prompt, rule, or skill)
 3. Cross-reference: lesson → artifact, artifact → lesson
-4. The lesson's `promoted-to` field tracks whether and where it was promoted
+4. The lesson's `evolves-into` field tracks whether and where it was promoted
 
 ## Applies To
 

@@ -6,10 +6,7 @@ status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-070
-depends-on: []
 assignee: null
-skills: []
 acceptance:
   - All tasks audited for acceptance criteria
   - Missing criteria backfilled based on actual implementation review — not assumed from status
@@ -18,9 +15,6 @@ relationships:
   - target: EPIC-070
     type: delivers
     rationale: Complete acceptance criteria enable accurate task status assessment
-  - target: EPIC-070
-    type: belongs-to
-    rationale: Task belongs to this epic
 ---
 
 ## Scope

@@ -5,14 +5,16 @@ description: Populate the promoted-to field for all 22 promoted lessons that had
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
   - All 22 promoted lessons have non-empty promoted-to fields pointing to valid rule/skill/standard targets
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-362
+    type: depended-on-by
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

@@ -1,21 +1,21 @@
 ---
 id: TASK-157
 title: Create rule for context window management
-description: Formalize the orchestrator's context window management guidelines into a dedicated rule with enforceable constraints.
+description: "Formalize the orchestrator's context window management guidelines into a dedicated rule with enforceable constraints."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - New rule created covering context window management
   - Guidelines extracted from orchestrator into the rule
-  - Rule has concrete FORBIDDEN patterns (e.g., reading entire files into orchestrator context)
+  - "Rule has concrete FORBIDDEN patterns (e.g., reading entire files into orchestrator context)"
   - Orchestrator.md references the rule instead of inlining the guidelines
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

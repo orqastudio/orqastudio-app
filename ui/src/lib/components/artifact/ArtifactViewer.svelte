@@ -7,9 +7,9 @@
 	import PipelineStepper from "./PipelineStepper.svelte";
 	import ReferencesPanel from "./ReferencesPanel.svelte";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactStore, projectStore, navigationStore, artifactGraphSDK } = getStores();

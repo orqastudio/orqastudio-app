@@ -6,62 +6,60 @@ status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07
-milestone: MS-000
 horizon: null
-pillars:
-  - PILLAR-001
-depends-on:
-  - EPIC-025
-  - EPIC-026
-  - EPIC-028
-blocks:
-  - EPIC-030
-docs-required:
-  - AD-001
-  - AD-002
-  - AD-003
-  - AD-007
-docs-produced: []
-scoring:
-  pillar: 3
-  impact: 5
-  dependency: 3
-  effort: 1
-  score: 28
+scoring: null
 relationships:
   - target: MS-000
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-115
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-116
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-117
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-118
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-119
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-120
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-121
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-122
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-319
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: EPIC-025
+    type: depends-on
+  - target: EPIC-026
+    type: depends-on
+  - target: EPIC-028
+    type: depends-on
+  - target: EPIC-030
+    type: depended-on-by
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-001
+    type: informs
+  - target: AD-002
+    type: informs
+  - target: AD-003
+    type: informs
+  - target: AD-007
+    type: informs
 ---
 ## Why P1
 

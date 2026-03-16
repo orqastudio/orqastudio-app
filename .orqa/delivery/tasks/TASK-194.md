@@ -8,15 +8,17 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on: []
 acceptance:
   - lint event type added to enforcement schema and validates
   - "Enforcement entries with event: lint pass schema validation"
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-206
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

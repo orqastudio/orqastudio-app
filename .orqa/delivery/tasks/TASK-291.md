@@ -1,18 +1,12 @@
 ---
 id: TASK-291
 title: Scope documentation to human-consumption content
-description: Audit documentation/ contents. Process-defining docs (DoD, DoR) get absorbed into rules. Human-consumption docs stay. Move/delete/consolidate as needed.
+description: "Audit documentation/ contents. Process-defining docs (DoD, DoR) get absorbed into rules. Human-consumption docs stay. Move/delete/consolidate as needed."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-287
-  - TASK-288
-  - TASK-289
 assignee: null
 docs: []
-skills: []
 acceptance:
   - documentation/ contains only human-consumption content
   - Process-defining content absorbed into appropriate rules/skills
@@ -21,8 +15,16 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-287
+    type: depends-on
+  - target: TASK-288
+    type: depends-on
+  - target: TASK-289
+    type: depends-on
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

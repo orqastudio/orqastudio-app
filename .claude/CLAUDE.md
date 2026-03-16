@@ -23,30 +23,86 @@ The system improves over time. Mistakes are documented, patterns are extracted, 
 ### 3. Purpose Through Continuity
 The user's original intent survives implementation pressure. When scope drifts, when decisions are lost between sessions, when execution diverges from intent — the system surfaces that drift before it compounds.
 
+## Three-Layer Artifact Model
+
+### Layer 1: App-Fixed (Platform)
+Definitions that ship with OrqaStudio. Immutable by projects. Defines the canonical types, relationships, and statuses.
+- **Location:** `.orqa/documentation/platform/`
+
+### Layer 2: App-Required (Project Foundation)
+Artifacts every project must have. Editable content, but existence enforced.
+- **Pillars:** `.orqa/principles/pillars/`
+- **Vision:** `.orqa/principles/vision/`
+- **Personas:** `.orqa/principles/personas/`
+- **Grounding:** `.orqa/principles/grounding/`
+
+### Layer 3: Project-Scoped
+All other artifacts created during the project's lifecycle.
+- **Discovery:** `.orqa/discovery/` (ideas, research, wireframes)
+- **Delivery:** `.orqa/delivery/` (milestones, epics, tasks)
+- **Process:** `.orqa/process/` (decisions, rules, lessons, skills, agents)
+- **Documentation:** `.orqa/documentation/project/`
+
+## Canonical Relationship Vocabulary
+
+All artifact connections use the `relationships` frontmatter array. No standalone connection fields.
+
+| Forward | Inverse | Semantic |
+|---------|---------|----------|
+| `informs` | `informed-by` | Knowledge flows downstream |
+| `evolves-into` | `evolves-from` | Artifact lineage |
+| `drives` | `driven-by` | Decision motivates work |
+| `governs` | `governed-by` | Decision governs standards |
+| `delivers` | `delivered-by` | Work delivers to parent |
+| `enforces` | `enforced-by` | Rule enforces decision |
+| `grounded` | `grounded-by` | Artifact anchored to principle |
+| `observes` | `observed-by` | Agent watches artifact |
+| `merged-into` | `merged-from` | Artifact consolidation |
+| `synchronised-with` | `synchronised-with` | Paired content (self-inverse) |
+
+Project relationships (e.g. `depends-on`/`depended-on-by`) are defined in `project.json`.
+
+## 12 Canonical Statuses
+
+`captured` → `exploring` → `ready` → `prioritised` → `active` → `hold` / `blocked` → `review` → `completed` → `surpassed` / `archived` / `recurring`
+
+## Four Enforcement Layers
+
+1. **App-layer** — Rust integrity checks validate graph state
+2. **Integrity scanner** — Detects broken links, missing inverses, vocabulary violations
+3. **Status transitions** — Graph-query-based auto-transitions
+4. **Git hooks** — Pre-commit validation via plugin hooks
+
+## Navigation = Graph Filters
+
+Nav sections in `project.json` are views into the graph, not filesystem directories:
+- **Principles** → pillars, vision, personas, grounding
+- **Discovery** → ideas, research, wireframes, decisions
+- **Learning** → rules, lessons, skills, agents
+- **Delivery** → milestones, epics, tasks
+- **Documentation** → platform docs, project docs
+
 ## How The System Works
 
 ### The Graph
 - **Nodes** = artifacts (ideas, tasks, rules, decisions, anything)
-- **Edges** = typed relationships (the ONLY way things connect)
+- **Edges** = typed relationships (the ONLY way things connect — no standalone fields)
 - **Status** = where each node is in its thought journey
 - **Transition rules** = derived from graph state (when connected nodes change, what happens)
 
 ### Views Are Graph Queries
-- The **roadmap** is the graph filtered to delivery types, grouped by hierarchy, with status as columns
+- The **roadmap** is the graph filtered to delivery types, grouped by `delivers` hierarchy, with status as columns
 - The **dashboard** is aggregate queries on graph state
 - The **artifact viewer** is a single node with its relationships
 - The **full graph** is everything
 
-### Two Layers
-1. **Core (universal)**: The thinking framework — pillars, ideas, research, rules, lessons, decisions, skills, agents, personas, grounding, wireframes, vision. These types always exist. They represent universal stages of structured thinking.
-2. **Delivery (project-configurable)**: The work pipeline — milestones, epics, tasks (or hypotheses, experiments, observations, or whatever the project needs). The user defines what work looks like.
-
 ### State Machine
-Status transitions are graph queries: "when all nodes connected via `delivers` relationships are in `completed` status → propose transitioning this node to `review`." The state machine isn't a separate system — it's rules about which transitions are valid given the current graph state.
+Status transitions are graph queries: "when all nodes connected via `delivers` relationships are in `completed` status → propose transitioning this node to `review`."
 
 ## The Product Philosophy
 
 - **The framework that produces structured outcomes is not optional.** OrqaStudio has a point of view about how thinking should work.
+- **Content IS the platform.** Artifacts are the product — their content, structure, and relationships define the system.
 - **Human-led AI.** AI assists and executes. Humans authorise and decide.
 - **Clarity before execution.** Most tools optimise for output. OrqaStudio optimises for understanding.
 - **Artifact-driven reasoning.** Plans, decisions, and knowledge are living documents, not chat messages.
@@ -56,6 +112,8 @@ Status transitions are graph queries: "when all nodes connected via `delivers` r
 
 This is a Tauri v2 desktop app (Rust backend + Svelte 5 frontend + SQLite). The project is dogfooding — OrqaStudio is being built using OrqaStudio.
 
-See `WORKING-DOCUMENT.md` in the project root for the current architectural discussion about graph-first design, relationship-only connections, and config-driven delivery pipeline.
+**Graph-first migration (EPIC-079) is complete for the app codebase.** All 1058 artifacts migrated, Rust backend and Svelte frontend use canonical vocabulary only, 623 tests pass. `.orqa-backup/` is preserved for review — do not delete yet.
 
-See `.orqa/documentation/about/vision.md` for the full product vision.
+**Next: Library migration in progress.** The external libraries (`@orqastudio/types`, `@orqastudio/integrity-validator`, `@orqastudio/sdk`) still use old vocabulary and are causing false integrity errors in the running app. Dev publish workflows (`publish-dev.yml`) have been added to all three repos but not yet pushed. See memory file `project_library_migration_state.md` for full migration plan and dependency order.
+
+See `.orqa/principles/vision/vision.md` for the full product vision.

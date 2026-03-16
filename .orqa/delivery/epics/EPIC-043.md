@@ -1,62 +1,52 @@
 ---
 id: EPIC-043
 title: Dogfood Readiness Verification
-description: First round of user acceptance testing. The user exercises the app end-to-end, testing conversation flow, artifact browsing, governance visibility, settings, and streaming behaviour. Findings are captured as tasks within this epic.
+description: "First round of user acceptance testing. The user exercises the app end-to-end, testing conversation flow, artifact browsing, governance visibility, settings, and streaming behaviour. Findings are captured as tasks within this epic."
 status: completed
 priority: P1
 created: 2026-03-09
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  user-value: 5
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 3
-  risk: 2
-  score: 20
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-037
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-038
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-039
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-040
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-041
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-042
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-043
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-044
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-045
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-046
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-333
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Implementation Design
 

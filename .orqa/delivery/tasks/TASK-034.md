@@ -5,19 +5,21 @@ description: Adds a Tier 2 skill injection table to the orchestrator definition 
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-042
 assignee: AGENT-003
-skills:
-  - SKILL-029
-  - SKILL-011
 acceptance:
   - Orchestrator agent definition includes a skill injection table mapping scope → skills
   - skill-enforcement.md updated to document the three-tier model
-  - Injection table covers all orqa-* project skills with clear scope triggers
+  - "Injection table covers all orqa-* project skills with clear scope triggers"
 relationships:
   - target: EPIC-042
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-029
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-332
+    type: depended-on-by
 ---
 ## What
 

@@ -16,18 +16,12 @@ relationships:
   - target: RULE-005
     type: informs
     rationale: Search skills are core-layer portable and demonstrate the context-resolved portability pattern
-  - type: informed-by
-    target: RULE-038
-    rationale: User-invocable field is part of the portability contract each skill must declare
-  - type: informed-by
-    target: RULE-044
-    rationale: Core skills are firmware — they are protected from project-specific contamination
-  - type: enforces
-    target: AD-001
-    rationale: Skill portability ensures skills correctly separate core from project concerns, supporting the thick backend architecture boundary
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: AD-001
+    type: enforces
+  - target: RULE-038
+    type: informed-by
+  - target: RULE-044
+    type: informed-by
 ---
 A skill's `layer` field declares its portability scope. Content within the skill MUST be portable within that scope. A core skill that contains project-specific paths is broken — it will give wrong guidance on other projects.
 

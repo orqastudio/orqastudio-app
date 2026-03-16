@@ -1,20 +1,20 @@
 ---
 id: TASK-101
 title: Record composability and integration decisions (AD-015 through AD-017)
-description: Captured architecture decisions for composability principle, tool execution model, and provider-agnostic design.
+description: "Captured architecture decisions for composability principle, tool execution model, and provider-agnostic design."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-026
-depends-on: []
 acceptance:
   - Each AD follows the decision schema
   - Composability principle is established as a platform concern
   - Decisions are added to the decisions index
 relationships:
   - target: EPIC-026
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-316
+    type: depended-on-by
 ---
 ## What
 

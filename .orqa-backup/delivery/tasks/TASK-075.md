@@ -1,0 +1,43 @@
+---
+id: TASK-075
+title: Build frontend Artifact Graph SDK with subscription API
+description: Create a typed Svelte 5 rune store at ui/src/lib/sdk/artifact-graph.svelte.ts wrapping the Tauri commands with synchronous in-memory lookups and a plugin subscription API.
+status: completed
+created: 2026-03-10
+updated: 2026-03-10
+epic: EPIC-048
+depends-on:
+  - TASK-074
+assignee: AGENT-002
+skills:
+  - SKILL-030
+  - SKILL-034
+  - SKILL-016
+acceptance:
+  - ArtifactGraphSDK class with reactive graph state
+  - Synchronous resolve, resolveByPath, referencesFrom, referencesTo, children, byType, byStatus methods
+  - Async readContent method that reads from disk via Tauri command
+  - brokenRefs and orphans methods for graph health
+  - subscribe(id, callback) and subscribeType(type, callback) with unsubscribe return
+  - Auto-refresh on artifact-graph-updated Tauri event
+  - TypeScript types for ArtifactNode, ArtifactRef, GraphStats exported
+  - "Status bar indexing button: triggers manual refresh, disabled with spinner while indexing"
+  - "Dashboard Graph Insights card showing: node count, edge count, orphan count, broken ref count, artifacts-by-type breakdown, and status distribution"
+relationships:
+  - target: EPIC-048
+    type: belongs-to
+    rationale: Task belongs to this epic
+---
+
+
+## What
+
+See task description and acceptance criteria in frontmatter.
+
+## How
+
+Implementation approach defined by the assignee.
+
+## Verification
+
+Acceptance criteria verified by reviewer.

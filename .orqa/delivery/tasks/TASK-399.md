@@ -1,19 +1,22 @@
 ---
 id: TASK-399
-title: "Evaluate friction vs UX-first design tension"
+title: Evaluate friction vs UX-first design tension
 description: "Research how purposeful friction (mandatory relationships, schema enforcement) interacts with UX-first design. Identify where friction serves clarity and where it conflicts with the principle of reducing cognitive burden."
 status: blocked
-created: "2026-03-13"
-updated: "2026-03-13"
-epic: EPIC-073
-milestone: MS-001
+created: 2026-03-13
+updated: 2026-03-13
 horizon: active
-depends-on:
-  - TASK-398
 acceptance:
-  - "Tension points between friction and UX-first documented"
-  - "Guidelines captured for when friction is appropriate vs when it should be invisible"
+  - Tension points between friction and UX-first documented
+  - Guidelines captured for when friction is appropriate vs when it should be invisible
   - "If guidelines are general enough: promoted to a rule or skill update"
+relationships:
+  - target: MS-001
+    type: delivers
+  - target: EPIC-073
+    type: delivers
+  - target: TASK-398
+    type: depends-on
 ---
 ## What
 

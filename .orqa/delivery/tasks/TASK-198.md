@@ -7,17 +7,20 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-195
 acceptance:
   - evidence-before-done gate fires at Stop when code was written but no make check/test ran
   - learn-after-doing gate fires at Stop when significant work done but no lessons checked
   - Gates return systemMessage reminders
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-195
+    type: depends-on
+  - target: TASK-207
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

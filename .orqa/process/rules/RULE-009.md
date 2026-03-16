@@ -19,21 +19,14 @@ relationships:
   - target: RULE-006
     type: informs
     rationale: General coding standards apply regardless of dogfood mode
-  - type: informed-by
-    target: RULE-013
-    rationale: Git workflow intersects with dogfood restart protocol and session-ending commit discipline
-  - type: informed-by
-    target: RULE-028
-    rationale: Systems thinking is the foundation that dogfood mode heightens with operational specifics
-  - type: informed-by
-    target: RULE-044
-    rationale: Core graph protection has a dogfood exception allowing core artifact edits
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: EPIC-037
+    type: informs
+  - target: RULE-013
+    type: informed-by
+  - target: RULE-028
+    type: informed-by
+  - target: RULE-044
+    type: informed-by
 ---
 # Dogfood Mode (CONDITIONAL — only when `dogfood: true`)
 

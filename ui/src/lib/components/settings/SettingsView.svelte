@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import * as Card from "$lib/components/ui/card";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import CircleXIcon from "@lucide/svelte/icons/circle-x";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import { getStores } from "@orqastudio/sdk";
@@ -34,7 +34,7 @@
 	);
 </script>
 
-<ScrollArea.Root class="h-full">
+<ScrollArea class="h-full">
 	<div class="space-y-6 p-6">
 		{#if section === "provider"}
 			<ProviderSettings />
@@ -54,21 +54,21 @@
 
 		{#if isProjectSection}
 			{#if !project}
-				<Card.Root>
-					<Card.Content class="py-8">
+				<CardRoot>
+					<CardContent class="py-8">
 						<div class="flex items-center gap-2 text-sm text-muted-foreground">
 							<CircleXIcon class="h-4 w-4" />
 							No project loaded
 						</div>
-					</Card.Content>
-				</Card.Root>
+					</CardContent>
+				</CardRoot>
 			{:else if !projectStore.settingsLoaded}
-				<Card.Root>
-					<Card.Content class="flex items-center gap-2 py-8">
+				<CardRoot>
+					<CardContent class="flex items-center gap-2 py-8">
 						<LoaderCircleIcon class="h-4 w-4 animate-spin" />
 						<span class="text-sm text-muted-foreground">Loading project settings...</span>
-					</Card.Content>
-				</Card.Root>
+					</CardContent>
+				</CardRoot>
 			{:else if projectStore.hasSettings && projectStore.projectSettings}
 				{#if section === "project-general"}
 					<ProjectGeneralSettings
@@ -109,4 +109,4 @@
 			{/if}
 		{/if}
 	</div>
-</ScrollArea.Root>
+</ScrollArea>

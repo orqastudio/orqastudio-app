@@ -1,24 +1,18 @@
 ---
 id: TASK-406
-title: Enhance artifact viewer with unified relationships, actions needed, and pipeline position
+title: "Enhance artifact viewer with unified relationships, actions needed, and pipeline position"
 description: Move all relationships to the relationships viewer across all artifact types. Add inferred Actions Needed box. Add pipeline position stepper. Auto-embed child artifacts. Display horizon field. Implement acceptance criteria checkboxes.
 status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-065
-depends-on: []
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
-  - SKILL-011
 acceptance:
-  - ALL relationship data across ALL artifact types renders in the relationships viewer, not the metadata box
+  - "ALL relationship data across ALL artifact types renders in the relationships viewer, not the metadata box"
   - Relationships viewer organizes relationships by category/type
-  - Actions Needed box appears after metadata when actions exist, hidden when empty
+  - "Actions Needed box appears after metadata when actions exist, hidden when empty"
   - Actions Needed content is inferred from artifact status and pipeline position
-  - Pipeline position stepper shows the artifact's current stage highlighted within its full lifecycle
+  - "Pipeline position stepper shows the artifact's current stage highlighted within its full lifecycle"
   - Milestone views auto-embed child epics
   - Epic views auto-embed child tasks
   - Ideas horizon field displayed in artifact view
@@ -31,9 +25,12 @@ relationships:
   - target: IDEA-025
     type: informs
     rationale: IDEA-025 (agent task ownership) relates to auto-embedded child artifact display
-  - target: EPIC-065
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
 ---
 
 ## Scope

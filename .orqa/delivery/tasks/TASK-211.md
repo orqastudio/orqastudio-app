@@ -5,26 +5,35 @@ description: Rewrite the orchestrator prompt from ~2000 lines of inlined rules/t
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on:
-  - TASK-208
-  - TASK-209
-  - TASK-210
 docs:
   - DOC-036
-skills:
-  - SKILL-011
-  - SKILL-037
-  - SKILL-019
 acceptance:
   - Orchestrator prompt is <=250 lines
-  - Agents can navigate the graph to find rules, skills, docs
+  - "Agents can navigate the graph to find rules, skills, docs"
   - Core process and safety constraints are preserved
   - A dogfood session works correctly with the new prompt
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-208
+    type: depends-on
+  - target: TASK-209
+    type: depends-on
+  - target: TASK-210
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-019
+    type: grounded-by
+  - target: TASK-220
+    type: depended-on-by
+  - target: TASK-221
+    type: depended-on-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

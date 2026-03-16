@@ -7,68 +7,59 @@ priority: P1
 created: 2026-03-12
 updated: 2026-03-12
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on: []
-blocks: []
-research-refs:
-  - RES-048
-docs-required:
-  - AD-042
-docs-produced: []
-scoring:
-  clarity: 5
-  learning: 5
-  feasibility: 3
-  urgency: 4
+scoring: null
 rule-overrides:
-  - rule: RULE-032
-    reason: Schema fields are being migrated — frontmatter will temporarily have new optional fields not yet required
-  - rule: RULE-004
-    reason: Artifact lifecycle fields are being restructured — old fields coexist with new during migration
+  - "rule: RULE-032"
+  - "rule: RULE-004"
 relationships:
   - target: RES-048
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-048
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-271
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-272
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-273
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-274
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-275
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-276
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-277
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-278
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-279
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-280
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-348
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: AD-042
+    type: informs
+  - target: EPIC-059
+    type: depended-on-by
 ---
 ## Context
 
@@ -88,7 +79,7 @@ This must be done in one pass. A half-migrated state — some artifacts with rel
 - Lessons have `maturity` field (observation/understanding)
 - Skills have `category` field (methodology/domain/tool)
 - `relationships` is required in all governance schemas
-- Deprecated fields (`promoted-to`, `promoted-from`, `research-refs`) removed
+- Deprecated fields (`evolves-into`, `promoted-from`, `research-refs`) removed
 - All changes validated, committed, and stable
 
 ## Implementation Design
@@ -118,7 +109,7 @@ AI proposes relationships for all ~150 artifacts. Human reviews in batches.
 **Batch order** (most connected first):
 1. **Rules** (44) — add `grounded` to decisions/pillars
 2. **Skills** (48) — add `category` and `grounded` to decisions/pillars
-3. **Decisions** (42) — add `practices` and `enforces` to skills/rules already backfilled
+3. **Decisions** (42) — add `grounded-by` and `enforces` to skills/rules already backfilled
 4. **Lessons** (16) — add `maturity` and `grounded` to decisions
 
 Each batch: AI proposes → human reviews → commit. Later batches use earlier batches' connections.
@@ -134,7 +125,7 @@ Single commit after Phase 2:
 ### Phase 4: Deprecate Old Fields
 
 Single commit after Phase 3 is stable:
-- Remove `promoted-to` from lesson frontmatter and schema
+- Remove `evolves-into` from lesson frontmatter and schema
 - Remove `promoted-from` from rule frontmatter and schema
 - Remove `research-refs` from decision frontmatter and schema (data migrated to `informed-by` relationships)
 

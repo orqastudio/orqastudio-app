@@ -2,9 +2,9 @@
 	import type { Snippet } from "svelte";
 	import { untrack } from "svelte";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import { Badge } from "$lib/components/ui/badge";
-	import { cn } from "$lib/utils";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { cn } from "@orqastudio/svelte-components";
 
 	let {
 		title,
@@ -133,13 +133,13 @@
 		</div>
 
 		<!-- Column content -->
-		<ScrollArea.Root class="min-h-0 flex-1" orientation="vertical">
+		<ScrollArea class="min-h-0 flex-1" orientation="vertical">
 			<div
 				class="flex flex-col gap-2 p-2"
 				role="list"
 			>
 				{@render children()}
 			</div>
-		</ScrollArea.Root>
+		</ScrollArea>
 	</div>
 {/if}

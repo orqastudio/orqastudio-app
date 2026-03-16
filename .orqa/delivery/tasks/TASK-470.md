@@ -6,13 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-073
-depends-on: []
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
-  - SKILL-041
 acceptance:
   - Status dot renders inside the artifact link chip
   - Title display mode has max-width with text-overflow ellipsis
@@ -22,7 +16,12 @@ relationships:
   - target: EPIC-073
     type: delivers
     rationale: Artifact link system rework (F6, F7, F9, F10)
-  - target: EPIC-073
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
+  - target: SKILL-041
+    type: grounded-by
+  - target: TASK-471
+    type: depended-on-by
 ---

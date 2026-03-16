@@ -28,7 +28,7 @@
 	import RocketIcon from "@lucide/svelte/icons/rocket";
 	import WorkflowIcon from "@lucide/svelte/icons/workflow";
 	import NetworkIcon from "@lucide/svelte/icons/network";
-	import { Separator } from "$lib/components/ui/separator";
+	import { Separator } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { navigationStore, settingsStore, projectStore, artifactStore } = getStores();

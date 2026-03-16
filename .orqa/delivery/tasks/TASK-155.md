@@ -5,9 +5,6 @@ description: Add propertyOrder enforcement to the schema validation hook and age
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on:
-  - TASK-152
 acceptance:
   - Schema validation hook checks field ordering against propertyOrder
   - Out-of-order fields produce a warning or error at commit time
@@ -15,8 +12,12 @@ acceptance:
   - Existing rule files fixed as a one-time batch
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-152
+    type: depends-on
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

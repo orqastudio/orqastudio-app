@@ -5,23 +5,25 @@ description: Update RULE-001 and RULE-026 to reference capability-based delegati
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-051
-depends-on:
-  - TASK-171
 assignee: AGENT-003
 docs:
   - DOC-036
-skills:
-  - SKILL-011
-  - SKILL-037
 acceptance:
   - RULE-001 delegation protocol includes capability resolution step
   - RULE-026 skill loading references capability-based tool access
   - Both rules reference RULE-040 for the mapping table
 relationships:
   - target: EPIC-051
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-171
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: TASK-341
+    type: depended-on-by
 ---
 
 ## What

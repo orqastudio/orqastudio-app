@@ -11,17 +11,21 @@ updated: 2026-03-10
 layer: core
 category: methodology
 user-invocable: false
-allowed-tools: Read, Glob, Grep
+allowed-tools: "Read, Glob, Grep"
 relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Documentation-first workflow with approval gates ensures designs are explicit and reviewed before code exists
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
+  - target: TASK-211
+    type: grounded
+  - target: AGENT-003
+    type: grounded
+  - target: AGENT-004
+    type: grounded
+  - target: AGENT-005
+    type: grounded
+  - target: AGENT-007
+    type: grounded
 ---
 
 

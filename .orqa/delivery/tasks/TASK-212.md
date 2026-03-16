@@ -1,17 +1,11 @@
 ---
 id: TASK-212
 title: Extract dev server and worktree content to skills or docs
-description: Move dev server lifecycle, worktree workflow, and hooks configuration from the orchestrator prompt to standalone skills or documentation that agents read from the graph.
+description: "Move dev server lifecycle, worktree workflow, and hooks configuration from the orchestrator prompt to standalone skills or documentation that agents read from the graph."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on: []
 docs: []
-skills:
-  - SKILL-011
-  - SKILL-037
-  - SKILL-029
 acceptance:
   - Dev server lifecycle content exists as a skill or doc
   - Worktree workflow content exists as a skill or doc
@@ -20,8 +14,16 @@ acceptance:
   - Content is still discoverable via the graph
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-029
+    type: grounded-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

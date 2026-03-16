@@ -1,20 +1,20 @@
 ---
 id: TASK-132
 title: Implement settings view and semantic code search
-description: Built the settings view for provider configuration and model selection, and set up the ONNX embeddings engine with DuckDB vector search.
+description: "Built the settings view for provider configuration and model selection, and set up the ONNX embeddings engine with DuckDB vector search."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-030
-depends-on: []
 acceptance:
   - Settings view allows provider configuration and model selection
   - Code search produces relevant results via semantic similarity
   - Settings persist across app restarts
 relationships:
   - target: EPIC-030
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-320
+    type: depended-on-by
 ---
 
 ## What

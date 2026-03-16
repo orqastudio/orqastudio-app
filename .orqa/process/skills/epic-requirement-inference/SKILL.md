@@ -15,12 +15,6 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Automatically configures task-to-epic linkage requirements based on project signals, ensuring workflow governance matches project complexity
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
 ---
 
 Determines whether a project should require epic linkage for all tasks

@@ -1,16 +1,11 @@
 ---
 id: TASK-026
 title: Frontend decomposition and design tokens
-description: Decomposes monolithic frontend components and stores, decouples the conversation store from the session store, and replaces 60+ hardcoded colors with semantic design tokens.
+description: "Decomposes monolithic frontend components and stores, decouples the conversation store from the session store, and replaces 60+ hardcoded colors with semantic design tokens."
 status: completed
 created: 2026-03-06
 updated: 2026-03-09
-epic: EPIC-039
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-031
-  - SKILL-016
 acceptance:
   - SettingsView decomposed into focused sub-components
   - Toolbar decomposed into focused sub-components
@@ -19,8 +14,16 @@ acceptance:
   - Missing error/loading states added
 relationships:
   - target: EPIC-039
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-031
+    type: grounded-by
+  - target: SKILL-016
+    type: grounded-by
+  - target: TASK-329
+    type: depended-on-by
 ---
 ## What
 

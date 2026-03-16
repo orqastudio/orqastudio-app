@@ -1,36 +1,35 @@
 ---
 id: TASK-465
-title: "Define Governance Steward agent"
-description: "Create a specialist agent definition for all .orqa/ artifact creation and maintenance. The orchestrator delegates governance work to this agent instead of writing artifacts directly."
+title: Define Governance Steward agent
+description: Create a specialist agent definition for all .orqa/ artifact creation and maintenance. The orchestrator delegates governance work to this agent instead of writing artifacts directly.
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-463
 assignee: null
-skills:
-  - SKILL-011
-  - SKILL-037
 acceptance:
   - governance-steward.md created in .orqa/process/agents/ with full frontmatter
   - Agent has grounded-by relationships to artifact-principles and product-purpose grounding docs
-  - Agent system prompt includes graph discipline (bidirectional relationships, schema compliance, pillar alignment)
-  - Agent skills include orqa-governance, orqa-documentation, orqa-schema-compliance, migration-tooling
-  - Agent capabilities include file_read, file_write, file_edit, file_search, content_search
+  - "Agent system prompt includes graph discipline (bidirectional relationships, schema compliance, pillar alignment)"
+  - "Agent skills include orqa-governance, orqa-documentation, orqa-schema-compliance, migration-tooling"
+  - "Agent capabilities include file_read, file_write, file_edit, file_search, content_search"
   - RULE-001 updated to include Governance Steward in the delegation table
   - Orchestrator prompt updated to reference Governance Steward for all .orqa/ artifact work
 relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 2 — specialist agent for governance integrity
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: IMPL-055
     type: informed-by
     rationale: Missing graph integrity lesson drove the need for a specialist governance agent
+  - target: TASK-463
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: TASK-466
+    type: depended-on-by
 ---
 
 ## Scope

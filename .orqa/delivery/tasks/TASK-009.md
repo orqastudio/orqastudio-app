@@ -5,17 +5,7 @@ description: Replace all hardcoded navigation constants with config-driven deriv
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-033
-depends-on:
-  - TASK-007
-  - TASK-008
 assignee: AGENT-002
-skills:
-  - SKILL-003
-  - SKILL-016
-  - SKILL-015
-  - SKILL-030
-  - SKILL-031
 acceptance:
   - TypeScript types for ArtifactEntry / ArtifactTypeConfig added
   - Navigation store derives all state from config (no hardcoded constants)
@@ -25,14 +15,30 @@ acceptance:
   - ActivityView and ActivityGroup changed to string (dynamic from config)
   - ActivityBar renders from config
   - NavSubPanel renders group children from config
-  - No $derived(() => ...) patterns (all use $derived.by or $derived)
+  - "No $derived(() => ...) patterns (all use $derived.by or $derived)"
   - App starts without hanging
   - Navigating to any artifact group shows correct file tree
   - npm run check passes
 relationships:
   - target: EPIC-033
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-007
+    type: depends-on
+  - target: TASK-008
+    type: depends-on
+  - target: SKILL-003
+    type: grounded-by
+  - target: SKILL-016
+    type: grounded-by
+  - target: SKILL-015
+    type: grounded-by
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-031
+    type: grounded-by
+  - target: TASK-323
+    type: depended-on-by
 ---
 ## What
 

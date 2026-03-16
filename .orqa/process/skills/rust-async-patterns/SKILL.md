@@ -1,7 +1,7 @@
 ---
 id: SKILL-027
 title: Rust Async Patterns
-description: Master Rust async programming with Tokio, async traits, error handling, and concurrent patterns. Use when building async Rust applications, implementing concurrent systems, or debugging async code.
+description: "Master Rust async programming with Tokio, async traits, error handling, and concurrent patterns. Use when building async Rust applications, implementing concurrent systems, or debugging async code."
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -12,12 +12,20 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Tokio task, channel, and stream patterns make concurrent data flows explicit and their error paths traceable
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-007
+    type: grounded
+  - target: TASK-013
+    type: grounded
+  - target: TASK-014
+    type: grounded
+  - target: TASK-015
+    type: grounded
+  - target: TASK-073
+    type: grounded
+  - target: TASK-074
+    type: grounded
+  - target: TASK-079
+    type: grounded
 ---
 
 

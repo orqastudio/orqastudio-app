@@ -5,14 +5,7 @@ description: Verify that a task with docs and skills fields causes the plugin to
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on:
-  - TASK-214
-  - TASK-215
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-018
 acceptance:
   - Docs listed in task.docs are injected into agent context
   - Skills listed in task.skills are loaded
@@ -20,8 +13,18 @@ acceptance:
   - No duplicate injections
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-214
+    type: depends-on
+  - target: TASK-215
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-018
+    type: grounded-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

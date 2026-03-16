@@ -1,20 +1,20 @@
 ---
 id: TASK-129
 title: Implement conversation UI with streaming
-description: Built the conversation view with message bubbles, streaming token display, message input, and real-time response rendering.
+description: "Built the conversation view with message bubbles, streaming token display, message input, and real-time response rendering."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-030
-depends-on: []
 acceptance:
   - Messages display correctly with role-based styling
   - Streaming tokens appear in real-time
   - Input area supports multi-line text and Enter to send
 relationships:
   - target: EPIC-030
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-320
+    type: depended-on-by
 ---
 ## What
 

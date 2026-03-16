@@ -5,14 +5,14 @@ description: Create a user-prompt-submit hook in the plugin that infers observat
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
   - Plugin hook detects observation-class user prompts and prompts the orchestrator to create IMPL entries
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

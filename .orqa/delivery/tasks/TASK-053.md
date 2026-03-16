@@ -5,14 +5,7 @@ description: Read each old software-specific agent and extract its domain knowle
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-045
-depends-on:
-  - TASK-057
-  - TASK-051
 assignee: AGENT-003
-skills:
-  - SKILL-011
-  - SKILL-029
 acceptance:
   - SKILL-006 skill created (from debugger)
   - SKILL-026 skill created (from refactor-agent)
@@ -27,8 +20,22 @@ acceptance:
   - Each skill follows the SKILL.md format with proper frontmatter
 relationships:
   - target: EPIC-045
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-057
+    type: depends-on
+  - target: TASK-051
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-029
+    type: grounded-by
+  - target: TASK-052
+    type: depended-on-by
+  - target: TASK-056
+    type: depended-on-by
+  - target: TASK-335
+    type: depended-on-by
 ---
 ## Reference
 

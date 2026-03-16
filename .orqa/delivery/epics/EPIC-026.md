@@ -6,57 +6,62 @@ status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07
-milestone: MS-000
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on:
-  - EPIC-025
-blocks:
-  - EPIC-029
-  - EPIC-030
-docs-required: []
-docs-produced:
-  - AD-007
-  - AD-008
-  - AD-009
-  - AD-010
-  - AD-011
-  - AD-012
-  - AD-013
-  - AD-014
-  - AD-015
-  - AD-016
-  - AD-017
-scoring:
-  pillar: 5
-  impact: 5
-  dependency: 3
-  effort: 1
-  score: 34
+scoring: null
 relationships:
   - target: MS-000
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-099
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-100
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-101
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-102
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-316
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: EPIC-025
+    type: depends-on
+  - target: EPIC-029
+    type: depended-on-by
+  - target: EPIC-030
+    type: depended-on-by
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: AD-007
+    type: informed-by
+  - target: AD-008
+    type: informed-by
+  - target: AD-009
+    type: informed-by
+  - target: AD-010
+    type: informed-by
+  - target: AD-011
+    type: informed-by
+  - target: AD-012
+    type: informed-by
+  - target: AD-013
+    type: informed-by
+  - target: AD-014
+    type: informed-by
+  - target: AD-015
+    type: informed-by
+  - target: AD-016
+    type: informed-by
+  - target: AD-017
+    type: informed-by
 ---
 ## Why P1
 

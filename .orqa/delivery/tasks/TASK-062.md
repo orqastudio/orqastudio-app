@@ -5,13 +5,7 @@ description: Update system prompt assembly to inject pillars
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-046
-depends-on:
-  - TASK-058
-  - TASK-059
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - Orchestrator instructions reference pillar artifacts directory
   - System prompt guidance reads pillar titles and test-questions from artifacts
@@ -19,8 +13,16 @@ acceptance:
   - Changing a pillar artifact changes what the AI knows without editing rules
 relationships:
   - target: EPIC-046
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-058
+    type: depends-on
+  - target: TASK-059
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-336
+    type: depended-on-by
 ---
 
 ## What

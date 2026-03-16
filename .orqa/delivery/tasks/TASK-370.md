@@ -5,14 +5,14 @@ description: Add mandatory step to RULE-004 promotion procedure requiring scanni
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
   - RULE-004 promotion procedure includes a mandatory step to scan all ideas for thematic overlap before epic creation
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

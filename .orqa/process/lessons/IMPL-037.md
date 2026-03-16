@@ -1,10 +1,10 @@
 ---
 id: IMPL-037
-title: "App UI save can destructively overwrite project.json with default values"
+title: App UI save can destructively overwrite project.json with default values
 description: "Clicking save in the OrqaStudio app UI overwrote a valid project.json with blank/default values — null description, empty artifacts array, empty frameworks, null custom_system_prompt. The file had to be recovered via git checkout. The pre-commit hook did not catch this because the overwrite happened in-app, not through a git commit."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: understanding
 recurrence: 1
 relationships:

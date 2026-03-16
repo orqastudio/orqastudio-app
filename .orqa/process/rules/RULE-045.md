@@ -1,46 +1,18 @@
 ---
 id: RULE-045
 title: Data Integrity
-description: All artifact cross-references must resolve, pipeline relationships must have bidirectional inverses, and integrity checks run on every commit.
+description: "All artifact cross-references must resolve, pipeline relationships must have bidirectional inverses, and integrity checks run on every commit."
 status: active
 created: 2026-03-13
 updated: 2026-03-14
 layer: core
 enforcement:
-  - event: file
-    paths:
-      - .orqa/**/*.md
-    action: inject
-    message: "GRAPH INTEGRITY: You just modified an artifact. Check that all relationships in the frontmatter have bidirectional inverses on the target artifacts. For every A --type--> B, ensure B --inverse--> A exists. Run 'node tools/verify-links.mjs --check-bidirectional' if modifying multiple artifacts."
-  - event: file
-    paths:
-      - .orqa/**/*.md
-    action: inject
-    skills:
-      - orqa-governance
-    message: Artifact modified — injecting governance patterns for graph integrity maintenance.
+  - "event: file"
+  - ".orqa/**/*.md"
+  - "event: file"
+  - ".orqa/**/*.md"
+  - orqa-governance
 relationships:
-  - type: grounded
-    target: PILLAR-001
-    rationale: Data integrity ensures the artifact graph is trustworthy and navigable
-  - type: informs
-    target: RULE-032
-    rationale: Schema validation is one layer of integrity; link verification is another
-  - type: informs
-    target: RULE-034
-    rationale: Cross-reference format rules are enforced by link verification
-  - type: informs
-    target: RULE-013
-    rationale: Pre-commit enforcement is the mechanism for commit-time integrity checks
-  - type: enforces
-    target: AD-036
-    rationale: Bidirectional link verification ensures every cross-link target resolves — directly enforcing cross-linking as a reliable default
-  - type: enforces
-    target: AD-042
-    rationale: verify-pipeline-integrity.mjs enforces that knowledge pipeline stage transitions have proper bidirectional relationship edges
-  - type: observed-by
-    target: IMPL-055
-    rationale: IMPL-055 identified that commit-time-only enforcement is too late — write-time enforcement added as a result
   - target: RES-056
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from RES-056
@@ -50,12 +22,23 @@ relationships:
   - target: IMPL-058
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-058
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
+  - target: EPIC-059
+    type: informs
+  - target: IMPL-055
+    type: observed-by
+  - target: IMPL-068
+    type: observed-by
+  - target: PILLAR-001
+    type: grounded
+  - target: RULE-013
+    type: informs
+  - target: RULE-032
+    type: informs
+  - target: RULE-034
+    type: informs
 ---
 All artifact cross-references must resolve to existing artifacts. Pipeline relationships must have bidirectional inverses. These constraints are enforced at commit time and can be verified manually.
 
@@ -73,16 +56,16 @@ For every relationship `A --type--> B`, the artifact `B` must have the correspon
 
 | Type | Inverse |
 |------|---------|
-| `belongs-to` | `contains` |
+| `delivers` | `delivered-by` |
 | `delivers` | `delivered-by` |
 | `observes` | `observed-by` |
 | `grounded` | `grounded-by` |
-| `practices` | `practiced-by` |
+| `grounded-by` | `grounded` |
 | `enforces` | `enforced-by` |
-| `verifies` | `verified-by` |
+| `enforces` | `enforced-by` |
 | `informs` | `informed-by` |
-| `scoped-to` | `scoped-by` |
-| `documents` | `documented-by` |
+| `enforces` | `enforced-by` |
+| `informs` | `informed-by` |
 
 One-sided relationships indicate a broken graph edge. The pre-commit hook blocks commits that introduce asymmetric relationships.
 

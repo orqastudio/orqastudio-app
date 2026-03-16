@@ -1,25 +1,24 @@
 ---
 id: TASK-290
 title: Create verification artifact type
-description: Create the VER-NNN artifact type under delivery/verification/ with schema, README, and project.json registration.
+description: "Create the VER-NNN artifact type under delivery/verification/ with schema, README, and project.json registration."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 assignee: null
 docs: []
-skills: []
 acceptance:
   - .orqa/delivery/verification/ directory exists
-  - schema.json defines VER-NNN format with id, title, description, status, verifies, evidence-type, frequency, relationships
-  - README.md has navigation frontmatter (icon, label, description)
+  - "schema.json defines VER-NNN format with id, title, description, status, verifies, evidence-type, frequency, relationships"
+  - "README.md has navigation frontmatter (icon, label, description)"
   - Registered in project.json artifacts array
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

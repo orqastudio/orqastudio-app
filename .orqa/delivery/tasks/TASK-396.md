@@ -5,17 +5,18 @@ description: "Audit all Svelte components in ui/src/lib/components/ for direct i
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-060
-depends-on:
-  - TASK-389
 acceptance:
   - All components in ui/src/lib/components/ audited for invoke() usage
   - Any graph-data invoke() calls identified for migration
   - Result documented
 relationships:
   - target: EPIC-060
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-389
+    type: depends-on
+  - target: TASK-397
+    type: depended-on-by
 ---
 
 ## What

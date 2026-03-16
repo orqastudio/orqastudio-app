@@ -18,9 +18,8 @@ relationships:
   - target: PILLAR-002
     type: grounded
     rationale: Root cause analysis captures failure patterns as reusable knowledge, turning each bug into a lesson that prevents recurrence
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
+  - target: TASK-410
+    type: grounded
 ---
 
 

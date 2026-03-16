@@ -2,8 +2,8 @@
 	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
 	import CheckIcon from "@lucide/svelte/icons/check";
 	import XIcon from "@lucide/svelte/icons/x";
-	import { Button } from "$lib/components/ui/button";
-	import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "$lib/components/ui/card";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { CardRoot as Card, CardContent, CardFooter, CardHeader, CardTitle } from "@orqastudio/svelte-components/pure";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
 	import type { PendingApproval } from "@orqastudio/sdk";
 	import { getToolDisplay, stripToolName } from "$lib/utils/tool-display";

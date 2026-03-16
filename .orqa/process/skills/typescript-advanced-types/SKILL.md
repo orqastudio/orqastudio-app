@@ -1,7 +1,7 @@
 ---
 id: SKILL-034
 title: TypeScript Advanced Types
-description: Master TypeScript's advanced type system including generics, conditional types, mapped types, template literals, and utility types for building type-safe applications. Use when implementing complex type logic, creating reusable type utilities, or ensuring compile-time type safety in TypeScript projects.
+description: "Master TypeScript's advanced type system including generics, conditional types, mapped types, template literals, and utility types for building type-safe applications. Use when implementing complex type logic, creating reusable type utilities, or ensuring compile-time type safety in TypeScript projects."
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -12,15 +12,28 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Generics, conditional types, and mapped types encode domain constraints at compile time, making invalid states unrepresentable
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-075
+    type: grounded
+  - target: TASK-078
+    type: grounded
+  - target: TASK-417
+    type: grounded
+  - target: TASK-418
+    type: grounded
+  - target: TASK-419
+    type: grounded
+  - target: TASK-420
+    type: grounded
+  - target: TASK-424
+    type: grounded
+  - target: TASK-425
+    type: grounded
+  - target: TASK-426
+    type: grounded
+  - target: TASK-427
+    type: grounded
+  - target: TASK-428
+    type: grounded
 ---
 
 

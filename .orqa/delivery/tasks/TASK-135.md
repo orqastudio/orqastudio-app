@@ -5,16 +5,16 @@ description: Built the recommendation engine that generates structured suggestio
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-031
-depends-on: []
 acceptance:
   - Recommendations are generated from analysis results
-  - Each recommendation has priority, category, and actionable text
+  - "Each recommendation has priority, category, and actionable text"
   - Recommendations persist across sessions
 relationships:
   - target: EPIC-031
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-321
+    type: depended-on-by
 ---
 ## What
 

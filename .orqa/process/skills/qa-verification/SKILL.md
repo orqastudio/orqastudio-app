@@ -18,9 +18,6 @@ relationships:
   - target: PILLAR-002
     type: grounded
     rationale: The 'Would It Work' protocol traces features end-to-end, turning verification failures into documented patterns that prevent recurrence
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
 ---
 
 

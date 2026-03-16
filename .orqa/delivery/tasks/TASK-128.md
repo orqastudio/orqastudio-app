@@ -1,20 +1,20 @@
 ---
 id: TASK-128
 title: Implement four-zone layout and sidebar
-description: Built the desktop layout with toolbar, sidebar navigation, main content area, and status bar with resizable panels.
+description: "Built the desktop layout with toolbar, sidebar navigation, main content area, and status bar with resizable panels."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-030
-depends-on: []
 acceptance:
   - Four-zone layout renders correctly at all supported sizes
   - Sidebar navigation is functional
   - Panel resizing works smoothly
 relationships:
   - target: EPIC-030
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-320
+    type: depended-on-by
 ---
 ## What
 

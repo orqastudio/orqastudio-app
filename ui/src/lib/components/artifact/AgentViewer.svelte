@@ -1,6 +1,6 @@
 <script lang="ts">
-	import SmallBadge from "$lib/components/shared/SmallBadge.svelte";
-	import MetadataRow from "$lib/components/shared/MetadataRow.svelte";
+	import { SmallBadge } from "@orqastudio/svelte-components/pure";
+	import { MetadataRow } from "@orqastudio/svelte-components/pure";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import { parseFrontmatter } from "$lib/utils/frontmatter";
 	import { getStores } from "@orqastudio/sdk";

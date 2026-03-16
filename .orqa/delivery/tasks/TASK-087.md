@@ -1,20 +1,24 @@
 ---
 id: TASK-087
 title: Audit hooks for correctness
-description: Verify all hook scripts in .orqa/process/hooks/ exist, are executable, reference correct paths, and function as intended.
+description: "Verify all hook scripts in .orqa/process/hooks/ exist, are executable, reference correct paths, and function as intended."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - All hook scripts exist and have correct permissions
   - All paths in hook scripts resolve to existing files
   - Hook trigger events match Tauri/Claude Code event names
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-088
+    type: depended-on-by
+  - target: TASK-089
+    type: depended-on-by
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

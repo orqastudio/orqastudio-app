@@ -1,19 +1,12 @@
 ---
 id: TASK-179
 title: Implement agent and skill loading from .orqa/process/
-description: Plugin loads agent definitions and skills directly from .orqa/process/, replacing .claude/ symlinks.
+description: "Plugin loads agent definitions and skills directly from .orqa/process/, replacing .claude/ symlinks."
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-050
-depends-on:
-  - TASK-177
-  - TASK-173
 assignee: AGENT-002
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-011
 acceptance:
   - Plugin exposes .orqa/process/agents/ as plugin agents directory
   - Plugin exposes .orqa/process/skills/ as plugin skills directory
@@ -22,8 +15,20 @@ acceptance:
   - No .claude/ symlinks required for agent or skill loading
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-177
+    type: depends-on
+  - target: TASK-173
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-185
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

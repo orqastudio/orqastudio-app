@@ -30,7 +30,7 @@
 	import BookMarkedIcon from "@lucide/svelte/icons/book-marked";
 	import MegaphoneIcon from "@lucide/svelte/icons/megaphone";
 	import AnchorIcon from "@lucide/svelte/icons/anchor";
-	import * as Tooltip from "$lib/components/ui/tooltip";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { navigationStore, projectStore, artifactStore } = getStores();
@@ -113,8 +113,8 @@
 <div class="flex flex-col">
 	{#if group === "delivery"}
 		{@const isRoadmapActive = activeSubCategory === "roadmap"}
-		<Tooltip.Root>
-			<Tooltip.Trigger class="w-full">
+		<TooltipRoot>
+			<TooltipTrigger class="w-full">
 				{#snippet child({ props })}
 					<button
 						{...props}
@@ -128,14 +128,14 @@
 						<span class="truncate">Roadmap</span>
 					</button>
 				{/snippet}
-			</Tooltip.Trigger>
-		</Tooltip.Root>
+			</TooltipTrigger>
+		</TooltipRoot>
 	{/if}
 	{#each subCategories as sub (sub.key)}
 		{@const SubIcon = resolveIcon(getSubCategoryIcon(sub.key))}
 		{@const isActive = activeSubCategory === sub.key}
-		<Tooltip.Root>
-			<Tooltip.Trigger class="w-full">
+		<TooltipRoot>
+			<TooltipTrigger class="w-full">
 				{#snippet child({ props })}
 					<button
 						{...props}
@@ -149,7 +149,7 @@
 						<span class="truncate">{sub.label}</span>
 					</button>
 				{/snippet}
-			</Tooltip.Trigger>
-		</Tooltip.Root>
+			</TooltipTrigger>
+		</TooltipRoot>
 	{/each}
 </div>

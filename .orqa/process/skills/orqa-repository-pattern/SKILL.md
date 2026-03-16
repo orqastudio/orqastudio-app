@@ -13,22 +13,15 @@ updated: 2026-03-10
 layer: project
 category: domain
 file-patterns:
-  - backend/src-tauri/src/repo/**
+  - "backend/src-tauri/src/repo/**"
 version: 1.0.0
 user-invocable: true
 relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Repository trait abstraction isolates persistence from domain logic, making data access patterns explicit and testable
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informs
-    target: DOC-013
-    rationale: Repository pattern skill defines the data access conventions that the SQLite schema document supports
+  - target: TASK-029
+    type: grounded
 ---
 
 

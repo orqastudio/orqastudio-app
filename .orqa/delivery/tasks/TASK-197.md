@@ -7,17 +7,20 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-195
 acceptance:
   - plan-before-build gate fires on code write without prior epic/task reads
   - structure-before-code gate fires on code write without .orqa/delivery/ reads
   - Gates fire only once per session
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-195
+    type: depends-on
+  - target: TASK-207
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

@@ -1,7 +1,7 @@
 ---
 id: RULE-004
 title: Artifact Lifecycle
-description: Enforces creation standards, status transitions, promotion gates, and documentation gates for all .orqa/ artifacts.
+description: "Enforces creation standards, status transitions, promotion gates, and documentation gates for all .orqa/ artifacts."
 status: active
 created: 2026-03-07
 updated: 2026-03-13
@@ -28,78 +28,27 @@ relationships:
   - target: RULE-015
     type: informs
     rationale: Artifact status must reflect reality — honest reporting is required for lifecycle transitions
-  - type: informed-by
-    target: RULE-008
-    rationale: Documentation-first defines the docs-required and docs-produced gates this rule enforces
-  - type: informed-by
-    target: RULE-014
-    rationale: Historical preservation rules define which artifact types are deleted vs preserved
-  - type: informed-by
-    target: RULE-016
-    rationale: ID semantics inform how IDs are assigned and interpreted in the lifecycle
-  - type: informed-by
-    target: RULE-019
-    rationale: No-deferred-deliverables enforces completion before epic status transitions to done
-  - type: informed-by
-    target: RULE-021
-    rationale: Pillar alignment docs rules apply at the docs-produced gate
-  - type: informed-by
-    target: RULE-022
-    rationale: Plan compliance verification gates align with lifecycle transition requirements
-  - type: informed-by
-    target: RULE-027
-    rationale: Structure-before-work requires artifacts to exist before implementation begins
-  - type: informed-by
-    target: RULE-031
-    rationale: Vision alignment requirements apply at artifact creation and promotion gates
-  - type: informed-by
-    target: RULE-032
-    rationale: Schema validation enforces required field completeness at each lifecycle stage
-  - type: enforces
-    target: AD-040
-    rationale: AD-040 established the structure-before-work principle that artifact lifecycle gates enforce mechanically
-  - type: grounded
-    target: IMPL-014
-    rationale: Lesson IMPL-014 identified recurring lifecycle gate violations that shaped the non-negotiable transition rules
   - target: IMPL-014
     type: observes
     rationale: Rule promoted from lesson IMPL-014 (epic titles should describe outcomes not process)
   - target: IMPL-021
     type: observes
     rationale: Rule updated from lesson IMPL-021 (open items discovered during implementation need tracking)
-  - type: grounded
-    target: IMPL-021
-    rationale: Lesson IMPL-021 identified the structure-during-work gap and observation triage protocol
   - target: IMPL-022
     type: observes
     rationale: Rule updated from lesson IMPL-022 (epics with all tasks done should surface for user review)
-  - type: grounded
-    target: IMPL-022
-    rationale: Lesson IMPL-022 identified that epic completion visibility requires automatic surfacing
   - target: IMPL-025
     type: observes
     rationale: Rule updated from lesson IMPL-025 (observations must flow forward via triage task)
-  - type: grounded
-    target: IMPL-025
-    rationale: Lesson IMPL-025 identified that every epic producing observations needs a triage task
   - target: IMPL-038
     type: observes
     rationale: Rule updated from lesson IMPL-038 (observation capture is not scope creep — scope at triage)
-  - type: grounded
-    target: IMPL-038
-    rationale: Lesson IMPL-038 clarified that capture and scope decisions must be separated in the triage protocol
   - target: IMPL-042
     type: observes
     rationale: Rule updated from lesson IMPL-042 (epic body drifts from actual work without standing reconciliation task)
-  - type: grounded
-    target: IMPL-042
-    rationale: Lesson IMPL-042 identified the epic body drift pattern and standing reconciliation task solution
   - target: IMPL-044
     type: observes
     rationale: Rule updated from lesson IMPL-044 (idea promotion should scan for related ideas to bundle)
-  - type: grounded
-    target: IMPL-044
-    rationale: Lesson IMPL-044 identified that idea promotion should include a related-ideas scan step
   - target: IMPL-044
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-044
@@ -136,24 +85,55 @@ relationships:
   - target: AD-023
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-023
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
   - target: DOC-015
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Sub-Agent Support Architecture
   - target: DOC-025
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Workflow
   - target: DOC-035
-    type: documented-by
+    type: informed-by
     rationale: workflow.md documents the task process and status transitions that this rule governs
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: artifact-framework.md is the source-of-truth document for artifact lifecycle this rule enforces
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
+  - target: AD-040
+    type: enforces
+  - target: IMPL-021
+    type: grounded
+  - target: IMPL-022
+    type: grounded
+  - target: IMPL-025
+    type: grounded
+  - target: IMPL-038
+    type: grounded
+  - target: IMPL-042
+    type: grounded
+  - target: IMPL-044
+    type: grounded
+  - target: IMPL-070
+    type: observed-by
+  - target: RULE-008
+    type: informed-by
+  - target: RULE-014
+    type: informed-by
+  - target: RULE-016
+    type: informed-by
+  - target: RULE-019
+    type: informed-by
+  - target: RULE-021
+    type: informed-by
+  - target: RULE-022
+    type: informed-by
+  - target: RULE-027
+    type: informed-by
+  - target: RULE-031
+    type: informed-by
+  - target: RULE-032
+    type: informed-by
 ---
 Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enforces creation standards, status transitions, promotion gates, documentation gates, and cross-referencing.
 
@@ -169,7 +149,7 @@ Every structured artifact in `.orqa/` follows a defined lifecycle. This rule enf
 |---------|--------------|--------|
 | User mentions a future feature or "we should eventually..." | `IDEA-NNN` | Create in `.orqa/delivery/ideas/` with `status: captured` |
 | User approves an idea for investigation | Update existing `IDEA-NNN` | Set `status: exploring`, begin research |
-| Research validates an idea for implementation | `EPIC-NNN` | Create in `.orqa/delivery/epics/` with `status: draft`, update idea `promoted-to` |
+| Research validates an idea for implementation | `EPIC-NNN` | Create in `.orqa/delivery/epics/` with `status: draft`, update idea `evolves-into` |
 | An epic needs investigation work before implementation | Research file | Create in `.orqa/delivery/research/`; reference from epic `research-refs` field. Implementation design goes in the epic body. |
 | An epic is approved and scoped for implementation | Update `EPIC-NNN` | Set `status: ready` (requires `docs-required` gate satisfied) |
 | A task within an epic needs detailed tracking | `TASK-NNN` | Create in `.orqa/delivery/tasks/` with `epic:` reference |
@@ -292,8 +272,8 @@ Any state ──> archived
 
 - `captured → exploring`: User approves investigation. Research begins on `research-needed` items.
 - `exploring → shaped`: All `research-needed` items have been investigated. Research artifacts exist. The idea has a clear scope and proposed approach.
-- `shaped → promoted`: User approves promotion. An `EPIC-NNN` is created. The idea's `promoted-to` field is set to the epic ID.
-- `promoted → delivered`: The epic referenced by `promoted-to` has `status: done` and all scope from the original idea has been implemented. **Automated**: the integrity engine transitions this when the epic is done.
+- `shaped → promoted`: User approves promotion. An `EPIC-NNN` is created. The idea's `evolves-into` field is set to the epic ID.
+- `promoted → delivered`: The epic referenced by `evolves-into` has `status: done` and all scope from the original idea has been implemented. **Automated**: the integrity engine transitions this when the epic is done.
 - `promoted → partially-delivered`: The epic is `done` but only part of the idea's scope was delivered. The user is prompted to either discard the remaining scope or spin off a new idea (`IDEA-NNN`) for the undelivered portion.
 - `shaped → archived`: User decides not to pursue. Reason documented in the idea body.
 - Any state → `archived`: User explicitly archives. "Not now, maybe later."
@@ -389,7 +369,7 @@ Before creating the promotion epic, the orchestrator MUST:
 1. Scan all `IDEA-NNN.md` files in `.orqa/delivery/ideas/` with status `captured`, `exploring`, or `shaped`
 2. Identify ideas with thematic overlap (similar title, description, or pillar alignment)
 3. Present related ideas to the user with a recommendation: bundle into the same epic, or note as separate scope
-4. If the user chooses to bundle, include the related ideas' scope in the epic and set their `promoted-to` fields
+4. If the user chooses to bundle, include the related ideas' scope in the epic and set their `evolves-into` fields
 5. If the user chooses to keep separate, document the relationship in the epic body for future reference
 
 This prevents the pattern where multiple ideas addressing the same capability are promoted as separate epics that could have been a single coherent effort.
@@ -500,7 +480,7 @@ An artifact is **placed** if any of these conditions hold:
 |----------|-----------------|-------------------|
 | **Epic** | Has `milestone` set | — |
 | **Task** | Has `milestone` set | Has `epic` → that epic has `milestone` |
-| **Idea** | Has `milestone` set | Has `promoted-to` → that epic has `milestone` |
+| **Idea** | Has `milestone` set | Has `evolves-into` → that epic has `milestone` |
 
 If none of the above → the artifact MUST have a `horizon` field:
 
@@ -516,7 +496,7 @@ If none of the above → the artifact MUST have a `horizon` field:
 
 The integrity engine SHOULD automate these transitions:
 
-1. **Idea delivery**: When an epic reaches `done`, all ideas with `promoted-to` pointing to it transition to `delivered` (if fully covered) or `partially-delivered` (if only partly covered)
+1. **Idea delivery**: When an epic reaches `done`, all ideas with `evolves-into` pointing to it transition to `delivered` (if fully covered) or `partially-delivered` (if only partly covered)
 2. **Untriaged flagging**: Any planning artifact with no milestone (direct or indirect) and no horizon is flagged as untriaged
 3. **Milestone transition review**: When a milestone moves to `complete`, all `horizon: next` artifacts are surfaced for triage — should they become `active` for the new milestone?
 
@@ -527,7 +507,7 @@ The integrity engine SHOULD automate these transitions:
 The orchestrator SHOULD periodically verify:
 
 1. **No orphaned artifacts** — every epic references an existing milestone, every task references an existing epic
-2. **No broken references** — `depends-on`, `blocks`, `promoted-to`, `research-refs`, `supersedes`, `superseded-by` all point to existing artifacts
+2. **No broken references** — `depends-on`, `blocks`, `evolves-into`, `research-refs`, `evolves-into`, `evolves-from` all point to existing artifacts
 3. **Status consistency** — a milestone marked `active` has at least one `in-progress` or `ready` epic
 4. **Frontmatter completeness** — all required fields are present and non-empty
 5. **Research-refs / docs-required consistency** — every `RES-NNN` in `research-refs` either appears in `docs-required` or has a documented reason for omission
@@ -543,7 +523,7 @@ The orchestrator SHOULD periodically verify:
 - Starting implementation on an epic whose `docs-required` gate is not satisfied
 - Promoting an idea directly to `promoted` from `captured` (skipping research)
 - Marking a milestone complete when P1 epics are not done
-- Leaving `promoted-to` null on an idea with `status: promoted`
+- Leaving `evolves-into` null on an idea with `status: promoted`
 - Creating duplicate IDs (two artifacts with the same ID)
 - Modifying artifact IDs after creation
 - Recording an architecture decision without a corresponding `AD-NNN.md` file in `.orqa/process/decisions/`

@@ -5,14 +5,15 @@ description: 4 different dimension sets exist. Choose canonical set and backfill
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - All epics use same scoring dimension keys
   - Priority bands comparable across all epics
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

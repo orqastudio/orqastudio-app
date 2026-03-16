@@ -5,13 +5,7 @@ description: Style unresolvable artifact IDs as broken links with warning colour
 status: completed
 created: 2026-03-10
 updated: 2026-03-10
-epic: EPIC-048
-depends-on:
-  - TASK-083
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-031
 acceptance:
   - ArtifactLink renders broken state when artifactGraph.resolve(id) returns undefined
   - Broken links use broken-link Lucide icon and app warning colour token
@@ -19,8 +13,16 @@ acceptance:
   - Working links unchanged in appearance
 relationships:
   - target: EPIC-048
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-083
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-031
+    type: grounded-by
+  - target: TASK-338
+    type: depended-on-by
 ---
 
 ## What

@@ -1,26 +1,31 @@
 ---
 id: TASK-498
-title: "Build headless Cytoscape analysis in artifact graph SDK"
+title: Build headless Cytoscape analysis in artifact graph SDK
 description: "Extend the artifactGraphSDK with a headless Cytoscape instance for graph-theoretic analysis. Exposes graph health metrics (component count, orphans, average degree, largest component ratio) as reactive properties recomputed whenever graph data changes."
 status: ready
 priority: P1
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-076
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on: []
 acceptance:
-  - "artifactGraphSDK has a buildAnalysisCy() method that creates a headless cytoscape instance from graph data"
+  - artifactGraphSDK has a buildAnalysisCy() method that creates a headless cytoscape instance from graph data
   - "graphHealth reactive property exposes: componentCount, orphanCount, orphanPercentage, avgDegree, largestComponentRatio"
-  - "Analysis re-runs when graph data changes"
+  - Analysis re-runs when graph data changes
   - "No DOM rendering — headless: true"
-  - "cy.destroy() called on cleanup"
+  - cy.destroy() called on cleanup
 relationships:
-  - type: delivers
-    target: EPIC-076
-  - type: belongs-to
-    target: EPIC-076
+  - target: EPIC-076
+    type: delivers
+  - target: TASK-499
+    type: depended-on-by
+  - target: TASK-500
+    type: depended-on-by
+  - target: TASK-501
+    type: depended-on-by
+  - target: TASK-502
+    type: depended-on-by
+  - target: TASK-503
+    type: depended-on-by
 ---
 
 ## What

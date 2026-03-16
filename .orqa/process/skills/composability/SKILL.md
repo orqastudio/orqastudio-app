@@ -18,29 +18,42 @@ relationships:
     type: grounded
     rationale: Small, pure, swappable units make system boundaries visible and each piece independently understandable
   - target: AD-017
-    type: practiced-by
+    type: grounded
     rationale: AD-017 (Composability Principle) is the architectural decision that this skill operationalises — agents load this skill to apply the composability decision in their work
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: TASK-024
+    type: grounded
+  - target: TASK-025
+    type: grounded
+  - target: TASK-037
+    type: grounded
+  - target: TASK-038
+    type: grounded
+  - target: TASK-039
+    type: grounded
+  - target: TASK-041
+    type: grounded
+  - target: TASK-042
+    type: grounded
+  - target: TASK-043
+    type: grounded
+  - target: TASK-045
+    type: grounded
+  - target: AGENT-001
+    type: grounded
+  - target: AGENT-008
+    type: grounded
+  - target: AGENT-002
+    type: grounded
+  - target: AGENT-003
+    type: grounded
+  - target: AGENT-004
+    type: grounded
+  - target: AGENT-005
+    type: grounded
+  - target: AGENT-006
+    type: grounded
+  - target: AGENT-007
+    type: grounded
 ---
 
 Software is built from small, composable units at every level: functions, modules, features, and integrations. This skill teaches the composability philosophy that shapes all code in a well-structured project.

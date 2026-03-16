@@ -5,8 +5,6 @@ description: Pre-commit hook that greps staged production files for TODO/FIXME/H
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - Hook blocks commits containing TODO/FIXME/HACK in production source files
   - Test files are excluded from scanning
@@ -14,8 +12,10 @@ acceptance:
   - RULE-020 updated to reference the hook
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

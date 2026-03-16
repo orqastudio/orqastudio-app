@@ -5,9 +5,6 @@ description: Relocate scripts/dev.mjs and scripts/dev-dashboard.html to debugger
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-056
-depends-on:
-  - TASK-255
 acceptance:
   - scripts/dev.mjs moved to debugger/dev.mjs
   - scripts/dev-dashboard.html moved to debugger/dev-dashboard.html
@@ -17,8 +14,14 @@ acceptance:
   - scripts/ directory removed if empty
 relationships:
   - target: EPIC-056
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-255
+    type: depends-on
+  - target: TASK-257
+    type: depended-on-by
+  - target: TASK-346
+    type: depended-on-by
 ---
 
 ## What

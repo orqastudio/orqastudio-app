@@ -1,16 +1,12 @@
 ---
 id: TASK-456
 title: Roadmap kanban view
-description: Create a dynamic kanban board showing milestones as columns with epic cards, with drill-down capability.
+description: "Create a dynamic kanban board showing milestones as columns with epic cards, with drill-down capability."
 status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-072
-depends-on:
-  - TASK-429
 assignee: null
-skills: []
 acceptance:
   - Dynamic kanban board showing milestones as columns with epic cards
   - Drill-down into milestone shows epics
@@ -20,9 +16,10 @@ relationships:
   - target: EPIC-072
     type: delivers
     rationale: Kanban view provides spatial overview of roadmap progress
-  - target: EPIC-072
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-429
+    type: depends-on
+  - target: TASK-457
+    type: depended-on-by
 ---
 
 ## Scope

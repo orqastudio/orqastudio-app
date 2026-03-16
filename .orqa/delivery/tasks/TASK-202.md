@@ -8,16 +8,18 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on: []
 acceptance:
   - Every RULE-006 standard has a corresponding linter rule or agent discipline note
   - lint enforcement entries added and validate against schema
   - Skills reference correct linter configs
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-203
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

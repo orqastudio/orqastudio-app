@@ -1,18 +1,11 @@
 ---
 id: TASK-214
 title: Plugin reads task docs and skills fields for context injection
-description: Update the companion plugin to read task docs and skills fields from YAML frontmatter, loading referenced documentation and skills into agent context automatically.
+description: "Update the companion plugin to read task docs and skills fields from YAML frontmatter, loading referenced documentation and skills into agent context automatically."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on:
-  - TASK-208
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-045
-  - SKILL-011
 acceptance:
   - Plugin loads docs listed in task.docs into agent context
   - Plugin loads skills listed in task.skills
@@ -20,8 +13,22 @@ acceptance:
   - Works with existing plugin infrastructure from EPIC-050
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-208
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-045
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-219
+    type: depended-on-by
+  - target: TASK-220
+    type: depended-on-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

@@ -5,14 +5,16 @@ description: Define enforcement mechanisms for behavioral rules enforced via dom
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
-  - Enforcement plan documented for all skill-injection-enforced behavioral rules (RULE-002, RULE-008, RULE-011, RULE-028, RULE-030)
+  - "Enforcement plan documented for all skill-injection-enforced behavioral rules (RULE-002, RULE-008, RULE-011, RULE-028, RULE-030)"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
+  - target: TASK-383
+    type: depended-on-by
 ---
 
 ## What

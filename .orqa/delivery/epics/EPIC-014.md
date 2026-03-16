@@ -1,31 +1,23 @@
 ---
 id: EPIC-014
 title: Project Type System
-description: Add a project type system so OrqaStudio adapts its agents, tools, and scanning to the domain (software, research, product, personal).
+description: "Add a project type system so OrqaStudio adapts its agents, tools, and scanning to the domain (software, research, product, personal)."
 status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on: []
-blocks: []
-docs-required: []
-docs-produced:
-  - AD-029
-  - AD-030
-scoring:
-  pillar: 4
-  impact: 5
-  dependency: 3
-  effort: 3
-  score: 10.3
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-029
+    type: informed-by
+  - target: AD-030
+    type: informed-by
 ---
 ## Why P1
 

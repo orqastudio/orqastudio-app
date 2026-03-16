@@ -2,8 +2,8 @@
 	import type { ArtifactNode } from "@orqastudio/types";
 	import CollapsibleColumn from "./CollapsibleColumn.svelte";
 	import KanbanCard from "./KanbanCard.svelte";
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import LayersIcon from "@lucide/svelte/icons/layers";
 	import CircleCheckBigIcon from "@lucide/svelte/icons/circle-check-big";
 

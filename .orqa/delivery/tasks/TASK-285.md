@@ -5,13 +5,8 @@ description: "Codify data integrity requirements: all cross-references must reso
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-283
-  - TASK-284
 assignee: null
 docs: []
-skills: []
 acceptance:
   - RULE-045 exists in .orqa/process/rules/
   - "Rule covers: link resolution, bidirectional inverses, pre-commit enforcement, make verify"
@@ -19,8 +14,22 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-283
+    type: depends-on
+  - target: TASK-284
+    type: depends-on
+  - target: TASK-293
+    type: depended-on-by
+  - target: TASK-294
+    type: depended-on-by
+  - target: TASK-296
+    type: depended-on-by
+  - target: TASK-297
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

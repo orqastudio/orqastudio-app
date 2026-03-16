@@ -1,8 +1,7 @@
 ---
 id: IMPL-001
 title: Vite Optimize After New Dependencies
-description: |
-  After installing new npm dependencies, run npx vite optimize before starting the dev server to avoid WebView2 white screen on Windows.
+description: "After installing new npm dependencies, run npx vite optimize before starting the dev server to avoid WebView2 white screen on Windows."
 status: active
 created: 2026-03-07
 updated: 2026-03-07
@@ -13,16 +12,16 @@ relationships:
     type: grounded
     rationale: Dev environment reliability is structural clarity
   - target: DOC-005
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page IPC Command Catalog
   - target: DOC-006
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Lesson Promotion Pipeline Architecture
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
   - target: DOC-039
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Product Governance
 ---
 ## Pattern

@@ -5,11 +5,7 @@ description: Identifies and resolves memory growth during extended artifact brow
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-043
 assignee: AGENT-002
-skills:
-  - SKILL-005
-  - SKILL-008
 acceptance:
   - MarkdownRenderer cleans up event listeners on content change and unmount
   - Artifact viewer cache has an eviction policy (e.g.
@@ -18,8 +14,14 @@ acceptance:
   - No crash or freeze during extended artifact browsing sessions
 relationships:
   - target: EPIC-043
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: TASK-333
+    type: depended-on-by
 ---
 ## Findings Addressed
 

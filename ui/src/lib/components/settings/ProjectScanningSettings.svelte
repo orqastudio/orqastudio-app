@@ -1,11 +1,11 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Badge } from "$lib/components/ui/badge";
-	import { Button } from "$lib/components/ui/button";
-	import { Separator } from "$lib/components/ui/separator";
-	import { Input } from "$lib/components/ui/input";
-	import { Textarea } from "$lib/components/ui/textarea";
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
+	import { Input } from "@orqastudio/svelte-components/pure";
+	import { Textarea } from "@orqastudio/svelte-components/pure";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
 	import RefreshCwIcon from "@lucide/svelte/icons/refresh-cw";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import XIcon from "@lucide/svelte/icons/x";
@@ -82,12 +82,12 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Model & Scanning</Card.Title>
-		<Card.Description>Default model, excluded paths, and detected project stack</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Model & Scanning</CardTitle>
+		<CardDescription>Default model, excluded paths, and detected project stack</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		<div>
 			<span class="text-sm font-medium">Default Model</span>
 			<div class="mt-1">
@@ -232,5 +232,5 @@
 				<p class="text-xs text-muted-foreground">No scan results yet. Click Scan to detect your project stack.</p>
 			</div>
 		{/if}
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

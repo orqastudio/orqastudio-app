@@ -6,11 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-067
-depends-on:
-  - TASK-429
 assignee: null
-skills: []
 acceptance:
   - Project settings has config for relationship chip display — choose title or id as primary content per artifact type
   - Default is title
@@ -18,9 +14,8 @@ relationships:
   - target: EPIC-067
     type: delivers
     rationale: Configurable chip display lets users choose the most useful identifier per type
-  - target: EPIC-067
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-429
+    type: depends-on
 ---
 
 ## Scope

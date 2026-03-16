@@ -7,46 +7,16 @@ created: 2026-03-07
 updated: 2026-03-13
 layer: project
 enforcement:
-  - event: lint
-    pattern: clippy::unwrap_used
-    action: warn
-    message: No unwrap() in production Rust — enforced by clippy pedantic. Allowed in tests.
-  - event: lint
-    pattern: clippy::expect_used
-    action: warn
-    message: No expect() in production Rust — enforced by clippy pedantic. Allowed in tests.
-  - event: lint
-    pattern: clippy::panic
-    action: warn
-    message: No panic!() in production Rust — enforced by clippy pedantic. Allowed in tests.
-  - event: lint
-    pattern: rustfmt
-    action: warn
-    message: All Rust code must pass rustfmt — enforced by make format-check.
-  - event: lint
-    pattern: clippy::too_many_lines
-    action: warn
-    message: Functions must be <=50 lines — enforced by clippy.
-  - event: lint
-    pattern: "@typescript-eslint/no-explicit-any"
-    action: warn
-    message: No 'any' types in TypeScript — enforced by typescript-eslint recommended.
-  - event: lint
-    pattern: "@typescript-eslint/no-unused-vars"
-    action: warn
-    message: No unused variables — enforced by typescript-eslint recommended.
-  - event: lint
-    pattern: svelte/no-reactive-declaration
-    action: warn
-    message: No Svelte 4 reactive declarations ($:) — enforced by eslint-plugin-svelte.
-  - event: lint
-    pattern: svelte-check
-    action: warn
-    message: Strict TypeScript in Svelte — enforced by svelte-check via make typecheck.
-  - event: lint
-    pattern: validate-schema.mjs
-    action: warn
-    message: Artifact frontmatter must validate against schema.json — enforced by pre-commit hook.
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
+  - "event: lint"
 relationships:
   - target: PILLAR-001
     type: grounded
@@ -63,51 +33,6 @@ relationships:
   - target: RULE-005
     type: informs
     rationale: Coding standards mandate semantic search before creating new code
-  - type: informed-by
-    target: RULE-007
-    rationale: Make targets enforce the command invocations that apply coding standards
-  - type: informed-by
-    target: RULE-008
-    rationale: Documentation-first requires reading the source-of-truth coding standards doc before implementing
-  - type: informed-by
-    target: RULE-009
-    rationale: Dogfood mode applies these coding standards regardless of self-modification context
-  - type: informed-by
-    target: RULE-012
-    rationale: Error ownership requires fixing coding standard violations even in unmodified files
-  - type: informed-by
-    target: RULE-013
-    rationale: Git workflow enforces coding standards via pre-commit hooks
-  - type: informed-by
-    target: RULE-022
-    rationale: Plan compliance requires implementations to meet coding standards
-  - type: informed-by
-    target: RULE-023
-    rationale: Required reading includes coding standards before any implementation work
-  - type: informed-by
-    target: RULE-024
-    rationale: Reusable components rule applies the component usage standards defined here
-  - type: informed-by
-    target: RULE-033
-    rationale: Tooltip rule is a specific component standard within the broader coding standards
-  - type: informed-by
-    target: RULE-042
-    rationale: Skill injection automates loading of coding-standard knowledge at write time
-  - type: informed-by
-    target: RULE-043
-    rationale: Tooling ecosystem maps these standards to linter configurations
-  - type: enforces
-    target: AD-003
-    rationale: Clippy lint entries (unwrap_used, expect_used, panic) mechanically enforce the Result-based error propagation decision
-  - type: enforces
-    target: AD-004
-    rationale: ESLint svelte/no-reactive-declaration and svelte-check enforce Svelte 5 runes-only decision
-  - type: enforces
-    target: AD-006
-    rationale: Component purity standard (no invoke() in $lib/components/) is a coding standard enforced by this rule
-  - type: enforces
-    target: AD-026
-    rationale: Function size limits (clippy::too_many_lines, <=50 lines) mechanically prevent command handlers from becoming monolithic — forcing domain service extraction
   - target: AD-013
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-013
@@ -120,20 +45,11 @@ relationships:
   - target: AD-047
     type: enforced-by
     rationale: Auto-generated inverse of enforced-by relationship from AD-047
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
   - target: DOC-002
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Enforcement Architecture
   - target: DOC-021
-    type: documented-by
+    type: informed-by
     rationale: coding-standards.md is the source-of-truth document this rule references and enforces
   - target: DOC-074
     type: informs
@@ -141,6 +57,34 @@ relationships:
   - target: DOC-073
     type: informs
     rationale: "Auto-generated inverse of informs relationship from DOC-073"
+  - target: AD-003
+    type: enforces
+  - target: AD-004
+    type: enforces
+  - target: AD-006
+    type: enforces
+  - target: RULE-007
+    type: informed-by
+  - target: RULE-008
+    type: informed-by
+  - target: RULE-009
+    type: informed-by
+  - target: RULE-012
+    type: informed-by
+  - target: RULE-013
+    type: informed-by
+  - target: RULE-022
+    type: informed-by
+  - target: RULE-023
+    type: informed-by
+  - target: RULE-024
+    type: informed-by
+  - target: RULE-033
+    type: informed-by
+  - target: RULE-042
+    type: informed-by
+  - target: RULE-043
+    type: informed-by
 ---
 **Source of Truth:** `.orqa/documentation/development/coding-standards.md`
 

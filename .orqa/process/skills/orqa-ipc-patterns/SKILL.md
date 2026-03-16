@@ -12,7 +12,7 @@ updated: 2026-03-10
 layer: project
 category: domain
 file-patterns:
-  - backend/src-tauri/src/commands/**
+  - "backend/src-tauri/src/commands/**"
 version: 1.0.0
 user-invocable: true
 relationships:
@@ -20,17 +20,28 @@ relationships:
     type: grounded
     rationale: Tauri invoke() contracts with matching Rust and TypeScript types make the frontend-backend boundary explicit and type-safe
   - target: AD-010
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-010
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informs
-    target: DOC-005
-    rationale: IPC patterns skill defines the Tauri invoke contract that the IPC command catalog documents
+  - target: TASK-007
+    type: grounded
+  - target: TASK-008
+    type: grounded
+  - target: TASK-020
+    type: grounded
+  - target: TASK-021
+    type: grounded
+  - target: TASK-029
+    type: grounded
+  - target: TASK-074
+    type: grounded
+  - target: TASK-176
+    type: grounded
+  - target: TASK-189
+    type: grounded
+  - target: TASK-190
+    type: grounded
+  - target: TASK-415
+    type: grounded
 ---
 OrqaStudio uses Tauri v2's `invoke()` as the ONLY interface between the Svelte frontend and the Rust backend. There are no HTTP servers, no direct FFI calls, and no side channels.
 

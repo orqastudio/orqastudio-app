@@ -1,28 +1,37 @@
 ---
 id: TASK-171
 title: Create capability vocabulary rule (RULE-040)
-description: Create a rule defining the abstract capability vocabulary, provider mapping tables, and delegation resolution protocol.
+description: "Create a rule defining the abstract capability vocabulary, provider mapping tables, and delegation resolution protocol."
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-051
-depends-on: []
 assignee: AGENT-003
 docs:
   - DOC-036
-skills:
-  - SKILL-011
-  - SKILL-037
 acceptance:
-  - Rule defines the canonical capability vocabulary (file_read, file_write, etc.)
+  - "Rule defines the canonical capability vocabulary (file_read, file_write, etc.)"
   - Rule contains provider mapping tables for Claude Code CLI and OrqaStudio App
   - Rule specifies the orchestrator delegation protocol for capability resolution
   - Rule includes detection mechanism for determining current context
   - Rule passes schema validation
 relationships:
   - target: EPIC-051
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: TASK-172
+    type: depended-on-by
+  - target: TASK-173
+    type: depended-on-by
+  - target: TASK-174
+    type: depended-on-by
+  - target: TASK-177
+    type: depended-on-by
+  - target: TASK-341
+    type: depended-on-by
 ---
 
 ## What

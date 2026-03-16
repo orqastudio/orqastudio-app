@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { ArtifactNode } from "@orqastudio/types";
-	import StatusIndicator from "$lib/components/shared/StatusIndicator.svelte";
-	import SmallBadge from "$lib/components/shared/SmallBadge.svelte";
+	import { StatusIndicator } from "@orqastudio/svelte-components/connected";
+	import { SmallBadge } from "@orqastudio/svelte-components/pure";
 
 	let {
 		milestone,

@@ -1,6 +1,6 @@
 ---
 id: IMPL-070
-title: "Epic status must be constrained by milestone status"
+title: Epic status must be constrained by milestone status
 description: "Active or completed epics should not exist on milestones that haven't started. A completed milestone should only contain completed epics. An exploring milestone should not have active work."
 status: captured
 created: 2026-03-15

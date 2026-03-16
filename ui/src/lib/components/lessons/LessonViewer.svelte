@@ -2,10 +2,10 @@
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
 	import ArrowUpCircleIcon from "@lucide/svelte/icons/arrow-up-circle";
 	import ExternalLinkIcon from "@lucide/svelte/icons/external-link";
-	import { Badge } from "$lib/components/ui/badge";
-	import { Button } from "$lib/components/ui/button";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
-	import { Separator } from "$lib/components/ui/separator";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import type { Lesson } from "@orqastudio/types";
 	import { categoryColor } from "$lib/utils/category-colors";

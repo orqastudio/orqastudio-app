@@ -8,29 +8,83 @@ updated: 2026-03-10
 layer: core
 category: domain
 file-patterns:
-  - ui/src/lib/components/**
-  - ui/src/lib/stores/**
+  - "ui/src/lib/components/**"
+  - "ui/src/lib/stores/**"
 user-invocable: false
 license: MIT
-metadata:
-  author: ejirocodes
-  version: 1.0.0
+metadata: null
 relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Rune patterns, snippet APIs, and TypeScript prop typing enforce explicit component contracts that are visible in code and reviewable
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informed-by
-    target: DOC-067
-    rationale: Design principles grounding document distills into this skill for agent injection
+  - target: TASK-009
+    type: grounded
+  - target: TASK-016
+    type: grounded
+  - target: TASK-017
+    type: grounded
+  - target: TASK-018
+    type: grounded
+  - target: TASK-023
+    type: grounded
+  - target: TASK-026
+    type: grounded
+  - target: TASK-069
+    type: grounded
+  - target: TASK-075
+    type: grounded
+  - target: TASK-076
+    type: grounded
+  - target: TASK-077
+    type: grounded
+  - target: TASK-078
+    type: grounded
+  - target: TASK-082
+    type: grounded
+  - target: TASK-083
+    type: grounded
+  - target: TASK-161
+    type: grounded
+  - target: TASK-190
+    type: grounded
+  - target: TASK-403
+    type: grounded
+  - target: TASK-404
+    type: grounded
+  - target: TASK-405
+    type: grounded
+  - target: TASK-406
+    type: grounded
+  - target: TASK-407
+    type: grounded
+  - target: TASK-408
+    type: grounded
+  - target: TASK-420
+    type: grounded
+  - target: TASK-421
+    type: grounded
+  - target: TASK-422
+    type: grounded
+  - target: TASK-423
+    type: grounded
+  - target: TASK-428
+    type: grounded
+  - target: TASK-469
+    type: grounded
+  - target: TASK-470
+    type: grounded
+  - target: TASK-471
+    type: grounded
+  - target: TASK-472
+    type: grounded
+  - target: TASK-473
+    type: grounded
+  - target: TASK-475
+    type: grounded
+  - target: TASK-476
+    type: grounded
+  - target: TASK-478
+    type: grounded
 ---
 
 

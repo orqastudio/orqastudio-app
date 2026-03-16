@@ -1,22 +1,13 @@
 ---
 id: EPIC-070
 title: Dynamic artifact tables and schema validation enhancements
-description: Injectable dynamic tables in markdown (tasks table on epics, epics on milestones), body template validation, and schema evolution (new relationship types, personas).
+description: "Injectable dynamic tables in markdown (tasks table on epics, epics on milestones), body template validation, and schema evolution (new relationship types, personas)."
 status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-  - PILLAR-003
-depends-on:
-  - EPIC-067
-research-refs: []
-docs-required: []
-docs-produced: []
 relationships:
   - target: EPIC-067
     type: informed-by
@@ -25,32 +16,26 @@ relationships:
     type: informed-by
     rationale: UAT round 2 findings drive schema and validation work
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-447
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-448
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-449
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-450
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-448
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-448"
-  - target: TASK-450
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-450"
+    rationale: Epic contains this task
   - target: TASK-449
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-449"
-  - target: TASK-447
+    rationale: Epic contains this task
+  - target: TASK-450
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-447"
+    rationale: Epic contains this task
+  - target: EPIC-067
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
 ---
 ## Context
 

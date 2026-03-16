@@ -5,26 +5,33 @@ description: "Final reconciliation of EPIC-060: verify all tasks are done, updat
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-060
-depends-on:
-  - TASK-388
-  - TASK-389
-  - TASK-390
-  - TASK-391
-  - TASK-392
-  - TASK-393
-  - TASK-394
-  - TASK-395
-  - TASK-396
 acceptance:
   - All tasks in EPIC-060 have status done
-  - Task table in epic uses real IDs, no TBD entries
+  - "Task table in epic uses real IDs, no TBD entries"
   - Epic deliverables match what was actually implemented
   - Epic status set to review (pending UAT)
 relationships:
   - target: EPIC-060
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-388
+    type: depends-on
+  - target: TASK-389
+    type: depends-on
+  - target: TASK-390
+    type: depends-on
+  - target: TASK-391
+    type: depends-on
+  - target: TASK-392
+    type: depends-on
+  - target: TASK-393
+    type: depends-on
+  - target: TASK-394
+    type: depends-on
+  - target: TASK-395
+    type: depends-on
+  - target: TASK-396
+    type: depends-on
 ---
 
 ## What

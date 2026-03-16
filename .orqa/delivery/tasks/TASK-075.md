@@ -5,28 +5,33 @@ description: Create a typed Svelte 5 rune store at ui/src/lib/sdk/artifact-graph
 status: completed
 created: 2026-03-10
 updated: 2026-03-10
-epic: EPIC-048
-depends-on:
-  - TASK-074
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-034
-  - SKILL-016
 acceptance:
   - ArtifactGraphSDK class with reactive graph state
-  - Synchronous resolve, resolveByPath, referencesFrom, referencesTo, children, byType, byStatus methods
+  - "Synchronous resolve, resolveByPath, referencesFrom, referencesTo, children, byType, byStatus methods"
   - Async readContent method that reads from disk via Tauri command
   - brokenRefs and orphans methods for graph health
-  - subscribe(id, callback) and subscribeType(type, callback) with unsubscribe return
+  - "subscribe(id, callback) and subscribeType(type, callback) with unsubscribe return"
   - Auto-refresh on artifact-graph-updated Tauri event
-  - TypeScript types for ArtifactNode, ArtifactRef, GraphStats exported
+  - "TypeScript types for ArtifactNode, ArtifactRef, GraphStats exported"
   - "Status bar indexing button: triggers manual refresh, disabled with spinner while indexing"
   - "Dashboard Graph Insights card showing: node count, edge count, orphan count, broken ref count, artifacts-by-type breakdown, and status distribution"
 relationships:
   - target: EPIC-048
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-074
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-034
+    type: grounded-by
+  - target: SKILL-016
+    type: grounded-by
+  - target: TASK-076
+    type: depended-on-by
+  - target: TASK-338
+    type: depended-on-by
 ---
 
 

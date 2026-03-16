@@ -5,8 +5,6 @@ description: Add a ReferencesPanel component below the frontmatter header showin
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-005
-depends-on: []
 acceptance:
   - Incoming references shown as clickable ArtifactLink chips
   - Outgoing references shown as clickable ArtifactLink chips
@@ -16,8 +14,10 @@ acceptance:
   - make typecheck passes
 relationships:
   - target: EPIC-005
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-312
+    type: depended-on-by
 ---
 
 

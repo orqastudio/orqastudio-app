@@ -25,33 +25,6 @@ relationships:
   - target: RULE-020
     type: informs
     rationale: Use search_regex to verify implementations exist before marking work done
-  - type: informed-by
-    target: RULE-006
-    rationale: Coding standards mandate semantic search to discover existing code before writing new code
-  - type: informed-by
-    target: RULE-008
-    rationale: Documentation-first requires searching docs for existing designs before implementing
-  - type: informed-by
-    target: RULE-012
-    rationale: Error ownership requires verifying function signatures exist before calling them
-  - type: informed-by
-    target: RULE-018
-    rationale: No-aliases rule requires searching all usages of an identifier before renaming
-  - type: informed-by
-    target: RULE-020
-    rationale: No-stubs rule requires searching to verify implementations exist end-to-end
-  - type: informed-by
-    target: RULE-024
-    rationale: Reusable components rule requires searching for existing implementations first
-  - type: informed-by
-    target: RULE-026
-    rationale: Skill enforcement declares search skills as universal requirements for every agent
-  - type: informed-by
-    target: RULE-036
-    rationale: Context window management requires using search instead of reading many files directly
-  - type: informed-by
-    target: RULE-040
-    rationale: Provider-agnostic capabilities maps code search capabilities to context-specific tool names
   - target: RULE-035
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-035
@@ -61,27 +34,24 @@ relationships:
   - target: AD-037
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-037
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: RULE-006
+    type: informed-by
+  - target: RULE-008
+    type: informed-by
+  - target: RULE-012
+    type: informed-by
+  - target: RULE-018
+    type: informed-by
+  - target: RULE-020
+    type: informed-by
+  - target: RULE-024
+    type: informed-by
+  - target: RULE-026
+    type: informed-by
+  - target: RULE-036
+    type: informed-by
+  - target: RULE-040
+    type: informed-by
 ---
 **Prefer semantic search over Grep/Glob for any search that spans more than one file or directory.**
 

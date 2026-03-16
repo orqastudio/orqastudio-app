@@ -1,29 +1,21 @@
 ---
 id: EPIC-009
 title: Codebase Test Coverage
-description: Achieve comprehensive test coverage across the entire codebase — frontend (Vitest), backend (cargo test + tarpaulin), and IPC contract verification. Close the frontend test gap (zero tests vs 465 Rust tests) and establish coverage measurement and enforcement.
+description: "Achieve comprehensive test coverage across the entire codebase — frontend (Vitest), backend (cargo test + tarpaulin), and IPC contract verification. Close the frontend test gap (zero tests vs 465 Rust tests) and establish coverage measurement and enforcement."
 status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-13
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 3
-  impact: 4
-  dependency: 1
-  effort: 4
-  score: 6
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
 ---
 
 ## Why P2

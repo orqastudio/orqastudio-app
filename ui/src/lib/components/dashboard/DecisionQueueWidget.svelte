@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
@@ -143,15 +143,15 @@
 </script>
 
 {#if hasData}
-	<Card.Root class="gap-2">
-		<Card.Header class="pb-1">
-			<Card.Title class="flex items-center gap-1.5 text-sm font-semibold">
+	<CardRoot class="gap-2">
+		<CardHeader class="pb-1">
+			<CardTitle class="flex items-center gap-1.5 text-sm font-semibold">
 				<CompassIcon class="h-4 w-4 text-muted-foreground" />
 				Purpose
-			</Card.Title>
-			<Card.Description class="text-xs">What's Next</Card.Description>
+			</CardTitle>
+			<CardDescription class="text-xs">What's Next</CardDescription>
 			<!-- Tab buttons in Card.Action -->
-			<Card.Action>
+			<CardAction>
 				<div class="flex items-center gap-0">
 					<button
 						class="px-2 py-1 text-xs transition-colors border-b-2 {activeTab === 'actions' ? 'border-foreground text-foreground font-medium' : 'border-transparent text-muted-foreground hover:text-foreground'}"
@@ -171,10 +171,10 @@
 						Epics
 					</button>
 				</div>
-			</Card.Action>
-		</Card.Header>
-		<Card.Content class="p-0">
-			<ScrollArea.Root class="h-[280px] px-3 pb-3">
+			</CardAction>
+		</CardHeader>
+		<CardContent class="p-0">
+			<ScrollArea class="h-[280px] px-3 pb-3">
 			{#if activeTab === "actions"}
 				<!-- ---------------------------------------------------------- -->
 				<!-- Actions tab: all artifacts needing attention               -->
@@ -246,7 +246,7 @@
 					</button>
 				{/if}
 			{/if}
-			</ScrollArea.Root>
-		</Card.Content>
-	</Card.Root>
+			</ScrollArea>
+		</CardContent>
+	</CardRoot>
 {/if}

@@ -5,16 +5,16 @@ description: Created wireframes for the settings view and first-run onboarding f
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-028
-depends-on: []
 acceptance:
   - Settings wireframe covers all configurable options
   - Onboarding flow is clear and sequential
   - Error states for invalid configuration are specified
 relationships:
   - target: EPIC-028
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-318
+    type: depended-on-by
 ---
 ## What
 

@@ -1,36 +1,35 @@
 ---
 id: TASK-466
-title: "Connect documentation to artifact graph via relationships"
+title: Connect documentation to artifact graph via relationships
 description: "Backfill relationships on documentation files, skills, and agents so documentation participates in graph traversal. Skills link to their documentation, docs link to the rules/decisions they describe, agents link to their grounding."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-465
 assignee: null
-skills:
-  - SKILL-011
-  - SKILL-050
 acceptance:
   - Every skill that references documentation in body text has an informed-by relationship to that doc
   - Every documentation page that describes a rule or decision has a documents relationship
   - Every agent definition has grounded-by relationships to its grounding documents
   - Wireframe docs linked to relevant epics via docs-required
-  - Orphaned documentation rate drops from 55% to under 15%
+  - "Orphaned documentation rate drops from 55% to under 15%"
   - All relationships are bidirectional (inverses present on both sides)
   - make verify passes clean
 relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 2 — graph connectivity is the structural foundation for grounding injection
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: RES-062
     type: informed-by
     rationale: Documentation audit identified 55% orphaned rate and missing relationships
+  - target: TASK-465
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-050
+    type: grounded-by
+  - target: TASK-467
+    type: depended-on-by
 ---
 
 ## Scope
@@ -41,7 +40,7 @@ For each skill in `.orqa/process/skills/`, check if the body text references doc
 
 ### Documentation → Rules/Decisions Relationships
 
-For each documentation page, check if it describes or implements a rule (RULE-NNN) or decision (AD-NNN). Add `documents`/`documented-by` relationships.
+For each documentation page, check if it describes or implements a rule (RULE-NNN) or decision (AD-NNN). Add `informs`/`informed-by` relationships.
 
 ### Agent → Grounding Relationships
 

@@ -5,16 +5,16 @@ description: Built the dashboard widget showing governance coverage health with 
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-031
-depends-on: []
 acceptance:
   - Dashboard widget renders governance coverage visually
   - Coverage percentages reflect actual scan results
   - Widget links to the detailed governance analysis view
 relationships:
   - target: EPIC-031
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-321
+    type: depended-on-by
 ---
 ## What
 

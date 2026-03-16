@@ -1,11 +1,11 @@
 <script lang="ts">
-	import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
-	import * as Popover from "$lib/components/ui/popover";
-	import { Button } from "$lib/components/ui/button";
+	import { DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@orqastudio/svelte-components/pure";
+	import * as Popover from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
 	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
 	import FilterIcon from "@lucide/svelte/icons/filter";
 	import CheckIcon from "@lucide/svelte/icons/check";
-	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIconName, resolveIcon } from "@orqastudio/svelte-components/pure";
 	import { countFieldValues } from "$lib/utils/artifact-view";
 	import type {
 		FilterableField,
@@ -127,8 +127,8 @@
 <div class="flex h-10 items-center justify-end gap-1 border-b border-border px-2">
 	<!-- Sort dropdown -->
 	<div class="relative">
-		<DropdownMenu.Root>
-			<DropdownMenu.Trigger>
+		<DropdownMenuRoot>
+			<DropdownMenuTrigger>
 				{#snippet child({ props })}
 					<Button
 						{...props}
@@ -139,8 +139,8 @@
 						<ArrowUpDownIcon class="h-3.5 w-3.5" />
 					</Button>
 				{/snippet}
-			</DropdownMenu.Trigger>
-			<DropdownMenu.Content align="start" class="w-52">
+			</DropdownMenuTrigger>
+			<DropdownMenuContent align="start" class="w-52">
 				<DropdownMenu.Label class="text-xs text-muted-foreground">Sort by</DropdownMenu.Label>
 				<DropdownMenu.RadioGroup value={sortValue} onValueChange={setSortFromValue}>
 					{#each sortOptions as option (option.value)}
@@ -151,9 +151,9 @@
 				</DropdownMenu.RadioGroup>
 
 				{#if filterableFields.length > 0}
-					<DropdownMenu.Separator />
+					<DropdownMenuSeparator />
 					<DropdownMenu.Label class="text-xs text-muted-foreground">Group by</DropdownMenu.Label>
-					<DropdownMenu.Item onclick={() => onGroupChange(null)}>
+					<DropdownMenuItem onclick={() => onGroupChange(null)}>
 						<span class="flex items-center gap-2">
 							{#if currentGroup === null}
 								<CheckIcon class="h-3.5 w-3.5" />
@@ -162,9 +162,9 @@
 							{/if}
 							None
 						</span>
-					</DropdownMenu.Item>
+					</DropdownMenuItem>
 					{#each filterableFields as field (field.name)}
-						<DropdownMenu.Item onclick={() => onGroupChange(field.name)}>
+						<DropdownMenuItem onclick={() => onGroupChange(field.name)}>
 							<span class="flex items-center gap-2">
 								{#if currentGroup === field.name}
 									<CheckIcon class="h-3.5 w-3.5" />
@@ -173,11 +173,11 @@
 								{/if}
 								{humanizeField(field.name)}
 							</span>
-						</DropdownMenu.Item>
+						</DropdownMenuItem>
 					{/each}
 				{/if}
-			</DropdownMenu.Content>
-		</DropdownMenu.Root>
+			</DropdownMenuContent>
+		</DropdownMenuRoot>
 		{#if isNonDefaultSort}
 			<span
 				class="pointer-events-none absolute right-0.5 top-0.5 h-1.5 w-1.5 rounded-full bg-blue-500"
@@ -188,8 +188,8 @@
 	<!-- Filter popover -->
 	{#if filterableFields.length > 0}
 		<div class="relative">
-			<Popover.Root>
-				<Popover.Trigger>
+			<Popover>
+				<PopoverTrigger>
 					{#snippet child({ props })}
 						<Button
 							{...props}
@@ -200,8 +200,8 @@
 							<FilterIcon class="h-3.5 w-3.5" />
 						</Button>
 					{/snippet}
-				</Popover.Trigger>
-				<Popover.Content align="start" class="w-64 p-0">
+				</PopoverTrigger>
+				<PopoverContent align="start" class="w-64 p-0">
 					<div class="flex flex-col">
 						{#each filterableFields as field (field.name)}
 							{@const counts = countFieldValues(nodes, field.name)}
@@ -239,7 +239,7 @@
 											</span>
 											<!-- Status icon if this is a status field -->
 											{#if field.name === "status"}
-												{@const StatusIcon = statusIcon(value)}
+												{@const StatusIcon = resolveIcon(statusIconName(value))}
 												<StatusIcon class="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
 											{/if}
 											<span class="flex-1 capitalize">{humanizeValue(value)}</span>
@@ -263,8 +263,8 @@
 							</div>
 						{/if}
 					</div>
-				</Popover.Content>
-			</Popover.Root>
+				</PopoverContent>
+			</Popover>
 			{#if hasActiveFilters}
 				<span
 					class="pointer-events-none absolute right-0.5 top-0.5 h-1.5 w-1.5 rounded-full bg-blue-500"

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import * as Card from "$lib/components/ui/card";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 	import MilestoneContextCard from "./MilestoneContextCard.svelte";
 	import IntegrityWidget from "./IntegrityWidget.svelte";
@@ -69,7 +69,7 @@
 	}
 </script>
 
-<ScrollArea.Root class="h-full">
+<ScrollArea class="h-full">
 	<div class="p-6">
 		{#if !project}
 			<EmptyState
@@ -117,18 +117,18 @@
 					/>
 
 					<!-- Column 2: Learning — ImprovementTrendsWidget wrapped in a card -->
-					<Card.Root class="gap-2 overflow-hidden">
-						<Card.Header class="pb-2">
-							<Card.Title class="flex items-center gap-1.5 text-sm font-semibold">
+					<CardRoot class="gap-2 overflow-hidden">
+						<CardHeader class="pb-2">
+							<CardTitle class="flex items-center gap-1.5 text-sm font-semibold">
 								<TrendingUpIcon class="h-4 w-4 text-muted-foreground" />
 								Learning
-							</Card.Title>
-							<Card.Description class="text-xs">How You're Improving</Card.Description>
-						</Card.Header>
-						<Card.Content class="flex flex-col px-0 pt-0 pb-0">
+							</CardTitle>
+							<CardDescription class="text-xs">How You're Improving</CardDescription>
+						</CardHeader>
+						<CardContent class="flex flex-col px-0 pt-0 pb-0">
 							<ImprovementTrendsWidget />
-						</Card.Content>
-					</Card.Root>
+						</CardContent>
+					</CardRoot>
 
 					<!-- Column 3: What's Next (Purpose) — title lives inside DecisionQueueWidget -->
 					<DecisionQueueWidget />
@@ -154,4 +154,4 @@
 			</div>
 		{/if}
 	</div>
-</ScrollArea.Root>
+</ScrollArea>

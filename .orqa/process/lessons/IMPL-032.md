@@ -1,10 +1,10 @@
 ---
 id: IMPL-032
-title: "Plugin installation must wire capabilities into agents and skills"
+title: Plugin installation must wire capabilities into agents and skills
 description: "When a provider integration plugin is installed, it's not enough to register capability mappings. The plugin must also install or update agents and skills that teach the system HOW to use those capabilities. The plugin installation process is responsible for wiring everything together — capabilities, agents that use them, and skills that describe their usage patterns."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

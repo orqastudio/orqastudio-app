@@ -8,8 +8,6 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on: []
 acceptance:
   - inject action type added to enforcement schema and validates
   - skills field added to enforcement entry schema
@@ -17,8 +15,18 @@ acceptance:
   - Rust enforcement engine handles Inject variant
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-195
+    type: depended-on-by
+  - target: TASK-199
+    type: depended-on-by
+  - target: TASK-200
+    type: depended-on-by
+  - target: TASK-206
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

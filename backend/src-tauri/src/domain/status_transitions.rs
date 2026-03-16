@@ -126,28 +126,20 @@ fn evaluate_condition(
 // ---------------------------------------------------------------------------
 
 /// Proposes `target` when all child artifacts (tasks referencing this node via
-/// `epic` field or `delivers` edge) are completed.
+/// `delivers` relationship edge) are completed.
 fn check_all_children_completed(
     graph: &ArtifactGraph,
     node: &crate::domain::artifact_graph::ArtifactNode,
     current_status: &str,
     target: &str,
 ) -> Option<ProposedTransition> {
-    // Collect all tasks that reference this node as their epic.
+    // Collect all tasks that reference this node via a `delivers` relationship.
     let children: Vec<&crate::domain::artifact_graph::ArtifactNode> = graph
         .nodes
         .values()
         .filter(|n| {
             if n.artifact_type != "task" {
                 return false;
-            }
-            let epic_field = n
-                .frontmatter
-                .get("epic")
-                .and_then(|v| v.as_str())
-                .unwrap_or("");
-            if epic_field == node.id {
-                return true;
             }
             n.references_out.iter().any(|r| {
                 r.relationship_type.as_deref() == Some("delivers") && r.target_id == node.id
@@ -182,7 +174,7 @@ fn check_all_children_completed(
 // ---------------------------------------------------------------------------
 
 /// Proposes `target` when all P1 child epics (referencing this node via
-/// `milestone` field) are completed.
+/// `delivers` relationship) are completed.
 fn check_all_p1_children_completed(
     graph: &ArtifactGraph,
     node: &crate::domain::artifact_graph::ArtifactNode,
@@ -196,12 +188,11 @@ fn check_all_p1_children_completed(
             if n.artifact_type != "epic" {
                 return false;
             }
-            let milestone_ref = n
-                .frontmatter
-                .get("milestone")
-                .and_then(|v| v.as_str())
-                .unwrap_or("");
-            if milestone_ref != node.id {
+            // Epic must have a `delivers` relationship to this milestone.
+            let targets_this = n.references_out.iter().any(|r| {
+                r.relationship_type.as_deref() == Some("delivers") && r.target_id == node.id
+            });
+            if !targets_this {
                 return false;
             }
             n.frontmatter
@@ -241,7 +232,7 @@ fn check_all_p1_children_completed(
 // Condition: dependency-blocked
 // ---------------------------------------------------------------------------
 
-/// Proposes `target` when at least one `depends-on` item is not completed.
+/// Proposes `target` when at least one `depends-on` relationship target is not completed.
 /// Auto-apply is `true`.
 fn check_dependency_blocked(
     graph: &ArtifactGraph,
@@ -249,7 +240,7 @@ fn check_dependency_blocked(
     current_status: &str,
     target: &str,
 ) -> Option<ProposedTransition> {
-    let depends_on = collect_depends_on(&node.frontmatter);
+    let depends_on = collect_depends_on_from_relationships(node);
     if depends_on.is_empty() {
         return None;
     }
@@ -260,7 +251,6 @@ fn check_dependency_blocked(
             Some(dep) => {
                 dep.status.as_deref() != Some("completed") && dep.status.as_deref() != Some("done")
             }
-            // Unknown dependency — treat as blocking to be safe.
             None => true,
         })
         .map(String::as_str)
@@ -284,7 +274,7 @@ fn check_dependency_blocked(
 // Condition: dependencies-met
 // ---------------------------------------------------------------------------
 
-/// Proposes `target` when all `depends-on` items are completed.
+/// Proposes `target` when all `depends-on` relationship targets are completed.
 /// Only fires when the node is currently `blocked`.
 /// Auto-apply is `true`.
 fn check_dependencies_met(
@@ -293,15 +283,12 @@ fn check_dependencies_met(
     current_status: &str,
     target: &str,
 ) -> Option<ProposedTransition> {
-    // This condition only makes sense for blocked artifacts.
     if current_status != "blocked" {
         return None;
     }
 
-    let depends_on = collect_depends_on(&node.frontmatter);
+    let depends_on = collect_depends_on_from_relationships(node);
     if depends_on.is_empty() {
-        // Blocked with no dependencies — don't auto-unblock; something
-        // else caused the block.
         return None;
     }
 
@@ -366,19 +353,15 @@ fn check_recurrence_threshold(
 // Shared helpers
 // ---------------------------------------------------------------------------
 
-/// Extract the `depends-on` array from a node's frontmatter JSON value.
-///
-/// Handles both YAML sequences (serialized as JSON arrays) and a single
-/// scalar string.
-fn collect_depends_on(frontmatter: &serde_json::Value) -> Vec<String> {
-    match frontmatter.get("depends-on") {
-        Some(serde_json::Value::Array(arr)) => arr
-            .iter()
-            .filter_map(|v| v.as_str().map(str::to_owned))
-            .collect(),
-        Some(serde_json::Value::String(s)) if !s.trim().is_empty() => vec![s.clone()],
-        _ => Vec::new(),
-    }
+/// Extract dependency target IDs from a node's `depends-on` relationship edges.
+fn collect_depends_on_from_relationships(
+    node: &crate::domain::artifact_graph::ArtifactNode,
+) -> Vec<String> {
+    node.references_out
+        .iter()
+        .filter(|r| r.relationship_type.as_deref() == Some("depends-on"))
+        .map(|r| r.target_id.clone())
+        .collect()
 }
 
 // ---------------------------------------------------------------------------
@@ -424,6 +407,42 @@ mod tests {
         }
     }
 
+    /// Create a node with a `delivers` relationship to the given target.
+    fn make_child(id: &str, artifact_type: &str, status: &str, delivers_to: &str) -> ArtifactNode {
+        let mut node = make_node(id, artifact_type, status, serde_json::json!({}));
+        node.references_out.push(ArtifactRef {
+            target_id: delivers_to.to_owned(),
+            field: "relationships".to_owned(),
+            source_id: id.to_owned(),
+            relationship_type: Some("delivers".to_owned()),
+        });
+        node
+    }
+
+    /// Create a node with a `depends-on` relationship to the given target.
+    fn make_dependent(id: &str, artifact_type: &str, status: &str, depends_on: &str) -> ArtifactNode {
+        let mut node = make_node(id, artifact_type, status, serde_json::json!({}));
+        node.references_out.push(ArtifactRef {
+            target_id: depends_on.to_owned(),
+            field: "relationships".to_owned(),
+            source_id: id.to_owned(),
+            relationship_type: Some("depends-on".to_owned()),
+        });
+        node
+    }
+
+    /// Create a node with a `delivers` relationship and priority set.
+    fn make_child_with_priority(id: &str, artifact_type: &str, status: &str, delivers_to: &str, priority: &str) -> ArtifactNode {
+        let mut node = make_node(id, artifact_type, status, serde_json::json!({"priority": priority}));
+        node.references_out.push(ArtifactRef {
+            target_id: delivers_to.to_owned(),
+            field: "relationships".to_owned(),
+            source_id: id.to_owned(),
+            relationship_type: Some("delivers".to_owned()),
+        });
+        node
+    }
+
     fn make_graph(nodes: Vec<ArtifactNode>) -> ArtifactGraph {
         let mut map = HashMap::new();
         for n in nodes {
@@ -459,18 +478,8 @@ mod tests {
     #[test]
     fn rule1_proposes_epic_review_when_all_tasks_done() {
         let epic = make_node("EPIC-001", "epic", "in-progress", serde_json::json!({}));
-        let task1 = make_node(
-            "TASK-001",
-            "task",
-            "completed",
-            serde_json::json!({ "epic": "EPIC-001" }),
-        );
-        let task2 = make_node(
-            "TASK-002",
-            "task",
-            "done",
-            serde_json::json!({ "epic": "EPIC-001" }),
-        );
+        let task1 = make_child("TASK-001", "task", "completed", "EPIC-001");
+        let task2 = make_child("TASK-002", "task", "done", "EPIC-001");
         let graph = make_graph(vec![epic, task1, task2]);
         let statuses = vec![
             status("in-progress", vec![("all-children-completed", "review")]),
@@ -492,18 +501,8 @@ mod tests {
     #[test]
     fn rule1_no_proposal_when_task_still_active() {
         let epic = make_node("EPIC-002", "epic", "in-progress", serde_json::json!({}));
-        let task1 = make_node(
-            "TASK-003",
-            "task",
-            "completed",
-            serde_json::json!({ "epic": "EPIC-002" }),
-        );
-        let task2 = make_node(
-            "TASK-004",
-            "task",
-            "in-progress",
-            serde_json::json!({ "epic": "EPIC-002" }),
-        );
+        let task1 = make_child("TASK-003", "task", "completed", "EPIC-002");
+        let task2 = make_child("TASK-004", "task", "in-progress", "EPIC-002");
         let graph = make_graph(vec![epic, task1, task2]);
         let statuses = vec![
             status("in-progress", vec![("all-children-completed", "review")]),
@@ -559,18 +558,8 @@ mod tests {
     #[test]
     fn rule2_proposes_milestone_review_when_all_p1_epics_done() {
         let ms = make_node("MS-001", "milestone", "active", serde_json::json!({}));
-        let epic1 = make_node(
-            "EPIC-011",
-            "epic",
-            "completed",
-            serde_json::json!({ "milestone": "MS-001", "priority": "P1" }),
-        );
-        let epic2 = make_node(
-            "EPIC-012",
-            "epic",
-            "completed",
-            serde_json::json!({ "milestone": "MS-001", "priority": "P1" }),
-        );
+        let epic1 = make_child_with_priority("EPIC-011", "epic", "completed", "MS-001", "P1");
+        let epic2 = make_child_with_priority("EPIC-012", "epic", "completed", "MS-001", "P1");
         let graph = make_graph(vec![ms, epic1, epic2]);
         let statuses = vec![
             status("active", vec![("all-p1-children-completed", "review")]),
@@ -591,18 +580,8 @@ mod tests {
     #[test]
     fn rule2_no_proposal_when_p1_epic_not_done() {
         let ms = make_node("MS-002", "milestone", "active", serde_json::json!({}));
-        let epic1 = make_node(
-            "EPIC-013",
-            "epic",
-            "completed",
-            serde_json::json!({ "milestone": "MS-002", "priority": "P1" }),
-        );
-        let epic2 = make_node(
-            "EPIC-014",
-            "epic",
-            "in-progress",
-            serde_json::json!({ "milestone": "MS-002", "priority": "P1" }),
-        );
+        let epic1 = make_child_with_priority("EPIC-013", "epic", "completed", "MS-002", "P1");
+        let epic2 = make_child_with_priority("EPIC-014", "epic", "in-progress", "MS-002", "P1");
         let graph = make_graph(vec![ms, epic1, epic2]);
         let statuses = vec![
             status("active", vec![("all-p1-children-completed", "review")]),
@@ -617,19 +596,9 @@ mod tests {
     #[test]
     fn rule2_ignores_p2_epics_when_checking_completion() {
         let ms = make_node("MS-003", "milestone", "active", serde_json::json!({}));
-        let epic_p1 = make_node(
-            "EPIC-015",
-            "epic",
-            "completed",
-            serde_json::json!({ "milestone": "MS-003", "priority": "P1" }),
-        );
+        let epic_p1 = make_child_with_priority("EPIC-015", "epic", "completed", "MS-003", "P1");
         // P2 epic is still in-progress — should not block milestone review.
-        let epic_p2 = make_node(
-            "EPIC-016",
-            "epic",
-            "in-progress",
-            serde_json::json!({ "milestone": "MS-003", "priority": "P2" }),
-        );
+        let epic_p2 = make_child_with_priority("EPIC-016", "epic", "in-progress", "MS-003", "P2");
         let graph = make_graph(vec![ms, epic_p1, epic_p2]);
         let statuses = vec![
             status("active", vec![("all-p1-children-completed", "review")]),
@@ -650,12 +619,7 @@ mod tests {
     #[test]
     fn rule2_no_proposal_when_no_p1_epics() {
         let ms = make_node("MS-004", "milestone", "active", serde_json::json!({}));
-        let epic_p2 = make_node(
-            "EPIC-017",
-            "epic",
-            "completed",
-            serde_json::json!({ "milestone": "MS-004", "priority": "P2" }),
-        );
+        let epic_p2 = make_child_with_priority("EPIC-017", "epic", "completed", "MS-004", "P2");
         let graph = make_graph(vec![ms, epic_p2]);
         let statuses = vec![
             status("active", vec![("all-p1-children-completed", "review")]),
@@ -673,12 +637,7 @@ mod tests {
     #[test]
     fn rule3_proposes_blocked_when_dependency_not_done() {
         let dep = make_node("TASK-020", "task", "in-progress", serde_json::json!({}));
-        let task = make_node(
-            "TASK-021",
-            "task",
-            "ready",
-            serde_json::json!({ "depends-on": ["TASK-020"] }),
-        );
+        let task = make_dependent("TASK-021", "task", "ready", "TASK-020");
         let graph = make_graph(vec![dep, task]);
         let statuses = vec![
             status("ready", vec![("dependency-blocked", "blocked")]),
@@ -699,12 +658,7 @@ mod tests {
     #[test]
     fn rule3_no_proposal_when_all_dependencies_done() {
         let dep = make_node("TASK-022", "task", "completed", serde_json::json!({}));
-        let task = make_node(
-            "TASK-023",
-            "task",
-            "ready",
-            serde_json::json!({ "depends-on": ["TASK-022"] }),
-        );
+        let task = make_dependent("TASK-023", "task", "ready", "TASK-022");
         let graph = make_graph(vec![dep, task]);
         let statuses = vec![
             status("ready", vec![("dependency-blocked", "blocked")]),
@@ -726,14 +680,9 @@ mod tests {
     }
 
     #[test]
-    fn rule3_handles_scalar_depends_on() {
+    fn rule3_handles_depends_on_relationship() {
         let dep = make_node("TASK-025", "task", "in-progress", serde_json::json!({}));
-        let task = make_node(
-            "TASK-026",
-            "task",
-            "todo",
-            serde_json::json!({ "depends-on": "TASK-025" }),
-        );
+        let task = make_dependent("TASK-026", "task", "todo", "TASK-025");
         let graph = make_graph(vec![dep, task]);
         let statuses = vec![
             status("todo", vec![("dependency-blocked", "blocked")]),
@@ -757,12 +706,7 @@ mod tests {
     #[test]
     fn rule4_proposes_ready_when_all_deps_complete() {
         let dep = make_node("TASK-030", "task", "completed", serde_json::json!({}));
-        let task = make_node(
-            "TASK-031",
-            "task",
-            "blocked",
-            serde_json::json!({ "depends-on": ["TASK-030"] }),
-        );
+        let task = make_dependent("TASK-031", "task", "blocked", "TASK-030");
         let graph = make_graph(vec![dep, task]);
         let statuses = vec![
             status("blocked", vec![("dependencies-met", "ready")]),
@@ -783,12 +727,7 @@ mod tests {
     #[test]
     fn rule4_no_proposal_when_dep_still_incomplete() {
         let dep = make_node("TASK-032", "task", "in-progress", serde_json::json!({}));
-        let task = make_node(
-            "TASK-033",
-            "task",
-            "blocked",
-            serde_json::json!({ "depends-on": ["TASK-032"] }),
-        );
+        let task = make_dependent("TASK-033", "task", "blocked", "TASK-032");
         let graph = make_graph(vec![dep, task]);
         let statuses = vec![
             status("blocked", vec![("dependencies-met", "ready")]),

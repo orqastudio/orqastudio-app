@@ -5,9 +5,6 @@ description: Relocate sidecar/ to sidecars/claude-agentsdk-sidecar/ and update a
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-056
-depends-on:
-  - TASK-252
 acceptance:
   - sidecar/ moved to sidecars/claude-agentsdk-sidecar/
   - Makefile sidecar targets updated
@@ -16,8 +13,14 @@ acceptance:
   - make test-rust passes
 relationships:
   - target: EPIC-056
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-252
+    type: depends-on
+  - target: TASK-254
+    type: depended-on-by
+  - target: TASK-346
+    type: depended-on-by
 ---
 
 ## What

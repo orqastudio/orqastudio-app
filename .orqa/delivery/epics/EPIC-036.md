@@ -1,39 +1,28 @@
 ---
 id: EPIC-036
 title: "Rebrand: Forge → OrqaStudio"
-description: 'Product rebrand from "Forge" to "Orqa Studio": name, directory structure (src/ → ui/), brand assets, documentation, and build configuration updates.'
+description: "Product rebrand from \"Forge\" to \"Orqa Studio\": name, directory structure (src/ → ui/), brand assets, documentation, and build configuration updates."
 status: completed
 priority: P1
 created: 2026-03-04
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-015
-docs-required: []
-docs-produced: []
-scoring:
-  user-value: 3
-  pillar-alignment: 3
-  dependency-weight: 5
-  effort: 3
-  risk: 2
-  score: 16
+scoring: null
 relationships:
   - target: RES-015
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-015
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-018
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-326
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Implementation Design
 

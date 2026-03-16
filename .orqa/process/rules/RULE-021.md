@@ -19,24 +19,13 @@ relationships:
   - target: RULE-004
     type: informs
     rationale: Docs-produced gate requires produced documentation pages to include pillar alignment sections
-  - type: informed-by
-    target: RULE-004
-    rationale: Docs-produced verification at epic completion triggers pillar alignment checks
-  - type: informed-by
-    target: RULE-031
-    rationale: Vision alignment for features requires the same pillar tracing as documentation pages
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
+  - target: RULE-004
+    type: informed-by
+  - target: RULE-031
+    type: informed-by
 ---
 Every documentation page that describes a feature, component, workflow, integration, or capability MUST include a "Pillar Alignment" section. This ensures all documented work traces back to the product vision and prevents scope creep from accumulating silently in the docs.
 

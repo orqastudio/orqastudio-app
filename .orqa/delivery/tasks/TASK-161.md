@@ -5,21 +5,20 @@ description: Make scrollbar appearance consistent across all panels — use the 
 status: ready
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-010
-depends-on: []
 docs:
   - DOC-021
-skills:
-  - SKILL-030
-  - SKILL-031
 acceptance:
   - All panels use the same scrollbar styling as the viewer panel
-  - Scrollbar width, track colour, thumb colour, and border radius are consistent
+  - "Scrollbar width, track colour, thumb colour, and border radius are consistent"
   - No panel-specific scrollbar overrides remain unless intentionally different
 relationships:
   - target: EPIC-010
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-031
+    type: grounded-by
 ---
 ## What
 

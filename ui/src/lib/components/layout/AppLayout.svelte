@@ -15,13 +15,13 @@
 	import ProjectSetupWizard from "$lib/components/settings/ProjectSetupWizard.svelte";
 	import SetupWizard from "$lib/components/setup/SetupWizard.svelte";
 	import ArtifactSearchOverlay from "$lib/components/navigation/ArtifactSearchOverlay.svelte";
-	import ErrorToast from "$lib/components/shared/ErrorToast.svelte";
+	import { ErrorToast } from "@orqastudio/svelte-components/connected";
 	import { getStores } from "@orqastudio/sdk";
 	import { initDevConsole } from "$lib/utils/dev-console";
 
 	import ArtifactMasterDetail from "$lib/components/artifact/ArtifactMasterDetail.svelte";
 	import FullGraphView from "$lib/components/graph/FullGraphView.svelte";
-	import * as Resizable from "$lib/components/ui/resizable";
+	import { ResizablePaneGroup, ResizableHandle, ResizablePane } from "@orqastudio/svelte-components/pure";
 	import setupBackground from "$lib/assets/setup-background.png";
 
 	const { errorStore, navigationStore, settingsStore, artifactStore, projectStore, setupStore, enforcementStore, artifactGraphSDK } = getStores();
@@ -166,8 +166,8 @@
 					{/if}
 				</div>
 			{:else}
-				<Resizable.PaneGroup direction="horizontal" class="flex-1">
-					<Resizable.Pane defaultSize={70} minSize={30}>
+				<ResizablePaneGroup direction="horizontal" class="flex-1">
+					<ResizablePane defaultSize={70} minSize={30}>
 						<div class="h-full overflow-hidden">
 							{#if navigationStore.activeActivity === "project"}
 								<ProjectDashboard />
@@ -195,14 +195,14 @@
 								<WelcomeScreen />
 							{/if}
 						</div>
-					</Resizable.Pane>
-					<Resizable.Handle />
-					<Resizable.Pane defaultSize={30} minSize={20}>
+					</ResizablePane>
+					<ResizableHandle />
+					<ResizablePane defaultSize={30} minSize={20}>
 						<div class="flex h-full flex-col bg-chat">
 							<ConversationView />
 						</div>
-					</Resizable.Pane>
-				</Resizable.PaneGroup>
+					</ResizablePane>
+				</ResizablePaneGroup>
 			{/if}
 
 		{:else}

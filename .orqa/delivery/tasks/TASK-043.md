@@ -5,11 +5,7 @@ description: Extends the artifact scanner to extract and expose the status field
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-043
 assignee: AGENT-002
-skills:
-  - SKILL-005
-  - SKILL-008
 acceptance:
   - DocNode struct includes optional status field populated from YAML frontmatter
   - DocNode label always uses frontmatter title when available (never raw filename like TASK-002)
@@ -21,8 +17,14 @@ acceptance:
   - TypeScript NavTree types updated to match Rust struct
 relationships:
   - target: EPIC-043
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: TASK-333
+    type: depended-on-by
 ---
 ## Findings Addressed
 

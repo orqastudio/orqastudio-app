@@ -7,18 +7,24 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-193
-  - TASK-195
 acceptance:
   - Rust enforcement engine handles Inject action variant
   - Skill content returned in enforcement results
   - Deduplication works across calls within a session
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-193
+    type: depends-on
+  - target: TASK-195
+    type: depends-on
+  - target: TASK-205
+    type: depended-on-by
+  - target: TASK-207
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

@@ -7,7 +7,7 @@
 	import CircleDashedIcon from "@lucide/svelte/icons/circle-dashed";
 	import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
-	import { Badge } from "$lib/components/ui/badge";
+	import { Badge } from "@orqastudio/svelte-components/pure";
 	import MarkdownRenderer from "$lib/components/content/MarkdownRenderer.svelte";
 	import { getStores } from "@orqastudio/sdk";
 

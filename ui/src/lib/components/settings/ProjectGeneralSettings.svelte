@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
-	import { Separator } from "$lib/components/ui/separator";
-	import { Input } from "$lib/components/ui/input";
-	import { Textarea } from "$lib/components/ui/textarea";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
+	import { Input } from "@orqastudio/svelte-components/pure";
+	import { Textarea } from "@orqastudio/svelte-components/pure";
 	import { open } from "@tauri-apps/plugin-dialog";
 	import ImageIcon from "@lucide/svelte/icons/image";
 	import UploadIcon from "@lucide/svelte/icons/upload";
@@ -52,12 +52,12 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>General</Card.Title>
-		<Card.Description>Project identity and description</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>General</CardTitle>
+		<CardDescription>Project identity and description</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		<div class="space-y-2">
 			<span class="text-sm font-medium">Project Icon</span>
 			<div class="flex items-center gap-3">
@@ -110,5 +110,5 @@
 				rows={2}
 			/>
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

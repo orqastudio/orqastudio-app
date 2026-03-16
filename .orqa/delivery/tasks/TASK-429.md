@@ -1,28 +1,34 @@
 ---
 id: TASK-429
-title: Enrich graph nodes with status, title, priority as first-class fields
-description: Update ArtifactNode to expose status, title, description, priority as direct fields instead of requiring frontmatter JSON parsing.
+title: "Enrich graph nodes with status, title, priority as first-class fields"
+description: "Update ArtifactNode to expose status, title, description, priority as direct fields instead of requiring frontmatter JSON parsing."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-067
-depends-on: []
 assignee: null
-skills: []
 acceptance:
-  - ArtifactNode Rust struct has status, title, description, priority as direct fields
+  - "ArtifactNode Rust struct has status, title, description, priority as direct fields"
   - Rust artifact_graph.rs node builder promotes these fields from frontmatter into first-class struct fields
-  - TypeScript ArtifactNode type updated to match Rust struct (status, title, description, priority as direct properties)
+  - "TypeScript ArtifactNode type updated to match Rust struct (status, title, description, priority as direct properties)"
   - SDK and frontend can read these fields without parsing frontmatter JSON
   - Existing consumers updated to use direct fields instead of frontmatter parsing
 relationships:
   - target: EPIC-067
     type: delivers
     rationale: Enriched graph nodes are the foundation for all artifact viewer improvements
-  - target: EPIC-067
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-432
+    type: depended-on-by
+  - target: TASK-433
+    type: depended-on-by
+  - target: TASK-437
+    type: depended-on-by
+  - target: TASK-438
+    type: depended-on-by
+  - target: TASK-448
+    type: depended-on-by
+  - target: TASK-456
+    type: depended-on-by
 ---
 
 ## Scope

@@ -1,17 +1,12 @@
 ---
 id: TASK-284
 title: Backfill missing bidirectional inverses
-description: For every relationship A --type--> B, ensure B --inverse--> A exists. Add relationships arrays to artifact types that need them.
+description: "For every relationship A --type--> B, ensure B --inverse--> A exists. Add relationships arrays to artifact types that need them."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-281
-  - TASK-282
 assignee: null
 docs: []
-skills: []
 acceptance:
   - Every relationship has a bidirectional inverse
   - verify-pipeline-integrity.mjs reports zero missing inverses
@@ -19,8 +14,16 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-281
+    type: depends-on
+  - target: TASK-282
+    type: depends-on
+  - target: TASK-285
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

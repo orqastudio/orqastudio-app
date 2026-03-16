@@ -5,16 +5,16 @@ description: Built the filesystem walker that collects governance artifacts from
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-031
-depends-on: []
 acceptance:
   - Scanner discovers all governance artifacts in the project
   - Frontmatter is parsed correctly for each artifact type
-  - Scan results include file paths, types, and metadata
+  - "Scan results include file paths, types, and metadata"
 relationships:
   - target: EPIC-031
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-321
+    type: depended-on-by
 ---
 ## What
 

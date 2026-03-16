@@ -7,7 +7,7 @@
 
 	const { artifactGraphSDK, navigationStore } = getStores();
 	const graphViz = getGraphViz();
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 
 	// cose-bilkent is no longer needed here — layout runs in the worker.
 

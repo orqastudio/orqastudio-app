@@ -1,23 +1,13 @@
 ---
 id: EPIC-066
 title: Package ecosystem extraction for plugin portability
-description: Extract types, integrity validator, eslint config, and SDK into standalone @orqastudio/ npm packages hosted on GitHub Packages. Gives plugins parity access to the frontend-backend connection, artifact graph, and code standards.
+description: "Extract types, integrity validator, eslint config, and SDK into standalone @orqastudio/ npm packages hosted on GitHub Packages. Gives plugins parity access to the frontend-backend connection, artifact graph, and code standards."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-003
-depends-on: []
-research-refs:
-  - RES-057
-  - RES-058
-docs-required: []
-docs-produced: []
 relationships:
   - target: IDEA-093
     type: informed-by
@@ -38,80 +28,50 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-059
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-417
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-418
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-419
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-420
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-421
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-422
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-423
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-424
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-425
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-426
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-427
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-428
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-425
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-425"
-  - target: TASK-419
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-419"
-  - target: TASK-427
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-427"
-  - target: TASK-421
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-421"
-  - target: TASK-424
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-424"
-  - target: TASK-420
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-420"
-  - target: TASK-417
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-417"
-  - target: TASK-418
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-418"
-  - target: TASK-423
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-423"
-  - target: TASK-428
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-428"
+    rationale: Epic contains this task
   - target: TASK-426
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-426"
-  - target: TASK-422
+    rationale: Epic contains this task
+  - target: TASK-427
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-422"
+    rationale: Epic contains this task
+  - target: TASK-428
+    type: delivered-by
+    rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: IDEA-093
+    type: evolves-from
 ---
 ## Context
 

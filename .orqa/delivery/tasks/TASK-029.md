@@ -1,23 +1,25 @@
 ---
 id: TASK-029
 title: Provider-neutral session ID naming
-description: Renames the provider-specific session ID field to a neutral name across all layers — sidecar, Rust types, commands, domain, repository, and SQLite — with no behavioral changes.
+description: "Renames the provider-specific session ID field to a neutral name across all layers — sidecar, Rust types, commands, domain, repository, and SQLite — with no behavioral changes."
 status: completed
 created: 2026-03-07
 updated: 2026-03-09
-epic: EPIC-040
 assignee: AGENT-002
-skills:
-  - SKILL-012
-  - SKILL-014
 acceptance:
   - All sdk_session_id references renamed to provider_session_id
   - SQLite migration 005 renames column
   - No behavioral changes
 relationships:
   - target: EPIC-040
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-012
+    type: grounded-by
+  - target: SKILL-014
+    type: grounded-by
+  - target: TASK-330
+    type: depended-on-by
 ---
 ## What
 

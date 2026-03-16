@@ -6,19 +6,14 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on: []
 assignee: null
-skills:
-  - SKILL-011
-  - SKILL-020
 acceptance:
   - rule-engine.mjs accepts and evaluates stop event context
   - Hard filter on line 199 expanded to include stop events
   - Stop hook (hooks.json) calls rule-engine.mjs in addition to stop-checklist.sh
   - RULE-001 stop enforcement entries (warn + inject) fire during Stop hook
   - RULE-044 stop enforcement entries fire during Stop hook
-  - Stop event context shape documented (no file_path, session-level only)
+  - "Stop event context shape documented (no file_path, session-level only)"
 relationships:
   - target: EPIC-064
     type: delivers
@@ -26,9 +21,12 @@ relationships:
   - target: RULE-001
     type: enforces
     rationale: RULE-001's permission-seeking enforcement entries depend on stop event support
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-020
+    type: grounded-by
+  - target: TASK-414
+    type: depended-on-by
 ---
 
 ## Scope

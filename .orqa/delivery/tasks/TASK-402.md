@@ -5,9 +5,6 @@ description: Implement all 7 graph-implementable integrity checks identified in 
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-060
-depends-on:
-  - TASK-401
 acceptance:
   - "PlanningPlacement check: flags ideas/epics/tasks with no milestone (direct or indirect) and no horizon"
   - "DependencyViolation check: flags in-progress tasks whose depends-on items are not done"
@@ -22,8 +19,10 @@ acceptance:
   - All 610 Rust tests pass
 relationships:
   - target: EPIC-060
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-401
+    type: depends-on
 ---
 
 ## What

@@ -5,12 +5,7 @@ description: Audit governance rules (.claude/rules/) and agent definitions (.cla
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-033
 assignee: AGENT-003
-skills:
-  - SKILL-003
-  - SKILL-011
-  - SKILL-029
 acceptance:
   - Every rule file checked for .claude/ as source-of-truth references
   - Every agent definition checked for .claude/ path references
@@ -19,8 +14,16 @@ acceptance:
   - No rule or agent definition implies Claude is the product identity
 relationships:
   - target: EPIC-033
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-003
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-029
+    type: grounded-by
+  - target: TASK-323
+    type: depended-on-by
 ---
 ## What
 

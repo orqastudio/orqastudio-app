@@ -1,30 +1,22 @@
 ---
 id: RULE-044
 title: Core Graph Firmware Protection
-description: Core graph artifacts (schemas, orchestrator, core skills, role definitions) are firmware — non-editable by agents or users except through the update system or in dogfood mode.
+description: "Core graph artifacts (schemas, orchestrator, core skills, role definitions) are firmware — non-editable by agents or users except through the update system or in dogfood mode."
 status: active
 created: 2026-03-12
 updated: 2026-03-12
 layer: core
 enforcement:
-  - event: file
-    pattern: .*
-    paths:
-      - .orqa/delivery/*/schema.json
-      - .orqa/process/*/schema.json
-      - .orqa/process/agents/schema.json
-      - .orqa/process/skills/schema.json
-    action: block
-    message: "BLOCKED: schema.json files are core graph firmware. They define artifact structure for all projects. Do not modify unless you are updating OrqaStudio itself (dogfood mode). See RULE-044."
-  - event: file
-    pattern: .*
-    paths:
-      - .orqa/process/skills/composability/SKILL.md
-      - .orqa/process/skills/research-methodology/SKILL.md
-      - .orqa/process/skills/planning/SKILL.md
-      - .orqa/process/skills/orqa-code-search/SKILL.md
-    action: block
-    message: "BLOCKED: Core skills are firmware. They define universal methodology for all projects. Do not modify unless you are updating OrqaStudio itself (dogfood mode). See RULE-044."
+  - "event: file"
+  - ".orqa/delivery/*/schema.json"
+  - ".orqa/process/*/schema.json"
+  - .orqa/process/agents/schema.json
+  - .orqa/process/skills/schema.json
+  - "event: file"
+  - .orqa/process/skills/composability/SKILL.md
+  - .orqa/process/skills/research-methodology/SKILL.md
+  - .orqa/process/skills/planning/SKILL.md
+  - .orqa/process/skills/orqa-code-search/SKILL.md
 relationships:
   - target: PILLAR-001
     type: grounded
@@ -41,18 +33,14 @@ relationships:
   - target: RULE-009
     type: informs
     rationale: Dogfood mode is the only exception where core graph artifacts become editable
-  - type: enforces
-    target: AD-038
-    rationale: AD-038 established the five-layer architecture whose core layer this rule protects as firmware
-  - type: enforces
-    target: AD-039
-    rationale: AD-039 defined the core graph firmware concept that this rule implements through file-level blocking
   - target: AD-045
     type: enforces
     rationale: "Auto-generated inverse of enforces relationship from AD-045"
   - target: DOC-071
-    type: documented-by
+    type: informed-by
     rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
+  - target: AD-038
+    type: enforces
 ---
 Core graph artifacts define how the artifact graph works, how agents traverse it, and how the structured thinking process operates. They are **firmware** — they ship with OrqaStudio and are not modified during normal project use.
 

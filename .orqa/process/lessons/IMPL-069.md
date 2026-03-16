@@ -1,6 +1,6 @@
 ---
 id: IMPL-069
-title: "Artifacts mentioned in body text should have matching relationships"
+title: Artifacts mentioned in body text should have matching relationships
 description: "When an artifact ID appears in body text (e.g., EPIC-045 referenced in a task description), there should be a corresponding relationship in the frontmatter. Body text references without graph edges are invisible to traversal."
 status: captured
 created: 2026-03-15

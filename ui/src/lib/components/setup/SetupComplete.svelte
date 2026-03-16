@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from "$lib/components/ui/button";
+	import { Button } from "@orqastudio/svelte-components/pure";
 	import CheckCircleIcon from "@lucide/svelte/icons/circle-check";
 	import RocketIcon from "@lucide/svelte/icons/rocket";
 	import { getStores } from "@orqastudio/sdk";

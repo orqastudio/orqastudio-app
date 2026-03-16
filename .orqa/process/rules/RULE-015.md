@@ -25,24 +25,6 @@ relationships:
   - target: RULE-017
     type: informs
     rationale: Review completion reports must include lesson documentation status
-  - type: informed-by
-    target: RULE-001
-    rationale: Delegation requires honest status reporting from agents back to the orchestrator
-  - type: informed-by
-    target: RULE-004
-    rationale: Artifact status must reflect reality — lifecycle transitions depend on honest state
-  - type: informed-by
-    target: RULE-017
-    rationale: Lesson logging in review reports enforces the learning loop through honest documentation
-  - type: informed-by
-    target: RULE-019
-    rationale: No-deferred-deliverables makes incomplete scope visible rather than hidden in "done" status
-  - type: informed-by
-    target: RULE-027
-    rationale: Structure before work prevents ambiguous completion claims by requiring acceptance criteria upfront
-  - type: informed-by
-    target: RULE-030
-    rationale: UAT process requires findings to be reported accurately before grouping into systemic tasks
   - target: IMPL-024
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-024
@@ -52,30 +34,21 @@ relationships:
   - target: IMPL-026
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-026
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: IMPL-066
     type: observed-by
     rationale: "Auto-generated inverse of observed-by relationship from IMPL-066"
+  - target: RULE-001
+    type: informed-by
+  - target: RULE-004
+    type: informed-by
+  - target: RULE-017
+    type: informed-by
+  - target: RULE-019
+    type: informed-by
+  - target: RULE-027
+    type: informed-by
+  - target: RULE-030
+    type: informed-by
 ---
 ## The Core Rule
 

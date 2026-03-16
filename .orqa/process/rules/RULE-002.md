@@ -22,45 +22,17 @@ relationships:
   - target: RULE-010
     type: informs
     rationale: Decisions define the layer requirements (IPC boundary, component purity, type safety) for every feature
-  - type: informed-by
-    target: RULE-008
-    rationale: Documentation-first ensures decisions are documented before code depends on them
-  - type: informed-by
-    target: RULE-022
-    rationale: Plan compliance requires verifying architectural decisions before implementation starts
-  - type: informed-by
-    target: RULE-023
-    rationale: Required reading ensures agents load relevant decisions before writing code
-  - type: informed-by
-    target: RULE-031
-    rationale: Vision alignment requires all decisions to trace back to active pillars
-  - type: enforces
-    target: AD-032
-    rationale: This rule enforces SQLite scoping by requiring compliance with AD-032's conversation-only persistence boundary
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
+  - target: RULE-008
+    type: informed-by
+  - target: RULE-022
+    type: informed-by
+  - target: RULE-023
+    type: informed-by
+  - target: RULE-031
+    type: informed-by
 ---
 **Source of Truth:** `.orqa/process/decisions/` — individual `AD-NNN.md` artifacts. Decisions are first-class artifacts browsable in the app's artifact navigation.
 

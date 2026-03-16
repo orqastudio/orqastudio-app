@@ -101,6 +101,22 @@ pub struct DeliveryConfig {
     pub types: Vec<DeliveryTypeConfig>,
 }
 
+/// A project-level relationship type defined in `project.json`.
+///
+/// Extends the canonical relationship vocabulary with project-specific pairs
+/// (e.g. `depends-on` / `depended-on-by`).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ProjectRelationshipConfig {
+    /// The forward relationship key (e.g. "depends-on").
+    pub key: String,
+    /// The inverse relationship key (e.g. "depended-on-by").
+    pub inverse: String,
+    /// Human-readable label for the forward direction.
+    pub label: String,
+    /// Human-readable label for the inverse direction.
+    pub inverse_label: String,
+}
+
 /// Display mode for artifact link chips.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Default)]
 #[serde(rename_all = "lowercase")]
@@ -180,6 +196,11 @@ pub struct ProjectSettings {
     /// When absent, defaults to an empty hierarchy.
     #[serde(default)]
     pub delivery: DeliveryConfig,
+    /// Project-level relationship types that extend the canonical vocabulary.
+    ///
+    /// When absent, no project relationships are defined.
+    #[serde(default)]
+    pub relationships: Vec<ProjectRelationshipConfig>,
 }
 
 fn default_model() -> String {
@@ -231,6 +252,7 @@ mod tests {
             },
             statuses: vec![],
             delivery: DeliveryConfig::default(),
+            relationships: vec![],
         }
     }
 

@@ -7,16 +7,7 @@ priority: P1
 created: "2026-03-14"
 updated: "2026-03-14"
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-003
-depends-on: []
-research-refs:
-  - RES-063
-docs-required: []
-docs-produced: []
 relationships:
   - target: EPIC-068
     type: informed-by
@@ -33,38 +24,44 @@ relationships:
   - target: IDEA-096
     type: informed-by
     rationale: "Exploration whiteboard idea captured during UAT"
+  - target: PILLAR-001
+    type: grounded-by
+    rationale: "Clarity Through Structure — navigation and viewer improvements make thinking visible"
+  - target: PILLAR-003
+    type: grounded-by
+    rationale: "Purpose Through Continuity — schema fixes and artifact links preserve intent across sessions"
   - target: MS-001
-    type: belongs-to
-    rationale: Epic belongs to this milestone
+    type: delivers
+    rationale: Epic delivers to this milestone
   - target: TASK-490
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-490"
   - target: TASK-497
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-497"
   - target: TASK-478
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-478"
   - target: TASK-476
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-476"
   - target: TASK-494
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-494"
   - target: TASK-491
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-491"
   - target: TASK-492
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-492"
   - target: TASK-471
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-471"
   - target: TASK-477
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-477"
   - target: TASK-475
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-475"
   - target: RES-064
     type: informs
@@ -73,31 +70,31 @@ relationships:
     type: informs
     rationale: "Auto-generated inverse of informs relationship from EPIC-074"
   - target: TASK-493
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-493"
   - target: TASK-469
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-469"
   - target: TASK-496
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-496"
   - target: TASK-472
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-472"
   - target: TASK-474
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-474"
   - target: TASK-470
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-470"
   - target: TASK-468
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-468"
   - target: TASK-495
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-495"
   - target: TASK-473
-    type: contains
+    type: delivered-by
     rationale: "Auto-generated inverse of contains relationship from TASK-473"
 ---
 ## Context

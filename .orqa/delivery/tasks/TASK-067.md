@@ -5,13 +5,7 @@ description: Create or update commit discipline skill
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-047
-depends-on:
-  - TASK-066
 assignee: AGENT-003
-skills:
-  - SKILL-011
-  - SKILL-029
 acceptance:
   - SKILL-024 skill includes commit discipline section
   - Covers when to commit during governance work
@@ -22,8 +16,18 @@ acceptance:
   - a standalone commit-discipline skill if scope warrants it
 relationships:
   - target: EPIC-047
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-066
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-029
+    type: grounded-by
+  - target: TASK-068
+    type: depended-on-by
+  - target: TASK-337
+    type: depended-on-by
 ---
 
 ## What

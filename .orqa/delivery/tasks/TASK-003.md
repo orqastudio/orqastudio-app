@@ -5,7 +5,6 @@ description: Update streaming-pipeline.md to reflect the new SystemPromptSent em
 status: completed
 created: 2026-03-07
 updated: 2026-03-07
-epic: EPIC-001
 assignee: AGENT-007
 acceptance:
   - SystemPromptSent emission point documented in event sequence
@@ -15,11 +14,13 @@ acceptance:
   - ContextInjected documented as added by EPIC-003
 relationships:
   - target: EPIC-001
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: TASK-311
+    type: depended-on-by
 ---
 ## What
 

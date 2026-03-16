@@ -7,9 +7,6 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-193
 acceptance:
   - Plugin rule-engine.mjs reads SKILL.md files for inject actions
   - Skill content returned as systemMessage
@@ -17,8 +14,18 @@ acceptance:
   - Missing skill files silently skipped
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-193
+    type: depends-on
+  - target: TASK-201
+    type: depended-on-by
+  - target: TASK-204
+    type: depended-on-by
+  - target: TASK-207
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

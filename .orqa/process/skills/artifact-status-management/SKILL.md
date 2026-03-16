@@ -18,7 +18,7 @@ relationships:
     type: grounded
     rationale: Accurate status keeps the artifact graph readable — making the state of all thinking visible and structured
   - target: AD-049
-    type: practices
+    type: grounded-by
     rationale: This skill operationalises the unified status vocabulary and icon system defined in AD-049
 ---
 

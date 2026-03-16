@@ -5,11 +5,7 @@ description: Fixes the hooks section of the governance panel showing empty by up
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-043
 assignee: AGENT-002
-skills:
-  - SKILL-005
-  - SKILL-008
 acceptance:
   - Hooks section in governance displays existing hook files from .orqa/process/hooks/
   - If hooks directory contains shell scripts (not .md files)
@@ -17,8 +13,14 @@ acceptance:
   - Consider whether Claude hooks from .claude/settings.json should also surface here (may defer to IDEA-027)
 relationships:
   - target: EPIC-043
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: TASK-333
+    type: depended-on-by
 ---
 ## Findings Addressed
 

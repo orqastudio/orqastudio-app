@@ -1,11 +1,11 @@
 ---
 id: IMPL-063
-title: "Duplicate controls for the same operation confuse users"
-description: "Multiple buttons that trigger the same underlying function (Refresh on dashboard and Re-index on statusbar both call artifactGraphSDK.refresh()) create confusion about whether they do different things."
+title: Duplicate controls for the same operation confuse users
+description: Multiple buttons that trigger the same underlying function (Refresh on dashboard and Re-index on statusbar both call artifactGraphSDK.refresh()) create confusion about whether they do different things.
 status: active
+created: 2026-03-14
+updated: 2026-03-14
 recurrence: 1
-created: "2026-03-14"
-updated: "2026-03-14"
 maturity: observation
 relationships:
   - target: EPIC-068

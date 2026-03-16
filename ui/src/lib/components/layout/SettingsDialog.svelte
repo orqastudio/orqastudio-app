@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Dialog from "$lib/components/ui/dialog";
+	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
 	import XIcon from "@lucide/svelte/icons/x";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import SettingsCategoryNav from "$lib/components/navigation/SettingsCategoryNav.svelte";
@@ -15,14 +15,14 @@
 	let dialogSection = $state("provider");
 </script>
 
-<Dialog.Root
+<DialogRoot
 	{open}
 	onOpenChange={(isOpen) => { if (!isOpen) onClose(); }}
 >
-	<Dialog.Content class="flex h-[85vh] w-[90vw] max-w-5xl flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl">
+	<DialogContent class="flex h-[85vh] w-[90vw] max-w-5xl flex-col gap-0 overflow-hidden p-0 sm:max-w-5xl">
 		<div class="flex items-center justify-between border-b border-border px-6 py-4">
-			<Dialog.Title>Settings</Dialog.Title>
-			<Dialog.Description class="sr-only">Application settings</Dialog.Description>
+			<DialogTitle>Settings</DialogTitle>
+			<DialogDescription class="sr-only">Application settings</DialogDescription>
 			<button
 				class="rounded-sm p-1 text-muted-foreground opacity-70 transition-opacity hover:opacity-100"
 				onclick={onClose}
@@ -38,5 +38,5 @@
 				<SettingsView activeSection={dialogSection} />
 			</div>
 		</div>
-	</Dialog.Content>
-</Dialog.Root>
+	</DialogContent>
+</DialogRoot>

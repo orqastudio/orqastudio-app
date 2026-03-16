@@ -5,14 +5,16 @@ description: Add enforcement relationship edges between accepted architecture de
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
-  - All 37 accepted ADs have enforcement, practice, or intended-true relationships populated
+  - "All 37 accepted ADs have enforcement, practice, or intended-true relationships populated"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-362
+    type: depended-on-by
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

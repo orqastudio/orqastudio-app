@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
-	import { Separator } from "$lib/components/ui/separator";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
 	import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
 	import CircleXIcon from "@lucide/svelte/icons/circle-x";
 	import CircleDotIcon from "@lucide/svelte/icons/circle-dot";
@@ -31,12 +31,12 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Provider</Card.Title>
-		<Card.Description>Claude Code CLI connection and sidecar status</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Provider</CardTitle>
+		<CardDescription>Claude Code CLI connection and sidecar status</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		<div class="space-y-3">
 			<div class="flex items-center gap-2 text-sm">
 				<span class="w-32 text-muted-foreground">Sidecar Status:</span>
@@ -98,5 +98,5 @@
 			<RefreshCwIcon class="mr-1.5 h-3.5 w-3.5" />
 			Restart Sidecar
 		</Button>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

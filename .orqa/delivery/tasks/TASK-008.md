@@ -1,18 +1,11 @@
 ---
 id: TASK-008
 title: Update scanner to use config-driven paths
-description: Replace the scanner's folder-guessing logic with config-driven scanning. The scanner reads the artifacts array from project.json and scans exactly those paths. No more inferring groups from README frontmatter.
+description: "Replace the scanner's folder-guessing logic with config-driven scanning. The scanner reads the artifacts array from project.json and scans exactly those paths. No more inferring groups from README frontmatter."
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-033
-depends-on:
-  - TASK-007
 assignee: AGENT-002
-skills:
-  - SKILL-003
-  - SKILL-012
-  - SKILL-009
 acceptance:
   - artifact_scan_tree reads artifacts config from project.json
   - For each Type entry
@@ -23,13 +16,25 @@ acceptance:
   - Empty/missing artifacts config returns empty NavTree (no crash)
   - Old folder-guessing logic removed (scan_group_dir
   - scan_type_dirs)
-  - README.md files filtered from node lists (they're landing pages)
+  - "README.md files filtered from node lists (they're landing pages)"
   - Hidden files (. or _) skipped
   - cargo build and clippy pass
 relationships:
   - target: EPIC-033
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-007
+    type: depends-on
+  - target: SKILL-003
+    type: grounded-by
+  - target: SKILL-012
+    type: grounded-by
+  - target: SKILL-009
+    type: grounded-by
+  - target: TASK-009
+    type: depended-on-by
+  - target: TASK-323
+    type: depended-on-by
 ---
 ## What
 

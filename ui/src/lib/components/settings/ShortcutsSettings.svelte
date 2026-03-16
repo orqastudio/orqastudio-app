@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Badge } from "$lib/components/ui/badge";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
 
 	const shortcuts: { key: string; action: string }[] = [
 		{ key: "Ctrl+Space", action: "Search" },
@@ -11,12 +11,12 @@
 	];
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Keyboard Shortcuts</Card.Title>
-		<Card.Description>Reference card for available shortcuts</Card.Description>
-	</Card.Header>
-	<Card.Content>
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Keyboard Shortcuts</CardTitle>
+		<CardDescription>Reference card for available shortcuts</CardDescription>
+	</CardHeader>
+	<CardContent>
 		<div class="space-y-2">
 			{#each shortcuts as shortcut (shortcut.key)}
 				<div class="flex items-center justify-between rounded px-2 py-1.5 text-sm hover:bg-muted/50">
@@ -25,5 +25,5 @@
 				</div>
 			{/each}
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

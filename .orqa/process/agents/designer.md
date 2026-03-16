@@ -1,8 +1,7 @@
 ---
 id: AGENT-001
 title: Designer
-description: |
-  Designs experiences, interfaces, and structures. Produces visual designs, interaction patterns, information architecture, and layout specifications. In software, builds UI. In other domains, designs how humans interact with the system.
+description: "Designs experiences, interfaces, and structures. Produces visual designs, interaction patterns, information architecture, and layout specifications. In software, builds UI. In other domains, designs how humans interact with the system."
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -17,122 +16,12 @@ capabilities:
   - code_search_regex
   - code_search_semantic
   - code_research
-skills:
-  - SKILL-005
-  - SKILL-008
-subagent_mapping:
-  default: Designer
-  with_frontend_skills: Frontend Engineer
-  with_ux_skills: UX Reviewer
+subagent_mapping: null
 relationships:
-  - type: grounded-by
-    target: DOC-067
-    rationale: Design principles grounding — who we design for, UX-first principle, design language, and common failure patterns
-  - type: scoped-by
-    target: RULE-002
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-005
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-006
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-008
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-011
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-012
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-014
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-015
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-016
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-018
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-023
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-024
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-025
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-026
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-028
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-031
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-033
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-036
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-037
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-040
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-046
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-003
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-041
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-008
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-047
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-005
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-042
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-050
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-013
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-048
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-030
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-040
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-031
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-034
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-036
-    rationale: Inverse of scoped-to — migrated from scope field
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
 ---
 
 

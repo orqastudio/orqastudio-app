@@ -7,17 +7,18 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-199
 acceptance:
   - UserPromptSubmit hook classifies user intent and injects relevant skills
   - Skills returned as systemMessage
   - Skills not re-injected if already loaded in session
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-199
+    type: depends-on
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

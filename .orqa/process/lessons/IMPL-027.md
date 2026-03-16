@@ -3,8 +3,8 @@ id: IMPL-027
 title: "Plugin requirements are shaped by plugin type, not universal"
 description: "Not all plugins integrate with AI providers. A plugin could be a frontend visualisation, a data transformer, or a governance extension. The requires object in plugin.json should be determined by the plugin's type — different types have different requirement shapes. 'sidecar' is an implementation term; 'ai-providers' or similar is more human-readable."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

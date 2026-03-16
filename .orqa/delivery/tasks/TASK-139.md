@@ -5,8 +5,6 @@ description: Audit all Svelte components under ui/src/lib/components/ and update
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - Every .svelte file under ui/src/lib/components/ catalogued with purpose
   - RULE-024 inventory reflects actual disk state
@@ -15,8 +13,12 @@ acceptance:
   - Follow-up tasks created for missing-but-useful components
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-147
+    type: depended-on-by
+  - target: TASK-339
+    type: depended-on-by
 ---
 
 ## What

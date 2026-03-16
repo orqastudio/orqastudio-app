@@ -1,10 +1,10 @@
 ---
 id: IMPL-033
-title: "Blocking vs non-blocking observation handling should be a user preference"
+title: Blocking vs non-blocking observation handling should be a user preference
 description: "When an agent encounters a borderline observation during implementation — one that might affect other tasks but isn't clearly blocking — the orchestrator should ask the user whether to block or continue. Context matters: overnight autonomous work favours 'continue with caveat', supervised work favours 'block and reassess'. The choice and its rationale should be recorded on the task."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

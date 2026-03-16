@@ -5,16 +5,16 @@ description: Built the analysis engine that evaluates collected governance artif
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-031
-depends-on: []
 acceptance:
   - Coverage analysis identifies which governance areas are covered
   - Gaps are reported with specific missing artifact types
   - Analysis results are structured for frontend display
 relationships:
   - target: EPIC-031
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-321
+    type: depended-on-by
 ---
 ## What
 

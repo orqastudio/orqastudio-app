@@ -5,19 +5,20 @@ description: Store graph health snapshots on each integrity scan and display tre
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-060
-depends-on:
-  - TASK-390
 acceptance:
-  - Tauri command stores a health snapshot (node count, edge count, orphans, broken refs, error count, warning count) with timestamp
+  - "Tauri command stores a health snapshot (node count, edge count, orphans, broken refs, error count, warning count) with timestamp"
   - Tauri command retrieves recent snapshots for trend display
   - SVG sparklines show trends for key metrics on the dashboard
   - Snapshots stored in SQLite metrics table
   - make typecheck passes (no new errors)
 relationships:
   - target: EPIC-060
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-390
+    type: depends-on
+  - target: TASK-397
+    type: depended-on-by
 ---
 
 ## What

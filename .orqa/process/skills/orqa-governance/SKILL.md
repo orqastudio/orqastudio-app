@@ -12,22 +12,173 @@ updated: 2026-03-10
 layer: project
 category: domain
 file-patterns:
-  - .orqa/**
+  - ".orqa/**"
 version: 2.0.0
 user-invocable: true
 relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Artifact types, frontmatter schemas, and scanning pipelines make governance decisions browsable and enforceable in the app
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
-  - type: informed-by
-    target: DOC-066
-    rationale: Artifact principles grounding document distills into this skill for agent injection
+  - target: TASK-004
+    type: grounded
+  - target: TASK-005
+    type: grounded
+  - target: TASK-006
+    type: grounded
+  - target: TASK-010
+    type: grounded
+  - target: TASK-011
+    type: grounded
+  - target: TASK-012
+    type: grounded
+  - target: TASK-019
+    type: grounded
+  - target: TASK-021
+    type: grounded
+  - target: TASK-030
+    type: grounded
+  - target: TASK-032
+    type: grounded
+  - target: TASK-033
+    type: grounded
+  - target: TASK-034
+    type: grounded
+  - target: TASK-035
+    type: grounded
+  - target: TASK-036
+    type: grounded
+  - target: TASK-040
+    type: grounded
+  - target: TASK-044
+    type: grounded
+  - target: TASK-046
+    type: grounded
+  - target: TASK-047
+    type: grounded
+  - target: TASK-048
+    type: grounded
+  - target: TASK-049
+    type: grounded
+  - target: TASK-050
+    type: grounded
+  - target: TASK-051
+    type: grounded
+  - target: TASK-052
+    type: grounded
+  - target: TASK-053
+    type: grounded
+  - target: TASK-054
+    type: grounded
+  - target: TASK-055
+    type: grounded
+  - target: TASK-056
+    type: grounded
+  - target: TASK-057
+    type: grounded
+  - target: TASK-058
+    type: grounded
+  - target: TASK-059
+    type: grounded
+  - target: TASK-060
+    type: grounded
+  - target: TASK-061
+    type: grounded
+  - target: TASK-062
+    type: grounded
+  - target: TASK-063
+    type: grounded
+  - target: TASK-064
+    type: grounded
+  - target: TASK-065
+    type: grounded
+  - target: TASK-066
+    type: grounded
+  - target: TASK-067
+    type: grounded
+  - target: TASK-068
+    type: grounded
+  - target: TASK-070
+    type: grounded
+  - target: TASK-071
+    type: grounded
+  - target: TASK-072
+    type: grounded
+  - target: TASK-080
+    type: grounded
+  - target: TASK-081
+    type: grounded
+  - target: TASK-164
+    type: grounded
+  - target: TASK-171
+    type: grounded
+  - target: TASK-172
+    type: grounded
+  - target: TASK-173
+    type: grounded
+  - target: TASK-174
+    type: grounded
+  - target: TASK-178
+    type: grounded
+  - target: TASK-179
+    type: grounded
+  - target: TASK-183
+    type: grounded
+  - target: TASK-184
+    type: grounded
+  - target: TASK-186
+    type: grounded
+  - target: TASK-211
+    type: grounded
+  - target: TASK-212
+    type: grounded
+  - target: TASK-213
+    type: grounded
+  - target: TASK-214
+    type: grounded
+  - target: TASK-216
+    type: grounded
+  - target: TASK-220
+    type: grounded
+  - target: TASK-221
+    type: grounded
+  - target: TASK-222
+    type: grounded
+  - target: TASK-406
+    type: grounded
+  - target: TASK-409
+    type: grounded
+  - target: TASK-411
+    type: grounded
+  - target: TASK-412
+    type: grounded
+  - target: TASK-413
+    type: grounded
+  - target: TASK-414
+    type: grounded
+  - target: TASK-460
+    type: grounded
+  - target: TASK-461
+    type: grounded
+  - target: TASK-462
+    type: grounded
+  - target: TASK-463
+    type: grounded
+  - target: TASK-464
+    type: grounded
+  - target: TASK-465
+    type: grounded
+  - target: TASK-466
+    type: grounded
+  - target: TASK-467
+    type: grounded
+  - target: TASK-474
+    type: grounded
+  - target: TASK-475
+    type: grounded
+  - target: TASK-477
+    type: grounded
+  - target: AGENT-008
+    type: grounded
 ---
 
 

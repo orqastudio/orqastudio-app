@@ -18,9 +18,8 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: One-change-at-a-time refactoring with verification after each step preserves system clarity during architectural evolution
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
+  - target: TASK-416
+    type: grounded
 ---
 
 

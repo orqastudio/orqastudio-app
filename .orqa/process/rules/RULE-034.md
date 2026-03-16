@@ -1,7 +1,7 @@
 ---
 id: RULE-034
 title: Artifact Link Format
-description: All cross-references between artifacts must use markdown link syntax with artifact IDs. Bare IDs, file paths, and web-style paths are forbidden.
+description: "All cross-references between artifacts must use markdown link syntax with artifact IDs. Bare IDs, file paths, and web-style paths are forbidden."
 status: active
 created: 2026-03-11
 updated: 2026-03-13
@@ -16,23 +16,11 @@ relationships:
   - target: RULE-003
     type: informs
     rationale: Artifact link format must use IDs, not file paths — config paths and link targets are separate concerns
-  - type: enforces
-    target: AD-036
-    rationale: This rule enforces cross-linking as default — it mandates the [ID](ID) format and uses autolink-artifacts.mjs to auto-convert bare IDs to links at commit time
-  - type: enforces
-    target: AD-029
-    rationale: This rule enforces cross-reference format consistency for the universal roles and artifact ID system
   - target: RULE-045
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-045
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: AGENT-008
-    type: scoped-to
+    type: enforces
     rationale: "Auto-generated inverse of scoped-to relationship from AGENT-008"
 ---
 All artifact cross-references MUST use the format `[Display Text](ARTIFACT-ID)` where the artifact ID matches the pattern `PREFIX-NNN`. The display text is typically the artifact ID itself: `[EPIC-001](EPIC-001)`.

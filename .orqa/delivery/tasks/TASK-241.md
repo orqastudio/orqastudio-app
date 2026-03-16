@@ -5,14 +5,15 @@ description: RES-024 surpassed. 9 orphaned Phase 0 research files need connectio
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - RES-024 surpassed
   - Orphaned research connected or documented
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

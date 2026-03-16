@@ -6,18 +6,62 @@
 
 ## The Foundation
 
-Everything is a node on a graph. Nodes connect through typed relationships. The graph IS the thinking made visible. That's the product.
+OrqaStudio is a structured systems thinking partner. It provides a framework where humans and AI agents collaborate to solve problems, and then applies the solutions back into the same framework so they can be implemented — by an implementation agent, or a human.
 
-## Core Types (Universal, Always Exist)
+Everything is a node on a graph. Nodes connect through typed relationships. The graph IS the thinking made visible. The framework enforces systems thinking — not through guidelines that agents forget under pressure, but through mechanical constraints that make unstructured work impossible.
 
-These represent universal concepts in structured thinking. Every project has them regardless of domain.
+The full loop: structured thinking → problem solving with AI → solutions applied to the framework → implementation → learning fed back into the framework.
+
+Critically, this loop compounds. Lessons become rules. Patterns become skills. Decisions become governance. The more someone works with their thinking partner, the better the partner gets at transposing their thoughts into process. The framework isn't static — it evolves with the project, capturing not just what was decided but HOW the team thinks and works. Over time, the system learns the user's reasoning patterns and encodes them as enforceable structure.
+
+## Types vs Instances
+
+A **type** is a definition — what kind of artifact this is, what statuses it allows, what relationships it can have. An **instance** is a specific artifact — PILLAR-001 "Clarity Through Structure", EPIC-045 "Dashboard Redesign". The type is the schema; the instance is the data.
+
+This distinction matters because types and instances have different rules about what's fixed and what's configurable.
+
+## Three Layers of Artifacts
+
+Artifacts, their content, and their relationships exist in three layers based on how much control the project has:
+
+### Layer 1: App-Fixed (Immutable)
+
+Type definitions, content, and relationships are all hardcoded into the app. These are the definitions that make OrqaStudio work as a product. They cannot be edited through the app. Pre-commit hooks block file-based edits.
+
+**What lives here:**
+- The canonical type definitions themselves (what "pillar" means, what "idea" means)
+- The canonical relationship definitions (what `informs` means, what `delivers` means)
+- The canonical status vocabulary and their semantics
+- Platform documentation (how to use OrqaStudio)
+- Platform skills (how agents interact with OrqaStudio)
+
+These are defined internally using the same structures as project-level definitions — they're just hardcoded rather than configurable.
+
+### Layer 2: App-Required, Project-Authored (Required Existence, Configurable Content)
+
+The app requires certain artifact instances to exist for the project to function, but the **content** is authored by the project. These define the project's purpose and identity within the framework.
+
+| Type | Why Required | Content Is... |
+|---|---|---|
+| Pillars | Project must have guiding principles | What THIS project believes |
+| Vision | Project must have direction | Where THIS project is going |
+| Personas | Project must know who it serves | Who THIS project serves |
+| Grounding | Agents must have behavioral anchors | What grounds THIS project's agents |
+
+The app enforces that these exist. A new project can't function without at least defining its pillars and vision. But what those pillars SAY is entirely up to the project.
+
+**Required relationships at this layer:**
+- Agents must be `grounded-by` at least one pillar or grounding artifact
+- Rules must be `governed-by` at least one decision
+
+### Layer 3: Project-Scoped (Fully Configurable)
+
+Types, instances, content, and relationships are all defined by the project. The app enforces the rules the project configures, but doesn't prescribe what those rules are.
+
+**Core types with project-scoped instances** — the types are canonical but instances are created freely:
 
 | Type | Purpose |
 |---|---|
-| Pillars | What we believe — guiding principles |
-| Vision | Where we're going |
-| Personas | Who we serve |
-| Grounding | What anchors agent behavior |
 | Ideas | Entry point for any change — to the project, process, or principles |
 | Decisions | Resolutions that direct work and authorise enforcement |
 | Rules | Standards we enforce |
@@ -25,25 +69,58 @@ These represent universal concepts in structured thinking. Every project has the
 | Skills | Knowledge we teach |
 | Agents | Roles that do work |
 
-**Ideas** are the universal entry point. Where an idea goes depends on what it is — it might evolve into delivery work, or drive a decision that governs a rule. The idea is always preserved as the record of original thinking.
+**Project-defined types** — the types themselves are defined by the project:
+
+| Category | Examples | Defined In |
+|---|---|---|
+| Discovery types | Research, wireframes, client discovery, experiments | `project.json` |
+| Delivery types | Milestones, epics, tasks, phases, workstreams | `project.json` |
+
+**Project relationships** — domain-specific connections between project types. Software: `depends-on` between tasks. Research: `replicates` between experiments. Defined in `project.json`, enforced by the app with the same rigour as canonical relationships.
+
+**Project statuses** — if delivery/discovery types need statuses beyond the canonical vocabulary, they define them at the project level.
+
+Labels, icons, hierarchy depth, and status aliases are all project-configurable. A research project might use a flask icon for experiments and a microscope for observations.
+
+### How the Layers Compose
+
+The app combines all three layers into a single enforcement model. Canonical type definitions and project type definitions use the same internal structure. Canonical relationships and project relationships are enforced by the same engine. The layers aren't separate systems — they're the same system with different levels of configurability.
+
+```
+┌─────────────────────────────────────────────────┐
+│ Layer 1: App-Fixed                              │
+│ Type definitions, canonical relationships,      │
+│ status vocabulary, platform docs/skills         │
+│ Immutable. Pre-commit hooks protect.            │
+├─────────────────────────────────────────────────┤
+│ Layer 2: App-Required, Project-Authored         │
+│ Pillars, Vision, Personas, Grounding instances  │
+│ Must exist. Content is the project's.           │
+│ Required relationships enforced.                │
+├─────────────────────────────────────────────────┤
+│ Layer 3: Project-Scoped                         │
+│ Ideas, decisions, rules, lessons, skills,       │
+│ agents + project-defined discovery/delivery     │
+│ types, relationships, statuses                  │
+│ Fully configurable. App enforces config.        │
+└─────────────────────────────────────────────────┘
+```
+
+**Ideas** are the universal entry point at Layer 3. Where an idea goes depends on what it is — it might evolve into delivery work, or drive a decision that governs a rule. The idea is always preserved as the record of original thinking.
 
 **Decisions** are the bridge. They appear in multiple views because they serve multiple roles.
 
 Labels and icons on core types are configurable per project for contextual clarity. A consulting project might call "Rules" → "Standards" and "Lessons" → "Insights." The canonical type key stays the same.
 
-## Project Types (Configurable)
+## Relationships
 
-Everything beyond the core is project-specific:
+Relationships are the ONLY way artifacts connect. No standalone frontmatter fields for connections. No `epic: EPIC-045`. Only relationships.
 
-**Discovery types** — ways of informing ideas and decisions. Software: research, wireframes. Consulting: client discovery, stakeholder maps. Research: literature review, experiments.
+There are two levels: canonical relationships that the app ships with and enforces universally, and project relationships that are defined per-project for domain-specific connections.
 
-**Delivery types** — ways of acting on ideas and decisions. Software: milestones, epics, tasks. Consulting: phases, workstreams, deliverables. Personal: goals, actions.
+### Canonical Relationships (App-Level)
 
-Labels, icons, hierarchy depth, and status aliases are all project-configurable. A research project might use a flask icon for experiments and a microscope for observations.
-
-## Relationship Vocabulary
-
-Relationships are the ONLY way artifacts connect. Each has a clear semantic:
+These exist in every project. They represent universal ways that thinking connects. Projects can alias the display labels but the underlying semantics are fixed.
 
 | Relationship | Inverse | Meaning | Example |
 |---|---|---|---|
@@ -56,37 +133,50 @@ Relationships are the ONLY way artifacts connect. Each has a clear semantic:
 | `grounded` | `grounded-by` | Foundational anchor | Agent grounded by a pillar |
 | `observes` | `observed-by` | Learning captured | Lesson observes a pattern |
 | `merged-into` | `merged-from` | Ideas converged | Idea merged into a new idea |
+| `synchronised-with` | `synchronised-with` | Must stay aligned | Skill synchronised with its documentation |
 
-No standalone frontmatter fields for connections. No `epic: EPIC-045`. Only relationships.
+The old relationship types that existed at the app level are replaced by this canonical vocabulary. For each, the migration must determine whether the existing usage maps to a canonical relationship or becomes a project-level relationship:
 
-### Relationship types to review
-
-Existing types NOT in the vocabulary above that need decisions:
-
-| Current Type | Keep / Rename / Remove | Notes |
+| Old Type | Migration Path | Reasoning |
 |---|---|---|
-| `scoped-to` / `scoped-by` | Review | Was for rule→agent scope. Still needed? |
-| `contains` / `belongs-to` | Review | Was for epic→task containment. Replaced by `delivers`? |
-| `documents` / `documented-by` | Review | Docs↔rules linkage. Still needed or covered by `informs`? |
-| `practices` / `practiced-by` | Review | Skill→agent linkage. Still needed? |
-| `verifies` / `verified-by` | Review | Review gate linkage. Still needed? |
-| `synchronised-with` | New | Docs↔skills synchronisation |
+| `scoped-to` / `scoped-by` | → canonical `enforces` | Rule scope = what it enforces |
+| `contains` / `belongs-to` | → canonical `delivers` | Containment is contribution |
+| `documents` / `documented-by` | → canonical `informs` | Documentation informs its subject |
+| `practices` / `practiced-by` | → canonical `grounded` | Agent practicing a skill = grounded by it |
+| `verifies` / `verified-by` | → canonical `enforces` | Verification is enforcement |
+| `depends-on` | → project relationship | Domain-specific delivery dependency |
 
-### Standalone fields to migrate
+Some connections that used old canonical types might belong as project relationships instead. The migration epic must audit each usage and route it correctly.
 
-All of these become relationships:
+### Project Relationships (Project-Level)
 
-| Field | On Type | Becomes Relationship |
+These are defined per-project in `project.json` for domain-specific connections between project types. They only exist when the project defines them.
+
+| Domain | Relationship | Inverse | Meaning |
+|---|---|---|---|
+| Software | `depends-on` | `depended-on-by` | Must complete before this can start |
+| Research | `replicates` | `replicated-by` | Experiment reproduces another |
+| Consulting | `escalates-to` | `escalated-from` | Issue raised to higher authority |
+
+Project relationships follow the same rules as canonical ones — bidirectional, app-enforced, used in graph queries. The difference is they're defined by the project, not shipped with the app.
+
+**Blocking is inferred, not stored.** If artifact A `depends-on` artifact B and B isn't completed, A is blocked. The graph query tells you that. There is no `blocked-by` relationship — blocking is a derived state from dependency + status.
+
+### Standalone Fields to Migrate
+
+All existing standalone connection fields become relationships:
+
+| Field | On Type | Becomes |
 |---|---|---|
 | `epic` | Tasks | `delivers → EPIC-NNN` |
-| `milestone` | Epics | `belongs-to → MS-NNN` (or `delivers`) |
-| `depends-on` | Tasks | New relationship type (e.g., `blocked-by`) |
+| `milestone` | Epics | `delivers → MS-NNN` |
+| `depends-on` | Tasks | `depends-on → TASK-NNN` (project relationship) |
 | `promoted-to` | Ideas/Lessons | `evolves-into → RULE-NNN` |
-| `surpassed-by` | Research | `surpassed-by` relationship |
-| `supersedes` / `superseded-by` | Decisions | Relationship |
+| `surpassed-by` | Research | `evolves-into` (the newer work) |
+| `supersedes` / `superseded-by` | Decisions | `evolves-into` / `evolves-from` |
 | `pillars` | Ideas/Epics | `grounded-by → PILLAR-NNN` (already migrated) |
 | `research-refs` | Epics | `informed-by → RES-NNN` |
-| `docs-required` / `docs-produced` | Epics | Relationships to doc artifacts |
+| `docs-required` / `docs-produced` | Epics | `informs` / `informed-by` to doc artifacts |
 
 ## How Ideas Evolve
 
@@ -114,11 +204,38 @@ Decisions appear in Discovery (where they're made), Learning (when they govern r
 
 ## State Machine
 
-Status is a property of each node. Transitions are graph queries.
+Status is a property of each node. Transitions are graph queries. Like types and relationships, statuses have two levels.
 
-**Universal statuses**: captured → exploring → ready → prioritised → active → hold → blocked → review → completed → surpassed → recurring
+### Canonical Statuses (App-Level)
 
-Projects can define **label aliases** for display (key stays canonical). Icons are configurable per status.
+These represent universal stages of thinking. They exist in every project. The underlying concept is fixed; the display label is aliasable per project.
+
+| Status | Meaning |
+|---|---|
+| `captured` | Recorded, not yet explored |
+| `exploring` | Under investigation |
+| `ready` | Explored, awaiting prioritisation |
+| `prioritised` | Chosen for action |
+| `active` | Work in progress |
+| `hold` | Paused deliberately |
+| `blocked` | Can't proceed (inferred from dependencies, or set manually for external blockers) |
+| `review` | Done, awaiting validation |
+| `completed` | Finished |
+| `surpassed` | Superseded by newer thinking (merged ideas, outdated research) |
+| `archived` | Didn't go anywhere — preserved but inactive (explored and abandoned) |
+| `recurring` | Completed but expected to repeat |
+
+**`surpassed` vs `archived`**: Different meanings. `surpassed` = thinking evolved, something better exists. `archived` = thinking was explored but didn't lead anywhere. The `merged-into` relationship tells you how something was surpassed; `archived` has no successor.
+
+**Status subsets per type**: Each type declares which statuses it allows. A task doesn't need `exploring`. A milestone doesn't need `recurring`. The app enforces the restriction — you can't set a status that isn't in the type's allowed subset.
+
+**Display aliases**: Projects configure how statuses appear in the UI. The canonical key is always stored; the alias is a rendering concern. A research project might display `exploring` as "Investigating" and `active` as "In Lab."
+
+### Project Statuses (Project-Level)
+
+If a project's delivery or discovery types need statuses that aren't universal thinking stages, they define them in `project.json`. These are scoped to the types that use them and don't pollute the canonical vocabulary.
+
+### Transitions and Auto-Rules
 
 **Auto-rules are graph queries:**
 ```json
@@ -131,6 +248,8 @@ Projects can define **label aliases** for display (key stays canonical). Icons a
 ```
 
 "When all nodes connected via `delivers` relationships are in `completed` status → propose transitioning this node to `review`."
+
+Auto-rules can reference both canonical and project relationships. A project might define: "when all `depends-on` targets are `completed` → auto-unblock this artifact."
 
 The state machine isn't a separate system — it's rules about which transitions are valid given the current graph state.
 
@@ -146,39 +265,34 @@ The state machine isn't a separate system — it's rules about which transitions
 
 ## Enforcement
 
-The process is enforced by app code, not AI instructions. Invalid graph states are mechanically impossible.
+The process is enforced by app code, not AI instructions. Invalid graph states are mechanically impossible. This applies to BOTH canonical and project-configured elements — the app enforces project relationships, statuses, and type constraints with the same rigour as canonical ones. Configuration doesn't mean optional enforcement.
 
-| Constraint | Enforcement |
-|---|---|
-| Delivery artifact must connect to parent | App rejects creation without relationship |
-| Status transition must be in valid list | App won't allow invalid transitions |
-| Child can't be further along than parent | App flags immediately, blocks until resolved |
-| Relationships must be bidirectional | App creates inverse automatically |
-| Statuses must be from configured vocabulary | App rejects invalid values |
+### What the App Enforces
+
+| Constraint | Scope | Enforcement |
+|---|---|---|
+| Relationships must be bidirectional | Canonical + project | App creates inverse automatically |
+| Relationships must use valid types | Canonical + project | App rejects undefined relationship types |
+| Statuses must be from allowed vocabulary | Canonical + project | App rejects invalid values for each type |
+| Status transitions must be valid | Canonical + project | App won't allow invalid transitions |
+| Delivery artifact must connect to parent | Project-configured | App rejects creation without required relationship |
+| Child can't be further along than parent | Project-configured | App flags immediately, blocks until resolved |
+| Type-specific status subsets | Canonical + project | App rejects statuses not in the type's allowed list |
 
 This is not behavioral guidance for AI. This is the app refusing to accept invalid state — like a database rejecting bad SQL. If enforcement depends on AI remembering rules, enforcement fails under pressure (proven this session).
 
-### Three Enforcement Layers
+Project relationships defined in `project.json` get the same mechanical enforcement as canonical ones. When a project defines `depends-on` for tasks, the app enforces bidirectionality, validates the relationship type, and uses it in graph queries — exactly like `delivers` or `informs`.
 
-| Layer | When | What it does | Example |
-|---|---|---|---|
-| **App enforcement** | At action time | Prevents invalid states mechanically | Can't save invalid status transition |
-| **Integrity checks** | On scan/refresh | Flags problems that need human judgment | "Child further along than parent — advance parent or move child?" |
-| **Git hooks** | At commit time | Safety net for edits that bypassed the app | Text editor changes, CLI agent edits |
+### Four Enforcement Layers
 
-**App enforcement** makes invalid states impossible. You can't create them.
+| Layer | When | Human needed? |
+|---|---|---|
+| **App enforcement** | At action time | No — invalid states impossible |
+| **Automated scanners** | On file change (watcher) | No — objective transitions auto-applied |
+| **Integrity checks** | On scan/refresh | Yes — flags judgment-required issues |
+| **Git hooks** | At commit time | Yes — last line of defence |
 
-**Integrity checks** detect states that are technically valid but semantically wrong — situations where code can identify the problem but only a human can decide the fix. Examples:
-- Body text references an artifact with no corresponding relationship
-- Lesson has recurred 3 times (promote to rule?)
-- All tasks completed on an epic (move to review?)
-- Child artifact further along than parent (advance parent or move child?)
-
-**Git hooks** are the last line of defence for when changes happen outside the app — text editors, CLI agents, manual file editing. They run the same integrity checks at commit time.
-
-### Fourth Layer: Automated Scanners
-
-A fourth enforcement layer that sits between app enforcement and integrity checks:
+**App enforcement** makes invalid states impossible. You can't create them. This covers both canonical constraints (relationship bidirectionality, status vocabulary) and project-configured constraints (delivery hierarchy, type-specific rules).
 
 **Automated scanners** run on file watcher events. When an artifact changes on disk, the scanner:
 1. Reads the changed file's relationships
@@ -190,14 +304,15 @@ Examples:
 - A dependency completes → scanner auto-unblocks the waiting task
 - A lesson hits recurrence threshold → scanner auto-moves to `review`
 
-These are the configurable auto_rules from the state machine, triggered by file watcher events rather than manual scans. The file watcher detects the change, the scanner evaluates the graph query, and the transition happens automatically.
+These are the configurable auto_rules from the state machine, triggered by file watcher events rather than manual scans. Auto-rules can reference both canonical and project relationships.
 
-| Layer | When | Human needed? |
-|---|---|---|
-| **App enforcement** | At action time | No — invalid states impossible |
-| **Automated scanners** | On file change (watcher) | No — objective transitions auto-applied |
-| **Integrity checks** | On scan/refresh | Yes — flags judgment-required issues |
-| **Git hooks** | At commit time | Yes — last line of defence |
+**Integrity checks** detect states that are technically valid but semantically wrong — situations where code can identify the problem but only a human can decide the fix. Examples:
+- Body text references an artifact with no corresponding relationship
+- Lesson has recurred 3 times (promote to rule?)
+- All tasks completed on an epic (move to review?)
+- Child artifact further along than parent (advance parent or move child?)
+
+**Git hooks** are the last line of defence for when changes happen outside the app — text editors, CLI agents, manual file editing. They run the same integrity checks at commit time. Additionally, git hooks enforce Layer 1 immutability — blocking commits that modify app-fixed artifacts (canonical type definitions, platform docs/skills).
 
 ### Idea Merging
 
@@ -248,40 +363,44 @@ The symmetry:
 - Project docs ↔ Project skills (same knowledge, human vs agent, synchronised)
 - Domain skills have no doc counterpart (portable expertise, not project or platform)
 
-## Open Questions (Unresolved)
+## Open Questions — Resolved
 
-1. **Existing relationship types** — scoped-to, contains, documents, practices, verifies are in use but not in the new vocabulary. For each: keep, rename, or absorb? Is `contains/belongs-to` the same as `delivers/delivered-by` or semantically different (containment vs contribution)?
+1. **Existing relationship types** → All old canonical types replaced by the new vocabulary. Each existing usage audited during migration: maps to canonical relationship or becomes project relationship. See Relationships section.
 
-2. **`surpassed` doing double duty** — it's a status (overtaken by newer work) AND used for idea merging (source ideas surpassed). Should merged ideas use `archived` instead, or is surpassed correct for both?
+2. **`surpassed` vs `archived`** → Different statuses with different meanings. `surpassed` = thinking evolved, something better exists (merged ideas, outdated research). `archived` = explored but didn't lead anywhere, no successor. See State Machine section.
 
-3. **Status restriction per type** — one vocabulary with aliases, but do ALL 11 statuses make sense for every type? Does a task need `exploring`? Does a milestone need `recurring`? Should config allow restricting which statuses apply to which type?
+3. **Status restriction per type** → Yes. Canonical vocabulary with type-specific allowed subsets. Display labels aliasable per project; underlying concepts stay canonical. App enforces the restriction.
 
-4. **`depends-on` replacement** — what relationship type? `blocked-by`? Or keep `depends-on/depended-on-by` as its own type since dependency is structural (always exists) while blocking is a state (temporary)?
+4. **`depends-on` replacement** → `depends-on` is a project-level relationship, not canonical. Blocking is inferred state (dependency + incomplete status), not a relationship. No `blocked-by` type needed.
 
-5. **Research as core vs project** — we concluded research is project-specific, but `.orqa/delivery/research/` is heavily used with 60+ files. Migrate now or later?
+5. **Research as core vs project** → Project-specific. Migrated now as part of the migration epic. Principles aren't partial — you can't migrate half a principle.
 
-6. **Agent skills during migration** — governance is disconnected but agents need implementation quality guidance. Which skills load manually? Coding standards, composability, Svelte 5, Tauri v2, Rust patterns at minimum.
+6. **Agent skills during migration** → Domain skills (coding standards, composability, Svelte 5, Tauri v2, Rust patterns) loaded by implementation agents. They're portable expertise needed by this project, loaded explicitly while governance is disconnected.
 
 ## Key Design Principles
 
 1. **The graph is the only data structure.** No standalone fields, no side channels.
 2. **Sections are views, not categories.** The graph doesn't have sections. Views filter by relationship patterns.
-3. **Core types are universal thinking concepts.** They exist in every project, every domain.
-4. **Project types are configurable.** Discovery and delivery types adapt to the domain.
-5. **The app enforces structure.** State machine rules, graph integrity, and status transitions are app-level enforcement, not AI rules.
-6. **AI knows the system through app-shipped docs.** Uneditable conventions, loaded into agent context.
-7. **Project rules are project-specific.** Editable by the project, enforce project standards.
+3. **Two layers for everything.** Types, relationships, and statuses each have a canonical app-level (universal, aliasable) and a project-level (domain-specific, fully configurable). The line is clear: canonical = universal thinking concepts; project = domain-specific work patterns.
+4. **The app enforces both layers.** Project-configured relationships, statuses, and constraints get the same mechanical enforcement as canonical ones. Configuration doesn't mean optional enforcement.
+5. **Display is configurable, concepts are canonical.** Projects alias labels, icons, and status names for their domain. The app stores and enforces the canonical key. The UI renders the alias.
+6. **Blocking is derived, not stored.** Dependencies are structural relationships. Whether something is blocked is inferred from dependency status, not stored as a separate relationship.
+7. **AI knows the system through app-shipped docs.** Uneditable conventions, loaded into agent context.
+8. **Project rules are project-specific.** Editable by the project, enforce project standards.
 
 ---
 
-## Key Architectural Decisions Made This Session
+## Key Architectural Decisions
 
 - **AD-049**: Status represented by icons, colors reserved for artifact types
 - **AD-050**: Status transitions are config-driven
-- **AD-051**: Three-layer configurability — core types universal, instances project-specific, delivery fully configurable
+- **AD-051**: Three-layer artifact model — app-fixed, app-required/project-authored, project-scoped
+- **AD-052**: Canonical relationship vocabulary — relationships only, two layers (canonical + project)
+- **AD-053**: Canonical status model — universal vocabulary, type subsets, display aliases, surpassed vs archived
+- **AD-054**: Four enforcement layers — app, scanners, integrity, git hooks (enforces both canonical + project)
 - **IDEA-105**: Delivery pipeline as a future plugin
-- **IDEA-106**: Principles/Discovery/Learning section split
-- **IDEA-107**: App-shipped conventions vs project-level rules
+- **IDEA-106**: Sections are graph filters — Principles, Discovery, Learning, Delivery
+- **IDEA-107**: App-shipped platform knowledge — immutable Layer 1 documentation and skills
 
 ## Session Artifacts Created
 

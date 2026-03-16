@@ -19,33 +19,10 @@ relationships:
   - target: RULE-002
     type: informs
     rationale: Architecture decisions are required reading before any code that touches the IPC boundary
-  - type: informed-by
-    target: RULE-001
-    rationale: Delegation protocol requires agents to read governing docs before starting work
-  - type: informed-by
-    target: RULE-026
-    rationale: Skill enforcement loads skills before work; required reading loads docs before work
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: RULE-001
+    type: informed-by
+  - target: RULE-026
+    type: informed-by
 ---
 Every agent MUST read its Required Reading documentation before any implementation work begins. The Required Reading section in each agent definition lists the specific documentation pages that agent needs loaded into context.
 

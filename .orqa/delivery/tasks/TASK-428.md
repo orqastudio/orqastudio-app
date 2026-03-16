@@ -6,16 +6,10 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on:
-  - TASK-427
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-034
 acceptance:
   - "ui/package.json uses versioned @orqastudio/* dependencies (no file: references)"
-  - ui/.npmrc configures @orqastudio scope to GitHub Packages registry
+  - "ui/.npmrc configures @orqastudio scope to GitHub Packages registry"
   - npm install succeeds from registry
   - All 218 existing tests pass
   - svelte-check passes (same error count as before)
@@ -25,9 +19,12 @@ relationships:
   - target: EPIC-066
     type: delivers
     rationale: Main app fully consuming published packages — the loop is closed
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-427
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-034
+    type: grounded-by
 ---
 
 ## Scope

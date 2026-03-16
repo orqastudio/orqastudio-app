@@ -1,29 +1,37 @@
 ---
 id: TASK-292
-title: Update project.json, READMEs, and symlinks for app layout
-description: After directory moves, update project.json artifacts array, all directory README frontmatter (icon, label, description, sort), and .claude/ symlinks so the app scanner renders the new three-level structure correctly.
+title: "Update project.json, READMEs, and symlinks for app layout"
+description: "After directory moves, update project.json artifacts array, all directory README frontmatter (icon, label, description, sort), and .claude/ symlinks so the app scanner renders the new three-level structure correctly."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-287
-  - TASK-288
-  - TASK-289
 assignee: null
 docs: []
-skills: []
 acceptance:
   - project.json artifacts array reflects new process/delivery/documentation structure
-  - Every artifact directory has README.md with frontmatter (icon, label, description)
+  - "Every artifact directory has README.md with frontmatter (icon, label, description)"
   - .claude/ symlinks point to correct new paths
   - App scanner renders new structure in nav tree
   - CLAUDE.md symlink still works
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-287
+    type: depends-on
+  - target: TASK-288
+    type: depends-on
+  - target: TASK-289
+    type: depends-on
+  - target: TASK-299
+    type: depended-on-by
+  - target: TASK-300
+    type: depended-on-by
+  - target: TASK-301
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

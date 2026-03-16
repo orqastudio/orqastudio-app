@@ -1,30 +1,23 @@
 ---
 id: EPIC-023
 title: Onboarding Flow Review
-description: Audit and improve the first-run setup wizard, new project flow, existing folder initialization, and guided first conversation.
+description: "Audit and improve the first-run setup wizard, new project flow, existing folder initialization, and guided first conversation."
 status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on:
-  - EPIC-011
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 3
-  impact: 4
-  dependency: 1
-  effort: 2
-  score: 10
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: EPIC-011
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: DOC-061
+    type: informs
 ---
 ## Tasks
 

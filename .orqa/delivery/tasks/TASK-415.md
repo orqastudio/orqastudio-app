@@ -6,14 +6,7 @@ status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-414
 assignee: null
-skills:
-  - SKILL-032
-  - SKILL-009
-  - SKILL-012
 acceptance:
   - EnforcementEngine.evaluate_file() called before file write operations in agent loop
   - EnforcementEngine.evaluate_bash() called before bash executions in agent loop
@@ -28,9 +21,22 @@ relationships:
   - target: EPIC-050
     type: informed-by
     rationale: EPIC-050 built the Rust engine; this task wires it to execution
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-414
+    type: depends-on
+  - target: SKILL-032
+    type: grounded-by
+  - target: SKILL-009
+    type: grounded-by
+  - target: SKILL-012
+    type: grounded-by
+  - target: TASK-188
+    type: evolves-into
+  - target: TASK-189
+    type: evolves-into
+  - target: TASK-190
+    type: depended-on-by
+  - target: TASK-416
+    type: depended-on-by
 ---
 
 ## Scope

@@ -1,33 +1,26 @@
 ---
 id: EPIC-017
-title: Enforcement & Continuity
-description: Add real-time violation detection during streaming, hook-based rule injection, compliance dashboard, and session handoff continuity.
+title: "Enforcement & Continuity"
+description: "Add real-time violation detection during streaming, hook-based rule injection, compliance dashboard, and session handoff continuity."
 status: completed
 priority: P2
 created: 2026-03-07
 updated: 2026-03-12
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on: []
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 3
-  dependency: 2
-  effort: 4
-  score: 6.8
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-314
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: MS-001
+    type: delivers
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
 ---
 **Note:** Two deliverables from this epic were deferred:
 - **Visual compliance dashboard** -- not delivered; should be tracked in a future epic when dashboard UI work is prioritised.

@@ -5,11 +5,8 @@ description: Architecture decision formalizing the three-level structure (proces
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 assignee: null
 docs: []
-skills: []
 acceptance:
   - AD-043 exists in .orqa/process/decisions/
   - Documents the three-level structure with rationale
@@ -18,8 +15,16 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-287
+    type: depended-on-by
+  - target: TASK-288
+    type: depended-on-by
+  - target: TASK-289
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

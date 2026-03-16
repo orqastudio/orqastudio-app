@@ -1,27 +1,28 @@
 ---
 id: TASK-222
 title: Audit existing architecture decisions against AD-038/039/040
-description: Review AD-001 through AD-037 to identify which decisions are superseded, affected, or made defunct by the graph-based knowledge injection (AD-038), core graph firmware (AD-039), and task-first audit trail (AD-040) decisions.
+description: "Review AD-001 through AD-037 to identify which decisions are superseded, affected, or made defunct by the graph-based knowledge injection (AD-038), core graph firmware (AD-039), and task-first audit trail (AD-040) decisions."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on: []
 docs:
   - DOC-036
-skills:
-  - SKILL-011
-  - SKILL-038
 acceptance:
   - Every AD from AD-001 to AD-037 has been reviewed
   - Superseded decisions have status superseded and superseded-by set
   - New decisions (AD-038/039/040) have supersedes set where applicable
   - No one-sided supersessions exist (RULE-004 compliance)
-  - Summary table of audit findings exists in this task's body
+  - "Summary table of audit findings exists in this task's body"
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-038
+    type: grounded-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

@@ -6,15 +6,7 @@ status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-411
-  - TASK-412
-  - TASK-413
 assignee: null
-skills:
-  - SKILL-033
-  - SKILL-011
 acceptance:
   - "Every enforcement entry with event: file is evaluated by rule-engine.mjs PreToolUse hook"
   - "Every enforcement entry with event: bash is evaluated by rule-engine.mjs PreToolUse hook"
@@ -26,9 +18,20 @@ relationships:
   - target: EPIC-064
     type: delivers
     rationale: Verification task — confirms the bootstrapping gap is closed
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-411
+    type: depends-on
+  - target: TASK-412
+    type: depends-on
+  - target: TASK-413
+    type: depends-on
+  - target: SKILL-033
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-185
+    type: evolves-into
+  - target: TASK-415
+    type: depended-on-by
 ---
 
 ## Scope

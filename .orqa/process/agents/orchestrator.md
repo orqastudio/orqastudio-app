@@ -1,8 +1,7 @@
 ---
 id: AGENT-003
 title: Orchestrator
-description: |
-  Process coordinator. Breaks work into tasks, delegates to universal agent roles, enforces governance gates, manages the artifact lifecycle, and reports status honestly. Does NOT write implementation code.
+description: "Process coordinator. Breaks work into tasks, delegates to universal agent roles, enforces governance gates, manages the artifact lifecycle, and reports status honestly. Does NOT write implementation code."
 status: active
 created: 2026-03-01
 updated: 2026-03-12
@@ -18,192 +17,23 @@ capabilities:
   - code_search_semantic
   - code_research
   - shell_execute
-skills:
-  - SKILL-005
-  - SKILL-008
-  - SKILL-019
-  - SKILL-035
 relationships:
-  - type: scoped-by
-    target: RULE-001
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-002
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-003
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-004
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-005
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-007
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-008
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-009
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-011
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-012
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-013
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-014
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-015
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-016
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-017
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-019
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-021
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-022
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-023
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-025
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-026
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-027
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-028
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-030
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-031
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-032
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-034
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-035
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-036
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-037
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-038
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-039
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-040
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-042
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: RULE-045
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-003
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-008
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-047
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-007
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-038
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-005
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-037
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-011
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-050
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-013
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-039
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-019
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-021
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-022
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-023
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-024
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-029
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-040
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: scoped-by
-    target: SKILL-035
-    rationale: Inverse of scoped-to — migrated from scope field
-  - type: grounded-by
-    target: PILLAR-001
-    rationale: Clarity Through Structure — the orchestrator must make thinking visible and structured in every action
-  - type: grounded-by
-    target: PILLAR-002
-    rationale: Learning Through Reflection — the orchestrator must capture what was learned, not just what was done
-  - type: grounded-by
-    target: PILLAR-003
-    rationale: Purpose Through Continuity — the orchestrator must maintain coherence between intention and action under implementation pressure
-  - type: grounded-by
-    target: DOC-046
-    rationale: Product vision — the orchestrator must understand the mission and identity of OrqaStudio to make aligned decisions
-  - type: grounded-by
-    target: DOC-064
-    rationale: Product purpose grounding — concise summary of what OrqaStudio is and what the pillars demand from coordination work
-  - type: grounded-by
-    target: DOC-069
-    rationale: Delegation reference — the orchestrator's source of truth for which role to delegate to, which skills to load, and which grounding docs to include
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: SKILL-019
+    type: grounded-by
+  - target: SKILL-035
+    type: grounded-by
+  - target: DOC-046
+    type: grounded-by
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
 ---
 
 # OrqaStudio Orchestrator
@@ -264,7 +94,7 @@ When creating artifacts, always populate relationship fields:
 
 - **Tasks**: Set `epic`, `docs`, `skills`, `depends-on`, `acceptance`
 - **Epics**: Set `milestone`, `research-refs`, `docs-required`, `docs-produced`
-- **Decisions**: Set `supersedes` / `superseded-by` when replacing existing decisions
+- **Decisions**: Set `evolves-into` / `evolves-from` when replacing existing decisions
 
 ### Where Things Live
 

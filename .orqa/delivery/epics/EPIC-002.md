@@ -1,31 +1,22 @@
 ---
 id: EPIC-002
-title: Settings UI for Thinking & Custom Prompt
+title: "Settings UI for Thinking & Custom Prompt"
 description: Add UI controls for show_thinking toggle and custom system prompt fields that already exist in the backend.
 status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 4
-  impact: 4
-  dependency: 2
-  effort: 1
-  score: 26
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Why P1
 

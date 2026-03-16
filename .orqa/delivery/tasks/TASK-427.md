@@ -6,17 +6,12 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on:
-  - TASK-426
 assignee: null
-skills:
-  - SKILL-034
 acceptance:
-  - integrity-validator package.json uses @orqastudio/types version (not file:)
-  - integrity-validator package.json uses @orqastudio/eslint-config version (not file:)
-  - integrity-validator package.json uses @orqastudio/test-config version (not file:)
-  - SDK package.json uses @orqastudio/types version (not file:)
+  - "integrity-validator package.json uses @orqastudio/types version (not file:)"
+  - "integrity-validator package.json uses @orqastudio/eslint-config version (not file:)"
+  - "integrity-validator package.json uses @orqastudio/test-config version (not file:)"
+  - "SDK package.json uses @orqastudio/types version (not file:)"
   - Both CI workflows pass on GitHub Actions
   - "@orqastudio/integrity-validator v0.1.0 published to GitHub Packages"
   - "@orqastudio/sdk v0.1.0 published to GitHub Packages"
@@ -24,9 +19,12 @@ relationships:
   - target: EPIC-066
     type: delivers
     rationale: All packages published and consuming real versions
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-426
+    type: depends-on
+  - target: SKILL-034
+    type: grounded-by
+  - target: TASK-428
+    type: depended-on-by
 ---
 
 ## Scope

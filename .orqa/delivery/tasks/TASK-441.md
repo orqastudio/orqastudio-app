@@ -6,10 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-068
-depends-on: []
 assignee: null
-skills: []
 acceptance:
   - Dashboard uses a grid layout instead of vertical card stack
   - Architecture supports future drag-drop and plugin widgets
@@ -18,9 +15,8 @@ relationships:
   - target: EPIC-068
     type: delivers
     rationale: Grid layout is the foundation for a more useful dashboard
-  - target: EPIC-068
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-442
+    type: depended-on-by
 ---
 
 ## Scope

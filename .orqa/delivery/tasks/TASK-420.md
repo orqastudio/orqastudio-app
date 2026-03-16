@@ -1,27 +1,21 @@
 ---
 id: TASK-420
-title: Create @orqastudio/sdk package — graph + IPC + frontmatter
-description: Create the SDK package with ArtifactGraphSDK, IPC invoke wrapper, and frontmatter parser. This is the core layer — stores are added in subsequent tasks.
+title: "Create @orqastudio/sdk package — graph + IPC + frontmatter"
+description: "Create the SDK package with ArtifactGraphSDK, IPC invoke wrapper, and frontmatter parser. This is the core layer — stores are added in subsequent tasks."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on:
-  - TASK-417
 assignee: null
-skills:
-  - SKILL-034
-  - SKILL-030
 acceptance:
   - New repo orqastudio/orqastudio-sdk exists with CI + publish workflow
   - ArtifactGraphSDK extracted from artifact-graph.svelte.ts
   - IPC invoke wrapper extracted from ui/src/lib/ipc/invoke.ts
   - Frontmatter parser extracted from ui/src/lib/utils/frontmatter.ts
-  - Types imported from @orqastudio/types
+  - "Types imported from @orqastudio/types"
   - Svelte 5 as peer dependency (runes used in SDK)
   - "@tauri-apps/api as peer dependency"
-  - Unit tests for graph resolution, traversal, and subscription API
+  - "Unit tests for graph resolution, traversal, and subscription API"
   - Published to GitHub Packages
 relationships:
   - target: EPIC-066
@@ -30,9 +24,16 @@ relationships:
   - target: RES-058
     type: informed-by
     rationale: Research confirmed ArtifactGraphSDK is fully portable with zero app-specific logic
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-417
+    type: depends-on
+  - target: SKILL-034
+    type: grounded-by
+  - target: SKILL-030
+    type: grounded-by
+  - target: TASK-421
+    type: depended-on-by
+  - target: TASK-422
+    type: depended-on-by
 ---
 
 ## Scope

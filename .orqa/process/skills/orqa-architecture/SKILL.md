@@ -18,12 +18,10 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: ADR patterns and layer responsibility mapping make design decisions explicit and traceable rather than implicit
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-005
+    type: grounded
+  - target: AGENT-004
+    type: grounded
 ---
 
 

@@ -1,29 +1,34 @@
 ---
 id: EPIC-078
-title: "Configuration-driven delivery pipeline"
+title: Configuration-driven delivery pipeline
 description: "Replace hardcoded delivery artifact types (milestones, epics, tasks) with project-configurable type definitions in project.json. The code becomes a generic enforcement engine for whatever delivery pipeline the project defines. Core artifacts (ideas, research, rules, lessons, decisions, skills, agents, pillars) remain hardcoded as firmware."
 status: completed
 priority: P1
 created: 2026-03-15
 updated: 2026-03-15
 deadline: null
-milestone: MS-002
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-003
-depends-on: []
-blocks: []
-research-refs: []
-docs-required: []
-docs-produced: []
 relationships:
   - target: AD-051
     type: enforces
     rationale: Implements the config-driven delivery pipeline decision
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: TASK-509
+    type: delivered-by
+  - target: TASK-510
+    type: delivered-by
+  - target: TASK-511
+    type: delivered-by
+  - target: TASK-512
+    type: delivered-by
+  - target: TASK-513
+    type: delivered-by
 ---
 
 ## Context

@@ -1,50 +1,42 @@
 ---
 id: EPIC-001
 title: AI Transparency Wiring
-description: Wire the emission logic that connects existing AI transparency types, components, and store handling into a working end-to-end pipeline.
+description: "Wire the emission logic that connects existing AI transparency types, components, and store handling into a working end-to-end pipeline."
 status: completed
 priority: P1
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-026
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 5
-  dependency: 3
-  effort: 2
-  score: 17.5
+scoring: null
 relationships:
   - target: RES-026
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-026
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-001
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-002
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-003
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-311
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: PILLAR-001
+    type: grounded-by
+  - target: IDEA-013
+    type: evolves-from
 ---
 ## Why P1
 

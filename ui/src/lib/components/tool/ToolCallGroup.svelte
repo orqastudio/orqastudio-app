@@ -3,10 +3,10 @@
 	import CheckCircleIcon from "@lucide/svelte/icons/check-circle";
 	import XCircleIcon from "@lucide/svelte/icons/x-circle";
 	import {
-		Collapsible,
+		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
-	} from "$lib/components/ui/collapsible";
+	} from "@orqastudio/svelte-components/pure";
 	import ToolCallCard from "./ToolCallCard.svelte";
 	import { getToolDisplay, groupLabel } from "$lib/utils/tool-display";
 

@@ -5,16 +5,16 @@ description: "verify-links reports 9 broken-link errors for references to artifa
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 acceptance:
   - All broken-link errors from verify-links are resolved
   - "Each resolution is either: artifact created, or reference removed with rationale"
   - node tools/verify-links.mjs --check-paths reports zero errors
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

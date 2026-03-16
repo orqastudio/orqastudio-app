@@ -5,24 +5,28 @@ description: Add the enforcement array to the rule schema and add enforcement en
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-050
-depends-on: []
 assignee: AGENT-003
 docs:
   - DOC-036
-skills:
-  - SKILL-011
-  - SKILL-039
-  - SKILL-045
 acceptance:
-  - Rule schema includes enforcement field (array of objects with event, pattern, action, message)
+  - "Rule schema includes enforcement field (array of objects with event, pattern, action, message)"
   - At least 5 key rules have enforcement entries added
   - All modified rules pass schema validation
   - Enforcement entries are mechanically testable patterns
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-039
+    type: grounded-by
+  - target: SKILL-045
+    type: grounded-by
+  - target: TASK-178
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

@@ -8,18 +8,27 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-193
 acceptance:
   - WorkflowTracker struct exists in backend domain module
-  - Record methods for read, write, search, and command events
-  - Query methods for has_read_docs, has_searched, has_loaded_skills
+  - "Record methods for read, write, search, and command events"
+  - "Query methods for has_read_docs, has_searched, has_loaded_skills"
   - Unit tests pass for event recording and querying
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-193
+    type: depends-on
+  - target: TASK-196
+    type: depended-on-by
+  - target: TASK-197
+    type: depended-on-by
+  - target: TASK-198
+    type: depended-on-by
+  - target: TASK-200
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 

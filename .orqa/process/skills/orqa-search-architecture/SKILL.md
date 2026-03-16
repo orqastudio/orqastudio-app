@@ -17,14 +17,10 @@ relationships:
     type: grounded
     rationale: DuckDB + ONNX embedding pipeline indexes the codebase so architectural relationships are queryable, not just file-browsable
   - target: AD-024
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-024
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-407
+    type: grounded
 ---
 This skill covers the implementation architecture of OrqaStudio's native search engine.
 For how to USE the search tools, see `orqa-native-search`.

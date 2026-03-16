@@ -12,19 +12,35 @@ updated: 2026-03-10
 layer: project
 category: domain
 file-patterns:
-  - ui/src/lib/stores/**
+  - "ui/src/lib/stores/**"
 version: 1.0.0
 user-invocable: true
 relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Class-based rune stores with explicit loading/error/empty states make frontend data flow predictable and inspectable
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-009
+    type: grounded
+  - target: TASK-026
+    type: grounded
+  - target: TASK-075
+    type: grounded
+  - target: TASK-076
+    type: grounded
+  - target: TASK-082
+    type: grounded
+  - target: TASK-083
+    type: grounded
+  - target: TASK-190
+    type: grounded
+  - target: TASK-421
+    type: grounded
+  - target: TASK-422
+    type: grounded
+  - target: TASK-471
+    type: grounded
+  - target: TASK-473
+    type: grounded
 ---
 
 

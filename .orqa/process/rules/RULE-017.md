@@ -16,27 +16,9 @@ relationships:
   - target: RULE-022
     type: informs
     rationale: Verification gates trigger lesson logging when findings reveal recurring patterns
-  - type: informed-by
-    target: RULE-004
-    rationale: Artifact lifecycle defines the lesson lifecycle (create, recurrence tracking, promotion)
-  - type: informed-by
-    target: RULE-011
-    rationale: Enforcement before code requires lessons to be created before the fix cycle begins
-  - type: informed-by
-    target: RULE-015
-    rationale: Honest reporting requires review agents to document lessons as part of their output
-  - type: informed-by
-    target: RULE-030
-    rationale: UAT rounds must produce lessons alongside bug fixes to exercise the learning loop
   - target: IMPL-023
     type: observes
     rationale: Rule updated from lesson IMPL-023 (observation logging and recurrence tracking should be automated)
-  - type: grounded
-    target: IMPL-023
-    rationale: Lesson IMPL-023 identified the three-tier logging discipline that makes the learning loop self-sustaining
-  - type: enforced-by
-    target: AD-048
-    rationale: AD-048 requires enforcement to accompany any lesson promotion — strengthens the promotion pipeline
   - target: AD-044
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-044
@@ -46,15 +28,21 @@ relationships:
   - target: IMPL-023
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-023
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
   - target: DOC-025
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Workflow
+  - target: AD-048
+    type: enforced-by
+  - target: IMPL-023
+    type: grounded
+  - target: RULE-004
+    type: informed-by
+  - target: RULE-011
+    type: informed-by
+  - target: RULE-015
+    type: informed-by
+  - target: RULE-030
+    type: informed-by
 ---
 The team maintains two learning loops to prevent mistakes from recurring across sessions. Both loops are mandatory — they are not guidelines.
 
@@ -86,7 +74,7 @@ Lesson documented -> recurrence tracked -> promoted at threshold -> enforcement 
 
 ### Enforcement Gate (NON-NEGOTIABLE — [AD-048](AD-048))
 
-A lesson MUST NOT be promoted to a rule without attempting enforcement. Rules without enforcement are just lessons with a label. Before setting `promoted-to` on a lesson:
+A lesson MUST NOT be promoted to a rule without attempting enforcement. Rules without enforcement are just lessons with a label. Before setting `evolves-into` on a lesson:
 
 1. **Declare enforcement entries** on the target rule (event type, action, paths/patterns)
 2. **Attempt mechanical enforcement** — can a hook, scanner, validator, or gate catch violations?
@@ -115,7 +103,7 @@ Lessons carry a `status` field that reflects their promotion state:
 | `recurring` | Recurrence >= 2, pending promotion review | Amber dot |
 | `promoted` | Promoted to a rule, coding standard, or skill | Purple dot |
 
-When a lesson's recurrence is incremented to >= 2, update `status: recurring`. When promoted (the `promoted-to` field is set), update `status: promoted`.
+When a lesson's recurrence is incremented to >= 2, update `status: recurring`. When promoted (the `evolves-into` field is set), update `status: promoted`.
 
 ## The learning loop is NOT optional
 

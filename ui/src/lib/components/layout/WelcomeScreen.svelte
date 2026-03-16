@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { open } from "@tauri-apps/plugin-dialog";
-	import { Button } from "$lib/components/ui/button";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import FolderOpenIcon from "@lucide/svelte/icons/folder-open";
 	import setupBackground from "$lib/assets/setup-background.png";
 	import { getStores } from "@orqastudio/sdk";

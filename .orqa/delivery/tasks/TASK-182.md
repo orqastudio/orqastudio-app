@@ -5,21 +5,24 @@ description: Plugin Stop hook replaces the shell-script pre-commit reminder with
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-050
-depends-on:
-  - TASK-177
 assignee: AGENT-002
 docs: []
-skills:
-  - SKILL-020
 acceptance:
   - Stop hook fires when agent is about to stop
   - Hook provides pre-commit checklist as additionalContext
   - Hook replaces .claude/hooks/pre-commit-reminder.sh functionality
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-177
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: TASK-185
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

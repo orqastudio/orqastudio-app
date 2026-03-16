@@ -1,7 +1,7 @@
 ---
 id: RULE-029
 title: Testing Standards
-description: Test organisation, coverage requirements, mock boundaries, and isolation rules.
+description: "Test organisation, coverage requirements, mock boundaries, and isolation rules."
 status: active
 created: 2026-03-07
 updated: 2026-03-07
@@ -19,24 +19,16 @@ relationships:
   - target: RULE-012
     type: informs
     rationale: Failing tests are your responsibility to fix — error ownership applies to the test suite
-  - type: informed-by
-    target: RULE-006
-    rationale: Coding standards define the 80% coverage floor and function size limits for tests
-  - type: informed-by
-    target: RULE-007
-    rationale: Make targets are the required way to run all test variants
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
   - target: DOC-074
     type: informs
     rationale: "Auto-generated inverse of informs relationship from DOC-074"
   - target: DOC-073
     type: informs
     rationale: "Auto-generated inverse of informs relationship from DOC-073"
+  - target: RULE-006
+    type: informed-by
+  - target: RULE-007
+    type: informed-by
 ---
 **Source of Truth:** This file defines testing patterns. `.orqa/documentation/development/coding-standards.md` defines coverage requirements.
 

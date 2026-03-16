@@ -1,26 +1,20 @@
 ---
 id: TASK-421
-title: Extract stores into SDK — session, project, artifact, conversation
-description: Move the four primary data stores into @orqastudio/sdk. Fix conversationStore's DEFAULT_MODEL dependency by making it a config parameter.
+title: "Extract stores into SDK — session, project, artifact, conversation"
+description: "Move the four primary data stores into @orqastudio/sdk. Fix conversationStore's DEFAULT_MODEL dependency by making it a config parameter."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-066
-depends-on:
-  - TASK-420
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-016
 acceptance:
   - sessionStore extracted and exported from SDK
   - projectStore extracted and exported from SDK
   - artifactStore extracted and exported from SDK
-  - conversationStore extracted — DEFAULT_MODEL accepted as config, not imported from UI component
-  - All stores import types from @orqastudio/types
-  - All stores use SDK's invoke wrapper
-  - Unit tests for each store's state transitions
+  - "conversationStore extracted — DEFAULT_MODEL accepted as config, not imported from UI component"
+  - "All stores import types from @orqastudio/types"
+  - "All stores use SDK's invoke wrapper"
+  - "Unit tests for each store's state transitions"
 relationships:
   - target: EPIC-066
     type: delivers
@@ -28,9 +22,14 @@ relationships:
   - target: RES-058
     type: informed-by
     rationale: Research confirmed all four are portable with one trivial fix
-  - target: EPIC-066
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-420
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-016
+    type: grounded-by
+  - target: TASK-423
+    type: depended-on-by
 ---
 
 ## Scope

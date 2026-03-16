@@ -5,17 +5,9 @@ description: The Rust backend resolves agent capabilities to Tauri tool names wh
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-051
-depends-on:
-  - TASK-173
 assignee: AGENT-002
 docs:
   - DOC-021
-skills:
-  - SKILL-043
-  - SKILL-009
-  - SKILL-012
-  - SKILL-010
 acceptance:
   - Rust backend reads agent capabilities from agent definition
   - Capabilities are resolved to Tauri command tool names
@@ -23,8 +15,20 @@ acceptance:
   - Agents without capabilities field fall back to tools field
 relationships:
   - target: EPIC-051
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-173
+    type: depends-on
+  - target: SKILL-043
+    type: grounded-by
+  - target: SKILL-009
+    type: grounded-by
+  - target: SKILL-012
+    type: grounded-by
+  - target: SKILL-010
+    type: grounded-by
+  - target: TASK-341
+    type: depended-on-by
 ---
 
 ## What

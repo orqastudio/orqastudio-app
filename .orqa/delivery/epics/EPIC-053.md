@@ -12,79 +12,73 @@ priority: P1
 created: 2026-03-12
 updated: 2026-03-12
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on:
-  - EPIC-050
-  - EPIC-052
-blocks: []
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  dogfood-value: 5
-  user-facing: 4
-  foundation: 5
-  complexity: 3
-  score: 4.5
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-208
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-209
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-210
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-211
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-212
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-213
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-214
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-215
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-216
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-217
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-218
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-219
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-220
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-221
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-222
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-223
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-343
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: MS-001
+    type: delivers
+  - target: EPIC-050
+    type: depends-on
+  - target: EPIC-052
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
 ---
 
 ## Context

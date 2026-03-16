@@ -18,12 +18,12 @@ relationships:
   - target: PILLAR-002
     type: grounded
     rationale: Behavior-focused tests with clear mock boundaries produce repeatable verification, turning each test failure into a documented regression signal
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-414
+    type: grounded
+  - target: TASK-419
+    type: grounded
+  - target: TASK-424
+    type: grounded
 ---
 
 

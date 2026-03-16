@@ -7,26 +7,8 @@ priority: P1
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on: []
-blocks: []
-research-refs:
-  - RES-056
-  - RES-062
-docs-required:
-  - RES-056
-  - RES-062
-docs-produced: []
-scoring:
-  dogfood-value: 5 — OrqaStudio cannot dogfood until the enforcement system enforces itself
-  user-facing: 4 — enforcement quality directly affects agent output quality
-  foundation: 5 — closes the circular dependency that undermines all governance
-  complexity: 3 — most infrastructure exists, this is wiring and extending
-  score: 4.5
+scoring: null
 relationships:
   - target: EPIC-050
     type: informed-by
@@ -53,95 +35,50 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from EPIC-066
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-411
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-412
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-413
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-414
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-415
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-416
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
-  - target: TASK-411
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-411"
-  - target: TASK-415
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-415"
-  - target: TASK-412
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-412"
-  - target: TASK-416
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-416"
-  - target: TASK-414
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-414"
-  - target: TASK-413
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-413"
-  - target: TASK-190
-    type: contains
-    rationale: Absorbed from EPIC-050 — surface violations in governance UI
   - target: TASK-190
     type: delivered-by
     rationale: Absorbed from EPIC-050 — surface violations in governance UI
   - target: TASK-460
-    type: contains
-    rationale: Phase 1 — delete duplicate documentation
-  - target: TASK-460
     type: delivered-by
     rationale: Phase 1 — delete duplicate documentation
-  - target: TASK-461
-    type: contains
-    rationale: Phase 1 — merge overlapping documentation
   - target: TASK-461
     type: delivered-by
     rationale: Phase 1 — merge overlapping documentation
   - target: TASK-462
-    type: contains
-    rationale: Phase 1 — restructure unfocused documentation
-  - target: TASK-462
     type: delivered-by
     rationale: Phase 1 — restructure unfocused documentation
-  - target: TASK-463
-    type: contains
-    rationale: Phase 2 — create grounding documents
   - target: TASK-463
     type: delivered-by
     rationale: Phase 2 — create grounding documents
   - target: TASK-464
-    type: contains
-    rationale: Phase 2 — create delegation reference
-  - target: TASK-464
     type: delivered-by
     rationale: Phase 2 — create delegation reference
-  - target: TASK-465
-    type: contains
-    rationale: Phase 2 — define Governance Steward agent
   - target: TASK-465
     type: delivered-by
     rationale: Phase 2 — define Governance Steward agent
   - target: TASK-466
-    type: contains
-    rationale: Phase 2 — connect documentation to graph
-  - target: TASK-466
     type: delivered-by
     rationale: Phase 2 — connect documentation to graph
-  - target: TASK-467
-    type: contains
-    rationale: Phase 3 — grounding injection in plugin
   - target: TASK-467
     type: delivered-by
     rationale: Phase 3 — grounding injection in plugin
@@ -157,6 +94,18 @@ relationships:
   - target: EPIC-075
     type: informs
     rationale: "Auto-generated inverse of informs relationship from EPIC-075"
+  - target: MS-001
+    type: delivers
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: RES-056
+    type: informs
+  - target: RES-062
+    type: informs
+  - target: IDEA-095
+    type: evolves-from
 ---
 ## Context
 
@@ -224,7 +173,7 @@ A new specialist agent (`governance-steward.md`) that owns all `.orqa/` artifact
 #### Graph Connectivity
 - Add `grounded-by` relationships on all agent definitions → their grounding docs
 - Add `informs`/`informed-by` relationships between skills and their documentation
-- Add `documented-by` relationships from rules/decisions to their documentation pages
+- Add `informed-by` relationships from rules/decisions to their documentation pages
 - Link wireframe docs to epics via `docs-required`
 - Add pillar alignment sections to UI and wireframe docs per RULE-021
 

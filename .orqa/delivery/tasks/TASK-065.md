@@ -5,11 +5,7 @@ description: Update pre-commit-reminder hook with commit prompt
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-047
-depends-on: []
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - Stop hook checks for uncommitted changes
   - If uncommitted changes exist
@@ -17,8 +13,14 @@ acceptance:
   - Suggests logical commit groupings based on changed file paths
 relationships:
   - target: EPIC-047
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-068
+    type: depended-on-by
+  - target: TASK-337
+    type: depended-on-by
 ---
 
 ## What

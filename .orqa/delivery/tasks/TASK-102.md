@@ -1,20 +1,20 @@
 ---
 id: TASK-102
 title: Create architecture decisions index
-description: Created the consolidated architecture decisions index page listing all AD records with status, category, and cross-references.
+description: "Created the consolidated architecture decisions index page listing all AD records with status, category, and cross-references."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-026
-depends-on: []
 acceptance:
   - Index page lists all architecture decisions
-  - Each entry has ID, title, status, and category
+  - "Each entry has ID, title, status, and category"
   - Index is browsable and navigable
 relationships:
   - target: EPIC-026
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-316
+    type: depended-on-by
 ---
 ## What
 

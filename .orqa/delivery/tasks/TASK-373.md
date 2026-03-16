@@ -5,15 +5,16 @@ description: Define project-level priority dimensions based on RES-054 gap patte
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on:
-  - TASK-362
 acceptance:
   - Priority dimensions are defined and auto-classification rules are encoded in config or documentation
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-362
+    type: depends-on
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

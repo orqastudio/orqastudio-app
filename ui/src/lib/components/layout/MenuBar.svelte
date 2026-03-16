@@ -5,7 +5,7 @@
 	import SlidersHorizontalIcon from "@lucide/svelte/icons/sliders-horizontal";
 	import InfoIcon from "@lucide/svelte/icons/info";
 	import LogOutIcon from "@lucide/svelte/icons/log-out";
-	import * as DropdownMenu from "$lib/components/ui/dropdown-menu";
+	import { DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuItem, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent } from "@orqastudio/svelte-components/pure";
 
 	interface Props {
 		hasProject: boolean;
@@ -52,84 +52,84 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="flex items-center px-1" data-menu-bar>
 	<!-- File menu -->
-	<DropdownMenu.Root
+	<DropdownMenuRoot
 		open={activeMenu === "file"}
 		onOpenChange={(isOpen) => { if (!isOpen) activeMenu = null; }}
 	>
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div onmouseenter={() => handleMenuHover("file")}>
-			<DropdownMenu.Trigger
+			<DropdownMenuTrigger
 				class={triggerClass}
 				onclick={(e: MouseEvent) => { e.preventDefault(); handleMenuClick("file"); }}
 			>
 				File
-			</DropdownMenu.Trigger>
+			</DropdownMenuTrigger>
 		</div>
-		<DropdownMenu.Content align="start" class="w-52">
-			<DropdownMenu.Item onclick={() => handleItem(onNewProject)}>
+		<DropdownMenuContent align="start" class="w-52">
+			<DropdownMenuItem onclick={() => handleItem(onNewProject)}>
 				<FolderPlusIcon class="mr-2 h-4 w-4" />
 				New Project...
-			</DropdownMenu.Item>
-			<DropdownMenu.Item onclick={() => handleItem(onOpenProject)}>
+			</DropdownMenuItem>
+			<DropdownMenuItem onclick={() => handleItem(onOpenProject)}>
 				<FolderOpenIcon class="mr-2 h-4 w-4" />
 				Open Project...
-			</DropdownMenu.Item>
+			</DropdownMenuItem>
 			{#if hasProject}
-				<DropdownMenu.Separator />
-				<DropdownMenu.Item onclick={() => handleItem(onCloseProject)}>
+				<DropdownMenuSeparator />
+				<DropdownMenuItem onclick={() => handleItem(onCloseProject)}>
 					<FolderXIcon class="mr-2 h-4 w-4" />
 					Close Project
-				</DropdownMenu.Item>
+				</DropdownMenuItem>
 			{/if}
-			<DropdownMenu.Separator />
-			<DropdownMenu.Item onclick={() => handleItem(onExit)}>
+			<DropdownMenuSeparator />
+			<DropdownMenuItem onclick={() => handleItem(onExit)}>
 				<LogOutIcon class="mr-2 h-4 w-4" />
 				Exit
-			</DropdownMenu.Item>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
+			</DropdownMenuItem>
+		</DropdownMenuContent>
+	</DropdownMenuRoot>
 
 	<!-- Edit menu -->
-	<DropdownMenu.Root
+	<DropdownMenuRoot
 		open={activeMenu === "edit"}
 		onOpenChange={(isOpen) => { if (!isOpen) activeMenu = null; }}
 	>
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div onmouseenter={() => handleMenuHover("edit")}>
-			<DropdownMenu.Trigger
+			<DropdownMenuTrigger
 				class={triggerClass}
 				onclick={(e: MouseEvent) => { e.preventDefault(); handleMenuClick("edit"); }}
 			>
 				Edit
-			</DropdownMenu.Trigger>
+			</DropdownMenuTrigger>
 		</div>
-		<DropdownMenu.Content align="start" class="w-52">
-			<DropdownMenu.Item onclick={() => handleItem(onSettings)}>
+		<DropdownMenuContent align="start" class="w-52">
+			<DropdownMenuItem onclick={() => handleItem(onSettings)}>
 				<SlidersHorizontalIcon class="mr-2 h-4 w-4" />
 				Settings
-			</DropdownMenu.Item>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
+			</DropdownMenuItem>
+		</DropdownMenuContent>
+	</DropdownMenuRoot>
 
 	<!-- Help menu -->
-	<DropdownMenu.Root
+	<DropdownMenuRoot
 		open={activeMenu === "help"}
 		onOpenChange={(isOpen) => { if (!isOpen) activeMenu = null; }}
 	>
 		<!-- svelte-ignore a11y_no_static_element_interactions -->
 		<div onmouseenter={() => handleMenuHover("help")}>
-			<DropdownMenu.Trigger
+			<DropdownMenuTrigger
 				class={triggerClass}
 				onclick={(e: MouseEvent) => { e.preventDefault(); handleMenuClick("help"); }}
 			>
 				Help
-			</DropdownMenu.Trigger>
+			</DropdownMenuTrigger>
 		</div>
-		<DropdownMenu.Content align="start" class="w-52">
-			<DropdownMenu.Item onclick={() => handleItem(onAbout)}>
+		<DropdownMenuContent align="start" class="w-52">
+			<DropdownMenuItem onclick={() => handleItem(onAbout)}>
 				<InfoIcon class="mr-2 h-4 w-4" />
 				About
-			</DropdownMenu.Item>
-		</DropdownMenu.Content>
-	</DropdownMenu.Root>
+			</DropdownMenuItem>
+		</DropdownMenuContent>
+	</DropdownMenuRoot>
 </div>

@@ -1,20 +1,20 @@
 ---
 id: TASK-154
 title: Populate empty Related Rules sections on 5 rules
-description: Fill in the empty Related Rules sections on RULE-002, RULE-013, RULE-021, RULE-025, and RULE-028 with accurate cross-references.
+description: "Fill in the empty Related Rules sections on RULE-002, RULE-013, RULE-021, RULE-025, and RULE-028 with accurate cross-references."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
-  - RULE-002, RULE-013, RULE-021, RULE-025, RULE-028 all have populated Related Rules sections
+  - "RULE-002, RULE-013, RULE-021, RULE-025, RULE-028 all have populated Related Rules sections"
   - Each cross-reference is bidirectional where appropriate
   - No spurious references added just to fill the section
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

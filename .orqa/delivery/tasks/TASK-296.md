@@ -5,12 +5,8 @@ description: Evaluate all 16 lessons for elevation potential. Verify promoted le
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-285
 assignee: null
 docs: []
-skills: []
 acceptance:
   - All lessons reviewed for elevation potential
   - Long-standing observations flagged for possible promotion
@@ -19,8 +15,12 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-285
+    type: depends-on
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

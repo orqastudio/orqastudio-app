@@ -5,22 +5,25 @@ description: Update rules to reference pillar artifacts generically
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-046
-depends-on:
-  - TASK-058
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - vision-alignment.md references pillar artifacts by path
   - not hardcoded names
   - pillar-alignment-docs.md reads pillar titles from artifacts directory
-  - Rules enforce "serve at least one active pillar" generically
+  - "Rules enforce \"serve at least one active pillar\" generically"
   - No hardcoded pillar names remain in enforcement rules
 relationships:
   - target: EPIC-046
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-058
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-063
+    type: depended-on-by
+  - target: TASK-336
+    type: depended-on-by
 ---
 
 ## What

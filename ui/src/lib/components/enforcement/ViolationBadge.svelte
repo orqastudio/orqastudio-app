@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ShieldIcon from "@lucide/svelte/icons/shield";
 	import AlertTriangleIcon from "@lucide/svelte/icons/alert-triangle";
-	import { Tooltip, TooltipContent, TooltipTrigger } from "$lib/components/ui/tooltip";
+	import { TooltipRoot as Tooltip, TooltipContent, TooltipTrigger } from "@orqastudio/svelte-components/pure";
 
 	let {
 		action,

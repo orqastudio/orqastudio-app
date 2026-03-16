@@ -1,12 +1,12 @@
 <script lang="ts">
-	import * as Dialog from "$lib/components/ui/dialog";
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
+	import { DialogRoot, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@orqastudio/svelte-components/pure";
+	import { TabsRoot as Tabs, TabsContent, TabsList, TabsTrigger } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import {
-		Collapsible,
+		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
-	} from "$lib/components/ui/collapsible";
+	} from "@orqastudio/svelte-components/pure";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import type { ContextEntry as ContextEntryType } from "@orqastudio/sdk";
 
@@ -73,12 +73,12 @@
 	}
 </script>
 
-<Dialog.Root bind:open>
-	<Dialog.Content class="flex max-h-[80vh] flex-col gap-0 p-0 sm:max-w-2xl">
-		<Dialog.Header class="border-b border-border px-6 py-4">
-			<Dialog.Title>{dialogTitle}</Dialog.Title>
-			<Dialog.Description>{dialogDescription}</Dialog.Description>
-		</Dialog.Header>
+<DialogRoot bind:open>
+	<DialogContent class="flex max-h-[80vh] flex-col gap-0 p-0 sm:max-w-2xl">
+		<DialogHeader class="border-b border-border px-6 py-4">
+			<DialogTitle>{dialogTitle}</DialogTitle>
+			<DialogDescription>{dialogDescription}</DialogDescription>
+		</DialogHeader>
 
 		<Tabs value="structured" class="flex min-h-0 flex-1 flex-col">
 			<TabsList class="mx-6 mt-4 w-fit shrink-0">
@@ -178,5 +178,5 @@
 				</ScrollArea>
 			</TabsContent>
 		</Tabs>
-	</Dialog.Content>
-</Dialog.Root>
+	</DialogContent>
+</DialogRoot>

@@ -5,20 +5,21 @@ description: Audit all existing planning and governance artifacts and add missin
 status: completed
 created: 2026-03-10
 updated: 2026-03-10
-epic: EPIC-048
-depends-on:
-  - TASK-071
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - All artifacts pass body template linting via pre-commit hook
   - No empty placeholder sections — each section has meaningful content or a brief note
   - Existing content preserved and reorganised into correct sections where needed
 relationships:
   - target: EPIC-048
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-071
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-338
+    type: depended-on-by
 ---
 ## What
 

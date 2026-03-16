@@ -19,12 +19,10 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Systematic auditing detects broken references, stale paths, and content drift, keeping the artifact graph accurate and navigable
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-164
+    type: grounded
+  - target: TASK-222
+    type: grounded
 ---
 
 Methodology for auditing `.orqa/` governance artifacts. An audit answers the question: "Does everything in `.orqa/` still describe reality?" This skill provides a repeatable process for finding broken references, stale paths, content inaccuracies, and drift from the codebase — and for structuring findings so they can be fixed efficiently.
@@ -106,7 +104,7 @@ Run these checklists after the graph pass has identified broken ID references. E
 
 ### Decisions
 
-- `supersedes` and `superseded-by` are both set when a decision is superseded — the relationship must be bidirectional and updated in the same commit
+- `evolves-into` and `evolves-from` are both set when a decision is superseded — the relationship must be bidirectional and updated in the same commit
 - `status` is one of `proposed | accepted | superseded | deprecated`
 - Decisions index at `.orqa/documentation/development/decisions.md` has an entry for this AD-NNN
 

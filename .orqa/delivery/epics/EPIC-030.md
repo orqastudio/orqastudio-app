@@ -6,71 +6,76 @@ status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07
-milestone: MS-000
 horizon: null
-pillars:
-  - PILLAR-001
-depends-on:
-  - EPIC-025
-  - EPIC-026
-  - EPIC-027
-  - EPIC-028
-  - EPIC-029
-blocks:
-  - EPIC-031
-docs-required:
-  - AD-001
-  - AD-002
-  - AD-004
-  - AD-012
-  - AD-013
-docs-produced: []
-scoring:
-  pillar: 3
-  impact: 5
-  dependency: 3
-  effort: 1
-  score: 28
+scoring: null
 relationships:
   - target: MS-000
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-123
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-124
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-125
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-126
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-127
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-128
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-129
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-130
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-131
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-132
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-320
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: EPIC-025
+    type: depends-on
+  - target: EPIC-026
+    type: depends-on
+  - target: EPIC-027
+    type: depends-on
+  - target: EPIC-028
+    type: depends-on
+  - target: EPIC-029
+    type: depends-on
+  - target: EPIC-031
+    type: depended-on-by
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-001
+    type: informs
+  - target: AD-002
+    type: informs
+  - target: AD-004
+    type: informs
+  - target: AD-012
+    type: informs
+  - target: AD-013
+    type: informs
+  - target: DOC-058
+    type: informs
+  - target: DOC-059
+    type: informs
 ---
 ## Why P1
 

@@ -1,10 +1,10 @@
 ---
 id: IMPL-017
-title: "Directory reorganizations leave stale paths in source code"
+title: Directory reorganizations leave stale paths in source code
 description: "When .orqa/ directories are moved, hardcoded path references in Rust, TypeScript, and test fixtures are not caught by verify-links because it only scans markdown artifacts. Requires a maintained path manifest and source code scanning."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: understanding
 recurrence: 1
 relationships:

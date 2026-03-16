@@ -8,17 +8,20 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-202
 acceptance:
   - No enforcement entries regex-match patterns already caught by linters
   - bash enforcement entries for git safety remain unchanged
   - make check still catches all documented violations
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-202
+    type: depends-on
+  - target: TASK-207
+    type: depended-on-by
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

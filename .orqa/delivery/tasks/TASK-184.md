@@ -1,27 +1,31 @@
 ---
 id: TASK-184
-title: Implement /orqa, /orqa:rules, /orqa:status commands
+title: "Implement /orqa, /orqa:rules, /orqa:status commands"
 description: Plugin slash commands for governance interaction in Claude Code.
 status: completed
 created: 2026-03-11
 updated: 2026-03-14
-epic: EPIC-050
-depends-on:
-  - TASK-178
 assignee: AGENT-002
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-011
 acceptance:
-  - /orqa shows governance summary (active rules, recent violations, health)
-  - /orqa:rules lists all active rules with enforcement status
-  - /orqa:status shows governance health (rule coverage, broken refs, schema compliance)
+  - "/orqa shows governance summary (active rules, recent violations, health)"
+  - "/orqa:rules lists all active rules with enforcement status"
+  - "/orqa:status shows governance health (rule coverage, broken refs, schema compliance)"
   - Commands are discoverable via Claude Code skill system
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-178
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-185
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

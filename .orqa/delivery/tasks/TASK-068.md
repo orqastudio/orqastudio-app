@@ -5,22 +5,26 @@ description: Promote IMPL-015 to enforcement artifacts
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-047
-depends-on:
-  - TASK-064
-  - TASK-065
-  - TASK-066
-  - TASK-067
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - IMPL-015 promoted-to field updated with references to updated rule and skill
   - Verification that all root causes identified in IMPL-015 are addressed
 relationships:
   - target: EPIC-047
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-064
+    type: depends-on
+  - target: TASK-065
+    type: depends-on
+  - target: TASK-066
+    type: depends-on
+  - target: TASK-067
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-337
+    type: depended-on-by
 ---
 
 ## What

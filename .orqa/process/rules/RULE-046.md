@@ -7,21 +7,15 @@ created: 2026-03-13
 updated: 2026-03-13
 layer: project
 relationships:
-  - type: grounded
-    target: PILLAR-002
-    rationale: Behavioral enforcement completes the learning loop by ensuring process rules are actively checked
-  - type: grounded
-    target: PILLAR-003
-    rationale: Enforcement strategies maintain continuity of intent by preventing drift from declared principles
-  - type: informed-by
-    target: IMPL-050
-    rationale: Lesson that enforcement gaps are CRITICAL on self-enforcing products drove this rule's creation
   - target: RES-056
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from RES-056
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
+  - target: IMPL-050
+    type: informed-by
+  - target: PILLAR-002
+    type: grounded
+  - target: PILLAR-003
+    type: grounded
 ---
 Rules that cannot be enforced by linters, hooks, or automated tooling still need a defined enforcement mechanism. Every behavioral rule maps to one of four strategies, and each strategy has a concrete implementation path.
 

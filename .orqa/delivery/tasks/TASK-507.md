@@ -1,25 +1,21 @@
 ---
 id: TASK-507
-title: "Add status validation to plugin graph-guardian"
+title: Add status validation to plugin graph-guardian
 description: "Extend graph-guardian.mjs with a PostToolUse hook that validates the status field whenever a .orqa/ artifact is written. If the status value is not in the valid enum for that artifact type, a warning is added to additionalContext listing the valid values."
 status: ready
 priority: P2
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-077
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-504
 acceptance:
-  - "graph-guardian.mjs PostToolUse hook validates status field when .orqa/ artifacts are written"
-  - "Invalid statuses produce a warning in additionalContext"
-  - "Warning includes the valid values from the project config"
+  - graph-guardian.mjs PostToolUse hook validates status field when .orqa/ artifacts are written
+  - Invalid statuses produce a warning in additionalContext
+  - Warning includes the valid values from the project config
 relationships:
-  - type: delivers
-    target: EPIC-077
-  - type: belongs-to
-    target: EPIC-077
+  - target: EPIC-077
+    type: delivers
+  - target: TASK-504
+    type: depends-on
 ---
 ## What
 

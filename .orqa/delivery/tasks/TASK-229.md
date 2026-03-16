@@ -5,14 +5,15 @@ description: 20+ epics reference DOC-NNN IDs but no DOC artifacts exist. Fix unr
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - Every DOC-NNN reference resolves or is removed
   - Decision documented on DOC-NNN artifact type
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

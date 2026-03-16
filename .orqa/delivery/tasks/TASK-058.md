@@ -5,11 +5,7 @@ description: Create pillar artifact schema and initial pillars
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-046
-depends-on: []
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - Pillar schema defined in artifact-framework.md (id
   - title
@@ -18,14 +14,26 @@ acceptance:
   - priority
   - status
   - tags)
-  - PILLAR-001.md created with "Clarity Through Structure" content
-  - PILLAR-002.md created with "Learning Through Reflection" content
+  - "PILLAR-001.md created with \"Clarity Through Structure\" content"
+  - "PILLAR-002.md created with \"Learning Through Reflection\" content"
   - Both pillars have status active and test-questions populated
   - Priority field encodes conflict resolution order (1 = highest)
 relationships:
   - target: EPIC-046
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-059
+    type: depended-on-by
+  - target: TASK-060
+    type: depended-on-by
+  - target: TASK-061
+    type: depended-on-by
+  - target: TASK-062
+    type: depended-on-by
+  - target: TASK-336
+    type: depended-on-by
 ---
 
 ## What

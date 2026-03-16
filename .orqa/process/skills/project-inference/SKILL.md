@@ -18,9 +18,8 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Automated detection of languages, frameworks, and build tools produces an explicit project profile that drives governance decisions
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: TASK-223
+    type: grounded
 ---
 
 > **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-045](EPIC-045) for context.

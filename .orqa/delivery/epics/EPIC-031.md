@@ -6,54 +6,54 @@ status: completed
 priority: P1
 created: 2026-03-02
 updated: 2026-03-07
-milestone: MS-000
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on:
-  - EPIC-030
-blocks: []
-docs-required:
-  - AD-001
-  - AD-002
-  - AD-003
-  - AD-015
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 5
-  dependency: 3
-  effort: 1
-  score: 34
+scoring: null
 relationships:
   - target: MS-000
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-133
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-134
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-135
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-136
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-137
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-138
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-321
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: EPIC-030
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: AD-001
+    type: informs
+  - target: AD-002
+    type: informs
+  - target: AD-003
+    type: informs
+  - target: AD-015
+    type: informs
+  - target: DOC-057
+    type: informs
+  - target: DOC-060
+    type: informs
 ---
 ## Why P1
 

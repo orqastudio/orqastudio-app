@@ -1,28 +1,13 @@
 ---
 id: EPIC-040
 title: Provider Abstraction Layer
-description: Refactor sidecar from Claude-specific to provider-agnostic architecture. Provider interface, Claude adapter, sdk_session_id → provider_session_id rename across 13+ files including SQLite migration.
+description: "Refactor sidecar from Claude-specific to provider-agnostic architecture. Provider interface, Claude adapter, sdk_session_id → provider_session_id rename across 13+ files including SQLite migration."
 status: completed
 priority: P1
 created: 2026-03-07
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-009
-  - RES-027
-docs-required: []
-docs-produced:
-  - AD-025
-scoring:
-  user-value: 4
-  pillar-alignment: 4
-  dependency-weight: 5
-  effort: 4
-  risk: 3
-  score: 20
+scoring: null
 relationships:
   - target: RES-009
     type: informed-by
@@ -31,17 +16,23 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-027
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-028
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-029
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-330
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: AD-025
+    type: informed-by
+  - target: IDEA-001
+    type: evolves-from
 ---
 ## Implementation Design
 

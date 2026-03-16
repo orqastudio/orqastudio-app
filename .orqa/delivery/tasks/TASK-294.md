@@ -5,12 +5,8 @@ description: "Audit all 48 skills: fix layer classifications, resolve overlaps, 
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-285
 assignee: null
 docs: []
-skills: []
 acceptance:
   - All skills have correct layer classification
   - No overlapping skills without documented justification
@@ -20,8 +16,14 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-285
+    type: depends-on
+  - target: TASK-295
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

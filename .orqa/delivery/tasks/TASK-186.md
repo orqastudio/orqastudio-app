@@ -5,14 +5,8 @@ description: Remove the .claude/ symlink architecture and update RULE-003 to des
 status: surpassed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-050
-depends-on:
-  - TASK-185
 assignee: AGENT-003
 docs: []
-skills:
-  - SKILL-011
-  - SKILL-037
 acceptance:
   - .claude/rules/ symlink removed
   - .claude/agents/ symlink removed
@@ -24,8 +18,16 @@ acceptance:
   - Plugin fully replaces all symlink functionality
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-185
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

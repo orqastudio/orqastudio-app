@@ -1,20 +1,20 @@
 ---
 id: TASK-118
 title: Design Svelte component tree
-description: Mapped the Svelte component hierarchy to the UX wireframes, defining which components are pages, containers, and display components.
+description: "Mapped the Svelte component hierarchy to the UX wireframes, defining which components are pages, containers, and display components."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-029
-depends-on: []
 acceptance:
   - Component tree maps to every wireframe
   - Component purity rule is reflected in the tree
   - Store bindings are explicit
 relationships:
   - target: EPIC-029
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-319
+    type: depended-on-by
 ---
 ## What
 

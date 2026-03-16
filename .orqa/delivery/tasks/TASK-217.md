@@ -5,8 +5,6 @@ description: Ensure Researcher and Planner agent definitions include web_fetch a
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on: []
 acceptance:
   - Researcher and Planner agents can use WebSearch and WebFetch in CLI context
   - SKILL-046 skill is in Researcher and Planner agent definitions
@@ -14,8 +12,10 @@ acceptance:
   - Tool access restrictions in RULE-037 are updated
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

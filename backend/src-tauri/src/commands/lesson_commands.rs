@@ -85,6 +85,7 @@ mod tests {
             artifact_links: Default::default(),
             statuses: vec![],
             delivery: Default::default(),
+            relationships: vec![],
         };
         ProjectPaths::from_settings(tmp.path(), &settings)
     }

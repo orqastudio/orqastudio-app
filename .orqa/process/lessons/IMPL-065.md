@@ -1,11 +1,11 @@
 ---
 id: IMPL-065
-title: "Static markdown views should be dynamic graph views when the data exists"
+title: Static markdown views should be dynamic graph views when the data exists
 description: "The roadmap is a manually maintained markdown page, but all the data (milestones, epics, tasks, statuses, priorities) already lives in the artifact graph. Maintaining a static view of dynamic data guarantees staleness."
 status: active
+created: 2026-03-14
+updated: 2026-03-14
 recurrence: 1
-created: "2026-03-14"
-updated: "2026-03-14"
 maturity: understanding
 relationships:
   - target: PILLAR-003

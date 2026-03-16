@@ -1,32 +1,17 @@
 ---
 id: RULE-013
 title: Git Workflow
-description: Worktree-based workflow with mandatory cleanup, stash policy, and data loss prevention rules.
+description: "Worktree-based workflow with mandatory cleanup, stash policy, and data loss prevention rules."
 status: active
 created: 2026-03-07
 updated: 2026-03-07
 layer: core
 enforcement:
-  - event: bash
-    pattern: git commit.*--no-verify
-    action: block
-    message: Never bypass pre-commit hooks with --no-verify (RULE-013).
-  - event: bash
-    pattern: git push.*--no-verify
-    action: block
-    message: Never bypass push hooks with --no-verify (RULE-013).
-  - event: bash
-    pattern: git reset --hard
-    action: warn
-    message: Destructive git operation. Verify with git status and git diff first (RULE-013).
-  - event: bash
-    pattern: git checkout \.
-    action: warn
-    message: Destructive git operation. Verify with git status and git diff first (RULE-013).
-  - event: bash
-    pattern: git clean -f
-    action: warn
-    message: Destructive git operation. Verify what will be removed first (RULE-013).
+  - "event: bash"
+  - "event: bash"
+  - "event: bash"
+  - "event: bash"
+  - "event: bash"
 relationships:
   - target: PILLAR-001
     type: grounded
@@ -46,36 +31,23 @@ relationships:
   - target: IMPL-015
     type: observes
     rationale: Rule promoted from lesson IMPL-015 (worktree cleanup discipline)
-  - type: informed-by
-    target: RULE-007
-    rationale: Make targets define the dev server commands that git workflow interacts with
-  - type: informed-by
-    target: RULE-025
-    rationale: Root directory cleanliness governs tmp/ directory usage during git operations
-  - type: informed-by
-    target: RULE-039
-    rationale: Session management requires clean git state at session boundaries
-  - type: grounded
-    target: IMPL-015
-    rationale: Worktree cleanup lesson grounds the mandatory cleanup constraint
   - target: RULE-045
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-045
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
   - target: DOC-002
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Enforcement Architecture
   - target: DOC-035
-    type: documented-by
+    type: informed-by
     rationale: workflow.md is the source-of-truth document for the git workflow this rule enforces
+  - target: IMPL-015
+    type: grounded
+  - target: RULE-007
+    type: informed-by
+  - target: RULE-025
+    type: informed-by
+  - target: RULE-039
+    type: informed-by
 ---
 **Source of Truth:** `.orqa/documentation/guide/workflow.md`
 

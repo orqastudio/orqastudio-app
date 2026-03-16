@@ -5,7 +5,6 @@ description: "Verify the full AI transparency pipeline works end-to-end: Rust em
 status: completed
 created: 2026-03-07
 updated: 2026-03-07
-epic: EPIC-001
 assignee: AGENT-006
 acceptance:
   - System prompt sent (N chars) appears inline above assistant response when project is loaded
@@ -15,14 +14,16 @@ acceptance:
   - Conversation streaming works normally in all cases (no regression)
 relationships:
   - target: EPIC-001
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: TASK-311
+    type: depended-on-by
 ---
 ## What
 

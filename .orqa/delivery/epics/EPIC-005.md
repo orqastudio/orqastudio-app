@@ -1,26 +1,13 @@
 ---
 id: EPIC-005
-title: Artifact Browser — Sort, Filter, Search
-description: Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and a references panel.
+title: "Artifact Browser — Sort, Filter, Search"
+description: "Complete the core artifact browsing experience with sorting/grouping/filtering in the browser panel, AI-driven cross-artifact search, and a references panel."
 status: active
 priority: P1
 created: 2026-03-07
 updated: 2026-03-11
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-029
-  - RES-038
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 5
-  dependency: 3
-  effort: 4
-  score: 8.8
+scoring: null
 relationships:
   - target: RES-029
     type: informed-by
@@ -29,35 +16,47 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-038
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-164
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-165
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-166
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-167
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-168
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-169
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-170
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-312
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
+  - target: PILLAR-001
+    type: grounded-by
+  - target: EPIC-016
+    type: depended-on-by
+  - target: EPIC-020
+    type: depended-on-by
+  - target: EPIC-021
+    type: depended-on-by
+  - target: EPIC-022
+    type: depended-on-by
+  - target: DOC-057
+    type: informs
 ---
 ## Why P1
 

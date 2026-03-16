@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Collapsible from "$lib/components/ui/collapsible";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
+	import { CollapsibleRoot as Collapsible, CollapsibleTrigger, CollapsibleContent } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
 	import ChevronRightIcon from "@lucide/svelte/icons/chevron-right";
 	import FileTextIcon from "@lucide/svelte/icons/file-text";
 	import FolderIcon from "@lucide/svelte/icons/folder";
@@ -21,10 +21,10 @@
 	import CodeIcon from "@lucide/svelte/icons/code";
 	import LayoutIcon from "@lucide/svelte/icons/layout";
 	import PaletteIcon from "@lucide/svelte/icons/palette";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import ArtifactListItem from "$lib/components/shared/ArtifactListItem.svelte";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
+	import { ArtifactListItem } from "@orqastudio/svelte-components/connected";
 	import ArtifactToolbar from "$lib/components/navigation/ArtifactToolbar.svelte";
 	import { getStores } from "@orqastudio/sdk";
 	import type { ActivityView } from "@orqastudio/sdk";
@@ -235,7 +235,7 @@
 		/>
 	{/if}
 
-	<ScrollArea.Root class="min-h-0 flex-1">
+	<ScrollArea class="min-h-0 flex-1">
 		<div class="p-1">
 			{#if loading}
 				<div class="flex items-center justify-center py-8">
@@ -267,15 +267,15 @@
 				{@const collapsedDefaults = currentNavType?.navigation_config?.defaults?.collapsed_groups ?? []}
 				<div class="space-y-0.5">
 					{#each groupedNodes as group (group.label)}
-						<Collapsible.Root open={!collapsedDefaults.includes(group.label.toLowerCase())}>
-							<Collapsible.Trigger
+						<Collapsible open={!collapsedDefaults.includes(group.label.toLowerCase())}>
+							<CollapsibleTrigger
 								class="flex w-full items-center gap-1.5 rounded px-2 py-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:bg-accent/50"
 							>
 								<ChevronRightIcon class="h-3 w-3 transition-transform [[data-state=open]_&]:rotate-90" />
 								{group.label}
 								<span class="ml-auto text-[10px] font-normal tabular-nums">{group.nodes.length}</span>
-							</Collapsible.Trigger>
-							<Collapsible.Content>
+							</CollapsibleTrigger>
+							<CollapsibleContent>
 								{#each group.nodes as node (node.path)}
 									<ArtifactListItem
 										label={node.label}
@@ -285,8 +285,8 @@
 										onclick={() => handleLeafClick(node)}
 									/>
 								{/each}
-							</Collapsible.Content>
-						</Collapsible.Root>
+							</CollapsibleContent>
+						</Collapsible>
 					{/each}
 				</div>
 			{:else}
@@ -301,27 +301,27 @@
 				{/each}
 			{/if}
 		</div>
-	</ScrollArea.Root>
+	</ScrollArea>
 </div>
 
 {#snippet treeSection(node: DocNode, depth: number)}
 	{#if node.children}
 		{@const DirIcon = resolveDirectoryIcon(node.icon)}
-		<Collapsible.Root open={true}>
-			<Collapsible.Trigger
+		<Collapsible open={true}>
+			<CollapsibleTrigger
 				class="flex w-full items-center gap-1 rounded px-1 py-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground hover:bg-accent/50"
 				style="padding-left: {depth * 12 + 4}px"
 			>
 				<ChevronRightIcon class="h-3 w-3 transition-transform [[data-state=open]_&]:rotate-90" />
 				<DirIcon class="h-3 w-3 shrink-0" />
 				{node.label}
-			</Collapsible.Trigger>
-			<Collapsible.Content>
+			</CollapsibleTrigger>
+			<CollapsibleContent>
 				{#each node.children as child (child.path ?? child.label)}
 					{@render treeSection(child, depth + 1)}
 				{/each}
-			</Collapsible.Content>
-		</Collapsible.Root>
+			</CollapsibleContent>
+		</Collapsible>
 	{:else if node.path}
 		<div style="padding-left: {depth * 12}px">
 			<ArtifactListItem

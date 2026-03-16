@@ -28,45 +28,9 @@ relationships:
   - target: IMPL-006
     type: observes
     rationale: Rule promoted from lesson IMPL-006 (scanner must recurse into subdirectories)
-  - type: informed-by
-    target: RULE-025
-    rationale: Root directory discipline relies on config-driven path definitions
-  - type: informed-by
-    target: RULE-032
-    rationale: Schema validation depends on config correctly mapping artifact directories to schemas
-  - type: informed-by
-    target: RULE-034
-    rationale: Artifact link format requires config integrity to resolve link targets
-  - type: informed-by
-    target: RULE-041
-    rationale: Persistence boundaries require file-based artifacts to be correctly configured
-  - type: informed-by
-    target: RULE-044
-    rationale: Core graph protection requires knowing which directories hold protected artifacts
-  - type: grounded
-    target: IMPL-005
-    rationale: Config-path matching lesson grounds the config integrity constraint
-  - type: grounded
-    target: IMPL-006
-    rationale: Recursive scanning lesson grounds the directory traversal requirement
   - target: IMPL-018
     type: observes
     rationale: Rule updated from lesson IMPL-018 (hardcoded .orqa/ paths in source code should be project-configurable)
-  - type: grounded
-    target: IMPL-018
-    rationale: Lesson IMPL-018 identified that hardcoded path constants violate the config-driven scanning principle
-  - type: enforces
-    target: AD-020
-    rationale: Requiring config paths to match disk structure enforces filesystem-driven doc browsing
-  - type: enforces
-    target: AD-021
-    rationale: Requiring .orqa/ as source of truth and forbidding duplicate files in .claude/ enforces the single source of truth decision
-  - type: enforces
-    target: AD-022
-    rationale: Mandating config-driven scanning with no hardcoded paths directly implements the config-driven artifact scanning decision
-  - type: enforces
-    target: AD-043
-    rationale: Three-level directory structure requires config paths to accurately reflect the process/delivery/documentation layout on disk
   - target: IMPL-018
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-018
@@ -85,12 +49,24 @@ relationships:
   - target: AD-041
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-041
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: AD-020
+    type: enforces
+  - target: IMPL-005
+    type: grounded
+  - target: IMPL-006
+    type: grounded
+  - target: IMPL-018
+    type: grounded
+  - target: RULE-025
+    type: informed-by
+  - target: RULE-032
+    type: informed-by
+  - target: RULE-034
+    type: informed-by
+  - target: RULE-041
+    type: informed-by
+  - target: RULE-044
+    type: informed-by
 ---
 # Artifact Config Integrity (NON-NEGOTIABLE)
 

@@ -3,8 +3,8 @@ id: IMPL-057
 title: "Fix the problem, not the number"
 description: "When facing integrity errors, the orchestrator's instinct was to suppress the signal rather than fix the root cause. 'Quickest fix' thinking optimises for making error counts drop, not for working software."
 status: active
-created: "2026-03-14"
-updated: "2026-03-14"
+created: 2026-03-14
+updated: 2026-03-14
 maturity: understanding
 recurrence: 1
 relationships:

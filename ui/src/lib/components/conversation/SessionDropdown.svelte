@@ -4,19 +4,19 @@
 	import Trash2Icon from "@lucide/svelte/icons/trash-2";
 	import MessageSquareIcon from "@lucide/svelte/icons/message-square";
 	import {
-		Popover,
+		PopoverRoot as Popover,
 		PopoverContent,
 		PopoverTrigger,
-	} from "$lib/components/ui/popover";
-	import { Button } from "$lib/components/ui/button";
-	import { Badge } from "$lib/components/ui/badge";
-	import { Separator } from "$lib/components/ui/separator";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
-	import SearchInput from "$lib/components/shared/SearchInput.svelte";
-	import ConfirmDeleteDialog from "$lib/components/shared/ConfirmDeleteDialog.svelte";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	} from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { SearchInput } from "@orqastudio/svelte-components/pure";
+	import { ConfirmDialog as ConfirmDeleteDialog } from "@orqastudio/svelte-components/pure";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 
 	let {
 		sessions,

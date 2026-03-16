@@ -1,25 +1,21 @@
 ---
 id: TASK-508
-title: "Update PipelineStepper to show valid transitions"
+title: Update PipelineStepper to show valid transitions
 description: "Extend the PipelineStepper component to display which status transitions are valid from the artifact's current state, and make those transitions clickable so users can apply them directly from the stepper without manually editing the artifact file."
 status: blocked
 priority: P2
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-077
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-505
 acceptance:
-  - "PipelineStepper shows which stages the artifact can transition to from its current status"
+  - PipelineStepper shows which stages the artifact can transition to from its current status
   - "Clickable transitions that update the artifact's status via the SDK"
-  - "Only shows transitions that are valid for the current artifact type context"
+  - Only shows transitions that are valid for the current artifact type context
 relationships:
-  - type: delivers
-    target: EPIC-077
-  - type: belongs-to
-    target: EPIC-077
+  - target: EPIC-077
+    type: delivers
+  - target: TASK-505
+    type: depends-on
 ---
 ## What
 

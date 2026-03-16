@@ -1,22 +1,23 @@
 ---
 id: TASK-050
 title: Document governance classification schema
-description: Updates the artifact framework documentation to formally define the three-layer classification model and agent scope categories, and updates the skill enforcement rule to reference layer-aware loading decisions.
+description: "Updates the artifact framework documentation to formally define the three-layer classification model and agent scope categories, and updates the skill enforcement rule to reference layer-aware loading decisions."
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-044
 assignee: AGENT-003
-skills:
-  - SKILL-011
 acceptance:
   - artifact-framework.md documents the three-layer classification (canon/project/plugin)
   - artifact-framework.md documents agent scope categories
   - skill-enforcement.md updated with layer-aware loading rules
 relationships:
   - target: EPIC-044
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-334
+    type: depended-on-by
 ---
 ## Changes Needed
 

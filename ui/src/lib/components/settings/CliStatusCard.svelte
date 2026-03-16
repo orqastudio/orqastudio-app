@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
-	import { Separator } from "$lib/components/ui/separator";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
 	import CircleCheckIcon from "@lucide/svelte/icons/circle-check";
 	import CircleXIcon from "@lucide/svelte/icons/circle-x";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
@@ -23,12 +23,12 @@
 	const { cliChecking, reauthenticating, onCheckCli, onReauthenticate }: Props = $props();
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Claude CLI</Card.Title>
-		<Card.Description>Claude Code CLI version and authentication status</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Claude CLI</CardTitle>
+		<CardDescription>Claude Code CLI version and authentication status</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		{#if cliChecking}
 			<div class="flex items-center gap-2 text-sm">
 				<LoaderCircleIcon class="h-4 w-4 animate-spin text-muted-foreground" />
@@ -115,5 +115,5 @@
 				{/if}
 			</Button>
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

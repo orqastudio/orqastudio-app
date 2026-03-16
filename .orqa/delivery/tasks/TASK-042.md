@@ -5,18 +5,20 @@ description: Increases the artifact viewer loading spinner to the large size var
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-043
 assignee: AGENT-002
-skills:
-  - SKILL-005
-  - SKILL-008
 acceptance:
-  - Loading spinner in main artifact viewer uses "lg" size variant
+  - "Loading spinner in main artifact viewer uses \"lg\" size variant"
   - Animated logo pulse is clearly visible and not lost at display size
 relationships:
   - target: EPIC-043
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: TASK-333
+    type: depended-on-by
 ---
 ## Findings Addressed
 

@@ -1,20 +1,13 @@
 ---
 id: EPIC-069
-title: Notification system — toast, in-app panel, desktop
-description: Design and implement a notification strategy covering toast messages, in-app notification panel, and desktop notifications. Determine which events use which channel.
+title: "Notification system — toast, in-app panel, desktop"
+description: "Design and implement a notification strategy covering toast messages, in-app notification panel, and desktop notifications. Determine which events use which channel."
 status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on: []
-research-refs: []
-docs-required: []
-docs-produced: []
 relationships:
   - target: EPIC-063
     type: informed-by
@@ -23,26 +16,19 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from IMPL-061
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-444
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-445
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-446
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-445
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-445"
-  - target: TASK-444
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-444"
+    rationale: Epic contains this task
   - target: TASK-446
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-446"
+    rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Context
 

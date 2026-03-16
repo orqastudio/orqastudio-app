@@ -7,9 +7,6 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-200
 acceptance:
   - Skill embeddings computed and stored at project load
   - User prompts matched against skill descriptions by cosine similarity
@@ -17,8 +14,12 @@ acceptance:
   - Dedup against skills already in context
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-200
+    type: depends-on
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 ## What

@@ -1,10 +1,10 @@
 ---
 id: IMPL-047
-title: "Research artifact not triggered before investigation — structure-before-work violated"
+title: Research artifact not triggered before investigation — structure-before-work violated
 description: "When asked to scan for principle enforcement gaps, the orchestrator jumped straight to running the audit without creating a research artifact first. RULE-027 (structure before work) and RULE-008 (documentation first) both require the artifact structure to exist before work begins. The orchestrator should recognise investigation requests as research tasks and create RES-NNN artifacts before delegating."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

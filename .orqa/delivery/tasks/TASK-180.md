@@ -5,16 +5,10 @@ description: Plugin PreToolUse hook evaluates active rules against tool calls an
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-050
-depends-on:
-  - TASK-178
 assignee: AGENT-002
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-045
 acceptance:
-  - PreToolUse hook fires before Edit, Write, and Bash tool calls
+  - "PreToolUse hook fires before Edit, Write, and Bash tool calls"
   - Hook loads active rules with enforcement entries
   - File events match against file_path and new_text fields
   - Bash events match against command field
@@ -22,8 +16,18 @@ acceptance:
   - Non-violations allow the tool call to proceed
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-178
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-045
+    type: grounded-by
+  - target: TASK-185
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

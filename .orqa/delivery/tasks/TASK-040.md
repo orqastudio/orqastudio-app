@@ -1,15 +1,11 @@
 ---
 id: TASK-040
 title: Governance data quality backfill
-description: Audits and repairs frontmatter quality across all governance artifacts — adding missing titles, descriptions, and consistent YAML field ordering — with no code changes required.
+description: "Audits and repairs frontmatter quality across all governance artifacts — adding missing titles, descriptions, and consistent YAML field ordering — with no code changes required."
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-043
 assignee: AGENT-003
-skills:
-  - SKILL-011
-  - SKILL-029
 acceptance:
   - All lessons have human-readable titles (no code references) and descriptions
   - All rules have descriptions in their frontmatter
@@ -20,8 +16,14 @@ acceptance:
   - Field ordering documented in artifact framework
 relationships:
   - target: EPIC-043
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-029
+    type: grounded-by
+  - target: TASK-333
+    type: depended-on-by
 ---
 ## Findings Addressed
 

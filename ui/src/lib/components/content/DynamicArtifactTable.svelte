@@ -2,7 +2,7 @@
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK, navigationStore } = getStores();
-	import { statusIcon } from "$lib/components/shared/StatusIndicator.svelte";
+	import { statusIconName, resolveIcon } from "@orqastudio/svelte-components/pure";
 	import type { ArtifactNode } from "@orqastudio/types";
 
 	let {
@@ -91,7 +91,7 @@
 						<!-- Status dot -->
 						<td class="px-3 py-2">
 							{#if child.status}
-								{@const StatusIcon = statusIcon(child.status)}
+								{@const StatusIcon = resolveIcon(statusIconName(child.status)}
 								<StatusIcon class="h-3.5 w-3.5 text-muted-foreground" />
 							{/if}
 						</td>

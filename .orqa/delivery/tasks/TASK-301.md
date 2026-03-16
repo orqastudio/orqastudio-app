@@ -1,16 +1,12 @@
 ---
 id: TASK-301
 title: "Research: relationship and metadata display UX (RES-049)"
-description: UX review investigating how artifacts should present their relationships, pipeline stage, and metadata to users in the app. Produces design recommendations for a future implementation epic.
+description: "UX review investigating how artifacts should present their relationships, pipeline stage, and metadata to users in the app. Produces design recommendations for a future implementation epic."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-292
 assignee: null
 docs: []
-skills: []
 acceptance:
   - RES-049 is complete with findings and recommendations
   - Current metadata display audited with specific issues identified
@@ -21,8 +17,12 @@ acceptance:
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-292
+    type: depends-on
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

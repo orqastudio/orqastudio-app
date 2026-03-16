@@ -1,37 +1,41 @@
 ---
 id: EPIC-077
-title: "Automated status transitions — the system enforces its own lifecycle"
+title: Automated status transitions — the system enforces its own lifecycle
 description: "Implement app-level automation that detects conditions requiring status changes and applies them. Validates all artifacts have valid statuses. The status process documented in DOC-075 and SKILL-051 is enforced mechanically, not just by convention."
 status: active
 priority: P1
 created: 2026-03-15
 updated: 2026-03-15
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-  - PILLAR-003
-depends-on: []
-blocks: []
-research-refs: []
-docs-required:
-  - DOC-075
-docs-produced: []
-scoring:
-  dogfood-value: 5 — status automation directly improves governance quality
-  user-facing: 4 — users see artifacts move through states automatically
-  foundation: 5 — enforces the unified status vocabulary mechanically
-  complexity: 3 — rules are clear, implementation is Rust + frontend
-  score: 4.5
+scoring: null
 relationships:
   - target: AD-049
     type: enforces
     rationale: Mechanically enforces the icon-based status system
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: MS-001
+    type: delivers
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: DOC-075
+    type: informs
+  - target: TASK-504
+    type: delivered-by
+  - target: TASK-505
+    type: delivered-by
+  - target: TASK-506
+    type: delivered-by
+  - target: TASK-507
+    type: delivered-by
+  - target: TASK-508
+    type: delivered-by
 ---
 
 ## Context

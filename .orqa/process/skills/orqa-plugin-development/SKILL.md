@@ -17,9 +17,44 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Plugin architecture with the Artifact Graph SDK makes governance extensible while keeping the core framework stable
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
+  - target: EPIC-048
+    type: informs
+  - target: TASK-175
+    type: grounded
+  - target: TASK-177
+    type: grounded
+  - target: TASK-178
+    type: grounded
+  - target: TASK-179
+    type: grounded
+  - target: TASK-180
+    type: grounded
+  - target: TASK-181
+    type: grounded
+  - target: TASK-182
+    type: grounded
+  - target: TASK-184
+    type: grounded
+  - target: TASK-185
+    type: grounded
+  - target: TASK-187
+    type: grounded
+  - target: TASK-214
+    type: grounded
+  - target: TASK-215
+    type: grounded
+  - target: TASK-216
+    type: grounded
+  - target: TASK-219
+    type: grounded
+  - target: TASK-411
+    type: grounded
+  - target: TASK-412
+    type: grounded
+  - target: TASK-413
+    type: grounded
+  - target: TASK-467
+    type: grounded
 ---
 
 > **Forward-looking:** This skill will be activated when the plugin system is implemented. See [IDEA-038](IDEA-038) for context.

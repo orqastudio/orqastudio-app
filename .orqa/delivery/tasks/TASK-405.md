@@ -6,15 +6,10 @@ status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-063
-depends-on: []
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
 acceptance:
   - Pipeline visualization fills surrounding card width — stages expand responsively
-  - Stuck and bottleneck labels include reasoning (e.g., '5 of 12 lessons have no downstream research link')
+  - "Stuck and bottleneck labels include reasoning (e.g., '5 of 12 lessons have no downstream research link')"
   - Each stuck/bottleneck stage shows suggested actions to resolve
   - Pipeline stage health calculations audited and documented — thresholds adjusted if needed
   - Relationship types used for flow calculation match actual project usage
@@ -22,9 +17,10 @@ relationships:
   - target: EPIC-063
     type: delivers
     rationale: Theme C — pipeline visualization improvements from UAT
-  - target: EPIC-063
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
 ---
 
 ## Scope
@@ -42,4 +38,4 @@ relationships:
 ### Health Calculation Accuracy (Finding #9)
 - **File**: `PipelineWidget.svelte` (lines 27-70, 141-151)
 - **Current**: Hardcoded relationship types and thresholds (0% = stuck, <30% = bottleneck)
-- **Audit**: Verify the relationship types (`observes`, `grounded`, `practices`, `enforces`, `verifies`) match what's actually used in the project. Adjust thresholds if warranted.
+- **Audit**: Verify the relationship types (`observes`, `grounded`, `grounded-by`, `enforces`, `enforces`) match what's actually used in the project. Adjust thresholds if warranted.

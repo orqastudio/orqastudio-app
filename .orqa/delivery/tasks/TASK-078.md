@@ -5,13 +5,7 @@ description: Auto-detect artifact ID patterns in rendered markdown and wrap them
 status: completed
 created: 2026-03-10
 updated: 2026-03-10
-epic: EPIC-048
-depends-on:
-  - TASK-083
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-034
 acceptance:
   - "Regex matches all known artifact ID patterns: EPIC-NNN, TASK-NNN, AD-NNN, MS-NNN, IDEA-NNN, IMPL-NNN, RES-NNN, PILLAR-NNN, RULE-NNN"
   - Matched IDs wrapped in clickable elements calling navigateToArtifact
@@ -19,8 +13,16 @@ acceptance:
   - Always-on — no configuration toggle
 relationships:
   - target: EPIC-048
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-083
+    type: depends-on
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-034
+    type: grounded-by
+  - target: TASK-338
+    type: depended-on-by
 ---
 
 ## What

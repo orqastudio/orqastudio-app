@@ -1,6 +1,6 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Separator } from "$lib/components/ui/separator";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
 	import type { ProjectSettings, ArtifactLinksConfig, ArtifactLinkDisplayMode } from "@orqastudio/types";
 	import { DEFAULT_ARTIFACT_LINK_COLORS } from "@orqastudio/types";
 
@@ -65,12 +65,12 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Artifact Links</Card.Title>
-		<Card.Description>Control how artifact link chips are displayed across the app</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-3">
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Artifact Links</CardTitle>
+		<CardDescription>Control how artifact link chips are displayed across the app</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-3">
 		<!-- Column headers -->
 		<div class="grid grid-cols-[6rem_1fr_8rem] items-center gap-x-4 px-1">
 			<span class="text-xs font-medium text-muted-foreground">Type</span>
@@ -141,5 +141,5 @@
 				</div>
 			{/each}
 		</div>
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

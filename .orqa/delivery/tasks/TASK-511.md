@@ -1,27 +1,22 @@
 ---
-
 id: TASK-511
-title: "Make roadmap components read type hierarchy from config"
+title: Make roadmap components read type hierarchy from config
 description: "Refactor RoadmapView and its column definitions so they derive the three-level drill-down structure and column labels from the delivery type config in project settings, eliminating the hardcoded EPIC_COLUMNS and TASK_COLUMNS constants."
 status: completed
 priority: P1
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-078
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-509
 acceptance:
-  - "RoadmapView reads delivery types from project settings to determine 3-level drill-down"
-  - "Column definitions per level derived from configured statuses (already done) and type labels from config"
-  - "EPIC_COLUMNS and TASK_COLUMNS removed — replaced with config-driven column generation"
-  - "Works identically for current project (milestone/epic/task)"
+  - RoadmapView reads delivery types from project settings to determine 3-level drill-down
+  - Column definitions per level derived from configured statuses (already done) and type labels from config
+  - EPIC_COLUMNS and TASK_COLUMNS removed — replaced with config-driven column generation
+  - Works identically for current project (milestone/epic/task)
 relationships:
-  - type: delivers
-    target: EPIC-078
-  - type: belongs-to
-    target: EPIC-078
+  - target: EPIC-078
+    type: delivers
+  - target: TASK-509
+    type: depends-on
 ---
 ## What
 

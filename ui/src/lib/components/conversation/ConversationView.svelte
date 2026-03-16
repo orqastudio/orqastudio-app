@@ -1,9 +1,9 @@
 <script lang="ts">
 	import MessageBubbleIcon from "@lucide/svelte/icons/message-square";
-	import { ScrollArea } from "$lib/components/ui/scroll-area";
-	import EmptyState from "$lib/components/shared/EmptyState.svelte";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
-	import ErrorDisplay from "$lib/components/shared/ErrorDisplay.svelte";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { EmptyState } from "@orqastudio/svelte-components/pure";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
+	import { ErrorDisplay } from "@orqastudio/svelte-components/pure";
 	import SessionHeader from "./SessionHeader.svelte";
 	import MessageBubble from "./MessageBubble.svelte";
 	import MessageInput from "./MessageInput.svelte";
@@ -11,7 +11,7 @@
 	import ToolCallSummary from "$lib/components/tool/ToolCallSummary.svelte";
 	import ToolApprovalDialog from "$lib/components/tool/ToolApprovalDialog.svelte";
 	import ContextEntryComponent from "./ContextEntry.svelte";
-	import ThinkingBlock from "$lib/components/shared/ThinkingBlock.svelte";
+	import { ThinkingBlock } from "@orqastudio/svelte-components/pure";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { conversationStore, sessionStore, projectStore, settingsStore } = getStores();

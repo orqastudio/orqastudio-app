@@ -5,38 +5,6 @@ description: "Standing reconciliation task — verify epic body accuracy: task t
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-281
-  - TASK-282
-  - TASK-283
-  - TASK-284
-  - TASK-285
-  - TASK-286
-  - TASK-287
-  - TASK-288
-  - TASK-289
-  - TASK-290
-  - TASK-291
-  - TASK-292
-  - TASK-293
-  - TASK-294
-  - TASK-295
-  - TASK-296
-  - TASK-297
-  - TASK-298
-  - TASK-299
-  - TASK-300
-  - TASK-301
-  - TASK-302
-  - TASK-303
-  - TASK-304
-  - TASK-305
-  - TASK-306
-  - TASK-307
-  - TASK-308
-  - TASK-309
-  - TASK-310
 acceptance:
   - Epic task table lists ALL tasks created during the epic
   - Epic pillars array reflects all pillars served
@@ -44,8 +12,68 @@ acceptance:
   - Epic scope section accurately reflects what was in/out of scope
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-281
+    type: depends-on
+  - target: TASK-282
+    type: depends-on
+  - target: TASK-283
+    type: depends-on
+  - target: TASK-284
+    type: depends-on
+  - target: TASK-285
+    type: depends-on
+  - target: TASK-286
+    type: depends-on
+  - target: TASK-287
+    type: depends-on
+  - target: TASK-288
+    type: depends-on
+  - target: TASK-289
+    type: depends-on
+  - target: TASK-290
+    type: depends-on
+  - target: TASK-291
+    type: depends-on
+  - target: TASK-292
+    type: depends-on
+  - target: TASK-293
+    type: depends-on
+  - target: TASK-294
+    type: depends-on
+  - target: TASK-295
+    type: depends-on
+  - target: TASK-296
+    type: depends-on
+  - target: TASK-297
+    type: depends-on
+  - target: TASK-298
+    type: depends-on
+  - target: TASK-299
+    type: depends-on
+  - target: TASK-300
+    type: depends-on
+  - target: TASK-301
+    type: depends-on
+  - target: TASK-302
+    type: depends-on
+  - target: TASK-303
+    type: depends-on
+  - target: TASK-304
+    type: depends-on
+  - target: TASK-305
+    type: depends-on
+  - target: TASK-306
+    type: depends-on
+  - target: TASK-307
+    type: depends-on
+  - target: TASK-308
+    type: depends-on
+  - target: TASK-309
+    type: depends-on
+  - target: TASK-310
+    type: depends-on
 ---
 
 ## What

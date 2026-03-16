@@ -25,27 +25,18 @@ relationships:
   - target: RULE-015
     type: informs
     rationale: Structure provides acceptance criteria that prevent ambiguous completion claims
-  - type: informed-by
-    target: RULE-030
-    rationale: UAT tasks require artifact structure before implementation of fixes
-  - type: informed-by
-    target: RULE-032
-    rationale: Schema validation ensures the structure that must exist is correctly formed
-  - type: enforces
-    target: AD-040
-    rationale: AD-040 established the structure-before-work principle that this rule implements as a non-negotiable gate
   - target: IMPL-021
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-021
   - target: IMPL-047
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-047
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
+  - target: AD-040
+    type: enforces
+  - target: RULE-030
+    type: informed-by
+  - target: RULE-032
+    type: informed-by
 ---
 ## The Rule (NON-NEGOTIABLE)
 

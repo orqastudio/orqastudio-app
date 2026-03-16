@@ -1,9 +1,9 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import { Badge } from "$lib/components/ui/badge";
-	import { Button } from "$lib/components/ui/button";
-	import { Separator } from "$lib/components/ui/separator";
-	import { Input } from "$lib/components/ui/input";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { Separator } from "@orqastudio/svelte-components/pure";
+	import { Input } from "@orqastudio/svelte-components/pure";
 	import LoaderCircleIcon from "@lucide/svelte/icons/loader-circle";
 	import ScanSearchIcon from "@lucide/svelte/icons/scan-search";
 	import SaveIcon from "@lucide/svelte/icons/save";
@@ -64,14 +64,14 @@
 	}
 </script>
 
-<Card.Root>
-	<Card.Header>
-		<Card.Title>Set Up Project</Card.Title>
-		<Card.Description>
+<CardRoot>
+	<CardHeader>
+		<CardTitle>Set Up Project</CardTitle>
+		<CardDescription>
 			No configuration found. Scan this project to detect its stack and create settings.
-		</Card.Description>
-	</Card.Header>
-	<Card.Content class="space-y-4">
+		</CardDescription>
+	</CardHeader>
+	<CardContent class="space-y-4">
 		<div class="flex items-center gap-2 text-sm">
 			<FolderOpenIcon class="h-4 w-4 text-muted-foreground" />
 			<span class="font-mono text-xs text-muted-foreground">{props.projectPath}</span>
@@ -177,5 +177,5 @@
 				Save Configuration
 			</Button>
 		{/if}
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

@@ -6,10 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-067
-depends-on: []
 assignee: null
-skills: []
 acceptance:
   - New relationship types documents/documented-by in INVERSE_MAP
   - Graph builder extracts artifact references from markdown body text as edges
@@ -18,9 +15,8 @@ relationships:
   - target: EPIC-067
     type: delivers
     rationale: Body-text edge extraction and document relationships enrich the graph automatically
-  - target: EPIC-067
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-455
+    type: depended-on-by
 ---
 
 ## Scope

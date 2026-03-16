@@ -1,10 +1,10 @@
 ---
 id: IMPL-046
-title: "Project-level prioritization system needed to enforce priority principles automatically"
+title: Project-level prioritization system needed to enforce priority principles automatically
 description: "Priority should be set at the project level with configurable dimensions and automatic classification. For OrqaStudio: data integrity and filling gaps in process/principles are always CRITICAL. Tools that improve/enforce agentic workflow principles take precedence over feature work."
 status: active
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

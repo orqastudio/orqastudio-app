@@ -19,54 +19,26 @@ relationships:
   - target: RULE-010
     type: informs
     rationale: The full chain must be verified — not just the code but the runtime connection
-  - type: informed-by
-    target: RULE-006
-    rationale: Coding standards define what must be verified and fixed before committing
-  - type: informed-by
-    target: RULE-013
-    rationale: Pre-commit hook enforcement implements error ownership at commit time
-  - type: informed-by
-    target: RULE-015
-    rationale: Honest reporting requires acknowledging all errors regardless of origin
-  - type: informed-by
-    target: RULE-018
-    rationale: Type mismatches are errors you own — fix at the source, not with workarounds
-  - type: informed-by
-    target: RULE-020
-    rationale: No-stubs extends error ownership to runtime behaviour — stubs hide real errors
-  - type: informed-by
-    target: RULE-029
-    rationale: Failing tests are your responsibility — testing standards are subject to error ownership
-  - type: informed-by
-    target: RULE-043
-    rationale: Tooling ecosystem channels error ownership through configured linters and hooks
   - target: RULE-010
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-010
   - target: RULE-005
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-005
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: RULE-006
+    type: informed-by
+  - target: RULE-013
+    type: informed-by
+  - target: RULE-015
+    type: informed-by
+  - target: RULE-018
+    type: informed-by
+  - target: RULE-020
+    type: informed-by
+  - target: RULE-029
+    type: informed-by
+  - target: RULE-043
+    type: informed-by
 ---
 ## Rule (NON-NEGOTIABLE)
 

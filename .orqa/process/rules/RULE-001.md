@@ -6,6 +6,10 @@ status: active
 created: 2026-03-07
 updated: 2026-03-14
 layer: core
+enforcement:
+  - "event: stop"
+  - "event: stop"
+  - governance-maintenance
 relationships:
   - target: PILLAR-001
     type: grounded
@@ -25,42 +29,12 @@ relationships:
   - target: RULE-040
     type: informs
     rationale: Delegation protocol requires resolving agent capabilities to concrete tool names
-  - type: informed-by
-    target: RULE-026
-    rationale: Skill enforcement enables the delegation model by ensuring agents are equipped for their tasks
-  - type: informed-by
-    target: RULE-036
-    rationale: Context window management supports delegation by keeping orchestrator context lean
-  - type: informed-by
-    target: RULE-037
-    rationale: Tool access restrictions implement the role boundaries that delegation depends on
-  - type: informed-by
-    target: RULE-040
-    rationale: Capability-to-tool mapping makes delegation provider-agnostic
   - target: IMPL-029
     type: observes
     rationale: Rule updated from lesson IMPL-029 (orchestrator creating artifacts directly instead of delegating to Writer)
-  - type: grounded
-    target: IMPL-029
-    rationale: Lesson IMPL-029 confirmed the delegation boundary for batch artifact creation during design sessions
   - target: IMPL-039
     type: observes
     rationale: Rule updated from lesson IMPL-039 (observation creation should be delegated to background Writer agents)
-  - type: grounded
-    target: IMPL-039
-    rationale: Lesson IMPL-039 extended the delegation principle specifically to observation creation workflows
-  - type: enforces
-    target: AD-029
-    rationale: This rule defines the seven universal roles and the delegation protocol that prevents the orchestrator from implementing — directly enforcing the universal-roles architecture decision
-  - type: observes
-    target: IMPL-052
-    rationale: Lesson IMPL-052 identified the permission-seeking anti-pattern — orchestrator pausing when not blocked
-  - type: grounded
-    target: IMPL-052
-    rationale: Autonomous continuation section promoted directly from IMPL-052's fix recommendation
-  - type: enforced-by
-    target: AD-048
-    rationale: AD-048 requires enforcement to accompany any lesson promotion to a rule — this rule's autonomous continuation section is the promotion target
   - target: TASK-411
     type: enforced-by
     rationale: Auto-generated inverse of enforced-by relationship from TASK-411
@@ -70,30 +44,36 @@ relationships:
   - target: IMPL-029
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-029
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
   - target: DOC-030
-    type: documented-by
+    type: informed-by
     rationale: orchestration.md is the source-of-truth document for orchestrator behaviour that this rule enforces
   - target: DOC-069
-    type: documented-by
+    type: informed-by
     rationale: delegation.md operationalises this rule as the orchestrator's lookup table for delegation decisions
   - target: DOC-069
     type: enforced-by
     rationale: delegation.md operationalises the delegation rule — inverse of enforces on DOC-069
-enforcement:
-  - event: stop
-    action: warn
-    message: "AUTONOMOUS CONTINUATION CHECK: Did you ask for permission when not blocked? The orchestrator must continue when tasks are approved and unblocked. Only stop for: dependency gates not met, user decision needed, or work complete."
-  - event: stop
-    action: inject
-    skills:
-      - governance-maintenance
-    message: "Check: did you pause for unnecessary permission at any point during this session? If so, log as IMPL-052 recurrence."
+  - target: AD-048
+    type: enforced-by
+  - target: IMPL-029
+    type: grounded
+  - target: IMPL-039
+    type: grounded
+  - target: IMPL-052
+    type: observes
+  - target: IMPL-052
+    type: grounded
+  - target: RULE-026
+    type: informed-by
+  - target: RULE-036
+    type: informed-by
+  - target: RULE-037
+    type: informed-by
+  - target: RULE-040
+    type: informed-by
 ---
 The orchestrator coordinates. It does NOT implement. Every implementation task is delegated to a universal role with the appropriate skills loaded.
 

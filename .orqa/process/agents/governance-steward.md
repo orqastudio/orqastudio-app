@@ -19,43 +19,34 @@ capabilities:
   - code_search_regex
   - code_search_semantic
   - code_research
-skills:
-  - SKILL-005
-  - SKILL-008
-  - SKILL-011
-  - SKILL-037
-  - SKILL-039
-  - SKILL-050
-subagent_mapping:
-  default: Governance Steward
+subagent_mapping: null
 relationships:
-  - type: grounded-by
-    target: DOC-066
-    rationale: Artifact principles grounding — what good artifacts look like, graph discipline
-  - type: grounded-by
-    target: DOC-064
-    rationale: Product purpose grounding — mission and pillars that all artifacts must serve
-  - type: scoped-by
-    target: RULE-004
-    rationale: Artifact lifecycle — status transitions, promotion gates, documentation gates
-  - type: scoped-by
-    target: RULE-032
-    rationale: Schema validation — frontmatter must match schema.json
-  - type: scoped-by
-    target: RULE-034
-    rationale: Cross-reference format — artifact links must use standard format
-  - type: scoped-by
-    target: RULE-045
-    rationale: Data integrity — bidirectional relationships, link resolution
-  - type: scoped-by
-    target: RULE-021
-    rationale: Pillar alignment — documentation pages must include alignment sections
-  - type: scoped-by
-    target: RULE-008
-    rationale: Documentation first — docs before code
-  - type: scoped-by
-    target: RULE-016
-    rationale: Artifact ID semantics — IDs are identifiers not rankings
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-039
+    type: grounded-by
+  - target: SKILL-050
+    type: grounded-by
+  - target: RULE-004
+    type: enforced-by
+  - target: RULE-008
+    type: enforced-by
+  - target: RULE-016
+    type: enforced-by
+  - target: RULE-021
+    type: enforced-by
+  - target: RULE-032
+    type: enforced-by
+  - target: RULE-034
+    type: enforced-by
+  - target: RULE-045
+    type: enforced-by
 ---
 
 ## Purpose
@@ -93,14 +84,14 @@ When the orchestrator delegates artifact work to you:
 |------|---------|
 | `observes` | `observed-by` |
 | `grounded` | `grounded-by` |
-| `practices` | `practiced-by` |
+| `grounded-by` | `grounded` |
 | `enforces` | `enforced-by` |
-| `verifies` | `verified-by` |
+| `enforces` | `enforced-by` |
 | `informs` | `informed-by` |
 | `delivers` | `delivered-by` |
-| `contains` | `belongs-to` |
-| `documents` | `documented-by` |
-| `scoped-to` | `scoped-by` |
+| `delivered-by` | `delivers` |
+| `informs` | `informed-by` |
+| `enforces` | `enforced-by` |
 
 Every relationship you write MUST have the inverse written on the target artifact in the same operation.
 

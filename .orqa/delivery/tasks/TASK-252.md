@@ -5,8 +5,6 @@ description: Find-replace all path references in .orqa/ documentation to reflect
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-056
-depends-on: []
 acceptance:
   - All src-tauri/ references updated to backend/src-tauri/
   - All sidecar/ references updated to sidecars/claude-agentsdk-sidecar/
@@ -16,8 +14,12 @@ acceptance:
   - Spot-checked for correctness
 relationships:
   - target: EPIC-056
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-253
+    type: depended-on-by
+  - target: TASK-346
+    type: depended-on-by
 ---
 
 ## What

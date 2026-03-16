@@ -5,14 +5,15 @@ description: All 44 rules loaded via symlinks contradicts graph model. Investiga
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - Decision documented on rule loading approach
   - Solution implemented or deferred with rationale
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

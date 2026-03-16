@@ -5,16 +5,16 @@ description: Defined the approach for first-run project setup and Claude API aut
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-025
-depends-on: []
 acceptance:
   - Onboarding flow documented
   - API key configuration approach decided
   - Project initialization sequence defined
 relationships:
   - target: EPIC-025
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-315
+    type: depended-on-by
 ---
 ## What
 

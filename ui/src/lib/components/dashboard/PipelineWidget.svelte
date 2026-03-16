@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import EyeIcon from "@lucide/svelte/icons/eye";
 	import BookOpenIcon from "@lucide/svelte/icons/book-open";
 	import ScaleIcon from "@lucide/svelte/icons/scale";
@@ -12,7 +12,7 @@
 	const { artifactGraphSDK } = getStores();
 	import type { ArtifactNode, ArtifactRef } from "@orqastudio/types";
 	import type { Component } from "svelte";
-	import PipelineStages, { type PipelineStage, type PipelineEdge } from "$lib/components/shared/PipelineStages.svelte";
+	import { PipelineStages, type PipelineStage, type PipelineEdge } from "@orqastudio/svelte-components/pure";
 
 	// -------------------------------------------------------------------------
 	// Pipeline stage definitions
@@ -267,16 +267,16 @@
 </script>
 
 {#if hasData}
-	<Card.Root class="gap-2 h-full">
-		<Card.Header class="pb-2">
-			<Card.Title class="text-sm font-semibold">
+	<CardRoot class="gap-2 h-full">
+		<CardHeader class="pb-2">
+			<CardTitle class="text-sm font-semibold">
 				<div class="flex items-center gap-2">
 					<WorkflowIcon class="h-4 w-4 text-muted-foreground" />
 					Knowledge Pipeline
 				</div>
-			</Card.Title>
-		</Card.Header>
-		<Card.Content class="pt-0">
+			</CardTitle>
+		</CardHeader>
+		<CardContent class="pt-0">
 			<div class="pb-2">
 				<PipelineStages stages={pipelineStages} edges={pipelineEdges} />
 			</div>
@@ -292,6 +292,6 @@
 					Attention (30-70% connected)
 				</span>
 			</div>
-		</Card.Content>
-	</Card.Root>
+		</CardContent>
+	</CardRoot>
 {/if}

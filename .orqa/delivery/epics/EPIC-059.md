@@ -1,42 +1,17 @@
 ---
 id: EPIC-059
-title: Philosophy Alignment & Data Integrity
-description: Content migration and directory reorganization to express the Knowledge Maturity Pipeline philosophy. Moves artifacts to process/delivery/documentation structure, audits all content, integrates integrity checks, and ensures app layout picks up the new structure.
+title: "Philosophy Alignment & Data Integrity"
+description: "Content migration and directory reorganization to express the Knowledge Maturity Pipeline philosophy. Moves artifacts to process/delivery/documentation structure, audits all content, integrates integrity checks, and ensures app layout picks up the new structure."
 status: completed
 priority: P1
 created: 2026-03-13
 updated: 2026-03-13
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-  - PILLAR-003
-depends-on:
-  - EPIC-058
-blocks: []
-research-refs:
-  - RES-048
-  - RES-049
-  - RES-052
-docs-required:
-  - AD-042
-docs-produced:
-  - AD-043
-  - AD-044
-  - RES-049
-  - RULE-045
-scoring:
-  clarity: 5
-  learning: 5
-  feasibility: 3
-  urgency: 4
+scoring: null
 rule-overrides:
-  - rule: RULE-003
-    reason: Artifact config paths are being restructured — project.json will be updated as directories move but intermediate states will have path mismatches
-  - rule: RULE-032
-    reason: Schema files are being moved between directories — validation paths temporarily mismatched
+  - "rule: RULE-003"
+  - "rule: RULE-032"
 relationships:
   - target: RES-049
     type: informed-by
@@ -48,101 +23,117 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-052
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-281
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-282
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-283
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-284
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-285
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-286
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-287
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-288
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-289
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-290
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-291
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-292
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-293
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-294
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-295
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-296
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-297
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-298
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-299
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-300
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-301
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-302
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-303
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-304
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-305
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-306
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-307
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-308
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-309
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-310
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-349
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: EPIC-058
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: AD-042
+    type: informs
+  - target: AD-043
+    type: informed-by
+  - target: AD-044
+    type: informed-by
+  - target: RULE-045
+    type: informed-by
 ---
 ## Context
 

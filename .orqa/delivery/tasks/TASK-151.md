@@ -5,8 +5,6 @@ description: Validation hook that checks docs-required paths exist on disk befor
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - Epic with missing docs-required items produces clear error
   - Epic with all docs-required items present passes validation
@@ -14,8 +12,10 @@ acceptance:
   - Handles both artifact ID refs and file path refs
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

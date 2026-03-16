@@ -1,11 +1,10 @@
 ---
 id: TASK-001
 title: Emit SystemPromptSent event from stream_commands.rs
-description: In stream_send_message(), emit a SystemPromptSent event via on_event channel after resolve_system_prompt() and before sidecar.send().
+description: "In stream_send_message(), emit a SystemPromptSent event via on_event channel after resolve_system_prompt() and before sidecar.send()."
 status: completed
 created: 2026-03-07
 updated: 2026-03-07
-epic: EPIC-001
 assignee: AGENT-002
 acceptance:
   - SystemPromptSent event is emitted via on_event channel before sidecar request is sent
@@ -16,14 +15,16 @@ acceptance:
   - No unwrap() or expect() in the new code
 relationships:
   - target: EPIC-001
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
   - target: DOC-044
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Roadmap
+  - target: TASK-311
+    type: depended-on-by
 ---
 
 ## What

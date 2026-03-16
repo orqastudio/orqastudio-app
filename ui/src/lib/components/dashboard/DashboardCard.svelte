@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import type { Snippet } from "svelte";
 
 	let {
@@ -22,23 +22,23 @@
 	Reduces the gap-6 default on Card.Root to gap-2 so header→content
 	spacing is tighter across the dashboard.
 -->
-<Card.Root class="gap-2 {className}">
+<CardRoot class="gap-2 {className}">
 	{#if title || description || action}
-		<Card.Header class="pb-2">
+		<CardHeader class="pb-2">
 			{#if title}
-				<Card.Title class="text-sm font-semibold">{title}</Card.Title>
+				<CardTitle class="text-sm font-semibold">{title}</CardTitle>
 			{/if}
 			{#if description}
-				<Card.Description class="text-xs">{description}</Card.Description>
+				<CardDescription class="text-xs">{description}</CardDescription>
 			{/if}
 			{#if action}
-				<Card.Action>
+				<CardAction>
 					{@render action()}
-				</Card.Action>
+				</CardAction>
 			{/if}
-		</Card.Header>
+		</CardHeader>
 	{/if}
-	<Card.Content class="pt-0">
+	<CardContent class="pt-0">
 		{@render children?.()}
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

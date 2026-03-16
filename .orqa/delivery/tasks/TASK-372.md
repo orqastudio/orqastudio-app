@@ -5,14 +5,14 @@ description: Update orchestrator behavior to recognize investigation-class reque
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
   - Orchestrator creates RES-NNN artifacts before delegating investigation-class requests to researcher agents
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

@@ -17,12 +17,12 @@ relationships:
   - target: PILLAR-002
     type: grounded
     rationale: Test organisation by layer with mock boundaries at adapters catches regressions early, feeding failures back as lessons
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-036
+    type: grounded
+  - target: TASK-185
+    type: grounded
+  - target: TASK-219
+    type: grounded
 ---
 
 

@@ -6,11 +6,7 @@ status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-069
-depends-on:
-  - TASK-445
 assignee: null
-skills: []
 acceptance:
   - Auto-fix success shows as concise toast
   - All inline confirmation banners replaced with toast
@@ -18,9 +14,8 @@ relationships:
   - target: EPIC-069
     type: delivers
     rationale: Consistent toast usage replaces scattered inline confirmations
-  - target: EPIC-069
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-445
+    type: depends-on
 ---
 
 ## Scope

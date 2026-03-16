@@ -6,22 +6,8 @@ status: completed
 priority: P1
 created: 2026-03-04
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-016
-  - RES-006
-docs-required: []
-docs-produced: []
-scoring:
-  user-value: 5
-  pillar-alignment: 5
-  dependency-weight: 4
-  effort: 5
-  risk: 3
-  score: 22
+scoring: null
 relationships:
   - target: RES-016
     type: informed-by
@@ -30,20 +16,22 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-006
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-013
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-014
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-015
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-324
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Implementation Design
 

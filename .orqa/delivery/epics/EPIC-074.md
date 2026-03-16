@@ -1,31 +1,14 @@
 ---
 id: EPIC-074
-title: "Dashboard redesign — narrative flow layout grounded in pillars"
+title: Dashboard redesign — narrative flow layout grounded in pillars
 description: "Replace the current metrics-dump dashboard with a narrative flow layout: milestone context at top, three pillar-aligned columns (clarity/learning/purpose), collapsible power user section. The dashboard answers what matters, not what exists."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-  - PILLAR-003
-depends-on: []
-blocks: []
-research-refs:
-  - RES-064
-docs-required:
-  - RES-064
-docs-produced: []
-scoring:
-  dogfood-value: 5 — dashboard is first thing the user sees every session
-  user-facing: 5 — primary orientation surface
-  foundation: 3 — builds on existing widget infrastructure
-  complexity: 3 — refactoring existing components into new layout
-  score: 4.5
+scoring: null
 relationships:
   - target: RES-064
     type: informed-by
@@ -34,32 +17,32 @@ relationships:
     type: informed-by
     rationale: UAT finding F1 identified the need
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-483
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-483"
-  - target: TASK-483
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-483"
   - target: TASK-479
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-479"
-  - target: TASK-479
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-479"
   - target: TASK-482
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-482"
-  - target: TASK-482
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-482"
   - target: TASK-481
     type: delivered-by
     rationale: "Auto-generated inverse of delivered-by relationship from TASK-481"
-  - target: TASK-481
-    type: contains
-    rationale: "Auto-generated inverse of contains relationship from TASK-481"
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: RES-064
+    type: informs
+  - target: TASK-480
+    type: delivered-by
+  - target: DOC-060
+    type: informs
 ---
 ## Context
 

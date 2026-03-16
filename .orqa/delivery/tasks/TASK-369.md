@@ -1,19 +1,24 @@
 ---
 id: TASK-369
 title: Pipeline stage transition health checks
-description: Build pipeline health checks that detect stuck observations, accepted ADs without skills, skills without rules, and rules without verification
+description: "Build pipeline health checks that detect stuck observations, accepted ADs without skills, skills without rules, and rules without verification"
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on:
-  - TASK-362
 acceptance:
-  - Pipeline health check reports stuck observations, missing skill coverage for ADs, missing rule coverage for skills, and missing verification for rules
+  - "Pipeline health check reports stuck observations, missing skill coverage for ADs, missing rule coverage for skills, and missing verification for rules"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-362
+    type: depends-on
+  - target: TASK-374
+    type: depended-on-by
+  - target: TASK-375
+    type: depended-on-by
+  - target: TASK-376
+    type: depended-on-by
 ---
 
 ## What

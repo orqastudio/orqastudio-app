@@ -18,9 +18,6 @@ relationships:
   - target: PILLAR-002
     type: grounded
     rationale: Review verdicts and forbidden-pattern detection feed findings back into lessons and rules, closing the improvement loop
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
 ---
 
 

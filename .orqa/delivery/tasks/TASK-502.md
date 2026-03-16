@@ -1,26 +1,22 @@
 ---
 id: TASK-502
-title: "Add backbone artifacts widget to dashboard (PageRank)"
+title: Add backbone artifacts widget to dashboard (PageRank)
 description: "Add a dashboard widget that shows the top 10 artifacts by PageRank score, computed from the artifact graph via the artifactGraphSDK. Each entry shows artifact ID, title, type, and score. Entries are clickable and navigate to the artifact. Widget is labeled 'Backbone Artifacts — most structurally important'."
 status: blocked
 priority: P2
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-076
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-498
 acceptance:
-  - "Dashboard widget shows top 10 artifacts by PageRank score"
+  - Dashboard widget shows top 10 artifacts by PageRank score
   - "Each entry shows artifact ID, title, type, PageRank score"
-  - "Clickable — navigates to artifact"
+  - Clickable — navigates to artifact
   - "Labeled as 'Backbone Artifacts — most structurally important'"
 relationships:
-  - type: delivers
-    target: EPIC-076
-  - type: belongs-to
-    target: EPIC-076
+  - target: EPIC-076
+    type: delivers
+  - target: TASK-498
+    type: depends-on
 ---
 ## What
 

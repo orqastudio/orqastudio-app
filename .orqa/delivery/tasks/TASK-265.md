@@ -5,17 +5,17 @@ description: Write test file for the one untested frontend store.
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on: []
 assignee: AGENT-002
 acceptance:
   - errors.test.ts exists in __tests__/
-  - Tests cover error creation, dismissal, and clearing
+  - "Tests cover error creation, dismissal, and clearing"
   - make test-frontend passes
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

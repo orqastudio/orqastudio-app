@@ -1,32 +1,24 @@
 ---
 id: EPIC-004
 title: AI-Mediated Artifact Editing
-description: Build an AI-mediated editing experience where creates, edits, and deletes are proposals sent to the AI conversation panel. The AI analyses cross-reference implications and suggests cascading updates to keep artifacts in sync.
+description: "Build an AI-mediated editing experience where creates, edits, and deletes are proposals sent to the AI conversation panel. The AI analyses cross-reference implications and suggests cascading updates to keep artifacts in sync."
 status: captured
 priority: P1
 created: 2026-03-07
 updated: 2026-03-11
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 5
-  impact: 5
-  dependency: 2
-  effort: 3
-  score: 10.3
+scoring: null
 relationships:
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: DOC-036
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Framework
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
 ---
 
 ## Why P1

@@ -5,15 +5,18 @@ description: Add tooling to auto-track lesson recurrence from review output and 
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on:
-  - TASK-362
 acceptance:
-  - Tooling auto-increments recurrence when review output matches existing lessons and surfaces lessons with recurrence >= 2 that lack promotion
+  - "Tooling auto-increments recurrence when review output matches existing lessons and surfaces lessons with recurrence >= 2 that lack promotion"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-362
+    type: depends-on
+  - target: TASK-374
+    type: depended-on-by
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

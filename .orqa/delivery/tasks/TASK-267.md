@@ -5,9 +5,6 @@ description: Document the plugin system architecture and plan for component libr
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on:
-  - TASK-266
 assignee: AGENT-007
 acceptance:
   - "Document covers: current plugin capabilities, component library extraction plan, view registration API, theme tokens"
@@ -15,8 +12,12 @@ acceptance:
   - Document lives in .orqa/documentation/development/
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-266
+    type: depends-on
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

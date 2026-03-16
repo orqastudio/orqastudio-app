@@ -1,7 +1,7 @@
 ---
 id: SKILL-031
 title: Tailwind Design System
-description: Build scalable design systems with Tailwind CSS v4, design tokens, component libraries, and responsive patterns. Use when creating component libraries, implementing design systems, or standardizing UI patterns.
+description: "Build scalable design systems with Tailwind CSS v4, design tokens, component libraries, and responsive patterns. Use when creating component libraries, implementing design systems, or standardizing UI patterns."
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -12,18 +12,20 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: Design tokens and variant patterns codify visual decisions as reusable, inspectable constraints rather than ad-hoc inline styles
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: informs
-    target: DOC-049
-    rationale: Tailwind design system skill defines the token and variant patterns that the design system document specifies
+  - target: TASK-009
+    type: grounded
+  - target: TASK-016
+    type: grounded
+  - target: TASK-018
+    type: grounded
+  - target: TASK-026
+    type: grounded
+  - target: TASK-069
+    type: grounded
+  - target: TASK-077
+    type: grounded
+  - target: TASK-161
+    type: grounded
 ---
 
 

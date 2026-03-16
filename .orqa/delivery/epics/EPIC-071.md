@@ -1,58 +1,39 @@
 ---
 id: EPIC-071
-title: Documentation improvements — content, ordering, rendering
-description: Fix docs navigation (no status for docs), populate Guide section, audit doc ordering for reading flow, add mermaid/PlantUML rendering, and review doc-to-artifact relationships.
+title: "Documentation improvements — content, ordering, rendering"
+description: "Fix docs navigation (no status for docs), populate Guide section, audit doc ordering for reading flow, add mermaid/PlantUML rendering, and review doc-to-artifact relationships."
 status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: next
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on: []
-research-refs: []
-docs-required: []
-docs-produced: []
 relationships:
   - target: EPIC-063
     type: informed-by
     rationale: UAT round 2 documentation findings
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-451
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-452
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-453
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-454
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-455
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-452
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-452"
-  - target: TASK-451
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-451"
-  - target: TASK-454
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-454"
-  - target: TASK-455
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-455"
+    rationale: Epic contains this task
   - target: TASK-453
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-453"
+    rationale: Epic contains this task
+  - target: TASK-454
+    type: delivered-by
+    rationale: Epic contains this task
+  - target: TASK-455
+    type: delivered-by
+    rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
 ---
 ## Context
 

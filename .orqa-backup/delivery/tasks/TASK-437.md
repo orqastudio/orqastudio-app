@@ -1,0 +1,28 @@
+---
+id: TASK-437
+title: Configurable relationship chip display per type in project settings
+description: Allow project settings to configure whether relationship chips show title or id as primary content per artifact type.
+status: completed
+priority: P1
+created: 2026-03-14
+updated: 2026-03-14
+epic: EPIC-067
+depends-on:
+  - TASK-429
+assignee: null
+skills: []
+acceptance:
+  - Project settings has config for relationship chip display — choose title or id as primary content per artifact type
+  - Default is title
+relationships:
+  - target: EPIC-067
+    type: delivers
+    rationale: Configurable chip display lets users choose the most useful identifier per type
+  - target: EPIC-067
+    type: belongs-to
+    rationale: Task belongs to this epic
+---
+
+## Scope
+
+Add relationship chip display configuration to the project.json schema. Read the configuration in RelationshipsList and apply to chip rendering. Default to showing title as primary content.

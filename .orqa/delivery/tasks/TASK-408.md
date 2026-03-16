@@ -6,23 +6,19 @@ status: completed
 priority: P2
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-063
-depends-on: []
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
 acceptance:
-  - Agent capabilities displayed with human-readable labels (e.g., 'Read Files' not 'file_read')
+  - "Agent capabilities displayed with human-readable labels (e.g., 'Read Files' not 'file_read')"
   - Capability label mapping is centralized and reusable
   - IDEA-089 created for sidecar-specific subagent mapping
 relationships:
   - target: EPIC-063
     type: delivers
     rationale: Theme F — agent display improvements from UAT
-  - target: EPIC-063
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
 ---
 
 ## Scope

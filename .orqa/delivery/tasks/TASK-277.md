@@ -5,12 +5,8 @@ description: Use backfill tooling to add maturity (observation/understanding) an
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-058
-depends-on:
-  - TASK-276
 assignee: null
 docs: []
-skills: []
 acceptance:
   - All 16 lessons have a maturity field (observation or understanding)
   - All 16 lessons have a relationships array
@@ -18,12 +14,17 @@ acceptance:
   - Lessons with maturity=observation may have empty relationships (or informs)
   - Human reviewed and approved all proposals
 rule-overrides:
-  - rule: RULE-032
-    reason: Adding new optional fields to lesson frontmatter during migration
+  - "rule: RULE-032"
 relationships:
   - target: EPIC-058
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-276
+    type: depends-on
+  - target: TASK-278
+    type: depended-on-by
+  - target: TASK-348
+    type: depended-on-by
 ---
 
 ## What

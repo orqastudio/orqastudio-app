@@ -1,11 +1,11 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import TrendingUpIcon from "@lucide/svelte/icons/trending-up";
 	import CheckCircle2Icon from "@lucide/svelte/icons/check-circle-2";
 	import { getStores } from "@orqastudio/sdk";
 
 	const { artifactGraphSDK, navigationStore } = getStores();
-	import PipelineStages, { type PipelineStage } from "$lib/components/shared/PipelineStages.svelte";
+	import { PipelineStages, type PipelineStage } from "@orqastudio/svelte-components/pure";
 
 	// -------------------------------------------------------------------------
 	// Lesson pipeline stage definitions
@@ -70,16 +70,16 @@
 </script>
 
 {#if hasData}
-	<Card.Root class="gap-2 h-full">
-		<Card.Header class="pb-2">
-			<Card.Title class="text-sm font-semibold">
+	<CardRoot class="gap-2 h-full">
+		<CardHeader class="pb-2">
+			<CardTitle class="text-sm font-semibold">
 				<div class="flex items-center gap-2">
 					<TrendingUpIcon class="h-4 w-4 text-muted-foreground" />
 					Lesson Velocity
 				</div>
-			</Card.Title>
-		</Card.Header>
-		<Card.Content class="pt-0">
+			</CardTitle>
+		</CardHeader>
+		<CardContent class="pt-0">
 			<PipelineStages
 				stages={pipelineStages}
 				onStageClick={(key) => navigateToLessons(key)}
@@ -94,6 +94,6 @@
 				{/if}
 				<span>{summaryText}</span>
 			</div>
-		</Card.Content>
-	</Card.Root>
+		</CardContent>
+	</CardRoot>
 {/if}

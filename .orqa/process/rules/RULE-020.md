@@ -1,18 +1,14 @@
 ---
 id: RULE-020
 title: No Stubs or Placeholders
-description: No hardcoded fake data, TODO functions, or scaffolded implementations in production code.
+description: "No hardcoded fake data, TODO functions, or scaffolded implementations in production code."
 status: active
 created: 2026-03-07
 updated: 2026-03-12
 layer: core
 enforcement:
-  - event: file
-    pattern: TODO|FIXME|HACK|XXX
-    paths:
-      - src/**/*
-    action: warn
-    message: TODO/FIXME/HACK comments are forbidden in production code (RULE-020). Track in .orqa/delivery/tasks/ instead.
+  - "event: file"
+  - "src/**/*"
 relationships:
   - target: PILLAR-001
     type: grounded
@@ -26,36 +22,25 @@ relationships:
   - target: RULE-005
     type: informs
     rationale: Use search_regex to verify implementations exist before marking features done
-  - type: informed-by
-    target: RULE-015
-    rationale: Honest reporting defines what counts as a stub and the mandatory completion report structure
-  - type: informed-by
-    target: RULE-018
-    rationale: Alias entries are a form of stub hiding real type mismatches
-  - type: informed-by
-    target: RULE-019
-    rationale: Scaffolded implementations that defer real wiring are a deferral violation
-  - type: informed-by
-    target: RULE-029
-    rationale: Test doubles implement real traits and are not stubs — this distinction matters for coverage
-  - type: informed-by
-    target: RULE-031
-    rationale: Real implementations are required — fake demos do not serve any pillar
   - target: RULE-010
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-010
   - target: RULE-005
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RULE-005
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
   - target: DOC-021
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Coding Standards
+  - target: RULE-015
+    type: informed-by
+  - target: RULE-018
+    type: informed-by
+  - target: RULE-019
+    type: informed-by
+  - target: RULE-029
+    type: informed-by
+  - target: RULE-031
+    type: informed-by
 ---
 ## What Counts as a Stub
 

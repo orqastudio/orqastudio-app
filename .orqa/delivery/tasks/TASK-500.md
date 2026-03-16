@@ -1,26 +1,22 @@
 ---
 id: TASK-500
-title: "Add dependency chain tracing to artifact viewer"
-description: "Extend the artifact viewer with a Trace section that shows upward (task→epic→milestone→pillar) and downward (what this artifact affects) dependency chains. Uses BFS over relationship edges from the artifactGraphSDK. Each artifact in the chain is a clickable ArtifactLink."
+title: Add dependency chain tracing to artifact viewer
+description: Extend the artifact viewer with a Trace section that shows upward (task→epic→milestone→pillar) and downward (what this artifact affects) dependency chains. Uses BFS over relationship edges from the artifactGraphSDK. Each artifact in the chain is a clickable ArtifactLink.
 status: blocked
 priority: P1
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-076
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-498
 acceptance:
   - "Artifact viewer shows a 'Trace' section with upward chain (task→epic→milestone→pillar)"
-  - "Uses BFS from current artifact following relationship edges"
-  - "Clickable chain — each artifact in the path is an ArtifactLink"
+  - Uses BFS from current artifact following relationship edges
+  - Clickable chain — each artifact in the path is an ArtifactLink
   - "Shows both upward (why does this exist?) and downward (what does this affect?) chains"
 relationships:
-  - type: delivers
-    target: EPIC-076
-  - type: belongs-to
-    target: EPIC-076
+  - target: EPIC-076
+    type: delivers
+  - target: TASK-498
+    type: depends-on
 ---
 ## What
 
@@ -29,7 +25,7 @@ Add a "Trace" section to the artifact viewer that shows the full dependency chai
 ## How
 
 1. Add a `traceChain(artifactId, direction)` method to `artifactGraphSDK` that runs BFS:
-   - `direction: 'up'` — follows `belongs-to`, `delivers`, `informs`, `grounded`, `practices`, `enforces` edges upward
+   - `direction: 'up'` — follows `delivers`, `delivers`, `informs`, `grounded`, `grounded-by`, `enforces` edges upward
    - `direction: 'down'` — follows the inverse edges downward
    - Returns an ordered array of artifact IDs representing the chain path
 2. In the artifact viewer component, derive `upwardChain` and `downwardChain` from `traceChain` results using `$derived`.

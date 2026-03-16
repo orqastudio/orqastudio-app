@@ -5,22 +5,22 @@ description: "Remove paths.rs constants and all hardcoded .orqa/ paths. Load pro
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 acceptance:
-  - paths.rs removed or reduced to only truly structural constants (ORQA_DIR, SETTINGS_FILE)
+  - "paths.rs removed or reduced to only truly structural constants (ORQA_DIR, SETTINGS_FILE)"
   - ProjectPaths struct built from project.json at startup
   - All modules that previously used path constants use ProjectPaths instead
-  - project_scanner.rs, artifact_fs.rs, and delivery workflow code all read from config
-  - make lint-backend && make test-rust pass
+  - "project_scanner.rs, artifact_fs.rs, and delivery workflow code all read from config"
+  - "make lint-backend && make test-rust pass"
   - IMPL-018 maturity updated to understanding
 relationships:
   - target: IMPL-018
     type: enforced-by
     rationale: Auto-generated inverse of enforced-by relationship from IMPL-018
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-349
+    type: depended-on-by
 ---
 ## What
 

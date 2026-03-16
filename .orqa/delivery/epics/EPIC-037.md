@@ -1,29 +1,13 @@
 ---
 id: EPIC-037
 title: Dogfood Readiness
-description: Multi-phase sprint to make OrqaStudio ready for self-hosted development (dogfooding). Covers governance alignment, frontend audit fixes, documentation alignment, enforcement engine, tool approval, lesson promotion, and SDK session resume.
+description: "Multi-phase sprint to make OrqaStudio ready for self-hosted development (dogfooding). Covers governance alignment, frontend audit fixes, documentation alignment, enforcement engine, tool approval, lesson promotion, and SDK session resume."
 status: completed
 priority: P1
 created: 2026-03-05
 updated: 2026-03-09
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-research-refs:
-  - RES-018
-  - RES-019
-docs-required: []
-docs-produced:
-  - RULE-009
-  - RULE-007
-scoring:
-  user-value: 5
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 5
-  risk: 4
-  score: 24
+scoring: null
 relationships:
   - target: RES-018
     type: informed-by
@@ -32,23 +16,29 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-019
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-019
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-020
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-021
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-022
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-327
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: PILLAR-001
+    type: grounded-by
+  - target: RULE-009
+    type: informed-by
+  - target: RULE-007
+    type: informed-by
 ---
 ## Implementation Design
 

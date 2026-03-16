@@ -5,23 +5,23 @@ description: "Audit all 44 rules: fix deprecated references, ensure rules state 
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on:
-  - TASK-285
 assignee: null
 docs: []
-skills: []
 acceptance:
   - All rules have accurate body text aligned with pipeline philosophy
-  - No deprecated references (promoted-to, promoted-from) in body text
+  - "No deprecated references (promoted-to, promoted-from) in body text"
   - Related Rules sections match relationships arrays
-  - Rules state constraints, not methodology (methodology belongs in skills)
-  - Operational standards (DoD, DoR, coding standards) absorbed where appropriate
+  - "Rules state constraints, not methodology (methodology belongs in skills)"
+  - "Operational standards (DoD, DoR, coding standards) absorbed where appropriate"
 rule-overrides: []
 relationships:
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-285
+    type: depends-on
+  - target: TASK-349
+    type: depended-on-by
 ---
 
 ## What

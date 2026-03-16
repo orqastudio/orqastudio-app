@@ -1,10 +1,10 @@
 ---
 id: IMPL-045
-title: "User prompt input should infer intent and auto-record observations"
+title: User prompt input should infer intent and auto-record observations
 description: "When a user submits a prompt, the system should infer intent — if the prompt contains an observation worth recording, the system should automatically capture it as an IMPL entry without requiring the user to explicitly say 'observation:' or ask for it to be recorded."
 status: completed
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

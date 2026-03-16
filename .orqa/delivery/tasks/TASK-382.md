@@ -5,14 +5,16 @@ description: Define enforcement mechanisms for behavioral rules enforced via plu
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on: []
 acceptance:
-  - Enforcement plan documented for all session-hook-enforced behavioral rules (RULE-013, RULE-039)
+  - "Enforcement plan documented for all session-hook-enforced behavioral rules (RULE-013, RULE-039)"
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-375
+    type: depended-on-by
+  - target: TASK-383
+    type: depended-on-by
 ---
 
 ## What

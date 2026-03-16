@@ -1,12 +1,10 @@
 ---
 id: TASK-308
-title: Establish learning loop and completion discipline (IMPL-021, 022, 023, 024)
+title: "Establish learning loop and completion discipline (IMPL-021, 022, 023, 024)"
 description: "Create enforcement for: tracking open items during implementation, human-gated epic completion, automated observation logging by agents, and recording lessons on task completion artifacts."
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-059
-depends-on: []
 acceptance:
   - IMPL-021 through IMPL-025 maturity updated to understanding
   - Epic completion gate updated in RULE-004 to require human approval
@@ -22,8 +20,12 @@ relationships:
     type: grounded
     rationale: Auto-generated inverse of grounded relationship from IMPL-024
   - target: EPIC-059
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-309
+    type: depended-on-by
+  - target: TASK-349
+    type: depended-on-by
 ---
 ## What
 

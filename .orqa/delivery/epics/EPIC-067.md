@@ -1,21 +1,13 @@
 ---
 id: EPIC-067
-title: Artifact viewer redesign — layout, relationships, and graph enrichment
-description: Redesign the artifact viewer information hierarchy, relationships panel, and pipeline stepper. Enrich graph nodes with metadata for display. The largest systemic theme from UAT round 2.
+title: "Artifact viewer redesign — layout, relationships, and graph enrichment"
+description: "Redesign the artifact viewer information hierarchy, relationships panel, and pipeline stepper. Enrich graph nodes with metadata for display. The largest systemic theme from UAT round 2."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
 deadline: null
-milestone: MS-001
 horizon: active
-pillars:
-  - PILLAR-001
-  - PILLAR-003
-depends-on: []
-research-refs: []
-docs-required: []
-docs-produced: []
 relationships:
   - target: EPIC-065
     type: informed-by
@@ -39,83 +31,57 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from IMPL-059
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-429
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-430
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-431
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-432
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-433
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-434
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-435
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-436
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-437
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-438
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-458
-    type: contains
-    rationale: Epic contains this task
-  - target: TASK-459
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-436
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-436"
-  - target: TASK-431
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-431"
-  - target: TASK-430
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-430"
+    rationale: Epic contains this task
   - target: TASK-437
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-437"
-  - target: TASK-459
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-459"
-  - target: TASK-433
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-433"
-  - target: TASK-458
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-458"
-  - target: TASK-434
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-434"
-  - target: TASK-435
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-435"
-  - target: TASK-432
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-432"
-  - target: TASK-429
-    type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-429"
+    rationale: Epic contains this task
   - target: TASK-438
     type: delivered-by
-    rationale: "Auto-generated inverse of delivered-by relationship from TASK-438"
+    rationale: Epic contains this task
+  - target: TASK-458
+    type: delivered-by
+    rationale: Epic contains this task
+  - target: TASK-459
+    type: delivered-by
+    rationale: Epic contains this task
   - target: EPIC-073
     type: informs
     rationale: "Auto-generated inverse of informs relationship from EPIC-073"
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-003
+    type: grounded-by
+  - target: EPIC-068
+    type: depended-on-by
+  - target: EPIC-070
+    type: depended-on-by
+  - target: EPIC-072
+    type: depended-on-by
 ---
 ## Context
 
@@ -144,7 +110,7 @@ Reorder the artifact viewer:
 - Relationship chips show: configurable display (title or id), status dot, click-to-navigate
 - Graph visualization view alongside list view (focused artifact at centre, nodes grouped by edge type)
 - Migrate `scope` fields to relationships array (rules + skills)
-- New relationship types: `documents`/`documented-by`
+- New relationship types: `informs`/`informed-by`
 - Body-text artifact references become graph edges
 
 ### Phase 4: Field display improvements

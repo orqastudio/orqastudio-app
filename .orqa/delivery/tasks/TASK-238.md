@@ -5,13 +5,14 @@ description: CLAUDE.md references task scope field removed from schema. Update.
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - CLAUDE.md task field list matches schema.json
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

@@ -1,10 +1,10 @@
 ---
 id: IMPL-044
-title: "Idea promotion should automatically surface related ideas for bundling"
+title: Idea promotion should automatically surface related ideas for bundling
 description: "When promoting an idea to an epic, the orchestrator should automatically scan all other ideas for thematic overlap and ask the user whether to bundle them into the same epic. Currently this requires manual prompting — the user had to explicitly ask 'see if there are any other ideas relevant to the dashboard'."
 status: completed
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: observation
 recurrence: 1
 relationships:

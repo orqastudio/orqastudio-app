@@ -28,27 +28,6 @@ relationships:
   - target: RULE-040
     type: informs
     rationale: Capability vocabulary replaces tools in agent definitions — skill loading and capability resolution work together
-  - type: informed-by
-    target: RULE-001
-    rationale: Delegation model requires agents to be equipped with skills before starting work
-  - type: informed-by
-    target: RULE-011
-    rationale: Skills are enforcement artifacts that must exist before agents implement a pattern
-  - type: informed-by
-    target: RULE-037
-    rationale: Tool access restrictions define which capabilities each role may use, informing skill design
-  - type: informed-by
-    target: RULE-038
-    rationale: User-invocable field semantics define how skill loading decisions are surfaced
-  - type: informed-by
-    target: RULE-040
-    rationale: Capability-to-tool mapping defines which tools skill-loaded agents may invoke
-  - type: informed-by
-    target: RULE-042
-    rationale: Skill injection automates Tier 2 loading based on file paths being edited
-  - type: enforces
-    target: AD-028
-    rationale: This rule directly implements the three-tier skill loading architecture — Tier 1 on agent frontmatter, Tier 2 via orchestrator injection, Tier 3 via wrapper resolution
   - target: AD-030
     type: enforces
     rationale: Auto-generated inverse of enforces relationship from AD-030
@@ -61,39 +40,30 @@ relationships:
   - target: IMPL-032
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-032
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: DOC-002
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Enforcement Architecture
   - target: DOC-030
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Orchestration
   - target: DOC-072
     type: informs
     rationale: "Auto-generated inverse of informs relationship from DOC-072"
   - target: DOC-071
-    type: documented-by
+    type: informed-by
     rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
+  - target: RULE-001
+    type: informed-by
+  - target: RULE-011
+    type: informed-by
+  - target: RULE-037
+    type: informed-by
+  - target: RULE-038
+    type: informed-by
+  - target: RULE-040
+    type: informed-by
+  - target: RULE-042
+    type: informed-by
 ---
 Every agent MUST have a `skills:` list in its YAML frontmatter. Agent tool access is declared via `capabilities:` and resolved per provider context — see [RULE-040](RULE-040). Skills load in three tiers [AD-028](AD-028).
 

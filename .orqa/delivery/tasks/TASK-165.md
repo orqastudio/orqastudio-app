@@ -1,22 +1,24 @@
 ---
 id: TASK-165
 title: "Backend: Extend DocNode with frontmatter and NavType with schema metadata"
-description: Extend the Rust DocNode to carry all scalar frontmatter fields, extract filterable/sortable fields from schema.json, and read _navigation.json per type directory.
+description: "Extend the Rust DocNode to carry all scalar frontmatter fields, extract filterable/sortable fields from schema.json, and read _navigation.json per type directory."
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-005
-depends-on: []
 acceptance:
-  - DocNode includes frontmatter as Option<HashMap<String, serde_json::Value>>
-  - NavType includes filterable_fields, sortable_fields, navigation_config
+  - "DocNode includes frontmatter as Option<HashMap<String, serde_json::Value>>"
+  - "NavType includes filterable_fields, sortable_fields, navigation_config"
   - schema.json enum properties are correctly extracted as FilterableField with ordered values
-  - _navigation.json is parsed when present, None when absent
+  - "_navigation.json is parsed when present, None when absent"
   - make lint-backend and make test-rust pass
 relationships:
   - target: EPIC-005
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-166
+    type: depended-on-by
+  - target: TASK-312
+    type: depended-on-by
 ---
 
 ## What

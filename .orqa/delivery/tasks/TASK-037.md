@@ -1,25 +1,27 @@
 ---
 id: TASK-037
 title: Fix documentation visibility and navigation
-description: Fixes the documentation section failing to appear in the sidebar and artifact viewer when selected, and corrects breadcrumb paths that duplicate hierarchy segments.
+description: "Fixes the documentation section failing to appear in the sidebar and artifact viewer when selected, and corrects breadcrumb paths that duplicate hierarchy segments."
 status: completed
 created: 2026-03-09
 updated: 2026-03-09
-epic: EPIC-043
 assignee: AGENT-002
-skills:
-  - SKILL-005
-  - SKILL-008
 acceptance:
   - Documentation section visible and navigable when clicking the docs icon in ActivityBar
   - Sidebar populates with documentation tree when a direct-type artifact is selected
   - Breadcrumbs start with a home icon linking to dashboard
-  - Breadcrumb path does not duplicate section hierarchy (no "Planning > Research > .orqa > Planning > Research > Audits")
+  - "Breadcrumb path does not duplicate section hierarchy (no \"Planning > Research > .orqa > Planning > Research > Audits\")"
   - Breadcrumb segments between home and leaf are clickable and navigate to the correct level
 relationships:
   - target: EPIC-043
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-005
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: TASK-333
+    type: depended-on-by
 ---
 ## Findings Addressed
 

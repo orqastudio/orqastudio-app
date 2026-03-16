@@ -1,26 +1,26 @@
 ---
 id: TASK-505
-title: "Build automatic status transition engine in Rust"
-description: "Implement a Rust domain module that evaluates artifact transition conditions across the loaded graph and returns a list of proposed status transitions. The engine does not auto-apply — it returns proposals that callers can approve or queue for auto-apply."
+title: Build automatic status transition engine in Rust
+description: Implement a Rust domain module that evaluates artifact transition conditions across the loaded graph and returns a list of proposed status transitions. The engine does not auto-apply — it returns proposals that callers can approve or queue for auto-apply.
 status: ready
 priority: P1
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-077
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on:
-  - TASK-504
 acceptance:
-  - "Rust module in backend/src-tauri/src/domain/ that evaluates transition conditions"
+  - Rust module in backend/src-tauri/src/domain/ that evaluates transition conditions
   - "Checks: all-tasks-completed→epic-review, all-P1-epics-completed→milestone-review, dependency-blocked→task-blocked, recurrence-threshold→lesson-review"
   - "Returns a list of proposed transitions (artifact ID, current status, proposed status, reason)"
-  - "Does NOT auto-apply — returns proposals for approval or auto-apply"
+  - Does NOT auto-apply — returns proposals for approval or auto-apply
 relationships:
-  - type: delivers
-    target: EPIC-077
-  - type: belongs-to
-    target: EPIC-077
+  - target: EPIC-077
+    type: delivers
+  - target: TASK-504
+    type: depends-on
+  - target: TASK-506
+    type: depended-on-by
+  - target: TASK-508
+    type: depended-on-by
 ---
 ## What
 

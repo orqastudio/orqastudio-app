@@ -5,10 +5,10 @@
 	import LoaderIcon from "@lucide/svelte/icons/loader";
 	import CodeBlock from "$lib/components/content/CodeBlock.svelte";
 	import {
-		Collapsible,
+		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
-	} from "$lib/components/ui/collapsible";
+	} from "@orqastudio/svelte-components/pure";
 	import ViolationBadge from "$lib/components/enforcement/ViolationBadge.svelte";
 	import { getToolDisplay } from "$lib/utils/tool-display";
 

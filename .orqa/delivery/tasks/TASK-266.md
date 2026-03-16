@@ -5,10 +5,6 @@ description: Complete end-to-end documentation of the target core application ar
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-057
-depends-on:
-  - TASK-258
-  - TASK-259
 assignee: AGENT-007
 acceptance:
   - "Architecture doc covers: artifact system, knowledge graph, prompt injection, rule enforcement, learning loop"
@@ -17,8 +13,16 @@ acceptance:
   - Document lives in .orqa/documentation/development/
 relationships:
   - target: EPIC-057
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-258
+    type: depends-on
+  - target: TASK-259
+    type: depends-on
+  - target: TASK-267
+    type: depended-on-by
+  - target: TASK-347
+    type: depended-on-by
 ---
 
 ## What

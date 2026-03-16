@@ -22,63 +22,29 @@ relationships:
   - target: RULE-020
     type: informs
     rationale: Real implementations are required — fake demos do not serve any pillar
-  - type: informed-by
-    target: RULE-002
-    rationale: Architecture decisions implement the foundational principles that pillars define
-  - type: informed-by
-    target: RULE-004
-    rationale: Artifact lifecycle enforces pillar alignment at creation and promotion gates
-  - type: informed-by
-    target: RULE-008
-    rationale: Documentation must verify pillar alignment before features are implemented
-  - type: informed-by
-    target: RULE-016
-    rationale: Pillar alignment drives priority — ID sequence must not be mistaken for priority order
-  - type: informed-by
-    target: RULE-021
-    rationale: Pillar alignment in documentation extends vision alignment to all feature docs
-  - type: informed-by
-    target: RULE-022
-    rationale: Plans must serve active pillars — the architectural compliance section verifies this
   - target: IMPL-041
     type: observes
     rationale: Rule updated from lesson IMPL-041 (orchestrator should think critically about user suggestions)
-  - type: grounded
-    target: IMPL-041
-    rationale: Lesson IMPL-041 extended the questioning requirement from principle violations to all design suggestions
-  - type: enforces
-    target: AD-027
-    rationale: Requiring every feature to trace to active pillars enforces that the vision remains consistent — foundational principles are immutable without explicit user approval
-  - type: enforces
-    target: AD-031
-    rationale: Reading pillars by artifact ID depends on pillars being first-class artifacts — this rule implements the pillar alignment requirement that AD-031 enables
   - target: IMPL-041
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-041
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
   - target: DOC-039
-    type: documented-by
+    type: informed-by
     rationale: governance.md defines the feature governance framework and pillar alignment criteria this rule enforces
+  - target: IMPL-041
+    type: grounded
+  - target: RULE-002
+    type: informed-by
+  - target: RULE-004
+    type: informed-by
+  - target: RULE-008
+    type: informed-by
+  - target: RULE-016
+    type: informed-by
+  - target: RULE-021
+    type: informed-by
+  - target: RULE-022
+    type: informed-by
 ---
 Every feature, command, and UI element must serve the project's guiding principles. These principles are defined as **pillar artifacts** in `.orqa/process/pillars/`. Read the active pillars before implementing any new capability.
 

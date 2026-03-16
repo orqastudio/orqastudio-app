@@ -5,16 +5,16 @@ description: Defined typed errors across the Rust/IPC/TypeScript boundary using 
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-029
-depends-on: []
 acceptance:
   - Error taxonomy covers all domain error cases
   - From implementations enable propagation across module boundaries
   - Error serialization produces meaningful messages for the frontend
 relationships:
   - target: EPIC-029
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-319
+    type: depended-on-by
 ---
 ## What
 

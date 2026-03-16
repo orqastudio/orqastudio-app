@@ -1,33 +1,13 @@
 ---
 id: EPIC-048
 title: Artifact Graph SDK and Structural Integrity
-description: Build a bidirectional artifact node graph with a typed frontend SDK, body template enforcement, markdown cross-linking, file watcher for live refresh, and plugin-ready subscription API — establishing the foundation for the plugin architecture.
+description: "Build a bidirectional artifact node graph with a typed frontend SDK, body template enforcement, markdown cross-linking, file watcher for live refresh, and plugin-ready subscription API — establishing the foundation for the plugin architecture."
 status: completed
 priority: P1
 created: 2026-03-10
 updated: 2026-03-10
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-research-refs:
-  - RES-032
-  - RES-033
-  - RES-034
-docs-required:
-  - RES-032
-  - RES-033
-  - RES-034
-docs-produced:
-  - SKILL-020
-scoring:
-  user-value: 5
-  pillar-alignment: 5
-  dependency-weight: 5
-  effort: 5
-  risk: 3
-  score: 17
+scoring: null
 relationships:
   - target: RES-034
     type: informed-by
@@ -39,62 +19,78 @@ relationships:
     type: informed-by
     rationale: Auto-generated inverse of informed-by relationship from RES-033
   - target: MS-001
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-070
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-071
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-072
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-073
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-074
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-075
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-076
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-077
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-078
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-079
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-080
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-081
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-082
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-083
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-338
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: DOC-005
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page IPC Command Catalog
   - target: DOC-020
-    type: documented-by
+    type: informed-by
     rationale: Referenced in documentation page Artifact Graph SDK
   - target: DOC-071
-    type: documented-by
+    type: informed-by
     rationale: "Auto-generated inverse of documented-by relationship from DOC-071"
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: RES-032
+    type: informs
+  - target: RES-033
+    type: informs
+  - target: RES-034
+    type: informs
+  - target: SKILL-020
+    type: informed-by
+  - target: IDEA-037
+    type: evolves-from
+  - target: DOC-057
+    type: informs
 ---
 ## Context
 

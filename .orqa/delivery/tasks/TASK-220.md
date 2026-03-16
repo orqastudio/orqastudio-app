@@ -5,22 +5,24 @@ description: Run a full dogfood session with the simplified graph-based orchestr
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-053
-depends-on:
-  - TASK-211
-  - TASK-214
 docs: []
-skills:
-  - SKILL-011
 acceptance:
   - A full workflow completes successfully with the simplified prompt
-  - Agents find rules, skills, and docs via graph navigation
+  - "Agents find rules, skills, and docs via graph navigation"
   - No critical context is missing
   - Any gaps identified are documented for iteration
 relationships:
   - target: EPIC-053
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-211
+    type: depends-on
+  - target: TASK-214
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-343
+    type: depended-on-by
 ---
 ## What
 

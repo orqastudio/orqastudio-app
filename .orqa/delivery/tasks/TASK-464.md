@@ -1,34 +1,31 @@
 ---
 id: TASK-464
-title: "Create delegation reference document"
+title: Create delegation reference document
 description: "Create the orchestrator's single source of truth for delegation — a lookup table mapping every work type to agent role, required skills, and grounding document. Makes delegation a lookup, not a judgement call."
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-463
 assignee: null
-skills:
-  - SKILL-037
-  - SKILL-011
 acceptance:
   - documentation/reference/delegation.md created with frontmatter and graph relationships
-  - Every work type in the project mapped to agent role, skills, and grounding doc
-  - "Orchestrator Direct" column explicitly marks what the orchestrator may do (coordination only)
+  - "Every work type in the project mapped to agent role, skills, and grounding doc"
+  - "Orchestrator Direct\" column explicitly marks what the orchestrator may do (coordination only)"
   - Document states clearly that the orchestrator writing anything other than coordination output is a system failure
   - Connected to orchestrator via grounded-by relationship
 relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 2 — delegation reference grounds the orchestrator's coordination behavior
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: TASK-463
     type: informed-by
     rationale: Grounding docs must exist before the delegation reference can point to them
+  - target: TASK-463
+    type: depends-on
+  - target: SKILL-037
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
 ---
 
 ## Scope

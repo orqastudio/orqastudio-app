@@ -5,24 +5,32 @@ description: Update all 7 agent definitions to declare capabilities instead of c
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-051
-depends-on:
-  - TASK-171
-  - TASK-172
 assignee: AGENT-003
 docs:
   - DOC-036
-skills:
-  - SKILL-011
 acceptance:
   - All 7 agent definitions have a capabilities field
   - Capabilities map correctly to the vocabulary defined in RULE-040
-  - Each agent's capability set matches its current tool access
+  - "Each agent's capability set matches its current tool access"
   - All agent definitions pass schema validation
 relationships:
   - target: EPIC-051
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-171
+    type: depends-on
+  - target: TASK-172
+    type: depends-on
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-175
+    type: depended-on-by
+  - target: TASK-176
+    type: depended-on-by
+  - target: TASK-179
+    type: depended-on-by
+  - target: TASK-341
+    type: depended-on-by
 ---
 
 ## What

@@ -1,37 +1,39 @@
 ---
 id: TASK-273
 title: Build AI-assisted backfill and link verification tooling
-description: Build tooling that reads artifacts, proposes relationship connections based on content analysis, presents for human review, and batch-updates frontmatter. Includes link verification tooling that scans artifact content for contextual accuracy of cross-references. Reusable for future schema migrations. Usage documented as an injectable skill.
+description: "Build tooling that reads artifacts, proposes relationship connections based on content analysis, presents for human review, and batch-updates frontmatter. Includes link verification tooling that scans artifact content for contextual accuracy of cross-references. Reusable for future schema migrations. Usage documented as an injectable skill."
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-058
-depends-on:
-  - TASK-271
-  - TASK-272
 assignee: null
 docs: []
-skills: []
 acceptance:
   - Backfill tool reads an artifact and identifies required relationship types from schema
   - Backfill tool searches other artifacts for likely connections (semantic search or content analysis)
   - Backfill tool proposes relationships with draft rationale
-  - Human can approve, reject, or edit each proposal
+  - "Human can approve, reject, or edit each proposal"
   - Backfill tool updates artifact frontmatter with approved relationships
   - Backfill tool tracks processed vs pending artifacts
   - Safe frontmatter editing — markdown body is never corrupted
   - Link verification tool scans all artifact content (not just frontmatter) for cross-references
-  - Link verification uses pattern matching for structural checks (broken refs, missing targets)
-  - Link verification uses AI for contextual accuracy (does the reference make sense in context?)
-  - Link verification produces a report of broken, missing, and contextually inaccurate links
+  - "Link verification uses pattern matching for structural checks (broken refs, missing targets)"
+  - "Link verification uses AI for contextual accuracy (does the reference make sense in context?)"
+  - "Link verification produces a report of broken, missing, and contextually inaccurate links"
   - An injectable skill is created documenting how to use both tools
 rule-overrides:
-  - rule: RULE-032
-    reason: Building tooling to populate new schema fields — artifacts will be in transition
+  - "rule: RULE-032"
 relationships:
   - target: EPIC-058
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-271
+    type: depends-on
+  - target: TASK-272
+    type: depends-on
+  - target: TASK-274
+    type: depended-on-by
+  - target: TASK-348
+    type: depended-on-by
 ---
 
 ## What

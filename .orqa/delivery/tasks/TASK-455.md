@@ -6,11 +6,7 @@ status: completed
 priority: P2
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-071
-depends-on:
-  - TASK-435
 assignee: null
-skills: []
 acceptance:
   - All documentation pages have relationships to the artifacts they describe
   - documents/documented-by edges populated across all docs
@@ -18,9 +14,8 @@ relationships:
   - target: EPIC-071
     type: delivers
     rationale: Document relationship edges connect documentation to the artifacts they describe
-  - target: EPIC-071
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: TASK-435
+    type: depends-on
 ---
 
 ## Scope

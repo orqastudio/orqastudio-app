@@ -1,36 +1,34 @@
 ---
 id: TASK-467
 title: "Add grounding injection to plugin — resolve grounded-by on agents, inject content"
-description: "Extend the Claude Code plugin to resolve grounded-by relationships on agent definitions and inject the target document content as system-level context at session initialization."
+description: Extend the Claude Code plugin to resolve grounded-by relationships on agent definitions and inject the target document content as system-level context at session initialization.
 status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on:
-  - TASK-466
-  - TASK-412
 assignee: null
-skills:
-  - SKILL-020
-  - SKILL-011
 acceptance:
   - Plugin reads agent definition at session start
   - Plugin resolves all grounded-by relationships to file paths
   - Plugin reads target files and injects body content as systemMessage
   - Grounding content injected BEFORE any task-specific skill loading
   - Deduplication prevents re-injection if grounding was already loaded
-  - Missing grounding files produce a warning, not a crash
+  - "Missing grounding files produce a warning, not a crash"
 relationships:
   - target: EPIC-064
     type: delivers
     rationale: Phase 3 — mechanical implementation of grounding injection in CLI context
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
   - target: TASK-412
     type: informed-by
     rationale: Skill injection implementation provides the pattern for grounding injection
+  - target: TASK-466
+    type: depends-on
+  - target: TASK-412
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
 ---
 
 ## Scope

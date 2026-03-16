@@ -1,8 +1,8 @@
 <script lang="ts">
 	import ArtifactLink from "./ArtifactLink.svelte";
 	import GateQuestions from "./GateQuestions.svelte";
-	import StatusIndicator from "$lib/components/shared/StatusIndicator.svelte";
-	import { Badge } from "$lib/components/ui/badge";
+	import { StatusIndicator } from "@orqastudio/svelte-components/connected";
+	import { Badge } from "@orqastudio/svelte-components/pure";
 	import { getCapabilityLabel } from "$lib/utils/tool-display";
 	import CalendarPlusIcon from "@lucide/svelte/icons/calendar-plus";
 	import CalendarCheckIcon from "@lucide/svelte/icons/calendar-check";

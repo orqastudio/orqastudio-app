@@ -17,32 +17,11 @@ relationships:
     type: grounded
     rationale: Embedded ONNX+DuckDB search lets in-app agents discover code relationships and documentation without external tools
   - target: AD-024
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-024
   - target: AD-037
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-037
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
 ---
 Orqa provides three search tools accessible from within the app. This skill covers
 how to USE them — for implementation details of the engine itself, see `orqa-search-architecture`.

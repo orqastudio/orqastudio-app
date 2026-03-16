@@ -6,24 +6,21 @@ status: active
 priority: P2
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-063
-depends-on: []
 assignee: null
-skills:
-  - SKILL-030
-  - SKILL-042
-  - SKILL-044
 acceptance:
-  - Artifact search uses semantic/AI matching, not just substring regex
+  - "Artifact search uses semantic/AI matching, not just substring regex"
   - Search results do not overflow their widget container
   - Search input area has clear visual contrast against the modal overlay
 relationships:
   - target: EPIC-063
     type: delivers
     rationale: Theme E — search enhancement from UAT
-  - target: EPIC-063
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-042
+    type: grounded-by
+  - target: SKILL-044
+    type: grounded-by
 ---
 
 ## Scope

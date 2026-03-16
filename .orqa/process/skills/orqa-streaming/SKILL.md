@@ -12,7 +12,7 @@ updated: 2026-03-10
 layer: project
 category: domain
 file-patterns:
-  - sidecar/src/**
+  - "sidecar/src/**"
 version: 1.0.0
 user-invocable: true
 relationships:
@@ -20,17 +20,19 @@ relationships:
     type: grounded
     rationale: NDJSON protocol with typed ProviderEvent/StreamEvent makes every stage of the LLM-to-UI pipeline observable and debuggable
   - target: AD-009
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-009
   - target: AD-007
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-007
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-020
+    type: grounded
+  - target: TASK-022
+    type: grounded
+  - target: TASK-023
+    type: grounded
+  - target: TASK-028
+    type: grounded
 ---
 OrqaStudio streams Claude conversations through a multi-layer pipeline. Understanding this pipeline is critical for anyone touching streaming, tool execution, or the sidecar.
 

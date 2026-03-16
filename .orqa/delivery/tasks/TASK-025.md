@@ -1,23 +1,25 @@
 ---
 id: TASK-025
 title: Extract remaining command domain logic
-description: Applies the thin-handler pattern established in TASK-024 to the setup, governance, and artifact command files, moving all business logic into dedicated domain and repository modules.
+description: "Applies the thin-handler pattern established in TASK-024 to the setup, governance, and artifact command files, moving all business logic into dedicated domain and repository modules."
 status: completed
 created: 2026-03-07
 updated: 2026-03-09
-epic: EPIC-039
 assignee: AGENT-002
-skills:
-  - SKILL-009
-  - SKILL-008
 acceptance:
   - All command files follow thin-handler pattern
   - Domain logic in domain/ modules
   - Data access in repo/ modules
 relationships:
   - target: EPIC-039
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-009
+    type: grounded-by
+  - target: SKILL-008
+    type: grounded-by
+  - target: TASK-329
+    type: depended-on-by
 ---
 ## What
 

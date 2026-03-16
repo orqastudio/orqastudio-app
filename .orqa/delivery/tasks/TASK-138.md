@@ -5,16 +5,16 @@ description: Connected the full governance pipeline from scanner through analysi
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-031
-depends-on: []
 acceptance:
   - Triggering a scan produces analysis and recommendations
   - Dashboard widget updates with fresh data after each scan
   - All IPC commands in the governance pipeline return real data
 relationships:
   - target: EPIC-031
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-321
+    type: depended-on-by
 ---
 ## What
 

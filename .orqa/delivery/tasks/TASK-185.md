@@ -3,22 +3,10 @@ id: TASK-185
 title: Test plugin against OrqaStudio governance artifacts
 description: Integration testing of the plugin against the real .orqa/ directory in orqa-studio.
 status: surpassed
-surpassed-by: TASK-414
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-050
-depends-on:
-  - TASK-178
-  - TASK-179
-  - TASK-180
-  - TASK-181
-  - TASK-182
-  - TASK-184
 assignee: AGENT-006
 docs: []
-skills:
-  - SKILL-020
-  - SKILL-018
 acceptance:
   - Plugin loads all 39+ rules from .orqa/process/rules/
   - Plugin loads all 7 agents from .orqa/process/agents/
@@ -29,8 +17,34 @@ acceptance:
   - No errors or crashes during normal Claude Code usage
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-414
+    type: evolves-from
+  - target: TASK-178
+    type: depends-on
+  - target: TASK-179
+    type: depends-on
+  - target: TASK-180
+    type: depends-on
+  - target: TASK-181
+    type: depends-on
+  - target: TASK-182
+    type: depends-on
+  - target: TASK-184
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: SKILL-018
+    type: grounded-by
+  - target: TASK-186
+    type: depended-on-by
+  - target: TASK-187
+    type: depended-on-by
+  - target: TASK-188
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

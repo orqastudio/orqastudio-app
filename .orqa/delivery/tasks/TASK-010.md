@@ -5,11 +5,7 @@ description: "Add the skills field to the task frontmatter schema in both the ta
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-033
 assignee: AGENT-007
-skills:
-  - SKILL-003
-  - SKILL-011
 acceptance:
   - Task frontmatter schema includes skills field (string array)
   - artifact-framework.md task schema updated with skills field
@@ -17,8 +13,14 @@ acceptance:
   - Example task shown with assignee + skills combination
 relationships:
   - target: EPIC-033
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-003
+    type: grounded-by
+  - target: SKILL-011
+    type: grounded-by
+  - target: TASK-323
+    type: depended-on-by
 ---
 ## What
 

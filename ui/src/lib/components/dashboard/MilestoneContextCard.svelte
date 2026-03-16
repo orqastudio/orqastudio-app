@@ -1,7 +1,7 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
-	import * as Tooltip from "$lib/components/ui/tooltip";
-	import { Button } from "$lib/components/ui/button";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
 	import TargetIcon from "@lucide/svelte/icons/target";
 	import CalendarIcon from "@lucide/svelte/icons/calendar";
 	import MapIcon from "@lucide/svelte/icons/map";
@@ -78,13 +78,13 @@
 	}
 </script>
 
-<Card.Root class="w-full">
-	<Card.Header class="pb-3">
-		<Card.Title class="flex items-center gap-2 text-base">
+<CardRoot class="w-full">
+	<CardHeader class="pb-3">
+		<CardTitle class="flex items-center gap-2 text-base">
 			<TargetIcon class="h-4 w-4 text-muted-foreground" />
 			Active Milestone
-		</Card.Title>
-		<Card.Action>
+		</CardTitle>
+		<CardAction>
 			{#if activeMilestone}
 				<Button variant="ghost" size="sm" onclick={openMilestone} class="h-7 text-xs">
 					<KanbanIcon class="mr-1 h-3.5 w-3.5" />
@@ -96,10 +96,10 @@
 					Roadmap
 				</Button>
 			{/if}
-		</Card.Action>
-	</Card.Header>
+		</CardAction>
+	</CardHeader>
 
-	<Card.Content>
+	<CardContent>
 		{#if !graphReady}
 			<p class="text-sm text-muted-foreground">Loading artifact graph&hellip;</p>
 		{:else if !activeMilestone}
@@ -142,18 +142,18 @@
 				<div class="space-y-1.5">
 					<div class="flex items-center justify-between text-xs">
 						<span class="text-muted-foreground">P1 Epics</span>
-						<Tooltip.Root>
-							<Tooltip.Trigger>
+						<TooltipRoot>
+							<TooltipTrigger>
 								{#snippet child({ props })}
 									<span {...props} class="font-medium tabular-nums">
 										{activeMilestone.p1Done}/{activeMilestone.p1Total} done
 									</span>
 								{/snippet}
-							</Tooltip.Trigger>
-							<Tooltip.Content side="top">
+							</TooltipTrigger>
+							<TooltipContent side="top">
 								<p>{progressPercent}% of P1 epics complete</p>
-							</Tooltip.Content>
-						</Tooltip.Root>
+							</TooltipContent>
+						</TooltipRoot>
 					</div>
 					<!-- Progress bar (custom — no shadcn Progress component installed) -->
 					<div class="h-2 w-full overflow-hidden rounded-full bg-muted">
@@ -167,5 +167,5 @@
 				<p class="text-xs text-muted-foreground">No P1 epics defined for this milestone.</p>
 			{/if}
 		{/if}
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>

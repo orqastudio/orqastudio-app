@@ -5,14 +5,15 @@ description: Both describe pre-graph patterns. Update for graph-based injection 
 status: completed
 created: 2026-03-12
 updated: 2026-03-12
-epic: EPIC-054
 acceptance:
   - Docs describe current graph-based model
   - No pre-graph pattern references remain
 relationships:
   - target: EPIC-054
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-344
+    type: depended-on-by
 ---
 
 ## What

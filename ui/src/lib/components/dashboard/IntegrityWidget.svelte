@@ -1,16 +1,16 @@
 <script lang="ts">
 	import { SvelteSet } from "svelte/reactivity";
-	import * as Card from "$lib/components/ui/card";
-	import { Badge } from "$lib/components/ui/badge";
-	import * as ScrollArea from "$lib/components/ui/scroll-area";
-	import { Button } from "$lib/components/ui/button";
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Badge } from "@orqastudio/svelte-components/pure";
+	import { ScrollArea } from "@orqastudio/svelte-components/pure";
+	import { Button } from "@orqastudio/svelte-components/pure";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
 	import ShieldCheckIcon from "@lucide/svelte/icons/shield-check";
 	import ShieldAlertIcon from "@lucide/svelte/icons/shield-alert";
 	import CircleAlertIcon from "@lucide/svelte/icons/circle-alert";
 	import TriangleAlertIcon from "@lucide/svelte/icons/triangle-alert";
 	import ArrowUpDownIcon from "@lucide/svelte/icons/arrow-up-down";
-	import LoadingSpinner from "$lib/components/shared/LoadingSpinner.svelte";
+	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import ArtifactLink from "$lib/components/artifact/ArtifactLink.svelte";
 	import { getStores } from "@orqastudio/sdk";
 
@@ -153,9 +153,9 @@
 		{/if}
 	</div>
 {:else}
-<Card.Root class="gap-2">
-	<Card.Header class="pb-2">
-		<Card.Title class="text-sm font-semibold">
+<CardRoot class="gap-2">
+	<CardHeader class="pb-2">
+		<CardTitle class="text-sm font-semibold">
 			<div class="flex items-center gap-2">
 				<ShieldAlertIcon class="h-4 w-4 {healthColor}" />
 				Pipeline Health
@@ -163,10 +163,10 @@
 					<LoadingSpinner size="sm" />
 				{/if}
 			</div>
-		</Card.Title>
+		</CardTitle>
 		<!-- Error/Warning counts in Card.Action as badges -->
 		{#if scanned && (errorCount > 0 || warningCount > 0)}
-			<Card.Action>
+			<CardAction>
 				<div class="flex items-center gap-1.5">
 					{#if errorCount > 0}
 						<Badge variant="destructive" class="text-[10px] px-1.5 py-0">
@@ -179,10 +179,10 @@
 						</Badge>
 					{/if}
 				</div>
-			</Card.Action>
+			</CardAction>
 		{/if}
-	</Card.Header>
-	<Card.Content class="pt-0">
+	</CardHeader>
+	<CardContent class="pt-0">
 		{#if !scanned && loading}
 			<div class="flex items-center justify-center py-4">
 				<LoadingSpinner />
@@ -231,7 +231,7 @@
 			</div>
 
 			<!-- Data table -->
-			<ScrollArea.Root class="h-64 rounded border border-border">
+			<ScrollArea class="h-64 rounded border border-border">
 				<table class="w-full text-xs">
 					<thead class="sticky top-0 bg-muted/80 backdrop-blur">
 						<tr>
@@ -304,8 +304,8 @@
 						{/each}
 					</tbody>
 				</table>
-			</ScrollArea.Root>
+			</ScrollArea>
 		{/if}
-	</Card.Content>
-</Card.Root>
+	</CardContent>
+</CardRoot>
 {/if}

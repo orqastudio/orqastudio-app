@@ -7,18 +7,9 @@ created: 2026-03-07
 updated: 2026-03-07
 layer: project
 enforcement:
-  - event: bash
-    pattern: ^cargo (build|test|clippy|fmt|check)\b
-    action: warn
-    message: Use make targets instead of raw cargo commands (RULE-007). See make help.
-  - event: bash
-    pattern: ^npm run\b
-    action: warn
-    message: Use make targets instead of raw npm run commands (RULE-007). See make help.
-  - event: bash
-    pattern: ^cargo tauri\b
-    action: warn
-    message: Use make dev/build/restart instead of raw cargo tauri commands (RULE-007).
+  - "event: bash"
+  - "event: bash"
+  - "event: bash"
 relationships:
   - target: PILLAR-001
     type: grounded
@@ -32,27 +23,16 @@ relationships:
   - target: RULE-013
     type: informs
     rationale: Git commands remain raw — make does not wrap version control operations
-  - type: informed-by
-    target: RULE-009
-    rationale: Dogfood mode specifies which restart commands agents must use
-  - type: informed-by
-    target: RULE-013
-    rationale: Git workflow relies on make targets for dev environment management
-  - type: informed-by
-    target: RULE-025
-    rationale: Root directory discipline governs where build config files that make targets reference must live
-  - type: informed-by
-    target: RULE-039
-    rationale: Session management uses make targets for dev server lifecycle control
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: EPIC-037
+    type: informs
+  - target: RULE-009
+    type: informed-by
+  - target: RULE-013
+    type: informed-by
+  - target: RULE-025
+    type: informed-by
+  - target: RULE-039
+    type: informed-by
 ---
 All development commands MUST be invoked via `make` targets. Raw `cargo` and `npm run` commands are forbidden for tasks that have a `make` equivalent.
 

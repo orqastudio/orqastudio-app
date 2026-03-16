@@ -5,8 +5,6 @@ description: Formalize the tool access restrictions defined in agent YAML tools 
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - New rule created mapping roles to permitted tool sets
   - FORBIDDEN section lists role-tool violations
@@ -14,8 +12,10 @@ acceptance:
   - Ownership boundaries from RULE-001 reinforced through tool restrictions
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

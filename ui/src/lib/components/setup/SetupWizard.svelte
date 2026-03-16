@@ -1,5 +1,5 @@
 <script lang="ts">
-	import * as Card from "$lib/components/ui/card";
+	import { CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
 	import ClaudeCliStep from "./ClaudeCliStep.svelte";
 	import ClaudeAuthStep from "./ClaudeAuthStep.svelte";
 	import SidecarStep from "./SidecarStep.svelte";
@@ -32,12 +32,12 @@
 	<div class="absolute inset-0 bg-background/70"></div>
 
 	<div class="relative z-10 w-full max-w-lg px-4">
-		<Card.Root>
-			<Card.Header class="text-center">
-				<Card.Title class="text-xl">Welcome to OrqaStudio</Card.Title>
-				<Card.Description>
+		<CardRoot>
+			<CardHeader class="text-center">
+				<CardTitle class="text-xl">Welcome to OrqaStudio</CardTitle>
+				<CardDescription>
 					Let's make sure everything is set up for managed agentic development.
-				</Card.Description>
+				</CardDescription>
 
 				<!-- Step indicator -->
 				<div class="flex items-center justify-center gap-2 pt-3">
@@ -54,9 +54,9 @@
 				<p class="text-xs text-muted-foreground">
 					Step {setupStore.currentStep + 1} of {setupStore.totalSteps}
 				</p>
-			</Card.Header>
+			</CardHeader>
 
-			<Card.Content class="min-h-[200px]">
+			<CardContent class="min-h-[200px]">
 				{#if setupStore.stepId === "claude_cli"}
 					<ClaudeCliStep onComplete={handleStepComplete} />
 				{:else if setupStore.stepId === "claude_auth"}
@@ -68,7 +68,7 @@
 				{:else if setupStore.stepId === "complete"}
 					<SetupComplete onComplete={handleSetupComplete} />
 				{/if}
-			</Card.Content>
-		</Card.Root>
+			</CardContent>
+		</CardRoot>
 	</div>
 </div>

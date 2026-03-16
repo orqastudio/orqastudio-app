@@ -5,22 +5,25 @@ description: Plugin SessionStart hook injects orchestrator context and runs sess
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-050
-depends-on:
-  - TASK-177
 assignee: AGENT-002
 docs: []
-skills:
-  - SKILL-020
 acceptance:
   - SessionStart hook reads .orqa/process/agents/orchestrator.md
   - Hook injects orchestrator content as additionalContext
-  - Hook runs session-start checks (stashes, worktrees, uncommitted files)
+  - "Hook runs session-start checks (stashes, worktrees, uncommitted files)"
   - Hook replaces the current .claude/hooks/session-start-hook.sh functionality
 relationships:
   - target: EPIC-050
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-177
+    type: depends-on
+  - target: SKILL-020
+    type: grounded-by
+  - target: TASK-185
+    type: depended-on-by
+  - target: TASK-340
+    type: depended-on-by
 ---
 
 ## What

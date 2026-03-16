@@ -7,16 +7,6 @@ description: |
 status: completed
 created: 2026-03-11
 updated: 2026-03-12
-epic: EPIC-052
-depends-on:
-  - TASK-196
-  - TASK-197
-  - TASK-198
-  - TASK-199
-  - TASK-200
-  - TASK-201
-  - TASK-203
-  - TASK-206
 acceptance:
   - Process gates fire at correct moments in both CLI and app contexts
   - Skill injection works for path-based triggers with deduplication
@@ -25,8 +15,26 @@ acceptance:
   - No regression in existing enforcement
 relationships:
   - target: EPIC-052
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-196
+    type: depends-on
+  - target: TASK-197
+    type: depends-on
+  - target: TASK-198
+    type: depends-on
+  - target: TASK-199
+    type: depends-on
+  - target: TASK-200
+    type: depends-on
+  - target: TASK-201
+    type: depends-on
+  - target: TASK-203
+    type: depends-on
+  - target: TASK-206
+    type: depends-on
+  - target: TASK-342
+    type: depended-on-by
 ---
 
 

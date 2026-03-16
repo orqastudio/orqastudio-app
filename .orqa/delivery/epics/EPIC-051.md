@@ -11,51 +11,46 @@ priority: P1
 created: 2026-03-11
 updated: 2026-03-12
 deadline: null
-milestone: MS-001
 horizon: null
-pillars:
-  - PILLAR-001
-  - PILLAR-002
-depends-on: []
-blocks:
-  - EPIC-050
-research-refs: []
-docs-required: []
-docs-produced: []
-scoring:
-  dogfood-value: 5
-  user-facing: 3
-  foundation: 5
-  complexity: 2
-  score: 4
+scoring: null
 relationships:
   - target: IDEA-057
     type: informed-by
     rationale: Promoted from IDEA-057 — provider-agnostic tool abstraction
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
   - target: TASK-171
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-172
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-173
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-174
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-175
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-176
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
   - target: TASK-341
-    type: contains
+    type: delivered-by
     rationale: Epic contains this task
+  - target: MS-001
+    type: delivers
+  - target: EPIC-050
+    type: depended-on-by
+  - target: PILLAR-001
+    type: grounded-by
+  - target: PILLAR-002
+    type: grounded-by
+  - target: IDEA-057
+    type: evolves-from
 ---
 
 ## Context

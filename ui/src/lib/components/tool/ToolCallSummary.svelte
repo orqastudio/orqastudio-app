@@ -4,10 +4,10 @@
 	import XCircleIcon from "@lucide/svelte/icons/x-circle";
 	import type { Message } from "@orqastudio/types";
 	import {
-		Collapsible,
+		CollapsibleRoot as Collapsible,
 		CollapsibleContent,
 		CollapsibleTrigger,
-	} from "$lib/components/ui/collapsible";
+	} from "@orqastudio/svelte-components/pure";
 	import ToolCallCard from "./ToolCallCard.svelte";
 	import { getToolDisplay, groupLabel, stripToolName } from "$lib/utils/tool-display";
 

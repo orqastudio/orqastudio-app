@@ -1,12 +1,10 @@
 ---
 id: TASK-090
 title: Add Decision type to artifact framework
-description: Added Decision (AD-NNN) type schema to artifact-framework.md, decision creation section to artifact-workflow.md, decision enforcement to RULE-004, and decision directory to orchestrator resources.
+description: "Added Decision (AD-NNN) type schema to artifact-framework.md, decision creation section to artifact-workflow.md, decision enforcement to RULE-004, and decision directory to orchestrator resources."
 status: completed
 created: 2026-03-08
 updated: 2026-03-08
-epic: EPIC-032
-depends-on: []
 acceptance:
   - artifact-framework.md defines the Decision type with schema and status workflow
   - artifact-workflow.md includes Decision creation guidance
@@ -14,8 +12,12 @@ acceptance:
   - RULE-002 references individual decision artifacts as source of truth
 relationships:
   - target: EPIC-032
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-091
+    type: depended-on-by
+  - target: TASK-322
+    type: depended-on-by
 ---
 ## What
 

@@ -5,8 +5,6 @@ description: Extract skill portability constraints from the skills-maintenance s
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - New RULE-NNN created for skill portability enforcement
   - Constraints removed from skills-maintenance NON-NEGOTIABLE section
@@ -15,8 +13,10 @@ acceptance:
   - Rule has FORBIDDEN section with concrete violations
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

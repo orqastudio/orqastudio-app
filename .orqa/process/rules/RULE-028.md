@@ -1,7 +1,7 @@
 ---
 id: RULE-028
 title: Systems Thinking First
-description: Every change must be evaluated as part of the whole system, not as an isolated fix. This is the foundational discipline that OrqaStudio exists to enable — it applies to every project the app manages.
+description: "Every change must be evaluated as part of the whole system, not as an isolated fix. This is the foundational discipline that OrqaStudio exists to enable — it applies to every project the app manages."
 status: active
 created: 2026-03-07
 updated: 2026-03-07
@@ -19,36 +19,13 @@ relationships:
   - target: RULE-009
     type: informs
     rationale: Dogfood mode heightens systems-thinking urgency when editing a live system from within
-  - type: informed-by
-    target: RULE-009
-    rationale: Dogfood mode provides the specific operational constraints for self-modifying systems
-  - type: informed-by
-    target: RULE-030
-    rationale: UAT systemic analysis phase is systems thinking applied to quality assurance
   - target: IMPL-034
     type: observed-by
     rationale: Auto-generated inverse of observed-by relationship from IMPL-034
-  - type: scoped-to
-    target: AGENT-001
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-004
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-005
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-007
-    rationale: Migrated from scope field
+  - target: RULE-009
+    type: informed-by
+  - target: RULE-030
+    type: informed-by
 ---
 # Systems Thinking First (NON-NEGOTIABLE)
 

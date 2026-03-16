@@ -1,7 +1,7 @@
 ---
 id: SKILL-032
 title: Tauri v2 Development
-description: Tauri v2 cross-platform app development with Rust backend. Use when configuring tauri.conf.json, implementing Rust commands (#[tauri::command]), setting up IPC patterns (invoke, emit, channels), configuring permissions/capabilities, troubleshooting build issues, or deploying desktop/mobile apps. Triggers on Tauri, src-tauri, invoke, emit, capabilities.json.
+description: "Tauri v2 cross-platform app development with Rust backend. Use when configuring tauri.conf.json, implementing Rust commands (#[tauri::command]), setting up IPC patterns (invoke, emit, channels), configuring permissions/capabilities, troubleshooting build issues, or deploying desktop/mobile apps. Triggers on Tauri, src-tauri, invoke, emit, capabilities.json."
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -13,20 +13,40 @@ relationships:
     type: grounded
     rationale: Tauri command patterns, permission capabilities, and IPC channels define explicit boundaries between frontend and backend layers
   - target: AD-011
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-011
   - target: AD-007
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-007
   - target: AD-012
-    type: practices
+    type: grounded-by
     rationale: Auto-generated inverse of practices relationship from AD-012
-  - type: scoped-to
-    target: AGENT-002
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-013
+    type: grounded
+  - target: TASK-015
+    type: grounded
+  - target: TASK-017
+    type: grounded
+  - target: TASK-020
+    type: grounded
+  - target: TASK-022
+    type: grounded
+  - target: TASK-027
+    type: grounded
+  - target: TASK-028
+    type: grounded
+  - target: TASK-073
+    type: grounded
+  - target: TASK-074
+    type: grounded
+  - target: TASK-079
+    type: grounded
+  - target: TASK-410
+    type: grounded
+  - target: TASK-415
+    type: grounded
+  - target: TASK-416
+    type: grounded
 ---
 > Build cross-platform desktop and mobile apps with web frontends and Rust backends.
 

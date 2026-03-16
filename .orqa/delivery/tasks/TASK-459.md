@@ -6,10 +6,7 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-067
-depends-on: []
 assignee: null
-skills: []
 acceptance:
   - Prioritisation criteria from DOC-062 surfaced in the artifact viewer when viewing epics/tasks
   - Epics and tasks with priority values show their justification (scoring field or dedicated section)
@@ -19,9 +16,6 @@ relationships:
   - target: EPIC-067
     type: delivers
     rationale: Artifact viewer should surface priority reasoning
-  - target: EPIC-067
-    type: belongs-to
-    rationale: Task belongs to this epic
 ---
 
 ## Scope

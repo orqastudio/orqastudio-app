@@ -5,15 +5,16 @@ description: Update RULE-022 to require loop-closure phases in enforcement epics
 status: completed
 created: 2026-03-13
 updated: 2026-03-13
-epic: EPIC-061
-depends-on:
-  - TASK-376
 acceptance:
   - RULE-022 requires epics producing enforcement tooling to include a loop-closure phase and out-of-scope sections to have user approval
 relationships:
   - target: EPIC-061
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-376
+    type: depends-on
+  - target: TASK-375
+    type: depended-on-by
 ---
 
 ## What

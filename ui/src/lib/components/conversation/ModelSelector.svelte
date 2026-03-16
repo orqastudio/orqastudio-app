@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SelectMenu from "$lib/components/shared/SelectMenu.svelte";
+	import { SelectMenu } from "@orqastudio/svelte-components/pure";
 	import { CLAUDE_MODELS } from "./model-options";
 
 	function getModelLabel(modelId: string): string {

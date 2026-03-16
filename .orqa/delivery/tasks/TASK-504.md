@@ -1,25 +1,24 @@
 ---
 id: TASK-504
-title: "Add status validation to artifact graph integrity checks"
+title: Add status validation to artifact graph integrity checks
 description: "Extend the artifact graph integrity scan to validate every artifact's status field against the valid enum values defined in project.json. Invalid statuses are reported as integrity errors with the artifact ID and the offending value. An auto-fix suggestion derives the closest valid status from a migration map."
 status: completed
 priority: P1
-created: "2026-03-15"
-updated: "2026-03-15"
-epic: EPIC-077
-milestone: null
+created: 2026-03-15
+updated: 2026-03-15
 horizon: active
-depends-on: []
 acceptance:
   - "Artifact graph integrity scan checks every artifact's status against the valid enum from project.json statuses config"
-  - "Invalid statuses reported as integrity errors with the artifact ID and current invalid status"
+  - Invalid statuses reported as integrity errors with the artifact ID and current invalid status
   - "Auto-fix available: suggest the closest valid status based on the migration map"
-  - "Results surfaced in IntegrityWidget"
+  - Results surfaced in IntegrityWidget
 relationships:
-  - type: delivers
-    target: EPIC-077
-  - type: belongs-to
-    target: EPIC-077
+  - target: EPIC-077
+    type: delivers
+  - target: TASK-505
+    type: depended-on-by
+  - target: TASK-507
+    type: depended-on-by
 ---
 
 ## What

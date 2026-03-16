@@ -1,31 +1,23 @@
 ---
 id: EPIC-022
-title: Implementation Breakdown & Work Management
-description: Build epic-to-task hierarchy, plan-to-backlog breakdown, unified backlog view, status workflow, and progress dashboard.
+title: "Implementation Breakdown & Work Management"
+description: "Build epic-to-task hierarchy, plan-to-backlog breakdown, unified backlog view, status workflow, and progress dashboard."
 status: captured
 priority: P2
 created: 2026-03-07
 updated: 2026-03-07
-milestone: MS-002
 horizon: next
-pillars:
-  - PILLAR-001
-depends-on:
-  - EPIC-005
-  - EPIC-016
-blocks: []
-docs-required: []
-docs-produced: []
-scoring:
-  pillar: 4
-  impact: 4
-  dependency: 1
-  effort: 4
-  score: 5.8
+scoring: null
 relationships:
   - target: MS-002
-    type: belongs-to
+    type: delivers
     rationale: Epic belongs to this milestone
+  - target: EPIC-005
+    type: depends-on
+  - target: EPIC-016
+    type: depends-on
+  - target: PILLAR-001
+    type: grounded-by
 ---
 ## Tasks
 

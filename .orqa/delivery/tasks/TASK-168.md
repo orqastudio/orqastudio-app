@@ -5,12 +5,9 @@ description: Implement the ArtifactViewState store integration and client-side s
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-005
-depends-on:
-  - TASK-167
 acceptance:
   - Filtering by any enum field works correctly
-  - Sorting by title, created, updated, and type-specific fields works
+  - "Sorting by title, created, updated, and type-specific fields works"
   - Grouping produces collapsible sections with correct ordering
   - Defaults load from _navigation.json on first navigation to a type
   - User overrides persist in the store per type key within the session
@@ -18,8 +15,12 @@ acceptance:
   - make typecheck passes
 relationships:
   - target: EPIC-005
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-167
+    type: depends-on
+  - target: TASK-312
+    type: depended-on-by
 ---
 
 

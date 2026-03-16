@@ -1,15 +1,11 @@
 ---
 id: TASK-018
 title: Product rebrand to Orqa Studio
-description: Full product rebrand from Forge to Orqa Studio across all code, configuration, documentation, agent definitions, and brand assets.
+description: "Full product rebrand from Forge to Orqa Studio across all code, configuration, documentation, agent definitions, and brand assets."
 status: completed
 created: 2026-03-04
 updated: 2026-03-09
-epic: EPIC-036
 assignee: AGENT-002
-skills:
-  - SKILL-030
-  - SKILL-031
 acceptance:
   - Product renamed to Orqa Studio throughout
   - src/ renamed to ui/
@@ -18,8 +14,14 @@ acceptance:
   - All 16 agent definitions updated
 relationships:
   - target: EPIC-036
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: SKILL-030
+    type: grounded-by
+  - target: SKILL-031
+    type: grounded-by
+  - target: TASK-326
+    type: depended-on-by
 ---
 ## What
 

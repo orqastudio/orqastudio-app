@@ -1,20 +1,20 @@
 ---
 id: TASK-124
 title: Implement Rust backend sidecar and streaming
-description: Built the Agent SDK sidecar process management in Rust with NDJSON streaming via Channel<T> for real-time conversation display.
+description: "Built the Agent SDK sidecar process management in Rust with NDJSON streaming via Channel<T> for real-time conversation display."
 status: completed
 created: 2026-03-02
 updated: 2026-03-02
-epic: EPIC-030
-depends-on: []
 acceptance:
   - Sidecar process starts and communicates via NDJSON
-  - Streaming events reach the frontend via Channel<T>
+  - "Streaming events reach the frontend via Channel<T>"
   - Sidecar lifecycle is managed cleanly
 relationships:
   - target: EPIC-030
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-320
+    type: depended-on-by
 ---
 ## What
 

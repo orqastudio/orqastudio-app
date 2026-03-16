@@ -6,15 +6,10 @@ status: completed
 priority: P1
 created: 2026-03-14
 updated: 2026-03-14
-epic: EPIC-064
-depends-on: []
 assignee: null
-skills:
-  - SKILL-011
-  - SKILL-020
 acceptance:
-  - After Write/Edit on .orqa/**/*.md files, graph-guardian checks for bidirectional inverses
-  - For each relationship A --type--> B, checks if B has inverse-type --> A
+  - "After Write/Edit on .orqa/**/*.md files, graph-guardian checks for bidirectional inverses"
+  - "For each relationship A --type--> B, checks if B has inverse-type --> A"
   - Missing inverses returned as warnings in additionalContext (not blocking)
   - Warning includes the exact relationship entry that should be added to the target artifact
   - Non-.orqa/ files are ignored (no performance impact on code writes)
@@ -29,9 +24,12 @@ relationships:
   - target: IMPL-055
     type: informed-by
     rationale: IMPL-055 identified the need for write-time integrity checking
-  - target: EPIC-064
-    type: belongs-to
-    rationale: Task belongs to this epic
+  - target: SKILL-011
+    type: grounded-by
+  - target: SKILL-020
+    type: grounded-by
+  - target: TASK-414
+    type: depended-on-by
 ---
 
 ## Scope

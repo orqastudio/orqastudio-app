@@ -5,8 +5,6 @@ description: Formalize the session management and overnight mode conventions fro
 status: completed
 created: 2026-03-11
 updated: 2026-03-11
-epic: EPIC-049
-depends-on: []
 acceptance:
   - New rule created covering session management lifecycle
   - Overnight mode protocol formalized with enforceable steps
@@ -15,8 +13,10 @@ acceptance:
   - Orchestrator.md references the rule
 relationships:
   - target: EPIC-049
-    type: belongs-to
+    type: delivers
     rationale: Task belongs to this epic
+  - target: TASK-339
+    type: depended-on-by
 ---
 ## What
 

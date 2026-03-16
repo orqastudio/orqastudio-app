@@ -17,12 +17,16 @@ relationships:
   - target: PILLAR-001
     type: grounded
     rationale: JSON Schema validation of frontmatter ensures every artifact conforms to its type contract, preventing malformed graph edges
-  - type: scoped-to
-    target: AGENT-003
-    rationale: Migrated from scope field
-  - type: scoped-to
-    target: AGENT-006
-    rationale: Migrated from scope field
+  - target: TASK-172
+    type: grounded
+  - target: TASK-183
+    type: grounded
+  - target: TASK-409
+    type: grounded
+  - target: TASK-474
+    type: grounded
+  - target: AGENT-008
+    type: grounded
 ---
 
 How to create valid `.orqa/` artifacts and fix schema validation failures. Enforced by [RULE-032](RULE-032) via the pre-commit hook at `.githooks/validate-schema.mjs`.

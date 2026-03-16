@@ -1,10 +1,10 @@
 ---
 id: IMPL-019
-title: "Plugins and sidecars are paired — no requirement mechanism exists"
+title: Plugins and sidecars are paired — no requirement mechanism exists
 description: "The orqastudio-claude-plugin is designed for Claude Code CLI. If a different sidecar is used (Cursor, Copilot), this plugin should not be active. Currently there is no mechanism for a plugin to declare which sidecar it requires, or for the system to enforce that pairing."
 status: completed
-created: "2026-03-13"
-updated: "2026-03-13"
+created: 2026-03-13
+updated: 2026-03-13
 maturity: understanding
 recurrence: 1
 relationships:
