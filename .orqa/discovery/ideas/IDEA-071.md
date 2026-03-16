@@ -2,7 +2,7 @@
 id: IDEA-071
 title: "Plugin ecosystem: type system, provider integration, capability routing"
 description: "Implement the plugin type taxonomy, AI provider schema, capability fulfilment model, and plugin installation wiring designed in RES-052. Covers plugin.json schema extension, .orqa/providers/ definitions, per-project capability routing, and load-time plugin filtering."
-status: captured
+status: surpassed
 created: 2026-03-13
 updated: 2026-03-13
 horizon: later
@@ -14,6 +14,8 @@ research-needed:
   - Load-time filtering implementation for non-matching plugins
   - App MCP server baseline capabilities manifest
 relationships:
+  - type: merged-into
+    target: EPIC-080
   - target: IMPL-020
     type: enforced-by
     rationale: "Auto-generated inverse of enforced-by relationship from IMPL-020"

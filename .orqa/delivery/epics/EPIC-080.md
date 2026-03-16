@@ -24,6 +24,8 @@ Build the runtime plugin loading system and extract the "software project" deliv
 - Type system becomes plugin-aware: core types are always present, plugin types are additive
 - Navigation system renders plugin-registered views in ActivityBar
 - Icon registry accepts plugin icon registrations
+- Dashboard widget registration: plugins contribute widgets with data contracts (read-only graph access)
+- Widget configuration persistence: per-project layout and visibility settings (from IDEA-090)
 
 ### Phase 2: Core artifact isolation
 - Identify and lock down core artifact types that ship with the app: pillars, vision, personas, grounding, decisions, rules, lessons, skills, agents
@@ -37,6 +39,7 @@ Build the runtime plugin loading system and extract the "software project" deliv
 - Move views: RoadmapView, HorizonBoard, StatusKanban, KanbanCard, MilestoneCard, CollapsibleColumn, DrilldownBreadcrumbs
 - Move dashboard widgets: PipelineWidget, DecisionQueueWidget, MilestoneContextCard
 - Plugin manifest registers all types, views, icons, and relationship types (delivers, delivered-by, depends-on, depended-on-by)
+- Plugin contributes status transition rules for its artifact types (from IDEA-105)
 - App discovers and loads the plugin at startup
 
 ### Phase 4: Plugin bundling

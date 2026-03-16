@@ -2,7 +2,7 @@
 id: IDEA-006
 title: Cross-Project Intelligence
 description: "Enable PILLAR-002 that transfers between projects through shared templates, cross-project patterns, and accumulated insights."
-status: captured
+status: surpassed
 created: 2026-03-07
 updated: 2026-03-13
 horizon: someday
@@ -11,6 +11,8 @@ research-needed:
   - Privacy and data isolation concerns
   - Template format design
 relationships:
+  - type: merged-into
+    target: EPIC-081
   - target: PILLAR-002
     type: grounded-by
 ---

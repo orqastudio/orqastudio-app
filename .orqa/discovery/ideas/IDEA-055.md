@@ -2,7 +2,7 @@
 id: IDEA-055
 title: Plugin-Based Tool Architecture
 description: "Redesign the tool system so tools are implemented as plugins rather than hardcoded Rust functions — enabling user-created tools, community tool packs, and dynamic tool registration without app rebuilds."
-status: captured
+status: surpassed
 created: 2026-03-11
 updated: 2026-03-13
 horizon: later
@@ -15,6 +15,8 @@ research-needed:
   - "How does this relate to AD-010 (Tool Implementation as MCP) and the existing plugin system ideas (IDEA-038)?"
   - "What's the migration path from hardcoded tools to plugin tools without breaking existing functionality?"
 relationships:
+  - type: merged-into
+    target: EPIC-080
   - target: PILLAR-001
     type: grounded-by
 ---

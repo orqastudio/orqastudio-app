@@ -2,7 +2,7 @@
 id: IDEA-007
 title: "Spaces & Organisational Structure"
 description: "Containers for organising projects as adoption scales, with space-level governance and aggregated insights."
-status: captured
+status: surpassed
 created: 2026-03-07
 updated: 2026-03-13
 horizon: someday
@@ -11,6 +11,8 @@ research-needed:
   - Space-level governance inheritance
   - Multi-project aggregation UX
 relationships:
+  - type: merged-into
+    target: EPIC-081
   - target: IDEA-085
     type: informed-by
     rationale: "Auto-generated inverse of informed-by relationship from IDEA-085"

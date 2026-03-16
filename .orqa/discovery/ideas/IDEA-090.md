@@ -2,7 +2,7 @@
 id: IDEA-090
 title: Configurable dashboard with plugin-registered widgets
 description: "Dashboard widgets should be configurable — users can choose which widgets to display, reorder them, and resize them. Plugins should be able to register custom widgets that appear alongside built-in ones."
-status: captured
+status: surpassed
 created: 2026-03-13
 updated: 2026-03-13
 horizon: someday
@@ -13,6 +13,8 @@ research-needed:
   - "What data contract do widgets need? Read-only access to artifact graph? Store subscriptions?"
   - "How does this interact with the five-layer architecture? Built-in widgets are core, plugin widgets are plugin/community layer"
 relationships:
+  - type: merged-into
+    target: EPIC-080
   - target: EPIC-063
     type: informs
     rationale: "UAT revealed dashboard widget UX needs fundamental rethinking — configurable widgets is the long-term direction"

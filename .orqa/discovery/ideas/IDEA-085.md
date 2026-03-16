@@ -2,7 +2,7 @@
 id: IDEA-085
 title: Multi-repo product overview via git submodules
 description: "A parent OrqaStudio project that consumes .orqa/ artifacts from multiple git submodules, creating an overarching view of cross-project status. Includes a permissions hierarchy controlling whether parent projects can write to child .orqa/ directories or access code outside them. Potentially the implementation mechanism for organisations."
-status: captured
+status: surpassed
 created: 2026-03-13
 updated: 2026-03-13
 horizon: someday
@@ -15,6 +15,8 @@ research-needed:
   - "How does this interact with IDEA-038 (Plugin Distribution via Git Submodules) — are plugins and project submodules the same mechanism?"
   - "What does the UX look like for a product owner viewing aggregated status across 5 team repos?"
 relationships:
+  - type: merged-into
+    target: EPIC-081
   - target: IDEA-007
     type: informs
     rationale: "Multi-repo management may be the implementation mechanism for the Spaces concept"

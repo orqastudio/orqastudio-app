@@ -2,7 +2,7 @@
 id: IDEA-105
 title: "Delivery pipeline as a plugin — roadmap view, dashboard widgets, and type config packaged as an installable plugin"
 description: "The current delivery pipeline (milestones/epics/tasks), roadmap view, dashboard widgets (milestone context, what's next, epics tab), and status transition rules should ultimately be packaged as an official plugin. This separates the universal thinking framework from the delivery-specific UI and type configuration. Requires plugin architecture work to support custom views, widgets, and type registration."
-status: captured
+status: surpassed
 created: 2026-03-15
 updated: 2026-03-15
 horizon: later
@@ -11,6 +11,8 @@ research-needed:
   - How does a plugin register new artifact types and their hierarchy
   - How do plugins contribute to the roadmap/kanban view
 relationships:
+  - type: merged-into
+    target: EPIC-080
   - target: PILLAR-001
     type: grounded-by
   - target: PILLAR-003
