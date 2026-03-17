@@ -10,8 +10,8 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::sync::LazyLock;
 
-/// The platform core config JSON, embedded at compile time.
-const PLATFORM_JSON: &str = include_str!("platform_core.json");
+/// The platform core config JSON, embedded at compile time from the canonical source.
+const PLATFORM_JSON: &str = include_str!("../../../../../libs/types/src/platform/core.json");
 
 /// A relationship definition from core.json.
 #[derive(Debug, Clone, Deserialize)]
@@ -28,6 +28,35 @@ pub struct RelationshipDef {
     pub description: String,
     #[serde(default)]
     pub semantic: Option<String>,
+    #[serde(default)]
+    pub constraints: Option<ConstraintsDef>,
+}
+
+/// Validation constraints for a relationship, loaded from the schema.
+#[derive(Debug, Clone, Deserialize)]
+pub struct ConstraintsDef {
+    #[serde(default)]
+    pub required: Option<bool>,
+    #[serde(default, rename = "minCount")]
+    pub min_count: Option<usize>,
+    #[serde(default, rename = "maxCount")]
+    pub max_count: Option<usize>,
+    #[serde(default, rename = "requireInverse")]
+    pub require_inverse: Option<bool>,
+    #[serde(default, rename = "statusRules")]
+    pub status_rules: Vec<StatusRuleDef>,
+}
+
+/// A status-dependent auto-transition rule from the schema.
+#[derive(Debug, Clone, Deserialize)]
+pub struct StatusRuleDef {
+    pub evaluate: String,
+    pub condition: String,
+    pub statuses: Vec<String>,
+    #[serde(rename = "proposedStatus")]
+    pub proposed_status: String,
+    #[serde(default)]
+    pub description: String,
 }
 
 /// A semantic category grouping relationship keys by intent.
@@ -123,24 +152,32 @@ mod tests {
     #[test]
     fn inverse_map_contains_all_pairs() {
         let map = build_inverse_map(&PLATFORM.relationships);
-        assert_eq!(map.get("informs").unwrap(), "informed-by");
-        assert_eq!(map.get("informed-by").unwrap(), "informs");
-        assert_eq!(map.get("delivers").unwrap(), "delivered-by");
+        assert_eq!(map.get("upholds").unwrap(), "upheld-by");
+        assert_eq!(map.get("upheld-by").unwrap(), "upholds");
+        assert_eq!(map.get("grounded").unwrap(), "grounded-by");
         assert_eq!(map.get("synchronised-with").unwrap(), "synchronised-with");
     }
 
     #[test]
-    fn lineage_semantic_contains_evolves_and_merged() {
+    fn lineage_semantic_contains_crystallises_and_merged() {
         let lineage = keys_for_semantic("lineage");
-        assert!(lineage.contains(&"evolves-into".to_string()));
+        assert!(lineage.contains(&"crystallises".to_string()));
         assert!(lineage.contains(&"merged-into".to_string()));
     }
 
     #[test]
     fn has_semantic_works() {
-        assert!(has_semantic("evolves-into", "lineage"));
+        assert!(has_semantic("crystallises", "lineage"));
         assert!(has_semantic("merged-into", "lineage"));
-        assert!(!has_semantic("delivers", "lineage"));
-        assert!(has_semantic("delivers", "hierarchy"));
+        assert!(!has_semantic("upholds", "lineage"));
+        assert!(has_semantic("upholds", "foundation"));
+    }
+
+    #[test]
+    fn constraints_are_loaded() {
+        let grounded = PLATFORM.relationships.iter().find(|r| r.key == "grounded").unwrap();
+        let constraints = grounded.constraints.as_ref().expect("grounded should have constraints");
+        assert_eq!(constraints.required, Some(true));
+        assert_eq!(constraints.min_count, Some(1));
     }
 }
