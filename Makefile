@@ -27,28 +27,28 @@ install-sidecar: ## Install sidecar dependencies
 # ── Development ──────────────────────────────────────────────────────────────
 
 dev: ## Start dev environment (spawns controller, waits for ready, exits)
-	@node debugger/dev.mjs dev
+	@node ../tools/debug-tool/dev.mjs dev
 
 start: ## Start dev controller in foreground (long-running, unified output)
-	@node debugger/dev.mjs start
+	@node ../tools/debug-tool/dev.mjs start
 
 stop: ## Stop controller gracefully (requires manual restart to resume)
-	@node debugger/dev.mjs stop
+	@node ../tools/debug-tool/dev.mjs stop
 
 kill: ## Force-kill all OrqaStudio processes
-	@node debugger/dev.mjs kill
+	@node ../tools/debug-tool/dev.mjs kill
 
 restart-tauri: ## Restart Tauri app only — recompile Rust, Vite stays alive
-	@node debugger/dev.mjs restart-tauri
+	@node ../tools/debug-tool/dev.mjs restart-tauri
 
 restart-vite: ## Restart Vite dev server only
-	@node debugger/dev.mjs restart-vite
+	@node ../tools/debug-tool/dev.mjs restart-vite
 
 restart: ## Restart Vite + Tauri (controller stays alive)
-	@node debugger/dev.mjs restart
+	@node ../tools/debug-tool/dev.mjs restart
 
 status: ## Show dev controller and process status
-	@node debugger/dev.mjs status
+	@node ../tools/debug-tool/dev.mjs status
 
 dev-frontend: ## Run frontend only (Vite dev server)
 	cd ui && npm run dev
