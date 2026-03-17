@@ -13,4 +13,6 @@ pub mod setup_commands;
 pub mod sidecar_commands;
 pub mod status_transition_commands;
 pub mod stream_commands;
+pub mod cli_tool_commands;
+pub mod plugin_commands;
 pub mod tool_commands;

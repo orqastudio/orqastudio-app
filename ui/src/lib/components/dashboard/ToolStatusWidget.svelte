@@ -5,11 +5,11 @@
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
 	import { invoke } from "@orqastudio/sdk";
-	import type { ToolRunResult, ToolRunStatus } from "@orqastudio/types";
+	import type { CliToolRunResult, CliToolRunStatus } from "@orqastudio/types";
 
-	let statuses = $state<ToolRunStatus[]>([]);
+	let statuses = $state<CliToolRunStatus[]>([]);
 	let running = $state<string | null>(null);
-	let lastResult = $state<ToolRunResult | null>(null);
+	let lastResult = $state<CliToolRunResult | null>(null);
 	let error = $state<string | null>(null);
 
 	const hasTools = $derived(statuses.length > 0);
@@ -20,7 +20,7 @@
 
 	async function loadStatuses() {
 		try {
-			statuses = await invoke<ToolRunStatus[]>("tool_status");
+			statuses = await invoke<CliToolRunStatus[]>("cli_tool_status");
 		} catch {
 			// No tools registered yet — this is normal
 			statuses = [];
@@ -32,7 +32,7 @@
 		error = null;
 		lastResult = null;
 		try {
-			lastResult = await invoke<ToolRunResult>("run_tool", {
+			lastResult = await invoke<CliToolRunResult>("run_cli_tool", {
 				pluginName: plugin,
 				toolKey,
 			});
@@ -56,7 +56,7 @@
 		<CardTitle class="text-sm font-semibold">
 			<div class="flex items-center gap-2">
 				<Icon name="wrench" size="md" />
-				Plugin Tools
+				Plugin CLI Tools
 			</div>
 		</CardTitle>
 		<CardAction>

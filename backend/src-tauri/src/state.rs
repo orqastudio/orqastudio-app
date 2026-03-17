@@ -12,7 +12,7 @@ use crate::domain::workflow_tracker::WorkflowTracker;
 use crate::search::SearchEngine;
 use crate::sidecar::manager::SidecarManager;
 use crate::startup::StartupTracker;
-use crate::tools::runner::ToolRunner;
+use crate::cli_tools::runner::CliToolRunner;
 use crate::watcher::SharedWatcher;
 
 // ---------------------------------------------------------------------------
@@ -76,11 +76,11 @@ pub struct SessionState {
     pub workflow_tracker: Mutex<WorkflowTracker>,
 }
 
-/// Plugin tool runner state.
+/// Plugin CLI tool runner state.
 ///
-/// Manages one-shot tool execution and caches last-run results.
-pub struct ToolState {
-    pub runner: ToolRunner,
+/// Manages one-shot CLI tool execution and caches last-run results.
+pub struct CliToolState {
+    pub runner: CliToolRunner,
 }
 
 /// Artifact graph and related filesystem state.
@@ -122,5 +122,5 @@ pub struct AppState {
     pub enforcement: EnforcementState,
     pub session: SessionState,
     pub artifacts: ArtifactState,
-    pub tools: ToolState,
+    pub cli_tools: CliToolState,
 }

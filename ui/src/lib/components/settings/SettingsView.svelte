@@ -16,6 +16,7 @@
 	import ProjectStatusSettings from "./ProjectStatusSettings.svelte";
 	import NavigationSettings from "./NavigationSettings.svelte";
 	import RelationshipSettings from "./RelationshipSettings.svelte";
+	import PluginBrowser from "./PluginBrowser.svelte";
 
 	interface Props {
 		activeSection?: string;
@@ -32,7 +33,8 @@
 		section === "project-relationships" ||
 		section === "project-artifact-links" ||
 		section === "project-delivery" ||
-		section === "project-status",
+		section === "project-status" ||
+		section === "project-plugins",
 	);
 </script>
 
@@ -106,6 +108,8 @@
 						settings={projectStore.projectSettings}
 						onSave={(s) => projectStore.saveProjectSettings(project.path, s)}
 					/>
+				{:else if section === "project-plugins"}
+					<PluginBrowser />
 				{/if}
 			{:else}
 				<ProjectSetupWizard

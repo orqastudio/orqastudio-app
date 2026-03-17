@@ -43,6 +43,10 @@ pub enum OrqaError {
     #[error("search error: {0}")]
     #[serde(rename = "search")]
     Search(String),
+
+    #[error("plugin error: {0}")]
+    #[serde(rename = "plugin")]
+    Plugin(String),
 }
 
 impl From<std::io::Error> for OrqaError {
@@ -191,6 +195,7 @@ mod tests {
             OrqaError::Serialization("g".into()),
             OrqaError::PermissionDenied("h".into()),
             OrqaError::Search("i".into()),
+            OrqaError::Plugin("j".into()),
         ];
 
         let expected_codes = [
@@ -203,6 +208,7 @@ mod tests {
             "serialization",
             "permission_denied",
             "search",
+            "plugin",
         ];
 
         for (variant, expected_code) in variants.iter().zip(expected_codes.iter()) {
