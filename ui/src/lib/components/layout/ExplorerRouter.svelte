@@ -1,5 +1,8 @@
 <script lang="ts">
 	import { getStores } from "@orqastudio/sdk";
+	import { type Component } from "svelte";
+
+	// Core view components — registered by route key
 	import ProjectDashboard from "$lib/components/dashboard/ProjectDashboard.svelte";
 	import FullGraphView from "$lib/components/graph/FullGraphView.svelte";
 	import ArtifactViewer from "$lib/components/artifact/ArtifactViewer.svelte";
@@ -9,37 +12,61 @@
 
 	const { navigationStore } = getStores();
 
-	const activePluginView = $derived.by(() => {
-		const navItem = navigationStore.activeNavItem;
-		if (!navItem || navItem.type !== "plugin" || !navItem.pluginSource) return null;
-		return { pluginName: navItem.pluginSource, viewKey: navItem.key };
-	});
+	/**
+	 * Core view registry — maps route keys to components.
+	 * Plugin views are handled separately via PluginViewContainer.
+	 * New core views are added here, not as if/else branches.
+	 */
+	const CORE_VIEWS: Record<string, Component> = {
+		"project": ProjectDashboard,
+		"artifact-graph": FullGraphView,
+		"welcome": WelcomeScreen,
+	};
 
-	const viewType = $derived.by((): string => {
-		if (activePluginView) return "plugin";
-		if (navigationStore.activeActivity === "project") return "project";
-		if (navigationStore.activeActivity === "artifact-graph") return "graph";
-		if (navigationStore.explorerView === "artifact-viewer") return "artifact-viewer";
-		if (navigationStore.activeGroup !== null || navigationStore.isArtifactActivity) return "artifact-list";
-		return "welcome";
+	// Resolve what to render
+	const resolved = $derived.by(() => {
+		const navItem = navigationStore.activeNavItem;
+
+		// Plugin view — loaded at runtime from plugin bundle
+		if (navItem?.type === "plugin" && navItem.pluginSource) {
+			return {
+				type: "plugin" as const,
+				pluginName: navItem.pluginSource,
+				viewKey: navItem.key,
+			};
+		}
+
+		// Core view by activity key
+		const activity = navigationStore.activeActivity;
+		if (CORE_VIEWS[activity]) {
+			return { type: "core" as const, component: CORE_VIEWS[activity] };
+		}
+
+		// Artifact viewer (specific artifact selected)
+		if (navigationStore.explorerView === "artifact-viewer") {
+			return { type: "core" as const, component: ArtifactViewer };
+		}
+
+		// Artifact browsing (group or artifact activity)
+		if (navigationStore.activeGroup !== null || navigationStore.isArtifactActivity) {
+			return { type: "artifact-list" as const, activity };
+		}
+
+		// Default
+		return { type: "core" as const, component: WelcomeScreen };
 	});
 </script>
 
 <div class="h-full w-full">
-	{#if viewType === "plugin" && activePluginView}
+	{#if resolved.type === "plugin"}
 		<PluginViewContainer
-			pluginName={activePluginView.pluginName}
-			viewKey={activePluginView.viewKey}
+			pluginName={resolved.pluginName}
+			viewKey={resolved.viewKey}
 		/>
-	{:else if viewType === "project"}
-		<ProjectDashboard />
-	{:else if viewType === "graph"}
-		<FullGraphView />
-	{:else if viewType === "artifact-viewer"}
-		<ArtifactViewer />
-	{:else if viewType === "artifact-list"}
-		<ArtifactMasterDetail activity={navigationStore.activeActivity} />
+	{:else if resolved.type === "artifact-list"}
+		<ArtifactMasterDetail activity={resolved.activity} />
 	{:else}
-		<WelcomeScreen />
+		{@const ViewComponent = resolved.component}
+		<ViewComponent />
 	{/if}
 </div>
