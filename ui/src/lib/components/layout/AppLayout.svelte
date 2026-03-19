@@ -186,8 +186,6 @@
 								<ProjectDashboard />
 							{:else if navigationStore.activeActivity === "artifact-graph"}
 								<FullGraphView />
-							{:else if navigationStore.activeActivity === "roadmap"}
-								<RoadmapView />
 							{:else if navigationStore.activeActivity === "chat"}
 								<WelcomeScreen />
 							{:else if navigationStore.activeGroup !== null}
