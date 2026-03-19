@@ -15,21 +15,32 @@
 
 	let { artifactPath }: { artifactPath: string } = $props();
 
+	let panelOpen = $state(false);
+
 	const artifactId = $derived.by(() => {
 		const filename = artifactPath.split("/").pop() ?? "";
 		const dotIndex = filename.lastIndexOf(".");
 		return dotIndex !== -1 ? filename.slice(0, dotIndex) : filename;
 	});
 
+	// Ref counts are cheap — just check if any exist for the badge
+	const incomingCount = $derived(
+		artifactId ? artifactGraphSDK.referencesTo(artifactId).length : 0,
+	);
+	const outgoingCount = $derived(
+		artifactId ? artifactGraphSDK.referencesFrom(artifactId).length : 0,
+	);
+	const totalRefs = $derived(incomingCount + outgoingCount);
+
+	// Full refs only computed when the panel is open — deferred to avoid
+	// expensive graph traversal + rendering on every artifact load
 	const incomingRefs = $derived<ArtifactRef[]>(
-		artifactId ? artifactGraphSDK.referencesTo(artifactId) : [],
+		panelOpen && artifactId ? artifactGraphSDK.referencesTo(artifactId) : [],
 	);
 
 	const outgoingRefs = $derived<ArtifactRef[]>(
-		artifactId ? artifactGraphSDK.referencesFrom(artifactId) : [],
+		panelOpen && artifactId ? artifactGraphSDK.referencesFrom(artifactId) : [],
 	);
-
-	const totalRefs = $derived(incomingRefs.length + outgoingRefs.length);
 
 	/** Humanize a relationship type or field name. */
 	function humanizeLabel(value: string): string {
@@ -56,8 +67,6 @@
 
 	const incomingGrouped = $derived(groupRefs(incomingRefs));
 	const outgoingGrouped = $derived(groupRefs(outgoingRefs));
-
-	let panelOpen = $state(false);
 
 	/** Toggle between list and graph view. */
 	let viewMode = $state<"list" | "graph">("list");
