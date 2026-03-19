@@ -6,7 +6,6 @@
 	import ProjectDashboard from "$lib/components/dashboard/ProjectDashboard.svelte";
 	import FullGraphView from "$lib/components/graph/FullGraphView.svelte";
 	import ArtifactViewer from "$lib/components/artifact/ArtifactViewer.svelte";
-	import ArtifactMasterDetail from "$lib/components/artifact/ArtifactMasterDetail.svelte";
 	import WelcomeScreen from "./WelcomeScreen.svelte";
 	import PluginViewContainer from "$lib/components/plugin/PluginViewContainer.svelte";
 
@@ -16,6 +15,10 @@
 	 * Core view registry — maps route keys to components.
 	 * Plugin views are handled separately via PluginViewContainer.
 	 * New core views are added here, not as if/else branches.
+	 *
+	 * Note: The artifact LIST lives in NavSubPanel (level 2/3 navigation).
+	 * The explorer only shows the artifact DETAIL when one is selected,
+	 * or a placeholder when nothing is selected.
 	 */
 	const CORE_VIEWS: Record<string, Component> = {
 		"project": ProjectDashboard,
@@ -23,7 +26,7 @@
 		"welcome": WelcomeScreen,
 	};
 
-	// Resolve what to render
+	// Resolve what to render in the explorer panel
 	const resolved = $derived.by(() => {
 		const navItem = navigationStore.activeNavItem;
 
@@ -42,14 +45,14 @@
 			return { type: "core" as const, component: CORE_VIEWS[activity] };
 		}
 
-		// Artifact viewer (specific artifact selected)
-		if (navigationStore.explorerView === "artifact-viewer") {
+		// Artifact detail — an artifact is selected in the nav panel
+		if (navigationStore.explorerView === "artifact-viewer" && navigationStore.selectedArtifactPath) {
 			return { type: "core" as const, component: ArtifactViewer };
 		}
 
-		// Artifact browsing (group or artifact activity)
+		// Artifact area active but nothing selected — show placeholder
 		if (navigationStore.activeGroup !== null || navigationStore.isArtifactActivity) {
-			return { type: "artifact-list" as const, activity };
+			return { type: "placeholder" as const };
 		}
 
 		// Default
@@ -63,8 +66,10 @@
 			pluginName={resolved.pluginName}
 			viewKey={resolved.viewKey}
 		/>
-	{:else if resolved.type === "artifact-list"}
-		<ArtifactMasterDetail activity={resolved.activity} />
+	{:else if resolved.type === "placeholder"}
+		<div class="flex h-full items-center justify-center text-sm text-muted-foreground">
+			Select an item to view it
+		</div>
 	{:else}
 		{@const ViewComponent = resolved.component}
 		<ViewComponent />
