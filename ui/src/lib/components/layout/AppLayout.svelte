@@ -8,6 +8,7 @@
 	import StatusBar from "./StatusBar.svelte";
 	import WelcomeScreen from "./WelcomeScreen.svelte";
 	import ExplorerRouter from "./ExplorerRouter.svelte";
+	import ArtifactNav from "$lib/components/navigation/ArtifactNav.svelte";
 	import SettingsView from "$lib/components/settings/SettingsView.svelte";
 	import ConversationView from "$lib/components/conversation/ConversationView.svelte";
 	import ProjectSetupWizard from "$lib/components/settings/ProjectSetupWizard.svelte";
@@ -145,11 +146,16 @@
 			<!-- Activity Bar (48px fixed width) — project only -->
 			<ActivityBar />
 
-			<!-- Nav Sub-Panel (200px) — shown for settings/chat and for groups with
-			     more than one sub-category (Planning, Team, Governance). Hidden for
-			     Documentation (single sub-category) and single-item views like Orchestrator. -->
+			<!-- Level 2: Nav Sub-Panel (200px) — group sub-categories or settings nav -->
 			{#if navigationStore.showNavPanel && (navigationStore.activeGroup === null || groupHasMultipleSubCategories)}
 				<NavSubPanel />
+			{/if}
+
+			<!-- Level 3: Artifact List Panel — shows individual artifacts within the active category -->
+			{#if navigationStore.isArtifactActivity}
+				<div class="flex w-[240px] flex-col overflow-hidden border-r border-border">
+					<ArtifactNav category={navigationStore.activeActivity} />
+				</div>
 			{/if}
 
 			<!-- Explorer + Chat (resizable) -->
