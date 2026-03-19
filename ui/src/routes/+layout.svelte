@@ -5,14 +5,14 @@
 	import { ToastContainer } from "@orqastudio/svelte-components/connected";
 	import { initializeStores, getStores } from "@orqastudio/sdk";
 	import { initializeGraphViz } from "$lib/graph-viz.svelte";
-	import { registerSoftwareProjectPlugin } from "$lib/plugins/software-project";
+	import { registerInstalledPlugins } from "$lib/plugins/loader";
 
 	// Create all SDK store instances — must happen before any component accesses getStores().
 	const stores = initializeStores();
 	initializeGraphViz();
 
-	// Register installed plugins (async — loads manifests from disk via IPC)
-	registerSoftwareProjectPlugin(stores.pluginRegistry);
+	// Discover and register all installed plugins from project.json / plugins/ directory
+	registerInstalledPlugins(stores.pluginRegistry);
 
 	const { navigationStore } = stores;
 
