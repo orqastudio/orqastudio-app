@@ -1,16 +1,15 @@
 /**
- * Plugin loader — discovers and registers installed plugins from IPC.
+ * Plugin loader — discovers and registers installed plugins from project.json.
  *
- * Reads installed plugins from the Rust backend (which scans the plugins/
- * directory), loads each manifest, and registers with the plugin registry.
- * View components are resolved from the compiled component registry for
- * first-party plugins.
+ * Reads project.json to determine which plugins are installed, loads each
+ * manifest via IPC, and registers with the plugin registry. Plugin views
+ * are mounted at runtime from the plugin's pre-bundled JavaScript — no
+ * compile-time knowledge of plugin components required.
  */
 
 import type { PluginRegistry } from "@orqastudio/sdk";
 import type { PluginManifest } from "@orqastudio/types";
 import { invoke } from "@tauri-apps/api/core";
-import { PLUGIN_COMPONENTS } from "./registry.js";
 
 interface DiscoveredPlugin {
 	name: string;
@@ -24,15 +23,17 @@ interface DiscoveredPlugin {
 /**
  * Discover and register all installed plugins.
  *
- * Called once during app startup. Loads manifests via IPC and binds
- * any available view components from the compiled registry.
+ * Called once during app startup. Discovers plugins via IPC (Rust scans
+ * the plugins/ directory), loads manifests, and registers with the
+ * plugin registry. View components are loaded on demand when the user
+ * navigates to a plugin view route — not at registration time.
  */
 export async function registerInstalledPlugins(registry: PluginRegistry): Promise<void> {
 	let plugins: DiscoveredPlugin[];
 	try {
 		plugins = await invoke<DiscoveredPlugin[]>("plugin_list_installed");
 	} catch {
-		// No plugins directory or IPC not ready — skip silently on startup
+		// No project loaded yet or IPC not ready
 		return;
 	}
 
@@ -42,10 +43,9 @@ export async function registerInstalledPlugins(registry: PluginRegistry): Promis
 				name: plugin.name,
 			});
 
-			// Resolve view components from the compiled registry
-			const components = PLUGIN_COMPONENTS[plugin.name] ?? {};
-
-			registry.register(manifest, components);
+			// Register the manifest with empty components — views are loaded
+			// on demand via the plugin-view route, not compiled in.
+			registry.register(manifest, {});
 		} catch (err) {
 			console.error(`Failed to register plugin "${plugin.name}":`, err);
 		}
