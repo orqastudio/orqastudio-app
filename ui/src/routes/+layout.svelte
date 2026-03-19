@@ -20,6 +20,9 @@
 
 	const { navigationStore } = stores;
 
+	// Initialize hash-based routing — restores view state from URL and enables back/forward
+	navigationStore.initRouter();
+
 	let { children } = $props();
 
 	function handleKeydown(event: KeyboardEvent) {
