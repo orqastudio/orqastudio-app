@@ -13,7 +13,7 @@ version: 0.1.0
 user-invocable: false
 relationships:
   - target: SKILL-b453410f
-    type: informed-by
+    type: synchronised-with
   - target: DOC-99a1b71a
     type: synchronised-with
   - target: DOC-a1b2c3d4

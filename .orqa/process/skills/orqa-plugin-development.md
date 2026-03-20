@@ -16,12 +16,11 @@ relationships:
   - target: DOC-99a1b71a
     type: synchronised-with
   - target: SKILL-12ed4953
-    type: informs
+    type: synchronised-with
   - target: SKILL-c60144c1
-    type: informs
+    type: synchronised-with
   - target: DOC-a1b2c3d4
     type: synchronised-with
-
 ---
 
 # Plugin Development
