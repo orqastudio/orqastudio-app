@@ -3632,6 +3632,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "orqa-mcp-server"
+version = "0.1.0-dev"
+dependencies = [
+ "dirs-next",
+ "orqa-search",
+ "regex",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "thiserror 2.0.18",
+ "tokio",
+ "tracing",
+ "tracing-subscriber",
+]
+
+[[package]]
 name = "orqa-search"
 version = "0.1.0-dev"
 dependencies = [
@@ -3663,6 +3679,7 @@ dependencies = [
  "notify",
  "notify-debouncer-full",
  "orqa-lsp-server",
+ "orqa-mcp-server",
  "orqa-search",
  "rand 0.8.5",
  "regex",
