@@ -56,6 +56,10 @@ delegate to agent roles, enforce governance, and report status honestly.
 OrqaStudio manages work through an **artifact graph** — markdown files with YAML frontmatter
 in `.orqa/`. These files are nodes. Their frontmatter fields are edges.
 
+**Graph queries are MANDATORY before any task starts and before any `.orqa/` delegation.**
+Do not read files speculatively — query the graph first to get paths, then read. Skipping
+graph queries causes duplicate work, missed constraints, and broken relationships.
+
 ### How to Read the Graph
 
 ```
@@ -66,13 +70,49 @@ Epic → reads research (epic.research-refs) → research docs
 Epic → reads docs-required → prerequisite documentation
 ```
 
-When starting ANY task:
+### Required Pre-Task Steps (NON-NEGOTIABLE)
 
-1. Read the task file: `.orqa/delivery/tasks/TASK-NNN.md`
-2. Follow `task.epic` → read the epic for design context
-3. Follow `task.docs` → load each documentation file into context
-4. Follow `task.knowledge` → load each knowledge artifact for domain knowledge
-5. Check `task.depends-on` → verify all dependencies are `status: done`
+Before starting ANY task:
+
+1. `graph_query({ type: "task", status: "in-progress" })` — confirm no duplicate active work
+2. `graph_resolve(<task-id>)` — confirm the task exists, read its path and frontmatter
+3. Follow `task.epic` → read the epic for design context
+4. Follow `task.docs` → load each documentation file into context
+5. Follow `task.knowledge` → load each knowledge artifact for domain knowledge
+6. Check `task.depends-on` → verify all dependencies are `status: done`
+7. `search_semantic(scope: artifacts, <task-subject>)` — find related prior decisions and research
+
+### Required Pre-Delegation Steps for `.orqa/` Changes (NON-NEGOTIABLE)
+
+Before delegating ANY work that touches `.orqa/` files:
+
+1. `graph_relationships(<artifact-id>)` — read all existing relationships before modifying
+2. `graph_query({ type: "rule", search: <domain> })` — check for rules that constrain the change
+3. `search_semantic(scope: artifacts, <change-description>)` — find related decisions and lessons
+4. After batch changes: `graph_validate()` — verify graph integrity before committing
+
+### Required Pre-Delegation Steps for Implementation (NON-NEGOTIABLE)
+
+Before delegating to an Implementer:
+
+1. `search_research("<feature area>")` — map the full request chain (component → store → IPC → Rust)
+2. `search_semantic(scope: codebase, "<concept>")` — find existing patterns to reuse or extend
+3. `graph_query({ type: "decision", search: "<feature area>" })` — find relevant architecture decisions
+
+### Tool Reference
+
+| Operation | Tool | When |
+|-----------|------|------|
+| Find artifact by ID | `graph_resolve` | Before reading/editing a known artifact |
+| Find artifacts by type/status | `graph_query` | Scoping work, auditing |
+| Check relationships | `graph_relationships` | Before modifying relationships |
+| Find similar prior work | `search_semantic` (scope: artifacts) | Before starting new work |
+| Find code implementations | `search_semantic` (scope: codebase) | Before writing new code |
+| Find exact patterns | `search_regex` | Refactoring, renaming, verifying a command exists |
+| End-to-end research | `search_research` | Understanding a feature area |
+| Verify graph health | `graph_validate` | After batch artifact changes |
+
+See `connectors/claude-code/knowledge/tool-mapping/KNOW.md` for full query patterns.
 
 ### How to Extend the Graph
 
@@ -136,12 +176,18 @@ Signals that indicate a research trigger:
 
 ### Delegation Steps
 
-1. Determine the **role** needed
-2. Read the agent definition in `.orqa/process/agents/` for capabilities and knowledge
-3. Resolve capabilities to tools using [RULE-92dba0cb](RULE-92dba0cb) mapping tables
-4. Read the task's `docs` and `knowledge` fields — include them in delegation prompt
-5. Scope the task with clear acceptance criteria
-6. Verify the result against acceptance criteria before reporting
+1. **Query the graph** — run `graph_query` and `search_semantic` BEFORE deciding the approach (see Required Pre-Task Steps above)
+2. Determine the **role** needed
+3. Read the agent definition in `.orqa/process/agents/` for capabilities and knowledge
+4. Resolve capabilities to tools using [RULE-92dba0cb](RULE-92dba0cb) mapping tables
+5. Read the task's `docs` and `knowledge` fields — include them in delegation prompt
+6. Scope the task with clear acceptance criteria
+7. Verify the result against acceptance criteria before reporting
+
+**Skipping step 1 is a delegation failure.** Graph queries inform role selection, scope,
+and knowledge injection. Acting on assumptions instead of current graph state causes
+rework. The artifact graph is always the authoritative source of what exists and what
+is connected.
 
 ### What You May Do Directly
 
