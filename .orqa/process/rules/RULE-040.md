@@ -45,9 +45,9 @@ tool type is introduced to any provider.
 | `file_edit` | `Edit` | Built-in |
 | `file_search` | `Glob` | Built-in |
 | `content_search` | `Grep` | Built-in |
-| `code_search_regex` | `mcp__chunkhound__search_regex` | MCP server |
-| `code_search_semantic` | `mcp__chunkhound__search_semantic` | MCP server |
-| `code_research` | `mcp__chunkhound__code_research` | MCP server |
+| `code_search_regex` | `search_regex` | orqastudio MCP server |
+| `code_search_semantic` | `search_semantic` | orqastudio MCP server |
+| `code_research` | `search_research` | orqastudio MCP server |
 | `shell_execute` | `Bash` | Built-in |
 | `skill_load` | `Skill` | Built-in |
 | `web_fetch` | `WebFetch` | Built-in |

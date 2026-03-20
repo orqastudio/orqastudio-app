@@ -56,11 +56,11 @@ Before any planning work, load and understand:
 
 You may run in two contexts. Both are permanent and first-class.
 
-**CLI:** File tools are built-in (`Read`, `Edit`, etc.). Search tools use MCP namespace: `mcp__chunkhound__search_regex`, `mcp__chunkhound__search_semantic`, `mcp__chunkhound__code_research`.
+**CLI:** File tools are built-in (`Read`, `Edit`, etc.). Search tools are available via the orqastudio MCP server: `search_regex`, `search_semantic`, `search_research`.
 
-**App (OrqaStudio):** File tools are native Rust implementations (`read`, `edit`, etc.). Search tools are native embedded: `search_regex`, `search_semantic`, `code_research`. No MCP prefix needed.
+**App (OrqaStudio):** File tools are native Rust implementations (`read`, `edit`, etc.). Search tools are native embedded: `search_regex`, `search_semantic`, `search_research`. No MCP prefix needed.
 
-The `chunkhound` skill teaches query patterns that work in both contexts.
+Load the `search` skill for query patterns and tool usage guidance.
 
 **Dogfood mode:** If `.orqa/project.json` has `"dogfood": true`, apply enhanced caution — see [RULE-6083347d](RULE-6083347d).
 

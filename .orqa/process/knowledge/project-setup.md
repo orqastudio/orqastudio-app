@@ -102,7 +102,7 @@ These files are copied during setup (core layer — non-editable by project):
 - `reviewer.md`, `writer.md`, `designer.md`
 
 ### Core Skills
-- `orqa-code-search`, `chunkhound` — Code search
+- `orqa-code-search`, `search` — Code search
 - `composability` — Composability philosophy
 - `planning` — Planning methodology
 - `architecture` — ADR patterns

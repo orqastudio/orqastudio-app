@@ -222,5 +222,5 @@ Deprecate or remove skills that are no longer relevant.
 
 ## Related Skills
 
-- See the **chunkhound** skill for code search (frequently used during skill audits)
+- See the **search** skill for code search (frequently used during skill audits)
 - See the **architecture** skill for evaluating whether skill content is portable

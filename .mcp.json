@@ -1,8 +1,10 @@
 {
   "mcpServers": {
-    "chunkhound": {
-      "command": "uvx",
-      "args": ["chunkhound", "mcp"]
+    "orqastudio": {
+      "command": "orqa",
+      "args": [
+        "mcp"
+      ]
     }
   }
 }

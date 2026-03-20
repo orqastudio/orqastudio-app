@@ -91,7 +91,7 @@ The orchestrator's context window is finite. Filling it causes session death.
 
 The orchestrator loads the following skills at session start:
 
-- `orqa-code-search` -- ALWAYS loaded (context-aware search wrapper; resolves to `chunkhound` in CLI or `orqa-native-search` in App)
+- `orqa-code-search` -- ALWAYS loaded (context-aware search wrapper; provides `search_regex`, `search_semantic`, `search_research` via orqastudio MCP server in CLI or native ONNX engine in App)
 - `composability` -- ALWAYS loaded (composability philosophy)
 - `planning` -- ALWAYS loaded (task planning methodology)
 

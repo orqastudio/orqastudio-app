@@ -128,7 +128,7 @@ Think of it this way: a rule says "you must do X", a hook makes sure X actually 
 
 ```bash
 # Enforce the knowledge-loading rule programmatically
-echo "Knowledge to evaluate: chunkhound, planning, svelte, typescript, tailwind"
+echo "Knowledge to evaluate: search, planning, svelte, typescript, tailwind"
 echo "For each: LOAD (with reason) or SKIP (with reason)"
 echo "Documentation-first: verify docs exist for the feature area before coding."
 ```

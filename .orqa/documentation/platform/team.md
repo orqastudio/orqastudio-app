@@ -57,7 +57,7 @@ Knowledge artifacts are domain-specific instruction sets stored in `.orqa/proces
 
 | Knowledge | Source | Domain | Loaded By |
 |-------|--------|--------|-----------|
-| `chunkhound` | Custom | Semantic code search: search_regex, search_semantic, code_research | ALL agents |
+| `search` | Custom | Unified search: search_regex, search_semantic, search_research via orqastudio MCP | ALL agents |
 | `planning` | Custom | Discuss-Agree-Plan-Approve-Implement-Verify methodology | orchestrator, planner, researcher, writer |
 | `skills-maintenance` | Custom | skills.sh CLI, skill lifecycle, portability rules, audit protocol | orchestrator (governance work) |
 | `architecture` | Custom | ADR pattern, data flow mapping, architectural violations | Planner, Writer |

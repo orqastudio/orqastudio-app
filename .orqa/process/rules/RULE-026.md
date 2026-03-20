@@ -56,7 +56,7 @@ Every skill carries a `layer` field in its SKILL.md frontmatter:
 
 These MUST appear in every agent's `skills:` YAML frontmatter:
 
-- `orqa-code-search` — Context-aware search wrapper. Resolves to the appropriate search implementation at Tier 3.
+- `orqa-code-search` — Context-aware search wrapper. Provides `search_regex`, `search_semantic`, `search_research` via the orqastudio MCP server (CLI) or native ONNX engine (App).
 - `composability` — Meta-skill that shapes how all code is structured. Universal across all agents.
 
 The orchestrator loads `orqa-code-search`, `composability`, and `planning` on every session.
@@ -73,7 +73,7 @@ The `orqa-code-search` wrapper skill detects the runtime context and resolves to
 
 | Available Tools | Context | Resolved Skill |
 |----------------|---------|---------------|
-| `mcp__chunkhound__*` tools available | CLI (Claude Code) | `chunkhound` |
+| `Read`, `Edit`, `Bash` tools available (PascalCase built-ins) | CLI (Claude Code) | orqastudio MCP server (`search_regex`, `search_semantic`, `search_research`) |
 | Native search commands available | App (OrqaStudio) | `orqa-native-search` |
 | Neither | Fallback | Use Grep/Glob, note in task summary |
 

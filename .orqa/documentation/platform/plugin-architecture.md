@@ -28,7 +28,7 @@ This document describes OrqaStudio's plugin architecture: what exists today, the
 OrqaStudio has two extension surfaces today:
 
 1. **CLI companion plugin** — a Claude Code plugin that replicates governance enforcement in CLI sessions
-2. **MCP server integration** — ChunkHound provides code search via the Model Context Protocol
+2. **MCP server integration** — the orqastudio MCP server exposes native search and governance tools to CLI sessions
 
 Both are operational. The component library SDK and view registration API are future work.
 
@@ -113,20 +113,20 @@ They share no code. The rule YAML frontmatter format is the contract that both i
 
 ---
 
-## MCP Server Integration (ChunkHound)
+## MCP Server Integration (orqastudio MCP)
 
 **Config:** `.mcp.json`
 **Status:** Implemented and active
 
-ChunkHound provides semantic code search in CLI sessions via the Model Context Protocol. It runs as a local server launched by `uvx chunkhound mcp` and exposes three tools:
+The orqastudio MCP server exposes native search and governance tools to CLI sessions via the Model Context Protocol. It runs as a local server launched by `orqa mcp` and exposes three search tools:
 
 | Tool | Purpose |
 |------|---------|
-| `mcp__chunkhound__search_regex` | Exact pattern search across the codebase |
-| `mcp__chunkhound__search_semantic` | Meaning-based search using embeddings |
-| `mcp__chunkhound__code_research` | Multi-step architectural analysis |
+| `search_regex` | Exact pattern search across the codebase |
+| `search_semantic` | Meaning-based search using ONNX embeddings |
+| `search_research` | Multi-step architectural analysis |
 
-In the app, equivalent functionality is provided natively via ONNX Runtime + DuckDB (see core architecture doc, System 1). The `orqa-code-search` wrapper knowledge artifact resolves to the correct implementation based on context.
+The same native ONNX Runtime + DuckDB engine (see core architecture doc, System 1) serves both CLI (via MCP) and App (via embedded Tauri commands). The `orqa-code-search` wrapper knowledge artifact resolves to the correct access path based on context.
 
 ---
 

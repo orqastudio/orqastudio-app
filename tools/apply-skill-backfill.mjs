@@ -94,7 +94,6 @@ const SKILL_CATEGORIES = {
   "architectural-evaluation": "methodology",
   "architecture": "methodology",
   "backend-best-practices": "domain",
-  "chunkhound": "tool",
   "code-quality-review": "methodology",
   "component-extraction": "methodology",
   "composability": "methodology",
@@ -190,7 +189,6 @@ const SKILL_GROUNDINGS = {
   "typescript-advanced-types": [{ target: "PILLAR-001", type: "grounded", rationale: "Advanced types create structural type safety" }],
 
   // Tool skills → grounded to the pillar they serve
-  "chunkhound": [{ target: "PILLAR-001", type: "grounded", rationale: "ChunkHound enables structured code search and discovery" }],
   "migration-tooling": [{ target: "PILLAR-001", type: "grounded", rationale: "Migration tooling enables structured schema evolution" }],
   "orqa-code-search": [{ target: "PILLAR-001", type: "grounded", rationale: "Code search wrapper provides structured context-aware search" }],
   "orqa-native-search": [{ target: "PILLAR-001", type: "grounded", rationale: "Native search enables structured knowledge discovery in the app" }],

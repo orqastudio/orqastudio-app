@@ -58,8 +58,6 @@ tmp/
 .continue/
 skills-lock.json
 
-# ChunkHound
-.chunkhound/
 
 # Plugin-generated config files (written by SDK at startup)
 sidecar-config.json
