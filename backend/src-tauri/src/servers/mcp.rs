@@ -12,6 +12,7 @@ use serde_json::{json, Value};
 use crate::domain::artifact_graph::{
     build_artifact_graph, check_integrity, graph_stats, ArtifactGraph, ArtifactNode,
 };
+use crate::search::SearchEngine;
 
 // ---------------------------------------------------------------------------
 // JSON-RPC types
@@ -72,6 +73,7 @@ struct McpResource {
 struct McpServer {
     project_root: PathBuf,
     graph: Option<ArtifactGraph>,
+    search: Option<SearchEngine>,
 }
 
 impl McpServer {
@@ -79,7 +81,40 @@ impl McpServer {
         Self {
             project_root,
             graph: None,
+            search: None,
         }
+    }
+
+    /// Get or initialise the search engine (lazy init).
+    fn get_search(&mut self) -> Result<&mut SearchEngine, String> {
+        if self.search.is_none() {
+            let db_path = self.project_root.join(".orqa").join("search.duckdb");
+            let mut engine = SearchEngine::new(&db_path)
+                .map_err(|e| format!("failed to init search engine: {e}"))?;
+
+            // Index the project
+            engine
+                .index(&self.project_root, &["node_modules".into(), "target".into(), ".git".into(), "dist".into()])
+                .map_err(|e| format!("failed to index project: {e}"))?;
+
+            // Try to init embedder from known model locations
+            let model_dirs = [
+                dirs_next::data_dir()
+                    .map(|d| d.join("com.orqastudio.app").join("models").join("bge-small-en-v1.5")),
+                dirs_next::home_dir().map(|d| d.join("Downloads")),
+            ];
+            for dir in model_dirs.into_iter().flatten() {
+                if dir.join("model.onnx").exists() && dir.join("tokenizer.json").exists() {
+                    if engine.init_embedder_sync(&dir).is_ok() {
+                        let _ = engine.embed_chunks();
+                        break;
+                    }
+                }
+            }
+
+            self.search = Some(engine);
+        }
+        self.search.as_mut().ok_or_else(|| "search engine not available".into())
     }
 
     /// Get or build the artifact graph.
@@ -186,6 +221,36 @@ impl McpServer {
                 description: "Rebuild the artifact graph from disk".into(),
                 input_schema: json!({ "type": "object", "properties": {} }),
             },
+            McpToolDefinition {
+                name: "search_regex".into(),
+                description: "Search indexed content with a regex pattern".into(),
+                input_schema: json!({
+                    "type": "object",
+                    "properties": {
+                        "pattern": { "type": "string", "description": "Regex pattern to search for" },
+                        "path_filter": { "type": "string", "description": "Optional: filter results to files matching this path prefix" },
+                        "limit": { "type": "integer", "description": "Max results (default: 20)" }
+                    },
+                    "required": ["pattern"]
+                }),
+            },
+            McpToolDefinition {
+                name: "search_semantic".into(),
+                description: "Semantic search over indexed content using natural language".into(),
+                input_schema: json!({
+                    "type": "object",
+                    "properties": {
+                        "query": { "type": "string", "description": "Natural language search query" },
+                        "limit": { "type": "integer", "description": "Max results (default: 10)" }
+                    },
+                    "required": ["query"]
+                }),
+            },
+            McpToolDefinition {
+                name: "search_status".into(),
+                description: "Get search index status (chunk count, embedding status)".into(),
+                input_schema: json!({ "type": "object", "properties": {} }),
+            },
         ];
 
         json!({ "tools": tools })
@@ -257,6 +322,9 @@ impl McpServer {
             "graph_validate" => self.tool_validate(&arguments),
             "graph_read" => self.tool_read(&arguments),
             "graph_refresh" => self.tool_refresh(),
+            "search_regex" => self.tool_search_regex(&arguments),
+            "search_semantic" => self.tool_search_semantic(&arguments),
+            "search_status" => self.tool_search_status(),
             _ => Err(format!("unknown tool: {tool_name}")),
         };
 
@@ -410,6 +478,65 @@ impl McpServer {
             "Graph refreshed: {} nodes, {} edges, {} orphans, {} broken refs",
             stats.node_count, stats.edge_count, stats.orphan_count, stats.broken_ref_count
         ))
+    }
+
+    fn tool_search_regex(&mut self, args: &Value) -> Result<String, String> {
+        let pattern = args.get("pattern").and_then(|v| v.as_str()).ok_or("missing 'pattern'")?;
+        let path_filter = args.get("path_filter").and_then(|v| v.as_str());
+        let limit = args.get("limit").and_then(|v| v.as_u64()).unwrap_or(20) as u32;
+
+        let engine = self.get_search()?;
+        let results = engine
+            .search_regex(pattern, path_filter, limit)
+            .map_err(|e| format!("search error: {e}"))?;
+
+        let summary: Vec<Value> = results
+            .iter()
+            .map(|r| json!({
+                "file": r.file_path,
+                "line": r.start_line,
+                "content": r.content,
+                "score": r.score
+            }))
+            .collect();
+
+        serde_json::to_string_pretty(&summary).map_err(|e| e.to_string())
+    }
+
+    fn tool_search_semantic(&mut self, args: &Value) -> Result<String, String> {
+        let query = args.get("query").and_then(|v| v.as_str()).ok_or("missing 'query'")?;
+        let limit = args.get("limit").and_then(|v| v.as_u64()).unwrap_or(10) as u32;
+
+        let engine = self.get_search()?;
+        let results = engine
+            .search_semantic(query, limit)
+            .map_err(|e| format!("semantic search error: {e}"))?;
+
+        let summary: Vec<Value> = results
+            .iter()
+            .map(|r| json!({
+                "file": r.file_path,
+                "line": r.start_line,
+                "content": r.content,
+                "score": r.score
+            }))
+            .collect();
+
+        serde_json::to_string_pretty(&summary).map_err(|e| e.to_string())
+    }
+
+    fn tool_search_status(&mut self) -> Result<String, String> {
+        let engine = self.get_search()?;
+        let status = engine
+            .get_status()
+            .map_err(|e| format!("status error: {e}"))?;
+
+        serde_json::to_string_pretty(&json!({
+            "is_indexed": status.is_indexed,
+            "chunk_count": status.chunk_count,
+            "has_embeddings": status.has_embeddings,
+        }))
+        .map_err(|e| e.to_string())
     }
 
     // -----------------------------------------------------------------------
