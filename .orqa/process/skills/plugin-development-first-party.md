@@ -1,5 +1,5 @@
 ---
-id: SKILL-12ed4953
+id: SKILL-e1333874
 title: First-Party Plugin Development
 description: |
   First-party plugin workflow for the OrqaStudio dev environment. Use when creating

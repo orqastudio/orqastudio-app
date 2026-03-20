@@ -15,9 +15,9 @@ user-invocable: true
 relationships:
   - target: DOC-99a1b71a
     type: synchronised-with
-  - target: SKILL-12ed4953
+  - target: SKILL-e1333874
     type: synchronised-with
-  - target: SKILL-c60144c1
+  - target: SKILL-63cc1a00
     type: synchronised-with
   - target: DOC-a1b2c3d4
     type: synchronised-with
@@ -29,9 +29,9 @@ relationships:
 
 Before starting any plugin work, determine the context automatically:
 
-**First-party** (SKILL-12ed4953): The working directory is inside `orqastudio-dev/` or any repository with `plugins/` and `.orqa/` at root AND a `.gitmodules` file referencing `orqastudio` org repos. First-party plugins are submodules in the dev environment.
+**First-party** (SKILL-e1333874): The working directory is inside `orqastudio-dev/` or any repository with `plugins/` and `.orqa/` at root AND a `.gitmodules` file referencing `orqastudio` org repos. First-party plugins are submodules in the dev environment.
 
-**Third-party** (SKILL-c60144c1): Everything else. The plugin will be a standalone project with its own `.orqa/` governance and the software plugin pre-installed.
+**Third-party** (SKILL-63cc1a00): Everything else. The plugin will be a standalone project with its own `.orqa/` governance and the software plugin pre-installed.
 
 Load the appropriate sub-skill based on detection. Do NOT ask the user — infer from the environment.
 

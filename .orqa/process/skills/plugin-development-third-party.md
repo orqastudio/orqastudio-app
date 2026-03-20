@@ -1,5 +1,5 @@
 ---
-id: SKILL-c60144c1
+id: SKILL-63cc1a00
 title: Third-Party Plugin Development
 description: |
   Third-party plugin workflow for community and external developers. Plugins are

@@ -32,9 +32,9 @@ relationships:
     type: synchronised-with
   - target: SKILL-6f33713e
     type: synchronised-with
-  - target: SKILL-12ed4953
+  - target: SKILL-e1333874
     type: synchronised-with
-  - target: SKILL-c60144c1
+  - target: SKILL-63cc1a00
     type: synchronised-with
   - target: SKILL-e3a559c9
     type: synchronised-with
