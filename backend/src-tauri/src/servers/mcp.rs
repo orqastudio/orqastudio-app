@@ -247,6 +247,18 @@ impl McpServer {
                 }),
             },
             McpToolDefinition {
+                name: "search_research".into(),
+                description: "Compound research query: semantic search → extract symbols → regex follow-up → assembled context. Use for 'how does X work?' questions.".into(),
+                input_schema: json!({
+                    "type": "object",
+                    "properties": {
+                        "question": { "type": "string", "description": "Natural language question about the codebase" },
+                        "limit": { "type": "integer", "description": "Max initial semantic results (default: 5)" }
+                    },
+                    "required": ["question"]
+                }),
+            },
+            McpToolDefinition {
                 name: "search_status".into(),
                 description: "Get search index status (chunk count, embedding status)".into(),
                 input_schema: json!({ "type": "object", "properties": {} }),
@@ -324,6 +336,7 @@ impl McpServer {
             "graph_refresh" => self.tool_refresh(),
             "search_regex" => self.tool_search_regex(&arguments),
             "search_semantic" => self.tool_search_semantic(&arguments),
+            "search_research" => self.tool_search_research(&arguments),
             "search_status" => self.tool_search_status(),
             _ => Err(format!("unknown tool: {tool_name}")),
         };
@@ -523,6 +536,119 @@ impl McpServer {
             .collect();
 
         serde_json::to_string_pretty(&summary).map_err(|e| e.to_string())
+    }
+
+    fn tool_search_research(&mut self, args: &Value) -> Result<String, String> {
+        let question = args.get("question").and_then(|v| v.as_str()).ok_or("missing 'question'")?;
+        let limit = args.get("limit").and_then(|v| v.as_u64()).unwrap_or(5) as u32;
+
+        // Step 1: Semantic search for conceptually relevant chunks
+        let engine = self.get_search()?;
+        let semantic_results = engine
+            .search_semantic(question, limit)
+            .map_err(|e| format!("semantic search error: {e}"))?;
+
+        if semantic_results.is_empty() {
+            // Fall back to regex with keywords from the question
+            let keywords: Vec<&str> = question
+                .split_whitespace()
+                .filter(|w| w.len() > 3)
+                .take(3)
+                .collect();
+
+            if keywords.is_empty() {
+                return Ok("No results found.".into());
+            }
+
+            let pattern = keywords.join("|");
+            let engine = self.get_search()?;
+            let fallback = engine
+                .search_regex(&pattern, None, limit)
+                .map_err(|e| format!("regex fallback error: {e}"))?;
+
+            let summary: Vec<Value> = fallback
+                .iter()
+                .map(|r| json!({
+                    "file": r.file_path,
+                    "line": r.start_line,
+                    "content": r.content,
+                    "score": r.score,
+                    "source": "regex_fallback"
+                }))
+                .collect();
+
+            return serde_json::to_string_pretty(&json!({
+                "question": question,
+                "method": "regex_fallback",
+                "results": summary
+            }))
+            .map_err(|e| e.to_string());
+        }
+
+        // Step 2: Extract symbols from semantic results (regex-based)
+        let symbol_pattern = regex::Regex::new(
+            r"(?:fn|pub fn|struct|enum|trait|type|const|interface|class|function|export)\s+(\w+)"
+        ).unwrap();
+
+        let mut symbols: Vec<String> = Vec::new();
+        for result in &semantic_results {
+            for cap in symbol_pattern.captures_iter(&result.content) {
+                let sym = cap[1].to_string();
+                if sym.len() > 2 && !symbols.contains(&sym) {
+                    symbols.push(sym);
+                }
+            }
+        }
+
+        // Step 3: Regex follow-up for extracted symbols
+        let mut follow_up_results = Vec::new();
+        if !symbols.is_empty() {
+            let symbol_pattern = symbols.iter().take(5).cloned().collect::<Vec<_>>().join("|");
+            let engine = self.get_search()?;
+            if let Ok(results) = engine.search_regex(&symbol_pattern, None, 10) {
+                for r in results {
+                    // Deduplicate against semantic results
+                    let already_found = semantic_results
+                        .iter()
+                        .any(|s| s.file_path == r.file_path && s.start_line == r.start_line);
+                    if !already_found {
+                        follow_up_results.push(r);
+                    }
+                }
+            }
+        }
+
+        // Step 4: Assemble response
+        let primary: Vec<Value> = semantic_results
+            .iter()
+            .map(|r| json!({
+                "file": r.file_path,
+                "line": r.start_line,
+                "content": r.content,
+                "score": r.score,
+                "source": "semantic"
+            }))
+            .collect();
+
+        let related: Vec<Value> = follow_up_results
+            .iter()
+            .map(|r| json!({
+                "file": r.file_path,
+                "line": r.start_line,
+                "content": r.content,
+                "score": r.score,
+                "source": "symbol_follow_up"
+            }))
+            .collect();
+
+        serde_json::to_string_pretty(&json!({
+            "question": question,
+            "method": "semantic_with_follow_up",
+            "symbols_found": symbols,
+            "primary_results": primary,
+            "related_results": related
+        }))
+        .map_err(|e| e.to_string())
     }
 
     fn tool_search_status(&mut self) -> Result<String, String> {
