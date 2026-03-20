@@ -20,15 +20,15 @@ capabilities:
   - code_research
 subagent_mapping: null
 relationships:
-  - target: SKILL-a2b3c4d5
+  - target: KNOW-a2b3c4d5
     type: employs
-  - target: SKILL-f0c40eaf
+  - target: KNOW-f0c40eaf
     type: employs
-  - target: SKILL-eea50a65
+  - target: KNOW-eea50a65
     type: employs
-  - target: SKILL-13ec986c
+  - target: KNOW-13ec986c
     type: employs
-  - target: SKILL-4368d782
+  - target: KNOW-4368d782
     type: employs
   - target: RULE-7b770593
     type: observes

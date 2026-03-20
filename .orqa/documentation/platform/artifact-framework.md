@@ -140,19 +140,20 @@ All governance artifacts (agents, skills, rules) carry a `layer` field that dete
 | Concept | Definition | Test |
 |---------|-----------|------|
 | **Agent** | A portable role you delegate work to. Has a distinct workflow and deliverable type. | "I need someone to do X" |
-| **Skill** | Domain knowledge or methodology loaded into an agent's context. Shapes how work is done. | "The person doing X needs to know Y" |
+| **Knowledge** | Domain context or methodology injected into an agent's context. Shapes how work is done. Not user-invocable — loaded by the orchestrator before delegating. | "The person doing X needs to know Y" |
+| **Skill** | A user-invocable slash command. Triggered explicitly by the user to execute a defined process. Not injected automatically — selected intentionally. | "I want to run process Y right now" |
 | **Rule** | A constraint that must be followed. Binary: compliant or not. | "Anyone doing anything must follow Z" |
-| **Lesson** | A learned pattern from experience. Promoted to rules/skills at recurrence threshold. | "We learned W the hard way" |
+| **Lesson** | A learned pattern from experience. Promoted to rules/knowledge at recurrence threshold. | "We learned W the hard way" |
 
-### Agent vs Skill Decision Framework
+### Agent vs Knowledge Decision Framework
 
 | Question | If Yes | If No |
 |----------|--------|-------|
-| Would you hire a different person for this? | Agent | Skill |
-| Does it have a unique deliverable type? | Agent | Skill |
-| Does it work across any project domain? | Agent | Skill |
-| Is it a lens or methodology applied to existing work? | Skill | Agent |
-| Can it be loaded by multiple different roles? | Skill | Agent |
+| Would you hire a different person for this? | Agent | Knowledge |
+| Does it have a unique deliverable type? | Agent | Knowledge |
+| Does it work across any project domain? | Agent | Knowledge |
+| Is it a lens or methodology injected before delegation? | Knowledge | Agent |
+| Can it be loaded by multiple different roles? | Knowledge | Agent |
 
 ---
 
@@ -171,7 +172,7 @@ Artifact types are defined in `core.json`. They fall into three management layer
 | **Decision** | `AD` | scale | Architecture decision record — what was decided and why |
 | **Rule** | `RULE` | shield | Constraint that must be followed — binary: compliant or not |
 | **Lesson** | `IMPL` | book-open | Learning capture from implementation |
-| **Skill** | `SKILL` | zap | Domain knowledge loaded into an agent's context |
+| **Knowledge** | `KNOW` | book-open | Domain context injected into an agent's context before delegation |
 | **Agent** | `AGENT` | bot | Portable role that work is delegated to |
 | **Document** | `DOC` | file-text | Platform or project documentation |
 | **Pivot** | `PIVOT` | refresh-cw | Revision to a foundational artifact (vision, pillar, persona) |
@@ -227,14 +228,14 @@ Navigation sections in `project.json` are views into the graph. The canonical di
 │   ├── decisions/                  # AD-NNN — architecture decision records
 │   ├── rules/                      # RULE-NNN — enforceable constraints
 │   ├── lessons/                    # IMPL-NNN — implementation learnings
-│   ├── skills/                     # SKILL-NNN — domain knowledge for agents
+│   ├── knowledge/                  # KNOW-NNN — domain context injected into agents
 │   └── agents/                     # AGENT-NNN — portable roles
 └── documentation/
     ├── platform/                   # DOC-NNN — platform docs (ship with app)
     └── project/                    # DOC-NNN — project-specific docs
 ```
 
-Platform governance artifacts (core agents, core skills, core rules) ship in `app/.orqa/process/`. Project-scoped artifacts live in the project's `.orqa/`.
+Platform governance artifacts (core agents, core knowledge, core rules) ship in `app/.orqa/process/`. Project-scoped artifacts live in the project's `.orqa/`.
 
 ---
 
@@ -309,7 +310,7 @@ Relationships where agents monitor and use capabilities.
 | Forward | Inverse | From | To | Description |
 |---------|---------|------|----|-------------|
 | `observes` | `observed-by` | agent | epic, task, decision, rule, milestone | Agent monitors an artifact |
-| `employs` | `employed-by` | agent | skill | Agent employs a skill capability |
+| `employs` | `employed-by` | agent | knowledge | Agent employs a knowledge artifact |
 
 #### Synchronisation
 
@@ -317,7 +318,7 @@ Paired content kept in sync.
 
 | Forward | Inverse | From | To | Description |
 |---------|---------|------|----|-------------|
-| `synchronised-with` | `synchronised-with` | skill, doc | skill, doc | Paired content — agent-facing and human-facing versions |
+| `synchronised-with` | `synchronised-with` | knowledge, doc | knowledge, doc | Paired content — agent-facing and human-facing versions |
 
 ### Project Relationships (from project.json)
 
@@ -348,7 +349,7 @@ Several relationships carry type constraints enforced by the integrity engine:
 | `benefits` / `benefited-by` | Only from ideas to personas |
 | `revises` / `revised-by` | Only from pivots to vision/persona/pillar |
 
-Some relationships also carry **required** constraints (e.g., every rule must `enforces` at least one decision, every agent must `employs` at least one skill, every pillar must `upholds` the vision, every idea must be `grounded` and `benefits` a persona).
+Some relationships also carry **required** constraints (e.g., every rule must `enforces` at least one decision, every agent must `employs` at least one knowledge artifact, every pillar must `upholds` the vision, every idea must be `grounded` and `benefits` a persona).
 
 ---
 
@@ -439,7 +440,7 @@ All artifact IDs use their type prefix followed by a zero-padded number that aut
 | Decision | `AD-NNN` | AD-e513c9e4, AD-c6abc8e6 |
 | Rule | `RULE-NNN` | RULE-532100d9, RULE-a764b2ae |
 | Lesson | `IMPL-NNN` | IMPL-eb748de2, IMPL-f27a1550 |
-| Skill | `SKILL-NNN` | SKILL-30a419dd, SKILL-c7fb7c83 |
+| Knowledge | `KNOW-NNN` | KNOW-30a419dd, KNOW-c7fb7c83 |
 | Agent | `AGENT-NNN` | AGENT-c5284fde, AGENT-ff44f841 |
 | Document | `DOC-NNN` | DOC-001, DOC-01ddd8aa |
 | Pivot | `PIVOT-NNN` | PIVOT-001 |

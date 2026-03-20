@@ -556,9 +556,9 @@ fn track_workflow(tool_name: &str, input: &serde_json::Value, state: &tauri::Sta
         "search_regex" | "search_semantic" | "code_research" => {
             guard.record_search();
         }
-        "load_skill" => {
+        "load_knowledge" => {
             if let Some(name) = input["name"].as_str() {
-                guard.record_skill_loaded(name);
+                guard.record_knowledge_loaded(name);
             }
         }
         _ => {}

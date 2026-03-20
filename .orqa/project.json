@@ -30,7 +30,7 @@
     "decisions": 44,
     "agents": 7,
     "rules": 45,
-    "skills": 49,
+    "knowledge": 49,
     "has_claude_config": true
   },
   "icon": "icon.svg",
@@ -117,10 +117,10 @@
           "path": ".orqa/process/lessons"
         },
         {
-          "key": "skills",
-          "label": "Skills",
-          "icon": "zap",
-          "path": ".orqa/process/skills"
+          "key": "knowledge",
+          "label": "Knowledge",
+          "icon": "book-open",
+          "path": ".orqa/process/knowledge"
         },
         {
           "key": "agents",
@@ -211,7 +211,7 @@
       "RULE": "title",
       "IMPL": "title",
       "PILLAR": "title",
-      "SKILL": "title",
+      "KNOW": "title",
       "AGENT": "title",
       "IDEA": "title",
       "TASK": "title",
@@ -229,7 +229,7 @@
       "RES": "#6366f1",
       "PILLAR": "#818cf8",
       "RULE": "#a78bfa",
-      "SKILL": "#2dd4bf",
+      "KNOW": "#2dd4bf",
       "TASK": "#06b6d4",
       "IDEA": "#c084fc",
       "IMPL": "#67e8f9",

@@ -1,5 +1,5 @@
 ---
-id: SKILL-6f33713e
+id: KNOW-6f33713e
 title: Planning
 description: |
   Enforces documentation-first planning for all implementation tasks.

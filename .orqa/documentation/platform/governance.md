@@ -62,7 +62,7 @@ The following are immutable without explicit user approval:
 Governance artifacts are markdown files stored on disk under `.orqa/` (the default root, configurable via project settings). OrqaStudio reads and writes these files through its UI. OrqaStudio's SQLite database is a derived cache, not the source of truth — the `.orqa/` files on disk are authoritative.
 
 This means:
-- All governance artifacts (rules, agents, skills, hooks, decisions, lessons, etc.) live as markdown files under `.orqa/`
+- All governance artifacts (rules, agents, knowledge, hooks, decisions, lessons, etc.) live as markdown files under `.orqa/`
 - Users can edit project-layer files in OrqaStudio, in a text editor, or through any compatible CLI
 - OrqaStudio adds a visual management layer on top of this file-based governance; it does not replace the file format with a proprietary one
 - For CLI compatibility (e.g., Claude Code), OrqaStudio can optionally create symlinks in `.claude/` that point to the corresponding `.orqa/` paths. This is a project configuration option, not a requirement. Future compatibility layers for other tools (Cursor, Continue, etc.) could follow the same symlink pattern.
@@ -94,22 +94,22 @@ OrqaStudio's governance framework is built from five concept types. Each serves 
 | Concept | What It Is | What It Does | Examples |
 |---------|-----------|-------------|---------|
 | **Agent** | A role — defines *how* someone works | Specifies process, ownership boundaries, required reading, tool access | Orchestrator, Implementer, Reviewer |
-| **Skill** | Knowledge — defines *what* someone knows | Provides domain expertise, patterns, decision frameworks | `rust-async-patterns`, `diagnostic-methodology`, `project-setup` |
+| **Knowledge** | Knowledge — defines *what* someone knows | Provides domain expertise, patterns, decision frameworks | `rust-async-patterns`, `diagnostic-methodology`, `project-setup` |
 | **Rule** | A constraint — defines *what must or must not happen* | Enforces standards, prevents known failure patterns | `no-stubs`, `error-ownership`, `documentation-first` |
-| **Hook** | Automation — runs at process events | Executes checks, loads context, enforces gates | Session start, pre-commit, skill loading |
+| **Hook** | Automation — runs at process events | Executes checks, loads context, enforces gates | Session start, pre-commit, knowledge loading |
 | **Lesson** | A learned pattern — captures *what was discovered* | Records mistakes, non-obvious behaviors, reusable insights | `[IMPL-eb748de2](IMPL-eb748de2): unwrap causes panics in sidecar` |
 
-### Agent vs Skill Decision Framework
+### Agent vs Knowledge Decision Framework
 
 When adding new capability to the governance framework, use this decision tree:
 
 1. **Does it define a new way of working (process, ownership, delegation)?** → Agent
-2. **Does it teach domain knowledge that multiple roles could use?** → Skill
+2. **Does it teach domain knowledge that multiple roles could use?** → Knowledge
 3. **Does it constrain what can or cannot be done?** → Rule
 4. **Does it automate something at a process event?** → Hook
 5. **Does it capture something discovered during work?** → Lesson
 
-**Key principle:** Agents are portable across projects. Skills make agents domain-specific. A single Implementer agent becomes a Backend Engineer, Frontend Engineer, or Data Engineer depending on which skills are loaded.
+**Key principle:** Agents are portable across projects. Knowledge artifacts make agents domain-specific. A single Implementer agent becomes a Backend Engineer, Frontend Engineer, or Data Engineer depending on which knowledge is loaded.
 
 ## Core Governance Artifacts
 
@@ -119,25 +119,25 @@ The following artifacts are shipped with OrqaStudio as the core layer. They are 
 |----------|------|---------|
 | 7 universal agent definitions | `.orqa/process/agents/*.md` | Universal roles: Orchestrator, Researcher, Planner, Implementer, Reviewer, Writer, Designer |
 | Core enforcement rules | `.orqa/process/rules/*.md` | Behavioral constraints: no stubs, error ownership, documentation-first, etc. |
-| Core skills | `.orqa/process/skills/` | Domain knowledge: diagnostic-methodology, code-quality-review, security-audit, etc. |
+| Core knowledge | `.orqa/process/knowledge/` | Domain knowledge: diagnostic-methodology, code-quality-review, security-audit, etc. |
 | Lifecycle hooks | `.orqa/process/hooks/` | Process automation: session start, pre-commit |
 | Artifact framework | `.orqa/documentation/about/artifact-framework.md` | How artifacts are created, tracked, and promoted |
 
 These artifacts collectively implement the agile learning loop (chaos → clarity → execution → reflection → improved clarity) as executable, enforceable governance.
 
-### Skill-Based Specialisation
+### Knowledge-Based Specialisation
 
-Universal roles load domain skills at runtime. The same 7 roles adapt to any project by loading different skills:
+Universal roles load domain knowledge at runtime. The same 7 roles adapt to any project by loading different knowledge artifacts:
 
-| Role | + Skills | Becomes |
-|------|----------|---------|
+| Role | + Knowledge | Becomes |
+|------|-------------|---------|
 | Implementer | `rust-async-patterns`, `tauri-v2` | Backend specialist |
 | Implementer | `svelte5-best-practices`, `tailwind-design-system` | Frontend specialist |
 | Reviewer | `code-quality-review` | Code quality reviewer |
 | Reviewer | `security-audit` | Security reviewer |
 | Reviewer | `test-engineering` | Test engineer |
 
-Project-specific rules, additional skills, and domain-specific artifact configurations are project artifacts and live alongside the core set, clearly separated.
+Project-specific rules, additional knowledge artifacts, and domain-specific artifact configurations are project artifacts and live alongside the core set, clearly separated.
 
 ## Bootstrap Phase — CLI-Only Governance
 
@@ -146,9 +146,9 @@ Project-specific rules, additional skills, and domain-specific artifact configur
 The current process uses:
 
 - **Claude Code CLI** as the orchestrator (via `.claude/` symlinks to `.orqa/`)
-- **7 universal agent roles** defined as `.orqa/process/agents/*.md` files, specialised via skills
+- **7 universal agent roles** defined as `.orqa/process/agents/*.md` files, specialised via knowledge artifacts
 - **20+ rules** enforced via `.orqa/process/rules/*.md`
-- **30+ skills** in `.orqa/process/skills/` (core + project-specific)
+- **30+ knowledge artifacts** in `.orqa/process/knowledge/` (core + project-specific)
 - **Hooks** in `.orqa/process/hooks/` (session start, pre-commit)
 - **Git worktree workflow** for task isolation
 
@@ -160,7 +160,7 @@ Everything being developed in this bootstrap phase is destined to become the cor
 
 Once the MVP delivers a working conversation UI with basic Claude integration, **OrqaStudio's UI becomes the primary way to manage governance for its own development.** The CLI remains available for all development tasks. This means:
 
-1. **Process artifacts become visible** — Agents, rules, skills, and docs are browsed and edited in OrqaStudio's UI, supplementing the raw file access that the CLI provides
+1. **Process artifacts become visible** — Agents, rules, knowledge, and docs are browsed and edited in OrqaStudio's UI, supplementing the raw file access that the CLI provides
 2. **Learning loops are active** — Lessons and retrospective entries are captured through OrqaStudio's interface, not manual markdown editing
 3. **Governance is visible through OrqaStudio** — Scanner results, verification gates, and compliance checks surface in the dashboard, supplementing terminal output
 
@@ -177,7 +177,7 @@ Using OrqaStudio to build OrqaStudio creates a natural feedback loop:
 
 OrqaStudio's UI becomes the primary governance management tool when it can:
 
-- [ ] Display and edit process artifacts (agents, rules, skills) through its UI
+- [ ] Display and edit process artifacts (agents, rules, knowledge) through its UI
 - [ ] Run a conversation with Claude and display streaming responses
 - [ ] Show scanner/verification results in the UI
 - [ ] Capture lessons through the interface

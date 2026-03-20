@@ -19,13 +19,13 @@ capabilities:
   - web_search
 subagent_mapping: null
 relationships:
-  - target: SKILL-a2b3c4d5
+  - target: KNOW-a2b3c4d5
     type: employs
-  - target: SKILL-f0c40eaf
+  - target: KNOW-f0c40eaf
     type: employs
-  - target: SKILL-6f33713e
+  - target: KNOW-6f33713e
     type: employs
-  - target: SKILL-13ec986c
+  - target: KNOW-13ec986c
     type: employs
 ---
 

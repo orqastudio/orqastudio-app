@@ -61,7 +61,7 @@ pub fn governance_dir(root: &Path, artifact_type: &ArtifactType) -> Option<PathB
     match artifact_type {
         ArtifactType::Agent => Some(root.join(".orqa").join("process").join("agents")),
         ArtifactType::Rule => Some(root.join(".orqa").join("process").join("rules")),
-        ArtifactType::Skill => Some(root.join(".orqa").join("process").join("skills")),
+        ArtifactType::Knowledge => Some(root.join(".orqa").join("process").join("knowledge")),
         ArtifactType::Doc => None,
     }
 }

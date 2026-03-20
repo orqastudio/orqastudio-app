@@ -42,8 +42,8 @@
 				? (metadata.tools as string[]).map(getCapabilityLabel)
 				: [],
 	);
-	const skills = $derived(
-		Array.isArray(metadata.skills) ? (metadata.skills as string[]) : [],
+	const knowledge = $derived(
+		Array.isArray(metadata.knowledge) ? (metadata.knowledge as string[]) : [],
 	);
 	const model = $derived(
 		typeof metadata.model === "string" ? metadata.model : null,
@@ -58,7 +58,7 @@
 		{/if}
 
 		<MetadataRow icon="wrench" label="Capabilities" items={capabilities} badgeVariant="secondary" />
-		<MetadataRow icon="sparkles" label="Skills" items={skills} badgeVariant="outline" />
+		<MetadataRow icon="brain" label="Knowledge" items={knowledge} badgeVariant="outline" />
 		{#if model}
 			<div class="flex items-center gap-1.5">
 				<span class="flex items-center gap-1 text-xs text-muted-foreground">

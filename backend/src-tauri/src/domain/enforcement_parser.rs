@@ -103,7 +103,7 @@ fn parse_entry(raw: RawEntry) -> Result<EnforcementEntry, OrqaError> {
         conditions,
         pattern: raw.pattern,
         scope: raw.scope,
-        skills: raw.skills,
+        knowledge: raw.skills,
     })
 }
 
@@ -218,7 +218,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_entry_inject_with_skills() {
+    fn parse_entry_inject_with_knowledge() {
         let raw = RawEntry {
             event: "file".to_string(),
             action: "inject".to_string(),
@@ -233,7 +233,7 @@ mod tests {
         let entry = parse_entry(raw).expect("should parse");
         assert_eq!(entry.event, EventType::File);
         assert_eq!(entry.action, RuleAction::Inject);
-        assert_eq!(entry.skills, vec!["rust-async-patterns", "tauri-v2"]);
+        assert_eq!(entry.knowledge, vec!["rust-async-patterns", "tauri-v2"]);
     }
 
     #[test]

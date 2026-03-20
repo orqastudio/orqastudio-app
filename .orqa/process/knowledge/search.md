@@ -1,6 +1,6 @@
 ---
-id: SKILL-a2b3c4d5
-type: skill
+id: KNOW-a2b3c4d5
+type: knowledge
 title: Search
 description: |
   Unified search across the project via MCP tools. Three modes: regex for exact

@@ -5,7 +5,7 @@ name: Schema Validation Reference
 category: reference
 status: active
 relationships:
-  - target: SKILL-b08d355c
+  - target: KNOW-b08d355c
     type: synchronised-with
 ---
 

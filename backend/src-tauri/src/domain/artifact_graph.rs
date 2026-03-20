@@ -945,8 +945,8 @@ fn infer_artifact_type(rel_path: &str, type_registry: &TypeRegistry) -> String {
         "rule"
     } else if normalized.contains("/agents/") {
         "agent"
-    } else if normalized.contains("/skills/") {
-        "skill"
+    } else if normalized.contains("/knowledge/") {
+        "knowledge"
     } else if normalized.contains("/hooks/") {
         "hook"
     } else if normalized.contains("/pillars/") {

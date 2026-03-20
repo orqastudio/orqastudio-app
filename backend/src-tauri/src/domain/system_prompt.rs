@@ -17,16 +17,16 @@ pub fn read_governance_file(
     Ok(Some(contents))
 }
 
-/// List skill names with one-line descriptions from `.orqa/process/skills/*.md`.
+/// List knowledge artifact names with one-line descriptions from `.orqa/process/knowledge/*.md`.
 ///
-/// Reads only the first non-empty line of each skill as the description.
-/// Full skill content is intentionally NOT loaded here — skills are loaded
-/// on demand via the `load_skill` tool.
-pub fn list_skill_catalog(project_path: &Path) -> Vec<(String, String)> {
-    let skills_dir = project_path.join(".orqa").join("process").join("skills");
+/// Reads only the first non-empty line of each knowledge file as the description.
+/// Full knowledge content is intentionally NOT loaded here — knowledge is loaded
+/// on demand via the `load_knowledge` tool.
+pub fn list_knowledge_catalog(project_path: &Path) -> Vec<(String, String)> {
+    let knowledge_dir = project_path.join(".orqa").join("process").join("knowledge");
     let mut catalog = Vec::new();
 
-    let Ok(read_dir) = std::fs::read_dir(&skills_dir) else {
+    let Ok(read_dir) = std::fs::read_dir(&knowledge_dir) else {
         return catalog;
     };
 
@@ -36,7 +36,7 @@ pub fn list_skill_catalog(project_path: &Path) -> Vec<(String, String)> {
             continue;
         }
 
-        let skill_name = path
+        let knowledge_name = path
             .file_stem()
             .map(|s| s.to_string_lossy().to_string())
             .unwrap_or_default();
@@ -50,7 +50,7 @@ pub fn list_skill_catalog(project_path: &Path) -> Vec<(String, String)> {
             })
             .unwrap_or_else(|| "No description".to_string());
 
-        catalog.push((skill_name, description));
+        catalog.push((knowledge_name, description));
     }
 
     catalog.sort_by(|a, b| a.0.cmp(&b.0));
@@ -93,7 +93,7 @@ pub fn read_rules(project_path: &Path) -> Vec<(String, String)> {
 /// - `.orqa/rules/*.md` — rule files (full content)
 /// - `.claude/CLAUDE.md` — project instructions (full content, platform config)
 /// - `AGENTS.md` — agent definitions (full content)
-/// - `.orqa/skills/*/SKILL.md` — skill catalog (name + one-line description only)
+/// - `.orqa/process/knowledge/*.md` — knowledge catalog (name + one-line description only)
 ///
 /// Returns `Ok(None)` when the project path cannot be resolved (no active project).
 pub fn build_system_prompt(project_path: &Path) -> Result<String, OrqaError> {
@@ -108,11 +108,11 @@ pub fn build_system_prompt(project_path: &Path) -> Result<String, OrqaError> {
         }
     }
 
-    let catalog = list_skill_catalog(project_path);
+    let catalog = list_knowledge_catalog(project_path);
     if !catalog.is_empty() {
-        parts.push("\n## Available Skills".to_string());
+        parts.push("\n## Available Knowledge".to_string());
         parts.push(
-            "Use the `load_skill` tool to load the full content of any skill by name.".to_string(),
+            "Use the `load_knowledge` tool to load the full content of any knowledge artifact by name.".to_string(),
         );
         for (name, description) in &catalog {
             parts.push(format!("- **{name}**: {description}"));

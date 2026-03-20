@@ -101,6 +101,7 @@ mod tests {
         ProjectSettings {
             name: "test".to_string(),
             organisation: false,
+            dogfood: false,
             projects: vec![],
             description: None,
             default_model: "auto".to_string(),
@@ -141,6 +142,7 @@ mod tests {
             statuses: vec![],
             delivery: Default::default(),
             relationships: vec![],
+            plugins: std::collections::HashMap::new(),
         }
     }
 
@@ -192,6 +194,7 @@ mod tests {
         let settings = ProjectSettings {
             name: "empty".to_string(),
             organisation: false,
+            dogfood: false,
             projects: vec![],
             description: None,
             default_model: "auto".to_string(),
@@ -206,6 +209,7 @@ mod tests {
             statuses: vec![],
             delivery: Default::default(),
             relationships: vec![],
+            plugins: std::collections::HashMap::new(),
         };
         let paths = ProjectPaths::from_settings(root, &settings);
 

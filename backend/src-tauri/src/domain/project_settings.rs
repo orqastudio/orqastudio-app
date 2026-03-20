@@ -152,7 +152,7 @@ pub struct GovernanceCounts {
     #[serde(default)]
     pub rules: u32,
     #[serde(default)]
-    pub skills: u32,
+    pub knowledge: u32,
     #[serde(default)]
     pub has_claude_config: bool,
 }
@@ -164,13 +164,41 @@ pub struct ChildProjectConfig {
     pub path: String,
 }
 
+/// Per-plugin configuration stored in project.json under `plugins.<name>`.
+///
+/// Tracks installation state and whether the plugin is active.
+/// The artifact scanner and graph builder only load plugins where
+/// both `installed` AND `enabled` are `true`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PluginProjectConfig {
+    /// Whether this plugin has been installed into the project.
+    #[serde(default)]
+    pub installed: bool,
+    /// Whether this plugin is active (its schemas, relationships, and views are loaded).
+    #[serde(default)]
+    pub enabled: bool,
+    /// Relative path to the plugin directory (from project root).
+    pub path: String,
+    /// Per-relationship overrides (key → enabled).
+    #[serde(default)]
+    pub relationships: Option<std::collections::HashMap<String, bool>>,
+    /// Plugin-specific settings.
+    #[serde(default)]
+    pub config: Option<std::collections::HashMap<String, serde_json::Value>>,
+}
+
 /// File-based project settings stored in `{project}/.orqa/project.json`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ProjectSettings {
     pub name: String,
     /// When `true`, this project aggregates child projects into a single graph.
     #[serde(default)]
     pub organisation: bool,
+    /// When `true`, this project is dogfooding — the app being built is the app being used.
+    #[serde(default)]
+    pub dogfood: bool,
     /// Child project paths (relative to project root or absolute).
     #[serde(default)]
     pub projects: Vec<ChildProjectConfig>,
@@ -214,6 +242,12 @@ pub struct ProjectSettings {
     /// When absent, no project relationships are defined.
     #[serde(default)]
     pub relationships: Vec<ProjectRelationshipConfig>,
+    /// Per-plugin configuration keyed by plugin name.
+    ///
+    /// Only plugins with `installed: true` AND `enabled: true` are loaded
+    /// by the artifact scanner and graph builder.
+    #[serde(default)]
+    pub plugins: std::collections::HashMap<String, PluginProjectConfig>,
 }
 
 fn default_model() -> String {
@@ -238,6 +272,7 @@ mod tests {
         ProjectSettings {
             name: "test-project".to_string(),
             organisation: false,
+            dogfood: false,
             projects: vec![],
             description: Some("A test project".to_string()),
             default_model: "auto".to_string(),
@@ -254,7 +289,7 @@ mod tests {
                 decisions: 44,
                 agents: 7,
                 rules: 45,
-                skills: 49,
+                knowledge: 49,
                 has_claude_config: true,
             }),
             icon: None,
@@ -268,6 +303,7 @@ mod tests {
             statuses: vec![],
             delivery: DeliveryConfig::default(),
             relationships: vec![],
+            plugins: std::collections::HashMap::new(),
         }
     }
 

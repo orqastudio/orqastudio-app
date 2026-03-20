@@ -1,70 +1,70 @@
 ---
 id: DOC-a1b2c3d4
 type: doc
-title: Core Platform Skill Catalog
-description: Reference catalog of all core platform skills — agent-facing instructions shipped with OrqaStudio.
+title: Core Platform Knowledge Catalog
+description: Reference catalog of all core platform knowledge artifacts — agent-facing instructions shipped with OrqaStudio.
 status: active
 created: 2026-03-19
 updated: 2026-03-19
 category: platform
 relationships:
-  - target: SKILL-82d32398
+  - target: KNOW-82d32398
     type: synchronised-with
-  - target: SKILL-30a419dd
+  - target: KNOW-30a419dd
     type: synchronised-with
-  - target: SKILL-449b1e02
+  - target: KNOW-449b1e02
     type: synchronised-with
-  - target: SKILL-f0c40eaf
+  - target: KNOW-f0c40eaf
     type: synchronised-with
-  - target: SKILL-f5edb34d
+  - target: KNOW-f5edb34d
     type: synchronised-with
-  - target: SKILL-8d1c4be6
+  - target: KNOW-8d1c4be6
     type: synchronised-with
-  - target: SKILL-8d76c3c7
+  - target: KNOW-8d76c3c7
     type: synchronised-with
-  - target: SKILL-250d5d6f
+  - target: KNOW-250d5d6f
     type: synchronised-with
-  - target: SKILL-4368d782
+  - target: KNOW-4368d782
     type: synchronised-with
-  - target: SKILL-eea50a65
+  - target: KNOW-eea50a65
     type: synchronised-with
-  - target: SKILL-b453410f
+  - target: KNOW-b453410f
     type: synchronised-with
-  - target: SKILL-6f33713e
+  - target: KNOW-6f33713e
     type: synchronised-with
-  - target: SKILL-e1333874
+  - target: KNOW-e1333874
     type: synchronised-with
-  - target: SKILL-63cc1a00
+  - target: KNOW-63cc1a00
     type: synchronised-with
-  - target: SKILL-e3a559c9
+  - target: KNOW-e3a559c9
     type: synchronised-with
-  - target: SKILL-82ceb1bd
+  - target: KNOW-82ceb1bd
     type: synchronised-with
-  - target: SKILL-0fd23e0b
+  - target: KNOW-0fd23e0b
     type: synchronised-with
-  - target: SKILL-e0dec720
+  - target: KNOW-e0dec720
     type: synchronised-with
-  - target: SKILL-819789ab
+  - target: KNOW-819789ab
     type: synchronised-with
-  - target: SKILL-f7476f0a
+  - target: KNOW-f7476f0a
     type: synchronised-with
-  - target: SKILL-8c98ea98
+  - target: KNOW-8c98ea98
     type: synchronised-with
-  - target: SKILL-b08d355c
+  - target: KNOW-b08d355c
     type: synchronised-with
-  - target: SKILL-2c8eead6
+  - target: KNOW-2c8eead6
     type: synchronised-with
-  - target: SKILL-54823e2d
+  - target: KNOW-54823e2d
     type: synchronised-with
-  - target: SKILL-c7fb7c83
+  - target: KNOW-c7fb7c83
     type: synchronised-with
-  - target: SKILL-a2b3c4d5
+  - target: KNOW-a2b3c4d5
     type: synchronised-with
 ---
 
-# Core Platform Skill Catalog
+# Core Platform Knowledge Catalog
 
-These skills ship with the OrqaStudio platform and are available to all agents. Each skill provides domain-specific instructions that agents load on demand.
+These knowledge artifacts ship with the OrqaStudio platform and are available to all agents. Each knowledge artifact provides domain-specific instructions that agents load on demand.
 
 ## Governance & Process
 
@@ -109,7 +109,7 @@ These skills ship with the OrqaStudio platform and are available to all agents. 
 | `project-inference` | Detecting project characteristics from codebase |
 | `project-migration` | Migrating existing projects to OrqaStudio |
 | `project-type-software` | Software project type configuration |
-| `skills-maintenance` | How to create and maintain skills |
+| `skills-maintenance` | How to create and maintain knowledge artifacts |
 
 ## Search & Tools
 

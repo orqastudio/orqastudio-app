@@ -65,7 +65,7 @@ export const CAPABILITY_LABELS: Record<string, string> = {
 	code_search_semantic: "Semantic Code Search",
 	code_research: "Code Research",
 	shell_execute: "Run Commands",
-	skill_load: "Load Skills",
+	skill_load: "Load Knowledge",
 	web_fetch: "Fetch URLs",
 	web_search: "Web Search",
 	notebook_edit: "Edit Notebooks",

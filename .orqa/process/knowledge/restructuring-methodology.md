@@ -1,5 +1,5 @@
 ---
-id: SKILL-8c98ea98
+id: KNOW-8c98ea98
 title: Restructuring Methodology
 description: |
   Safe, incremental refactoring methodology: one change at a time, verify after

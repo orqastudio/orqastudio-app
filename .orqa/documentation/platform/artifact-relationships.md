@@ -5,7 +5,7 @@ name: Artifact Relationships Reference
 category: reference
 status: active
 relationships:
-  - target: SKILL-82d32398
+  - target: KNOW-82d32398
     type: synchronised-with
 ---
 

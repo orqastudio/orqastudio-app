@@ -37,7 +37,7 @@ Both are operational. The component library SDK and view registration API are fu
 ## CLI Companion Plugin
 
 **Location:** `.orqa/plugins/orqastudio-claude-plugin/`
-**Type:** Claude Code plugin (hooks + commands + skills)
+**Type:** Claude Code plugin (hooks + commands + knowledge)
 **Status:** Implemented and active
 
 The CLI companion plugin bridges OrqaStudio's governance framework with Claude Code's hook system. It exists because the app's built-in enforcement engine (Rust, `enforcement_engine.rs`) only runs inside the Tauri app. CLI sessions need an independent enforcement path.
@@ -58,42 +58,42 @@ hooks/
     stop-checklist.sh    # Stop: pre-session-end reminders
 commands/
   orqa.md                # /orqa slash command: governance summary
-skills/
-  plugin-setup/SKILL.md  # Installation guide
-  rule-enforcement/SKILL.md  # Rule enforcement documentation
+knowledge/
+  plugin-setup/KNOW.md  # Installation guide
+  rule-enforcement/KNOW.md  # Rule enforcement documentation
 ```
 
 ### Hook Pipeline
 
 | Hook Event | Script | Trigger | Behavior |
 |-----------|--------|---------|----------|
-| `PreToolUse` | `rule-engine.mjs` | `Write`, `Edit`, `Bash` | Loads active rules with `enforcement` frontmatter entries. Evaluates conditions against tool input. Block verdicts deny the tool call; warn verdicts emit a system message; inject verdicts emit skill IDs for the agent to read. |
-| `UserPromptSubmit` | `prompt-injector.mjs` | Every user message | Detects artifact references (TASK-NNN, EPIC-NNN) in the prompt. Crawls artifact graph edges (task.epic, task.skills, task.docs, epic.research-refs, epic.docs-required) and emits referenced IDs as a system message. |
+| `PreToolUse` | `rule-engine.mjs` | `Write`, `Edit`, `Bash` | Loads active rules with `enforcement` frontmatter entries. Evaluates conditions against tool input. Block verdicts deny the tool call; warn verdicts emit a system message; inject verdicts emit knowledge IDs for the agent to read. |
+| `UserPromptSubmit` | `prompt-injector.mjs` | Every user message | Detects artifact references (TASK-NNN, EPIC-NNN) in the prompt. Crawls artifact graph edges (task.epic, task.knowledge, task.docs, epic.research-refs, epic.docs-required) and emits referenced IDs as a system message. |
 | `PostToolUse` | `graph-guardian.mjs` | `Write`, `Edit` to `.orqa/` | Checks newly written artifacts for missing relationship fields (e.g., task without `docs`, epic without `research-refs`). Advisory only — warns but never blocks. |
-| `SessionStart` | `session-start.sh` | Session begins | Sets up `.claude/` symlinks to `.orqa/` source of truth. Installs plugin skills into `.orqa/process/skills/`. Runs health checks: stashes, worktrees, orphaned directories, uncommitted file count, previous session state, dogfood mode detection. |
+| `SessionStart` | `session-start.sh` | Session begins | Sets up `.claude/` symlinks to `.orqa/` source of truth. Installs plugin knowledge into `.orqa/process/knowledge/`. Runs health checks: stashes, worktrees, orphaned directories, uncommitted file count, previous session state, dogfood mode detection. |
 | `Stop` | `stop-checklist.sh` | Session ending | Reminds the agent to commit changes, update session state, and clean up. |
 
 ### Session Deduplication
 
 Both the rule engine and prompt injector track what they have already injected during a session:
 
-- **Skill injection:** `tmp/.injected-skills.json` — prevents re-injecting the same skill content on repeated matches
+- **Knowledge injection:** `tmp/.injected-skills.json` — prevents re-injecting the same knowledge content on repeated matches
 - **Artifact ID injection:** `tmp/.injected-ids.json` — prevents re-emitting the same artifact IDs when referenced again
 
 Both files are ephemeral (cleared when `tmp/` is cleaned between sessions).
 
 ### Symlink Management
 
-The session-start hook manages the `.claude/` compatibility layer. Claude Code discovers project instructions via `.claude/CLAUDE.md`, `.claude/rules/`, `.claude/agents/`, and `.claude/skills/`. The plugin creates symlinks from these paths to their `.orqa/` source of truth:
+The session-start hook manages the `.claude/` compatibility layer. Claude Code discovers project instructions via `.claude/CLAUDE.md`, `.claude/rules/`, `.claude/agents/`, and `.claude/knowledge/`. The plugin creates symlinks from these paths to their `.orqa/` source of truth:
 
 | Symlink | Target |
 |---------|--------|
 | `.claude/CLAUDE.md` | `.orqa/process/agents/orchestrator.md` |
 | `.claude/rules/` | `.orqa/process/rules/` |
 | `.claude/agents/` | `.orqa/process/agents/` |
-| `.claude/skills/` | `.orqa/process/skills/` |
+| `.claude/skills/` | `.orqa/process/knowledge/` |
 
-Plugin-bundled skills (e.g., `plugin-setup`, `rule-enforcement`) are symlinked into `.orqa/process/skills/` so the artifact scanner and app can discover them alongside core skills.
+Plugin-bundled skills (e.g., `plugin-setup`, `rule-enforcement`) are symlinked into `.orqa/process/knowledge/` so the artifact scanner and app can discover them alongside core skills.
 
 ### Relationship to App Enforcement
 
@@ -105,7 +105,7 @@ The CLI plugin and the app's built-in enforcement engine are **independent imple
 | Rule source | Same `.orqa/process/rules/*.md` files | Same `.orqa/process/rules/*.md` files |
 | YAML parsing | Custom lightweight parser | `serde_yaml` |
 | Pattern matching | JavaScript `RegExp` | Rust `regex` crate |
-| Skill injection | Emits skill IDs as `systemMessage` | Reads SKILL.md content, prepends to tool output |
+| Knowledge injection | Emits knowledge IDs as `systemMessage` | Reads KNOW.md content, prepends to tool output |
 | Process gates | Not implemented (CLI has no `WorkflowTracker`) | Five process gates via `process_gates.rs` |
 | Graph traversal | Simple edge crawl in `prompt-injector.mjs` | Full bidirectional graph in `artifact_graph.rs` |
 
@@ -126,7 +126,7 @@ ChunkHound provides semantic code search in CLI sessions via the Model Context P
 | `mcp__chunkhound__search_semantic` | Meaning-based search using embeddings |
 | `mcp__chunkhound__code_research` | Multi-step architectural analysis |
 
-In the app, equivalent functionality is provided natively via ONNX Runtime + DuckDB (see core architecture doc, System 1). The `orqa-code-search` wrapper skill resolves to the correct implementation based on context.
+In the app, equivalent functionality is provided natively via ONNX Runtime + DuckDB (see core architecture doc, System 1). The `orqa-code-search` wrapper knowledge artifact resolves to the correct implementation based on context.
 
 ---
 
@@ -141,28 +141,28 @@ OrqaStudio's extension architecture follows four trust layers. Each layer has di
 | **Built-in** | `core` | Full | Ships with app binary | Artifact scanner, enforcement engine, streaming pipeline, search engine |
 | **Official** | `plugin` | High | OrqaStudio marketplace or bundled git submodule | CLI companion plugin, future GitHub integration |
 | **Community** | `community` | Medium | Community marketplace or manual install | Third-party workflow plugins, custom dashboard panels |
-| **User** | `user` | Full (local) | User's project `.orqa/` directory | Personal workflow skills, project-specific rules |
+| **User** | `user` | Full (local) | User's project `.orqa/` directory | Personal workflow knowledge, project-specific rules |
 
 ### Discovery and Loading
 
 **Built-in (core):**
 - Compiled into the Tauri binary
 - No discovery needed — always available
-- Skills with `layer: core` are loaded by the orchestrator based on agent YAML frontmatter
+- Knowledge artifacts with `layer: core` are loaded by the orchestrator based on agent YAML frontmatter
 
 **Official (plugin):**
 - Discovered via the `.claude-plugin/marketplace.json` local marketplace or `settings.json` plugin configuration
 - Installed as git submodules in `.orqa/plugins/`
-- Plugin skills symlinked into `.orqa/process/skills/` at session start
+- Plugin knowledge artifacts symlinked into `.orqa/process/knowledge/` at session start
 - Hooks registered via `hooks.json` in the plugin directory
 
 **Community:**
 - Same installation mechanism as official plugins
 - Reviewed but not maintained by the OrqaStudio team
-- Skills carry `layer: community` for trust distinction
+- Knowledge artifacts carry `layer: community` for trust distinction
 
 **User:**
-- Files directly in `.orqa/process/skills/` with `layer: user`
+- Files directly in `.orqa/process/knowledge/` with `layer: user`
 - Rules in `.orqa/process/rules/`
 - No installation step — the artifact scanner picks them up automatically
 
@@ -170,14 +170,14 @@ OrqaStudio's extension architecture follows four trust layers. Each layer has di
 
 All layers share the same enforcement pipeline. The difference is in trust defaults:
 
-| Layer | Auto-approve hooks? | Skill injection? | Can modify core? |
+| Layer | Auto-approve hooks? | Knowledge injection? | Can modify core? |
 |-------|-------------------|------------------|-----------------|
 | Built-in | Yes | Yes | Yes (firmware) |
 | Official | User approves on install | Yes | No |
 | Community | User approves per-hook | Yes, with notice | No |
 | User | Yes (user authored) | Yes | No |
 
-Core graph artifacts (schemas, orchestrator prompt, core skills) are protected by [RULE-98682b5e](RULE-98682b5e). Only the dogfood exception allows modification.
+Core graph artifacts (schemas, orchestrator prompt, core knowledge) are protected by [RULE-98682b5e](RULE-98682b5e). Only the dogfood exception allows modification.
 
 ---
 
@@ -366,10 +366,10 @@ Based on findings from [RES-00ec6dd1](RES-00ec6dd1), this framework guides where
 
 The boundary between built-in and plugin is maintained by architectural constraints:
 
-1. **Core graph protection** — [RULE-98682b5e](RULE-98682b5e) prevents plugins from modifying schemas, core skills, or the orchestrator prompt
+1. **Core graph protection** — [RULE-98682b5e](RULE-98682b5e) prevents plugins from modifying schemas, core knowledge, or the orchestrator prompt
 2. **Enforcement entry format** — Rules define enforcement declaratively in YAML frontmatter; both the built-in engine and CLI plugin consume the same format
 3. **IPC boundary** — Tauri `invoke()` is the only frontend-backend interface; plugins cannot bypass it
-4. **Skill layer field** — Every skill declares its layer (`core`, `project`, `plugin`, `community`, `user`), enabling trust-level filtering
+4. **Knowledge layer field** — Every knowledge artifact declares its layer (`core`, `project`, `plugin`, `community`, `user`), enabling trust-level filtering
 
 When evaluating whether a new feature should be built-in or a plugin, apply the criteria table above and discuss with the user if the answer is ambiguous. Err toward plugin — it is easier to promote a plugin to built-in than to extract a built-in feature into a plugin.
 
@@ -382,5 +382,5 @@ When evaluating whether a new feature should be built-in or a plugin, apply the 
 - [IDEA-b77e2955](IDEA-b77e2955) — Plugin distribution model
 - [IDEA-9713910f](IDEA-9713910f) — Integration ecosystem
 - [RULE-98682b5e](RULE-98682b5e) — Core graph firmware protection
-- [RULE-f9d0279c](RULE-f9d0279c) — Path-based skill injection
-- [RULE-deab6ea7](RULE-deab6ea7) — Skill enforcement and tier model
+- [RULE-f9d0279c](RULE-f9d0279c) — Path-based knowledge injection
+- [RULE-deab6ea7](RULE-deab6ea7) — Knowledge enforcement and tier model

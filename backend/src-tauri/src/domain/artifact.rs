@@ -7,7 +7,7 @@ use crate::error::OrqaError;
 
 /// Generate a new artifact ID in `TYPE-XXXXXXXX` format (8 lowercase hex chars).
 ///
-/// The prefix should be the artifact type in uppercase (e.g. "SKILL", "TASK", "EPIC").
+/// The prefix should be the artifact type in uppercase (e.g. "KNOW", "TASK", "EPIC").
 /// The hex portion is randomly generated using the system RNG.
 pub fn generate_artifact_id(prefix: &str) -> String {
     let hex: u32 = rand::thread_rng().gen();
@@ -22,9 +22,9 @@ pub fn is_valid_artifact_id(id: &str) -> bool {
     let Some((prefix, suffix)) = id.split_once('-') else {
         return false;
     };
-    // Prefix must be uppercase alpha (possibly with a second segment like SKILL-SVE)
+    // Prefix must be uppercase alpha (possibly with a second segment like KNOW-SVE)
     if prefix.is_empty() || !prefix.chars().all(|c| c.is_ascii_uppercase()) {
-        // Allow compound prefixes like SKILL-SVE-001 by checking the original ID
+        // Allow compound prefixes like KNOW-SVE-001 by checking the original ID
         // has at least one uppercase prefix segment before the final suffix
         return id
             .rmatch_indices('-')
@@ -60,10 +60,10 @@ pub fn parse_artifact_type(s: &str) -> Result<ArtifactType, OrqaError> {
     match s {
         "agent" => Ok(ArtifactType::Agent),
         "rule" => Ok(ArtifactType::Rule),
-        "skill" => Ok(ArtifactType::Skill),
+        "knowledge" => Ok(ArtifactType::Knowledge),
         "doc" => Ok(ArtifactType::Doc),
         other => Err(OrqaError::Validation(format!(
-            "unknown artifact type: {other} (valid: agent, rule, skill, doc)"
+            "unknown artifact type: {other} (valid: agent, rule, knowledge, doc)"
         ))),
     }
 }
@@ -75,7 +75,7 @@ pub fn derive_rel_path(artifact_type: &ArtifactType, name: &str) -> String {
     match artifact_type {
         ArtifactType::Agent => format!(".orqa/process/agents/{sanitized}.md"),
         ArtifactType::Rule => format!(".orqa/process/rules/{sanitized}.md"),
-        ArtifactType::Skill => format!(".orqa/process/skills/{sanitized}.md"),
+        ArtifactType::Knowledge => format!(".orqa/process/knowledge/{sanitized}.md"),
         ArtifactType::Doc => format!("docs/{sanitized}.md"),
     }
 }
@@ -86,8 +86,8 @@ pub fn infer_artifact_type_from_path(rel_path: &str) -> ArtifactType {
         ArtifactType::Agent
     } else if rel_path.starts_with(".orqa/process/rules") {
         ArtifactType::Rule
-    } else if rel_path.starts_with(".orqa/process/skills") {
-        ArtifactType::Skill
+    } else if rel_path.starts_with(".orqa/process/knowledge") {
+        ArtifactType::Knowledge
     } else {
         ArtifactType::Doc
     }
@@ -128,7 +128,7 @@ pub struct ArtifactSummary {
 pub enum ArtifactType {
     Agent,
     Rule,
-    Skill,
+    Knowledge,
     Doc,
 }
 
@@ -508,8 +508,8 @@ mod tests {
             Ok(ArtifactType::Rule)
         ));
         assert!(matches!(
-            parse_artifact_type("skill"),
-            Ok(ArtifactType::Skill)
+            parse_artifact_type("knowledge"),
+            Ok(ArtifactType::Knowledge)
         ));
         assert!(matches!(parse_artifact_type("doc"), Ok(ArtifactType::Doc)));
     }
@@ -529,10 +529,10 @@ mod tests {
     }
 
     #[test]
-    fn derive_rel_path_skill() {
+    fn derive_rel_path_knowledge() {
         assert_eq!(
-            derive_rel_path(&ArtifactType::Skill, "chunkhound"),
-            ".orqa/process/skills/chunkhound/SKILL.md"
+            derive_rel_path(&ArtifactType::Knowledge, "chunkhound"),
+            ".orqa/process/knowledge/chunkhound.md"
         );
     }
 
@@ -575,10 +575,10 @@ mod tests {
             Some("rule")
         );
         assert_eq!(
-            serde_json::to_value(ArtifactType::Skill)
+            serde_json::to_value(ArtifactType::Knowledge)
                 .expect("serialization should succeed")
                 .as_str(),
-            Some("skill")
+            Some("knowledge")
         );
         assert_eq!(
             serde_json::to_value(ArtifactType::Doc)

@@ -1,5 +1,5 @@
 ---
-id: SKILL-63cc1a00
+id: KNOW-63cc1a00
 title: Third-Party Plugin Development
 description: |
   Third-party plugin workflow for community and external developers. Plugins are
@@ -12,7 +12,7 @@ category: domain
 version: 0.1.0
 user-invocable: false
 relationships:
-  - target: SKILL-b453410f
+  - target: KNOW-b453410f
     type: synchronised-with
   - target: DOC-99a1b71a
     type: synchronised-with
@@ -26,7 +26,7 @@ relationships:
 
 ## Detection
 
-This skill is loaded when the base plugin development skill (SKILL-b453410f) detects that the working directory is NOT the orqastudio-dev environment. Any standalone project creating a plugin uses this workflow.
+This skill is loaded when the base plugin development skill (KNOW-b453410f) detects that the working directory is NOT the orqastudio-dev environment. Any standalone project creating a plugin uses this workflow.
 
 ## Workflow
 

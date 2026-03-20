@@ -1,5 +1,5 @@
 ---
-id: SKILL-e1333874
+id: KNOW-e1333874
 title: First-Party Plugin Development
 description: |
   First-party plugin workflow for the OrqaStudio dev environment. Use when creating
@@ -12,7 +12,7 @@ category: domain
 version: 0.1.0
 user-invocable: false
 relationships:
-  - target: SKILL-b453410f
+  - target: KNOW-b453410f
     type: synchronised-with
   - target: DOC-99a1b71a
     type: synchronised-with
@@ -26,7 +26,7 @@ relationships:
 
 ## Detection
 
-This skill is loaded when the base plugin development skill (SKILL-b453410f) detects the dev environment. Detection: the current working directory is inside a repository that contains `orqastudio-dev` in its path or has a `.orqa/` directory AND a `plugins/` directory at root.
+This skill is loaded when the base plugin development skill (KNOW-b453410f) detects the dev environment. Detection: the current working directory is inside a repository that contains `orqastudio-dev` in its path or has a `.orqa/` directory AND a `plugins/` directory at root.
 
 ## Workflow
 
@@ -79,6 +79,6 @@ Push to `main` triggers the `publish-dev` workflow which publishes `0.1.0-dev.<S
 
 Run `orqa validate` in the plugin directory. The validator checks:
 - Manifest schema compliance
-- Skill/doc frontmatter validity
+- Knowledge/doc frontmatter validity
 - Relationship target resolution
 - Template compatibility (if templates exist)

@@ -1,16 +1,16 @@
 ---
 id: DOC-99a1b71a
 title: Plugin Manifest Schema Reference
-description: Complete reference for orqa-plugin.json — the manifest file every plugin must provide to register types, relationships, views, and skills.
+description: Complete reference for orqa-plugin.json — the manifest file every plugin must provide to register types, relationships, views, and knowledge artifacts.
 category: reference
 created: 2026-03-18
 updated: 2026-03-18
 relationships:
-  - target: SKILL-b453410f
+  - target: KNOW-b453410f
     type: synchronised-with
-  - target: SKILL-63cc1a00
+  - target: KNOW-63cc1a00
     type: synchronised-with
-  - target: SKILL-e1333874
+  - target: KNOW-e1333874
     type: synchronised-with
 ---
 
@@ -85,14 +85,14 @@ Array of relationship type definitions. Each entry:
 }
 ```
 
-### `provides.skills`
+### `provides.knowledge`
 
-Array of skill registrations:
+Array of knowledge artifact registrations:
 
 ```json
 {
   "key": "software-delivery",
-  "id": "SKILL-SW-1d47d8d8",
+  "id": "KNOW-SW-1d47d8d8",
   "label": "Software Delivery Lifecycle"
 }
 ```
@@ -139,6 +139,6 @@ Display configuration for artifact links (display modes and colors by ID prefix)
 
 ## Conventions
 
-- Plugin-namespaced IDs use prefixes like `SKILL-SW-1d47d8d8`, `DOC-CLI-2c9bfdda`
+- Plugin-namespaced IDs use prefixes like `KNOW-SW-1d47d8d8`, `DOC-CLI-2c9bfdda`
 - Relationship keys should be lowercase kebab-case
 - Semantic categories should match or extend: `hierarchy`, `dependency`, `lineage`, `corrective`, `knowledge-flow`, `foundation`, `governance`, `observation`, `synchronisation`

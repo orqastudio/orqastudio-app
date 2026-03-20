@@ -1,11 +1,11 @@
 ---
-id: SKILL-8d1c4be6
+id: KNOW-8d1c4be6
 title: Plugin Artifact Usage
 description: |
   How plugin-provided artifact types and relationships work in the platform.
   Teaches agents to discover what artifacts a plugin provides, what
   relationships connect them, and what constraints exist. The framework
-  that every plugin's own skill+doc pair builds on.
+  that every plugin's own knowledge+doc pair builds on.
   Use when: Working with plugin-provided artifact types, setting up a project
   with plugins, or understanding how plugins extend the artifact graph.
 status: active
@@ -22,7 +22,7 @@ relationships:
 
 Teaches agents how plugins extend OrqaStudio's artifact graph with new types,
 relationships, and views. This is the framework skill — each plugin provides
-its own skill+doc pair that builds on these concepts.
+its own knowledge+doc pair that builds on these concepts.
 
 ## How Plugins Extend the Artifact Graph
 
@@ -113,11 +113,11 @@ enforcement checks — the integrity scanner will flag violations. For example,
 if tasks require at least one `delivers` relationship, every task must be linked
 to a parent before it passes integrity.
 
-## The Skill+Doc Pattern
+## The Knowledge+Doc Pattern
 
-Every plugin that defines artifact types SHOULD ship a paired skill and doc:
+Every plugin that defines artifact types SHOULD ship a paired knowledge artifact and doc:
 
-- A **skill** (e.g., `SKILL-SW-1d47d8d8`) explaining how agents should work with the
+- A **skill** (e.g., `KNOW-SW-1d47d8d8`) explaining how agents should work with the
   plugin's artifacts — creation workflows, relationship patterns, status
   lifecycle, and common scenarios
 - A **doc** (e.g., `DOC-SW-421219ce`) explaining how humans should understand the
@@ -126,7 +126,7 @@ Every plugin that defines artifact types SHOULD ship a paired skill and doc:
 - The skill and doc are connected via a `synchronised-with` relationship so
   changes to one prompt a review of the other
 
-This skill (SKILL-8d1c4be6) is the *framework* — it teaches the general mechanics of
+This skill (KNOW-8d1c4be6) is the *framework* — it teaches the general mechanics of
 plugin artifacts. Each plugin's own skill provides the *content* — the specific
 types, workflows, and domain knowledge for that plugin.
 
@@ -138,11 +138,11 @@ the full pattern:
 - **5 artifact types:** milestone, epic, task, research, wireframe
 - **9 relationships:** delivers, fulfils, depends-on, realises, produces,
   yields, reports, fixes, affects
-- **SKILL-SW-1d47d8d8** teaches agents the software delivery lifecycle — how to
+- **KNOW-SW-1d47d8d8** teaches agents the software delivery lifecycle — how to
   break milestones into epics, epics into tasks, and how status propagates
   up the delivery hierarchy
 - **DOC-SW-421219ce** teaches humans the same concepts in user-facing language
 
 Other plugins follow the same pattern: define types and relationships in
-`orqa-plugin.json`, then ship a skill+doc pair that teaches agents and humans
+`orqa-plugin.json`, then ship a knowledge+doc pair that teaches agents and humans
 how to use them.

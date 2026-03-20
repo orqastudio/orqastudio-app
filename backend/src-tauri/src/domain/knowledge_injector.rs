@@ -2,25 +2,25 @@ use std::path::Path;
 
 use crate::search::embedder::{EmbedError, Embedder};
 
-/// Pre-computed embedding of a skill's description.
-struct SkillEmbedding {
+/// Pre-computed embedding of a knowledge artifact's description.
+struct KnowledgeEmbedding {
     name: String,
     description: String,
     embedding: Vec<f32>,
 }
 
-/// Manages skill embeddings and prompt-based matching.
+/// Manages knowledge artifact embeddings and prompt-based matching.
 ///
-/// Loads all skills from `.orqa/process/skills/*.md`, extracts their
+/// Loads all knowledge artifacts from `.orqa/process/knowledge/*.md`, extracts their
 /// `description:` frontmatter field, embeds them with the ONNX embedder,
 /// and caches the results for fast cosine-similarity lookups at prompt time.
-pub struct SkillInjector {
-    skills: Vec<SkillEmbedding>,
+pub struct KnowledgeInjector {
+    items: Vec<KnowledgeEmbedding>,
 }
 
-/// Error type for skill injection operations.
+/// Error type for knowledge injection operations.
 #[derive(Debug, thiserror::Error)]
-pub enum SkillInjectorError {
+pub enum KnowledgeInjectorError {
     #[error("embedding error: {0}")]
     Embed(#[from] EmbedError),
 
@@ -28,54 +28,54 @@ pub enum SkillInjectorError {
     Io(#[from] std::io::Error),
 }
 
-impl SkillInjector {
-    /// Load all skills from the project's `.orqa/process/skills/` directory
+impl KnowledgeInjector {
+    /// Load all knowledge artifacts from the project's `.orqa/process/knowledge/` directory
     /// and pre-compute their description embeddings.
     ///
-    /// Skills without a `description:` frontmatter field are silently skipped.
-    pub fn new(project_dir: &Path, embedder: &mut Embedder) -> Result<Self, SkillInjectorError> {
-        let skills_dir = project_dir.join(".orqa").join("process").join("skills");
-        let skill_metas = discover_skill_descriptions(&skills_dir)?;
+    /// Artifacts without a `description:` frontmatter field are silently skipped.
+    pub fn new(project_dir: &Path, embedder: &mut Embedder) -> Result<Self, KnowledgeInjectorError> {
+        let knowledge_dir = project_dir.join(".orqa").join("process").join("knowledge");
+        let item_metas = discover_knowledge_descriptions(&knowledge_dir)?;
 
-        if skill_metas.is_empty() {
-            return Ok(Self { skills: Vec::new() });
+        if item_metas.is_empty() {
+            return Ok(Self { items: Vec::new() });
         }
 
-        let descriptions: Vec<&str> = skill_metas.iter().map(|(_, d)| d.as_str()).collect();
+        let descriptions: Vec<&str> = item_metas.iter().map(|(_, d)| d.as_str()).collect();
         let embeddings = embedder.embed(&descriptions)?;
 
-        let skills = skill_metas
+        let items = item_metas
             .into_iter()
             .zip(embeddings)
-            .map(|((name, description), embedding)| SkillEmbedding {
+            .map(|((name, description), embedding)| KnowledgeEmbedding {
                 name,
                 description,
                 embedding,
             })
             .collect();
 
-        Ok(Self { skills })
+        Ok(Self { items })
     }
 
-    /// Find the top-N skills most relevant to the given prompt embedding.
+    /// Find the top-N knowledge artifacts most relevant to the given prompt embedding.
     ///
-    /// Returns skill names sorted by descending similarity, filtered by the
+    /// Returns artifact names sorted by descending similarity, filtered by the
     /// given threshold. At most `top_n` results are returned.
     pub fn match_prompt(
         &self,
         prompt_embedding: &[f32],
         top_n: usize,
         threshold: f32,
-    ) -> Vec<SkillMatch> {
-        let mut scored: Vec<SkillMatch> = self
-            .skills
+    ) -> Vec<KnowledgeMatch> {
+        let mut scored: Vec<KnowledgeMatch> = self
+            .items
             .iter()
-            .filter_map(|skill| {
-                let sim = cosine_similarity(prompt_embedding, &skill.embedding);
+            .filter_map(|item| {
+                let sim = cosine_similarity(prompt_embedding, &item.embedding);
                 if sim >= threshold {
-                    Some(SkillMatch {
-                        name: skill.name.clone(),
-                        description: skill.description.clone(),
+                    Some(KnowledgeMatch {
+                        name: item.name.clone(),
+                        description: item.description.clone(),
                         score: sim,
                     })
                 } else {
@@ -93,15 +93,15 @@ impl SkillInjector {
         scored
     }
 
-    /// Returns the number of skills loaded.
-    pub fn skill_count(&self) -> usize {
-        self.skills.len()
+    /// Returns the number of knowledge artifacts loaded.
+    pub fn item_count(&self) -> usize {
+        self.items.len()
     }
 }
 
-/// A matched skill with its similarity score.
+/// A matched knowledge artifact with its similarity score.
 #[derive(Debug, Clone)]
-pub struct SkillMatch {
+pub struct KnowledgeMatch {
     pub name: String,
     pub description: String,
     pub score: f32,
@@ -126,14 +126,14 @@ fn cosine_similarity(a: &[f32], b: &[f32]) -> f32 {
     dot / (norm_a * norm_b)
 }
 
-/// Discover all skill directories and extract their `description:` field
+/// Discover all knowledge artifacts and extract their `description:` field
 /// from YAML frontmatter.
 ///
-/// Returns a vec of `(skill_name, description)` pairs.
-fn discover_skill_descriptions(skills_dir: &Path) -> Result<Vec<(String, String)>, std::io::Error> {
+/// Returns a vec of `(artifact_name, description)` pairs.
+fn discover_knowledge_descriptions(knowledge_dir: &Path) -> Result<Vec<(String, String)>, std::io::Error> {
     let mut results = Vec::new();
 
-    let read_dir = match std::fs::read_dir(skills_dir) {
+    let read_dir = match std::fs::read_dir(knowledge_dir) {
         Ok(rd) => rd,
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(results),
         Err(e) => return Err(e),
@@ -145,20 +145,20 @@ fn discover_skill_descriptions(skills_dir: &Path) -> Result<Vec<(String, String)
             continue;
         }
 
-        let skill_name = path
+        let artifact_name = path
             .file_stem()
             .map(|s| s.to_string_lossy().to_string())
             .unwrap_or_default();
 
         if let Some(description) = extract_description(&path) {
-            results.push((skill_name, description));
+            results.push((artifact_name, description));
         }
     }
 
     Ok(results)
 }
 
-/// Extract the `description:` field from a SKILL.md's YAML frontmatter.
+/// Extract the `description:` field from a knowledge artifact's YAML frontmatter.
 ///
 /// Handles both single-line (`description: "text"`) and multi-line
 /// (`description: |` followed by indented lines) YAML values.
@@ -361,20 +361,20 @@ mod tests {
 
     #[test]
     fn match_prompt_returns_top_n_sorted_by_score() {
-        let injector = SkillInjector {
-            skills: vec![
-                SkillEmbedding {
-                    name: "skill-a".to_string(),
+        let injector = KnowledgeInjector {
+            items: vec![
+                KnowledgeEmbedding {
+                    name: "item-a".to_string(),
                     description: "A".to_string(),
                     embedding: vec![1.0, 0.0, 0.0],
                 },
-                SkillEmbedding {
-                    name: "skill-b".to_string(),
+                KnowledgeEmbedding {
+                    name: "item-b".to_string(),
                     description: "B".to_string(),
                     embedding: vec![0.7, 0.7, 0.0],
                 },
-                SkillEmbedding {
-                    name: "skill-c".to_string(),
+                KnowledgeEmbedding {
+                    name: "item-c".to_string(),
                     description: "C".to_string(),
                     embedding: vec![0.0, 0.0, 1.0],
                 },
@@ -385,21 +385,21 @@ mod tests {
         let matches = injector.match_prompt(&prompt, 2, 0.3);
 
         assert_eq!(matches.len(), 2);
-        assert_eq!(matches[0].name, "skill-a");
-        assert_eq!(matches[1].name, "skill-b");
+        assert_eq!(matches[0].name, "item-a");
+        assert_eq!(matches[1].name, "item-b");
         assert!(matches[0].score > matches[1].score);
     }
 
     #[test]
     fn match_prompt_filters_below_threshold() {
-        let injector = SkillInjector {
-            skills: vec![
-                SkillEmbedding {
+        let injector = KnowledgeInjector {
+            items: vec![
+                KnowledgeEmbedding {
                     name: "relevant".to_string(),
                     description: "R".to_string(),
                     embedding: vec![1.0, 0.0],
                 },
-                SkillEmbedding {
+                KnowledgeEmbedding {
                     name: "irrelevant".to_string(),
                     description: "I".to_string(),
                     embedding: vec![0.0, 1.0],
@@ -415,27 +415,27 @@ mod tests {
     }
 
     #[test]
-    fn match_prompt_empty_skills_returns_empty() {
-        let injector = SkillInjector { skills: Vec::new() };
+    fn match_prompt_empty_items_returns_empty() {
+        let injector = KnowledgeInjector { items: Vec::new() };
         let prompt = vec![1.0, 0.0, 0.0];
         assert!(injector.match_prompt(&prompt, 3, 0.3).is_empty());
     }
 
     #[test]
     fn match_prompt_respects_top_n_limit() {
-        let injector = SkillInjector {
-            skills: vec![
-                SkillEmbedding {
+        let injector = KnowledgeInjector {
+            items: vec![
+                KnowledgeEmbedding {
                     name: "a".to_string(),
                     description: "A".to_string(),
                     embedding: vec![1.0, 0.0],
                 },
-                SkillEmbedding {
+                KnowledgeEmbedding {
                     name: "b".to_string(),
                     description: "B".to_string(),
                     embedding: vec![0.9, 0.1],
                 },
-                SkillEmbedding {
+                KnowledgeEmbedding {
                     name: "c".to_string(),
                     description: "C".to_string(),
                     embedding: vec![0.8, 0.2],
@@ -448,24 +448,24 @@ mod tests {
         assert_eq!(matches.len(), 1);
     }
 
-    // ── skill_count ──
+    // ── item_count ──
 
     #[test]
-    fn skill_count_reports_loaded_skills() {
-        let injector = SkillInjector {
-            skills: vec![
-                SkillEmbedding {
+    fn item_count_reports_loaded_items() {
+        let injector = KnowledgeInjector {
+            items: vec![
+                KnowledgeEmbedding {
                     name: "a".to_string(),
                     description: "A".to_string(),
                     embedding: vec![1.0],
                 },
-                SkillEmbedding {
+                KnowledgeEmbedding {
                     name: "b".to_string(),
                     description: "B".to_string(),
                     embedding: vec![1.0],
                 },
             ],
         };
-        assert_eq!(injector.skill_count(), 2);
+        assert_eq!(injector.item_count(), 2);
     }
 }

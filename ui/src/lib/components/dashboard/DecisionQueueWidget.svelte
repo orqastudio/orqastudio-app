@@ -42,7 +42,7 @@
 			case "epic": return "Review epic deliverables";
 			case "idea": return "Decide on promotion";
 			case "decision": return "Accept or reject decision";
-			case "lesson": return "Promote to rule or skill";
+			case "lesson": return "Promote to rule or knowledge";
 			case "research": return "Review research findings";
 			case "milestone": return "Verify milestone gate";
 			default: return "Review required";

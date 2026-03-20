@@ -148,7 +148,7 @@ fn gate_as_verdict(gate: GateResult) -> Verdict {
         rule_name: gate.gate_name,
         action: RuleAction::Warn,
         message: gate.message,
-        skills: Vec::new(),
+        knowledge: Vec::new(),
     }
 }
 

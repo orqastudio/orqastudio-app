@@ -183,6 +183,7 @@ mod tests {
         let settings = ProjectSettings {
             name: "test-project".to_string(),
             organisation: false,
+            dogfood: false,
             projects: vec![],
             description: Some("A test".to_string()),
             default_model: "auto".to_string(),
@@ -197,6 +198,7 @@ mod tests {
             statuses: vec![],
             delivery: Default::default(),
             relationships: vec![],
+            plugins: std::collections::HashMap::new(),
         };
 
         project_settings_repo::write(path, &settings).expect("write");

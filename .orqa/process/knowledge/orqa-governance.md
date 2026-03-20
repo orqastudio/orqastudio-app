@@ -1,5 +1,5 @@
 ---
-id: SKILL-eea50a65
+id: KNOW-eea50a65
 title: Governance Patterns
 description: |
   How the .orqa/ governance structure works: artifact layering, config-driven
@@ -50,7 +50,7 @@ Every OrqaStudio project uses the same canonical directory layout:
     lessons/                  #   IMPL-NNN.md — implementation lessons
     rules/                    #   RULE-NNN.md — enforceable standards
     agents/                   #   AGENT-NNN/ — agent definitions
-    skills/                   #   skill-name/ — skill directories (each has SKILL.md)
+    knowledge/                #   knowledge-name/ — knowledge directories (each has KNOW.md)
   documentation/              # Human-readable docs
     platform/                 #   Platform documentation (ships with app)
     project/                  #   Project-specific documentation
@@ -68,7 +68,7 @@ Platform-level artifacts that define how OrqaStudio itself works. These are immu
 - `documentation/platform/` — platform documentation
 - `process/agents/` — core agents (orchestrator, planner, implementer, etc.)
 - `process/rules/` — core rules (`layer: core`)
-- `process/skills/` — core and setup skills (`layer: core` or `setup`)
+- `process/knowledge/` — core and setup knowledge artifacts (`layer: core` or `setup`)
 
 ### 2. Plugins (registered via `orqa-plugin.json`)
 
@@ -81,7 +81,7 @@ Everything the user creates during a project's lifecycle:
 - `principles/` — pillars, vision, personas, grounding
 - `discovery/` — ideas, research, wireframes
 - `delivery/` — milestones, epics, tasks
-- `process/` — decisions, lessons, project-layer rules and skills
+- `process/` — decisions, lessons, project-layer rules and knowledge
 - `documentation/project/` — project-specific docs
 
 ## How Artifacts Are Discovered

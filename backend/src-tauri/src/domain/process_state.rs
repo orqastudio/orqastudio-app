@@ -21,15 +21,15 @@ pub struct ProcessViolation {
 ///
 /// Currently enforces two documentation-first checks:
 /// - `docs_before_code`: documentation must be read before code is written
-/// - `skills_before_code`: skills must be loaded before code is written
+/// - `knowledge_before_code`: knowledge must be loaded before code is written
 #[derive(Debug, Default)]
 pub struct SessionProcessState {
     /// The session this state belongs to. `None` before any message is sent.
     pub session_id: Option<i64>,
     /// Set when any `read_file` call targets a path inside `docs/` or `.orqa/rules/`.
     pub docs_read: bool,
-    /// Set when any `load_skill` tool call is made.
-    pub skills_loaded: bool,
+    /// Set when any `load_knowledge` tool call is made.
+    pub knowledge_loaded: bool,
     /// Set when any `write_file` or `edit_file` call targets a `.rs`, `.ts`, or `.svelte` file.
     pub code_written: bool,
 }
@@ -39,7 +39,7 @@ impl SessionProcessState {
     pub fn reset(&mut self, session_id: i64) {
         self.session_id = Some(session_id);
         self.docs_read = false;
-        self.skills_loaded = false;
+        self.knowledge_loaded = false;
         self.code_written = false;
     }
 
@@ -56,7 +56,7 @@ impl SessionProcessState {
                     }
                 }
             }
-            "load_skill" => self.skills_loaded = true,
+            "load_knowledge" => self.knowledge_loaded = true,
             "write_file" | "edit_file" => {
                 if let Some(path) = input["path"].as_str() {
                     if std::path::Path::new(path)
@@ -93,11 +93,11 @@ impl SessionProcessState {
             });
         }
 
-        if self.code_written && !self.skills_loaded {
+        if self.code_written && !self.knowledge_loaded {
             violations.push(ProcessViolation {
-                check: "skills_before_code".to_string(),
-                message: "Code was written without loading any skills. \
-                    Use load_skill to load relevant skills before making code changes."
+                check: "knowledge_before_code".to_string(),
+                message: "Code was written without loading any knowledge. \
+                    Use load_knowledge to load relevant knowledge before making code changes."
                     .to_string(),
                 severity: "warn".to_string(),
             });
@@ -145,13 +145,13 @@ mod tests {
     }
 
     #[test]
-    fn track_load_skill_sets_skills_loaded() {
+    fn track_load_knowledge_sets_knowledge_loaded() {
         let mut ps = SessionProcessState::default();
         ps.track_tool_call(
-            "load_skill",
+            "load_knowledge",
             &serde_json::json!({ "name": "rust-async-patterns" }),
         );
-        assert!(ps.skills_loaded);
+        assert!(ps.knowledge_loaded);
     }
 
     #[test]
@@ -194,7 +194,7 @@ mod tests {
         let mut ps = SessionProcessState::default();
         ps.track_tool_call("bash", &serde_json::json!({ "command": "ls" }));
         assert!(!ps.docs_read);
-        assert!(!ps.skills_loaded);
+        assert!(!ps.knowledge_loaded);
         assert!(!ps.code_written);
     }
 
@@ -207,10 +207,10 @@ mod tests {
     }
 
     #[test]
-    fn no_violations_when_code_written_with_docs_and_skills() {
+    fn no_violations_when_code_written_with_docs_and_knowledge() {
         let ps = SessionProcessState {
             docs_read: true,
-            skills_loaded: true,
+            knowledge_loaded: true,
             code_written: true,
             ..Default::default()
         };
@@ -220,7 +220,7 @@ mod tests {
     #[test]
     fn violation_docs_before_code_when_no_docs_read() {
         let ps = SessionProcessState {
-            skills_loaded: true,
+            knowledge_loaded: true,
             code_written: true,
             ..Default::default()
         };
@@ -231,7 +231,7 @@ mod tests {
     }
 
     #[test]
-    fn violation_skills_before_code_when_no_skills_loaded() {
+    fn violation_knowledge_before_code_when_no_knowledge_loaded() {
         let ps = SessionProcessState {
             docs_read: true,
             code_written: true,
@@ -239,12 +239,12 @@ mod tests {
         };
         let violations = ps.check_violations();
         assert_eq!(violations.len(), 1);
-        assert_eq!(violations[0].check, "skills_before_code");
+        assert_eq!(violations[0].check, "knowledge_before_code");
         assert_eq!(violations[0].severity, "warn");
     }
 
     #[test]
-    fn both_violations_when_code_written_without_docs_or_skills() {
+    fn both_violations_when_code_written_without_docs_or_knowledge() {
         let ps = SessionProcessState {
             code_written: true,
             ..Default::default()
@@ -253,15 +253,15 @@ mod tests {
         assert_eq!(violations.len(), 2);
         let checks: Vec<&str> = violations.iter().map(|v| v.check.as_str()).collect();
         assert!(checks.contains(&"docs_before_code"));
-        assert!(checks.contains(&"skills_before_code"));
+        assert!(checks.contains(&"knowledge_before_code"));
     }
 
     #[test]
     fn no_violations_when_code_not_written() {
-        // Reading docs and loading skills without writing code should not trigger anything
+        // Reading docs and loading knowledge without writing code should not trigger anything
         let ps = SessionProcessState {
             docs_read: true,
-            skills_loaded: true,
+            knowledge_loaded: true,
             ..Default::default()
         };
         assert!(ps.check_violations().is_empty());
@@ -274,13 +274,13 @@ mod tests {
         let mut ps = SessionProcessState {
             session_id: Some(1),
             docs_read: true,
-            skills_loaded: true,
+            knowledge_loaded: true,
             code_written: true,
         };
         ps.reset(2);
         assert_eq!(ps.session_id, Some(2));
         assert!(!ps.docs_read);
-        assert!(!ps.skills_loaded);
+        assert!(!ps.knowledge_loaded);
         assert!(!ps.code_written);
     }
 }

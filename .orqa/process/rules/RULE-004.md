@@ -351,7 +351,7 @@ When observations (IMPL entries) are created during an epic's implementation, a 
 
 For each observation, the triage outcome MUST be one of:
 1. **Implement now** — the observation reveals a gap that blocks or undermines the epic's goals. Create a task within this epic.
-2. **Promote** — the observation is mature enough to become a rule, skill update, or architectural decision. Do it in this epic or create a task.
+2. **Promote** — the observation is mature enough to become a rule, knowledge update, or architectural decision. Do it in this epic or create a task.
 3. **Defer to idea** — the observation is valid but out of scope. Create an `IDEA-NNN` with a relationship edge so it enters the planning pipeline.
 
 "Leave it sitting" is NOT a valid triage outcome for an epic that is trying to close.

@@ -1,10 +1,10 @@
 ---
-id: SKILL-b453410f
+id: KNOW-b453410f
 title: Plugin Development
 description: |
-  OrqaStudio plugin development base skill. Detects whether this is a first-party
+  OrqaStudio plugin development base knowledge. Detects whether this is a first-party
   plugin (dev environment) or third-party plugin (standalone), then loads the
-  appropriate sub-skill. Use when: creating new plugins, scaffolding from templates,
+  appropriate sub-knowledge artifact. Use when: creating new plugins, scaffolding from templates,
   or extending OrqaStudio with custom views, tools, or artifact types.
 status: active
 created: 2026-03-01
@@ -15,9 +15,9 @@ user-invocable: true
 relationships:
   - target: DOC-99a1b71a
     type: synchronised-with
-  - target: SKILL-e1333874
+  - target: KNOW-e1333874
     type: synchronised-with
-  - target: SKILL-63cc1a00
+  - target: KNOW-63cc1a00
     type: synchronised-with
   - target: DOC-a1b2c3d4
     type: synchronised-with
@@ -29,11 +29,11 @@ relationships:
 
 Before starting any plugin work, determine the context automatically:
 
-**First-party** (SKILL-e1333874): The working directory is inside `orqastudio-dev/` or any repository with `plugins/` and `.orqa/` at root AND a `.gitmodules` file referencing `orqastudio` org repos. First-party plugins are submodules in the dev environment.
+**First-party** (KNOW-e1333874): The working directory is inside `orqastudio-dev/` or any repository with `plugins/` and `.orqa/` at root AND a `.gitmodules` file referencing `orqastudio` org repos. First-party plugins are submodules in the dev environment.
 
-**Third-party** (SKILL-63cc1a00): Everything else. The plugin will be a standalone project with its own `.orqa/` governance and the software plugin pre-installed.
+**Third-party** (KNOW-63cc1a00): Everything else. The plugin will be a standalone project with its own `.orqa/` governance and the software plugin pre-installed.
 
-Load the appropriate sub-skill based on detection. Do NOT ask the user — infer from the environment.
+Load the appropriate sub-knowledge artifact based on detection. Do NOT ask the user — infer from the environment.
 
 ## Common Knowledge (Both Paths)
 
@@ -49,7 +49,7 @@ Every plugin requires `orqa-plugin.json` at root:
   "description": "One-line description.",
   "category": "coding-standards|delivery|integration|custom",
   "provides": {
-    "skills": [],
+    "knowledge": [],
     "schemas": [],
     "views": [],
     "relationships": [],
@@ -114,10 +114,10 @@ await artifactGraphSDK.readContent("path/to/file.md");
 artifactGraphSDK.subscribe("EPIC-e045ab6d", callback);
 ```
 
-### Skill + Doc Requirement
+### Knowledge + Doc Requirement
 
 Every plugin that defines artifact types or relationships MUST ship:
-- A **skill** teaching agents how to use the artifacts
+- A **knowledge artifact** teaching agents how to use the artifacts
 - A **documentation** artifact teaching humans the same
 - Connected via `synchronised-with` relationship
 
@@ -125,7 +125,7 @@ Every plugin that defines artifact types or relationships MUST ship:
 
 Run `orqa validate` in the plugin directory to check:
 - Manifest schema compliance
-- Skill/doc frontmatter validity
+- Knowledge/doc frontmatter validity
 - Relationship target resolution
 - ID uniqueness
 - Template compatibility (for template repos)
@@ -138,4 +138,4 @@ Run `orqa validate` in the plugin directory to check:
 | Hardcoding artifact paths | Use SDK resolution methods |
 | Polling for changes | Use SDK subscriptions |
 | Skipping validation | Run `orqa validate` before every commit |
-| Missing skill+doc pair | Every artifact-providing plugin needs both |
+| Missing knowledge+doc pair | Every artifact-providing plugin needs both |

@@ -193,7 +193,7 @@ fn scan_governance(root: &Path) -> GovernanceCounts {
     let decisions = count_md_files_in_dir(&process_dir.join("decisions"));
     let agents = count_md_files_in_dir(&process_dir.join("agents"));
     let rules = count_md_files_in_dir(&process_dir.join("rules"));
-    let skills = count_subdirs(&process_dir.join("skills"));
+    let knowledge = count_md_files_in_dir(&process_dir.join("knowledge"));
     let has_claude_config = root.join(".claude").join("CLAUDE.md").exists();
 
     GovernanceCounts {
@@ -201,7 +201,7 @@ fn scan_governance(root: &Path) -> GovernanceCounts {
         decisions,
         agents,
         rules,
-        skills,
+        knowledge,
         has_claude_config,
     }
 }
@@ -303,7 +303,7 @@ mod tests {
         fs::create_dir_all(process_dir.join("rules")).expect("mkdir");
         fs::create_dir_all(process_dir.join("lessons")).expect("mkdir");
         fs::create_dir_all(process_dir.join("decisions")).expect("mkdir");
-        fs::create_dir_all(process_dir.join("skills").join("chunkhound")).expect("mkdir");
+        fs::create_dir_all(process_dir.join("knowledge")).expect("mkdir");
 
         fs::write(process_dir.join("agents").join("backend.md"), "# Agent").expect("write");
         fs::write(process_dir.join("rules").join("no-stubs.md"), "# Rule").expect("write");
@@ -311,6 +311,11 @@ mod tests {
         fs::write(
             process_dir.join("decisions").join("AD-001.md"),
             "# Decision",
+        )
+        .expect("write");
+        fs::write(
+            process_dir.join("knowledge").join("chunkhound.md"),
+            "# Knowledge",
         )
         .expect("write");
 
@@ -327,7 +332,7 @@ mod tests {
         assert_eq!(result.governance.rules, 1);
         assert_eq!(result.governance.lessons, 1);
         assert_eq!(result.governance.decisions, 1);
-        assert_eq!(result.governance.skills, 1);
+        assert_eq!(result.governance.knowledge, 1);
         assert!(result.governance.has_claude_config);
 
         cleanup(&dir);

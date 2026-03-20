@@ -1,6 +1,6 @@
 ---
-id: SKILL-c7fb7c83
-type: skill
+id: KNOW-c7fb7c83
+type: knowledge
 name: Tech Debt Management
 status: active
 relationships:

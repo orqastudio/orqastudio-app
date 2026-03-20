@@ -19,8 +19,8 @@ struct CompiledEntry {
     compiled_bash_pattern: Option<Regex>,
     /// Raw scope glob pattern for scan entries.
     scope: Option<String>,
-    /// Skills to inject when action is `inject`.
-    skills: Vec<String>,
+    /// Knowledge artifacts to inject when action is `inject`.
+    knowledge: Vec<String>,
 }
 
 /// Compile an `EnforcementEntry` into a `CompiledEntry`.
@@ -74,7 +74,7 @@ fn compile_entry(
         compiled_conditions,
         compiled_bash_pattern,
         scope: entry.scope.clone(),
-        skills: entry.skills.clone(),
+        knowledge: entry.knowledge.clone(),
     })
 }
 
@@ -221,7 +221,7 @@ impl EnforcementEngine {
                     rule_name: rule.name.clone(),
                     action: ce.action.clone(),
                     message: prose_excerpt(&rule.prose),
-                    skills: ce.skills.clone(),
+                    knowledge: ce.knowledge.clone(),
                 });
             }
         }
@@ -254,7 +254,7 @@ impl EnforcementEngine {
                     rule_name: rule.name.clone(),
                     action: ce.action.clone(),
                     message: prose_excerpt(&rule.prose),
-                    skills: ce.skills.clone(),
+                    knowledge: ce.knowledge.clone(),
                 });
             }
         }
@@ -481,11 +481,11 @@ enforcement:
     }
 
     #[test]
-    fn inject_verdict_is_non_blocking_and_carries_skills() {
+    fn inject_verdict_is_non_blocking_and_carries_knowledge() {
         let dir = tempfile::tempdir().expect("tempdir");
         write_rule_file(
             dir.path(),
-            "skill-injector",
+            "knowledge-injector",
             r#"---
 scope: project
 enforcement:
@@ -498,9 +498,9 @@ enforcement:
       - rust-async-patterns
       - tauri-v2
 ---
-# Skill Injector
+# Knowledge Injector
 
-Load Rust skills when editing Rust files.
+Load Rust knowledge when editing Rust files.
 "#,
         );
 
@@ -509,7 +509,7 @@ Load Rust skills when editing Rust files.
         let verdicts = engine.evaluate_file("src-tauri/src/domain/foo.rs", "some content");
         assert_eq!(verdicts.len(), 1);
         assert_eq!(verdicts[0].action, RuleAction::Inject);
-        assert_eq!(verdicts[0].skills, vec!["rust-async-patterns", "tauri-v2"]);
+        assert_eq!(verdicts[0].knowledge, vec!["rust-async-patterns", "tauri-v2"]);
 
         // Non-matching path should produce no verdict
         let verdicts = engine.evaluate_file("ui/lib/foo.ts", "some content");
@@ -552,11 +552,11 @@ Delegates to clippy.
     }
 
     #[test]
-    fn inject_verdict_skills_empty_by_default() {
+    fn inject_verdict_knowledge_empty_by_default() {
         let dir = tempfile::tempdir().expect("tempdir");
         write_rule_file(
             dir.path(),
-            "inject-no-skills",
+            "inject-no-knowledge",
             r#"---
 scope: project
 enforcement:
@@ -564,7 +564,7 @@ enforcement:
     action: inject
     pattern: "cargo build"
 ---
-# Inject No Skills
+# Inject No Knowledge
 "#,
         );
 
@@ -572,7 +572,7 @@ enforcement:
         let verdicts = engine.evaluate_bash("cargo build --release");
         assert_eq!(verdicts.len(), 1);
         assert_eq!(verdicts[0].action, RuleAction::Inject);
-        assert!(verdicts[0].skills.is_empty());
+        assert!(verdicts[0].knowledge.is_empty());
     }
 
     #[test]

@@ -9,7 +9,7 @@ const CONTENT_PREVIEW_CHARS: usize = 500;
 /// Total number of canonical governance areas checked for coverage ratio.
 ///
 /// The 6 areas map directly to the process/documentation directories in `.orqa/`:
-/// rules, agents, skills, lessons, decisions, documentation.
+/// rules, agents, knowledge, lessons, decisions, documentation.
 const TOTAL_AREAS: usize = 6;
 
 /// Scan a project directory for governance files across the 7 canonical OrqaStudio governance areas.
@@ -17,7 +17,7 @@ const TOTAL_AREAS: usize = 6;
 /// The areas correspond to the artifact config in `.orqa/project.json`:
 /// - `.orqa/process/rules` — enforcement rules (`.md` files)
 /// - `.orqa/process/agents` — agent definitions (`.md` files)
-/// - `.orqa/process/skills` — skill definitions (subdirectories with `SKILL.md`)
+/// - `.orqa/process/knowledge` — knowledge artifacts (`.md` files)
 /// - `.orqa/process/lessons` — implementation lessons (`.md` files)
 /// - `.orqa/process/decisions` — architecture decisions (`.md` files)
 /// - `.orqa/documentation` — project documentation (`.md` files, recursive)
@@ -57,7 +57,7 @@ fn scan_orqa_areas(project_path: &Path) -> Vec<GovernanceArea> {
     vec![
         scan_directory_area("rules", "orqa", &process_dir.join("rules"), Some(".md")),
         scan_directory_area("agents", "orqa", &process_dir.join("agents"), Some(".md")),
-        scan_skills_area(project_path, &process_dir.join("skills")),
+        scan_knowledge_area(project_path, &process_dir.join("knowledge")),
         scan_directory_area("lessons", "orqa", &process_dir.join("lessons"), Some(".md")),
         scan_directory_area(
             "decisions",
@@ -161,12 +161,12 @@ fn collect_files_recursive(dir: &Path, ext: Option<&str>, out: &mut Vec<Governan
     }
 }
 
-/// Scan the skills directory — each subdirectory containing a `SKILL.md` is one skill.
-fn scan_skills_area(project_root: &Path, skills_dir: &Path) -> GovernanceArea {
+/// Scan the knowledge directory — each `.md` file is one knowledge artifact.
+fn scan_knowledge_area(project_root: &Path, knowledge_dir: &Path) -> GovernanceArea {
     let mut files = Vec::new();
 
-    if skills_dir.is_dir() {
-        if let Ok(entries) = std::fs::read_dir(skills_dir) {
+    if knowledge_dir.is_dir() {
+        if let Ok(entries) = std::fs::read_dir(knowledge_dir) {
             for entry in entries.flatten() {
                 let path = entry.path();
                 if path.is_file() && path.extension().map_or(false, |e| e == "md") {
@@ -181,7 +181,7 @@ fn scan_skills_area(project_root: &Path, skills_dir: &Path) -> GovernanceArea {
 
     let covered = !files.is_empty();
     GovernanceArea {
-        name: "skills".to_string(),
+        name: "knowledge".to_string(),
         source: "orqa".to_string(),
         files,
         covered,
@@ -286,14 +286,11 @@ mod tests {
         fs::create_dir_all(process_dir.join("agents")).expect("mkdir");
         fs::write(process_dir.join("agents").join("backend.md"), "# Agent").expect("write");
 
-        // skills (subdirectory with SKILL.md)
-        fs::create_dir_all(process_dir.join("skills").join("chunkhound")).expect("mkdir");
+        // knowledge artifacts
+        fs::create_dir_all(process_dir.join("knowledge")).expect("mkdir");
         fs::write(
-            process_dir
-                .join("skills")
-                .join("chunkhound")
-                .join("SKILL.md"),
-            "# Skill",
+            process_dir.join("knowledge").join("chunkhound.md"),
+            "# Knowledge",
         )
         .expect("write");
 
@@ -412,7 +409,7 @@ mod tests {
             [
                 "rules",
                 "agents",
-                "skills",
+                "knowledge",
                 "lessons",
                 "decisions",
                 "documentation"

@@ -1,7 +1,7 @@
 ---
 id: RULE-98682b5e
 title: Core Graph Firmware Protection
-description: "Core graph artifacts (schemas, orchestrator, core skills, role definitions) are firmware — non-editable by agents or users except through the update system or in dogfood mode."
+description: "Core graph artifacts (schemas, orchestrator, core knowledge, role definitions) are firmware — non-editable by agents or users except through the update system or in dogfood mode."
 status: active
 created: 2026-03-12
 updated: 2026-03-12
@@ -10,12 +10,12 @@ enforcement:
   - ".orqa/delivery/*/schema.json"
   - ".orqa/process/*/schema.json"
   - .orqa/process/agents/schema.json
-  - .orqa/process/skills/schema.json
+  - .orqa/process/knowledge/schema.json
   - "event: file"
-  - .orqa/process/skills/composability/SKILL.md
-  - .orqa/process/skills/research-methodology/SKILL.md
-  - .orqa/process/skills/planning/SKILL.md
-  - .orqa/process/skills/orqa-code-search/SKILL.md
+  - .orqa/process/knowledge/composability/KNOW.md
+  - .orqa/process/knowledge/research-methodology/KNOW.md
+  - .orqa/process/knowledge/planning/KNOW.md
+  - .orqa/process/knowledge/orqa-code-search/KNOW.md
 relationships:
   - target: AD-ea4a5979
     type: enforces
@@ -34,7 +34,7 @@ Core graph artifacts define how the artifact graph works, how agents traverse it
 | Artifact | Path | Why It's Protected |
 |----------|------|--------------------|
 | **Artifact schemas** | `schema.json` in every artifact directory | Define what fields exist, what edges connect artifact types |
-| **Core skills** | `composability`, `planning`, `research-methodology`, `orqa-code-search` | Define universal methodology all agents use |
+| **Core knowledge** | `composability`, `planning`, `research-methodology`, `orqa-code-search` | Define universal methodology all agents use |
 | **Orchestrator prompt** | `.orqa/process/agents/orchestrator.md` | Defines graph traversal and process model |
 | **Role definitions** | `.orqa/process/agents/*.md` + `schema.json` | Define the 7 universal roles and boundaries |
 
@@ -42,7 +42,7 @@ Core graph artifacts define how the artifact graph works, how agents traverse it
 
 Everything else in `.orqa/` is project-specific and freely editable:
 
-- Project rules, project skills, documentation
+- Project rules, project knowledge, documentation
 - Planning artifacts (tasks, epics, ideas, research, milestones)
 - Governance artifacts (decisions, lessons)
 - Project configuration (`project.json`)
@@ -69,7 +69,7 @@ In all other projects, core artifacts are read-only at three levels:
 ## FORBIDDEN
 
 - Modifying `schema.json` files during normal project work
-- Modifying core skill content outside of an OrqaStudio release
+- Modifying core knowledge content outside of an OrqaStudio release
 - Modifying the orchestrator prompt to add project-specific content (use project-layer artifacts instead)
 - Weakening or removing this rule's enforcement entries without explicit user approval
 - Using `ORQA_CORE_OVERRIDE=1` as a routine workaround instead of fixing the actual need
@@ -78,5 +78,5 @@ In all other projects, core artifacts are read-only at three levels:
 
 - [RULE-6c0496e0](RULE-6c0496e0) (artifact-config-integrity) — config paths must match disk; this rule protects the schemas that config relies on
 - [RULE-a764b2ae](RULE-a764b2ae) (schema-validation) — schemas validate frontmatter; this rule protects the schemas themselves
-- [RULE-11c29c9e](RULE-11c29c9e) (skill-portability) — core skills must be portable; this rule prevents project-specific contamination
+- [RULE-11c29c9e](RULE-11c29c9e) (knowledge-portability) — core knowledge must be portable; this rule prevents project-specific contamination
 - [RULE-6083347d](RULE-6083347d) (dogfood-mode) — dogfood exception to this rule's protection

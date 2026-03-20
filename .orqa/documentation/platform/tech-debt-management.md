@@ -5,7 +5,7 @@ name: Tech Debt Management Guide
 category: how-to
 status: active
 relationships:
-  - target: SKILL-c7fb7c83
+  - target: KNOW-c7fb7c83
     type: synchronised-with
 ---
 

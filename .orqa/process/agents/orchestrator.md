@@ -17,11 +17,11 @@ capabilities:
   - code_research
   - shell_execute
 relationships:
-  - target: SKILL-a2b3c4d5
+  - target: KNOW-a2b3c4d5
     type: employs
-  - target: SKILL-f0c40eaf
+  - target: KNOW-f0c40eaf
     type: employs
-  - target: SKILL-6f33713e
+  - target: KNOW-6f33713e
     type: employs
 ---
 
@@ -61,7 +61,7 @@ in `.orqa/`. These files are nodes. Their frontmatter fields are edges.
 ```
 Task → reads epic (task.epic field)
 Task → reads docs (task.docs field)  → documentation files
-Task → reads skills (task.skills field) → skill directories
+Task → reads knowledge (task.knowledge field) → knowledge directories
 Epic → reads research (epic.research-refs) → research docs
 Epic → reads docs-required → prerequisite documentation
 ```
@@ -71,14 +71,14 @@ When starting ANY task:
 1. Read the task file: `.orqa/delivery/tasks/TASK-NNN.md`
 2. Follow `task.epic` → read the epic for design context
 3. Follow `task.docs` → load each documentation file into context
-4. Follow `task.skills` → load each skill for domain knowledge
+4. Follow `task.knowledge` → load each knowledge artifact for domain knowledge
 5. Check `task.depends-on` → verify all dependencies are `status: done`
 
 ### How to Extend the Graph
 
 When creating artifacts, always populate relationship fields:
 
-- **Tasks**: Set `epic`, `docs`, `skills`, `depends-on`, `acceptance`
+- **Tasks**: Set `epic`, `docs`, `knowledge`, `depends-on`, `acceptance`
 - **Epics**: Set `milestone`, `research-refs`, `docs-required`, `docs-produced`
 - **Decisions**: Set `evolves-into` / `evolves-from` when replacing existing decisions
 
@@ -93,7 +93,7 @@ When creating artifacts, always populate relationship fields:
 | Decisions | `.orqa/process/decisions/` | `schema.json` |
 | Rules | `.orqa/process/rules/` | `schema.json` |
 | Lessons | `.orqa/process/lessons/` | `schema.json` |
-| Skills | `.orqa/process/skills/*/SKILL.md` | `schema.json` |
+| Knowledge | `.orqa/process/knowledge/*/KNOW.md` | `schema.json` |
 | Agents | `.orqa/process/agents/` | `schema.json` |
 | Documentation | `.orqa/documentation/` | (tree structure) |
 | Project config | `.orqa/project.json` | — |
@@ -137,9 +137,9 @@ Signals that indicate a research trigger:
 ### Delegation Steps
 
 1. Determine the **role** needed
-2. Read the agent definition in `.orqa/process/agents/` for capabilities and skills
+2. Read the agent definition in `.orqa/process/agents/` for capabilities and knowledge
 3. Resolve capabilities to tools using [RULE-92dba0cb](RULE-92dba0cb) mapping tables
-4. Read the task's `docs` and `skills` fields — include them in delegation prompt
+4. Read the task's `docs` and `knowledge` fields — include them in delegation prompt
 5. Scope the task with clear acceptance criteria
 6. Verify the result against acceptance criteria before reporting
 
@@ -213,13 +213,13 @@ Key rules to know:
 
 Read the full rule when its area is relevant to current work.
 
-## Skill Injection
+## Knowledge Injection
 
-When delegating, inject skills based on what the task touches:
+When delegating, inject knowledge based on what the task touches:
 
-- Read the task's `skills` field — these are the primary skills to load
-- Read [RULE-deab6ea7](RULE-deab6ea7) for the full three-tier skill model
-- Skills live in `.orqa/process/skills/<name>/SKILL.md`
+- Read the task's `knowledge` field — these are the primary knowledge artifacts to load
+- Read [RULE-deab6ea7](RULE-deab6ea7) for the full three-tier knowledge model
+- Knowledge artifacts live in `.orqa/process/knowledge/<name>/KNOW.md`
 
 ## Learning Loop
 
@@ -227,7 +227,7 @@ When a Reviewer reports a FAIL:
 1. Check `.orqa/process/lessons/` for matching patterns
 2. If new: create `IMPL-NNN.md` before the fix cycle
 3. If existing: increment recurrence count
-4. At recurrence >= 2: promote to rule or skill update
+4. At recurrence >= 2: promote to rule or knowledge update
 
 ## Resource Safety
 

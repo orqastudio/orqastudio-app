@@ -1,6 +1,6 @@
 ---
-id: SKILL-82d32398
-type: skill
+id: KNOW-82d32398
+type: knowledge
 name: Artifact Relationships
 status: active
 relationships:
@@ -75,7 +75,7 @@ Agents observe artifacts they're responsible for and employ skills they use. Ski
 
 ## Plugin Relationships
 
-Plugins register additional relationships for their artifact types. The software-project plugin adds delivery, dependency, and bug-tracking relationships. These are documented in SKILL-SW-1d47d8d8.
+Plugins register additional relationships for their artifact types. The software-project plugin adds delivery, dependency, and bug-tracking relationships. These are documented in KNOW-SW-1d47d8d8.
 
 ## Rules for Creating Relationships
 

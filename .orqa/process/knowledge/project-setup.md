@@ -1,5 +1,5 @@
 ---
-id: SKILL-e0dec720
+id: KNOW-e0dec720
 title: Project Setup
 description: |
   Universal project scaffolding: creates the .orqa/ directory structure,
@@ -79,7 +79,7 @@ The base structure created by project setup:
     { "key": "team", "label": "Team", "icon": "users",
       "children": [
         { "key": "agents", "label": "Agents", "path": ".orqa/process/agents" },
-        { "key": "skills", "label": "Skills", "path": ".orqa/process/skills" }
+        { "key": "skills", "label": "Skills", "path": ".orqa/process/knowledge" }
       ]
     }
   ]
@@ -118,7 +118,7 @@ For Claude Code compatibility, create symlinks in `.claude/`:
 ```
 .claude/rules/    → .orqa/process/rules/
 .claude/agents/   → .orqa/process/agents/
-.claude/skills/   → .orqa/process/skills/
+.claude/knowledge/   → .orqa/process/knowledge/
 .claude/hooks/    → .orqa/process/hooks/
 .claude/CLAUDE.md → .orqa/process/agents/orchestrator.md
 ```

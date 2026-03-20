@@ -16,16 +16,16 @@ pub struct WorkflowTracker {
     docs_consulted: Vec<String>,
     /// Files read from `.orqa/delivery/`.
     planning_consulted: Vec<String>,
-    /// Skills loaded via `load_skill` during this session.
-    skills_loaded: HashSet<String>,
+    /// Knowledge loaded via `load_knowledge` during this session.
+    knowledge_loaded: HashSet<String>,
     /// Bash commands run during this session.
     commands_run: Vec<String>,
     /// True after any `make check` or `make test` command is detected.
     verification_run: bool,
     /// True after any read of `.orqa/process/lessons/`.
     lessons_checked: bool,
-    /// Deduplication set for skill injection — prevents injecting the same skill twice.
-    injected_skills: HashSet<String>,
+    /// Deduplication set for knowledge injection — prevents injecting the same knowledge twice.
+    injected_knowledge: HashSet<String>,
     /// True after the first code-write gate fires, so it only fires once per session.
     pub first_code_write_gated: bool,
 }
@@ -65,9 +65,9 @@ impl WorkflowTracker {
         self.searches_performed += 1;
     }
 
-    /// Record a skill being loaded via `load_skill`.
-    pub fn record_skill_loaded(&mut self, name: &str) {
-        self.skills_loaded.insert(name.to_string());
+    /// Record a knowledge artifact being loaded via `load_knowledge`.
+    pub fn record_knowledge_loaded(&mut self, name: &str) {
+        self.knowledge_loaded.insert(name.to_string());
     }
 
     /// Record a bash command.
@@ -89,12 +89,12 @@ impl WorkflowTracker {
         }
     }
 
-    /// Mark a skill as injected.
+    /// Mark a knowledge artifact as injected.
     ///
-    /// Returns `true` if this is the first time this skill has been injected
+    /// Returns `true` if this is the first time this knowledge has been injected
     /// in this session (i.e. actually newly injected), `false` if already done.
-    pub fn mark_skill_injected(&mut self, name: &str) -> bool {
-        self.injected_skills.insert(name.to_string())
+    pub fn mark_knowledge_injected(&mut self, name: &str) -> bool {
+        self.injected_knowledge.insert(name.to_string())
     }
 
     /// True if any file in `.orqa/documentation/` has been read this session.
@@ -252,22 +252,22 @@ mod tests {
         assert_eq!(t.searches_performed, 3);
     }
 
-    // ── record_skill_loaded ──
+    // ── record_knowledge_loaded ──
 
     #[test]
-    fn record_skill_loaded_deduplicates() {
+    fn record_knowledge_loaded_deduplicates() {
         let mut t = WorkflowTracker::new();
-        t.record_skill_loaded("rust-async-patterns");
-        t.record_skill_loaded("rust-async-patterns");
-        assert_eq!(t.skills_loaded.len(), 1);
+        t.record_knowledge_loaded("rust-async-patterns");
+        t.record_knowledge_loaded("rust-async-patterns");
+        assert_eq!(t.knowledge_loaded.len(), 1);
     }
 
     #[test]
-    fn record_skill_loaded_tracks_multiple_skills() {
+    fn record_knowledge_loaded_tracks_multiple_items() {
         let mut t = WorkflowTracker::new();
-        t.record_skill_loaded("rust-async-patterns");
-        t.record_skill_loaded("tauri-v2");
-        assert_eq!(t.skills_loaded.len(), 2);
+        t.record_knowledge_loaded("rust-async-patterns");
+        t.record_knowledge_loaded("tauri-v2");
+        assert_eq!(t.knowledge_loaded.len(), 2);
     }
 
     // ── record_command ──
@@ -328,26 +328,26 @@ mod tests {
         assert!(!t.has_run_verification());
     }
 
-    // ── mark_skill_injected ──
+    // ── mark_knowledge_injected ──
 
     #[test]
-    fn mark_skill_injected_returns_true_first_time() {
+    fn mark_knowledge_injected_returns_true_first_time() {
         let mut t = WorkflowTracker::new();
-        assert!(t.mark_skill_injected("rust-async-patterns"));
+        assert!(t.mark_knowledge_injected("rust-async-patterns"));
     }
 
     #[test]
-    fn mark_skill_injected_returns_false_second_time() {
+    fn mark_knowledge_injected_returns_false_second_time() {
         let mut t = WorkflowTracker::new();
-        t.mark_skill_injected("rust-async-patterns");
-        assert!(!t.mark_skill_injected("rust-async-patterns"));
+        t.mark_knowledge_injected("rust-async-patterns");
+        assert!(!t.mark_knowledge_injected("rust-async-patterns"));
     }
 
     #[test]
-    fn mark_skill_injected_different_skills_both_true() {
+    fn mark_knowledge_injected_different_items_both_true() {
         let mut t = WorkflowTracker::new();
-        assert!(t.mark_skill_injected("tauri-v2"));
-        assert!(t.mark_skill_injected("svelte5-best-practices"));
+        assert!(t.mark_knowledge_injected("tauri-v2"));
+        assert!(t.mark_knowledge_injected("svelte5-best-practices"));
     }
 
     // ── has_done_any_research ──

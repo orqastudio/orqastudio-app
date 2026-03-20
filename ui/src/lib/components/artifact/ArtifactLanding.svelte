@@ -37,13 +37,13 @@
 				"Rules enforce coding standards and project conventions. They are loaded automatically by Claude Code.",
 			location: ".claude/rules/",
 		},
-		skills: {
-			icon: "zap",
-			label: "Skills",
-			singular: "skill",
+		knowledge: {
+			icon: "brain",
+			label: "Knowledge",
+			singular: "knowledge",
 			description:
-				"Skills define reusable capabilities that agents can invoke during sessions.",
-			location: ".claude/skills/",
+				"Knowledge files define reusable domain context that agents draw on during sessions.",
+			location: ".claude/knowledge/",
 		},
 		hooks: {
 			icon: "git-branch",

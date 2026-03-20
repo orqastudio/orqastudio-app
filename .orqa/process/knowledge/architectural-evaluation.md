@@ -1,5 +1,5 @@
 ---
-id: SKILL-30a419dd
+id: KNOW-30a419dd
 title: Architectural Evaluation
 description: |
   Architectural compliance evaluation methodology: boundary verification,

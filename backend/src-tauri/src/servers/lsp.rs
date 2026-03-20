@@ -230,13 +230,13 @@ impl OrqaLspBackend {
             }
         }
 
-        // Check skill documentation requirement (AD-058: skills must have synchronised-with)
+        // Check knowledge documentation requirement (AD-058: knowledge must have synchronised-with)
         {
-            let is_skill = frontmatter.lines().any(|l| {
-                l.trim().starts_with("type:") && l.contains("skill")
-            }) || rel_path.contains("/skills/");
+            let is_knowledge = frontmatter.lines().any(|l| {
+                l.trim().starts_with("type:") && l.contains("knowledge")
+            }) || rel_path.contains("/knowledge/");
 
-            if is_skill && !frontmatter.contains("synchronised-with") {
+            if is_knowledge && !frontmatter.contains("synchronised-with") {
                 let line_num = self.find_frontmatter_end_line(content);
                 diagnostics.push(Diagnostic {
                     range: Range::new(
@@ -245,7 +245,7 @@ impl OrqaLspBackend {
                     ),
                     severity: Some(DiagnosticSeverity::ERROR),
                     source: Some("orqastudio".into()),
-                    message: "Skills must have at least one synchronised-with relationship to a human-facing doc (AD-058)".into(),
+                    message: "Knowledge artifacts must have at least one synchronised-with relationship to a human-facing doc (AD-058)".into(),
                     ..Default::default()
                 });
             }

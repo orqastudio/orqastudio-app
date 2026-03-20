@@ -146,8 +146,8 @@
 						<div class="text-muted-foreground">Rules</div>
 					</div>
 					<div class="rounded border p-2 text-center">
-						<div class="text-lg font-semibold">{scanResult.governance.skills}</div>
-						<div class="text-muted-foreground">Skills</div>
+						<div class="text-lg font-semibold">{scanResult.governance.knowledge}</div>
+						<div class="text-muted-foreground">Knowledge</div>
 					</div>
 					<div class="rounded border p-2 text-center">
 						<div class="text-lg font-semibold">{scanResult.governance.hooks}</div>

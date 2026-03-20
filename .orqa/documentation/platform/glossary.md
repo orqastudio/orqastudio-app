@@ -64,7 +64,7 @@ A constraint that agents must follow during implementation. Rules are markdown f
 
 ### Skill
 
-A reusable knowledge package that provides domain-specific context to agents. Skills are directories containing a `SKILL.md` file, living in `app/.orqa/process/skills/` (core), `plugins/*/skills/` (plugin), or `.orqa/process/skills/` (project). Each skill may have a paired documentation artifact connected via `synchronised-with`. Skills are loaded on demand based on agent `employs` relationships and file-pattern injection rules.
+A reusable knowledge package that provides domain-specific context to agents. Skills are directories containing a `KNOW.md` file, living in `app/.orqa/process/knowledge/` (core), `plugins/*/knowledge/` (plugin), or `.orqa/process/knowledge/` (project). Each skill may have a paired documentation artifact connected via `synchronised-with`. Skills are loaded on demand based on agent `employs` relationships and file-pattern injection rules.
 
 **Examples:** composability, research-methodology, code-quality-review, plugin-artifact-usage.
 
@@ -74,7 +74,7 @@ An internal enforcement mechanism triggered automatically during development. Ho
 
 ### Documentation
 
-Structured project knowledge in `.orqa/documentation/` (project) or `app/.orqa/documentation/platform/` (core). Docs use the `documents` relationship type to connect to the artifacts they describe (epics, decisions, rules, milestones). Paired with skills via `synchronised-with` — skills teach agents, docs teach humans.
+Structured project knowledge in `.orqa/documentation/` (project) or `app/.orqa/documentation/platform/` (core). Docs use the `documents` relationship type to connect to the artifacts they describe (epics, decisions, rules, milestones). Paired with knowledge artifacts via `synchronised-with` — knowledge teaches agents, docs teach humans.
 
 ---
 

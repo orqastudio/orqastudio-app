@@ -7,7 +7,7 @@ use rusqlite::Connection;
 use crate::domain::artifact_graph::ArtifactGraph;
 use crate::domain::enforcement_engine::EnforcementEngine;
 use crate::domain::process_state::SessionProcessState;
-use crate::domain::skill_injector::SkillInjector;
+use crate::domain::knowledge_injector::KnowledgeInjector;
 use crate::domain::workflow_tracker::WorkflowTracker;
 use crate::search::SearchEngine;
 use crate::sidecar::manager::SidecarManager;
@@ -66,7 +66,7 @@ pub struct EnforcementState {
 
 /// Session-level process compliance and workflow tracking.
 ///
-/// Tracks whether docs were read and skills were loaded before code was written.
+/// Tracks whether docs were read and knowledge was loaded before code was written.
 /// Accumulates reads, writes, searches, and commands over the session lifetime.
 /// Both reset when `stream_send_message` is called for a different session.
 pub struct SessionState {
@@ -85,7 +85,7 @@ pub struct CliToolState {
 
 /// Artifact graph and related filesystem state.
 ///
-/// Includes the file watcher, cached bidirectional graph, and skill injector.
+/// Includes the file watcher, cached bidirectional graph, and knowledge injector.
 pub struct ArtifactState {
     /// Active `.orqa/` file-system watcher.
     ///
@@ -98,12 +98,12 @@ pub struct ArtifactState {
     /// Invalidated (set to `None`) by the artifact watcher when `.orqa/` files change,
     /// so the next query triggers a fresh build from disk.
     pub graph: Mutex<Option<ArtifactGraph>>,
-    /// Prompt-based skill injector using semantic similarity.
+    /// Prompt-based knowledge injector using semantic similarity.
     ///
-    /// `None` until the embedder is ready and a project with skills is opened.
+    /// `None` until the embedder is ready and a project with knowledge artifacts is opened.
     /// When available, the system prompt builder embeds the user's message and
-    /// injects the most relevant skills automatically.
-    pub skill_injector: Mutex<Option<SkillInjector>>,
+    /// injects the most relevant knowledge automatically.
+    pub knowledge_injector: Mutex<Option<KnowledgeInjector>>,
 }
 
 // ---------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 ---
 id: RULE-5ee43922
-title: User-Invocable Skill Semantics
-description: The user-invocable field in skill frontmatter controls whether a skill can be triggered directly by users as a slash command or from the UI.
+title: User-Invocable Knowledge Semantics
+description: The user-invocable field in knowledge frontmatter controls whether a knowledge artifact can be triggered directly by users as a slash command or from the UI.
 status: active
 created: 2026-03-11
 updated: 2026-03-11
@@ -9,18 +9,18 @@ relationships:
   - target: AD-53e80192
     type: enforces
 ---
-Every skill MUST have a `user-invocable` field in its YAML frontmatter. This field determines how the skill surfaces to users.
+Every knowledge artifact MUST have a `user-invocable` field in its YAML frontmatter. This field determines how the knowledge artifact surfaces to users.
 
 ## Field Values
 
 | Value | Meaning | System Behavior |
 |-------|---------|-----------------|
-| `true` | Users can trigger this skill directly | Appears in CLI slash command list, app skill picker, and skill browser |
+| `true` | Users can trigger this knowledge directly | Appears in CLI slash command list, app knowledge picker, and knowledge browser |
 | `false` | Only loaded into agent context by the orchestrator | Hidden from user-facing lists; only agents use it |
 
 ## When to Set `true`
 
-A skill should be `user-invocable: true` when:
+A knowledge artifact should be `user-invocable: true` when:
 
 - It provides methodology a user might want to invoke on demand (e.g., "run a code quality review")
 - It loads domain knowledge that enriches agent behavior when explicitly requested
@@ -28,19 +28,19 @@ A skill should be `user-invocable: true` when:
 
 ## When to Set `false`
 
-A skill should be `user-invocable: false` when:
+A knowledge artifact should be `user-invocable: false` when:
 
-- It is a process skill that only makes sense within a specific workflow (e.g., UAT phases that must follow a sequence)
-- It is an internal audit skill that the orchestrator triggers automatically
+- It is a process knowledge artifact that only makes sense within a specific workflow (e.g., UAT phases that must follow a sequence)
+- It is an internal audit knowledge artifact that the orchestrator triggers automatically
 - Direct user invocation would bypass necessary preconditions or sequencing
 
 ## FORBIDDEN
 
-- Skills without a `user-invocable` field in frontmatter
-- Setting `user-invocable: true` on workflow-sequenced skills that bypass preconditions when invoked directly
-- Setting `user-invocable: false` on general methodology skills that users should be able to request
+- Knowledge artifacts without a `user-invocable` field in frontmatter
+- Setting `user-invocable: true` on workflow-sequenced knowledge that bypasses preconditions when invoked directly
+- Setting `user-invocable: false` on general methodology knowledge that users should be able to request
 
 ## Related Rules
 
-- [RULE-deab6ea7](RULE-deab6ea7) (skill-enforcement) — skill loading model and tier system
-- [RULE-11c29c9e](RULE-11c29c9e) (skill-portability) — skill layer and portability requirements
+- [RULE-deab6ea7](RULE-deab6ea7) (knowledge-enforcement) — knowledge loading model and tier system
+- [RULE-11c29c9e](RULE-11c29c9e) (knowledge-portability) — knowledge layer and portability requirements

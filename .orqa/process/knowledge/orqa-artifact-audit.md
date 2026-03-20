@@ -1,5 +1,5 @@
 ---
-id: SKILL-4368d782
+id: KNOW-4368d782
 title: Artifact Audit Methodology
 description: |
   Schema-driven audit methodology for governance artifacts. Validates reference
@@ -83,13 +83,13 @@ Identify artifacts that reference things that no longer exist or describe behavi
 
 This category requires human or AI judgement — automated tools can flag path references, but content accuracy requires reading comprehension.
 
-### 7. Doc/Skill Pair Coverage
+### 7. Doc/Knowledge Pair Coverage
 
-Every plugin that introduces artifact types should have a synchronised doc+skill pair:
+Every plugin that introduces artifact types should have a synchronised doc+knowledge pair:
 
 - A platform documentation page explaining the artifact type and its schema
-- A skill teaching agents how to work with that artifact type
-- The doc and skill should be linked via `synchronised-with` relationships
+- A knowledge artifact teaching agents how to work with that artifact type
+- The doc and knowledge artifact should be linked via `synchronised-with` relationships
 
 Check for missing pairs and for pairs that exist but have drifted out of sync.
 
@@ -138,10 +138,10 @@ Prioritise artifacts that are consumed at runtime (agent definitions, required r
 
 Check for structural gaps in the artifact graph:
 
-- Artifact types defined in `core.json` or plugins that have no corresponding doc/skill pair
+- Artifact types defined in `core.json` or plugins that have no corresponding doc/knowledge pair
 - Artifacts with no `grounded` relationship to any pillar (if grounding is expected for their type)
 - Decisions with no `enforces` relationship from any rule (unenforced decisions)
-- Agents whose skill lists reference non-existent skills
+- Agents whose knowledge lists reference non-existent knowledge artifacts
 - Required reading paths that do not resolve
 
 ## Findings Format
@@ -165,7 +165,7 @@ Where:
 
 - **CRITICAL** — Broken references that cause runtime failures, enforcement gaps where a decision has no enforcing rule, or ID collisions that corrupt the graph
 - **HIGH** — Wrong vocabulary usage, misplaced artifacts (wrong layer), constraint violations (e.g., `grounded` targeting a non-pillar)
-- **MEDIUM** — Missing doc/skill pairs, stale content that misleads but does not break anything, missing inverse relationships
+- **MEDIUM** — Missing doc/knowledge pairs, stale content that misleads but does not break anything, missing inverse relationships
 - **LOW** — Style or naming inconsistencies, minor content drift, empty optional sections
 
 ## Systemic Pattern Grouping

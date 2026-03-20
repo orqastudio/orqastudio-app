@@ -106,7 +106,7 @@ Commit at natural boundaries. Never accumulate large numbers of uncommitted file
 
 ### Governance-Only Work
 
-Work that only modifies `.orqa/` files (rules, docs, agents, skills, planning artifacts) is often done on main without a worktree. This is acceptable, but commit discipline still applies:
+Work that only modifies `.orqa/` files (rules, docs, agents, knowledge, planning artifacts) is often done on main without a worktree. This is acceptable, but commit discipline still applies:
 
 - Commit at each logical milestone (e.g., "all rules updated", "epic planned", "docs migrated")
 - The session-start hook warns when uncommitted files exceed 20

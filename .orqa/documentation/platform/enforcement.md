@@ -159,7 +159,7 @@ When agents touch specific code areas, the enforcement system automatically inje
 
 1. Rule frontmatter declares `action: inject` entries with `conditions` matching file paths and `skills` listing skill names
 2. When a file write matches, the `Verdict` carries the skill names
-3. The tool executor reads each skill's `SKILL.md` from `.orqa/process/skills/{name}/SKILL.md`
+3. The tool executor reads each skill's `KNOW.md` from `.orqa/process/knowledge/{name}/KNOW.md`
 4. YAML frontmatter is stripped; the skill body content is returned
 5. Content is deduplicated per session via the `WorkflowTracker`'s `injected_skills` set
 6. The combined skill content is prepended to the tool output
@@ -194,7 +194,7 @@ When skills are injected, they are formatted as:
 
 ## Skill: {skill-name}
 
-{stripped SKILL.md content}
+{stripped KNOW.md content}
 
 [End of injected skills]
 
@@ -286,7 +286,7 @@ The CLI plugin uses keyword-based intent classification via `prompt-injector.mjs
 
 The app uses semantic similarity via the `SkillInjector` (`backend/src-tauri/src/domain/skill_injector.rs`):
 
-1. On startup, all skills are discovered from `.orqa/process/skills/*/SKILL.md`
+1. On startup, all skills are discovered from `.orqa/process/knowledge/*/KNOW.md`
 2. Each skill's `description:` frontmatter field is extracted
 3. Descriptions are embedded using the ONNX embedder (bge-small-en-v1.5, 384-dim vectors)
 4. When a user prompt arrives, it is embedded and compared against all skill embeddings
@@ -434,7 +434,7 @@ flowchart TD
 
     TC --> SI["Skill injection<br/>(collect_injected_skills)"]
     SI --> Dedup["Deduplicate against WorkflowTracker.injected_skills"]
-    Dedup --> ReadSkills["Read SKILL.md files, strip frontmatter"]
+    Dedup --> ReadSkills["Read KNOW.md files, strip frontmatter"]
     ReadSkills --> Combine["Combine into injected content string"]
 
     Warn --> Execute["Execute tool call"]

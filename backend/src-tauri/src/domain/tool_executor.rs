@@ -22,7 +22,7 @@ pub const READ_ONLY_TOOLS: &[&str] = &[
     "grep",
     "search_regex",
     "search_semantic",
-    "load_skill",
+    "load_knowledge",
     "code_research",
 ];
 
@@ -96,11 +96,11 @@ pub fn resolve_write_path(raw: &str, root: &Path) -> Result<PathBuf, String> {
 
 /// Result of running enforcement checks on a tool call.
 ///
-/// Captures both blocking verdicts and skill injection content.
+/// Captures both blocking verdicts and knowledge injection content.
 pub struct EnforcementResult {
     /// If set, the tool execution is blocked with this message.
     pub block_message: Option<String>,
-    /// Skill content to inject into the agent's context.
+    /// Knowledge content to inject into the agent's context.
     ///
     /// May be non-empty even when the tool is not blocked.
     pub injected_content: Option<String>,
@@ -122,28 +122,27 @@ fn strip_frontmatter(content: &str) -> String {
     }
 }
 
-/// Read a skill's `.md` file and return its body (frontmatter stripped).
-fn read_skill_content(project_dir: &Path, skill_name: &str) -> Option<String> {
-    let skill_path = project_dir
+/// Read a knowledge artifact's `.md` file and return its body (frontmatter stripped).
+fn read_knowledge_content(project_dir: &Path, knowledge_name: &str) -> Option<String> {
+    let knowledge_path = project_dir
         .join(".orqa")
         .join("process")
-        .join("skills")
-        .join(format!("{skill_name}.md"));
-    let content = std::fs::read_to_string(&skill_path).ok()?;
+        .join("knowledge")
+        .join(format!("{knowledge_name}.md"));
+    let content = std::fs::read_to_string(&knowledge_path).ok()?;
     Some(strip_frontmatter(&content))
 }
 
-/// Collect and deduplicate skill content for Inject verdicts.
+/// Collect and deduplicate knowledge content for Inject verdicts.
 ///
-/// Reads each skill from disk, marks it as injected in the `WorkflowTracker`,
-/// and returns the combined content. Skills already injected this session are
-/// skipped.
-fn collect_injected_skills(
-    skills: &[String],
+/// Reads each knowledge artifact from disk, marks it as injected in the `WorkflowTracker`,
+/// and returns the combined content. Knowledge already injected this session is skipped.
+fn collect_injected_knowledge(
+    knowledge: &[String],
     state: &tauri::State<'_, AppState>,
     project_dir: &Path,
 ) -> Option<String> {
-    if skills.is_empty() {
+    if knowledge.is_empty() {
         return None;
     }
 
@@ -156,21 +155,21 @@ fn collect_injected_skills(
     };
 
     let mut parts: Vec<String> = Vec::new();
-    for skill in skills {
-        if !tracker.mark_skill_injected(skill) {
-            tracing::debug!("[enforcement] skill '{skill}' already injected, skipping");
+    for item in knowledge {
+        if !tracker.mark_knowledge_injected(item) {
+            tracing::debug!("[enforcement] knowledge '{item}' already injected, skipping");
             continue;
         }
-        match read_skill_content(project_dir, skill) {
+        match read_knowledge_content(project_dir, item) {
             Some(body) => {
                 tracing::debug!(
-                    "[enforcement] injecting skill '{skill}' ({} chars)",
+                    "[enforcement] injecting knowledge '{item}' ({} chars)",
                     body.len()
                 );
-                parts.push(format!("## Skill: {skill}\n\n{body}"));
+                parts.push(format!("## Knowledge: {item}\n\n{body}"));
             }
             None => {
-                tracing::warn!("[enforcement] skill '{skill}' not found on disk, skipping");
+                tracing::warn!("[enforcement] knowledge '{item}' not found on disk, skipping");
             }
         }
     }
@@ -182,16 +181,16 @@ fn collect_injected_skills(
     }
 }
 
-/// Process enforcement verdicts and return a block message or collected injection skills.
+/// Process enforcement verdicts and return a block message or collected injection knowledge.
 ///
-/// Returns `Ok(skills_to_inject)` if no block occurred, or `Err(EnforcementResult)` with
+/// Returns `Ok(knowledge_to_inject)` if no block occurred, or `Err(EnforcementResult)` with
 /// the block message if a verdict blocks execution.
 fn process_verdicts(
     verdicts: &[crate::domain::enforcement::Verdict],
     tool_label: &str,
     context_label: &str,
 ) -> Result<Vec<String>, EnforcementResult> {
-    let mut all_inject_skills: Vec<String> = Vec::new();
+    let mut all_inject_knowledge: Vec<String> = Vec::new();
     for verdict in verdicts {
         match verdict.action {
             RuleAction::Block => {
@@ -215,15 +214,15 @@ fn process_verdicts(
             }
             RuleAction::Inject => {
                 tracing::debug!(
-                    "[enforcement] INJECT tool={tool_label} rule='{}' {context_label} skills={:?}",
+                    "[enforcement] INJECT tool={tool_label} rule='{}' {context_label} knowledge={:?}",
                     verdict.rule_name,
-                    verdict.skills
+                    verdict.knowledge
                 );
-                all_inject_skills.extend(verdict.skills.clone());
+                all_inject_knowledge.extend(verdict.knowledge.clone());
             }
         }
     }
-    Ok(all_inject_skills)
+    Ok(all_inject_knowledge)
 }
 
 /// Acquire the enforcement engine lock and return the guard.
@@ -244,13 +243,13 @@ fn lock_enforcement_engine<'a>(
     }
 }
 
-/// Build an `EnforcementResult` from collected skills, injecting content from disk.
+/// Build an `EnforcementResult` from collected knowledge, injecting content from disk.
 fn build_enforcement_result(
-    skills: Vec<String>,
+    knowledge: Vec<String>,
     state: &tauri::State<'_, AppState>,
     project_dir: &Path,
 ) -> EnforcementResult {
-    let injected_content = collect_injected_skills(&skills, state, project_dir);
+    let injected_content = collect_injected_knowledge(&knowledge, state, project_dir);
     EnforcementResult {
         block_message: None,
         injected_content,
@@ -260,7 +259,7 @@ fn build_enforcement_result(
 /// Run enforcement checks for a file write/edit tool call.
 ///
 /// Returns an `EnforcementResult` with an optional block message and/or
-/// injected skill content.
+/// injected knowledge content.
 pub fn enforce_file(
     tool_name: &str,
     file_path: &str,
@@ -282,18 +281,18 @@ pub fn enforce_file(
     };
     let verdicts = engine.evaluate_file(file_path, new_text);
     let context = format!("file='{file_path}'");
-    let skills = match process_verdicts(&verdicts, tool_name, &context) {
+    let knowledge = match process_verdicts(&verdicts, tool_name, &context) {
         Ok(s) => s,
         Err(result) => return result,
     };
     drop(guard);
-    build_enforcement_result(skills, state, project_dir)
+    build_enforcement_result(knowledge, state, project_dir)
 }
 
 /// Run enforcement checks for a bash tool call.
 ///
 /// Returns an `EnforcementResult` with an optional block message and/or
-/// injected skill content.
+/// injected knowledge content.
 pub fn enforce_bash(
     command: &str,
     state: &tauri::State<'_, AppState>,
@@ -313,12 +312,12 @@ pub fn enforce_bash(
     };
     let verdicts = engine.evaluate_bash(command);
     let context = format!("command='{command}'");
-    let skills = match process_verdicts(&verdicts, "bash", &context) {
+    let knowledge = match process_verdicts(&verdicts, "bash", &context) {
         Ok(s) => s,
         Err(result) => return result,
     };
     drop(guard);
-    build_enforcement_result(skills, state, project_dir)
+    build_enforcement_result(knowledge, state, project_dir)
 }
 
 /// Run enforcement checks for the given tool and input.
@@ -370,17 +369,17 @@ fn dispatch_tool(
         "search_regex" => tool_search_regex(input, state),
         "search_semantic" => tool_search_semantic(input, state),
         "code_research" => tool_code_research(input, state),
-        "load_skill" => tool_load_skill(input, root),
+        "load_knowledge" => tool_load_knowledge(input, root),
         _ => (format!("unknown tool: {tool_name}"), true),
     }
 }
 
-/// Prepend injected skill content to a tool output string.
+/// Prepend injected knowledge content to a tool output string.
 fn prepend_injected_content(output: &mut String, content: String) {
     *output = format!(
-        "[Enforcement: the following skills have been loaded for context]\n\n\
+        "[Enforcement: the following knowledge has been loaded for context]\n\n\
          {content}\n\n\
-         [End of injected skills]\n\n\
+         [End of injected knowledge]\n\n\
          {output}"
     );
 }
@@ -948,33 +947,33 @@ pub fn tool_code_research(
     }
 }
 
-/// Load the full content of a skill from `.orqa/skills/{name}/SKILL.md`.
-pub fn tool_load_skill(input: &serde_json::Value, root: &Path) -> (String, bool) {
+/// Load the full content of a knowledge artifact from `.orqa/process/knowledge/{name}.md`.
+pub fn tool_load_knowledge(input: &serde_json::Value, root: &Path) -> (String, bool) {
     let Some(name) = input["name"].as_str() else {
         return ("missing 'name' parameter".to_string(), true);
     };
 
-    // Validate skill name: must be a simple directory name with no path separators
+    // Validate knowledge name: must be a simple filename with no path separators
     if name.contains('/') || name.contains('\\') || name.contains("..") {
         return (
-            format!("invalid skill name '{name}': must not contain path separators"),
+            format!("invalid knowledge name '{name}': must not contain path separators"),
             true,
         );
     }
 
-    let skill_path = root
+    let knowledge_path = root
         .join(".orqa")
         .join("process")
-        .join("skills")
+        .join("knowledge")
         .join(format!("{name}.md"));
 
-    match std::fs::read_to_string(&skill_path) {
+    match std::fs::read_to_string(&knowledge_path) {
         Ok(contents) => (contents, false),
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => (
-            format!("skill '{name}' not found at '{}'", skill_path.display()),
+            format!("knowledge '{name}' not found at '{}'", knowledge_path.display()),
             true,
         ),
-        Err(e) => (format!("failed to read skill '{name}': {e}"), true),
+        Err(e) => (format!("failed to read knowledge '{name}': {e}"), true),
     }
 }
 
@@ -1032,7 +1031,7 @@ mod tests {
             "grep",
             "search_regex",
             "search_semantic",
-            "load_skill",
+            "load_knowledge",
             "code_research",
         ];
         for tool in &read_only {

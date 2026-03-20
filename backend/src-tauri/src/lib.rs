@@ -63,7 +63,7 @@ fn build_app_state(
         artifacts: state::ArtifactState {
             watcher: std::sync::Arc::new(std::sync::Mutex::new(None)),
             graph: std::sync::Mutex::new(None),
-            skill_injector: std::sync::Mutex::new(None),
+            knowledge_injector: std::sync::Mutex::new(None),
         },
         cli_tools: state::CliToolState {
             runner: cli_tools::runner::CliToolRunner::new(),

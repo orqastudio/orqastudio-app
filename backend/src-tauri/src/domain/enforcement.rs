@@ -22,7 +22,7 @@ pub enum RuleAction {
     Block,
     /// Log a warning but allow the tool call to proceed.
     Warn,
-    /// Inject skill content into the agent context (non-blocking).
+    /// Inject knowledge content into the agent context (non-blocking).
     Inject,
 }
 
@@ -56,12 +56,13 @@ pub struct EnforcementEntry {
     /// Resolved relative to the project root at scan time.
     #[serde(default)]
     pub scope: Option<String>,
-    /// Skills to inject when action is `inject`.
+    /// Knowledge artifacts to inject when action is `inject`.
     ///
-    /// Lists skill names (directory names under `.orqa/process/skills/`) that
+    /// Lists knowledge artifact names (filenames under `.orqa/process/knowledge/`) that
     /// should be loaded into agent context when this entry matches.
-    #[serde(default)]
-    pub skills: Vec<String>,
+    /// The YAML frontmatter field is `skills` for backward compatibility with existing rule files.
+    #[serde(rename = "skills", default)]
+    pub knowledge: Vec<String>,
 }
 
 /// A finding produced by a governance scan entry.
@@ -103,9 +104,9 @@ pub struct Verdict {
     pub action: RuleAction,
     /// An excerpt of the rule prose for the error message (first ~200 chars).
     pub message: String,
-    /// Skills to inject when action is `inject`.
+    /// Knowledge artifacts to inject when action is `inject`.
     ///
-    /// Populated from the matching entry's `skills` field. Empty for block/warn verdicts.
+    /// Populated from the matching entry's `knowledge` field. Empty for block/warn verdicts.
     #[serde(default)]
-    pub skills: Vec<String>,
+    pub knowledge: Vec<String>,
 }

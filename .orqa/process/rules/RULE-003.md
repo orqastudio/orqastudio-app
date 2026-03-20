@@ -103,7 +103,7 @@ Before committing any change that affects artifact paths or structure:
 |---------|-------------------------|
 | `.claude/rules/` | → `.orqa/process/rules/` |
 | `.claude/agents/` | → `.orqa/process/agents/` |
-| `.claude/skills/` | → `.orqa/process/skills/` |
+| `.claude/knowledge/` | → `.orqa/process/knowledge/` |
 | `.claude/hooks/` | → `.orqa/process/hooks/` |
 | `.claude/CLAUDE.md` | → `.orqa/process/agents/orchestrator.md` |
 
@@ -116,7 +116,7 @@ Before committing any change that affects artifact paths or structure:
 1. **NEVER write directly to `.claude/` directories** — always write to `.orqa/` source of truth
 2. **NEVER create separate copies** — if a symlink is broken, fix the symlink, don't create a duplicate file
 3. **All agents writing governance artifacts** must target `.orqa/` paths, not `.claude/` paths
-4. **New rules** go in `.orqa/process/rules/`, new agents in `.orqa/process/agents/`, new skills in `.orqa/process/skills/`
+4. **New rules** go in `.orqa/process/rules/`, new agents in `.orqa/process/agents/`, new knowledge in `.orqa/process/knowledge/`
 5. **If symlinks don't exist**, create them — they're the compatibility layer, not the source
 
 ## FORBIDDEN

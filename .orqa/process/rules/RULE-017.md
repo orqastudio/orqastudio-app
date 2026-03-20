@@ -25,7 +25,7 @@ When `code-reviewer`, `qa-tester`, or `ux-reviewer` reports a FAIL verdict:
 1. **Check existing lessons** — search `.orqa/process/lessons/` for the failure pattern before reporting it as a novel finding
 2. **If the failure matches an existing lesson:** note the recurrence (increment the count in the lesson file's frontmatter)
 3. **If the failure is new:** the reviewing agent creates a new `IMPL-NNN.md` file in `.orqa/process/lessons/` before the fix-and-resubmit cycle begins
-4. **When an IMPL entry reaches recurrence >= 2:** the `orchestrator` (with `governance-maintenance` skills) is triggered to promote it to a rule, coding standard addition, or skill update
+4. **When an IMPL entry reaches recurrence >= 2:** the `orchestrator` (with `governance-maintenance` knowledge) is triggered to promote it to a rule, coding standard addition, or knowledge update
 5. **After promotion:** the lesson file's "promoted-to" frontmatter field is updated with the target artifact
 
 ## Process Retrospectives
@@ -48,7 +48,7 @@ A lesson MUST NOT be promoted to a rule without attempting enforcement. Rules wi
 
 1. **Declare enforcement entries** on the target rule (event type, action, paths/patterns)
 2. **Attempt mechanical enforcement** — can a hook, scanner, validator, or gate catch violations?
-3. **If mechanical enforcement isn't possible** — use skill injection via [RULE-f9d0279c](RULE-f9d0279c) to inject context at the right moment
+3. **If mechanical enforcement isn't possible** — use knowledge injection via [RULE-f9d0279c](RULE-f9d0279c) to inject context at the right moment
 4. **All enforcement flows through the artifact graph** — never create raw platform hooks that bypass the system
 
 Enforcement layers in priority order: artifact graph declaration → Rust application layer → Claude plugin → pre-commit hooks. Not every rule can be enforced at every layer, but at least one layer must be attempted.
@@ -71,7 +71,7 @@ Lessons carry a `status` field that reflects their promotion state:
 |--------|---------|-----------|
 | `active` | Unpromoted lesson, normal state | Blue dot |
 | `recurring` | Recurrence >= 2, pending promotion review | Amber dot |
-| `promoted` | Promoted to a rule, coding standard, or skill | Purple dot |
+| `promoted` | Promoted to a rule, coding standard, or knowledge | Purple dot |
 
 When a lesson's recurrence is incremented to >= 2, update `status: recurring`. When promoted (the `evolves-into` field is set), update `status: promoted`.
 

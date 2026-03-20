@@ -1,5 +1,5 @@
 ---
-id: SKILL-e3a559c9
+id: KNOW-e3a559c9
 title: OrqaStudio Plugin Setup
 description: "Installs the OrqaStudio companion plugin for Claude Code. Detects existing .claude/ infrastructure, migrates to .orqa/, registers the plugin, and sets up symlinks."
 status: active
@@ -48,7 +48,7 @@ file .claude/CLAUDE.md .claude/rules .claude/agents .claude/skills 2>/dev/null
 | `.claude/CLAUDE.md` is a symlink to `.orqa/` | Already set up for OrqaStudio | Just install plugin |
 | `.claude/rules/` contains real `.md` files | Existing rules | Migrate to `.orqa/process/rules/` |
 | `.claude/agents/` contains real `.md` files | Existing agents | Migrate to `.orqa/process/agents/` |
-| `.claude/skills/` contains real dirs | Existing skills | Migrate to `.orqa/process/skills/` |
+| `.claude/knowledge/` contains real dirs | Existing skills | Migrate to `.orqa/process/knowledge/` |
 
 ### Check 3: Is the plugin already installed?
 
@@ -126,9 +126,9 @@ cp .claude/agents/*.md .orqa/process/agents/
 ### Step 4: Migrate skills
 
 ```bash
-# If .claude/skills/ contains real skill directories
-mkdir -p .orqa/process/skills/
-cp -r .claude/skills/*/ .orqa/process/skills/
+# If .claude/knowledge/ contains real skill directories
+mkdir -p .orqa/process/knowledge/
+cp -r .claude/knowledge/*/ .orqa/process/knowledge/
 ```
 
 ### Step 5: Back up and remove originals
@@ -218,7 +218,7 @@ Restart Claude Code. The plugin's SessionStart hook will:
 1. Create `.claude/CLAUDE.md` → `.orqa/process/agents/orchestrator.md` symlink
 2. Create `.claude/rules/` → `.orqa/process/rules/` symlink
 3. Create `.claude/agents/` → `.orqa/process/agents/` symlink
-4. Create `.claude/skills/` → `.orqa/process/skills/` symlink
+4. Create `.claude/knowledge/` → `.orqa/process/knowledge/` symlink
 5. Run session health checks (stashes, worktrees, uncommitted files)
 
 ## Fresh Install Path (no existing `.claude/`)
@@ -249,7 +249,7 @@ After installation, `.claude/` contains only:
 | `CLAUDE.md` | Symlink | → `.orqa/process/agents/orchestrator.md` |
 | `rules/` | Symlink | → `.orqa/process/rules/` |
 | `agents/` | Symlink | → `.orqa/process/agents/` |
-| `skills/` | Symlink | → `.orqa/process/skills/` |
+| `skills/` | Symlink | → `.orqa/process/knowledge/` |
 
 Everything in `.orqa/` is the source of truth. The symlinks are managed by the plugin.
 

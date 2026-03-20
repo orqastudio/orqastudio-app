@@ -1,5 +1,5 @@
 ---
-id: SKILL-819789ab
+id: KNOW-819789ab
 title: "Project Type: Software"
 description: |
   Software development governance preset: adds worktree workflow rules,

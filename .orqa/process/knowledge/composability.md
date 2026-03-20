@@ -1,5 +1,5 @@
 ---
-id: SKILL-f0c40eaf
+id: KNOW-f0c40eaf
 title: Composability
 description: |
   Universal composability philosophy: building systems from small, pure, swappable units.

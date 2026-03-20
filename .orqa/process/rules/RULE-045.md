@@ -56,7 +56,7 @@ When any `.orqa/**/*.md` file is written or edited, the enforcement engine (cons
 
 The enforcement entries on this rule declare:
 - `event: file` / `action: inject` — reminds the agent to check bidirectional inverses
-- `event: file` / `action: inject` / `skills: [orqa-governance]` — loads governance patterns
+- `event: file` / `action: inject` / `knowledge: [orqa-governance]` — loads governance patterns
 
 ### Pre-commit (automatic)
 

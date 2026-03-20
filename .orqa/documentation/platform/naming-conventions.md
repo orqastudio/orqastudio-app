@@ -5,7 +5,7 @@ name: Repository and Package Naming Conventions
 category: reference
 status: active
 relationships:
-  - target: SKILL-250d5d6f
+  - target: KNOW-250d5d6f
     type: synchronised-with
 ---
 

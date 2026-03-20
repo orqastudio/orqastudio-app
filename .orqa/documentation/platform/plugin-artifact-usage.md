@@ -6,7 +6,7 @@ category: concept
 created: 2026-03-18
 updated: 2026-03-18
 relationships:
-  - target: SKILL-8d1c4be6
+  - target: KNOW-8d1c4be6
     type: synchronised-with
 ---
 
@@ -16,7 +16,7 @@ Plugins extend the artifact graph by registering new artifact types, relationshi
 
 ## How Plugins Extend the Graph
 
-The platform defines core artifact types (idea, decision, rule, lesson, skill, agent, doc, pillar, persona, vision, pivot, bug) in `core.json`. Plugins add domain-specific types on top.
+The platform defines core artifact types (idea, decision, rule, lesson, knowledge, agent, doc, pillar, persona, vision, pivot, bug) in `core.json`. Plugins add domain-specific types on top.
 
 At runtime, three layers merge:
 1. **Core** (`core.json`) — platform types and relationships, always present
@@ -54,9 +54,9 @@ Each entry defines a connection type:
 | `semantic` | Category (hierarchy, dependency, lineage, etc.) |
 | `constraints` | Required counts, status transition rules |
 
-### `provides.skills`
+### `provides.knowledge`
 
-Skills the plugin ships — loaded when agents work with plugin artifacts.
+Knowledge artifacts the plugin ships — loaded when agents work with plugin artifacts.
 
 ## Working With Plugin Artifacts
 
@@ -72,20 +72,20 @@ Use the plugin's relationship definitions. Always respect `from`/`to` constraint
 
 Only transition to states listed as valid from the current state in `statusTransitions`. Some relationships have `statusRules` that propose transitions automatically (e.g., "epic moves to review when all delivering tasks are completed").
 
-## The Skill+Doc Pattern
+## The Knowledge+Doc Pattern
 
 Every plugin that defines artifact types SHOULD ship with:
-- A **skill** explaining how agents should work with the artifacts
+- A **knowledge artifact** explaining how agents should work with the artifacts
 - A **doc** explaining how humans should understand the artifacts
 - Connected via `synchronised-with` relationship
 
-The skill teaches agents; the doc teaches humans. They cover the same ground but in different ways.
+The knowledge artifact teaches agents; the doc teaches humans. They cover the same ground but in different ways.
 
 ## Example: Software Plugin
 
 The software plugin (`plugins/software/`) defines 5 types: milestone, epic, task, research, wireframe. It ships 9 custom relationships (delivers, fulfils, depends-on, realises, produces, yields, reports, fixes, affects).
 
-- **SKILL-SW-1d47d8d8** teaches agents the software delivery lifecycle
+- **KNOW-SW-1d47d8d8** teaches agents the software delivery lifecycle
 - **DOC-SW-421219ce** teaches humans the same concepts
 
 Any new plugin should follow this pattern.

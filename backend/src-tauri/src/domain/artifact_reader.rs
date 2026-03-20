@@ -195,7 +195,7 @@ fn scan_type_from_config(
 
 /// Scan artifact files within a type directory and return sorted `DocNode` entries.
 ///
-/// All artifact types (including skills) are flat `.md` files scanned recursively.
+/// All artifact types (including knowledge) are flat `.md` files scanned recursively.
 /// Directory nodes have `children` set; file nodes have `path` set.
 /// Hidden files (starting with `.` or `_`) are skipped at every level.
 fn scan_type_nodes(

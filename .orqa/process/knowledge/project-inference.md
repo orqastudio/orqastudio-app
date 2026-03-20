@@ -1,5 +1,5 @@
 ---
-id: SKILL-82ceb1bd
+id: KNOW-82ceb1bd
 title: Project Inference
 description: |
   Reads a project's folder structure and files to infer its characteristics:

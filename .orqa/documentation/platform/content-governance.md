@@ -1,8 +1,8 @@
 ---
 id: DOC-3e7ea7d2
-title: "Content Ownership: Docs, Agents, Skills, and Rules"
+title: "Content Ownership: Docs, Agents, Knowledge, and Rules"
 category: concept
-description: "Ownership model for documentation, agent definitions, skills, and rules across the project."
+description: "Ownership model for documentation, agent definitions, knowledge, and rules across the project."
 created: 2026-03-02
 updated: 2026-03-10
 sort: 7
@@ -10,7 +10,7 @@ sort: 7
 
 **Created:** 2026-03-02
 
-OrqaStudio™ uses five distinct layers for governance knowledge: documentation, agent instructions, skills, rules, and hooks. Each layer owns a specific type of content. Mixing them creates maintenance burden and drift -- when a standard changes in one place, stale copies in other layers remain undetected.
+OrqaStudio™ uses five distinct layers for governance knowledge: documentation, agent instructions, knowledge, rules, and hooks. Each layer owns a specific type of content. Mixing them creates maintenance burden and drift -- when a standard changes in one place, stale copies in other layers remain undetected.
 
 ---
 
@@ -20,9 +20,9 @@ OrqaStudio™ uses five distinct layers for governance knowledge: documentation,
 |-------|------|----------|---------------------|
 | **Documentation (`.orqa/documentation/`)** | Functional and product knowledge: architecture decisions, coding standards, IPC contracts, UI specs | Architecture decisions, function size limits, IPC response format, component state tables | Yes — code that doesn't match docs is wrong |
 | **Agent Instructions (`.orqa/process/agents/`)** | Process: how the agent works, which tools it uses, which docs to read first, when to delegate, verification steps | "Run clippy before committing", "Read relevant `AD-NNN.md` decisions first", "Delegate to test-engineer after implementation" | Process only — agents reference docs, not restate them |
-| **Skills (`.orqa/process/skills/`)** | Domain knowledge: how a technology works, general patterns, reusable techniques not specific to OrqaStudio | How Svelte 5 runes work, how to structure a Rust module, how to write a cargo test | Technology patterns only — skills must not contain OrqaStudio-specific architectural rules |
+| **Knowledge (`.orqa/process/knowledge/`)** | Domain knowledge: how a technology works, general patterns, reusable techniques not specific to OrqaStudio | How Svelte 5 runes work, how to structure a Rust module, how to write a cargo test | Technology patterns only — knowledge artifacts must not contain OrqaStudio-specific architectural rules |
 | **Rules (`.orqa/process/rules/`)** | Enforcement: automated checks and behavioral constraints that apply across all agents | "No stubs", "Error ownership", "End-to-end completeness" | Behavioral constraints — rules reference docs for the standards they enforce |
-| **Hooks (`.orqa/process/hooks/`)** | Automated rule implementation: shell scripts triggered by lifecycle events that enforce rules programmatically | Session-start checklist, skill loading protocol, pre-commit verification | Executable enforcement — hooks are the mechanism through which rules are actively enforced at key lifecycle points |
+| **Hooks (`.orqa/process/hooks/`)** | Automated rule implementation: shell scripts triggered by lifecycle events that enforce rules programmatically | Session-start checklist, knowledge loading protocol, pre-commit verification | Executable enforcement — hooks are the mechanism through which rules are actively enforced at key lifecycle points |
 
 ---
 
@@ -33,7 +33,7 @@ OrqaStudio™ uses five distinct layers for governance knowledge: documentation,
 Documentation is the source of truth for **what** the system does and **how** it should be built.
 
 - When a standard changes, change it **here**. Agent instructions that reference the doc pick up the change automatically.
-- Never copy a rule from `.orqa/documentation/` into an agent file or skill — reference the doc instead.
+- Never copy a rule from `.orqa/documentation/` into an agent file or knowledge artifact — reference the doc instead.
 - Every architecture decision lives in `.orqa/process/decisions/` as an individual `AD-NNN.md` artifact. Agent files do not define decisions; they cite them.
 
 ### Agent Instructions (`.orqa/process/agents/`)
@@ -56,11 +56,11 @@ No backwards compatibility shims.      <- Belongs in .orqa/documentation/develop
 IPC boundary: only invoke()...         <- Belongs in `.orqa/process/decisions/AD-NNN.md`
 ```
 
-### Skills (`.orqa/process/skills/`)
+### Knowledge (`.orqa/process/knowledge/`)
 
-Skills teach **how a technology works** -- patterns, idioms, and examples from the technology's own documentation and best practices. They are intentionally portable: a Svelte skill should be useful on any Svelte project, not just OrqaStudio.
+Knowledge artifacts teach **how a technology works** -- patterns, idioms, and examples from the technology's own documentation and best practices. They are intentionally portable: a Svelte knowledge artifact should be useful on any Svelte project, not just OrqaStudio.
 
-**Correct skill content:**
+**Correct knowledge content:**
 
 ```text
 How Svelte 5 $state works.
@@ -68,7 +68,7 @@ How to write a Rust module with proper error handling.
 How to structure a cargo test with test fixtures.
 ```
 
-**Forbidden skill content:**
+**Forbidden knowledge content:**
 
 ```text
 IPC boundary: Tauri commands only.            <- Project rule, not technology knowledge
@@ -104,7 +104,7 @@ Think of it this way: a rule says "you must do X", a hook makes sure X actually 
 
 | Rule | Implemented By Hook | Trigger |
 |------|-------------------|---------|
-| `skill-enforcement.md` — Load relevant skills before coding | `skill-instructions-hook.sh` — Lists skills, requires LOAD/SKIP decision | `UserPromptSubmit` |
+| `knowledge-enforcement.md` — Load relevant knowledge before coding | `knowledge-instructions-hook.sh` — Lists knowledge artifacts, requires LOAD/SKIP decision | `UserPromptSubmit` |
 | `required-reading.md` — Read governing docs before implementing | `session-start-hook.sh` — Checks for session state, stale worktrees, stashes | `UserPromptSubmit` (first) |
 | `testing-standards.md` — Run tests before committing | `pre-commit-reminder.sh` — Checklist: make check, no stubs | `Stop` |
 
@@ -121,14 +121,14 @@ Think of it this way: a rule says "you must do X", a hook makes sure X actually 
 
 | Event | When It Fires | Use For |
 |-------|--------------|---------|
-| `UserPromptSubmit` | Every time the user sends a message | Session setup, skill loading, context checks |
+| `UserPromptSubmit` | Every time the user sends a message | Session setup, knowledge loading, context checks |
 | `Stop` | When the agent finishes a response | Pre-commit checklists, session state reminders |
 
 **Correct hook content:**
 
 ```bash
-# Enforce the skill-loading rule programmatically
-echo "Skills to evaluate: chunkhound, planning, svelte, typescript, tailwind"
+# Enforce the knowledge-loading rule programmatically
+echo "Knowledge to evaluate: chunkhound, planning, svelte, typescript, tailwind"
 echo "For each: LOAD (with reason) or SKIP (with reason)"
 echo "Documentation-first: verify docs exist for the feature area before coding."
 ```
@@ -162,16 +162,16 @@ Read `.orqa/documentation/development/coding-standards.md` before writing any co
 All rules defined there apply to every commit.
 ```
 
-### Skills containing architecture rules (wrong layer)
+### Knowledge artifacts containing architecture rules (wrong layer)
 
 ```text
-# WRONG: Project rule in a skill file
+# WRONG: Project rule in a knowledge file
 ## Key Rule
 Never call invoke() directly in display components. Use stores.
 
-# CORRECT: Technology pattern in skill, project rule in docs
+# CORRECT: Technology pattern in knowledge, project rule in docs
 ## See Also
-This skill covers Svelte 5 technology patterns. For OrqaStudio-specific
+This knowledge artifact covers Svelte 5 technology patterns. For OrqaStudio-specific
 architectural constraints, see the relevant `AD-NNN.md` in `.orqa/process/decisions/`.
 ```
 
@@ -185,10 +185,10 @@ When the same behavioral rule appears in two or more agent files, it will drift.
 
 ### Periodic Audit
 
-The `orchestrator` and the Reviewer role (with `code-quality-review` skills) include doc-layer compliance in their review checklists:
+The `orchestrator` and the Reviewer role (with `code-quality-review` knowledge) include doc-layer compliance in their review checklists:
 
 - Agent files reference docs for standards they cite, rather than restating them
-- Skill files contain technology patterns, not OrqaStudio-specific rules
+- Knowledge files contain technology patterns, not OrqaStudio-specific rules
 - Rule files enforce behavioral constraints, not product knowledge
 
 ### Change Process
@@ -197,7 +197,7 @@ When a standard needs updating:
 
 1. Update it in `.orqa/documentation/` (the source of truth)
 2. Verify agent files and rules that reference it are still accurate
-3. Do NOT update agent files or skills to restate the new content -- the references are correct by design
+3. Do NOT update agent files or knowledge artifacts to restate the new content -- the references are correct by design
 
 ---
 
@@ -220,7 +220,7 @@ When the Writer role makes changes to any documentation page, the orchestrator r
 
 - Agent Required Reading lists need updating (new pages or moved pages)
 - Rules need updating (new constraints documented, old ones removed)
-- Skills need updating (new technology patterns documented)
+- Knowledge artifacts need updating (new technology patterns documented)
 - Hooks need updating (new rules that should be enforced programmatically at lifecycle boundaries)
 
 ### Rule → Hook Promotion
@@ -241,9 +241,9 @@ This loop ensures the governance system stays consistent as documentation evolve
 
 ## Related Documents
 
-- Team Overview -- Agent directory and skill directory
+- Team Overview -- Agent directory and knowledge directory
 - Rules Reference -- All enforcement rules and their purposes
-- Skills Log -- Full skill inventory with provenance
+- Knowledge Log -- Full knowledge inventory with provenance
 - `.orqa/documentation/development/coding-standards.md` -- The standards all agents must follow
 - `.orqa/process/decisions/` -- Individual AD-NNN architecture decision artifacts
 - `.orqa/process/rules/documentation-first.md` — Documentation as source of truth for implementation

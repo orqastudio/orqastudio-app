@@ -252,9 +252,9 @@ Load the full content of a project skill document by name.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `name` | string | Yes | Skill name (e.g. `rust-async-patterns`). Must not contain path separators. |
+| `name` | string | Yes | Knowledge name (e.g. `rust-async-patterns`). Must not contain path separators. |
 
-**Behaviour:** Reads `.orqa/skills/{name}/SKILL.md` from the project root. Returns the file contents on success. Returns an error if the skill name contains `/`, `\`, or `..`, or if the file does not exist.
+**Behaviour:** Reads `.orqa/knowledge/{name}/KNOW.md` from the project root. Returns the file contents on success. Returns an error if the knowledge name contains `/`, `\`, or `..`, or if the file does not exist.
 
 **Read-only:** Yes — auto-approved without user interaction.
 

@@ -1,11 +1,11 @@
 ---
-id: SKILL-2c8eead6
+id: KNOW-2c8eead6
 title: Skills Maintenance
 description: |
-  Full skills.sh lifecycle management: CLI reference, skill evaluation criteria, SKILL.md format,
+  Full skills.sh lifecycle management: CLI reference, skill evaluation criteria, KNOW.md format,
   portability rules, provenance tracking, and skill audit protocol.
   Use when: Adding, updating, removing, or auditing agent skills; evaluating whether to install
-  a community skill or create a project-specific one; managing the .orqa/process/skills/ directory.
+  a community skill or create a project-specific one; managing the .orqa/process/knowledge/ directory.
 status: active
 created: 2026-03-01
 updated: 2026-03-10
@@ -49,7 +49,7 @@ npx skills init [skill-name]
 
 **Installation flags:**
 
-- `--copy`: Copy files to `.orqa/process/skills/` instead of symlinking (preferred for this project)
+- `--copy`: Copy files to `.orqa/process/knowledge/` instead of symlinking (preferred for this project)
 - `-y` or `--yes`: Skip confirmation prompts
 - `-g` or `--global`: Global scope — installs to `~/.claude/skills/`, available across all projects
 
@@ -59,17 +59,17 @@ Always use project scope (default) with `--copy` for skills relevant to the proj
 
 | Concept | Description |
 |---------|-------------|
-| Skill | A `SKILL.md` file with YAML frontmatter — portable domain knowledge for agents |
-| Project skill | In `.orqa/process/skills/` — committed with the codebase, shared by all agents |
+| Skill | A `KNOW.md` file with YAML frontmatter — portable domain knowledge for agents |
+| Project skill | In `.orqa/process/knowledge/` — committed with the codebase, shared by all agents |
 | Global skill | In `~/.claude/skills/` — personal, not committed, available everywhere |
 | Registry skill | Installed from skills.sh ecosystem via `npx skills add` |
-| Custom skill | Created manually in `.orqa/process/skills/<name>/SKILL.md` |
+| Custom skill | Created manually in `.orqa/process/knowledge/<name>/KNOW.md` |
 | Provenance | Where a skill came from: skills.sh, custom-created, or downloaded+modified |
 | Portability | A skill is portable if it contains no project-specific paths, IDs, or rules |
 
-## SKILL.md Format
+## KNOW.md Format
 
-Every skill is a `SKILL.md` file in a directory under `.orqa/process/skills/`:
+Every skill is a `KNOW.md` file in a directory under `.orqa/process/knowledge/`:
 
 ```markdown
 ---
@@ -154,7 +154,7 @@ A skill is portable if a different project could use it unchanged. Skills MUST N
 
 ## Provenance Tracking
 
-Every installed skill is tracked through its SKILL.md frontmatter (YAML metadata including layer, category, relationships). Key tracking fields:
+Every installed skill is tracked through its KNOW.md frontmatter (YAML metadata including layer, category, relationships). Key tracking fields:
 
 | Field | Description |
 |-------|-------------|
@@ -177,7 +177,7 @@ Discovery → Evaluation → Installation → Loading → Use → Update → Dep
 | Installation | `npx skills add <source> --copy -y` |
 | Loading | Agent loads via `Skill(name)` |
 | Update | `npx skills check` → `npx skills update` |
-| Deprecation | Add deprecation note to SKILL.md, update skills log |
+| Deprecation | Add deprecation note to KNOW.md, update skills log |
 | Removal | `npx skills remove <name>`, update skills log |
 
 ## Skill Audit Protocol
@@ -188,10 +188,10 @@ Run a full skills audit periodically (or when the agent-maintainer role is trigg
 
 ```bash
 npx skills list
-ls .orqa/process/skills/
+ls .orqa/process/knowledge/
 ```
 
-Verify: every directory in `.orqa/process/skills/` has a SKILL.md, and every entry in the skills log matches an installed skill.
+Verify: every directory in `.orqa/process/knowledge/` has a KNOW.md, and every entry in the knowledge log matches an installed knowledge artifact.
 
 ### Step 2: Portability Check
 
@@ -218,7 +218,7 @@ Deprecate or remove skills that are no longer relevant.
 ## See Also
 
 - [skills.sh](https://skills.sh) — Open agent skills ecosystem
-- [Agent Skills Standard](https://agentskills.io) — SKILL.md specification
+- [Agent Skills Standard](https://agentskills.io) — KNOW.md specification
 
 ## Related Skills
 

@@ -6,7 +6,7 @@ category: onboarding
 created: 2026-03-18
 updated: 2026-03-18
 relationships:
-  - target: SKILL-819789ab
+  - target: KNOW-819789ab
     type: synchronised-with
 ---
 

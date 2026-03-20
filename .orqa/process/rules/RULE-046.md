@@ -1,7 +1,7 @@
 ---
 id: RULE-9bc8c230
 title: Behavioral Rule Enforcement Plan
-description: "Defines enforcement strategies for rules that cannot be mechanically checked by linters, hooks, or tooling. Every behavioral rule has a defined enforcement mechanism: prompt injection, output validation, skill injection, or session hooks."
+description: "Defines enforcement strategies for rules that cannot be mechanically checked by linters, hooks, or tooling. Every behavioral rule has a defined enforcement mechanism: prompt injection, output validation, knowledge injection, or session hooks."
 status: active
 created: 2026-03-13
 updated: 2026-03-13
@@ -24,7 +24,7 @@ Rule content is injected into the agent's context at delegation time. The orches
 | [RULE-c71f1c3f](RULE-c71f1c3f) | Make targets — use make commands, not raw cargo/npm |
 | [RULE-22783309](RULE-22783309) | ID semantics — IDs are identifiers, not priority rankings |
 | [RULE-b2753bad](RULE-b2753bad) | Required reading — load governing docs before implementation |
-| [RULE-deab6ea7](RULE-deab6ea7) | Skill loading — load skills before starting work |
+| [RULE-deab6ea7](RULE-deab6ea7) | Knowledge loading — load knowledge before starting work |
 | [RULE-8035e176](RULE-8035e176) | Structure before work — artifacts must exist before implementation |
 | [RULE-df24948b](RULE-df24948b) | Context management — minimize orchestrator context window usage |
 
@@ -43,19 +43,19 @@ Post-hoc checks on agent output for compliance signals. After an agent completes
 
 **Implementation**: A `PostToolUse` hook or stop hook scans agent output for compliance markers. Initially implemented as orchestrator self-checks; automated via plugin hooks as patterns stabilize.
 
-### Strategy 3: Skill Injection
+### Strategy 3: Knowledge Injection
 
-Domain knowledge is loaded into agent context before work begins on relevant files. The enforcement engine auto-injects skills based on file paths being modified.
+Domain knowledge is loaded into agent context before work begins on relevant files. The enforcement engine auto-injects knowledge based on file paths being modified.
 
 | Rule | When injected |
 |------|--------------|
-| [RULE-65973a88](RULE-65973a88) | AD compliance — architecture skills injected when modifying cross-boundary code |
-| [RULE-9daf29c0](RULE-9daf29c0) | Documentation first — documentation skills injected when creating new features |
-| [RULE-3eccebf3](RULE-3eccebf3) | Enforcement before code — governance skills injected when modifying rules/lessons |
-| [RULE-d90112d9](RULE-d90112d9) | Systems thinking — systems-thinking skill injected on all implementation work |
-| [RULE-4d4f540d](RULE-4d4f540d) | UAT process — uat-process skill injected during review/testing phases |
+| [RULE-65973a88](RULE-65973a88) | AD compliance — architecture knowledge injected when modifying cross-boundary code |
+| [RULE-9daf29c0](RULE-9daf29c0) | Documentation first — documentation knowledge injected when creating new features |
+| [RULE-3eccebf3](RULE-3eccebf3) | Enforcement before code — governance knowledge injected when modifying rules/lessons |
+| [RULE-d90112d9](RULE-d90112d9) | Systems thinking — systems-thinking knowledge injected on all implementation work |
+| [RULE-4d4f540d](RULE-4d4f540d) | UAT process — uat-process knowledge injected during review/testing phases |
 
-**Implementation**: [RULE-f9d0279c](RULE-f9d0279c) defines the path-to-skill injection map. The companion plugin's `PostToolUse` hook on Write/Edit triggers skill injection.
+**Implementation**: [RULE-f9d0279c](RULE-f9d0279c) defines the path-to-knowledge injection map. The companion plugin's `PostToolUse` hook on Write/Edit triggers knowledge injection.
 
 ### Strategy 4: Session Hooks
 
@@ -74,7 +74,7 @@ Plugin hooks that trigger at session boundaries (start, end, stop) to enforce wo
 |----------|-----------|----------|
 | Prompt injection | 8 rules | Delegation template + plugin injector |
 | Output validation | 4 rules | Stop hook + orchestrator self-check |
-| Skill injection | 5 rules | [RULE-f9d0279c](RULE-f9d0279c) enforcement entries + plugin PostToolUse |
+| Knowledge injection | 5 rules | [RULE-f9d0279c](RULE-f9d0279c) enforcement entries + plugin PostToolUse |
 | Session hooks | 2 rules | Plugin SessionStart + Stop hooks |
 | **Total behavioral** | **19 rules** | |
 
@@ -87,6 +87,6 @@ To verify behavioral enforcement coverage:
 
 ## Related Rules
 
-- [RULE-f9d0279c](RULE-f9d0279c) (skill-injection) — implements Strategy 3 via path-to-skill mapping
+- [RULE-f9d0279c](RULE-f9d0279c) (knowledge-injection) — implements Strategy 3 via path-to-knowledge mapping
 - [RULE-7f416d7d](RULE-7f416d7d) (tooling-ecosystem) — distinguishes linter-enforceable from behavioral rules
 - [RULE-6083347d](RULE-6083347d) (dogfood-mode) — enforcement gap priority on self-enforcing products

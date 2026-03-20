@@ -1,7 +1,7 @@
 ---
 id: RULE-532100d9
 title: Agent Delegation
-description: The orchestrator coordinates but does not implement. All implementation is delegated to universal roles with appropriate skills.
+description: The orchestrator coordinates but does not implement. All implementation is delegated to universal roles with appropriate knowledge loaded.
 status: active
 created: 2026-03-07
 updated: 2026-03-14
@@ -19,7 +19,7 @@ relationships:
   - target: DOC-b10607c0
     type: documented-by
 ---
-The orchestrator coordinates. It does NOT implement. Every implementation task is delegated to a universal role with the appropriate skills loaded.
+The orchestrator coordinates. It does NOT implement. Every implementation task is delegated to a universal role with the appropriate knowledge loaded.
 
 ## Universal Roles
 
@@ -43,16 +43,16 @@ The orchestrator coordinates. It does NOT implement. Every implementation task i
 
 ## What the Orchestrator MUST Delegate
 
-- Any change to `backend/src-tauri/` (Rust backend code) — delegate to Implementer with backend skills
-- Any change to `ui/` (Svelte frontend code) — delegate to Implementer with frontend skills, or Designer
-- Any change to `sidecar/` (Agent SDK sidecar) — delegate to Implementer with backend skills
+- Any change to `backend/src-tauri/` (Rust backend code) — delegate to Implementer with backend knowledge
+- Any change to `ui/` (Svelte frontend code) — delegate to Implementer with frontend knowledge, or Designer
+- Any change to `sidecar/` (Agent SDK sidecar) — delegate to Implementer with backend knowledge
 - Any change to `.orqa/` artifacts — delegate to Governance Steward
 - Any documentation content — delegate to Writer
-- Running and interpreting test suites — delegate to Reviewer with test-engineering skills
-- Code review and compliance checks — delegate to Reviewer with code-quality-review skills
-- UX compliance reviews — delegate to Reviewer with ux-compliance-review skills
-- Architecture assessments — delegate to Planner or Researcher with architectural-evaluation skills
-- Debugging cross-boundary issues — delegate to Implementer with diagnostic-methodology skills
+- Running and interpreting test suites — delegate to Reviewer with test-engineering knowledge
+- Code review and compliance checks — delegate to Reviewer with code-quality-review knowledge
+- UX compliance reviews — delegate to Reviewer with ux-compliance-review knowledge
+- Architecture assessments — delegate to Planner or Researcher with architectural-evaluation knowledge
+- Debugging cross-boundary issues — delegate to Implementer with diagnostic-methodology knowledge
 
 ## Delegation Protocol
 
@@ -60,7 +60,7 @@ When delegating to a role:
 
 1. **Name the role** — Every delegation must explicitly state which universal role is being used
 2. **Resolve capabilities** — Read the agent's `capabilities` field, determine the current context (CLI or App), and resolve to concrete tool names using [RULE-92dba0cb](RULE-92dba0cb) mapping tables. Include the resolved tool names in the delegation prompt.
-3. **Specify skills** — List the skills to load (e.g., "Implementer with rust-async-patterns, tauri-v2, orqa-ipc-patterns")
+3. **Specify knowledge** — List the knowledge to load (e.g., "Implementer with rust-async-patterns, tauri-v2, orqa-ipc-patterns")
 4. **Scope the task** — Clear description with acceptance criteria
 5. **Provide context** — File paths, relevant docs, constraints
 6. **Verify the result** — Check the agent's output against acceptance criteria before reporting to the user
@@ -86,7 +86,7 @@ This was promoted from [IMPL-85add0f1](IMPL-85add0f1) after 3 recurrences.
 
 The orchestrator may bypass delegation for:
 
-- Governance artifacts (`.orqa/process/rules/`, `.orqa/process/agents/`, `.orqa/process/skills/`) — these ARE the orchestrator's domain
+- Governance artifacts (`.orqa/process/rules/`, `.orqa/process/agents/`, `.orqa/process/knowledge/`) — these ARE the orchestrator's domain
 - Process documentation (`.orqa/documentation/guide/`) — orchestration is a process concern
 - Session state (`tmp/session-state.md`) — coordination artifact
 - Planning artifact **structure** (`.orqa/delivery/`) — creating/updating frontmatter, status transitions, cross-references. Content authoring (research findings, documentation pages) is delegated to Writer.
@@ -107,13 +107,13 @@ Parallel agents sharing a worktree can exhaust system resources. Rust compilatio
 
 5. **Cap Rust parallelism on resource-constrained machines.** Set `CARGO_BUILD_JOBS=2` (or lower) to limit concurrent rustc instances.
 
-### Compilation Risk by Skill Combination
+### Compilation Risk by Knowledge Combination
 
-| Role + Skills | Compilation Risk | Safe to Parallelize With |
+| Role + Knowledge | Compilation Risk | Safe to Parallelize With |
 |--------------|-----------------|-------------------------|
-| Implementer + backend skills | High (cargo) | Frontend-only agents |
-| Implementer + database skills | High (cargo) | Frontend-only agents |
-| Implementer + frontend skills | Low (svelte-check) | Any agent |
+| Implementer + backend knowledge | High (cargo) | Frontend-only agents |
+| Implementer + database knowledge | High (cargo) | Frontend-only agents |
+| Implementer + frontend knowledge | Low (svelte-check) | Any agent |
 | Designer | Low (svelte-check) | Any agent |
 | Reviewer + code-quality-review | High (cargo clippy + cargo test) | Nothing — run alone |
 | Reviewer + test-engineering | High (cargo test) | Nothing — run alone |
@@ -127,7 +127,7 @@ Without this rule, the orchestrator accumulates implementation details in its co
 
 ## Related Rules
 
-- [RULE-deab6ea7](RULE-deab6ea7) (skill-enforcement) — agents must load skills before starting work
+- [RULE-deab6ea7](RULE-deab6ea7) (knowledge-enforcement) — agents must load knowledge before starting work
 - [RULE-b2753bad](RULE-b2753bad) (required-reading) — agents must read governing docs before implementation
 - [RULE-878e5422](RULE-878e5422) (honest-reporting) — agents must report status accurately
 - [RULE-f809076f](RULE-f809076f) (tool-access-restrictions) — constrains which tools each role may use

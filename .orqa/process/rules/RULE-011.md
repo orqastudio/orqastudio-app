@@ -1,7 +1,7 @@
 ---
 id: RULE-3eccebf3
 title: Enforcement Before Code
-description: "Enforcement artifacts (rules, skills, lessons) must be created before the implementation code that establishes the pattern."
+description: "Enforcement artifacts (rules, knowledge, lessons) must be created before the implementation code that establishes the pattern."
 status: active
 created: 2026-03-07
 updated: 2026-03-07
@@ -22,16 +22,16 @@ Code without enforcement drifts. If a pattern is important enough to implement, 
 | Artifact | When to Create | Location |
 |----------|---------------|----------|
 | **Rule** | When establishing a new convention, fixing a recurring mistake, or introducing a constraint | `.orqa/process/rules/` |
-| **Skill** | When capturing reusable domain knowledge that agents need to implement correctly | `.orqa/process/skills/` |
-| **Skill update** | When existing skill knowledge is incomplete or incorrect | Update existing skill in `.orqa/process/skills/` |
+| **Knowledge** | When capturing reusable domain knowledge that agents need to implement correctly | `.orqa/process/knowledge/` |
+| **Knowledge update** | When existing knowledge is incomplete or incorrect | Update existing knowledge in `.orqa/process/knowledge/` |
 | **Lesson** | When a bug or mistake reveals a non-obvious pattern | `.orqa/process/lessons/` |
-| **Agent update** | When an agent's skills list or required reading needs to change | `.orqa/process/agents/` |
+| **Agent update** | When an agent's knowledge list or required reading needs to change | `.orqa/process/agents/` |
 
 ## The Sequence (MANDATORY)
 
 ```
 1. Identify the pattern/convention/fix
-2. Create or update the enforcement artifact (rule, skill, lesson)
+2. Create or update the enforcement artifact (rule, knowledge, lesson)
 3. Get user approval if the artifact changes process
 4. THEN write the implementation code
 ```
@@ -47,7 +47,7 @@ Code without enforcement drifts. If a pattern is important enough to implement, 
 ## When This Does NOT Apply
 
 - Straightforward bug fixes where the convention already exists and was simply violated
-- Changes that are already covered by existing rules or skills
+- Changes that are already covered by existing rules or knowledge
 - Trivial fixes (typos, formatting)
 
 ## FORBIDDEN
@@ -60,4 +60,4 @@ Code without enforcement drifts. If a pattern is important enough to implement, 
 
 - [RULE-9daf29c0](RULE-9daf29c0) (documentation-first) — documentation before code; this rule extends that to enforcement artifacts
 - [RULE-551bde31](RULE-551bde31) (lessons-learned) — lessons are one type of enforcement artifact
-- [RULE-deab6ea7](RULE-deab6ea7) (skill-enforcement) — skills must be loaded before implementation
+- [RULE-deab6ea7](RULE-deab6ea7) (knowledge-enforcement) — knowledge must be loaded before implementation
