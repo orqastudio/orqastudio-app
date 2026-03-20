@@ -67,26 +67,26 @@ impl From<rusqlite::Error> for OrqaError {
     }
 }
 
-impl From<duckdb::Error> for OrqaError {
-    fn from(err: duckdb::Error) -> Self {
+impl From<orqa_search::SearchError> for OrqaError {
+    fn from(err: orqa_search::SearchError) -> Self {
         Self::Search(err.to_string())
     }
 }
 
-impl From<crate::search::store::StoreError> for OrqaError {
-    fn from(err: crate::search::store::StoreError) -> Self {
+impl From<orqa_search::store::StoreError> for OrqaError {
+    fn from(err: orqa_search::store::StoreError) -> Self {
         Self::Search(err.to_string())
     }
 }
 
-impl From<crate::search::embedder::EmbedError> for OrqaError {
-    fn from(err: crate::search::embedder::EmbedError) -> Self {
+impl From<orqa_search::embedder::EmbedError> for OrqaError {
+    fn from(err: orqa_search::embedder::EmbedError) -> Self {
         Self::Search(err.to_string())
     }
 }
 
-impl From<crate::search::chunker::ChunkError> for OrqaError {
-    fn from(err: crate::search::chunker::ChunkError) -> Self {
+impl From<orqa_search::chunker::ChunkError> for OrqaError {
+    fn from(err: orqa_search::chunker::ChunkError) -> Self {
         Self::Search(err.to_string())
     }
 }
