@@ -13,11 +13,9 @@ updated: 2026-03-10
 category: tool
 version: 1.0.0
 user-invocable: true
-relationships: []
 relationships:
   - target: DOC-a1b2c3d4
     type: synchronised-with
-
 ---
 > **Forward-looking:** This skill will be activated when project initialisation is implemented. See [EPIC-be023ed2](EPIC-be023ed2) for context.
 

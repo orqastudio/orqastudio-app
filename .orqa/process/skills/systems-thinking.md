@@ -7,11 +7,9 @@ created: 2026-03-11
 updated: 2026-03-11
 category: methodology
 user-invocable: true
-relationships: []
 relationships:
   - target: DOC-a1b2c3d4
     type: synchronised-with
-
 ---
 
 # Systems Thinking

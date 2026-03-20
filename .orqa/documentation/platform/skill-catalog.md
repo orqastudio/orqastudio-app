@@ -26,8 +26,6 @@ relationships:
     type: synchronised-with
   - target: SKILL-4368d782
     type: synchronised-with
-  - target: SKILL-1c5e752e
-    type: synchronised-with
   - target: SKILL-eea50a65
     type: synchronised-with
   - target: SKILL-b453410f
