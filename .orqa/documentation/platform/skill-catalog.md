@@ -1,8 +1,8 @@
 ---
 id: DOC-a1b2c3d4
 type: doc
-title: "Core Platform Skill Catalog"
-description: "Reference catalog of all core platform skills — agent-facing instructions shipped with OrqaStudio."
+title: Core Platform Skill Catalog
+description: Reference catalog of all core platform skills — agent-facing instructions shipped with OrqaStudio.
 status: active
 created: 2026-03-19
 updated: 2026-03-19
@@ -58,7 +58,8 @@ relationships:
     type: synchronised-with
   - target: SKILL-c7fb7c83
     type: synchronised-with
-
+  - target: SKILL-a2b3c4d5
+    type: synchronised-with
 ---
 
 # Core Platform Skill Catalog

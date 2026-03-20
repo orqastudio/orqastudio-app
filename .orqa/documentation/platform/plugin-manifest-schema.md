@@ -1,12 +1,16 @@
 ---
 id: DOC-99a1b71a
 title: Plugin Manifest Schema Reference
-description: "Complete reference for orqa-plugin.json — the manifest file every plugin must provide to register types, relationships, views, and skills."
+description: Complete reference for orqa-plugin.json — the manifest file every plugin must provide to register types, relationships, views, and skills.
 category: reference
 created: 2026-03-18
 updated: 2026-03-18
 relationships:
   - target: SKILL-b453410f
+    type: synchronised-with
+  - target: SKILL-c60144c1
+    type: synchronised-with
+  - target: SKILL-12ed4953
     type: synchronised-with
 ---
 

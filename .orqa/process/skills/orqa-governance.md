@@ -12,12 +12,14 @@ created: 2026-03-01
 updated: 2026-03-18
 category: methodology
 file-patterns:
-  - ".orqa/**"
+  - .orqa/**
 version: 3.0.0
 user-invocable: true
 relationships:
   - target: AGENT-ff44f841
     type: employed-by
+  - target: DOC-a1b2c3d4
+    type: synchronised-with
 ---
 
 

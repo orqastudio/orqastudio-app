@@ -16,6 +16,8 @@ user-invocable: false
 relationships:
   - target: AGENT-ff44f841
     type: employed-by
+  - target: DOC-a1b2c3d4
+    type: synchronised-with
 ---
 
 Methodology for auditing `.orqa/` governance artifacts. An audit answers the question: **"Does everything in `.orqa/` still describe reality?"**
