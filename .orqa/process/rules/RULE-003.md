@@ -6,6 +6,7 @@ description: Every path in project.json artifacts must resolve to an actual dire
 status: active
 created: 2026-03-07
 updated: 2026-03-13
+enforcement: "orqa validate — artifact scanner validates all paths in project.json resolve to existing directories; pre-commit hook runs orqa validate on staged .orqa files"
 relationships:
   - target: AD-8b7c4ac5
     type: enforces

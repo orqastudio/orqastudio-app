@@ -6,6 +6,7 @@ description: "Every change must be evaluated as part of the whole system, not as
 status: active
 created: 2026-03-07
 updated: 2026-03-07
+enforcement: "agent system prompt — plans addressing symptoms without identifying the system are rejected; knowledge injection via systems-thinking skill on all implementation work"
 relationships:
   - target: AD-1d928079
     type: enforces

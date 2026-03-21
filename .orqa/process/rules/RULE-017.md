@@ -6,6 +6,7 @@ description: "Two learning loops: implementation lessons in .orqa/process/lesson
 status: active
 created: 2026-03-07
 updated: 2026-03-14
+enforcement: "output validation — review agents must include a 'Lessons Logged' section in output; orchestrator audits compliance during governance reviews; session start hook surfaces recurring lessons"
 relationships:
   - target: AD-8b3962f6
     type: enforces

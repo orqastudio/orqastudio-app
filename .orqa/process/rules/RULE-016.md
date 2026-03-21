@@ -6,6 +6,7 @@ description: "Artifact IDs are sequential identifiers for uniqueness and referen
 status: "active"
 created: "2026-03-07"
 updated: "2026-03-07"
+enforcement: "agent system prompt — injected as part of behavioral rules; orchestrator uses priority field not ID order when sequencing work"
 relationships:
   - target: "AD-0c56aa90"
     type: "enforces"

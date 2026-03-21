@@ -6,6 +6,7 @@ description: All errors are your responsibility. Pre-existing errors must be fix
 status: active
 created: 2026-03-07
 updated: 2026-03-12
+enforcement: "pre-commit hook — .githooks/pre-commit runs quality checks based on staged files; --no-verify is forbidden; lint and type errors block commits"
 relationships:
   - target: AD-1ad08e5f
     type: enforces

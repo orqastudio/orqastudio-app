@@ -5,7 +5,8 @@ title: Required Reading
 description: Every agent must read its required documentation before any implementation work begins.
 status: active
 created: 2026-03-07
-updated: 2026-03-07
+updated: 2026-03-13
+enforcement: "agent system prompt — Required Reading is the first action in every agent's execution sequence; agent-maintainer audits Required Reading lists during governance reviews"
 relationships:
   - target: AD-53e80192
     type: enforces

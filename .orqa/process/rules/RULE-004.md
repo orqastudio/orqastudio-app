@@ -6,6 +6,7 @@ description: "Enforces creation standards, status transitions, promotion gates, 
 status: "active"
 created: "2026-03-07"
 updated: "2026-03-13"
+enforcement: "orqa validate — validates artifact status transitions, required fields, and relationship integrity; orchestrator enforces human gate before marking epics done"
 relationships:
   - target: "DOC-7c66f103"
     type: "documented-by"

@@ -6,6 +6,7 @@ description: Agent definitions declare abstract capabilities. A provider mapping
 status: active
 created: 2026-03-11
 updated: 2026-03-13
+enforcement: "agent system prompt — orchestrator resolves capabilities to concrete tool names per provider mapping at delegation time; agent definitions must use capabilities not tool names; governance steward verifies agent YAML uses capabilities field"
 relationships:
   - target: AD-ff88ecea
     type: enforces

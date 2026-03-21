@@ -6,6 +6,7 @@ description: The user-invocable field in knowledge frontmatter controls whether 
 status: active
 created: 2026-03-11
 updated: 2026-03-11
+enforcement: "orqa validate — schema validation checks for user-invocable field presence in knowledge artifact frontmatter; missing field is a schema validation failure that blocks commits"
 relationships:
   - target: AD-53e80192
     type: enforces

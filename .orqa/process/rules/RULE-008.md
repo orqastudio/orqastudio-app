@@ -6,6 +6,7 @@ description: "Documentation is the source of truth. Verify docs exist before wri
 status: "active"
 created: "2026-03-07"
 updated: "2026-03-12"
+enforcement: "agent system prompt — orchestrator checks docs-required gate before delegating implementation; code-reviewer verifies docs-produced items were created"
 relationships:
   - target: "AD-1d928079"
     type: "enforces"

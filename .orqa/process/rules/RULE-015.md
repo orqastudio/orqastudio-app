@@ -6,6 +6,7 @@ description: Report status accurately. Partial work reported as complete is wors
 status: active
 created: 2026-03-07
 updated: 2026-03-07
+enforcement: "output validation — stop hook scans completion reports for missing 'What Is NOT Done' section; reviewer gate requires PASS verdict with explicit criterion-by-criterion verification"
 relationships:
   - target: AD-29b5eb06
     type: enforces

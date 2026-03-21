@@ -6,6 +6,7 @@ description: "All cross-references between artifacts must use markdown link synt
 status: "active"
 created: "2026-03-11"
 updated: "2026-03-13"
+enforcement: "pre-commit hook — pre-commit can scan staged .orqa files for bare artifact ID patterns not wrapped in markdown link syntax; orqa validate checks link format on .orqa artifacts"
 relationships:
   - target: "AD-d8ea4d2b"
     type: "enforces"

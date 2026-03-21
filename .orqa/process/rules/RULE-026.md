@@ -6,6 +6,7 @@ description: "Three-tier skill loading: agent portable skills, orchestrator-inje
 status: active
 created: 2026-03-07
 updated: 2026-03-13
+enforcement: "agent system prompt — orchestrator's delegation template requires skill loading before task execution; OrqaStudio app enforces via process checks before task start"
 relationships:
   - target: AD-53e80192
     type: enforces

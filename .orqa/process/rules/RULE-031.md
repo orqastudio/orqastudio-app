@@ -6,6 +6,7 @@ description: Every feature must serve at least one active pillar defined in .orq
 status: active
 created: 2026-03-07
 updated: 2026-03-13
+enforcement: "agent system prompt — orchestrator reads active pillars and evaluates gate questions before delegating any task; features failing pillar alignment are flagged and rejected"
 relationships:
   - target: AD-44a033cf
     type: enforces

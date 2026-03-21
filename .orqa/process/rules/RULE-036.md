@@ -6,6 +6,7 @@ description: "The orchestrator must protect its context window by delegating, mi
 status: active
 created: 2026-03-11
 updated: 2026-03-11
+enforcement: "agent system prompt — orchestrator delegates to subagents instead of accumulating context; context management constraints injected at delegation time via orchestrator system prompt"
 relationships:
   - target: AD-20d6719d
     type: enforces

@@ -6,6 +6,7 @@ description: User acceptance testing follows a collect-then-systematize approach
 status: active
 created: 2026-03-07
 updated: 2026-03-07
+enforcement: "agent system prompt — uat-process knowledge injected during review/testing phases; orchestrator rejects UAT completion reports without encoded process improvements"
 relationships:
   - target: AD-e156310d
     type: enforces

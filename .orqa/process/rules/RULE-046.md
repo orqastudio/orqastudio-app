@@ -6,6 +6,7 @@ description: "Defines enforcement strategies for rules that cannot be mechanical
 status: active
 created: 2026-03-13
 updated: 2026-03-13
+enforcement: "agent system prompt — this rule is the behavioral enforcement plan itself; the orchestrator injects it as the authoritative reference for how all behavioral rules are enforced; pipeline integrity tool verifies coverage"
 relationships:
   - target: AD-f9034c99
     type: enforces

@@ -6,6 +6,7 @@ description: No implementation work may begin without the full artifact structur
 status: active
 created: 2026-03-07
 updated: 2026-03-07
+enforcement: "agent system prompt — orchestrator checks for epic and task artifacts before delegating; agents flag missing structure and refuse to start unstructured requests"
 relationships:
   - target: AD-6dfbba70
     type: enforces

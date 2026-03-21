@@ -6,6 +6,7 @@ description: "Every artifact's YAML frontmatter must validate against the JSON S
 status: "active"
 created: "2026-03-10"
 updated: "2026-03-13"
+enforcement: "pre-commit hook — .githooks/pre-commit calls validate-artifacts.sh which delegates to validate-schema.mjs (ajv) on staged .orqa/**/*.md files; validation failures block commits"
 relationships:
   - target: "AD-c3700062"
     type: "enforces"
