@@ -394,7 +394,10 @@ fn check_to_constraint(
                 schema.to.join(", ")
             ),
             auto_fixable: false,
-            fix_description: Some(format!("Change the target to one of: {}", schema.to.join(", "))),
+            fix_description: Some(format!(
+                "Change the target to one of: {}",
+                schema.to.join(", ")
+            )),
         });
     }
 }

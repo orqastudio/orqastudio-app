@@ -26,20 +26,17 @@ pub fn is_valid_artifact_id(id: &str) -> bool {
     if prefix.is_empty() || !prefix.chars().all(|c| c.is_ascii_uppercase()) {
         // Allow compound prefixes like KNOW-SVE-001 by checking the original ID
         // has at least one uppercase prefix segment before the final suffix
-        return id
-            .rmatch_indices('-')
-            .next()
-            .is_some_and(|(i, _)| {
-                let final_suffix = &id[i + 1..];
-                let prefix_part = &id[..i];
-                !prefix_part.is_empty()
-                    && prefix_part
-                        .chars()
-                        .all(|c| c.is_ascii_uppercase() || c == '-')
-                    && (final_suffix.chars().all(|c| c.is_ascii_digit())
-                        || (final_suffix.len() == 8
-                            && final_suffix.chars().all(|c| c.is_ascii_hexdigit())))
-            });
+        return id.rmatch_indices('-').next().is_some_and(|(i, _)| {
+            let final_suffix = &id[i + 1..];
+            let prefix_part = &id[..i];
+            !prefix_part.is_empty()
+                && prefix_part
+                    .chars()
+                    .all(|c| c.is_ascii_uppercase() || c == '-')
+                && (final_suffix.chars().all(|c| c.is_ascii_digit())
+                    || (final_suffix.len() == 8
+                        && final_suffix.chars().all(|c| c.is_ascii_hexdigit())))
+        });
     }
     // Suffix is either all digits (legacy) or 8 hex chars (new format)
     suffix.chars().all(|c| c.is_ascii_digit())

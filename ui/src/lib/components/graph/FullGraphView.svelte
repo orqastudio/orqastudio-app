@@ -126,6 +126,13 @@
 		const posCount = positions.length;
 
 		if (!el) return;
+
+		// Request layout computation when we have elements but no positions
+		if (nodeCount > 0 && posCount === 0 && !running) {
+			graphLayoutService.requestLayout(elements);
+			return;
+		}
+
 		if (running) return; // Still computing — spinner shown instead
 		if (posCount === 0) return; // No positions yet
 

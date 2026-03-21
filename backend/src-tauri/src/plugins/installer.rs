@@ -3,8 +3,8 @@
 //! Prefers shelling out to `orqa plugin install` if the CLI is available,
 //! falls back to built-in download + extract using tar + flate2 crates.
 
-use sha2::{Digest, Sha256};
 use serde::Serialize;
+use sha2::{Digest, Sha256};
 use std::path::Path;
 
 use crate::error::OrqaError;
@@ -50,7 +50,11 @@ pub fn install_from_path(source: &Path, project_root: &Path) -> Result<InstallRe
     let plugins_dir = project_root.join("plugins");
     std::fs::create_dir_all(&plugins_dir)?;
 
-    let short_name = manifest.name.split('/').next_back().unwrap_or(&manifest.name);
+    let short_name = manifest
+        .name
+        .split('/')
+        .next_back()
+        .unwrap_or(&manifest.name);
     let target = plugins_dir.join(short_name);
 
     if target.exists() {
@@ -99,7 +103,11 @@ pub async fn install_from_github(
         &manifest.name,
     );
 
-    let short_name = manifest.name.split('/').next_back().unwrap_or(&manifest.name);
+    let short_name = manifest
+        .name
+        .split('/')
+        .next_back()
+        .unwrap_or(&manifest.name);
     let target = plugins_dir.join(short_name);
     if target.exists() {
         std::fs::remove_dir_all(&target)?;
@@ -128,10 +136,7 @@ pub async fn install_from_github(
     })
 }
 
-async fn download_plugin_archive(
-    repo: &str,
-    tag: &str,
-) -> Result<(Vec<u8>, String), OrqaError> {
+async fn download_plugin_archive(repo: &str, tag: &str) -> Result<(Vec<u8>, String), OrqaError> {
     let repo_name = repo
         .split('/')
         .next_back()
