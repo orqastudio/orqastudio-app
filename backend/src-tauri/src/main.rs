@@ -9,8 +9,10 @@ fn main() {
             .iter()
             .position(|a| a == "--mcp")
             .and_then(|i| args.get(i + 1))
-            .map(std::path::PathBuf::from)
-            .unwrap_or_else(|| std::env::current_dir().expect("failed to get current dir"));
+            .map_or_else(
+                || std::env::current_dir().expect("failed to get current dir"),
+                std::path::PathBuf::from,
+            );
 
         if let Err(e) = orqa_studio_lib::servers::mcp::run(&project_path) {
             eprintln!("MCP server error: {e}");
@@ -25,8 +27,10 @@ fn main() {
             .iter()
             .position(|a| a == "--lsp")
             .and_then(|i| args.get(i + 1))
-            .map(std::path::PathBuf::from)
-            .unwrap_or_else(|| std::env::current_dir().expect("failed to get current dir"));
+            .map_or_else(
+                || std::env::current_dir().expect("failed to get current dir"),
+                std::path::PathBuf::from,
+            );
 
         let rt = tokio::runtime::Runtime::new().expect("failed to create tokio runtime");
         if let Err(e) = rt.block_on(orqa_studio_lib::servers::lsp::run(&project_path)) {
