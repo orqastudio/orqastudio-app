@@ -54,45 +54,9 @@ pub fn detect_relationship_collisions(
     project_root: &std::path::Path,
     incoming_plugin_name: &str,
 ) -> Vec<KeyCollision> {
+    let existing = build_existing_relationships(project_root, incoming_plugin_name);
     let mut collisions = Vec::new();
 
-    // Build the existing relationship set: (source_name, schema)
-    let mut existing: Vec<(String, RelationshipSchema)> = Vec::new();
-
-    // Core relationships from embedded core.json
-    for rel in &PLATFORM.relationships {
-        existing.push((
-            "core".to_string(),
-            RelationshipSchema {
-                key: rel.key.clone(),
-                inverse: rel.inverse.clone(),
-                description: rel.description.clone(),
-                from: rel.from.clone(),
-                to: rel.to.clone(),
-                semantic: rel.semantic.clone(),
-                constraints: None,
-            },
-        ));
-    }
-
-    // Already-installed plugin relationships
-    let installed = scan_plugins(project_root);
-    for plugin in &installed {
-        if plugin.name == incoming_plugin_name {
-            continue; // Skip self on reinstall/update
-        }
-        let plugin_dir = std::path::Path::new(&plugin.path);
-        if let Ok(manifest) = read_manifest(plugin_dir) {
-            for rel_value in &manifest.provides.relationships {
-                if let Ok(schema) = serde_json::from_value::<RelationshipSchema>(rel_value.clone())
-                {
-                    existing.push((plugin.name.clone(), schema));
-                }
-            }
-        }
-    }
-
-    // Check each incoming key against what's already defined
     for incoming in incoming_relationships {
         for (source, ex) in &existing {
             if ex.key == incoming.key {
@@ -116,6 +80,46 @@ pub fn detect_relationship_collisions(
     }
 
     collisions
+}
+
+fn build_existing_relationships(
+    project_root: &std::path::Path,
+    incoming_plugin_name: &str,
+) -> Vec<(String, RelationshipSchema)> {
+    let mut existing: Vec<(String, RelationshipSchema)> = Vec::new();
+
+    for rel in &PLATFORM.relationships {
+        existing.push((
+            "core".to_string(),
+            RelationshipSchema {
+                key: rel.key.clone(),
+                inverse: rel.inverse.clone(),
+                description: rel.description.clone(),
+                from: rel.from.clone(),
+                to: rel.to.clone(),
+                semantic: rel.semantic.clone(),
+                constraints: None,
+            },
+        ));
+    }
+
+    let installed = scan_plugins(project_root);
+    for plugin in &installed {
+        if plugin.name == incoming_plugin_name {
+            continue;
+        }
+        let plugin_dir = std::path::Path::new(&plugin.path);
+        if let Ok(manifest) = read_manifest(plugin_dir) {
+            for rel_value in &manifest.provides.relationships {
+                if let Ok(schema) = serde_json::from_value::<RelationshipSchema>(rel_value.clone())
+                {
+                    existing.push((plugin.name.clone(), schema));
+                }
+            }
+        }
+    }
+
+    existing
 }
 
 #[cfg(test)]

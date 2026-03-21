@@ -32,9 +32,8 @@ fn read_project_settings(project_root: &Path) -> Option<ProjectSettings> {
 /// Only plugins explicitly registered in project.json are discovered.
 /// No fallback directory scanning — if a plugin isn't registered, it isn't loaded.
 pub fn scan_plugins(project_root: &Path) -> Vec<DiscoveredPlugin> {
-    let settings = match read_project_settings(project_root) {
-        Some(s) => s,
-        None => return vec![],
+    let Some(settings) = read_project_settings(project_root) else {
+        return vec![];
     };
 
     let mut discovered = Vec::new();
