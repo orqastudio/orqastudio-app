@@ -105,8 +105,7 @@ fn handle_connection(
     let protocol = parts.first().copied().unwrap_or("");
     let project_root = parts
         .get(1)
-        .map(|p| PathBuf::from(p))
-        .unwrap_or_else(|| default_root.to_path_buf());
+        .map_or_else(|| default_root.to_path_buf(), |p| PathBuf::from(*p));
 
     match protocol {
         "MCP" => {
@@ -230,7 +229,7 @@ impl McpServerState {
                 Some(serde_json::to_string(&resp).unwrap_or_default())
             }
             None => {
-                if id_val != serde_json::Value::Null {
+                if !id_val.is_null() {
                     let resp = serde_json::json!({
                         "jsonrpc": "2.0",
                         "id": id_val,
