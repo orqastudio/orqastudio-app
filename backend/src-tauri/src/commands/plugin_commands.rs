@@ -17,9 +17,7 @@ pub fn plugin_list_installed(
 
 /// Fetch the plugin registry catalog (official, community, or both).
 #[tauri::command]
-pub async fn plugin_registry_list(
-    source: Option<String>,
-) -> Result<serde_json::Value, OrqaError> {
+pub async fn plugin_registry_list(source: Option<String>) -> Result<serde_json::Value, OrqaError> {
     let src = source.as_deref().unwrap_or("official");
     let cache = crate::plugins::registry::RegistryCache::new();
     let catalog = cache.fetch(src).await?;
@@ -57,10 +55,7 @@ pub async fn plugin_install_github(
 
 /// Uninstall a plugin by name.
 #[tauri::command]
-pub fn plugin_uninstall(
-    name: String,
-    state: tauri::State<'_, AppState>,
-) -> Result<(), OrqaError> {
+pub fn plugin_uninstall(name: String, state: tauri::State<'_, AppState>) -> Result<(), OrqaError> {
     let project_path = active_project_path(&state)?;
     installer::uninstall(&name, std::path::Path::new(&project_path))
 }
@@ -112,17 +107,25 @@ pub async fn plugin_check_updates(
 ///
 /// Plugin directory names don't always match the package name — e.g.
 /// `@orqastudio/plugin-claude` lives in `plugins/claude/`, not `plugins/plugin-claude/`.
-fn find_plugin_dir(project_root: &std::path::Path, name: &str) -> Result<std::path::PathBuf, OrqaError> {
+fn find_plugin_dir(
+    project_root: &std::path::Path,
+    name: &str,
+) -> Result<std::path::PathBuf, OrqaError> {
     let plugins_dir = project_root.join("plugins");
     if !plugins_dir.is_dir() {
-        return Err(OrqaError::Plugin(format!("plugins directory not found: {}", plugins_dir.display())));
+        return Err(OrqaError::Plugin(format!(
+            "plugins directory not found: {}",
+            plugins_dir.display()
+        )));
     }
 
     // Scan each directory and match by manifest name
     if let Ok(entries) = std::fs::read_dir(&plugins_dir) {
         for entry in entries.flatten() {
             let path = entry.path();
-            if !path.is_dir() { continue; }
+            if !path.is_dir() {
+                continue;
+            }
             if let Ok(manifest) = crate::plugins::manifest::read_manifest(&path) {
                 if manifest.name == name {
                     return Ok(path);

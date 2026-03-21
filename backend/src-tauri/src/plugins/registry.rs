@@ -60,7 +60,11 @@ impl RegistryCache {
         let (cache_mutex, url) = match source {
             "official" => (&self.official, OFFICIAL_URL),
             "community" => (&self.community, COMMUNITY_URL),
-            _ => return Err(OrqaError::Plugin(format!("unknown registry source: {source}"))),
+            _ => {
+                return Err(OrqaError::Plugin(format!(
+                    "unknown registry source: {source}"
+                )))
+            }
         };
 
         // Check cache

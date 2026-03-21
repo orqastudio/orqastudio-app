@@ -1,7 +1,7 @@
+use super::helpers::active_project_path;
+use crate::cli_tools::runner::{CliToolResult, CliToolStatus, RegisteredCliTool};
 use crate::error::OrqaError;
 use crate::state::AppState;
-use crate::cli_tools::runner::{RegisteredCliTool, CliToolResult, CliToolStatus};
-use super::helpers::active_project_path;
 
 /// Get all registered CLI tools from plugin manifests.
 ///
@@ -35,9 +35,7 @@ pub fn run_cli_tool(
         .iter()
         .find(|t| t.plugin == plugin_name && t.key == tool_key)
         .ok_or_else(|| {
-            OrqaError::NotFound(format!(
-                "CLI tool not found: {plugin_name}:{tool_key}"
-            ))
+            OrqaError::NotFound(format!("CLI tool not found: {plugin_name}:{tool_key}"))
         })?;
 
     state
@@ -49,9 +47,7 @@ pub fn run_cli_tool(
 
 /// Get the status of all registered CLI tools (last run info).
 #[tauri::command]
-pub fn cli_tool_status(
-    state: tauri::State<'_, AppState>,
-) -> Result<Vec<CliToolStatus>, OrqaError> {
+pub fn cli_tool_status(state: tauri::State<'_, AppState>) -> Result<Vec<CliToolStatus>, OrqaError> {
     let project_path = active_project_path(&state)?;
     Ok(state
         .cli_tools

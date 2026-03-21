@@ -10,10 +10,7 @@
 use std::io::{BufRead, BufReader, Write};
 use std::net::{TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
-use std::sync::Arc;
 use std::thread;
-
-use crate::servers::mcp;
 
 /// Well-known file where the IPC port is stored.
 /// CLI reads this to discover the running app instance.
@@ -64,9 +61,8 @@ pub fn start(project_root: Option<PathBuf>) {
 
     tracing::info!("[ipc] listening on 127.0.0.1:{port}");
 
-    let default_root = project_root.unwrap_or_else(|| {
-        std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
-    });
+    let default_root = project_root
+        .unwrap_or_else(|| std::env::current_dir().unwrap_or_else(|_| PathBuf::from(".")));
 
     thread::spawn(move || {
         for stream in listener.incoming() {
@@ -121,7 +117,10 @@ fn handle_connection(
             tracing::info!("[ipc] LSP session for {}", project_root.display());
             // LSP over TCP would need the full tower-lsp async runtime.
             // For now, return an error suggesting the CLI use --lsp directly.
-            writeln!(writer, "LSP over IPC not yet implemented. Use orqa-studio --lsp directly.")?;
+            writeln!(
+                writer,
+                "LSP over IPC not yet implemented. Use orqa-studio --lsp directly."
+            )?;
         }
         _ => {
             writeln!(writer, "Unknown protocol: {protocol}. Expected MCP or LSP.")?;
@@ -176,7 +175,7 @@ fn handle_mcp_session(
 struct McpServerState {
     project_root: PathBuf,
     graph: Option<crate::domain::artifact_graph::ArtifactGraph>,
-    search: Option<crate::search::SearchEngine>,
+    _search: Option<crate::search::SearchEngine>,
 }
 
 impl McpServerState {
@@ -184,7 +183,7 @@ impl McpServerState {
         Self {
             project_root,
             graph: None,
-            search: None,
+            _search: None,
         }
     }
 
@@ -245,7 +244,11 @@ impl McpServerState {
         }
     }
 
-    fn handle_mcp_method(&mut self, method: &str, params: &serde_json::Value) -> Option<serde_json::Value> {
+    fn handle_mcp_method(
+        &mut self,
+        method: &str,
+        params: &serde_json::Value,
+    ) -> Option<serde_json::Value> {
         match method {
             "tools/list" => {
                 // Return the tool list (same as mcp.rs)
@@ -263,7 +266,10 @@ impl McpServerState {
             }
             "tools/call" => {
                 let tool_name = params.get("name")?.as_str()?;
-                let args = params.get("arguments").cloned().unwrap_or(serde_json::json!({}));
+                let args = params
+                    .get("arguments")
+                    .cloned()
+                    .unwrap_or(serde_json::json!({}));
 
                 let result = match tool_name {
                     "graph_stats" => self.graph_stats(),
@@ -273,8 +279,12 @@ impl McpServerState {
                 };
 
                 match result {
-                    Ok(text) => Some(serde_json::json!({ "content": [{ "type": "text", "text": text }] })),
-                    Err(e) => Some(serde_json::json!({ "content": [{ "type": "text", "text": e }], "isError": true })),
+                    Ok(text) => {
+                        Some(serde_json::json!({ "content": [{ "type": "text", "text": text }] }))
+                    }
+                    Err(e) => Some(
+                        serde_json::json!({ "content": [{ "type": "text", "text": e }], "isError": true }),
+                    ),
                 }
             }
             _ => None,
@@ -297,8 +307,13 @@ impl McpServerState {
     }
 
     fn graph_read(&self, args: &serde_json::Value) -> Result<String, String> {
-        let path = args.get("path").and_then(|v| v.as_str()).ok_or("missing 'path'")?;
-        if path.contains("..") { return Err("path traversal not allowed".into()); }
+        let path = args
+            .get("path")
+            .and_then(|v| v.as_str())
+            .ok_or("missing 'path'")?;
+        if path.contains("..") {
+            return Err("path traversal not allowed".into());
+        }
         std::fs::read_to_string(self.project_root.join(path))
             .map_err(|e| format!("failed to read: {e}"))
     }
@@ -308,16 +323,28 @@ impl McpServerState {
         let type_filter = args.get("type").and_then(|v| v.as_str());
         let status_filter = args.get("status").and_then(|v| v.as_str());
 
-        let nodes: Vec<serde_json::Value> = graph.nodes.values()
+        let nodes: Vec<serde_json::Value> = graph
+            .nodes
+            .values()
             .filter(|n| {
-                if let Some(t) = type_filter { if n.artifact_type != t { return false; } }
-                if let Some(s) = status_filter { if n.status.as_deref() != Some(s) { return false; } }
+                if let Some(t) = type_filter {
+                    if n.artifact_type != t {
+                        return false;
+                    }
+                }
+                if let Some(s) = status_filter {
+                    if n.status.as_deref() != Some(s) {
+                        return false;
+                    }
+                }
                 true
             })
-            .map(|n| serde_json::json!({
-                "id": n.id, "type": n.artifact_type, "title": n.title,
-                "status": n.status, "path": n.path
-            }))
+            .map(|n| {
+                serde_json::json!({
+                    "id": n.id, "type": n.artifact_type, "title": n.title,
+                    "status": n.status, "path": n.path
+                })
+            })
             .collect();
 
         serde_json::to_string_pretty(&nodes).map_err(|e| e.to_string())

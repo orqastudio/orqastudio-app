@@ -224,21 +224,6 @@ fn count_md_files_in_dir(dir: &Path) -> u32 {
         .count() as u32
 }
 
-/// Count subdirectories in a directory (not recursive).
-fn count_subdirs(dir: &Path) -> u32 {
-    if !dir.is_dir() {
-        return 0;
-    }
-    let Ok(entries) = std::fs::read_dir(dir) else {
-        return 0;
-    };
-
-    entries
-        .flatten()
-        .filter(|e| e.file_type().is_ok_and(|ft| ft.is_dir()))
-        .count() as u32
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

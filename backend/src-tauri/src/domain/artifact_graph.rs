@@ -528,22 +528,37 @@ fn collect_body_refs(body: &str, source_id: &str) -> Vec<ArtifactRef> {
 }
 
 /// Compute summary statistics for the graph.
+///
+/// In organisation mode, bare-ID alias nodes (added by `insert_bare_id_aliases`) are
+/// excluded from counts to avoid double-counting. An alias node is identified by its
+/// graph key equalling its `id` while also having a `project` field (meaning it belongs
+/// to a child project but was aliased into the root namespace for resolution convenience).
 pub fn graph_stats(graph: &ArtifactGraph) -> GraphStats {
-    let node_count = graph.nodes.len();
-
-    let edge_count: usize = graph.nodes.values().map(|n| n.references_out.len()).sum();
-
-    let orphan_count = graph
+    // Primary nodes: root nodes (project: None) OR child nodes accessed by their qualified key.
+    // Alias nodes: child nodes accessed by their bare ID (key == id, project: Some(...)).
+    let primary_nodes: Vec<&ArtifactNode> = graph
         .nodes
-        .values()
+        .iter()
+        .filter(|(key, node)| {
+            // Alias: key == node.id AND project is Some — exclude.
+            !(key.as_str() == node.id && node.project.is_some())
+        })
+        .map(|(_, node)| node)
+        .collect();
+
+    let node_count = primary_nodes.len();
+
+    let edge_count: usize = primary_nodes.iter().map(|n| n.references_out.len()).sum();
+
+    let orphan_count = primary_nodes
+        .iter()
         .filter(|n| {
             n.artifact_type != "doc" && n.references_out.is_empty() && n.references_in.is_empty()
         })
         .count();
 
-    let broken_ref_count: usize = graph
-        .nodes
-        .values()
+    let broken_ref_count: usize = primary_nodes
+        .iter()
         .flat_map(|n| n.references_out.iter())
         .filter(|r| !graph.nodes.contains_key(&r.target_id))
         .count();
@@ -1625,27 +1640,57 @@ mod tests {
         let empty_registry: TypeRegistry = Vec::new();
         // These fall through to the hardcoded path-segment heuristic.
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/epics/EPIC-001.md", &empty_registry, None, "EPIC-001"),
+            infer_artifact_type(
+                ".orqa/delivery/epics/EPIC-001.md",
+                &empty_registry,
+                None,
+                "EPIC-001"
+            ),
             "epic"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/tasks/TASK-001.md", &empty_registry, None, "TASK-001"),
+            infer_artifact_type(
+                ".orqa/delivery/tasks/TASK-001.md",
+                &empty_registry,
+                None,
+                "TASK-001"
+            ),
             "task"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/milestones/MS-001.md", &empty_registry, None, "MS-001"),
+            infer_artifact_type(
+                ".orqa/delivery/milestones/MS-001.md",
+                &empty_registry,
+                None,
+                "MS-001"
+            ),
             "milestone"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/process/decisions/AD-001.md", &empty_registry, None, "AD-001"),
+            infer_artifact_type(
+                ".orqa/process/decisions/AD-001.md",
+                &empty_registry,
+                None,
+                "AD-001"
+            ),
             "decision"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/process/lessons/IMPL-001.md", &empty_registry, None, "IMPL-001"),
+            infer_artifact_type(
+                ".orqa/process/lessons/IMPL-001.md",
+                &empty_registry,
+                None,
+                "IMPL-001"
+            ),
             "lesson"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/documentation/product/vision.md", &empty_registry, None, "DOC-001"),
+            infer_artifact_type(
+                ".orqa/documentation/product/vision.md",
+                &empty_registry,
+                None,
+                "DOC-001"
+            ),
             "doc"
         );
     }
@@ -1655,7 +1700,12 @@ mod tests {
         let empty_registry: TypeRegistry = Vec::new();
         // Frontmatter type: field overrides path-based inference.
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/epics/EPIC-001.md", &empty_registry, Some("rule"), "EPIC-001"),
+            infer_artifact_type(
+                ".orqa/delivery/epics/EPIC-001.md",
+                &empty_registry,
+                Some("rule"),
+                "EPIC-001"
+            ),
             "rule"
         );
     }
@@ -1665,15 +1715,30 @@ mod tests {
         let empty_registry: TypeRegistry = Vec::new();
         // When neither frontmatter type nor path matches, ID prefix is used.
         assert_eq!(
-            infer_artifact_type(".orqa/unknown/RULE-006.md", &empty_registry, None, "RULE-006"),
+            infer_artifact_type(
+                ".orqa/unknown/RULE-006.md",
+                &empty_registry,
+                None,
+                "RULE-006"
+            ),
             "rule"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/unknown/KNOW-011.md", &empty_registry, None, "KNOW-011"),
+            infer_artifact_type(
+                ".orqa/unknown/KNOW-011.md",
+                &empty_registry,
+                None,
+                "KNOW-011"
+            ),
             "knowledge"
         );
         assert_eq!(
-            infer_artifact_type(".orqa/unknown/AGENT-001.md", &empty_registry, None, "AGENT-001"),
+            infer_artifact_type(
+                ".orqa/unknown/AGENT-001.md",
+                &empty_registry,
+                None,
+                "AGENT-001"
+            ),
             "agent"
         );
     }
@@ -1688,7 +1753,12 @@ mod tests {
         );
         // Falls back to hardcoded when registry doesn't match
         assert_eq!(
-            infer_artifact_type(".orqa/delivery/epics/EPIC-001.md", &registry, None, "EPIC-001"),
+            infer_artifact_type(
+                ".orqa/delivery/epics/EPIC-001.md",
+                &registry,
+                None,
+                "EPIC-001"
+            ),
             "epic"
         );
     }

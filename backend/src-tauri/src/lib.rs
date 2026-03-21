@@ -1,17 +1,17 @@
+pub mod cli_tools;
 pub mod commands;
 pub mod db;
 pub mod domain;
 pub mod error;
 pub mod hooks;
 pub mod logging;
+pub mod plugins;
 pub mod repo;
 pub mod search;
 pub mod servers;
 pub mod sidecar;
 pub mod startup;
 pub mod state;
-pub mod cli_tools;
-pub mod plugins;
 pub mod watcher;
 
 use std::sync::Arc;

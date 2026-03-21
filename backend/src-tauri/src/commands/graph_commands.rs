@@ -287,7 +287,10 @@ fn load_plugin_relationships(
         let plugin_dir = std::path::Path::new(&plugin.path);
         if let Ok(manifest) = crate::plugins::manifest::read_manifest(plugin_dir) {
             for rel_value in &manifest.provides.relationships {
-                if let Ok(schema) = serde_json::from_value::<crate::domain::integrity_engine::RelationshipSchema>(rel_value.clone()) {
+                if let Ok(schema) = serde_json::from_value::<
+                    crate::domain::integrity_engine::RelationshipSchema,
+                >(rel_value.clone())
+                {
                     rels.push(schema);
                 }
             }
@@ -327,7 +330,13 @@ pub fn apply_auto_fixes(state: State<'_, AppState>) -> Result<Vec<AppliedFix>, O
     let delivery = load_delivery_config(&project_path);
     let project_rels = load_project_relationships(&project_path);
     let plugin_rels = load_plugin_relationships(&project_path);
-    let checks = check_integrity(&graph, &valid_statuses, &delivery, &project_rels, &plugin_rels);
+    let checks = check_integrity(
+        &graph,
+        &valid_statuses,
+        &delivery,
+        &project_rels,
+        &plugin_rels,
+    );
     let applied = apply_fixes(&graph, &checks, Path::new(&project_path))?;
 
     // Refresh the graph if any fixes were applied.

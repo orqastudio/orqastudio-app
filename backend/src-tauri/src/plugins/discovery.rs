@@ -39,7 +39,7 @@ pub fn scan_plugins(project_root: &Path) -> Vec<DiscoveredPlugin> {
 
     let mut discovered = Vec::new();
 
-    for (name, config) in &settings.plugins {
+    for (_name, config) in &settings.plugins {
         if !config.installed || !config.enabled {
             continue;
         }

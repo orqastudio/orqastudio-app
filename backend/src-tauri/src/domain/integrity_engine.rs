@@ -272,8 +272,7 @@ fn check_missing_inverses(
             };
 
             let has_inverse = target.references_out.iter().any(|r| {
-                r.relationship_type.as_deref() == Some(expected_inverse)
-                    && r.target_id == node.id
+                r.relationship_type.as_deref() == Some(expected_inverse) && r.target_id == node.id
             });
 
             if !has_inverse {
@@ -308,8 +307,11 @@ fn check_relationship_type_constraints(
     checks: &mut Vec<IntegrityCheck>,
 ) {
     // Build a lookup: relationship key → schema.
-    let schema_map: HashMap<&str, &RelationshipSchema> =
-        ctx.relationships.iter().map(|r| (r.key.as_str(), r)).collect();
+    let schema_map: HashMap<&str, &RelationshipSchema> = ctx
+        .relationships
+        .iter()
+        .map(|r| (r.key.as_str(), r))
+        .collect();
 
     for node in graph.nodes.values() {
         for ref_entry in &node.references_out {
@@ -443,8 +445,11 @@ fn check_cardinality(
     ctx: &ValidationContext,
     checks: &mut Vec<IntegrityCheck>,
 ) {
-    let schema_map: HashMap<&str, &RelationshipSchema> =
-        ctx.relationships.iter().map(|r| (r.key.as_str(), r)).collect();
+    let schema_map: HashMap<&str, &RelationshipSchema> = ctx
+        .relationships
+        .iter()
+        .map(|r| (r.key.as_str(), r))
+        .collect();
 
     for node in graph.nodes.values() {
         // Count outgoing edges by relationship type.
@@ -523,7 +528,14 @@ fn check_circular_dependencies(
             continue;
         }
 
-        detect_cycles_from(graph, &node.id, &deps, &forward_dep_keys, &mut reported, checks);
+        detect_cycles_from(
+            graph,
+            &node.id,
+            &deps,
+            &forward_dep_keys,
+            &mut reported,
+            checks,
+        );
     }
 }
 
@@ -1008,7 +1020,9 @@ fn check_delivery_node_parent(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::domain::artifact_graph::{build_artifact_graph, ArtifactGraph, ArtifactNode, ArtifactRef};
+    use crate::domain::artifact_graph::{
+        build_artifact_graph, ArtifactGraph, ArtifactNode, ArtifactRef,
+    };
     use std::collections::HashMap;
 
     fn empty_ctx() -> ValidationContext {
@@ -1075,31 +1089,44 @@ mod tests {
     #[test]
     fn broken_ref_detected() {
         let mut node = make_node("TASK-001", "task");
-        node.references_out.push(make_ref("TASK-001", "EPIC-MISSING", "delivers"));
+        node.references_out
+            .push(make_ref("TASK-001", "EPIC-MISSING", "delivers"));
 
         let mut nodes = HashMap::new();
         nodes.insert("TASK-001".to_string(), node);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let checks = run_schema_checks(&graph, &empty_ctx());
-        assert!(checks.iter().any(|c| matches!(c.category, IntegrityCategory::BrokenLink)));
+        assert!(checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::BrokenLink)));
     }
 
     #[test]
     fn missing_inverse_detected() {
         let mut rule = make_node("RULE-001", "rule");
-        rule.references_out.push(make_ref("RULE-001", "AD-001", "enforces"));
+        rule.references_out
+            .push(make_ref("RULE-001", "AD-001", "enforces"));
 
         let decision = make_node("AD-001", "decision");
 
         let mut nodes = HashMap::new();
         nodes.insert("RULE-001".to_string(), rule);
         nodes.insert("AD-001".to_string(), decision);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ctx_with_inverse("enforces", "enforced-by");
         let checks = run_schema_checks(&graph, &ctx);
-        let missing: Vec<_> = checks.iter().filter(|c| matches!(c.category, IntegrityCategory::MissingInverse)).collect();
+        let missing: Vec<_> = checks
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::MissingInverse))
+            .collect();
         assert_eq!(missing.len(), 1);
         assert!(missing[0].auto_fixable);
     }
@@ -1107,32 +1134,44 @@ mod tests {
     #[test]
     fn no_missing_inverse_when_present() {
         let mut rule = make_node("RULE-001", "rule");
-        rule.references_out.push(make_ref("RULE-001", "AD-001", "enforces"));
+        rule.references_out
+            .push(make_ref("RULE-001", "AD-001", "enforces"));
 
         let mut decision = make_node("AD-001", "decision");
-        decision.references_out.push(make_ref("AD-001", "RULE-001", "enforced-by"));
+        decision
+            .references_out
+            .push(make_ref("AD-001", "RULE-001", "enforced-by"));
 
         let mut nodes = HashMap::new();
         nodes.insert("RULE-001".to_string(), rule);
         nodes.insert("AD-001".to_string(), decision);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ctx_with_inverse("enforces", "enforced-by");
         let checks = run_schema_checks(&graph, &ctx);
-        assert!(!checks.iter().any(|c| matches!(c.category, IntegrityCategory::MissingInverse)));
+        assert!(!checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::MissingInverse)));
     }
 
     #[test]
     fn type_constraint_violation_detected() {
         let mut task = make_node("TASK-001", "task");
-        task.references_out.push(make_ref("TASK-001", "AD-001", "enforces"));
+        task.references_out
+            .push(make_ref("TASK-001", "AD-001", "enforces"));
 
         let decision = make_node("AD-001", "decision");
 
         let mut nodes = HashMap::new();
         nodes.insert("TASK-001".to_string(), task);
         nodes.insert("AD-001".to_string(), decision);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ValidationContext {
             relationships: vec![RelationshipSchema {
@@ -1148,7 +1187,9 @@ mod tests {
         };
 
         let checks = run_schema_checks(&graph, &ctx);
-        assert!(checks.iter().any(|c| matches!(c.category, IntegrityCategory::TypeConstraintViolation)));
+        assert!(checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::TypeConstraintViolation)));
     }
 
     #[test]
@@ -1156,7 +1197,10 @@ mod tests {
         let rule = make_node("RULE-001", "rule");
         let mut nodes = HashMap::new();
         nodes.insert("RULE-001".to_string(), rule);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ValidationContext {
             relationships: vec![RelationshipSchema {
@@ -1176,15 +1220,20 @@ mod tests {
         };
 
         let checks = run_schema_checks(&graph, &ctx);
-        assert!(checks.iter().any(|c| matches!(c.category, IntegrityCategory::RequiredRelationshipMissing)));
+        assert!(checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::RequiredRelationshipMissing)));
     }
 
     #[test]
     fn cardinality_violation_detected() {
         let mut node = make_node("TASK-001", "task");
-        node.references_out.push(make_ref("TASK-001", "EPIC-001", "delivers"));
-        node.references_out.push(make_ref("TASK-001", "EPIC-002", "delivers"));
-        node.references_out.push(make_ref("TASK-001", "EPIC-003", "delivers"));
+        node.references_out
+            .push(make_ref("TASK-001", "EPIC-001", "delivers"));
+        node.references_out
+            .push(make_ref("TASK-001", "EPIC-002", "delivers"));
+        node.references_out
+            .push(make_ref("TASK-001", "EPIC-003", "delivers"));
 
         // Add target nodes so they aren't broken refs.
         let epic1 = make_node("EPIC-001", "epic");
@@ -1196,7 +1245,10 @@ mod tests {
         nodes.insert("EPIC-001".to_string(), epic1);
         nodes.insert("EPIC-002".to_string(), epic2);
         nodes.insert("EPIC-003".to_string(), epic3);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ValidationContext {
             relationships: vec![RelationshipSchema {
@@ -1215,21 +1267,28 @@ mod tests {
         };
 
         let checks = run_schema_checks(&graph, &ctx);
-        assert!(checks.iter().any(|c| matches!(c.category, IntegrityCategory::CardinalityViolation)));
+        assert!(checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::CardinalityViolation)));
     }
 
     #[test]
     fn circular_dependency_detected() {
         let mut a = make_node("TASK-A", "task");
-        a.references_out.push(make_ref("TASK-A", "TASK-B", "depends-on"));
+        a.references_out
+            .push(make_ref("TASK-A", "TASK-B", "depends-on"));
 
         let mut b = make_node("TASK-B", "task");
-        b.references_out.push(make_ref("TASK-B", "TASK-A", "depends-on"));
+        b.references_out
+            .push(make_ref("TASK-B", "TASK-A", "depends-on"));
 
         let mut nodes = HashMap::new();
         nodes.insert("TASK-A".to_string(), a);
         nodes.insert("TASK-B".to_string(), b);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let mut dep_keys = HashSet::new();
         dep_keys.insert("depends-on".to_string());
@@ -1250,7 +1309,9 @@ mod tests {
         };
 
         let checks = run_schema_checks(&graph, &ctx);
-        assert!(checks.iter().any(|c| matches!(c.category, IntegrityCategory::CircularDependency)));
+        assert!(checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::CircularDependency)));
     }
 
     #[test]
@@ -1260,11 +1321,17 @@ mod tests {
 
         let mut nodes = HashMap::new();
         nodes.insert("EPIC-001".to_string(), node);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ctx_with_statuses(vec!["active".to_string(), "completed".to_string()]);
         let checks = run_schema_checks(&graph, &ctx);
-        let invalid: Vec<_> = checks.iter().filter(|c| matches!(c.category, IntegrityCategory::InvalidStatus)).collect();
+        let invalid: Vec<_> = checks
+            .iter()
+            .filter(|c| matches!(c.category, IntegrityCategory::InvalidStatus))
+            .collect();
         assert_eq!(invalid.len(), 1);
         assert!(invalid[0].auto_fixable);
     }
@@ -1276,11 +1343,16 @@ mod tests {
 
         let mut nodes = HashMap::new();
         nodes.insert("EPIC-001".to_string(), node);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let ctx = ctx_with_statuses(vec!["active".to_string(), "completed".to_string()]);
         let checks = run_schema_checks(&graph, &ctx);
-        assert!(!checks.iter().any(|c| matches!(c.category, IntegrityCategory::InvalidStatus)));
+        assert!(!checks
+            .iter()
+            .any(|c| matches!(c.category, IntegrityCategory::InvalidStatus)));
     }
 
     #[test]
@@ -1297,15 +1369,24 @@ mod tests {
         let mut nodes = HashMap::new();
         nodes.insert("RULE-001".to_string(), node);
         nodes.insert("AD-001".to_string(), target);
-        let graph = ArtifactGraph { nodes, path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes,
+            path_index: HashMap::new(),
+        };
 
         let checks = run_schema_checks(&graph, &empty_ctx());
-        assert!(checks.iter().any(|c| matches!(c.category, IntegrityCategory::BodyTextRefWithoutRelationship)));
+        assert!(checks.iter().any(|c| matches!(
+            c.category,
+            IntegrityCategory::BodyTextRefWithoutRelationship
+        )));
     }
 
     #[test]
     fn schema_checks_on_empty_graph() {
-        let graph = ArtifactGraph { nodes: HashMap::new(), path_index: HashMap::new() };
+        let graph = ArtifactGraph {
+            nodes: HashMap::new(),
+            path_index: HashMap::new(),
+        };
         let checks = run_schema_checks(&graph, &empty_ctx());
         assert!(checks.is_empty());
     }

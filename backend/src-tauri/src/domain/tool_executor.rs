@@ -970,7 +970,10 @@ pub fn tool_load_knowledge(input: &serde_json::Value, root: &Path) -> (String, b
     match std::fs::read_to_string(&knowledge_path) {
         Ok(contents) => (contents, false),
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => (
-            format!("knowledge '{name}' not found at '{}'", knowledge_path.display()),
+            format!(
+                "knowledge '{name}' not found at '{}'",
+                knowledge_path.display()
+            ),
             true,
         ),
         Err(e) => (format!("failed to read knowledge '{name}': {e}"), true),

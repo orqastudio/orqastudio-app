@@ -4,15 +4,15 @@ use std::sync::{Arc, Mutex};
 
 use rusqlite::Connection;
 
+use crate::cli_tools::runner::CliToolRunner;
 use crate::domain::artifact_graph::ArtifactGraph;
 use crate::domain::enforcement_engine::EnforcementEngine;
-use crate::domain::process_state::SessionProcessState;
 use crate::domain::knowledge_injector::KnowledgeInjector;
+use crate::domain::process_state::SessionProcessState;
 use crate::domain::workflow_tracker::WorkflowTracker;
 use crate::search::SearchEngine;
 use crate::sidecar::manager::SidecarManager;
 use crate::startup::StartupTracker;
-use crate::cli_tools::runner::CliToolRunner;
 use crate::watcher::SharedWatcher;
 
 // ---------------------------------------------------------------------------

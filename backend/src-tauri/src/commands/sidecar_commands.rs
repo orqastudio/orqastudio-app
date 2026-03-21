@@ -48,7 +48,9 @@ fn read_sidecar_config() -> Option<SidecarConfig> {
 fn resolve_sidecar() -> (String, Vec<String>) {
     // 1. Config-driven: read from sidecar-config.json (written by plugin registry)
     if let Some(config) = read_sidecar_config() {
-        let runtime = config.runtime.unwrap_or_else(|| SIDECAR_COMMAND.to_string());
+        let runtime = config
+            .runtime
+            .unwrap_or_else(|| SIDECAR_COMMAND.to_string());
         let mut args = vec![config.entrypoint];
         if let Some(extra) = config.args {
             args.extend(extra);

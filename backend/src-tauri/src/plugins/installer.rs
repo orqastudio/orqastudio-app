@@ -49,11 +49,7 @@ pub fn install_from_path(source: &Path, project_root: &Path) -> Result<InstallRe
     let plugins_dir = project_root.join("plugins");
     std::fs::create_dir_all(&plugins_dir)?;
 
-    let short_name = manifest
-        .name
-        .split('/')
-        .last()
-        .unwrap_or(&manifest.name);
+    let short_name = manifest.name.split('/').last().unwrap_or(&manifest.name);
     let target = plugins_dir.join(short_name);
 
     if target.exists() {
@@ -87,9 +83,8 @@ pub async fn install_from_github(
         .last()
         .ok_or_else(|| OrqaError::Plugin("invalid repo format".to_string()))?;
 
-    let archive_url = format!(
-        "https://github.com/{repo}/releases/download/{tag}/{repo_name}-{tag}.tar.gz"
-    );
+    let archive_url =
+        format!("https://github.com/{repo}/releases/download/{tag}/{repo_name}-{tag}.tar.gz");
 
     tracing::info!("downloading plugin: {archive_url}");
 
@@ -161,11 +156,7 @@ pub async fn install_from_github(
         &manifest.name,
     );
 
-    let short_name = manifest
-        .name
-        .split('/')
-        .last()
-        .unwrap_or(&manifest.name);
+    let short_name = manifest.name.split('/').last().unwrap_or(&manifest.name);
     let target = plugins_dir.join(short_name);
 
     if target.exists() {

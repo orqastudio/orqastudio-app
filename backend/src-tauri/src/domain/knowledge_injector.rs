@@ -33,7 +33,10 @@ impl KnowledgeInjector {
     /// and pre-compute their description embeddings.
     ///
     /// Artifacts without a `description:` frontmatter field are silently skipped.
-    pub fn new(project_dir: &Path, embedder: &mut Embedder) -> Result<Self, KnowledgeInjectorError> {
+    pub fn new(
+        project_dir: &Path,
+        embedder: &mut Embedder,
+    ) -> Result<Self, KnowledgeInjectorError> {
         let knowledge_dir = project_dir.join(".orqa").join("process").join("knowledge");
         let item_metas = discover_knowledge_descriptions(&knowledge_dir)?;
 
@@ -130,7 +133,9 @@ fn cosine_similarity(a: &[f32], b: &[f32]) -> f32 {
 /// from YAML frontmatter.
 ///
 /// Returns a vec of `(artifact_name, description)` pairs.
-fn discover_knowledge_descriptions(knowledge_dir: &Path) -> Result<Vec<(String, String)>, std::io::Error> {
+fn discover_knowledge_descriptions(
+    knowledge_dir: &Path,
+) -> Result<Vec<(String, String)>, std::io::Error> {
     let mut results = Vec::new();
 
     let read_dir = match std::fs::read_dir(knowledge_dir) {

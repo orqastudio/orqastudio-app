@@ -509,7 +509,10 @@ Load Rust knowledge when editing Rust files.
         let verdicts = engine.evaluate_file("src-tauri/src/domain/foo.rs", "some content");
         assert_eq!(verdicts.len(), 1);
         assert_eq!(verdicts[0].action, RuleAction::Inject);
-        assert_eq!(verdicts[0].knowledge, vec!["rust-async-patterns", "tauri-v2"]);
+        assert_eq!(
+            verdicts[0].knowledge,
+            vec!["rust-async-patterns", "tauri-v2"]
+        );
 
         // Non-matching path should produce no verdict
         let verdicts = engine.evaluate_file("ui/lib/foo.ts", "some content");

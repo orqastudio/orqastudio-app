@@ -146,7 +146,12 @@ mod tests {
     #[test]
     fn detects_collision_with_core() {
         // "grounded" exists in core.json
-        let incoming = vec![make_schema("grounded", "foundation", &["research"], &["pillar"])];
+        let incoming = vec![make_schema(
+            "grounded",
+            "foundation",
+            &["research"],
+            &["pillar"],
+        )];
         let collisions =
             detect_relationship_collisions(&incoming, &PathBuf::from("/nonexistent"), "test");
         assert_eq!(collisions.len(), 1);

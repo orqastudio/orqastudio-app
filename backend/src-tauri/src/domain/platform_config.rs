@@ -175,8 +175,15 @@ mod tests {
 
     #[test]
     fn constraints_are_loaded() {
-        let grounded = PLATFORM.relationships.iter().find(|r| r.key == "grounded").unwrap();
-        let constraints = grounded.constraints.as_ref().expect("grounded should have constraints");
+        let grounded = PLATFORM
+            .relationships
+            .iter()
+            .find(|r| r.key == "grounded")
+            .unwrap();
+        let constraints = grounded
+            .constraints
+            .as_ref()
+            .expect("grounded should have constraints");
         assert_eq!(constraints.required, Some(true));
         assert_eq!(constraints.min_count, Some(1));
     }
