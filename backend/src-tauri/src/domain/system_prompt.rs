@@ -32,7 +32,7 @@ pub fn list_knowledge_catalog(project_path: &Path) -> Vec<(String, String)> {
 
     for entry in read_dir.flatten() {
         let path = entry.path();
-        if !path.is_file() || path.extension().map_or(true, |e| e != "md") {
+        if !path.is_file() || path.extension().is_none_or(|e| e != "md") {
             continue;
         }
 

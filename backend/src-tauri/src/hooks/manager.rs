@@ -98,13 +98,13 @@ fn hook_command_line(hook: &RegisteredHook) -> String {
             parts.push("node".to_string());
             parts.push(format!("\"{}\"", hook.entrypoint));
         }
-        "system" | _ => {
+        _ => {
             parts.push(format!("\"{}\"", hook.entrypoint));
         }
     }
 
     for arg in &hook.args {
-        parts.push(format!("\"{}\"", arg));
+        parts.push(format!("\"{arg}\""));
     }
 
     parts.join(" ")
@@ -116,40 +116,44 @@ fn hook_command_line(hook: &RegisteredHook) -> String {
 /// If any hook exits non-zero, the dispatcher exits non-zero (blocking the
 /// git operation for pre-* hooks).
 fn generate_dispatcher(event: &str, hooks: &[&RegisteredHook]) -> String {
+    use std::fmt::Write as _;
+
     let mut script = String::new();
 
     script.push_str("#!/usr/bin/env bash\n");
     script.push_str(GENERATED_MARKER);
     script.push('\n');
-    script.push_str(&format!(
-        "# Dispatcher for '{event}' — runs all plugin-registered hooks for this event.\n"
-    ));
+    let _ = writeln!(
+        script,
+        "# Dispatcher for '{event}' — runs all plugin-registered hooks for this event."
+    );
     script.push_str("# Regenerate with: OrqaStudio Settings > Plugins > Regenerate Hooks\n\n");
     script.push_str("set -euo pipefail\n\n");
 
     // Run legacy hook if it exists (preserved from before plugin management)
     let legacy_name = format!("{event}.legacy");
-    script.push_str(&format!(
+    let _ = write!(
+        script,
         "# Run legacy hook if preserved\n\
          if [ -f \"$(dirname \"$0\")/{legacy_name}\" ]; then\n\
          \techo \"--- [{event}] legacy hook ---\"\n\
          \tbash \"$(dirname \"$0\")/{legacy_name}\" \"$@\"\n\
          fi\n\n"
-    ));
+    );
 
     for hook in hooks {
         let cmd = hook_command_line(hook);
-        script.push_str(&format!(
-            "# Plugin: {} — hook: {}\n\
-             echo \"--- [{event}] {}: {} ---\"\n\
+        let plugin = &hook.plugin;
+        let key = &hook.key;
+        let _ = write!(
+            script,
+            "# Plugin: {plugin} — hook: {key}\n\
+             echo \"--- [{event}] {plugin}: {key} ---\"\n\
              {cmd} \"$@\"\n\n",
-            hook.plugin, hook.key, hook.plugin, hook.key,
-        ));
+        );
     }
 
-    script.push_str(&format!(
-        "echo \"=== [{event}] All plugin hooks passed ===\"\n"
-    ));
+    let _ = writeln!(script, "echo \"=== [{event}] All plugin hooks passed ===\"");
 
     script
 }
@@ -179,9 +183,8 @@ pub fn generate_dispatchers(project_root: &Path) -> Result<HookGenerationResult,
     let mut hook_keys = Vec::new();
 
     for (event, event_hooks) in &by_event {
-        let filename = match git_hook_filename(event) {
-            Some(f) => f,
-            None => continue, // App-level events don't generate git hooks
+        let Some(filename) = git_hook_filename(event) else {
+            continue; // App-level events don't generate git hooks
         };
 
         let hook_path = hooks_dir.join(filename);
