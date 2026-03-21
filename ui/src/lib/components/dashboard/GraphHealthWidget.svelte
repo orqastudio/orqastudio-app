@@ -1,36 +1,33 @@
 <script lang="ts">
-	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardAction } from "@orqastudio/svelte-components/pure";
+	import { Icon, CardRoot, CardHeader, CardTitle, CardDescription, CardContent, CardAction } from "@orqastudio/svelte-components/pure";
 	import { Button } from "@orqastudio/svelte-components/pure";
 	import { TooltipRoot, TooltipTrigger, TooltipContent } from "@orqastudio/svelte-components/pure";
 	import { LoadingSpinner } from "@orqastudio/svelte-components/pure";
-	import { getGraphViz } from "$lib/graph-viz.svelte";
-	import type { IntegrityCheck } from "@orqastudio/types";
-
-	const graphViz = getGraphViz();
+	import type { IntegrityCheck, GraphHealthData } from "@orqastudio/types";
 
 	interface Props {
 		checks: IntegrityCheck[];
 		loading: boolean;
 		fixing?: boolean;
 		scanned: boolean;
+		graphHealth: GraphHealthData | null;
 		onScan: () => void;
 		onAutoFix?: () => void;
 	}
 
-	const { checks, loading, fixing = false, scanned, onScan, onAutoFix }: Props = $props();
-
-	// Graph-theoretic metrics — reactive, no scan needed.
-	const health = $derived(graphViz.graphHealth);
+	const { checks, loading, fixing = false, scanned, graphHealth, onScan, onAutoFix }: Props = $props();
 
 	// Score: percentage of graph in the largest connected component.
-	const healthScore = $derived(Math.round(health.largestComponentRatio * 100));
+	const healthScore = $derived(
+		graphHealth ? Math.round(graphHealth.largest_component_ratio * 100) : 0
+	);
 
-	// Traffic light based on largestComponentRatio thresholds.
+	// Traffic light based on largest_component_ratio thresholds.
 	type HealthStatus = "green" | "amber" | "red" | "empty";
 	const status = $derived.by((): HealthStatus => {
-		if (health.totalNodes === 0) return "empty";
-		if (health.largestComponentRatio > 0.9) return "green";
-		if (health.largestComponentRatio > 0.7) return "amber";
+		if (!graphHealth || graphHealth.total_nodes === 0) return "empty";
+		if (graphHealth.largest_component_ratio > 0.9) return "green";
+		if (graphHealth.largest_component_ratio > 0.7) return "amber";
 		return "red";
 	});
 
@@ -42,7 +39,7 @@
 	});
 
 	const scoreLabel = $derived.by(() => {
-		if (health.totalNodes === 0) return "—";
+		if (!graphHealth || graphHealth.total_nodes === 0) return "—";
 		return `${healthScore}%`;
 	});
 
@@ -53,16 +50,42 @@
 
 	// Orphan severity: green <5%, amber 5-15%, red >15%
 	const orphanSeverity = $derived.by(() => {
-		if (health.orphanPercentage > 15) return "text-destructive";
-		if (health.orphanPercentage > 5) return "text-warning";
+		if (!graphHealth) return "text-muted-foreground";
+		if (graphHealth.orphan_percentage > 15) return "text-destructive";
+		if (graphHealth.orphan_percentage > 5) return "text-warning";
 		return "text-emerald-500";
 	});
 
 	// Avg degree: green >=4, cyan 3-4, amber 2-3, red <2
 	const degreeSeverity = $derived.by(() => {
-		if (health.avgDegree >= 4) return "text-emerald-500";
-		if (health.avgDegree >= 3) return "text-cyan-500";
-		if (health.avgDegree >= 2) return "text-warning";
+		if (!graphHealth) return "text-muted-foreground";
+		if (graphHealth.avg_degree >= 4) return "text-emerald-500";
+		if (graphHealth.avg_degree >= 3) return "text-cyan-500";
+		if (graphHealth.avg_degree >= 2) return "text-warning";
+		return "text-destructive";
+	});
+
+	// Graph density: green >0.05, amber 0.01-0.05, red <0.01
+	const densitySeverity = $derived.by(() => {
+		if (!graphHealth) return "text-muted-foreground";
+		if (graphHealth.graph_density > 0.05) return "text-emerald-500";
+		if (graphHealth.graph_density > 0.01) return "text-warning";
+		return "text-destructive";
+	});
+
+	// Pillar traceability: green >=80%, amber 50-80%, red <50%
+	const traceabilitySeverity = $derived.by(() => {
+		if (!graphHealth) return "text-muted-foreground";
+		if (graphHealth.pillar_traceability >= 80) return "text-emerald-500";
+		if (graphHealth.pillar_traceability >= 50) return "text-warning";
+		return "text-destructive";
+	});
+
+	// Bidirectionality: green >=0.7, amber 0.4-0.7, red <0.4
+	const bidirectionalitySeverity = $derived.by(() => {
+		if (!graphHealth) return "text-muted-foreground";
+		if (graphHealth.bidirectionality_ratio >= 0.7) return "text-emerald-500";
+		if (graphHealth.bidirectionality_ratio >= 0.4) return "text-warning";
 		return "text-destructive";
 	});
 </script>
@@ -89,16 +112,16 @@
 		</CardAction>
 	</CardHeader>
 	<CardContent class="flex flex-1 flex-col gap-3 pt-0">
-		{#if health.totalNodes > 0}
+		{#if graphHealth && graphHealth.total_nodes > 0}
 			<div class="grid grid-cols-2 gap-2 flex-1 text-center text-xs">
 				<!-- Clusters -->
 				<TooltipRoot delayDuration={300}>
 					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 						<Icon name="network" size="sm" />
-						<span class="{health.componentCount > 1 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
-							{health.componentCount}
+						<span class="{graphHealth.component_count > 1 ? 'text-warning font-semibold' : 'text-muted-foreground'} tabular-nums">
+							{graphHealth.component_count}
 						</span>
-						<span class="text-muted-foreground">Cluster{health.componentCount !== 1 ? "s" : ""}</span>
+						<span class="text-muted-foreground">Cluster{graphHealth.component_count !== 1 ? "s" : ""}</span>
 					</TooltipTrigger>
 					<TooltipContent side="bottom" class="w-64 text-xs">
 						<p class="font-medium mb-1">Connected Components</p>
@@ -111,7 +134,7 @@
 					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 						<Icon name="unlink" size="sm" />
 						<span class="{orphanSeverity} font-semibold tabular-nums">
-							{health.orphanCount} <span class="font-normal">({health.orphanPercentage}%)</span>
+							{graphHealth.orphan_count} <span class="font-normal">({graphHealth.orphan_percentage}%)</span>
 						</span>
 						<span class="text-muted-foreground">Orphans</span>
 					</TooltipTrigger>
@@ -125,7 +148,7 @@
 				<TooltipRoot delayDuration={300}>
 					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
 						<Icon name="git-branch" size="sm" />
-						<span class="{degreeSeverity} font-semibold tabular-nums">{health.avgDegree}</span>
+						<span class="{degreeSeverity} font-semibold tabular-nums">{graphHealth.avg_degree}</span>
 						<span class="text-muted-foreground">Avg Degree</span>
 					</TooltipTrigger>
 					<TooltipContent side="bottom" class="w-64 text-xs">
@@ -162,6 +185,51 @@
 						<span>Integrity</span>
 					</div>
 				{/if}
+
+				<!-- Graph Density -->
+				<TooltipRoot delayDuration={300}>
+					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+						<Icon name="layers" size="sm" />
+						<span class="{densitySeverity} font-semibold tabular-nums">
+							{(graphHealth.graph_density * 100).toFixed(2)}%
+						</span>
+						<span class="text-muted-foreground">Density</span>
+					</TooltipTrigger>
+					<TooltipContent side="bottom" class="w-64 text-xs">
+						<p class="font-medium mb-1">Graph Density</p>
+						<p class="text-muted-foreground">Edge count as a percentage of maximum possible edges. Governance graphs are naturally sparse — 1-5% is healthy. Very low density may indicate under-connected artifacts; very high may indicate circular dependencies.</p>
+					</TooltipContent>
+				</TooltipRoot>
+
+				<!-- Pillar Traceability -->
+				<TooltipRoot delayDuration={300}>
+					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+						<Icon name="target" size="sm" />
+						<span class="{traceabilitySeverity} font-semibold tabular-nums">
+							{graphHealth.pillar_traceability}%
+						</span>
+						<span class="text-muted-foreground">Traceability</span>
+					</TooltipTrigger>
+					<TooltipContent side="bottom" class="w-64 text-xs">
+						<p class="font-medium mb-1">Pillar Traceability</p>
+						<p class="text-muted-foreground">Percentage of rules that are grounded by at least one pillar via a grounded-by relationship. Rules without pillar grounding are unanchored — they enforce something with no stated rationale.</p>
+					</TooltipContent>
+				</TooltipRoot>
+
+				<!-- Bidirectionality -->
+				<TooltipRoot delayDuration={300}>
+					<TooltipTrigger class="flex flex-col items-center justify-center gap-1 rounded-md bg-muted/50 py-3 transition-colors hover:bg-muted/80">
+						<Icon name="arrow-left-right" size="sm" />
+						<span class="{bidirectionalitySeverity} font-semibold tabular-nums">
+							{Math.round(graphHealth.bidirectionality_ratio * 100)}%
+						</span>
+						<span class="text-muted-foreground">Bidirectional</span>
+					</TooltipTrigger>
+					<TooltipContent side="bottom" class="w-64 text-xs">
+						<p class="font-medium mb-1">Bidirectionality Ratio</p>
+						<p class="text-muted-foreground">Percentage of typed relationship edges that have their inverse edge present. Missing inverses create navigation asymmetry — you can traverse one way but not the other. Target: 70%+.</p>
+					</TooltipContent>
+				</TooltipRoot>
 			</div>
 		{/if}
 

@@ -26,6 +26,7 @@ pub fn init_db(path: &str) -> Result<Connection, OrqaError> {
     conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
     conn.execute_batch(include_str!("../migrations/008_health_snapshots.sql"))?;
     conn.execute_batch(include_str!("../migrations/009_drop_artifacts_table.sql"))?;
+    run_migration_010(&conn)?;
 
     Ok(conn)
 }
@@ -44,6 +45,7 @@ pub fn init_memory_db() -> Result<Connection, OrqaError> {
     conn.execute_batch(include_str!("../migrations/007_drop_governance_tables.sql"))?;
     conn.execute_batch(include_str!("../migrations/008_health_snapshots.sql"))?;
     conn.execute_batch(include_str!("../migrations/009_drop_artifacts_table.sql"))?;
+    run_migration_010(&conn)?;
 
     Ok(conn)
 }
@@ -89,6 +91,38 @@ fn run_migration_004(conn: &Connection) -> Result<(), OrqaError> {
     if !has_sdk_col && !has_provider_col {
         conn.execute_batch("ALTER TABLE sessions ADD COLUMN sdk_session_id TEXT")?;
     }
+    Ok(())
+}
+
+/// Migration 010: Add extended graph health metric columns to `health_snapshots`.
+///
+/// Idempotent — each column is only added when absent.
+fn run_migration_010(conn: &Connection) -> Result<(), OrqaError> {
+    let columns_to_add: &[(&str, &str)] = &[
+        ("largest_component_ratio", "REAL NOT NULL DEFAULT 0.0"),
+        ("orphan_percentage", "REAL NOT NULL DEFAULT 0.0"),
+        ("avg_degree", "REAL NOT NULL DEFAULT 0.0"),
+        ("graph_density", "REAL NOT NULL DEFAULT 0.0"),
+        ("component_count", "INTEGER NOT NULL DEFAULT 0"),
+        ("pillar_traceability", "REAL NOT NULL DEFAULT 100.0"),
+        ("bidirectionality_ratio", "REAL NOT NULL DEFAULT 1.0"),
+    ];
+
+    for (col, typedef) in columns_to_add {
+        let exists: bool = conn
+            .prepare(&format!(
+                "SELECT COUNT(*) FROM pragma_table_info('health_snapshots') WHERE name = '{col}'"
+            ))?
+            .query_row([], |row| row.get::<_, i64>(0))
+            .map(|count| count > 0)?;
+
+        if !exists {
+            conn.execute_batch(&format!(
+                "ALTER TABLE health_snapshots ADD COLUMN {col} {typedef}"
+            ))?;
+        }
+    }
+
     Ok(())
 }
 

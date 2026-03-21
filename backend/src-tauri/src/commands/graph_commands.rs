@@ -3,9 +3,9 @@ use std::path::Path;
 use tauri::{Emitter, Runtime, State};
 
 use crate::domain::artifact_graph::{
-    apply_fixes, build_artifact_graph, check_integrity, graph_stats,
+    apply_fixes, build_artifact_graph, check_integrity, compute_graph_health, graph_stats,
     update_artifact_field as domain_update_artifact_field, AppliedFix, ArtifactGraph, ArtifactNode,
-    GraphStats, IntegrityCheck,
+    GraphHealth, GraphStats, IntegrityCheck,
 };
 use crate::domain::health_snapshot::{HealthSnapshot, NewHealthSnapshot};
 use crate::domain::project_settings::{DeliveryConfig, StatusDefinition};
@@ -138,6 +138,17 @@ pub fn read_artifact_content(
 pub fn get_graph_stats(state: State<'_, AppState>) -> Result<GraphStats, OrqaError> {
     let graph = get_or_build_graph(&state)?;
     Ok(graph_stats(&graph))
+}
+
+/// Return extended structural health metrics for the artifact graph.
+///
+/// Computes connected components, orphan percentage, average degree,
+/// graph density, pillar traceability, and bidirectionality ratio.
+/// This replaces the client-side Cytoscape analysis in the dashboard.
+#[tauri::command]
+pub fn get_graph_health(state: State<'_, AppState>) -> Result<GraphHealth, OrqaError> {
+    let graph = get_or_build_graph(&state)?;
+    Ok(compute_graph_health(&graph))
 }
 
 /// Apply a single auto-apply transition by writing the new status to disk.
@@ -354,6 +365,9 @@ pub fn apply_auto_fixes(state: State<'_, AppState>) -> Result<Vec<AppliedFix>, O
 }
 
 /// Store a health snapshot with the current graph metrics and integrity counts.
+///
+/// Computes full structural health metrics (components, density, traceability,
+/// bidirectionality) before storing so the trend chart has complete data.
 #[tauri::command]
 pub fn store_health_snapshot(
     error_count: i64,
@@ -361,7 +375,7 @@ pub fn store_health_snapshot(
     state: State<'_, AppState>,
 ) -> Result<HealthSnapshot, OrqaError> {
     let graph = get_or_build_graph(&state)?;
-    let health = graph_stats(&graph);
+    let health = compute_graph_health(&graph);
 
     let conn = state
         .db
@@ -376,12 +390,19 @@ pub fn store_health_snapshot(
         &conn,
         project.id,
         &NewHealthSnapshot {
-            node_count: health.node_count as i64,
-            edge_count: health.edge_count as i64,
+            node_count: health.total_nodes as i64,
+            edge_count: health.total_edges as i64,
             orphan_count: health.orphan_count as i64,
             broken_ref_count: health.broken_ref_count as i64,
             error_count,
             warning_count,
+            largest_component_ratio: health.largest_component_ratio,
+            orphan_percentage: health.orphan_percentage,
+            avg_degree: health.avg_degree,
+            graph_density: health.graph_density,
+            component_count: health.component_count as i64,
+            pillar_traceability: health.pillar_traceability,
+            bidirectionality_ratio: health.bidirectionality_ratio,
         },
     )
 }

@@ -80,6 +80,41 @@ pub struct GraphStats {
     pub broken_ref_count: usize,
 }
 
+/// Extended structural health metrics derived from the artifact graph topology.
+///
+/// Computed by `compute_graph_health` which performs a full structural analysis
+/// including connected-component decomposition, traceability, and bidirectionality.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct GraphHealth {
+    /// Total number of nodes in the graph (excluding alias nodes).
+    pub total_nodes: usize,
+    /// Total number of directed edges.
+    pub total_edges: usize,
+    /// Number of weakly-connected components (disconnected subgraphs).
+    /// A healthy graph has 1 component — all artifacts reachable from each other.
+    pub component_count: usize,
+    /// Largest component size divided by total nodes (0.0–1.0).
+    /// A value of 1.0 means all artifacts are in a single connected component.
+    pub largest_component_ratio: f64,
+    /// Nodes with zero incoming references (nothing points to them).
+    /// Excludes `doc` artifacts which are intentionally standalone.
+    pub orphan_count: usize,
+    /// `orphan_count / total_nodes * 100`, rounded to 1 decimal place.
+    pub orphan_percentage: f64,
+    /// Average number of relationships per node (edges * 2 / nodes).
+    pub avg_degree: f64,
+    /// Edge density: `edges / (nodes * (nodes - 1))`, clamped to 0.0–1.0.
+    pub graph_density: f64,
+    /// Percentage of rules that have at least one `grounded-by` relationship to a pillar.
+    /// 0.0–100.0, or 100.0 when there are no rules.
+    pub pillar_traceability: f64,
+    /// Ratio of relationship edges that have their inverse edge present.
+    /// 0.0–1.0, or 1.0 when there are no typed relationships.
+    pub bidirectionality_ratio: f64,
+    /// Number of broken references (target not in graph).
+    pub broken_ref_count: usize,
+}
+
 // ---------------------------------------------------------------------------
 // Graph construction
 // ---------------------------------------------------------------------------
@@ -567,6 +602,209 @@ pub fn graph_stats(graph: &ArtifactGraph) -> GraphStats {
         node_count,
         edge_count,
         orphan_count,
+        broken_ref_count,
+    }
+}
+
+/// Collect primary (non-alias) nodes from the graph.
+///
+/// In organisation mode bare-ID alias nodes are excluded to avoid double-counting.
+fn primary_nodes(graph: &ArtifactGraph) -> Vec<&ArtifactNode> {
+    graph
+        .nodes
+        .iter()
+        .filter(|(key, node)| !(key.as_str() == node.id && node.project.is_some()))
+        .map(|(_, node)| node)
+        .collect()
+}
+
+/// Compute the weakly-connected components of the artifact graph.
+///
+/// Returns a `Vec` where each element contains the IDs of nodes in that component.
+/// Two nodes are in the same component if they are connected by any edge (regardless
+/// of direction).
+fn compute_components(nodes: &[&ArtifactNode]) -> Vec<Vec<String>> {
+    // Build adjacency map (undirected) for the primary nodes.
+    let mut adj: std::collections::HashMap<&str, Vec<&str>> =
+        std::collections::HashMap::new();
+    for node in nodes {
+        adj.entry(node.id.as_str()).or_default();
+        for r in &node.references_out {
+            adj.entry(node.id.as_str())
+                .or_default()
+                .push(r.target_id.as_str());
+            adj.entry(r.target_id.as_str())
+                .or_default()
+                .push(node.id.as_str());
+        }
+    }
+
+    let mut visited: std::collections::HashSet<&str> =
+        std::collections::HashSet::new();
+    let mut components: Vec<Vec<String>> = Vec::new();
+
+    for node in nodes {
+        if visited.contains(node.id.as_str()) {
+            continue;
+        }
+        // BFS from this node.
+        let mut component: Vec<String> = Vec::new();
+        let mut queue: std::collections::VecDeque<&str> =
+            std::collections::VecDeque::new();
+        queue.push_back(node.id.as_str());
+        visited.insert(node.id.as_str());
+        while let Some(current) = queue.pop_front() {
+            component.push(current.to_owned());
+            if let Some(neighbours) = adj.get(current) {
+                for &nbr in neighbours {
+                    if !visited.contains(nbr) {
+                        visited.insert(nbr);
+                        queue.push_back(nbr);
+                    }
+                }
+            }
+        }
+        components.push(component);
+    }
+
+    components
+}
+
+/// Compute extended structural health metrics for the artifact graph.
+///
+/// This is the authoritative source of structural health data, replacing
+/// the client-side Cytoscape analysis in the frontend. All metrics are
+/// computed from the Rust artifact graph representation.
+pub fn compute_graph_health(graph: &ArtifactGraph) -> GraphHealth {
+    let nodes = primary_nodes(graph);
+    let total_nodes = nodes.len();
+
+    if total_nodes == 0 {
+        return GraphHealth {
+            total_nodes: 0,
+            total_edges: 0,
+            component_count: 0,
+            largest_component_ratio: 0.0,
+            orphan_count: 0,
+            orphan_percentage: 0.0,
+            avg_degree: 0.0,
+            graph_density: 0.0,
+            pillar_traceability: 100.0,
+            bidirectionality_ratio: 1.0,
+            broken_ref_count: 0,
+        };
+    }
+
+    let total_edges: usize = nodes.iter().map(|n| n.references_out.len()).sum();
+
+    // Connected components (undirected BFS).
+    let components = compute_components(&nodes);
+    let component_count = components.len();
+    let largest_component_size = components
+        .iter()
+        .map(|c| c.len())
+        .max()
+        .unwrap_or(0);
+    let largest_component_ratio =
+        largest_component_size as f64 / total_nodes as f64;
+
+    // Orphans: no incoming or outgoing edges (docs excluded).
+    let orphan_count = nodes
+        .iter()
+        .filter(|n| {
+            n.artifact_type != "doc"
+                && n.references_out.is_empty()
+                && n.references_in.is_empty()
+        })
+        .count();
+    let orphan_percentage =
+        (orphan_count as f64 / total_nodes as f64 * 1000.0).round() / 10.0;
+
+    // Average degree: (total_edges * 2) / total_nodes (undirected convention).
+    let avg_degree =
+        ((total_edges as f64 * 2.0) / total_nodes as f64 * 10.0).round() / 10.0;
+
+    // Graph density: edges / (nodes * (nodes - 1)), directed.
+    let max_edges = total_nodes * (total_nodes.saturating_sub(1));
+    let graph_density = if max_edges == 0 {
+        0.0
+    } else {
+        ((total_edges as f64 / max_edges as f64) * 10000.0).round() / 10000.0
+    };
+
+    // Pillar traceability: % of rules with at least one grounded-by → pillar edge.
+    let rule_nodes: Vec<&&ArtifactNode> = nodes
+        .iter()
+        .filter(|n| n.artifact_type == "rule")
+        .collect();
+    let pillar_traceability = if rule_nodes.is_empty() {
+        100.0
+    } else {
+        let grounded = rule_nodes
+            .iter()
+            .filter(|n| {
+                n.references_out.iter().any(|r| {
+                    r.relationship_type.as_deref() == Some("grounded-by")
+                        && graph
+                            .nodes
+                            .get(&r.target_id)
+                            .is_some_and(|t| t.artifact_type == "pillar")
+                })
+            })
+            .count();
+        (grounded as f64 / rule_nodes.len() as f64 * 1000.0).round() / 10.0
+    };
+
+    // Bidirectionality: ratio of typed relationship edges that have their inverse.
+    // We look for any typed ref (relationship_type: Some) and check whether the
+    // target has the inverse. Since we don't have the registry here, we use a
+    // heuristic: if A → B with type T and B → A with any type, count as bidirectional.
+    let typed_refs: Vec<(&str, &str)> = nodes
+        .iter()
+        .flat_map(|n| {
+            n.references_out
+                .iter()
+                .filter(|r| r.relationship_type.is_some())
+                .map(|r| (n.id.as_str(), r.target_id.as_str()))
+        })
+        .collect();
+    let bidirectionality_ratio = if typed_refs.is_empty() {
+        1.0
+    } else {
+        // Build a set of (source, target) pairs for quick lookup.
+        let ref_set: std::collections::HashSet<(&str, &str)> = nodes
+            .iter()
+            .flat_map(|n| {
+                n.references_out
+                    .iter()
+                    .map(|r| (n.id.as_str(), r.target_id.as_str()))
+            })
+            .collect();
+        let bidirectional = typed_refs
+            .iter()
+            .filter(|(src, tgt)| ref_set.contains(&(*tgt, *src)))
+            .count();
+        (bidirectional as f64 / typed_refs.len() as f64 * 1000.0).round() / 1000.0
+    };
+
+    // Broken refs.
+    let broken_ref_count: usize = nodes
+        .iter()
+        .flat_map(|n| n.references_out.iter())
+        .filter(|r| !graph.nodes.contains_key(&r.target_id))
+        .count();
+
+    GraphHealth {
+        total_nodes,
+        total_edges,
+        component_count,
+        largest_component_ratio,
+        orphan_count,
+        orphan_percentage,
+        avg_degree,
+        graph_density,
+        pillar_traceability,
+        bidirectionality_ratio,
         broken_ref_count,
     }
 }

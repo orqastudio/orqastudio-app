@@ -11,8 +11,11 @@ pub fn create(
 ) -> Result<HealthSnapshot, OrqaError> {
     conn.execute(
         "INSERT INTO health_snapshots \
-         (project_id, node_count, edge_count, orphan_count, broken_ref_count, error_count, warning_count) \
-         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+         (project_id, node_count, edge_count, orphan_count, broken_ref_count, \
+          error_count, warning_count, largest_component_ratio, orphan_percentage, \
+          avg_degree, graph_density, component_count, pillar_traceability, \
+          bidirectionality_ratio) \
+         VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)",
         params![
             project_id,
             snapshot.node_count,
@@ -21,6 +24,13 @@ pub fn create(
             snapshot.broken_ref_count,
             snapshot.error_count,
             snapshot.warning_count,
+            snapshot.largest_component_ratio,
+            snapshot.orphan_percentage,
+            snapshot.avg_degree,
+            snapshot.graph_density,
+            snapshot.component_count,
+            snapshot.pillar_traceability,
+            snapshot.bidirectionality_ratio,
         ],
     )?;
 
@@ -32,7 +42,9 @@ pub fn create(
 pub fn get(conn: &Connection, id: i64) -> Result<HealthSnapshot, OrqaError> {
     conn.query_row(
         "SELECT id, project_id, node_count, edge_count, orphan_count, \
-         broken_ref_count, error_count, warning_count, created_at \
+         broken_ref_count, error_count, warning_count, \
+         largest_component_ratio, orphan_percentage, avg_degree, graph_density, \
+         component_count, pillar_traceability, bidirectionality_ratio, created_at \
          FROM health_snapshots WHERE id = ?1",
         params![id],
         |row| {
@@ -45,7 +57,14 @@ pub fn get(conn: &Connection, id: i64) -> Result<HealthSnapshot, OrqaError> {
                 broken_ref_count: row.get(5)?,
                 error_count: row.get(6)?,
                 warning_count: row.get(7)?,
-                created_at: row.get(8)?,
+                largest_component_ratio: row.get(8)?,
+                orphan_percentage: row.get(9)?,
+                avg_degree: row.get(10)?,
+                graph_density: row.get(11)?,
+                component_count: row.get(12)?,
+                pillar_traceability: row.get(13)?,
+                bidirectionality_ratio: row.get(14)?,
+                created_at: row.get(15)?,
             })
         },
     )
@@ -65,7 +84,9 @@ pub fn get_recent(
 ) -> Result<Vec<HealthSnapshot>, OrqaError> {
     let mut stmt = conn.prepare(
         "SELECT id, project_id, node_count, edge_count, orphan_count, \
-         broken_ref_count, error_count, warning_count, created_at \
+         broken_ref_count, error_count, warning_count, \
+         largest_component_ratio, orphan_percentage, avg_degree, graph_density, \
+         component_count, pillar_traceability, bidirectionality_ratio, created_at \
          FROM health_snapshots \
          WHERE project_id = ?1 \
          ORDER BY id DESC \
@@ -82,7 +103,14 @@ pub fn get_recent(
             broken_ref_count: row.get(5)?,
             error_count: row.get(6)?,
             warning_count: row.get(7)?,
-            created_at: row.get(8)?,
+            largest_component_ratio: row.get(8)?,
+            orphan_percentage: row.get(9)?,
+            avg_degree: row.get(10)?,
+            graph_density: row.get(11)?,
+            component_count: row.get(12)?,
+            pillar_traceability: row.get(13)?,
+            bidirectionality_ratio: row.get(14)?,
+            created_at: row.get(15)?,
         })
     })?;
 
@@ -122,6 +150,13 @@ mod tests {
                 broken_ref_count: 2,
                 error_count: 3,
                 warning_count: 7,
+                largest_component_ratio: 0.95,
+                orphan_percentage: 5.0,
+                avg_degree: 4.0,
+                graph_density: 0.02,
+                component_count: 1,
+                pillar_traceability: 87.5,
+                bidirectionality_ratio: 0.9,
             },
         )
         .expect("create");
@@ -132,6 +167,8 @@ mod tests {
         assert_eq!(snapshot.broken_ref_count, 2);
         assert_eq!(snapshot.error_count, 3);
         assert_eq!(snapshot.warning_count, 7);
+        assert!((snapshot.largest_component_ratio - 0.95).abs() < f64::EPSILON);
+        assert!((snapshot.pillar_traceability - 87.5).abs() < f64::EPSILON);
         assert!(!snapshot.created_at.is_empty());
     }
 
@@ -151,6 +188,13 @@ mod tests {
                     broken_ref_count: 0,
                     error_count: 0,
                     warning_count: 0,
+                    largest_component_ratio: 0.0,
+                    orphan_percentage: 0.0,
+                    avg_degree: 0.0,
+                    graph_density: 0.0,
+                    component_count: 0,
+                    pillar_traceability: 100.0,
+                    bidirectionality_ratio: 1.0,
                 },
             )
             .expect("create");

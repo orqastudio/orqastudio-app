@@ -13,7 +13,7 @@
 	import ToolStatusWidget from "./ToolStatusWidget.svelte";
 
 	const { projectStore, artifactGraphSDK, toast } = getStores();
-	import type { IntegrityCheck } from "@orqastudio/types";
+	import type { IntegrityCheck, GraphHealthData } from "@orqastudio/types";
 
 	const project = $derived(projectStore.activeProject);
 	const projectName = $derived(
@@ -25,6 +25,7 @@
 	let healthLoading = $state(false);
 	let healthFixing = $state(false);
 	let healthScanned = $state(false);
+	let graphHealth = $state<GraphHealthData | null>(null);
 
 	// Auto-scan when the graph is ready
 	$effect(() => {
@@ -37,7 +38,12 @@
 		healthLoading = true;
 		try {
 			await artifactGraphSDK.refresh();
-			healthChecks = await artifactGraphSDK.runIntegrityScan();
+			const [checks, health] = await Promise.all([
+				artifactGraphSDK.runIntegrityScan(),
+				artifactGraphSDK.getGraphHealth(),
+			]);
+			healthChecks = checks;
+			graphHealth = health;
 			healthScanned = true;
 			const errors = healthChecks.filter((c) => c.severity === "Error").length;
 			const warnings = healthChecks.filter((c) => c.severity === "Warning").length;
@@ -145,6 +151,7 @@
 						loading={healthLoading}
 						fixing={healthFixing}
 						scanned={healthScanned}
+						{graphHealth}
 						onScan={runHealthScan}
 						onAutoFix={runHealthAutoFix}
 					/>

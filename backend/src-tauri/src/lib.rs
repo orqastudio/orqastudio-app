@@ -232,6 +232,7 @@ fn register_commands(builder: tauri::Builder<tauri::Wry>) -> tauri::Builder<taur
         commands::graph_commands::get_artifacts_by_type,
         commands::graph_commands::read_artifact_content,
         commands::graph_commands::get_graph_stats,
+        commands::graph_commands::get_graph_health,
         commands::graph_commands::refresh_artifact_graph,
         commands::graph_commands::run_integrity_scan,
         commands::graph_commands::apply_auto_fixes,
